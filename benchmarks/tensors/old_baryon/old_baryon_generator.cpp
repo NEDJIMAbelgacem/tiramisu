@@ -84,6 +84,8 @@ void generate_function(std::string name, int size)
     buffer buf_S("buf_S", {BARYON_P, BARYON_P, BARYON_P, N, N, N, BARYON_P1}, p_float32, a_input);
     buffer buf_wp("buf_wp", {BARYON_N, BARYON_P, BARYON_P, BARYON_P}, p_float32, a_input);
 
+    buffer buf_res2_cpu("buf_res2_cpu", {T}, p_float32, a_output);
+
     fc1.store_in(&buf_fc1);
     fc2.store_in(&buf_fc2);
     fc3.store_in(&buf_fc3);
