@@ -106,8 +106,8 @@ void generate_function(std::string name, int size)
     Res2.split(t, 4, t1, t2);
     Res1.split(t, 4, t1, t2);
     Res0.split(t, 4, t1, t2);
-    Res1_update_0.split(t, 4, t1, t2);
-    Res2_update_0.split(t, 4, t1, t2);
+    // Res1_update_0.split(t, 4, t1, t2);
+    // Res2_update_0.split(t, 4, t1, t2);
 
     Res2.then(*alloc_res1, t)
 	.then(*alloc_res0, t)
