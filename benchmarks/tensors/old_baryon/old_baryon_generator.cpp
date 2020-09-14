@@ -138,7 +138,7 @@ void generate_function(std::string name, int size)
         .then(Res1_update_0, k)
         .then(Res2_update_0, i2);
 
-    Res0.split()
+   // Res0.split()
 
     // Res0.tag_gpu_level(i1, i2);
 
@@ -512,11 +512,11 @@ void generate_predicate_test(std::string name, int size) {
 
 int main(int argc, char **argv)
 {
-    // generate_function2("tiramisu_generated_code", BARYON_N);
+    generate_function("tiramisu_generated_code", BARYON_N);
     // generate_tutorial_04gpu1("tiramisu_generated_code", BARYON_N);
     // generate_tutorial_04gpu2("tiramisu_generated_code", BARYON_N);
     // generate_indirect_array_access_cpu("tiramisu_generated_code", BARYON_N);
-    generate_indirect_array_access("tiramisu_generated_code", BARYON_N);
+    //generate_indirect_array_access("tiramisu_generated_code", BARYON_N);
     // generate_predicate_test("tiramisu_generated_code", BARYON_N);
 
     return 0;
