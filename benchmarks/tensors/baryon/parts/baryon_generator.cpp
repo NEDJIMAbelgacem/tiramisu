@@ -115,6 +115,7 @@ void generate_function(std::string name, int size)
 
     // Res0.tag_vector_level(i3, BARYON_N);
     // Res2.tag_parallel_level(t);
+    Res2.tag_gpu_level(t1, t2);
 
 
     // -------------------------------------------------------
