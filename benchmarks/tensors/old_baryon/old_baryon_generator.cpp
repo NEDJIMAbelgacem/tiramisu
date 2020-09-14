@@ -62,7 +62,7 @@ void generate_function(std::string name, int size)
     input fc1("fc1", {"k"}, {K}, p_int32);
     input fc2("fc2", {"k"}, {K}, p_int32);
     input fc3("fc3", {"k"}, {K}, p_int32);
-    input S("S", {"xp0", "a1", "t", "i1", "i2", "i3", "d1"}, {1, 1, 4, 4, N, N, N, 1}, p_float32);
+    input S("S", {"xp0", "a1", "t1", "t2", "i1", "i2", "i3", "d1"}, {1, 1, 4, 4, N, N, N, 1}, p_float32);
     input wp("wp", {"k", "b0", "b1", "b2"}, {K, 1, 1, 1}, p_float32);
 
     var i1("i1", 0, N), i2("i2", 0, N), i3("i3", 0, N), k("k", 1, K), t1("t1", 0, 4), t2("t2", 0, 4), k0("k", 0, 1);
