@@ -102,11 +102,14 @@ void generate_function(std::string name, int size)
     // Layer II
     // -------------------------------------------------------
 
-    Res2.then(*alloc_res1, t)
-	.then(*alloc_res0, t)
-	.then(*alloc_d1, t)
-	.then(*alloc_d2, t)
-	.then(*alloc_d3, t)
+    var t1("t_1"), t2("t_2");
+    Res2.split(t, 4, t1, t2);
+
+    Res2.then(*alloc_res1, t2)
+	.then(*alloc_res0, t2)
+	.then(*alloc_d1, t2)
+	.then(*alloc_d2, t2)
+	.then(*alloc_d3, t2)
 	.then(Res1, i3)
 	.then(Res0, i3)
 	.then(Res1_update_0, k)
@@ -116,8 +119,6 @@ void generate_function(std::string name, int size)
     // Res0.tag_vector_level(i3, BARYON_N);
     // Res2.tag_parallel_level(t);
 
-    var t1("t1"), t2("t2");
-    Res2.split(t, 4, t1, t2);
 
     // -------------------------------------------------------
     // Code Generation
