@@ -60,6 +60,10 @@ void generate_function(std::string name, int size)
     computation Res2_update_0("Res2_update_0", {t, i1, i2, i3}, p_float32);
     Res2_update_0.set_expression(Res2_update_0(t, i1, i2, i3) + cast(p_float32, expr(o_expo, cast(p_float32, i3+i2) + cast(p_float32, i1), p_float32)) * Res1(t, i1, i2, i3)); //exp(i(i3*px+i2*py+i1*pz))
 
+    var t1("t_1"), t2("t_2");
+    Res2.split(t, 4, t1, t2);
+
+
     // -------------------------------------------------------
     // Layer III
     // -------------------------------------------------------
@@ -69,20 +73,20 @@ void generate_function(std::string name, int size)
 
     buffer buf_res0("buf_res0", {BZ}, p_float32, a_temporary);
     buf_res0.set_auto_allocate(false);
-    computation *alloc_res0 = buf_res0.allocate_at(Res2, t);
+    computation *alloc_res0 = buf_res0.allocate_at(Res2, t2);
     buffer buf_res1("buf_res1", {N}, p_float32, a_temporary);
     buf_res1.set_auto_allocate(false);
-    computation *alloc_res1 = buf_res1.allocate_at(Res2, t);
+    computation *alloc_res1 = buf_res1.allocate_at(Res2, t2);
     buffer buf_res2("buf_res2", {T}, p_float32, a_output);
     buffer buf_d1("buf_d1", {1}, p_int32, a_temporary);
     buf_d1.set_auto_allocate(false);
-    computation *alloc_d1 = buf_d1.allocate_at(Res2, t);
+    computation *alloc_d1 = buf_d1.allocate_at(Res2, t2);
     buffer buf_d2("buf_d2", {1}, p_int32, a_temporary);
     buf_d2.set_auto_allocate(false);
-    computation *alloc_d2 = buf_d2.allocate_at(Res2, t);
+    computation *alloc_d2 = buf_d2.allocate_at(Res2, t2);
     buffer buf_d3("buf_d3", {1}, p_int32, a_temporary);
     buf_d3.set_auto_allocate(false);
-    computation *alloc_d3 = buf_d3.allocate_at(Res2, t);
+    computation *alloc_d3 = buf_d3.allocate_at(Res2, t2);
 
     buffer buf_S("buf_S", {BARYON_P, BARYON_P, BARYON_P, N, N, N, BARYON_P1}, p_float32, a_input);
     buffer buf_wp("buf_wp", {BARYON_N, BARYON_P, BARYON_P, BARYON_P}, p_float32, a_input);
@@ -101,9 +105,6 @@ void generate_function(std::string name, int size)
     // -------------------------------------------------------
     // Layer II
     // -------------------------------------------------------
-
-    var t1("t_1"), t2("t_2");
-    Res2.split(t, 4, t1, t2);
 
     Res2.then(*alloc_res1, t2)
 	.then(*alloc_res0, t2)
