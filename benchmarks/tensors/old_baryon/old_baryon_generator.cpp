@@ -10,6 +10,40 @@ using namespace tiramisu;
  * The goal is to generate code that implements the reference.
  * baryon_ref.cpp
  */
+/*
+    for (int t = 0; t < LT; t++)
+    {
+	    Res2(t) = 0;
+
+	    for (int i1 = 0; i1 < LX; i1++) //16
+        {
+	        for (int i2 = 0; i2 < LY; i2++) //16
+            {
+	            for (int i3 = 0; i3 < LZ; i3++) //16
+	            {
+	            Res1 = 0;
+
+	            for (int k = 1; k <= NK; k++)
+                {
+                     c1 = fc1[k]
+                     c2 = fc2[k]
+                     c3 = fc3[k]
+
+                     Res0    =  S[xp0][a1][t][i1][i2][i3][c1] * S[xp0][a2][t][i1][i2][i3][c2] * S[xp0][a3][t][i1][i2][i3][c3]
+                              + S[xp0][a1][t][i1][i2][i3][c2] * S[xp0][a2][t][i1][i2][i3][c3] * S[xp0][a3][t][i1][i2][i3][c1]
+                              + S[xp0][a1][t][i1][i2][i3][c3] * S[xp0][a2][t][i1][i2][i3][c1] * S[xp0][a3][t][i1][i2][i3][c2]
+                              - S[xp0][a1][t][i1][i2][i3][c2] * S[xp0][a2][t][i1][i2][i3][c1] * S[xp0][a3][t][i1][i2][i3][c3]
+                              - S[xp0][a1][t][i1][i2][i3][c3] * S[xp0][a2][t][i1][i2][i3][c2] * S[xp0][a3][t][i1][i2][i3][c1]
+                              - S[xp0][a1][t][i1][i2][i3][c1] * S[xp0][a2][t][i1][i2][i3][c3] * S[xp0][a3][t][i1][i2][i3][c2];
+
+                     Res1 = Res1 + wp[k][b2][b1][b0] * Res0;
+                }
+                Res2(t) = Res2(t) + exp(i(i3*px+i2*py+i1*pz)) * Res1;
+                }
+            }
+        }
+    }
+*/
 void generate_function(std::string name, int size)
 {
     tiramisu::init(name);
@@ -28,34 +62,27 @@ void generate_function(std::string name, int size)
     input fc1("fc1", {"k"}, {K}, p_int32);
     input fc2("fc2", {"k"}, {K}, p_int32);
     input fc3("fc3", {"k"}, {K}, p_int32);
-    input S("S", {"xp0", "a1", "t", "i1", "i2", "i3", "d1"}, {1, 1, T, N, N, N, 1}, p_float32);
+    input S("S", {"xp0", "a1", "t", "i1", "i2", "i3", "d1"}, {1, 1, T / 4, 4, N, N, N, 1}, p_float32);
     input wp("wp", {"k", "b0", "b1", "b2"}, {K, 1, 1, 1}, p_float32);
 
-    var i1("i1", 0, N), i2("i2", 0, N), i3("i3", 0, N), k("k", 1, K), t("t", 0, T), k0("k", 0, 1);
+    var i1("i1", 0, N), i2("i2", 0, N), i3("i3", 0, N), k("k", 1, K), t1("t1", 0, T / 4), t2("t2", 0, 4), k0("k", 0, 1);
 
-    computation Res2("Res2", {t}, expr((float) 0));
-    computation Res1("Res1", {t, i1, i2, i3}, expr((float) 0));
+    computation Res2("Res2", {t1, t2}, expr((float) 0));
+    computation Res1("Res1", {t1, t2, i1, i2, i3}, expr((float) 0));
 
-    computation Res0("Res0", {t, i1, i2, i3, k}, p_float32);
-    // Res0.set_expression(S(xp0, a1, t, i1, i2, i3, fc1(k)) * S(xp0, a2, t, i1, i2, i3, fc2(k)) * S(xp0, a3, t, i1, i2, i3, fc3(k))
-	// 	      + S(xp0, a1, t, i1, i2, i3, fc2(k)) * S(xp0, a2, t, i1, i2, i3, fc3(k)) * S(xp0, a3, t, i1, i2, i3, fc1(k))
-	// 	      + S(xp0, a1, t, i1, i2, i3, fc3(k)) * S(xp0, a2, t, i1, i2, i3, fc1(k)) * S(xp0, a3, t, i1, i2, i3, fc2(k))
-	// 	      - S(xp0, a1, t, i1, i2, i3, fc2(k)) * S(xp0, a2, t, i1, i2, i3, fc1(k)) * S(xp0, a3, t, i1, i2, i3, fc3(k))
-	// 	      - S(xp0, a1, t, i1, i2, i3, fc3(k)) * S(xp0, a2, t, i1, i2, i3, fc2(k)) * S(xp0, a3, t, i1, i2, i3, fc1(k))
-	// 	      - S(xp0, a1, t, i1, i2, i3, fc1(k)) * S(xp0, a2, t, i1, i2, i3, fc3(k)) * S(xp0, a3, t, i1, i2, i3, fc2(k)));
+    computation Res0("Res0", {t1, t2, i1, i2, i3, k}, p_float32);
+    Res0.set_expression(S(xp0, a1, t1, t2, i1, i2, i3, fc1(k)) * S(xp0, a2, t1, t2, i1, i2, i3, fc2(k)) * S(xp0, a3, t1, t2, i1, i2, i3, fc3(k))
+                      + S(xp0, a1, t1, t2, i1, i2, i3, fc2(k)) * S(xp0, a2, t1, t2, i1, i2, i3, fc3(k)) * S(xp0, a3, t1, t2, i1, i2, i3, fc1(k))
+                      + S(xp0, a1, t1, t2, i1, i2, i3, fc3(k)) * S(xp0, a2, t1, t2, i1, i2, i3, fc1(k)) * S(xp0, a3, t1, t2, i1, i2, i3, fc2(k))
+                      - S(xp0, a1, t1, t2, i1, i2, i3, fc2(k)) * S(xp0, a2, t1, t2, i1, i2, i3, fc1(k)) * S(xp0, a3, t1, t2, i1, i2, i3, fc3(k))
+                      - S(xp0, a1, t1, t2, i1, i2, i3, fc3(k)) * S(xp0, a2, t1, t2, i1, i2, i3, fc2(k)) * S(xp0, a3, t1, t2, i1, i2, i3, fc1(k))
+                      - S(xp0, a1, t1, t2, i1, i2, i3, fc1(k)) * S(xp0, a2, t1, t2, i1, i2, i3, fc3(k)) * S(xp0, a3, t1, t2, i1, i2, i3, fc2(k)));
 
-        Res0.set_expression(S(xp0, a1, t, i1, i2, i3, 0) * S(xp0, a2, t, i1, i2, i3, fc2(k)) * S(xp0, a3, t, i1, i2, i3, fc3(k))
-		      + S(xp0, a1, t, i1, i2, i3, fc2(k)) * S(xp0, a2, t, i1, i2, i3, fc3(k)) * S(xp0, a3, t, i1, i2, i3, 0)
-		      + S(xp0, a1, t, i1, i2, i3, fc3(k)) * S(xp0, a2, t, i1, i2, i3, 0) * S(xp0, a3, t, i1, i2, i3, fc2(k))
-		      - S(xp0, a1, t, i1, i2, i3, fc2(k)) * S(xp0, a2, t, i1, i2, i3, 0) * S(xp0, a3, t, i1, i2, i3, fc3(k))
-		      - S(xp0, a1, t, i1, i2, i3, fc3(k)) * S(xp0, a2, t, i1, i2, i3, fc2(k)) * S(xp0, a3, t, i1, i2, i3, 0)
-		      - S(xp0, a1, t, i1, i2, i3, 0) * S(xp0, a2, t, i1, i2, i3, fc3(k)) * S(xp0, a3, t, i1, i2, i3, fc2(k)));
+    computation Res1_update_0("Res1_update_0", {t1, t2, i1, i2, i3, k}, p_float32);
+    Res1_update_0.set_expression(Res1_update_0(t1, t2, i1, i2, i3, k-1) + wp(k, b2, b1, b0) * Res0(t1, t2, i1, i2, i3, k));
 
-    computation Res1_update_0("Res1_update_0", {t, i1, i2, i3, k}, p_float32);
-    Res1_update_0.set_expression(Res1_update_0(t, i1, i2, i3, k-1) + wp(k, b2, b1, b0) * Res0(t, i1, i2, i3, k));
-
-    computation Res2_update_0("Res2_update_0", {t, i1, i2, i3}, p_float32);
-    Res2_update_0.set_expression(Res2_update_0(t, i1, i2, i3) + cast(p_float32, expr(o_expo, cast(p_float32, i3+i2+i1), p_float32)) * Res1(t, i1, i2, i3)); //exp(i(i3*px+i2*py+i1*pz))
+    computation Res2_update_0("Res2_update_0", {t1, t2, i1, i2, i3}, p_float32);
+    Res2_update_0.set_expression(Res2_update_0(t1, t2, i1, i2, i3) + cast(p_float32, expr(o_expo, cast(p_float32, i3+i2+i1), p_float32)) * Res1(t1, t2, i1, i2, i3)); //exp(i(i3*px+i2*py+i1*pz))
 
     // -------------------------------------------------------
     // Layer III
@@ -64,22 +91,22 @@ void generate_function(std::string name, int size)
     buffer buf_fc2("buf_fc2", {K}, p_int32, a_input);
     buffer buf_fc3("buf_fc3", {K}, p_int32, a_input);
 
-    buffer buf_res0("buf_res0", {BZ}, p_float32, a_temporary);
+    buffer buf_res0("buf_res0", {BZ / 4, 4}, p_float32, a_temporary);
     buf_res0.set_auto_allocate(false);
-    computation *alloc_res0 = buf_res0.allocate_at(Res2, t);
-    buffer buf_res1("buf_res1", {N}, p_float32, a_temporary);
+    computation *alloc_res0 = buf_res0.allocate_at(Res2, t2);
+    buffer buf_res1("buf_res1", {N / 4, 4}, p_float32, a_temporary);
     buf_res1.set_auto_allocate(false);
-    computation *alloc_res1 = buf_res1.allocate_at(Res2, t);
-    buffer buf_res2("buf_res2", {T}, p_float32, a_output);
+    computation *alloc_res1 = buf_res1.allocate_at(Res2, t2);
+    buffer buf_res2("buf_res2", {T / 4, 4}, p_float32, a_output);
     buffer buf_d1("buf_d1", {1}, p_int32, a_temporary);
     buf_d1.set_auto_allocate(false);
-    computation *alloc_d1 = buf_d1.allocate_at(Res2, t);
+    computation *alloc_d1 = buf_d1.allocate_at(Res2, t2);
     buffer buf_d2("buf_d2", {1}, p_int32, a_temporary);
     buf_d2.set_auto_allocate(false);
-    computation *alloc_d2 = buf_d2.allocate_at(Res2, t);
+    computation *alloc_d2 = buf_d2.allocate_at(Res2, t2);
     buffer buf_d3("buf_d3", {1}, p_int32, a_temporary);
     buf_d3.set_auto_allocate(false);
-    computation *alloc_d3 = buf_d3.allocate_at(Res2, t);
+    computation *alloc_d3 = buf_d3.allocate_at(Res2, t2);
 
     buffer buf_S("buf_S", {BARYON_P, BARYON_P, BARYON_P, N, N, N, BARYON_P1}, p_float32, a_input);
     buffer buf_wp("buf_wp", {BARYON_N, BARYON_P, BARYON_P, BARYON_P}, p_float32, a_input);
@@ -90,8 +117,8 @@ void generate_function(std::string name, int size)
     Res0.store_in(&buf_res0, {i3});
     Res1.store_in(&buf_res1, {i3});
     Res1_update_0.store_in(&buf_res1, {i3});
-    Res2.store_in(&buf_res2, {t});
-    Res2_update_0.store_in(&buf_res2, {t});
+    Res2.store_in(&buf_res2, {t1, t2});
+    Res2_update_0.store_in(&buf_res2, {t1, t2});
     S.store_in(&buf_S);
     wp.store_in(&buf_wp);
 
@@ -99,17 +126,19 @@ void generate_function(std::string name, int size)
     // Layer II
     // -------------------------------------------------------
 
-    Res2.then(*alloc_res1, t)
-	.then(*alloc_res0, t)
-	.then(*alloc_d1, t)
-	.then(*alloc_d2, t)
-	.then(*alloc_d3, t)
-	.then(Res1, i3)
-	.then(Res0, i3)
-	.then(Res1_update_0, k)
-	.then(Res2_update_0, i2);
+    Res2.then(*alloc_res1, t2)
+        .then(*alloc_res0, t2)
+        .then(*alloc_d1, t2)
+        .then(*alloc_d2, t2)
+        .then(*alloc_d3, t2)
+        .then(Res1, i3)
+        .then(Res0, i3)
+        .then(Res1_update_0, k)
+        .then(Res2_update_0, i2);
 
-    // Res0.tag_gpu_level(t, i1);
+    Res0.split()
+
+    // Res0.tag_gpu_level(i1, i2);
 
     // Res0.tag_vector_level(i3, BARYON_N);
     // Res2.tag_parallel_level(t);
@@ -119,7 +148,7 @@ void generate_function(std::string name, int size)
     // -------------------------------------------------------
 
     tiramisu::codegen({&buf_res2, &buf_S, &buf_wp, &buf_fc1, &buf_fc2, &buf_fc3},
-		      "generated_old_baryon.o", true);
+                      "generated_old_baryon.o");  
 }
 
 #define SIZE0 16
