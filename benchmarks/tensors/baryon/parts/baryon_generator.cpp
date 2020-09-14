@@ -123,7 +123,7 @@ void generate_function(std::string name, int size)
     // -------------------------------------------------------
 
     tiramisu::codegen({&buf_res2, &buf_S, &buf_wp, &buf_fc1, &buf_fc2, &buf_fc3},
-		      "generated_baryon.o");
+		      "generated_baryon.o", true);
 }
 
 int main(int argc, char **argv)
