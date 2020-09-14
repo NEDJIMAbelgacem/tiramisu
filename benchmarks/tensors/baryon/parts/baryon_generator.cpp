@@ -102,7 +102,7 @@ void generate_function(std::string name, int size)
     // Layer II
     // -------------------------------------------------------
 
-    var t1("t_1"), t2("t_2");
+    var t1("t_1", 0, 4), t2("t_2", 0, 4);
     Res2.split(t, 4, t1, t2);
     Res1.split(t, 4, t1, t2);
     Res0.split(t, 4, t1, t2);
