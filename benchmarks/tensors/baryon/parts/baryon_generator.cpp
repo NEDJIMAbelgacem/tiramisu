@@ -106,6 +106,9 @@ void generate_function(std::string name, int size)
     Res2.split(t, 4, t1, t2);
     Res1.split(t, 4, t1, t2);
     Res0.split(t, 4, t1, t2);
+    Res2.tag_gpu_level(t1, t2);
+    Res1.tag_gpu_level(t1, t2);
+    Res0.tag_gpu_level(t1, t2);
     // Res1_update_0.split(t, 4, t1, t2);
     // Res2_update_0.split(t, 4, t1, t2);
 
@@ -129,7 +132,7 @@ void generate_function(std::string name, int size)
     // -------------------------------------------------------
 
     tiramisu::codegen({&buf_res2, &buf_S, &buf_wp, &buf_fc1, &buf_fc2, &buf_fc3},
-		      "generated_baryon.o");
+		      "generated_baryon.o", true);
 }
 
 int main(int argc, char **argv)
