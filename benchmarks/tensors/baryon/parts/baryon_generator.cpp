@@ -112,8 +112,12 @@ void generate_function(std::string name, int size)
 	.then(Res1_update_0, k)
 	.then(Res2_update_0, i2);
 
-    Res0.tag_vector_level(i3, BARYON_N);
-    Res2.tag_parallel_level(t);
+
+    // Res0.tag_vector_level(i3, BARYON_N);
+    // Res2.tag_parallel_level(t);
+
+    var t1("t1"), t2("t2");
+    Res2.split(t, 4, t1, t2);
 
     // -------------------------------------------------------
     // Code Generation
