@@ -62,10 +62,10 @@ void generate_function(std::string name, int size)
     input fc1("fc1", {"k"}, {K}, p_int32);
     input fc2("fc2", {"k"}, {K}, p_int32);
     input fc3("fc3", {"k"}, {K}, p_int32);
-    input S("S", {"xp0", "a1", "t", "i1", "i2", "i3", "d1"}, {1, 1, T / 4, 4, N, N, N, 1}, p_float32);
+    input S("S", {"xp0", "a1", "t", "i1", "i2", "i3", "d1"}, {1, 1, 4, 4, N, N, N, 1}, p_float32);
     input wp("wp", {"k", "b0", "b1", "b2"}, {K, 1, 1, 1}, p_float32);
 
-    var i1("i1", 0, N), i2("i2", 0, N), i3("i3", 0, N), k("k", 1, K), t1("t1", 0, T / 4), t2("t2", 0, 4), k0("k", 0, 1);
+    var i1("i1", 0, N), i2("i2", 0, N), i3("i3", 0, N), k("k", 1, K), t1("t1", 0, 4), t2("t2", 0, 4), k0("k", 0, 1);
 
     computation Res2("Res2", {t1, t2}, expr((float) 0));
     computation Res1("Res1", {t1, t2, i1, i2, i3}, expr((float) 0));
@@ -94,10 +94,10 @@ void generate_function(std::string name, int size)
     buffer buf_res0("buf_res0", {BZ / 4, 4}, p_float32, a_temporary);
     buf_res0.set_auto_allocate(false);
     computation *alloc_res0 = buf_res0.allocate_at(Res2, t2);
-    buffer buf_res1("buf_res1", {N / 4, 4}, p_float32, a_temporary);
+    buffer buf_res1("buf_res1", {size / 4, 4}, p_float32, a_temporary);
     buf_res1.set_auto_allocate(false);
     computation *alloc_res1 = buf_res1.allocate_at(Res2, t2);
-    buffer buf_res2("buf_res2", {T / 4, 4}, p_float32, a_output);
+    buffer buf_res2("buf_res2", {4, 4}, p_float32, a_output);
     buffer buf_d1("buf_d1", {1}, p_int32, a_temporary);
     buf_d1.set_auto_allocate(false);
     computation *alloc_d1 = buf_d1.allocate_at(Res2, t2);
@@ -110,8 +110,6 @@ void generate_function(std::string name, int size)
 
     buffer buf_S("buf_S", {BARYON_P, BARYON_P, BARYON_P, N, N, N, BARYON_P1}, p_float32, a_input);
     buffer buf_wp("buf_wp", {BARYON_N, BARYON_P, BARYON_P, BARYON_P}, p_float32, a_input);
-
-    buffer buf_res2_cpu("buf_res2_cpu", {T}, p_float32, a_output);
 
     fc1.store_in(&buf_fc1);
     fc2.store_in(&buf_fc2);
@@ -149,8 +147,7 @@ void generate_function(std::string name, int size)
     // Code Generation
     // -------------------------------------------------------
 
-    tiramisu::codegen({&buf_res2, &buf_S, &buf_wp, &buf_fc1, &buf_fc2, &buf_fc3},
-                      "generated_old_baryon.o");  
+    tiramisu::codegen({&buf_res2, &buf_S, &buf_wp, &buf_fc1, &buf_fc2, &buf_fc3}, "generated_old_baryon.o");  
 }
 
 #define SIZE0 16
