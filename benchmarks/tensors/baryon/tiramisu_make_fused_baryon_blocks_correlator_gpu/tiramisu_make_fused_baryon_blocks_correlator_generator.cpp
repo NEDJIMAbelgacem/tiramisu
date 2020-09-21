@@ -431,18 +431,18 @@ void generate_function(std::string name)
     // Code Generation
     // -------------------------------------------------------
     tiramisu::codegen({
-        buf_C_r_cpu, buf_C_i_cpu,
-        B1_prop_r_cpu, B1_prop_i_cpu,
-        src_psi_B1_r_cpu, src_psi_B1_i_cpu,
-        snk_psi_r_cpu, snk_psi_i_cpu,
-        src_color_weights_cpu,
-        src_spin_weights_cpu,
-        src_weights_cpu,
-        src_spins_cpu, 
-        snk_color_weights_cpu,
-        snk_spin_weights_cpu,
-        snk_weights_cpu,
-        sigs_cpu
+        &buf_C_r_cpu, &buf_C_i_cpu,
+        &B1_prop_r_cpu, &B1_prop_i_cpu,
+        &src_psi_B1_r_cpu, &src_psi_B1_i_cpu,
+        &snk_psi_r_cpu, &snk_psi_i_cpu,
+        &src_color_weights_cpu,
+        &src_spin_weights_cpu,
+        &src_weights_cpu,
+        &src_spins_cpu, 
+        &snk_color_weights_cpu,
+        &snk_spin_weights_cpu,
+        &snk_weights_cpu,
+        &sigs_cpu
         }, 
         "generated_tiramisu_make_fused_baryon_blocks_correlator.o", true);
 }
