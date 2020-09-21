@@ -14,19 +14,19 @@ void generate_function(std::string name)
 {
     tiramisu::init(name);
 
-   var r("r", 0, B1Nrows),
-	rp("rp", 0, B1Nrows),
+    var r("r", 0, B1Nrows),
+        rp("rp", 0, B1Nrows),
         nperm("nperm", 0, B1Nperms),
-	q("q", 0, Nq),
-	wnum("wnum", 0, Nw),
-	wnumBlock("wnumBlock", 0, Nw),
+        q("q", 0, Nq),
+        wnum("wnum", 0, Nw),
+        wnumBlock("wnumBlock", 0, Nw),
         t("t", 0, Lt),
-	x("x", 0, Vsnk),
-	x_out("x_out", 0, Vsnk/sites_per_rank),
-	x_in("x_in", 0, sites_per_rank),
+        x("x", 0, Vsnk),
+        x_out("x_out", 0, Vsnk/sites_per_rank),
+        x_in("x_in", 0, sites_per_rank),
         y("y", 0, Vsrc),
-	m("m", 0, NsrcHex),
-	n("n", 0, NsnkHex),
+        m("m", 0, NsrcHex),
+        n("n", 0, NsnkHex),
         tri("tri", 0, Nq),
         iCprime("iCprime", 0, Nc),
         iSprime("iSprime", 0, Ns),
@@ -81,9 +81,9 @@ void generate_function(std::string name)
 
     complex_computation B1_Blocal_r1_init(&B1_Blocal_r1_r_init, &B1_Blocal_r1_i_init);
 
-    complex_expr B1_r1_prop_0 =  B1_prop(0, t, iCprime, iSprime, src_color_weights(0, wnumBlock, 0), src_spin_weights(0, wnumBlock, 0), x_out*sites_per_rank+x_in, y);
-    complex_expr B1_r1_prop_2 =  B1_prop(2, t, kCprime, kSprime, src_color_weights(0, wnumBlock, 2), src_spin_weights(0, wnumBlock, 2), x_out*sites_per_rank+x_in, y);
-    complex_expr B1_r1_prop_1 = B1_prop(1, t, jCprime, jSprime, src_color_weights(0, wnumBlock, 1), src_spin_weights(0, wnumBlock, 1), x_out*sites_per_rank+x_in, y);
+    complex_expr B1_r1_prop_0 =  B1_prop( expr(0), t, iCprime, iSprime, src_color_weights(0, wnumBlock, 0), src_spin_weights(0, wnumBlock, 0), x_out*sites_per_rank+x_in, y);
+    complex_expr B1_r1_prop_1 =  B1_prop( expr(1), t, jCprime, jSprime, src_color_weights(0, wnumBlock, 1), src_spin_weights(0, wnumBlock, 1), x_out*sites_per_rank+x_in, y);
+    complex_expr B1_r1_prop_2 =  B1_prop( expr(2), t, kCprime, kSprime, src_color_weights(0, wnumBlock, 2), src_spin_weights(0, wnumBlock, 2), x_out*sites_per_rank+x_in, y);
 
     complex_expr B1_r1_diquark = ( B1_r1_prop_0 * B1_r1_prop_2 ) *  src_weights(0, wnumBlock);
 
@@ -123,11 +123,11 @@ void generate_function(std::string name)
 
     complex_computation B1_Blocal_r2_init(&B1_Blocal_r2_r_init, &B1_Blocal_r2_i_init);
 
-    complex_expr B1_r2_prop_0 =  B1_prop(0, t, iCprime, iSprime, src_color_weights(1, wnumBlock, 0), src_spin_weights(1, wnumBlock, 0), x_out*sites_per_rank+x_in, y);
-    complex_expr B1_r2_prop_2 =  B1_prop(2, t, kCprime, kSprime, src_color_weights(1, wnumBlock, 2), src_spin_weights(1, wnumBlock, 2), x_out*sites_per_rank+x_in, y);
-    complex_expr B1_r2_prop_0p = B1_prop(0, t, kCprime, kSprime, src_color_weights(1, wnumBlock, 0), src_spin_weights(1, wnumBlock, 0), x_out*sites_per_rank+x_in, y);
-    complex_expr B1_r2_prop_2p = B1_prop(2, t, iCprime, iSprime, src_color_weights(1, wnumBlock, 2), src_spin_weights(1, wnumBlock, 2), x_out*sites_per_rank+x_in, y);
-    complex_expr B1_r2_prop_1 = B1_prop(1, t, jCprime, jSprime, src_color_weights(1, wnumBlock, 1), src_spin_weights(1, wnumBlock, 1), x_out*sites_per_rank+x_in, y);
+    complex_expr B1_r2_prop_0 =  B1_prop(expr(0), t, iCprime, iSprime, src_color_weights(1, wnumBlock, 0), src_spin_weights(1, wnumBlock, 0), x_out*sites_per_rank+x_in, y);
+    complex_expr B1_r2_prop_2 =  B1_prop(expr(2), t, kCprime, kSprime, src_color_weights(1, wnumBlock, 2), src_spin_weights(1, wnumBlock, 2), x_out*sites_per_rank+x_in, y);
+    complex_expr B1_r2_prop_0p = B1_prop(expr(0), t, kCprime, kSprime, src_color_weights(1, wnumBlock, 0), src_spin_weights(1, wnumBlock, 0), x_out*sites_per_rank+x_in, y);
+    complex_expr B1_r2_prop_2p = B1_prop(expr(2), t, iCprime, iSprime, src_color_weights(1, wnumBlock, 2), src_spin_weights(1, wnumBlock, 2), x_out*sites_per_rank+x_in, y);
+    complex_expr B1_r2_prop_1 = B1_prop(expr(1), t, jCprime, jSprime, src_color_weights(1, wnumBlock, 1), src_spin_weights(1, wnumBlock, 1), x_out*sites_per_rank+x_in, y);
 
     complex_expr B1_r2_diquark = ( B1_r2_prop_0 * B1_r2_prop_2 ) *  src_weights(1, wnumBlock);
 
