@@ -2289,6 +2289,7 @@ private:
       * The outermost loop level is 0.
       */
     // @{
+    void tag_gpu_level(int L0);
     void tag_gpu_level(int L0, int L1);
     void tag_gpu_level(int L0, int L1, int L2, int L3);
     void tag_gpu_level(int L0, int L1, int L2, int L3, int L4, int L5);
@@ -3972,6 +3973,7 @@ public:
       * Tag the loop level \p L0 and \p L1 to be mapped to GPU.
       */
     // @{
+    void tag_gpu_level(tiramisu::var L0);
     void tag_gpu_level(tiramisu::var L0, tiramisu::var L1);
     void tag_gpu_level(tiramisu::var L0, tiramisu::var L1, tiramisu::var L2, tiramisu::var L3);
     void tag_gpu_level(tiramisu::var L0, tiramisu::var L1, tiramisu::var L2, tiramisu::var L3, tiramisu::var L4, tiramisu::var L5);

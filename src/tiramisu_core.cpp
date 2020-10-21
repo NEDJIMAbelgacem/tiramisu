@@ -311,6 +311,22 @@ std::string generate_new_computation_name()
     return "C" + std::to_string(id_counter++);
 }
 
+void computation::tag_gpu_level(tiramisu::var L0_var)
+{
+    DEBUG_FCT_NAME(3);
+    DEBUG_INDENT(4);
+
+    assert(L0_var.get_name().length() > 0);
+    std::vector<int> dimensions =
+    this->get_loop_level_numbers_from_dimension_names({L0_var.get_name()});
+    this->check_dimensions_validity(dimensions);
+    int L0 = dimensions[0];
+
+    this->tag_gpu_level(L0);
+
+    DEBUG_INDENT(-4);
+}
+
 void computation::tag_gpu_level(tiramisu::var L0_var, tiramisu::var L1_var)
 {
     DEBUG_FCT_NAME(3);
@@ -421,6 +437,17 @@ void tiramisu::computation::tag_parallel_level(int par_dim)
 
     DEBUG_INDENT(-4);
 }
+
+void tiramisu::computation::tag_gpu_level(int dim0)
+{
+    assert(dim0 >= 0);
+    assert(!this->get_name().empty());
+    assert(this->get_function() != NULL);
+
+    this->get_function()->add_gpu_block_dimensions(this->get_name(), dim0, -1, -1);
+    this->get_function()->add_gpu_thread_dimensions(this->get_name(), 1, -1, -1);
+}
+
 
 void tiramisu::computation::tag_gpu_level(int dim0, int dim1)
 {
