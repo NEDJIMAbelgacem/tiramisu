@@ -1,0 +1,1 @@
+../../,,/compile_and_run_benchmarks.sh . tiramisu_make_fused_baryon_blocks_correlator
