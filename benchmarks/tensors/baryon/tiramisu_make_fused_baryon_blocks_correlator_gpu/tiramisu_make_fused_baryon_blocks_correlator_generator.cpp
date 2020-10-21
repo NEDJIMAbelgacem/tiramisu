@@ -41,7 +41,7 @@ void generate_function(std::string name)
    input B1_prop_i("B1_prop_i",   {tri, t, iCprime, iSprime, jCprime, jSprime, x, y}, p_float64);
    input src_psi_B1_r("src_psi_B1_r",    {y, m}, p_float64);
    input src_psi_B1_i("src_psi_B1_i",    {y, m}, p_float64);
-   input snk_psi_r("snk_psi_r", {x, n}, p_float64);
+   input snk_psi_r("snk_psi_r", {x, n}, p_float64); 
    input snk_psi_i("snk_psi_i", {x, n}, p_float64);
    input src_color_weights("src_color_weights", {rp, wnum, q}, p_int32);
    input src_spin_weights("src_spin_weights", {rp, wnum, q}, p_int32);
@@ -263,11 +263,15 @@ void generate_function(std::string name)
 #if GPU_PARALLEL
 
     C_init_r.tag_gpu_level(t, x_out);
+    C_init_i.tag_gpu_level(t, x_out);
 
     B1_Blocal_r1_r_init.tag_gpu_level(t, x_out);
+    B1_Blocal_r1_i_init.tag_gpu_level(t, x_out);
     B1_Blocal_r2_r_init.tag_gpu_level(t, x_out);
+    B1_Blocal_r2_i_init.tag_gpu_level(t, x_out);
 
     C_prop_init_r.tag_gpu_level(t, x_out);
+    C_prop_init_i.tag_gpu_level(t, x_out);
 
 #endif
 
