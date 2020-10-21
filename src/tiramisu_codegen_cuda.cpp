@@ -336,6 +336,7 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
                 std::string id_string(isl_id_get_name(id));
                 DEBUG(3, std::cout << '"' << id_string << '"');
                 // TODO handle scheduled lets
+                std::cerr << "cuda_stmt_handle_isl_expr : about to execute get_scalar_from_name with " << id_string << std::endl;
                 return get_scalar_from_name(id_string);
             }
             case isl_ast_expr_int: {
@@ -369,6 +370,7 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
                     return scalar_ptr{new cuda_ast::scalar{b->get_type(), b->get_name(), b->get_location()}};
                 }
                 // Otherwise expr must be a scalar.
+                std::cerr << "parse_tiramisu : about to execute get_scalar_from_name with " << tiramisu_expr.get_name() << std::endl;
                 return get_scalar_from_name(tiramisu_expr.get_name());
             case e_none:
                 assert(false);
