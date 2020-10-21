@@ -371,6 +371,7 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
                 }
                 // Otherwise expr must be a scalar.
                 std::cerr << "parse_tiramisu : about to execute get_scalar_from_name with " << tiramisu_expr.get_name() << std::endl;
+                std::cerr << "expression: " << tiramisu_expr.to_str() << std::endl;
                 return get_scalar_from_name(tiramisu_expr.get_name());
             case e_none:
                 assert(false);
