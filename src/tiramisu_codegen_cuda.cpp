@@ -1608,7 +1608,7 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
             for (std::string s : gpu_local)
                 std::cerr << s << ", ";
             std::cerr << std::endl;
-            
+
             std::cerr << "gpu_iterators contents: " << std::endl;
             for (std::pair<std::string, cuda_ast::gpu_iterator> p : this->gpu_iterators)
                 std::cerr << p.first << ", ";
@@ -1616,7 +1616,7 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
 
             std::cerr << "m_scalar_data contents: " << std::endl;
             for (std::pair<std::string, std::pair<tiramisu::primitive_t, cuda_ast::memory_location>> p : this->m_scalar_data)
-                std::    << p.first << ", ";
+                std::cerr << p.first << ", ";
             std::cerr << std::endl;
             ERROR("Scalar not found: " + name, true);
         }
