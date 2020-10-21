@@ -262,16 +262,16 @@ void generate_function(std::string name)
 
 #if GPU_PARALLEL
 
-    C_init_r.tag_gpu_level(t, x_out);
-    C_init_i.tag_gpu_level(t, x_out);
+    C_init_r.tag_gpu_level(x_out, x_in);
+    C_init_i.tag_gpu_level(x_out, x_in);
 
-    B1_Blocal_r1_r_init.tag_gpu_level(t, x_out);
-    B1_Blocal_r1_i_init.tag_gpu_level(t, x_out);
-    B1_Blocal_r2_r_init.tag_gpu_level(t, x_out);
-    B1_Blocal_r2_i_init.tag_gpu_level(t, x_out);
+    B1_Blocal_r1_r_init.tag_gpu_level(x_out, x_in);
+    B1_Blocal_r1_i_init.tag_gpu_level(x_out, x_in);
+    B1_Blocal_r2_r_init.tag_gpu_level(x_out, x_in);
+    B1_Blocal_r2_i_init.tag_gpu_level(x_out, x_in);
 
-    C_prop_init_r.tag_gpu_level(t, x_out);
-    C_prop_init_i.tag_gpu_level(t, x_out);
+    C_prop_init_r.tag_gpu_level(x_out, x_in);
+    C_prop_init_i.tag_gpu_level(x_out, x_in);
 
 #endif
 
