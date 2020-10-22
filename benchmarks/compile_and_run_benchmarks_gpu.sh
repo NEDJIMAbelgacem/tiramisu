@@ -61,7 +61,7 @@ fi
 
 # echo "Compiling ${KERNEL} wrapper"
 # LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${CUDA_LIBS} DYLD_LIBRARY_PATH=${DYLD_LIBRARY_PATH}:${CUDA_LIBS} 
-${CUDA_COMPILER}       ${LANKA_OPTIONS} $NVCCFLAGS ${INCLUDES} ${DEFINED_SIZE} ${KERNEL}_wrapper.cpp  ${LIBRARIES_DIR} ${LIBRARIES} generated_${KERNEL}.o_cpu.o generated_${KERNEL}.o_gpu.o ${LIBRARIES} -lcudart -o ${KERNEL}_wrapper -ldl
+${CUDA_COMPILER}       ${LANKA_OPTIONS} $NVCCFLAGS ${INCLUDES} ${DEFINED_SIZE} ${KERNEL}_wrapper.cpp  ${LIBRARIES_DIR} ${LIBRARIES} generated_${KERNEL}.o generated_${KERNEL}.o_cpu.o generated_${KERNEL}.o_gpu.o ${LIBRARIES} -lcudart -o ${KERNEL}_wrapper -ldl
 echo "Running ${KERNEL} wrapper"
 # To enable profiling:
 ## Perf:
