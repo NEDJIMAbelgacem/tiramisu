@@ -146,10 +146,9 @@ void generate_function(std::string name, int size)
 	.then(Res1, i3)
 	.then(Res0, i3)
 	.then(Res1_update_0, k)
-	.then(Res2_update_0, i2)
+	.then(Res2_update_0, i2);
 
-    Res2
-    .then(copy_buf_res2_device_to_host, computation::root);
+    Res2.then(copy_buf_res2_device_to_host, computation::root);
 
     Res2.tag_gpu_level(t);
 
