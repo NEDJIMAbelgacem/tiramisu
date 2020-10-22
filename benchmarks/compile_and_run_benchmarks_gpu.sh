@@ -60,7 +60,7 @@ if [ $? -ne 0 ]; then
 fi
 echo "Compiling ${KERNEL} wrapper object"
 # ${CXX} ${LANKA_OPTIONS} $CXXFLAGS ${INCLUDES} ${DEFINED_SIZE} ${KERNEL}_wrapper.cpp ${KERNEL}_wrapper.h ${LIBRARIES_DIR} ${LIBRARIES}                    -o ${KERNEL}_wrapper.o
-${CXX} ${CXXFLAGS} ${INCLUDES} ${KERNEL}_wrapper.cpp ${KERNEL}_wrapper.h ${LIBRARIES_DIR} ${LIBRARIES} -o ${KERNEL}_wrapper.o 
+${CXX} ${CXXFLAGS} ${INCLUDES} -I${TIRAMISU_ROOT}/benchmarks/tensors/baryon/gpu_parts/ ${KERNEL}_wrapper.cpp ${LIBRARIES_DIR} ${LIBRARIES} -o ${KERNEL}_wrapper.o 
 
 echo "Compiling ${KERNEL} wrapper"
 # LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${CUDA_LIBS} DYLD_LIBRARY_PATH=${DYLD_LIBRARY_PATH}:${CUDA_LIBS} 
