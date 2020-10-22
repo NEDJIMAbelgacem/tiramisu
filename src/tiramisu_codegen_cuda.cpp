@@ -1572,9 +1572,11 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
 
     cuda_ast::statement_ptr cuda_ast::generator::get_scalar_from_name(std::string name) {
         if (this->gpu_iterators.find(name) != this->gpu_iterators.end()) {
+            std::cerr << "In gpu_iterators" << std::endl;
             auto it = this->gpu_iterators.find(name);
             return statement_ptr {new cuda_ast::gpu_iterator_read{it->second}};
         } else if (this->m_scalar_data.find(name) != this->m_scalar_data.end()) {
+            std::cerr << "In m_scalar_data" << std::endl;
             auto data_it = m_scalar_data.find(name);
             auto const &data = data_it->second;
             scalar_ptr used_scalar{new cuda_ast::scalar{data.first, name, data.second}};
