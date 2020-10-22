@@ -4,12 +4,10 @@
 #include <iostream>
 #include "benchmarks.h"
 
-#include "baryon_wrapper.h"
-
 #ifdef __cplusplus
 extern "C" {
 #endif
-
+#include "baryon_wrapper.h"
 #ifdef __cplusplus
 }  // extern "C"
 #endif
