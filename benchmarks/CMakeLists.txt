@@ -35,3 +35,5 @@ add_subdirectory(DNN/blocks/Conv-ReLU-MaxPool/cpu/sparse)
 add_subdirectory(DNN/blocks/Resize-Conv-ReLU-MaxPool/cpu/dense)
 add_subdirectory(DNN/blocks/Resize-Conv-ReLU-MaxPool/cpu/sparse)
 add_subdirectory(DNN/blocks/Conv-Relu-FC-Softmax/cpu/dense)
+
+add_subdirectory(/tensors/baryon/gpu)
