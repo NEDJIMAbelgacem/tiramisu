@@ -1,9 +1,9 @@
 #!/bin/bash
 
 CXX=g++
-CUDA_COMPILER=/usr/local/cuda-10.1/bin/nvcc
+CUDA_COMPILER=/usr/local/cuda/bin/nvcc
 
-CUDA_LIBS=/usr/local/cuda-10.1/lib64/
+# CUDA_LIBS=/usr/local/cuda/lib64/
 
 #set -x
 
@@ -59,7 +59,8 @@ if [ $? -ne 0 ]; then
 fi
 
 # echo "Compiling ${KERNEL} wrapper"
-LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${CUDA_LIBS} DYLD_LIBRARY_PATH=${DYLD_LIBRARY_PATH}:${CUDA_LIBS} ${CUDA_COMPILER}       ${LANKA_OPTIONS} $CXXFLAGS ${INCLUDES} ${DEFINED_SIZE} ${KERNEL}_wrapper.cpp  ${LIBRARIES_DIR} ${LIBRARIES} generated_${KERNEL}.o_cpu.o generated_${KERNEL}.o_gpu.o ${LIBRARIES} -lcudart -o ${KERNEL}_wrapper -ldl
+# LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${CUDA_LIBS} DYLD_LIBRARY_PATH=${DYLD_LIBRARY_PATH}:${CUDA_LIBS} 
+${CUDA_COMPILER}       ${LANKA_OPTIONS} $CXXFLAGS ${INCLUDES} ${DEFINED_SIZE} ${KERNEL}_wrapper.cpp  ${LIBRARIES_DIR} ${LIBRARIES} generated_${KERNEL}.o_cpu.o generated_${KERNEL}.o_gpu.o ${LIBRARIES} -lcudart -o ${KERNEL}_wrapper -ldl
 echo "Running ${KERNEL} wrapper"
 # To enable profiling:
 ## Perf:
