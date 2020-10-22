@@ -1580,6 +1580,7 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
             auto data_it = m_scalar_data.find(name);
             auto const &data = data_it->second;
             scalar_ptr used_scalar{new cuda_ast::scalar{data.first, name, data.second}};
+            std::cerr << "this->in_kernel: " << this->in_kernel << std::endl;
             if (this->in_kernel) {
                 // Check if it was defined inside
                 bool defined_inside = gpu_local.find(name) != gpu_local.end();
@@ -1595,7 +1596,10 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
                     }
                 }
                 if (!defined_inside)
+                {
+                    std::cerr << "about to run this->current_kernel->add_used_scalar" << std::endl;
                     this->current_kernel->add_used_scalar(used_scalar);
+                }
             }
             return used_scalar;
         } else {
