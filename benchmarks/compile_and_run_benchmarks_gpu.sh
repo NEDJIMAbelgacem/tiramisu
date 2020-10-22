@@ -19,7 +19,7 @@ KERNEL_FOLDER=$1
 KERNEL=$2
 source configure_paths.sh
 
-CXXFLAGS="-g -std=c++11 -O3 -fno-rtti"
+CXXFLAGS="-g -std=c++11 -O3"
 
 # Compile options
 # - Make ${CXX} dump generated assembly
