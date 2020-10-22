@@ -58,9 +58,9 @@ LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${HALIDE_LIB_DIRECTORY}:${ISL_LIB_DIRECTORY}:
 if [ $? -ne 0 ]; then
 	exit
 fi
-# echo "Compiling ${KERNEL} wrapper object"
+echo "Compiling ${KERNEL} wrapper object"
 # ${CXX} ${LANKA_OPTIONS} $CXXFLAGS ${INCLUDES} ${DEFINED_SIZE} ${KERNEL}_wrapper.cpp ${KERNEL}_wrapper.h ${LIBRARIES_DIR} ${LIBRARIES}                    -o ${KERNEL}_wrapper.o
-${CXX} ${CXXFLAGS} ${INCLUDES} ${LIBRARIES_DIR} ${LIBRARIES} ${KERNEL}_wrapper.cpp ${KERNEL}_wrapper.h -o ${KERNEL}_wrapper.o
+${CXX} ${CXXFLAGS} ${INCLUDES} ${KERNEL}_wrapper.cpp ${KERNEL}_wrapper.h ${LIBRARIES_DIR} ${LIBRARIES} -o ${KERNEL}_wrapper.o 
 
 echo "Compiling ${KERNEL} wrapper"
 # LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${CUDA_LIBS} DYLD_LIBRARY_PATH=${DYLD_LIBRARY_PATH}:${CUDA_LIBS} 
