@@ -129,13 +129,15 @@ void generate_function(std::string name, int size)
     // Layer II
     // -------------------------------------------------------
 
-    computation::root.then(copy_buf_S_cpu_host_to_device, computation::root)
+    copy_buf_S_cpu_host_to_device
+        .then(copy_buf_S_cpu_host_to_device, computation::root)
         .then(copy_buf_fc1_cpu_host_to_device, computation::root)
         .then(copy_buf_fc2_cpu_host_to_device, computation::root)
         .then(copy_buf_fc3_cpu_host_to_device, computation::root)
-        .then(Res2, computation::root);
+        .then(Res2, computation::root)
 
-    Res2
+
+    // Res2
     // .then(*alloc_res1, t)
 	// .then(*alloc_res0, t)
 	// .then(*alloc_d1, t)
@@ -144,9 +146,10 @@ void generate_function(std::string name, int size)
 	.then(Res1, i3)
 	.then(Res0, i3)
 	.then(Res1_update_0, k)
-	.then(Res2_update_0, i2);
+	.then(Res2_update_0, i2)
 
-    Res2.then(copy_buf_res2_device_to_host, computation::root);
+    // Res2.
+    then(copy_buf_res2_device_to_host, computation::root);
 
     Res2.tag_gpu_level(t);
     // Res1.tag_gpu_level(t);
