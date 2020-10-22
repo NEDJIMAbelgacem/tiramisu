@@ -56,7 +56,7 @@ if [ $? -ne 0 ]; then
 fi
 
 # echo "Compiling ${KERNEL} wrapper"
-${CXX}       ${LANKA_OPTIONS} $CXXFLAGS ${INCLUDES} -lcudart ${DEFINED_SIZE} ${KERNEL}_wrapper.cpp   ${LIBRARIES_DIR} ${LIBRARIES} generated_${KERNEL}.o_cpu.o generated_${KERNEL}.o_gpu.o ${LIBRARIES} -o ${KERNEL}_wrapper -ldl
+LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/usr/local/cuda-10.1/lib64/ DYLD_LIBRARY_PATH=${DYLD_LIBRARY_PATH}:/usr/local/cuda-10.1/lib64/ ${CXX}       ${LANKA_OPTIONS} $CXXFLAGS ${INCLUDES} -lcudart ${DEFINED_SIZE} ${KERNEL}_wrapper.cpp   ${LIBRARIES_DIR} ${LIBRARIES} generated_${KERNEL}.o_cpu.o generated_${KERNEL}.o_gpu.o ${LIBRARIES} -o ${KERNEL}_wrapper -ldl
 echo "Running ${KERNEL} wrapper"
 # To enable profiling:
 ## Perf:
