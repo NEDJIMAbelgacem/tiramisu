@@ -68,20 +68,20 @@ void generate_function(std::string name, int size)
     buffer buf_fc3("buf_fc3", {K}, p_int32, a_temporary);
 
     buffer buf_res0("buf_res0", {BZ}, p_float32, a_temporary);
-    // buf_res0.set_auto_allocate(false);
-    // computation *alloc_res0 = buf_res0.allocate_at(Res2, t);
+    buf_res0.set_auto_allocate(false);
+    computation *alloc_res0 = buf_res0.allocate_at(Res2, t);
     buffer buf_res1("buf_res1", {N}, p_float32, a_temporary);
-    // buf_res1.set_auto_allocate(false);
-    // computation *alloc_res1 = buf_res1.allocate_at(Res2, t);
+    buf_res1.set_auto_allocate(false);
+    computation *alloc_res1 = buf_res1.allocate_at(Res2, t);
     buffer buf_res2("buf_res2", {T}, p_float32, a_temporary);
     buffer buf_d1("buf_d1", {1}, p_int32, a_temporary);
-    // buf_d1.set_auto_allocate(false);
-    // computation *alloc_d1 = buf_d1.allocate_at(Res2, t);
+    buf_d1.set_auto_allocate(false);
+    computation *alloc_d1 = buf_d1.allocate_at(Res2, t);
     buffer buf_d2("buf_d2", {1}, p_int32, a_temporary);
-    // buf_d2.set_auto_allocate(false);
-    // computation *alloc_d2 = buf_d2.allocate_at(Res2, t);
+    buf_d2.set_auto_allocate(false);
+    computation *alloc_d2 = buf_d2.allocate_at(Res2, t);
     buffer buf_d3("buf_d3", {1}, p_int32, a_temporary);
-    // buf_d3.set_auto_allocate(false);
+    buf_d3.set_auto_allocate(false);
     computation *alloc_d3 = buf_d3.allocate_at(Res2, t);
 
     buffer buf_S("buf_S", {BARYON_P, BARYON_P, BARYON_P, N, N, N, BARYON_P1}, p_float32, a_temporary);
@@ -130,29 +130,28 @@ void generate_function(std::string name, int size)
     // -------------------------------------------------------
 
     copy_buf_S_cpu_host_to_device
-        .then(copy_buf_S_cpu_host_to_device, computation::root)
+        .then(copy_buf_wp_cpu_host_to_device, computation::root)
         .then(copy_buf_fc1_cpu_host_to_device, computation::root)
         .then(copy_buf_fc2_cpu_host_to_device, computation::root)
         .then(copy_buf_fc3_cpu_host_to_device, computation::root)
-        .then(Res2, computation::root)
+        .then(Res2, computation::root);
 
 
-    // Res2
-    // .then(*alloc_res1, t)
-	// .then(*alloc_res0, t)
-	// .then(*alloc_d1, t)
-	// .then(*alloc_d2, t)
-	// .then(*alloc_d3, t)
+    Res2
+    .then(*alloc_res1, t)
+	.then(*alloc_res0, t)
+	.then(*alloc_d1, t)
+	.then(*alloc_d2, t)
+	.then(*alloc_d3, t)
 	.then(Res1, i3)
 	.then(Res0, i3)
 	.then(Res1_update_0, k)
 	.then(Res2_update_0, i2)
 
-    // Res2
+    Res2
     .then(copy_buf_res2_device_to_host, computation::root);
 
-    // Res2.tag_gpu_level(4, 4);
-    // Res1.tag_gpu_level(t);
+    Res2.tag_gpu_level(t);
 
     // Res0.tag_vector_level(i3, BARYON_N);
     // Res2.tag_parallel_level(t);
