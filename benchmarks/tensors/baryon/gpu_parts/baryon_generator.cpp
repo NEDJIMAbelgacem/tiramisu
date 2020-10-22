@@ -14,16 +14,26 @@ void generate_function(std::string name, int size)
 {
     tiramisu::init(name);
 
-    constant N("N", size);
-    constant T("T", BT);
-    constant a1("a1", 0);
-    constant a2("a2", 0);
-    constant a3("a3", 0);
-    constant xp0("xp0", 0);
-    constant K("K", BK);
-    constant b0("b0", 0);
-    constant b1("b1", 0);
-    constant b2("b2", 0);
+    // constant N("N", size);
+    // constant T("T", BT);
+    // constant a1("a1", 0);
+    // constant a2("a2", 0);
+    // constant a3("a3", 0);
+    // constant xp0("xp0", 0);
+    // constant K("K", BK);
+    // constant b0("b0", 0);
+    // constant b1("b1", 0);
+    // constant b2("b2", 0);
+    const int N = size;
+    const int T = BT;
+    const int a1 = 0;
+    const int a2 = 0;
+    const int a3 = 0;
+    const int xp0 = 0;
+    const int K = BK;
+    const int b0 = 0;
+    const int b1 = 0;
+    const int b2 = 0; 
 
     input fc1("fc1", {"k"}, {K}, p_int32);
     input fc2("fc2", {"k"}, {K}, p_int32);
