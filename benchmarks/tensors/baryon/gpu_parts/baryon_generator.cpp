@@ -53,9 +53,9 @@ void generate_function(std::string name, int size)
     // -------------------------------------------------------
     // Layer III
     // -------------------------------------------------------
-    buffer buf_fc1("buf_fc1", {K}, p_int32, a_input);
-    buffer buf_fc2("buf_fc2", {K}, p_int32, a_input);
-    buffer buf_fc3("buf_fc3", {K}, p_int32, a_input);
+    buffer buf_fc1("buf_fc1", {K}, p_int32, a_temporary);
+    buffer buf_fc2("buf_fc2", {K}, p_int32, a_temporary);
+    buffer buf_fc3("buf_fc3", {K}, p_int32, a_temporary);
 
     buffer buf_res0("buf_res0", {BZ}, p_float32, a_temporary);
     buf_res0.set_auto_allocate(false);
@@ -74,8 +74,8 @@ void generate_function(std::string name, int size)
     buf_d3.set_auto_allocate(false);
     computation *alloc_d3 = buf_d3.allocate_at(Res2, t);
 
-    buffer buf_S("buf_S", {BARYON_P, BARYON_P, BARYON_P, N, N, N, BARYON_P1}, p_float32, a_input);
-    buffer buf_wp("buf_wp", {BARYON_N, BARYON_P, BARYON_P, BARYON_P}, p_float32, a_input);
+    buffer buf_S("buf_S", {BARYON_P, BARYON_P, BARYON_P, N, N, N, BARYON_P1}, p_float32, a_temporary);
+    buffer buf_wp("buf_wp", {BARYON_N, BARYON_P, BARYON_P, BARYON_P}, p_float32, a_temporary);
 
     fc1.store_in(&buf_fc1);
     fc2.store_in(&buf_fc2);
@@ -88,9 +88,41 @@ void generate_function(std::string name, int size)
     S.store_in(&buf_S);
     wp.store_in(&buf_wp);
 
+    buf_res2.tag_gpu_global();
+    buf_res1.tag_gpu_global();
+    buf_res0.tag_gpu_global();
+    buf_S.tag_gpu_global();
+    buf_wp.tag_gpu_global();
+    buf_fc1.tag_gpu_global();
+    buf_fc2.tag_gpu_global();
+    buf_fc3.tag_gpu_global();
+    buf_d3.tag_gpu_global();
+    buf_d2.tag_gpu_global();
+    buf_d1.tag_gpu_global();
+
+    buffer buf_res2_cpu("buf_res2_cpu", {T}, p_float32, a_output);
+    buffer buf_S_cpu("buf_S_cpu", {BARYON_P, BARYON_P, BARYON_P, N, N, N, BARYON_P1}, p_float32, a_input);
+    buffer buf_wp_cpu("buf_wp_cpu", {BARYON_N, BARYON_P, BARYON_P, BARYON_P}, p_float32, a_input);
+    buffer buf_fc1_cpu("buf_fc1_cpu", {K}, p_int32, a_input);
+    buffer buf_fc2_cpu("buf_fc2_cpu", {K}, p_int32, a_input);
+    buffer buf_fc3_cpu("buf_fc3_cpu", {K}, p_int32, a_input);
+
+    computation copy_buf_S_cpu_host_to_device({}, memcpy(buf_S_cpu, buf_S));
+    computation copy_buf_wp_cpu_host_to_device({}, memcpy(buf_wp_cpu, buf_wp));
+    computation copy_buf_fc1_cpu_host_to_device({}, memcpy(buf_S_cpu, buf_fc1));
+    computation copy_buf_fc2_cpu_host_to_device({}, memcpy(buf_S_cpu, buf_fc2));
+    computation copy_buf_fc3_cpu_host_to_device({}, memcpy(buf_S_cpu, buf_fc3));
+
+    computation copy_buf_res2_device_to_host({}, memcpy(buf_res2, buf_res2_cpu));
+
     // -------------------------------------------------------
     // Layer II
     // -------------------------------------------------------
+
+    copy_buf_S_cpu_host_to_device.then(copy_buf_wp_cpu_host_to_device, computation::root)
+        .then(copy_buf_fc1_cpu_host_to_device, computation::root)
+        .then(copy_buf_fc2_cpu_host_to_device, computation::root)
+        .then(copy_buf_fc3_cpu_host_to_device, computation::root);
 
     Res2.then(*alloc_res1, t)
 	.then(*alloc_res0, t)
@@ -102,15 +134,19 @@ void generate_function(std::string name, int size)
 	.then(Res1_update_0, k)
 	.then(Res2_update_0, i2);
 
-    Res0.tag_vector_level(i3, BARYON_N);
-    Res2.tag_parallel_level(t);
+    Res2.then(copy_buf_res2_device_to_host, computation::root);
+
+    Res2.tag_gpu_level(i3);
+
+    // Res0.tag_vector_level(i3, BARYON_N);
+    // Res2.tag_parallel_level(t);
 
     // -------------------------------------------------------
     // Code Generation
     // -------------------------------------------------------
 
-    tiramisu::codegen({&buf_res2, &buf_S, &buf_wp, &buf_fc1, &buf_fc2, &buf_fc3},
-		      "generated_baryon.o");
+    tiramisu::codegen({&buf_res2_cpu, &buf_S_cpu, &buf_wp_cpu, &buf_fc1_cpu, &buf_fc2_cpu, &buf_fc3_cpu},
+		      "generated_baryon.o", true);
 }
 
 int main(int argc, char **argv)
