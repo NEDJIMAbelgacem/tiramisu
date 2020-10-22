@@ -147,7 +147,7 @@ void generate_function(std::string name, int size)
 
     Res2.then(copy_buf_res2_device_to_host, computation::root);
 
-    Res0.tag_gpu_level(t);
+    Res2.tag_gpu_level(t);
     // Res1.tag_gpu_level(t);
 
     // Res0.tag_vector_level(i3, BARYON_N);
