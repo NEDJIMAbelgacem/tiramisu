@@ -132,7 +132,8 @@ void generate_function(std::string name, int size)
     copy_buf_S_cpu_host_to_device.then(copy_buf_wp_cpu_host_to_device, computation::root)
         .then(copy_buf_fc1_cpu_host_to_device, computation::root)
         .then(copy_buf_fc2_cpu_host_to_device, computation::root)
-        .then(copy_buf_fc3_cpu_host_to_device, computation::root);
+        .then(copy_buf_fc3_cpu_host_to_device, computation::root)
+        .then(Res2, computation::root);
 
     Res2
     // .then(*alloc_res1, t)
