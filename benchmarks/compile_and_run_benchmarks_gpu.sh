@@ -56,7 +56,7 @@ if [ $? -ne 0 ]; then
 fi
 
 # echo "Compiling ${KERNEL} wrapper"
-${CXX}       ${LANKA_OPTIONS} $CXXFLAGS ${INCLUDES} ${DEFINED_SIZE} ${KERNEL}_wrapper.cpp   ${LIBRARIES_DIR} ${LIBRARIES} generated_${KERNEL}.o_cpu.o generated_${KERNEL}.o_gpu.o ${LIBRARIES} -o ${KERNEL}_wrapper -dl
+${CXX}       ${LANKA_OPTIONS} $CXXFLAGS ${INCLUDES} ${DEFINED_SIZE} ${KERNEL}_wrapper.cpp   ${LIBRARIES_DIR} ${LIBRARIES} generated_${KERNEL}.o_cpu.o generated_${KERNEL}.o_gpu.o ${LIBRARIES} -o ${KERNEL}_wrapper -ldl
 echo "Running ${KERNEL} wrapper"
 # To enable profiling:
 ## Perf:
