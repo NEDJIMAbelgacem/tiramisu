@@ -2,7 +2,7 @@
 
 #include <string.h>
 
-#include "baryon_wrapper.h"
+#include "wrapper.h"
 
 using namespace tiramisu;
 

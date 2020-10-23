@@ -2,188 +2,82 @@
 #include <tiramisu/utils.h>
 #include <cstdlib>
 #include <iostream>
+#include "benchmarks.h"
 
-#include <cuda_runtime.h>
-#include "cublas_v2.h"
-
+#ifdef __cplusplus
+extern "C" {
+#endif
 #include "wrapper.h"
-#include "configuration.h"
+#ifdef __cplusplus
+}  // extern "C"
+#endif
 
-int main(int argc, char *argv[])
+#include "baryon_ref.cpp"
+
+int main(int, char **)
 {
-    int testN = 1;
-    bool check_correctness = false;
-    if (argc > 1) {
-        testN = atoi(argv[1]);
-    }
-    if (argc > 2) {
-        check_correctness = atoi(argv[2]);
-    }
+    std::vector<std::chrono::duration<double,std::milli>> duration_vector_1;
+    std::vector<std::chrono::duration<double,std::milli>> duration_vector_2;
 
-    std::cout << std::endl << "----------" << std::endl;
-    std::cout << "Running sequential MM benchmark: testN: " << testN
-              << ", check correctness: " << check_correctness
-              << ", size: (" << S0 << ", " << S1 << ", " << S2 << ", " << S3 << ")" << std::endl;
+    Halide::Buffer<float> buf_res2(BT, "buf_res2");
+    Halide::Buffer<float> buf_res2_ref(BT, "buf_res2_ref");
+    Halide::Buffer<float> buf_S(BARYON_P1, BZ, BY, BX, BARYON_P, BARYON_P, BARYON_P, "buf_S");
+    Halide::Buffer<float> buf_wp(BARYON_P, BARYON_P, BARYON_P, BARYON_N, "buf_wp");
+    Halide::Buffer<int> fc1(BARYON_N, "buf_fc1");
+    Halide::Buffer<int> fc2(BARYON_N, "buf_fc2");
+    Halide::Buffer<int> fc3(BARYON_N, "buf_fc2");
 
-    auto t1 = std::chrono::high_resolution_clock::now();
-    auto t2 = t1;
-    
-    float *A = (float*) malloc(S0 * S1 * sizeof(float));
-    float *B = (float*) malloc(S1 * S2 * sizeof(float));
-    float *C = (float*) malloc(S2 * S3 * sizeof(float));
 
-    // Initialize matrices with random values:
-    for (int i = 0; i < S0 * S1; i++) A[i] = std::rand() % 10;
-    for (int i = 0; i < S1 * S2; i++) B[i] = std::rand() % 10;
-    for (int i = 0; i < S2 * S3; i++) C[i] = std::rand() % 10;
+    init_buffers((float (*)[BARYON_P][BARYON_P][BX][BY][BZ][BARYON_P1]) buf_S.raw_buffer()->host,
+		 (float (*)[BARYON_P][BARYON_P][BARYON_P]) buf_wp.raw_buffer()->host,
+		 (float) 5,
+		 (int *) fc1.raw_buffer()->host,
+		 (int *) fc2.raw_buffer()->host,
+		 (int *) fc3.raw_buffer()->host);
 
-    std::cout << "Buffers initialized" << std::endl << std::flush;
+    for (int i = 0; i < NB_TESTS; i++)
+    {
+    	    init_buffer(buf_res2_ref, (float)0);
+	    auto start2 = std::chrono::high_resolution_clock::now();
 
-    // Note that indices are flipped (see tutorial 2)
-    Halide::Buffer<DATA_TYPE> A_buf(A, {S1, S0});
-    Halide::Buffer<DATA_TYPE> B_buf(B, {S2, S1});
-    Halide::Buffer<DATA_TYPE> C_buf(C, {S3, S2});
-    Halide::Buffer<DATA_TYPE> O_buf(S3, S0);
+	    ref((float *) buf_res2_ref.raw_buffer()->host,
+		(float (*)[BARYON_P][BARYON_P][BX][BY][BZ][BARYON_P1]) buf_S.raw_buffer()->host,
+		(float (*)[BARYON_P][BARYON_P][BARYON_P]) buf_wp.raw_buffer()->host,
+		(int *) fc1.raw_buffer()->host,
+		(int *) fc2.raw_buffer()->host,
+		(int *) fc3.raw_buffer()->host);
 
-    // Make a dummy call to set up GPU (initalization takes time)
-    matmul(A_buf.raw_buffer(), B_buf.raw_buffer(), C_buf.raw_buffer(), O_buf.raw_buffer());
-
-    // CPU Multiplication for correctness check
-
-    if (check_correctness) {
-        // Reference matrix multiplication
-
-        std::cout << "Running CPU multiplication.." << std::endl;
-
-        Halide::Buffer<DATA_TYPE> O_val_buf(S3, S0);
-        Halide::Buffer<DATA_TYPE> T_val_buf(S2, S0);
-        t1 = std::chrono::high_resolution_clock::now();
-        for (int i = 0; i < S0; i++) {
-            for (int k = 0; k < S2; k++) {
-                // Note that indices are flipped (see tutorial 2)
-                T_val_buf(k, i) = 0;
-            }
-        }
-        for (int i = 0; i < S0; i++) {
-            for (int l = 0; l < S3; l++) {
-                // Note that indices are flipped (see tutorial 2)
-                O_val_buf(l, i) = 0;
-            }
-        }
-        for (int j = 0; j < S1; j++) {
-            for (int i = 0; i < S0; i++) {
-                for (int k = 0; k < S2; k++) {
-                    // Note that indices are flipped (see tutorial 2)
-                    T_val_buf(k, i) += A_buf(j, i) * B_buf(k, j);
-                }
-            }
-        }
-        for (int k = 0; k < S2; k++) {
-            for (int i = 0; i < S0; i++) {
-                for (int l = 0; l < S3; l++) {
-                    // Note that indices are flipped (see tutorial 2)
-                    O_val_buf(l, i) += T_val_buf(k, i) * C_buf(l, k);
-                }
-            }
-        }
-        t2 = std::chrono::high_resolution_clock::now();
-
-        std::cout << "CPU matmul done: " << (std::chrono::duration<double,std::milli>(t2 - t1)).count() << "ms" << std::endl << std::flush;
-
-        compare_buffers("matmul", O_buf, O_val_buf);
+	    auto end2 = std::chrono::high_resolution_clock::now();
+	    std::chrono::duration<double,std::milli> duration2 = end2 - start2;
+	    duration_vector_2.push_back(duration2);
     }
 
-    // GPU Multiplication
-
-    t1 = std::chrono::high_resolution_clock::now();
-    for (int i = 0; i < testN; i++) {
-        matmul(A_buf.raw_buffer(), B_buf.raw_buffer(), C_buf.raw_buffer(), O_buf.raw_buffer());
-    }
-    t2 = std::chrono::high_resolution_clock::now();
-
-    std::cout << "GPU matmul done: " << (std::chrono::duration<double,std::milli>(t2 - t1)).count() / testN << "ms" << std::endl << std::flush;
-
-    // CUBLAS SGEMM
-
-    // Transposed copies for cublas
-    float *A_T = (float*) malloc(S0 * S1 * sizeof(float));
-    float *B_T = (float*) malloc(S1 * S2 * sizeof(float));
-    float *C_T = (float*) malloc(S2 * S3 * sizeof(float));
-    float *O_T = (float*) malloc(S0 * S3 * sizeof(float));
-    // Transpose
-    for (int i = 0; i < S0; i++) for (int j = 0; j < S1; j++) A_T[i + j * S0] = A[i * S1 + j];
-    for (int i = 0; i < S1; i++) for (int j = 0; j < S2; j++) B_T[i + j * S1] = B[i * S2 + j];
-    for (int i = 0; i < S2; i++) for (int j = 0; j < S3; j++) C_T[i + j * S2] = C[i * S3 + j];
-
-    // Excluding handle creation which is time consuming
-    cublasHandle_t handle;
-    cublasCreate(&handle);
-
-    t1 = std::chrono::high_resolution_clock::now();
-
-    for (int i = 0; i < testN; i++) {
-        float *d_A;
-        float *d_B;
-        float *d_C;
-        float *d_T;
-        float *d_O;
-        cudaMalloc((void**)&d_A, S0 * S1 * sizeof(*A));
-        cudaMalloc((void**)&d_B, S1 * S2 * sizeof(*A));
-        cudaMalloc((void**)&d_C, S2 * S3 * sizeof(*A));
-        cudaMalloc((void**)&d_T, S0 * S2 * sizeof(*A));
-        cudaMalloc((void**)&d_O, S0 * S3 * sizeof(*A));
-
-        cublasSetMatrix(S0, S1, sizeof(*A), A_T, S0, d_A, S0);
-        cublasSetMatrix(S1, S2, sizeof(*B), B_T, S1, d_B, S1);
-        cublasSetMatrix(S2, S3, sizeof(*C), C_T, S2, d_C, S2);
-
-        float alpha_var = 1;
-        float beta_var = 0;
-
-        cublasSgemm(handle, CUBLAS_OP_N, CUBLAS_OP_N, S0, S2, S1, &alpha_var, d_A, S0, d_B, S1, &beta_var, d_T, S0);
-        cublasSgemm(handle, CUBLAS_OP_N, CUBLAS_OP_N, S0, S3, S2, &alpha_var, d_T, S0, d_C, S2, &beta_var, d_O, S0);
-
-        cublasGetMatrix(S0, S3, sizeof(*C), d_O, S0, O_T, S0);
-
-        cudaFree(d_A);
-        cudaFree(d_B);
-        cudaFree(d_C);
-        cudaFree(d_T);
-        cudaFree(d_O);
+    for (int i = 0; i < NB_TESTS; i++)
+    {
+	    init_buffer(buf_res2, (float)0);
+	    auto start1 = std::chrono::high_resolution_clock::now();
+	    tiramisu_generated_code(buf_res2.raw_buffer(),
+				    buf_S.raw_buffer(),
+				    buf_wp.raw_buffer(),
+				    fc1.raw_buffer(),
+				    fc2.raw_buffer(),
+				    fc3.raw_buffer());
+	    auto end1 = std::chrono::high_resolution_clock::now();
+	    std::chrono::duration<double,std::milli> duration1 = end1 - start1;
+	    duration_vector_1.push_back(duration1);
     }
 
-    t2 = std::chrono::high_resolution_clock::now();
+    std::cout << std::endl << "Reference buffer : ";
+    print_buffer(buf_res2_ref);
 
-    std::cout << "cublas matmul done (excluding cublasHandle creation): "
-              << (std::chrono::duration<double,std::milli>(t2 - t1) / testN).count() << "ms" << std::endl << std::flush;
+    std::cout << "Tiramisu buffer : ";
+    print_buffer(buf_res2);
 
-    cublasDestroy(handle);
+    compare_buffers("benchmark_" + std::string(TEST_NAME_STR), buf_res2, buf_res2_ref);
 
-    bool check_cublas_difference = false;
-    if (check_cublas_difference) {
-        bool flag = true;
-        for (int i = 0; i < S0 && flag; i++) {
-            for (int j = 0; j < S3; j++) {
-                if (O_buf(j, i) != O_T[i + j * S0]) {
-                    std::cout << "cublas validation mismatch:" << std::endl;
-                    std::cout << i << " " << j << " " << O_T[i + j * S0] << " " << O_buf(j, i) << std::endl;
-                }
-            }
-        }
-        if (flag) {
-            std::cout << "cublas and validation match" << std::endl;
-        }
-    }
-
-    free(A);
-    free(B);
-    free(C);
-    free(A_T);
-    free(B_T);
-    free(C_T);
-    free(O_T);
-
-    std::cout << "----------" << std::endl << std::endl;
+    print_time("performance_CPU.csv", "baryon",
+               {"Ref", "Tiramisu"},
+               {median(duration_vector_2), median(duration_vector_1)});
 
     return 0;
 }
