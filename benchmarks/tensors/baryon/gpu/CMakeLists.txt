@@ -1,7 +1,7 @@
 set(benchmark_name benchmark_baryon_gpu)
 set(generator_name ${benchmark_name}_generator)
 set(wrapper_name ${benchmark_name}_wrapper)
-set(object_files fct.o fct.o_cpu.o fct.o_gpu.o)
+set(object_files generated_baryon.o generated_baryon.o_cpu.o generated_baryon.o_gpu.o)
 
 add_executable(${generator_name} generator.cpp)
 target_link_libraries(${generator_name} tiramisu ${HalideLib} ${ISLLib} ${LINK_FLAGS} cuda_wrapper)
