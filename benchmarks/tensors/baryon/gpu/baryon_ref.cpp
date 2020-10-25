@@ -91,6 +91,12 @@ void ref(float Res2[BT],
   float wp[BARYON_N][BARYON_P][BARYON_P][BARYON_P],
   int fc1[BARYON_N], int fc2[BARYON_N], int fc3[BARYON_N])
 {
+  std::cerr << "BARYON_P=" << BARYON_P << std::endl;
+  std::cerr << "BARYON_P1=" << BARYON_P1 << std::endl;
+  std::cerr << "BARYON_N=" << BARYON_N << std::endl;
+  std::cerr << "BX=" << BX << std::endl;
+  std::cerr << "BY=" << BX << std::endl;
+  std::cerr << "BZ=" << BX << std::endl;
   const int t = 0, a1 = 0, a2 = 0, a3 = 0, xp0 = 0, b0 = 0, b1 = 0, b2 = 0;
 
   for (int t = 0; t < BT; t++)
