@@ -151,7 +151,7 @@ void generate_function(std::string name, int size)
 
     Res2.then(copy_buf_res2_device_to_host, computation::root);
 
-    Res2.split(t, 4, t1, t2);
+    Res2.split(t, 2, t1, t2);
     Res2.tag_gpu_level(t1, t2);
     // Res1_update_0.tag_gpu_level(k);
 

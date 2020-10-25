@@ -3,7 +3,7 @@ set(generator_name ${benchmark_name}_generator)
 set(wrapper_name ${benchmark_name}_wrapper)
 set(object_files generated_baryon.o generated_baryon.o_cpu.o generated_baryon.o_gpu.o)
 
-add_compile_options(-DTIRAMISU_MEDIUM -g)
+add_compile_options(-DTIRAMISU_LARGE -g)
 
 add_executable(${generator_name} generator.cpp)
 target_link_libraries(${generator_name} tiramisu ${HalideLib} ${ISLLib} ${LINK_FLAGS} cuda_wrapper)
