@@ -43,7 +43,7 @@ int main(int, char **)
 
 	    ref((float *) buf_res2_ref.raw_buffer()->host,
 		(float (*)[BARYON_P][BT][BX][BY][BZ][BK]) buf_S.raw_buffer()->host,
-		(float (*)[BARYON_P][BARYON_P][BK]) buf_wp.raw_buffer()->host,
+		(float (*)[BARYON_P][BARYON_P][BARYON_P]) buf_wp.raw_buffer()->host,
 		(int *) fc1.raw_buffer()->host,
 		(int *) fc2.raw_buffer()->host,
 		(int *) fc3.raw_buffer()->host);
