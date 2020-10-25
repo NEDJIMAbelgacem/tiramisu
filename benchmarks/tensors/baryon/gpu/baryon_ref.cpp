@@ -140,7 +140,7 @@ void init_buffers(float S[BARYON_P][BARYON_P][BT][BX][BY][BZ][BK],
   {
     for (int a3 = 0; a3 < BARYON_P; a3++)
     {
-      for (int t = 0; t < BARYON_P; t++)
+      for (int t = 0; t < BT; t++)
       {
         for (int i1 = 0; i1 < BX; i1++)
         {
@@ -148,7 +148,7 @@ void init_buffers(float S[BARYON_P][BARYON_P][BT][BX][BY][BZ][BK],
           {
             for (int i3 = 0; i3 < BZ; i3++)
             {
-              for (int c = 0; c < BARYON_P; c++)
+              for (int c = 0; c < BK; c++)
               {
                 S[xp0][a3][t][i1][i2][i3][c] = val + t + i1 + i2 + i3 + c;
               }
