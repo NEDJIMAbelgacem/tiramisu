@@ -43,6 +43,8 @@ void generate_function(std::string name, int size)
 
     var i1("i1", 0, N), i2("i2", 0, N), i3("i3", 0, N), k("k", 0, K), t("t", 0, T), k0("k", 0, 1);
 
+    var t1("t1"), t2("t2");
+
     computation Res2("Res2", {t}, expr((float) 0));
     computation Res1("Res1", {t, i1, i2, i3}, expr((float) 0));
 
@@ -149,7 +151,8 @@ void generate_function(std::string name, int size)
 
     Res2.then(copy_buf_res2_device_to_host, computation::root);
 
-    Res2.tag_gpu_level(t);
+    Res2.split(t, 4, t1, t2);
+    Res2.tag_gpu_level(t1, t2);
     // Res1_update_0.tag_gpu_level(k);
 
     // Res0.tag_vector_level(i3, BARYON_N);
