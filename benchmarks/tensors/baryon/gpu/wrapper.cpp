@@ -41,12 +41,6 @@ int main(int, char **)
 		 (int *) fc1.raw_buffer()->host,
 		 (int *) fc2.raw_buffer()->host,
 		 (int *) fc3.raw_buffer()->host);
-	// init_buffers((reinterpret_cast<float S[BARYON_P][BARYON_P][BT][BX][BY][BZ][BK]>(buf_S).raw_buffer()->host,
-	// 	 (float (*)[BARYON_P][BARYON_P][BARYON_P]) buf_wp.raw_buffer()->host,
-	// 	 (float) 5,
-	// 	 (int *) fc1.raw_buffer()->host,
-	// 	 (int *) fc2.raw_buffer()->host,
-	// 	 (int *) fc3.raw_buffer()->host);
 	std::cerr << "init_buffers executed properly" << std::endl;
 
     for (int i = 0; i < NB_TESTS; i++)
@@ -65,6 +59,8 @@ int main(int, char **)
 	    std::chrono::duration<double,std::milli> duration2 = end2 - start2;
 	    duration_vector_2.push_back(duration2);
     }
+
+	std::cerr << "Reference code executed properly" << std::endl;
 
     for (int i = 0; i < NB_TESTS; i++)
     {
