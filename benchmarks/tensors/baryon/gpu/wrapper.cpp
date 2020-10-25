@@ -34,6 +34,7 @@ int main(int, char **)
 		 (int *) fc1.raw_buffer()->host,
 		 (int *) fc2.raw_buffer()->host,
 		 (int *) fc3.raw_buffer()->host);
+	std::cerr << "init_buffers executed properly" << std::endl;
 
     for (int i = 0; i < NB_TESTS; i++)
     {
