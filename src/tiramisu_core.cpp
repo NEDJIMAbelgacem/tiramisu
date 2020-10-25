@@ -445,7 +445,7 @@ void tiramisu::computation::tag_gpu_level(int dim0)
     assert(this->get_function() != NULL);
 
     this->get_function()->add_gpu_block_dimensions(this->get_name(), dim0, -1, -1);
-    this->get_function()->add_gpu_thread_dimensions(this->get_name(), -1, -1, -1);
+    this->get_function()->add_gpu_thread_dimensions(this->get_name(), 0, -1, -1);
 }
 
 
