@@ -19,10 +19,17 @@ int main(int, char **)
     std::vector<std::chrono::duration<double,std::milli>> duration_vector_1;
     std::vector<std::chrono::duration<double,std::milli>> duration_vector_2;
 
-    Halide::Buffer<float> buf_res2(BT, "buf_res2");
-    Halide::Buffer<float> buf_res2_ref(BT, "buf_res2_ref");
-    Halide::Buffer<float> buf_S(BK, BZ, BY, BX, BT, BARYON_P, BARYON_P, "buf_S");
-    Halide::Buffer<float> buf_wp(BARYON_P, BARYON_P, BARYON_P, BK, "buf_wp");
+    // Halide::Buffer<float> buf_res2(BT, "buf_res2");
+    // Halide::Buffer<float> buf_res2_ref(BT, "buf_res2_ref");
+    // Halide::Buffer<float> buf_S(BK, BZ, BY, BX, BT, BARYON_P, BARYON_P, "buf_S");
+    // Halide::Buffer<float> buf_wp(BARYON_P, BARYON_P, BARYON_P, BK, "buf_wp");
+    // Halide::Buffer<int> fc1(BARYON_N, "buf_fc1");
+    // Halide::Buffer<int> fc2(BARYON_N, "buf_fc2");
+    // Halide::Buffer<int> fc3(BARYON_N, "buf_fc2");
+	Halide::Buffer<float> buf_res2(std::vector<int>{ BT }, "buf_res2");
+    Halide::Buffer<float> buf_res2_ref(std::vector<int>{ BT }, "buf_res2_ref");
+    Halide::Buffer<float> buf_S(std::vector<int>{BARYON_P, BARYON_P, BT, BX, BY, BZ, BZ}, "buf_S");
+    Halide::Buffer<float> buf_wp(std::vector<int>{BK, BARYON_P, BARYON_P, BARYON_P}, "buf_wp");
     Halide::Buffer<int> fc1(BARYON_N, "buf_fc1");
     Halide::Buffer<int> fc2(BARYON_N, "buf_fc2");
     Halide::Buffer<int> fc3(BARYON_N, "buf_fc2");
@@ -43,7 +50,7 @@ int main(int, char **)
 
 	    ref((float *) buf_res2_ref.raw_buffer()->host,
 		(float (*)[BARYON_P][BT][BX][BY][BZ][BK]) buf_S.raw_buffer()->host,
-		(float (*)[BARYON_P][BARYON_P][BARYON_P]) buf_wp.raw_buffer()->host,
+		(float (*)[BARYON_P][BARYON_P][BARYON_P		]) buf_wp.raw_buffer()->host,
 		(int *) fc1.raw_buffer()->host,
 		(int *) fc2.raw_buffer()->host,
 		(int *) fc3.raw_buffer()->host);
