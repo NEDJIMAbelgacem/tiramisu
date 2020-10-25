@@ -87,8 +87,8 @@ extern "C" {
   */
 
 void ref(float Res2[BT], 
-  float S[BARYON_P][BARYON_P][BARYON_P][BX][BY][BZ][BARYON_P1],
-  float wp[BARYON_N][BARYON_P][BARYON_P][BARYON_P],
+  float S[BARYON_P][BARYON_P][BT][BX][BY][BZ][BK],
+  float wp[BK][BARYON_P][BARYON_P][BARYON_P],
   int fc1[BARYON_N], int fc2[BARYON_N], int fc3[BARYON_N])
 {
   std::cerr << "ref: " << std::endl;
@@ -115,12 +115,14 @@ void ref(float Res2[BT],
           float Res1 = 0;
           for (int k = 1; k <= BK; k++)
           {
+            // S dimensions should be S[BARYON_P][BARYON_P][BT] [BX][BY][BZ] [BARYON_N] 
             float Res0    =  S[xp0][a1][t][i1][i2][i3][fc1[k]] * S[xp0][a2][t][i1][i2][i3][fc2[k]] * S[xp0][a3][t][i1][i2][i3][fc3[k]]
 			                     + S[xp0][a1][t][i1][i2][i3][fc2[k]] * S[xp0][a2][t][i1][i2][i3][fc3[k]] * S[xp0][a3][t][i1][i2][i3][fc1[k]]
 		                       + S[xp0][a1][t][i1][i2][i3][fc3[k]] * S[xp0][a2][t][i1][i2][i3][fc1[k]] * S[xp0][a3][t][i1][i2][i3][fc2[k]]
 		                       - S[xp0][a1][t][i1][i2][i3][fc2[k]] * S[xp0][a2][t][i1][i2][i3][fc1[k]] * S[xp0][a3][t][i1][i2][i3][fc3[k]]
 		                       - S[xp0][a1][t][i1][i2][i3][fc3[k]] * S[xp0][a2][t][i1][i2][i3][fc2[k]] * S[xp0][a3][t][i1][i2][i3][fc1[k]]
 		                       - S[xp0][a1][t][i1][i2][i3][fc1[k]] * S[xp0][a2][t][i1][i2][i3][fc3[k]] * S[xp0][a3][t][i1][i2][i3][fc2[k]];
+            // wp dimentions should be wp[BK][BARYON_P][BARYON_P][BARYON_P]
             Res1 = Res1 + wp[k][b2][b1][b0] * Res0;
           }
           Res2[t] = Res2[t] + exp(i1+i2+i3) * Res1; // exp(i(i3*px+i2*py+i1*pz))
@@ -130,8 +132,8 @@ void ref(float Res2[BT],
   }
 }
 
-void init_buffers(float S[BARYON_P][BARYON_P][BARYON_P][BX][BY][BZ][BARYON_P1],
-		  float wp[BARYON_N][BARYON_P][BARYON_P][BARYON_P], float val,
+void init_buffers(float S[BARYON_P][BARYON_P][BT][BX][BY][BZ][BK],
+		  float wp[BK][BARYON_P][BARYON_P][BARYON_P], float val,
 		  int fc1[BARYON_N], int fc2[BARYON_N], int fc3[BARYON_N])
 {
   for (int xp0 = 0; xp0 < BARYON_P; xp0++)
