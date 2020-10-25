@@ -35,18 +35,18 @@ int main(int, char **)
     Halide::Buffer<int> fc3(BARYON_N, "buf_fc3");
 
 
-    // init_buffers((float (*)[BARYON_P][BT][BX][BY][BZ][BK]) buf_S.raw_buffer()->host,
-	// 	 (float (*)[BARYON_P][BARYON_P][BARYON_P]) buf_wp.raw_buffer()->host,
-	// 	 (float) 5,
-	// 	 (int *) fc1.raw_buffer()->host,
-	// 	 (int *) fc2.raw_buffer()->host,
-	// 	 (int *) fc3.raw_buffer()->host);
-	init_buffers((reinterpret_cast<float(*)[BARYON_P][BARYON_P][BT][BX][BY][BZ]>(buf_S.raw_buffer()->host),
+    init_buffers((float (*)[BARYON_P][BT][BX][BY][BZ][BK]) buf_S.raw_buffer()->host,
 		 (float (*)[BARYON_P][BARYON_P][BARYON_P]) buf_wp.raw_buffer()->host,
 		 (float) 5,
 		 (int *) fc1.raw_buffer()->host,
 		 (int *) fc2.raw_buffer()->host,
 		 (int *) fc3.raw_buffer()->host);
+	// init_buffers((reinterpret_cast<float S[BARYON_P][BARYON_P][BT][BX][BY][BZ][BK]>(buf_S).raw_buffer()->host,
+	// 	 (float (*)[BARYON_P][BARYON_P][BARYON_P]) buf_wp.raw_buffer()->host,
+	// 	 (float) 5,
+	// 	 (int *) fc1.raw_buffer()->host,
+	// 	 (int *) fc2.raw_buffer()->host,
+	// 	 (int *) fc3.raw_buffer()->host);
 	std::cerr << "init_buffers executed properly" << std::endl;
 
     for (int i = 0; i < NB_TESTS; i++)
