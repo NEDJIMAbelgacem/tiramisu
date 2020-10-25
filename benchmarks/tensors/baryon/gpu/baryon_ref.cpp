@@ -86,12 +86,10 @@ extern "C" {
 
   */
 
-void ref(float Res2[BT],
-	 float S[BARYON_P][BARYON_P][BARYON_P][BX][BY][BZ][BARYON_P1],
-	 float wp[BARYON_N][BARYON_P][BARYON_P][BARYON_P],
-	 int fc1[BARYON_N],
-         int fc2[BARYON_N],
-         int fc3[BARYON_N])
+void ref(float Res2[BT], 
+  float S[BARYON_P][BARYON_P][BARYON_P][BX][BY][BZ][BARYON_P1],
+  float wp[BARYON_N][BARYON_P][BARYON_P][BARYON_P],
+  int fc1[BARYON_N], int fc2[BARYON_N], int fc3[BARYON_N])
 {
   const int t = 0, a1 = 0, a2 = 0, a3 = 0, xp0 = 0, b0 = 0, b1 = 0, b2 = 0;
 
@@ -100,26 +98,27 @@ void ref(float Res2[BT],
     Res2[t] = 0;
 
     for (int i1 = 0; i1 < BX; i1++)
+    {
       for (int i2 = 0; i2 < BY; i2++)
+      {
         for (int i3 = 0; i3 < BZ; i3++)
-         {
-           float Res1 = 0;
-
-           for (int k = 1; k <= BK; k++)
-	   {
-	       float Res0    =  S[xp0][a1][t][i1][i2][i3][fc1[k]] * S[xp0][a2][t][i1][i2][i3][fc2[k]] * S[xp0][a3][t][i1][i2][i3][fc3[k]]
-			      + S[xp0][a1][t][i1][i2][i3][fc2[k]] * S[xp0][a2][t][i1][i2][i3][fc3[k]] * S[xp0][a3][t][i1][i2][i3][fc1[k]]
-		              + S[xp0][a1][t][i1][i2][i3][fc3[k]] * S[xp0][a2][t][i1][i2][i3][fc1[k]] * S[xp0][a3][t][i1][i2][i3][fc2[k]]
-		              - S[xp0][a1][t][i1][i2][i3][fc2[k]] * S[xp0][a2][t][i1][i2][i3][fc1[k]] * S[xp0][a3][t][i1][i2][i3][fc3[k]]
-		              - S[xp0][a1][t][i1][i2][i3][fc3[k]] * S[xp0][a2][t][i1][i2][i3][fc2[k]] * S[xp0][a3][t][i1][i2][i3][fc1[k]]
-		              - S[xp0][a1][t][i1][i2][i3][fc1[k]] * S[xp0][a2][t][i1][i2][i3][fc3[k]] * S[xp0][a3][t][i1][i2][i3][fc2[k]];
-
-               Res1 = Res1 + wp[k][b2][b1][b0] * Res0;
-	   }
-
-           Res2[t] = Res2[t] + exp(i1+i2+i3) * Res1; // exp(i(i3*px+i2*py+i1*pz))
-         }
+        {
+          float Res1 = 0;
+          for (int k = 1; k <= BK; k++)
+          {
+            float Res0    =  S[xp0][a1][t][i1][i2][i3][fc1[k]] * S[xp0][a2][t][i1][i2][i3][fc2[k]] * S[xp0][a3][t][i1][i2][i3][fc3[k]]
+			                     + S[xp0][a1][t][i1][i2][i3][fc2[k]] * S[xp0][a2][t][i1][i2][i3][fc3[k]] * S[xp0][a3][t][i1][i2][i3][fc1[k]]
+		                       + S[xp0][a1][t][i1][i2][i3][fc3[k]] * S[xp0][a2][t][i1][i2][i3][fc1[k]] * S[xp0][a3][t][i1][i2][i3][fc2[k]]
+		                       - S[xp0][a1][t][i1][i2][i3][fc2[k]] * S[xp0][a2][t][i1][i2][i3][fc1[k]] * S[xp0][a3][t][i1][i2][i3][fc3[k]]
+		                       - S[xp0][a1][t][i1][i2][i3][fc3[k]] * S[xp0][a2][t][i1][i2][i3][fc2[k]] * S[xp0][a3][t][i1][i2][i3][fc1[k]]
+		                       - S[xp0][a1][t][i1][i2][i3][fc1[k]] * S[xp0][a2][t][i1][i2][i3][fc3[k]] * S[xp0][a3][t][i1][i2][i3][fc2[k]];
+            Res1 = Res1 + wp[k][b2][b1][b0] * Res0;
+          }
+          Res2[t] = Res2[t] + exp(i1+i2+i3) * Res1; // exp(i(i3*px+i2*py+i1*pz))
+        }
+      }
     }
+  }
 }
 
 void init_buffers(float S[BARYON_P][BARYON_P][BARYON_P][BX][BY][BZ][BARYON_P1],
@@ -127,15 +126,27 @@ void init_buffers(float S[BARYON_P][BARYON_P][BARYON_P][BX][BY][BZ][BARYON_P1],
 		  int fc1[BARYON_N], int fc2[BARYON_N], int fc3[BARYON_N])
 {
   for (int xp0 = 0; xp0 < BARYON_P; xp0++)
+  {
     for (int a3 = 0; a3 < BARYON_P; a3++)
+    {
       for (int t = 0; t < BARYON_P; t++)
+      {
         for (int i1 = 0; i1 < BX; i1++)
+        {
           for (int i2 = 0; i2 < BY; i2++)
+          {
             for (int i3 = 0; i3 < BZ; i3++)
-	      for (int c = 0; c < BARYON_P; c++)
-	      {
-		S[xp0][a3][t][i1][i2][i3][c] = val + t + i1 + i2 + i3 + c;
-	      }
+            {
+              for (int c = 0; c < BARYON_P; c++)
+              {
+                S[xp0][a3][t][i1][i2][i3][c] = val + t + i1 + i2 + i3 + c;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
 
   for (int k = 0; k < BARYON_N; k++)
   {
