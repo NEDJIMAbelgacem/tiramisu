@@ -115,6 +115,7 @@ void ref(float Res2[BT],
           float Res1 = 0;
           for (int k = 1; k <= BK; k++)
           {
+            std::cout << xp0 << " " << a1 << " " << t << " " << i1 << " " << i2 << " " << i3 << " " << fc1[k] << "\n";
             // S dimensions should be S[BARYON_P][BARYON_P][BT] [BX][BY][BZ] [BARYON_N] 
             float Res0    =  S[xp0][a1][t][i1][i2][i3][fc1[k]] * S[xp0][a2][t][i1][i2][i3][fc2[k]] * S[xp0][a3][t][i1][i2][i3][fc3[k]]
 			                     + S[xp0][a1][t][i1][i2][i3][fc2[k]] * S[xp0][a2][t][i1][i2][i3][fc3[k]] * S[xp0][a3][t][i1][i2][i3][fc1[k]]
