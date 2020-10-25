@@ -63,9 +63,9 @@ void generate_function(std::string name, int size)
     // -------------------------------------------------------
     // Layer III
     // -------------------------------------------------------
-    buffer buf_fc1("buf_fc1", {K}, p_int32, a_temporary);
-    buffer buf_fc2("buf_fc2", {K}, p_int32, a_temporary);
-    buffer buf_fc3("buf_fc3", {K}, p_int32, a_temporary);
+    buffer buf_fc1("buf_fc1", {BARYON_N}, p_int32, a_temporary);
+    buffer buf_fc2("buf_fc2", {BARYON_N}, p_int32, a_temporary);
+    buffer buf_fc3("buf_fc3", {BARYON_N}, p_int32, a_temporary);
 
     buffer buf_res0("buf_res0", {BZ}, p_float32, a_temporary);
     // buf_res0.set_auto_allocate(false);
@@ -84,8 +84,8 @@ void generate_function(std::string name, int size)
     // buf_d3.set_auto_allocate(false);
     // computation *alloc_d3 = buf_d3.allocate_at(Res2, t);
 
-    buffer buf_S("buf_S", {BARYON_P, BARYON_P, BARYON_P, N, N, N, BARYON_P1}, p_float32, a_temporary);
-    buffer buf_wp("buf_wp", {BARYON_N, BARYON_P, BARYON_P, BARYON_P}, p_float32, a_temporary);
+    buffer buf_S("buf_S", {BARYON_P, BARYON_P, BT, BX, BY, BZ, BK}, p_float32, a_temporary);
+    buffer buf_wp("buf_wp", {BK, BARYON_P, BARYON_P, BARYON_P}, p_float32, a_temporary);
 
     fc1.store_in(&buf_fc1);
     fc2.store_in(&buf_fc2);
@@ -111,8 +111,8 @@ void generate_function(std::string name, int size)
     buf_d1.tag_gpu_global();
 
     buffer buf_res2_cpu("buf_res2_cpu", {T}, p_float32, a_output);
-    buffer buf_S_cpu("buf_S_cpu", {BARYON_P, BARYON_P, BARYON_P, N, N, N, BARYON_P1}, p_float32, a_input);
-    buffer buf_wp_cpu("buf_wp_cpu", {BARYON_N, BARYON_P, BARYON_P, BARYON_P}, p_float32, a_input);
+    buffer buf_S_cpu("buf_S_cpu", {BARYON_P, BARYON_P, BT, BX, BY, BZ, BK}, p_float32, a_input);
+    buffer buf_wp_cpu("buf_wp_cpu", {BK, BARYON_P, BARYON_P, BARYON_P}, p_float32, a_input);
     buffer buf_fc1_cpu("buf_fc1_cpu", {K}, p_int32, a_input);
     buffer buf_fc2_cpu("buf_fc2_cpu", {K}, p_int32, a_input);
     buffer buf_fc3_cpu("buf_fc3_cpu", {K}, p_int32, a_input);
