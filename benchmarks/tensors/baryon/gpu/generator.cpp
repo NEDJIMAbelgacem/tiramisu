@@ -159,7 +159,7 @@ void generate_function(std::string name, int size)
     Res1.split(t, 4, t1, t2);
     Res0.split(t, 4, t1, t2);
     Res1_update_0.split(t, 4, t1, t2);
-    Res2_update_0.split(t, 4, t1, t2)
+    Res2_update_0.split(t, 4, t1, t2);
     Res2.tag_gpu_level(t1, t2);
     Res1.tag_gpu_level(t1, t2);
     Res0.tag_gpu_level(t1, t2);
