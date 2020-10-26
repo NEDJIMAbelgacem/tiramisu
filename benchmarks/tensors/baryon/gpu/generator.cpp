@@ -127,6 +127,17 @@ void generate_function(std::string name, int size)
 
     computation copy_buf_res2_device_to_host({}, memcpy(buf_res2, buf_res2_cpu));
 
+    Res2.split(t, 4, t1, t2);
+    Res1.split(t, 4, t1, t2);
+    Res0.split(t, 4, t1, t2);
+    Res1_update_0.split(t, 4, t1, t2);
+    Res2_update_0.split(t, 4, t1, t2);
+    Res2.tag_gpu_level(t1, t2);
+    Res1.tag_gpu_level(t1, t2);
+    Res0.tag_gpu_level(t1, t2);
+    Res1_update_0.tag_gpu_level(t1, t2);
+    Res2_update_0.tag_gpu_level(t1, t2);
+
     // -------------------------------------------------------
     // Layer II
     // -------------------------------------------------------
@@ -157,17 +168,6 @@ void generate_function(std::string name, int size)
     // Res2.split(t, 4, t1, t2);
     // Res2.tag_gpu_level(t1, t2);
     // Res2.tag_gpu_level(t);
-
-    Res2.split(t, 4, t1, t2);
-    Res1.split(t, 4, t1, t2);
-    Res0.split(t, 4, t1, t2);
-    Res1_update_0.split(t, 4, t1, t2);
-    Res2_update_0.split(t, 4, t1, t2);
-    Res2.tag_gpu_level(t1, t2);
-    Res1.tag_gpu_level(t1, t2);
-    Res0.tag_gpu_level(t1, t2);
-    Res1_update_0.tag_gpu_level(t1, t2);
-    Res2_update_0.tag_gpu_level(t1, t2);
 
     // Res1_update_0.tag_gpu_level(k);
 
