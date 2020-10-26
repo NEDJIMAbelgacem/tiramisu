@@ -153,7 +153,11 @@ void generate_function(std::string name, int size)
 
     // Res2.split(t, 4, t1, t2);
     // Res2.tag_gpu_level(t1, t2);
-    Res2.tag_gpu_level(t);
+    // Res2.tag_gpu_level(t);
+
+    Res2.split(t, 4, t1, t2);
+    Res2.tag_gpu_level(t1, t2);
+
     // Res1_update_0.tag_gpu_level(k);
 
     // Res0.tag_vector_level(i3, BARYON_N);
