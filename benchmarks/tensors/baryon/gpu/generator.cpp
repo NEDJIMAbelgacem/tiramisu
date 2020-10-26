@@ -156,7 +156,8 @@ void generate_function(std::string name, int size)
     // Res2.tag_gpu_level(t);
 
     Res2.split(t, 4, t1, t2);
-    // Res2.vectorize(t, 4, t1, t2);
+    Res1.split(t, 4, t1, t2);
+    Res0.split(t, 4, t1, t2);
     Res2.tag_gpu_level(t1, t2);
     Res1.tag_gpu_level(t1, t2);
     Res0.tag_gpu_level(t1, t2);
