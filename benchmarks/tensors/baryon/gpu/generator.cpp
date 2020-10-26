@@ -57,7 +57,7 @@ void generate_function(std::string name, int size)
 		      - S(xp0, a1, t, i1, i2, i3, fc1(k)) * S(xp0, a2, t, i1, i2, i3, fc3(k)) * S(xp0, a3, t, i1, i2, i3, fc2(k)));
 
     computation Res1_update_0("Res1_update_0", {t, i1, i2, i3, k}, p_float32);
-    Res1_update_0.set_expression(Res1_update_0(t, i1, i2, i3, k-1) + wp(k, b2, b1, b0) * Res0(t, i1, i2, i3, k));
+    Res1_update_0.set_expression(Res1_update_0(t, i1, i2, i3, k) + wp(k, b2, b1, b0) * Res0(t, i1, i2, i3, k));
 
     computation Res2_update_0("Res2_update_0", {t, i1, i2, i3}, p_float32);
     Res2_update_0.set_expression(Res2_update_0(t, i1, i2, i3) + cast(p_float32, expr(o_expo, cast(p_float32, i3 + i2) + cast(p_float32, i1), p_float32)) * Res1(t, i1, i2, i3)); //exp(i(i3*px+i2*py+i1*pz))
