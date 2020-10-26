@@ -1,6 +1,7 @@
 #ifndef TIRAMISU_test_h
 #define TIRAMISU_test_h
 
+#include "benchmarks.h"
 
 // Define these values for each new test
 #define TEST_NAME_STR       "baryon"
