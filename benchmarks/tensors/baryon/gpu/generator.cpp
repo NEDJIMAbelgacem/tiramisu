@@ -41,9 +41,10 @@ void generate_function(std::string name, int size)
     input S("S", {"xp0", "a1", "t", "i1", "i2", "i3", "d1"}, {1, 1, T, N, N, N, BK}, p_float32);
     input wp("wp", {"k", "b0", "b1", "b2"}, {K, 1, 1, 1}, p_float32);
 
+    var t1("t1", 0, N/4), t2("t2", 0, 4);
     var i1("i1", 0, N), i2("i2", 0, N), i3("i3", 0, N), k("k", 0, K), t("t", 0, T), k0("k", 0, 1);
 
-    var t1("t1", 0, N/4), t2("t2", 0, 4);
+
 
     computation Res2("Res2", {t}, expr((float) 0));
     computation Res1("Res1", {t, i1, i2, i3}, expr((float) 0));
@@ -155,8 +156,8 @@ void generate_function(std::string name, int size)
     // Res2.tag_gpu_level(t1, t2);
     // Res2.tag_gpu_level(t);
 
-    // Res2.split(t, 4, t1, t2);
-    Res2.vectorize(t, 4, t1, t2);
+    Res2.split(t, 4, t1, t2);
+    // Res2.vectorize(t, 4, t1, t2);
     Res2.tag_gpu_level(t1, t2);
 
     // Res1_update_0.tag_gpu_level(k);
