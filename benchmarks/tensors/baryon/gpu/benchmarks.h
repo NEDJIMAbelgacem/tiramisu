@@ -63,7 +63,7 @@
 #define BX 16
 #define BY 16
 #define BZ 16
-#define BT 16
+#define BT 32
 #define BK 16
 
 
