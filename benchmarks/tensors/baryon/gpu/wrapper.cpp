@@ -83,11 +83,11 @@ int main(int, char **)
     std::cout << "Tiramisu buffer : ";
     print_buffer(buf_res2);
 
-    compare_buffers("benchmark_" + std::string(TEST_NAME_STR), buf_res2, buf_res2_ref);
-
     print_time("performance_CPU.csv", "baryon",
                {"Ref", "Tiramisu"},
                {median(duration_vector_2), median(duration_vector_1)});
+
+    compare_buffers("benchmark_" + std::string(TEST_NAME_STR), buf_res2, buf_res2_ref);
 
     return 0;
 }
