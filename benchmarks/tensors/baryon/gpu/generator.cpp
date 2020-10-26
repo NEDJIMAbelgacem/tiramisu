@@ -148,6 +148,9 @@ void generate_function(std::string name, int size)
 	.then(Res0, i3)
 	.then(Res1_update_0, k)
 	.then(Res2_update_0, i3);
+    Res1.then(Res0, i3);
+
+    Res0.then(Res1_update_0, k);
 
     Res2.then(copy_buf_res2_device_to_host, computation::root);
 
