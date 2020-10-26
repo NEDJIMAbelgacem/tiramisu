@@ -62,7 +62,7 @@
 #define BX 16
 #define BY 16
 #define BZ 16
-#define BT 16
+#define BT 32
 #define BK 16
 
 // BARYON_P1 is used for the size of first dimension
