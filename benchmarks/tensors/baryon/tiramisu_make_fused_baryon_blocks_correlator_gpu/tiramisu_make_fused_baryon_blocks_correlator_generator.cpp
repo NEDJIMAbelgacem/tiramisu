@@ -340,8 +340,8 @@ void generate_function(std::string name)
 #if GPU_PARALLEL
 
     var t1("t1"), t2("t2");
-    C_init_r.split(t, 4, t1, t2);
-    C_init_i.split(t, 4, t1, t2);
+    // C_init_r.split(t, 4, t1, t2);
+    // C_init_i.split(t, 4, t1, t2);
     // B1_Blocal_r1_r_init.split(t, 4, t1, t2);
     // B1_Blocal_r1_i_init.split(t, 4, t1, t2);
     // B1_Blocal_r2_r_init.split(t, 4, t1, t2);
@@ -349,8 +349,8 @@ void generate_function(std::string name)
     // C_prop_init_r.split(t, 4, t1, t2);
     // C_prop_init_i.split(t, 4, t1, t2);
 
-    C_init_r.tag_gpu_level(t1, t2);
-    C_init_i.tag_gpu_level(t1, t2);
+    C_init_r.tag_gpu_level(t);
+    C_init_i.tag_gpu_level(t);
 
     // B1_Blocal_r1_r_init.tag_gpu_level(t1, t2);
     // B1_Blocal_r1_i_init.tag_gpu_level(t1, t2);
