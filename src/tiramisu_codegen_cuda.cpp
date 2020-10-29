@@ -365,6 +365,7 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
         switch (tiramisu_expr.get_expr_type()) {
             case e_val:
                 ret = statement_ptr{new cuda_ast::value{tiramisu_expr}};
+                break;
             case e_var:
                 // o_call might get buffer as input parameter, in which case the
                 // buffer is interpreted as a var. If so, create scalar_ptr for
@@ -377,6 +378,7 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
                 std::cerr << "parse_tiramisu : about to execute get_scalar_from_name with " << tiramisu_expr.get_name() << std::endl;
                 std::cerr << "expression: " << tiramisu_expr.to_str() << std::endl;
                 ret = get_scalar_from_name(tiramisu_expr.get_name());
+                break;
             case e_none:
                 assert(false);
             case e_op: {
@@ -389,6 +391,7 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
                         }
                         ret = statement_ptr{new buffer_access{b, indices}};
                     }
+                    break;
                     case o_call: {
                         std::vector<statement_ptr> operands{static_cast<size_t>(tiramisu_expr.get_n_arg())};
                         std::transform(tiramisu_expr.get_arguments().begin(), tiramisu_expr.get_arguments().end(),
@@ -397,6 +400,7 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
                         ret = statement_ptr{
                                 new function_call{tiramisu_expr.get_data_type(), tiramisu_expr.get_name(), operands}};
                     }
+                    break;
                     case o_cast: {
                         // Add a cast statement only if necessary
                         if (tiramisu_expr.get_data_type() != tiramisu_expr.get_operand(0).get_data_type()) {
@@ -406,6 +410,7 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
                             ret = parse_tiramisu(tiramisu_expr.get_operand(0));
                         }
                     }
+                    break;
                     case o_allocate: {
                         auto buffer = get_buffer(tiramisu_expr.get_name());
                         if (buffer->get_location() == memory_location::shared
@@ -415,12 +420,14 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
                         else
                             ret = statement_ptr {new cuda_ast::allocate{buffer}};
                     }
+                    break;
                     case o_free:
                         ret = statement_ptr {new cuda_ast::free{get_buffer(tiramisu_expr.get_name())}};
-
+                    break;
                     case o_memcpy:
                         assert(tiramisu_expr.get_operand(0).get_expr_type() == e_var && tiramisu_expr.get_operand(1).get_expr_type() == e_var && "Can only transfer from buffers to buffers");
                         ret = statement_ptr {new cuda_ast::memcpy{this->get_buffer(tiramisu_expr.get_operand(0).get_name()), this->get_buffer(tiramisu_expr.get_operand(1).get_name())}};
+                    break;
                     default: {
 //                        auto it = cuda_ast::tiramisu_operation_description(tiramisu_expr.get_op_type());
 //                        assert(it != cuda_ast::tiramisu_operation_description.cend());
@@ -437,15 +444,18 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
                                     ret = statement_ptr {
                                             new cuda_ast::unary{tiramisu_expr.get_data_type(), operands[0],
                                                                 std::string{op_data.symbol}}};
+                                    break;
                                 case 2:
                                     ret = statement_ptr {
                                             new cuda_ast::binary{tiramisu_expr.get_data_type(), operands[0],
                                                                  operands[1], std::string{op_data.symbol}}};
+                                    break;
                                 case 3:
                                     ret = statement_ptr {
                                             new cuda_ast::ternary{tiramisu_expr.get_data_type(), operands[0],
                                                                   operands[1], operands[2], std::string{op_data.symbol},
                                                                   std::string{op_data.next_symbol}}};
+                                    break;
                                 default:
                                     assert(false && "Infix operators are either unary, binary, or tertiary.");
                             }
@@ -455,6 +465,7 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
                                                                 operands}};
                         }
                     }
+                    break;
                 }
             }
             default:
