@@ -365,7 +365,7 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
         switch (tiramisu_expr.get_expr_type()) {
             case e_val:
                 ret = statement_ptr{new cuda_ast::value{tiramisu_expr}};
-                break;
+            break;
             case e_var:
                 // o_call might get buffer as input parameter, in which case the
                 // buffer is interpreted as a var. If so, create scalar_ptr for
@@ -378,7 +378,7 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
                 std::cerr << "parse_tiramisu : about to execute get_scalar_from_name with " << tiramisu_expr.get_name() << std::endl;
                 std::cerr << "expression: " << tiramisu_expr.to_str() << std::endl;
                 ret = get_scalar_from_name(tiramisu_expr.get_name());
-                break;
+            break;
             case e_none:
                 assert(false);
             case e_op: {
@@ -468,6 +468,7 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
                     break;
                 }
             }
+            break;
             default:
                 assert(false);
         }
