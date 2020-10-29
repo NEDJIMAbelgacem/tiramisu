@@ -395,6 +395,8 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
                 std::cerr << "tiramisu_expr.get_expr_type(): e_op" << "\n";
                 switch (tiramisu_expr.get_op_type()) {
                     case o_access: {
+                        print_indent(parse_tiramisu_level - 1);
+                        std::cerr << "tiramisu_expr.get_op_type(): o_access" << "\n";
                         buffer_ptr b = this->get_buffer(tiramisu_expr.get_name());
                         std::vector<statement_ptr> indices;
                         for (auto &access: tiramisu_expr.get_access()) {
@@ -404,6 +406,8 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
                     }
                     break;
                     case o_call: {
+                        print_indent(parse_tiramisu_level - 1);
+                        std::cerr << "tiramisu_expr.get_op_type(): o_call" << "\n";
                         std::vector<statement_ptr> operands{static_cast<size_t>(tiramisu_expr.get_n_arg())};
                         std::transform(tiramisu_expr.get_arguments().begin(), tiramisu_expr.get_arguments().end(),
                                        operands.begin(),
@@ -413,6 +417,8 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
                     }
                     break;
                     case o_cast: {
+                        print_indent(parse_tiramisu_level - 1);
+                        std::cerr << "tiramisu_expr.get_op_type(): o_cast" << "\n";
                         // Add a cast statement only if necessary
                         if (tiramisu_expr.get_data_type() != tiramisu_expr.get_operand(0).get_data_type()) {
                             ret = statement_ptr{new cuda_ast::cast{tiramisu_expr.get_data_type(),
@@ -423,6 +429,8 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
                     }
                     break;
                     case o_allocate: {
+                        print_indent(parse_tiramisu_level - 1);
+                        std::cerr << "tiramisu_expr.get_op_type(): o_allocate" << "\n";
                         auto buffer = get_buffer(tiramisu_expr.get_name());
                         if (buffer->get_location() == memory_location::shared
                                 || buffer->get_location() == memory_location::local
@@ -433,13 +441,19 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
                     }
                     break;
                     case o_free:
+                        print_indent(parse_tiramisu_level - 1);
+                        std::cerr << "tiramisu_expr.get_op_type(): o_free" << "\n";
                         ret = statement_ptr {new cuda_ast::free{get_buffer(tiramisu_expr.get_name())}};
                     break;
                     case o_memcpy:
+                        print_indent(parse_tiramisu_level - 1);
+                        std::cerr << "tiramisu_expr.get_op_type(): o_memcpy" << "\n";
                         assert(tiramisu_expr.get_operand(0).get_expr_type() == e_var && tiramisu_expr.get_operand(1).get_expr_type() == e_var && "Can only transfer from buffers to buffers");
                         ret = statement_ptr {new cuda_ast::memcpy{this->get_buffer(tiramisu_expr.get_operand(0).get_name()), this->get_buffer(tiramisu_expr.get_operand(1).get_name())}};
                     break;
                     default: {
+                        print_indent(parse_tiramisu_level - 1);
+                        std::cerr << "tiramisu_expr.get_op_type(): default" << "\n";
 //                        auto it = cuda_ast::tiramisu_operation_description(tiramisu_expr.get_op_type());
 //                        assert(it != cuda_ast::tiramisu_operation_description.cend());
                         const op_data_t &op_data = cuda_ast::tiramisu_operation_description(tiramisu_expr.get_op_type());//it->second;
