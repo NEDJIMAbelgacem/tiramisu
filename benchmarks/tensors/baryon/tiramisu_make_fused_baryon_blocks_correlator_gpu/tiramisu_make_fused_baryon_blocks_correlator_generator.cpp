@@ -222,6 +222,32 @@ void generate_function(std::string name)
     buffer src_spins_cpu("src_spins_cpu", {rp}, p_int32, a_input);
     buffer sigs_cpu("sigs_cpu", {nperm}, p_int32, a_input);
 
+
+#if GPU_PARALLEL
+
+    var t1("t1"), t2("t2");
+    C_init_r.split(t, 4, t1, t2);
+    C_init_i.split(t, 4, t1, t2);
+    B1_Blocal_r1_r_init.split(t, 4, t1, t2);
+    B1_Blocal_r1_i_init.split(t, 4, t1, t2);
+    B1_Blocal_r2_r_init.split(t, 4, t1, t2);
+    B1_Blocal_r2_i_init.split(t, 4, t1, t2);
+    C_prop_init_r.split(t, 4, t1, t2);
+    C_prop_init_i.split(t, 4, t1, t2);
+
+    C_init_r.tag_gpu_level(t1, t2);
+    C_init_i.tag_gpu_level(t1, t2);
+
+    B1_Blocal_r1_r_init.tag_gpu_level(t1, t2);
+    B1_Blocal_r1_i_init.tag_gpu_level(t1, t2);
+    B1_Blocal_r2_r_init.tag_gpu_level(t1, t2);
+    B1_Blocal_r2_i_init.tag_gpu_level(t1, t2);
+
+    C_prop_init_r.tag_gpu_level(t1, t2);
+    C_prop_init_i.tag_gpu_level(t1, t2);
+
+#endif
+
     computation* handle = &(C_init_r
           .then(C_init_i, n)
     );
@@ -273,21 +299,6 @@ void generate_function(std::string name)
     B1_Blocal_r2_r_init.tag_distribute_level(t);
 
     C_prop_init_r.tag_distribute_level(t);
-
-#endif
-
-#if GPU_PARALLEL
-
-    C_init_r.tag_gpu_level(t);
-    C_init_i.tag_gpu_level(t);
-
-    B1_Blocal_r1_r_init.tag_gpu_level(t);
-    B1_Blocal_r1_i_init.tag_gpu_level(t);
-    B1_Blocal_r2_r_init.tag_gpu_level(t);
-    B1_Blocal_r2_i_init.tag_gpu_level(t);
-
-    C_prop_init_r.tag_gpu_level(t);
-    C_prop_init_i.tag_gpu_level(t);
 
 #endif
 
