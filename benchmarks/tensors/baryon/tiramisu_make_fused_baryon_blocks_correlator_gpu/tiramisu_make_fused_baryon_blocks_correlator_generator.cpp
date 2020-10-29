@@ -218,90 +218,6 @@ void generate_function(std::string name)
     buffer src_spins_cpu("src_spins_cpu", {rp}, p_int32, a_input);
     buffer sigs_cpu("sigs_cpu", {nperm}, p_int32, a_input);
 
-
-#if GPU_PARALLEL
-
-    var t1("t1"), t2("t2");
-    C_init_r.split(t, 4, t1, t2);
-    C_init_i.split(t, 4, t1, t2);
-    // B1_Blocal_r1_r_init.split(t, 4, t1, t2);
-    // B1_Blocal_r1_i_init.split(t, 4, t1, t2);
-    // B1_Blocal_r2_r_init.split(t, 4, t1, t2);
-    // B1_Blocal_r2_i_init.split(t, 4, t1, t2);
-    // C_prop_init_r.split(t, 4, t1, t2);
-    // C_prop_init_i.split(t, 4, t1, t2);
-
-    C_init_r.tag_gpu_level(t1, t2);
-    C_init_i.tag_gpu_level(t1, t2);
-
-    // B1_Blocal_r1_r_init.tag_gpu_level(t1, t2);
-    // B1_Blocal_r1_i_init.tag_gpu_level(t1, t2);
-    // B1_Blocal_r2_r_init.tag_gpu_level(t1, t2);
-    // B1_Blocal_r2_i_init.tag_gpu_level(t1, t2);
-
-    // C_prop_init_r.tag_gpu_level(t1, t2);
-    // C_prop_init_i.tag_gpu_level(t1, t2);
-
-#endif
-
-    computation* handle = &(C_init_r
-          .then(C_init_i, n)
-    );
-
-    // first the x only arrays
-    handle = &(handle
-        ->then(B1_Blocal_r1_r_init, t)
-        .then(B1_Blocal_r1_i_init, jSprime)
-        .then(B1_Blocal_r1_r_props_init, x_in)
-        .then(B1_Blocal_r1_i_props_init, jSprime)
-        .then(B1_Blocal_r1_r_diquark, y)
-        .then(B1_Blocal_r1_i_diquark, wnumBlock)
-        .then(B1_Blocal_r1_r_props, wnumBlock)
-        .then(B1_Blocal_r1_i_props, jSprime)
-        .then(B1_Blocal_r1_r_update, y)
-        .then(B1_Blocal_r1_i_update, m)
-        .then(B1_Blocal_r2_r_init, x_in)
-        .then(B1_Blocal_r2_i_init, jSprime)
-        .then(B1_Blocal_r2_r_props_init, x_in)
-        .then(B1_Blocal_r2_i_props_init, jSprime)
-        .then(B1_Blocal_r2_r_diquark, y)
-        .then(B1_Blocal_r2_i_diquark, wnumBlock)
-        .then(B1_Blocal_r2_r_props, wnumBlock)
-        .then(B1_Blocal_r2_i_props, jSprime)
-        .then(B1_Blocal_r2_r_update, y)
-        .then(B1_Blocal_r2_i_update, m));
-
-    handle = &(handle 
-          ->then(C_prop_init_r, x_in) 
-          .then(C_prop_init_i, r)
-          .then( *(new_term_0_r1_b1.get_real()), r)
-          .then( *(new_term_0_r1_b1.get_imag()), wnum)
-          .then( *(new_term_0_r2_b1.get_real()), wnum)
-          .then( *(new_term_0_r2_b1.get_imag()), wnum)
-          .then(C_prop_update_r, wnum) 
-          .then(C_prop_update_i, wnum)
-          .then(C_update_r, r) 
-          .then(C_update_i, n));
-
-#if VECTORIZED
-
-#endif
-
-#if PARALLEL
-
-    C_init_r.tag_distribute_level(t);
-
-    B1_Blocal_r1_r_init.tag_distribute_level(t);
-    B1_Blocal_r2_r_init.tag_distribute_level(t);
-
-    C_prop_init_r.tag_distribute_level(t);
-
-#endif
-
-    // -------------------------------------------------------
-    // Layer III
-    // -------------------------------------------------------
-
     buffer buf_B1_Blocal_r1_r("buf_B1_Blocal_r1_r",   {Nc, Ns, Nc, Ns, Nc, Ns, NsrcHex}, p_float64, a_temporary);
     buffer buf_B1_Blocal_r1_i("buf_B1_Blocal_r1_i",   {Nc, Ns, Nc, Ns, Nc, Ns, NsrcHex}, p_float64, a_temporary);
     buf_B1_Blocal_r1_r.tag_gpu_global();
@@ -419,6 +335,36 @@ void generate_function(std::string name)
     computation copy_snk_weights_device_to_host({}, memcpy(*snk_weights.get_buffer(), snk_weights_cpu));
     computation copy_sigs_device_to_host({}, memcpy(*sigs.get_buffer(), sigs_cpu));
 
+#if GPU_PARALLEL
+
+    var t1("t1"), t2("t2");
+    C_init_r.split(t, 4, t1, t2);
+    C_init_i.split(t, 4, t1, t2);
+    // B1_Blocal_r1_r_init.split(t, 4, t1, t2);
+    // B1_Blocal_r1_i_init.split(t, 4, t1, t2);
+    // B1_Blocal_r2_r_init.split(t, 4, t1, t2);
+    // B1_Blocal_r2_i_init.split(t, 4, t1, t2);
+    // C_prop_init_r.split(t, 4, t1, t2);
+    // C_prop_init_i.split(t, 4, t1, t2);
+
+    C_init_r.tag_gpu_level(t1, t2);
+    C_init_i.tag_gpu_level(t1, t2);
+
+    // B1_Blocal_r1_r_init.tag_gpu_level(t1, t2);
+    // B1_Blocal_r1_i_init.tag_gpu_level(t1, t2);
+    // B1_Blocal_r2_r_init.tag_gpu_level(t1, t2);
+    // B1_Blocal_r2_i_init.tag_gpu_level(t1, t2);
+
+    // C_prop_init_r.tag_gpu_level(t1, t2);
+    // C_prop_init_i.tag_gpu_level(t1, t2);
+
+#endif
+
+
+    // -------------------------------------------------------
+    // Layer III
+    // -------------------------------------------------------
+
     copy_buf_C_r_host_to_device.then(copy_buf_C_i_host_to_device, computation::root)
                                 .then(copy_B1_prop_r_host_to_device, computation::root)
                                 .then(copy_B1_prop_i_host_to_device, computation::root)
@@ -453,6 +399,59 @@ void generate_function(std::string name)
             .then(copy_snk_weights_device_to_host, computation::root)
             .then(copy_sigs_device_to_host, computation::root);
 
+    computation* handle = &(C_init_r
+          .then(C_init_i, n)
+    );
+
+    // first the x only arrays
+    handle = &(handle
+        ->then(B1_Blocal_r1_r_init, t)
+        .then(B1_Blocal_r1_i_init, jSprime)
+        .then(B1_Blocal_r1_r_props_init, x_in)
+        .then(B1_Blocal_r1_i_props_init, jSprime)
+        .then(B1_Blocal_r1_r_diquark, y)
+        .then(B1_Blocal_r1_i_diquark, wnumBlock)
+        .then(B1_Blocal_r1_r_props, wnumBlock)
+        .then(B1_Blocal_r1_i_props, jSprime)
+        .then(B1_Blocal_r1_r_update, y)
+        .then(B1_Blocal_r1_i_update, m)
+        .then(B1_Blocal_r2_r_init, x_in)
+        .then(B1_Blocal_r2_i_init, jSprime)
+        .then(B1_Blocal_r2_r_props_init, x_in)
+        .then(B1_Blocal_r2_i_props_init, jSprime)
+        .then(B1_Blocal_r2_r_diquark, y)
+        .then(B1_Blocal_r2_i_diquark, wnumBlock)
+        .then(B1_Blocal_r2_r_props, wnumBlock)
+        .then(B1_Blocal_r2_i_props, jSprime)
+        .then(B1_Blocal_r2_r_update, y)
+        .then(B1_Blocal_r2_i_update, m));
+
+    handle = &(handle 
+          ->then(C_prop_init_r, x_in) 
+          .then(C_prop_init_i, r)
+          .then( *(new_term_0_r1_b1.get_real()), r)
+          .then( *(new_term_0_r1_b1.get_imag()), wnum)
+          .then( *(new_term_0_r2_b1.get_real()), wnum)
+          .then( *(new_term_0_r2_b1.get_imag()), wnum)
+          .then(C_prop_update_r, wnum) 
+          .then(C_prop_update_i, wnum)
+          .then(C_update_r, r) 
+          .then(C_update_i, n));
+
+#if VECTORIZED
+
+#endif
+
+#if PARALLEL
+
+    C_init_r.tag_distribute_level(t);
+
+    B1_Blocal_r1_r_init.tag_distribute_level(t);
+    B1_Blocal_r2_r_init.tag_distribute_level(t);
+
+    C_prop_init_r.tag_distribute_level(t);
+
+#endif
 
     // -------------------------------------------------------
     // Code Generation
