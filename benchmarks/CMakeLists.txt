@@ -37,3 +37,4 @@ add_subdirectory(DNN/blocks/Resize-Conv-ReLU-MaxPool/cpu/sparse)
 add_subdirectory(DNN/blocks/Conv-Relu-FC-Softmax/cpu/dense)
 
 add_subdirectory(tensors/baryon/gpu)
+add_subdirectory(tensors/baryon/tiramisu_make_fused_baryon_blocks_correlator_gpu)
