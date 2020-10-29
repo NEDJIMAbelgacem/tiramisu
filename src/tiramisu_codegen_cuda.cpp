@@ -360,6 +360,7 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
     cuda_ast::statement_ptr cuda_ast::generator::parse_tiramisu(const tiramisu::expr &tiramisu_expr) {
         static int parse_tiramisu_level = 0;
         for (int i = 0; i < parse_tiramisu_level; ++i) std::cerr << "\t";
+        parse_tiramisu_level++;
         std::cerr << "cuda_ast::generator::parse_tiramisu(" << tiramisu_expr.to_str() << "\n";
         tiramisu::cuda_ast::statement_ptr ret;
         switch (tiramisu_expr.get_expr_type()) {
