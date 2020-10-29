@@ -367,8 +367,8 @@ void generate_function(std::string name)
     // Layer III
     // -------------------------------------------------------
 
-    copy_buf_C_r_host_to_device.then(copy_buf_C_i_host_to_device, computation::root)
-                                .then(copy_B1_prop_r_host_to_device, computation::root)
+    copy_B1_prop_r_host_to_device.then(copy_buf_C_r_host_to_device, computation::root)
+                                .then(copy_buf_C_i_host_to_device, computation::root)
                                 .then(copy_B1_prop_i_host_to_device, computation::root)
                                 .then(copy_src_psi_B1_r_host_to_device, computation::root)
                                 .then(copy_src_psi_B1_i_host_to_device, computation::root)
