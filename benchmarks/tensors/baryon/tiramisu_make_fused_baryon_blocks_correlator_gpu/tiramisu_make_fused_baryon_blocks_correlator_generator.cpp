@@ -201,10 +201,10 @@ void generate_function(std::string name)
         // &snk_weights_cpu,
         // &sigs_cpu
         // }, 
-    buffer buf_C_r_cpu("buf_C_r_cpu", {Lt, Vsnk/sites_per_rank, B1Nrows, NsrcHex, B1Nrows, NsnkHex}, p_float64, a_input);
-    buffer buf_C_i_cpu("buf_C_i_cpu", {Lt, Vsnk/sites_per_rank, B1Nrows, NsrcHex, B1Nrows, NsnkHex}, p_float64, a_input);
-    buffer B1_prop_r_cpu("B1_prop_r_cpu",   {tri, t, iCprime, iSprime, jCprime, jSprime, x, y}, p_float64, a_input);
-    buffer B1_prop_i_cpu("B1_prop_i_cpu",   {tri, t, iCprime, iSprime, jCprime, jSprime, x, y}, p_float64, a_input);
+    buffer buf_C_r_cpu("buf_C_r_cpu", {t, x_out, rp, m, r, n}, p_float64, a_input);
+    buffer buf_C_i_cpu("buf_C_i_cpu", {t, x_out, rp, m, r, n}, p_float64, a_input);
+    buffer B1_prop_r_cpu("B1_prop_r_cpu",   {t, iCprime, iSprime, jCprime, jSprime, x, y, tri}, p_float64, a_input);
+    buffer B1_prop_i_cpu("B1_prop_i_cpu",   {t, iCprime, iSprime, jCprime, jSprime, x, y, tri}, p_float64, a_input);
     buffer src_psi_B1_r_cpu("src_psi_B1_r_cpu",    {y, m}, p_float64, a_input);
     buffer src_psi_B1_i_cpu("src_psi_B1_i_cpu",    {y, m}, p_float64, a_input);
     buffer snk_psi_r_cpu("snk_psi_r_cpu", {x, n}, p_float64, a_input);
@@ -266,8 +266,10 @@ void generate_function(std::string name)
 
     /* Correlator */
 
-    buffer buf_C_r("buf_C_r", {Lt, Vsnk/sites_per_rank, B1Nrows, NsrcHex, B1Nrows, NsnkHex}, p_float64, a_input);
-    buffer buf_C_i("buf_C_i", {Lt, Vsnk/sites_per_rank, B1Nrows, NsrcHex, B1Nrows, NsnkHex}, p_float64, a_input);
+
+
+    buffer buf_C_r("buf_C_r", {t, x_out, rp, m, r, n}, p_float64, a_input);
+    buffer buf_C_i("buf_C_i", {t, x_out, rp, m, r, n}, p_float64, a_input);
     buf_C_r.tag_gpu_global();
     buf_C_i.tag_gpu_global();
 
