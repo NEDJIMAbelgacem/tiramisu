@@ -359,15 +359,23 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
 
     cuda_ast::statement_ptr cuda_ast::generator::parse_tiramisu(const tiramisu::expr &tiramisu_expr) {
         static int parse_tiramisu_level = 0;
-        for (int i = 0; i < parse_tiramisu_level; ++i) std::cerr << "\t";
-        parse_tiramisu_level++;
+        auto print_indent = [&](int indent_size) 
+        {
+            for (int i = 0; i < indent_size; ++i) std::cerr << "\t";
+        };
+        print_indent(parse_tiramisu_level);
         std::cerr << "cuda_ast::generator::parse_tiramisu(" << tiramisu_expr.to_str() << "\n";
+        parse_tiramisu_level++;
         tiramisu::cuda_ast::statement_ptr ret;
         switch (tiramisu_expr.get_expr_type()) {
             case e_val:
+                print_indent(parse_tiramisu_level - 1);
+                std::cerr << "tiramisu_expr.get_expr_type(): e_val" << "\n";
                 ret = statement_ptr{new cuda_ast::value{tiramisu_expr}};
             break;
             case e_var:
+                print_indent(parse_tiramisu_level - 1);
+                std::cerr << "tiramisu_expr.get_expr_type(): e_var" << "\n";
                 // o_call might get buffer as input parameter, in which case the
                 // buffer is interpreted as a var. If so, create scalar_ptr for
                 // the buffer.
@@ -383,6 +391,8 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
             case e_none:
                 assert(false);
             case e_op: {
+                print_indent(parse_tiramisu_level - 1);
+                std::cerr << "tiramisu_expr.get_expr_type(): e_op" << "\n";
                 switch (tiramisu_expr.get_op_type()) {
                     case o_access: {
                         buffer_ptr b = this->get_buffer(tiramisu_expr.get_name());
