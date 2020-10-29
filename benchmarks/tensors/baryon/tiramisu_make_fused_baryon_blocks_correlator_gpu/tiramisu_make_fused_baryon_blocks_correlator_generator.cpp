@@ -37,8 +37,8 @@ void generate_function(std::string name)
 
    input C_r("C_r",      {t, x_out, rp, m, r, n}, p_float64);
    input C_i("C_i",      {t, x_out, rp, m, r, n}, p_float64);
-   input B1_prop_r("B1_prop_r",   {tri, t, iCprime, iSprime, jCprime, jSprime, x, y}, p_float64);
-   input B1_prop_i("B1_prop_i",   {tri, t, iCprime, iSprime, jCprime, jSprime, x, y}, p_float64);
+   input B1_prop_r("B1_prop_r",   {t, iCprime, iSprime, jCprime, jSprime, x, y, tri}, p_float64);
+   input B1_prop_i("B1_prop_i",   {t, iCprime, iSprime, jCprime, jSprime, x, y, tri}, p_float64);
    input src_psi_B1_r("src_psi_B1_r",    {y, m}, p_float64);
    input src_psi_B1_i("src_psi_B1_i",    {y, m}, p_float64);
    input snk_psi_r("snk_psi_r", {x, n}, p_float64); 
@@ -81,9 +81,9 @@ void generate_function(std::string name)
 
     complex_computation B1_Blocal_r1_init(&B1_Blocal_r1_r_init, &B1_Blocal_r1_i_init);
 
-    complex_expr B1_r1_prop_0 =  B1_prop(cast(p_int32, 0), t, iCprime, iSprime, src_color_weights(0, wnumBlock, 0), src_spin_weights(0, wnumBlock, 0), x_out*sites_per_rank+x_in, y);
-    complex_expr B1_r1_prop_1 =  B1_prop(cast(p_int32, 1), t, jCprime, jSprime, src_color_weights(0, wnumBlock, 1), src_spin_weights(0, wnumBlock, 1), x_out*sites_per_rank+x_in, y);
-    complex_expr B1_r1_prop_2 =  B1_prop(cast(p_int32, 2), t, kCprime, kSprime, src_color_weights(0, wnumBlock, 2), src_spin_weights(0, wnumBlock, 2), x_out*sites_per_rank+x_in, y);
+    complex_expr B1_r1_prop_0 =  B1_prop(t, iCprime, iSprime, src_color_weights(0, wnumBlock, 0), src_spin_weights(0, wnumBlock, 0), x_out*sites_per_rank+x_in, y, 0);
+    complex_expr B1_r1_prop_1 =  B1_prop(t, jCprime, jSprime, src_color_weights(0, wnumBlock, 1), src_spin_weights(0, wnumBlock, 1), x_out*sites_per_rank+x_in, y, 1);
+    complex_expr B1_r1_prop_2 =  B1_prop(t, kCprime, kSprime, src_color_weights(0, wnumBlock, 2), src_spin_weights(0, wnumBlock, 2), x_out*sites_per_rank+x_in, y, 2);
 
     complex_expr B1_r1_diquark = ( B1_r1_prop_0 * B1_r1_prop_2 ) *  src_weights(0, wnumBlock);
 
@@ -123,11 +123,11 @@ void generate_function(std::string name)
 
     complex_computation B1_Blocal_r2_init(&B1_Blocal_r2_r_init, &B1_Blocal_r2_i_init);
 
-    complex_expr B1_r2_prop_0 =  B1_prop(cast(p_int32, 0), t, iCprime, iSprime, src_color_weights(1, wnumBlock, 0), src_spin_weights(1, wnumBlock, 0), x_out*sites_per_rank+x_in, y);
-    complex_expr B1_r2_prop_2 =  B1_prop(cast(p_int32, 2), t, kCprime, kSprime, src_color_weights(1, wnumBlock, 2), src_spin_weights(1, wnumBlock, 2), x_out*sites_per_rank+x_in, y);
-    complex_expr B1_r2_prop_0p = B1_prop(cast(p_int32, 0), t, kCprime, kSprime, src_color_weights(1, wnumBlock, 0), src_spin_weights(1, wnumBlock, 0), x_out*sites_per_rank+x_in, y);
-    complex_expr B1_r2_prop_2p = B1_prop(cast(p_int32, 2), t, iCprime, iSprime, src_color_weights(1, wnumBlock, 2), src_spin_weights(1, wnumBlock, 2), x_out*sites_per_rank+x_in, y);
-    complex_expr B1_r2_prop_1 = B1_prop(expr(1), t, jCprime, jSprime, src_color_weights(1, wnumBlock, 1), src_spin_weights(1, wnumBlock, 1), x_out*sites_per_rank+x_in, y);
+    complex_expr B1_r2_prop_0 =  B1_prop(t, iCprime, iSprime, src_color_weights(1, wnumBlock, 0), src_spin_weights(1, wnumBlock, 0), x_out*sites_per_rank+x_in, y, 0);
+    complex_expr B1_r2_prop_2 =  B1_prop(t, kCprime, kSprime, src_color_weights(1, wnumBlock, 2), src_spin_weights(1, wnumBlock, 2), x_out*sites_per_rank+x_in, y, 2);
+    complex_expr B1_r2_prop_0p = B1_prop(t, kCprime, kSprime, src_color_weights(1, wnumBlock, 0), src_spin_weights(1, wnumBlock, 0), x_out*sites_per_rank+x_in, y, 0);
+    complex_expr B1_r2_prop_2p = B1_prop(t, iCprime, iSprime, src_color_weights(1, wnumBlock, 2), src_spin_weights(1, wnumBlock, 2), x_out*sites_per_rank+x_in, y, 2);
+    complex_expr B1_r2_prop_1 = B1_prop(t, jCprime, jSprime, src_color_weights(1, wnumBlock, 1), src_spin_weights(1, wnumBlock, 1), x_out*sites_per_rank+x_in, y, 1);
 
     complex_expr B1_r2_diquark = ( B1_r2_prop_0 * B1_r2_prop_2 ) *  src_weights(1, wnumBlock);
 
