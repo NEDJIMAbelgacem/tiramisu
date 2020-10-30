@@ -336,7 +336,6 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
                 std::string id_string(isl_id_get_name(id));
                 DEBUG(3, std::cout << '"' << id_string << '"');
                 // TODO handle scheduled lets
-                std::cerr << "cuda_stmt_handle_isl_expr : about to execute get_scalar_from_name with " << id_string << std::endl;
                 return get_scalar_from_name(id_string);
             }
             case isl_ast_expr_int: {
@@ -450,6 +449,8 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
                         std::cerr << "tiramisu_expr.get_op_type(): o_memcpy" << "\n";
                         assert(tiramisu_expr.get_operand(0).get_expr_type() == e_var && tiramisu_expr.get_operand(1).get_expr_type() == e_var && "Can only transfer from buffers to buffers");
                         ret = statement_ptr {new cuda_ast::memcpy{this->get_buffer(tiramisu_expr.get_operand(0).get_name()), this->get_buffer(tiramisu_expr.get_operand(1).get_name())}};
+                        parse_tiramisu_level--;
+                        return ret;
                     break;
                     default: {
                         print_indent(parse_tiramisu_level - 1);
