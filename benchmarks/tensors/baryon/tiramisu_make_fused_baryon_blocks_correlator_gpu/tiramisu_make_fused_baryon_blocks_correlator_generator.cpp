@@ -92,8 +92,8 @@ void generate_function(std::string name)
     src_psi_B1_i.store_in(&buf_src_psi_B1_i);
     snk_psi_r.store_in(&buf_snk_psi_r);
     snk_psi_i.store_in(&buf_snk_psi_i);
-    src_color_weights.store_in(&buf_src_color_weights);
-    src_spin_weights.store_in(&buf_src_spin_weights);
+    src_color_weights.store_in(&buf_src_color_weights, {rp, wnum, q});
+    src_spin_weights.store_in(&buf_src_spin_weights, {rp, wnum, q});
     src_weights.store_in(&buf_src_weights);
     snk_color_weights.store_in(&buf_snk_color_weights);
     snk_spin_weights.store_in(&buf_snk_spin_weights);
