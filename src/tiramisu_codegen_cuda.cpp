@@ -512,7 +512,7 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
     cuda_ast::buffer_ptr cuda_ast::generator::get_buffer(const std::string &name) {
         const std::map<std::string, tiramisu::buffer *> &buffers = m_fct.get_buffers();
         auto it = buffers.find(name);
-        cuda_ast::buffer_ptr buffer;
+        tiramisu::buffer *buffer = nullptr;
         if (it != buffers.end()) {
             buffer = it->second;
         } else {
