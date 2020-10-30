@@ -95,8 +95,8 @@ void generate_function(std::string name)
     src_color_weights.store_in(&buf_src_color_weights, {rp, wnum, q});
     src_spin_weights.store_in(&buf_src_spin_weights, {rp, wnum, q});
     src_weights.store_in(&buf_src_weights);
-    snk_color_weights.store_in(&buf_snk_color_weights);
-    snk_spin_weights.store_in(&buf_snk_spin_weights);
+    snk_color_weights.store_in(&buf_snk_color_weights, {r, nperm, wnum, q});
+    snk_spin_weights.store_in(&buf_snk_spin_weights, {r, nperm, wnum, q});
     snk_weights.store_in(&buf_snk_weights);
     src_spins.store_in(&buf_src_spins);
     sigs.store_in(&buf_sigs);
