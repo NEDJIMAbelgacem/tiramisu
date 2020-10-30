@@ -14,7 +14,7 @@ void generate_function(std::string name)
 {
     tiramisu::init(name);
 
-    var r("r", 0, B1Nrows),
+    var r("r", 0, 6969);//B1Nrows),
         rp("rp", 0, B1Nrows),
         nperm("nperm", 0, B1Nperms),
         q("q", 0, Nq),
