@@ -498,7 +498,10 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
             default:
                 assert(false);
         }
+        
         parse_tiramisu_level--;
+        print_indent(parse_tiramisu_level);
+        std::cerr << "ended\n";
         return ret;
     }
 
