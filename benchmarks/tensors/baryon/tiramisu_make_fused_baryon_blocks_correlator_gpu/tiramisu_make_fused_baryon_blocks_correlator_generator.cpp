@@ -305,8 +305,8 @@ void generate_function(std::string name)
 
     computation copy_buf_C_r_host_to_device({}, memcpy(buf_C_r_cpu, buf_C_r));
     computation copy_buf_C_i_host_to_device({}, memcpy(buf_C_i_cpu, buf_C_i));
-    computation copy_B1_prop_r_host_to_device({}, memcpy(B1_prop_r_cpu, *B1_prop_r.get_buffer()));
-    computation copy_B1_prop_i_host_to_device({}, memcpy(B1_prop_i_cpu, *B1_prop_i.get_buffer()));
+    computation copy_B1_prop_r_host_to_device({t, iCprime, iSprime, jCprime, jSprime, x, y, tri}, memcpy(B1_prop_r_cpu, *B1_prop_r.get_buffer()));
+    computation copy_B1_prop_i_host_to_device({t, iCprime, iSprime, jCprime, jSprime, x, y, tri}, memcpy(B1_prop_i_cpu, *B1_prop_i.get_buffer()));
     computation copy_src_psi_B1_r_host_to_device({}, memcpy(src_psi_B1_r_cpu, *src_psi_B1_r.get_buffer()));
     computation copy_src_psi_B1_i_host_to_device({}, memcpy(src_psi_B1_i_cpu, *src_psi_B1_i.get_buffer()));
     computation copy_snk_psi_r_host_to_device({}, memcpy(snk_psi_r_cpu, *snk_psi_r.get_buffer()));
