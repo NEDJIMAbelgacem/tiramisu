@@ -52,8 +52,8 @@ void generate_function(std::string name)
    input src_spins("src_spins", {rp}, p_int32);
    input sigs("sigs", {nperm}, p_int32);
 
-    buffer buf_C_r("buf_C_r", {t, x_out, rp, m, r, n}, p_float64, a_temporary);
-    buffer buf_C_i("buf_C_i", {t, x_out, rp, m, r, n}, p_float64, a_temporary);
+    // buffer buf_C_r("buf_C_r", {t, x_out, rp, m, r, n}, p_float64, a_temporary);
+    // buffer buf_C_i("buf_C_i", {t, x_out, rp, m, r, n}, p_float64, a_temporary);
     buffer buf_B1_prop_r("buf_B1_prop_r",   {t, iCprime, iSprime, jCprime, jSprime, x, y, tri}, p_float64, a_temporary);
     buffer buf_B1_prop_i("buf_B1_prop_i",   {t, iCprime, iSprime, jCprime, jSprime, x, y, tri}, p_float64, a_temporary);
     buffer buf_src_psi_B1_r("buf_src_psi_B1_r",    {y, m}, p_float64, a_temporary);
@@ -69,8 +69,8 @@ void generate_function(std::string name)
     buffer buf_src_spins("buf_src_spins", {rp}, p_int32, a_temporary);
     buffer buf_sigs("buf_sigs", {nperm}, p_int32, a_temporary);
 
-    C_r.store_in(&buf_C_r);
-    C_i.store_in(&buf_C_i);
+    // C_r.store_in(&buf_C_r);
+    // C_i.store_in(&buf_C_i);
     B1_prop_r.store_in(&buf_B1_prop_r);
     B1_prop_i.store_in(&buf_B1_prop_i);
     src_psi_B1_r.store_in(&buf_src_psi_B1_r);
@@ -87,8 +87,8 @@ void generate_function(std::string name)
     sigs.store_in(&buf_sigs);
 
 
-   buf_C_r.tag_gpu_global();
-   buf_C_i.tag_gpu_global();
+//    buf_C_r.tag_gpu_global();
+//    buf_C_i.tag_gpu_global();
    buf_B1_prop_r.tag_gpu_global();
    buf_B1_prop_i.tag_gpu_global();
    buf_src_psi_B1_r.tag_gpu_global();
