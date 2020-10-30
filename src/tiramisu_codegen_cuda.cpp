@@ -510,10 +510,13 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
     }
 
     cuda_ast::buffer_ptr cuda_ast::generator::get_buffer(const std::string &name) {
-        const std::map<std::string, tiramisu::buffer *> &buffers = m_fct.get_buffers();
-        auto it = buffers.find(name);
-        tiramisu::buffer *buffer = nullptr;
-        if (it != buffers.end()) {
+        std::cerr << "cuda_ast::generator::get_buffer( " << name << " )" << "\n";
+        std::cerr << "Available buffers: ";
+        for (std::pair<std::string, cuda_ast::buffer_ptr> p : m_buffers) std::cerr << p.first << " ";
+        std::cerr << std::endl;
+        auto it = m_buffers.find(name);
+        cuda_ast::buffer_ptr buffer;
+        if (it != m_buffers.end()) {
             buffer = it->second;
         } else {
             auto tiramisu_buffer = this->m_fct.get_buffers().at(name);
@@ -523,7 +526,7 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
             }
             buffer = buffer_ptr{new cuda_ast::buffer{tiramisu_buffer->get_elements_type(), tiramisu_buffer->get_name(),
                                                      tiramisu_buffer->location, sizes}};
-            buffers[name] = buffer;
+            m_buffers[name] = buffer;
         }
         if (in_kernel && gpu_local.find(name) == gpu_local.end()) {
             current_kernel->add_used_buffer(buffer);
