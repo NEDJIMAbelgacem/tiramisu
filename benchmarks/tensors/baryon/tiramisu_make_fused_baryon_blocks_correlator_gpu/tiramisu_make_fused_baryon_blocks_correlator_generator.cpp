@@ -341,8 +341,8 @@ void generate_function(std::string name)
 
     computation copy_buf_C_r_host_to_device({}, memcpy(buf_C_r_cpu, buf_C_r));
     computation copy_buf_C_i_host_to_device({}, memcpy(buf_C_i_cpu, buf_C_i));
-    computation copy_B1_prop_r_host_to_device({t, iCprime, iSprime, jCprime, jSprime, x, y, tri}, memcpy(B1_prop_r_cpu, buf_B1_prop_r));
-    computation copy_B1_prop_i_host_to_device({t, iCprime, iSprime, jCprime, jSprime, x, y, tri}, memcpy(B1_prop_i_cpu, buf_B1_prop_i));
+    computation copy_B1_prop_r_host_to_device({}, memcpy(B1_prop_r_cpu, buf_B1_prop_r));
+    computation copy_B1_prop_i_host_to_device({}, memcpy(B1_prop_i_cpu, buf_B1_prop_i));
     computation copy_src_psi_B1_r_host_to_device({}, memcpy(src_psi_B1_r_cpu, buf_src_psi_B1_r));
     computation copy_src_psi_B1_i_host_to_device({}, memcpy(src_psi_B1_i_cpu, buf_src_psi_B1_i));
     computation copy_snk_psi_r_host_to_device({}, memcpy(snk_psi_r_cpu, buf_snk_psi_r));
