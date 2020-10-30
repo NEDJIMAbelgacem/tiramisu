@@ -450,7 +450,7 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
                     break;
                     case o_memcpy:
                         print_indent(parse_tiramisu_level - 1);
-                        std::cerr << "tiramisu_expr.get_op_type(): o_memcpy" << "\n";
+                        std::cerr << "tiramisu_expr.get_op_type(): o_memcpy : " << tiramisu_expr.get_operand(0).to_str() << " | " << this->get_buffer(tiramisu_expr.get_operand(1).to_str() << "\n";
                         assert(tiramisu_expr.get_operand(0).get_expr_type() == e_var && tiramisu_expr.get_operand(1).get_expr_type() == e_var && "Can only transfer from buffers to buffers");
                         ret = statement_ptr {new cuda_ast::memcpy{this->get_buffer(tiramisu_expr.get_operand(0).get_name()), this->get_buffer(tiramisu_expr.get_operand(1).get_name())}};
                         parse_tiramisu_level--;
