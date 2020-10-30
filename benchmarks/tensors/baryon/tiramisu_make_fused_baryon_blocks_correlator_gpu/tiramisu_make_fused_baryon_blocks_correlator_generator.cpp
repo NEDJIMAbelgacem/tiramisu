@@ -495,14 +495,15 @@ void generate_function(std::string name)
 
     C_init_r.tag_gpu_level(t);
     C_init_i.tag_gpu_level(t);
+    C_prop_init_r.tag_gpu_level(t);
+    C_prop_init_i.tag_gpu_level(t);
 
     B1_Blocal_r1_r_init.tag_gpu_level(t);
     B1_Blocal_r1_i_init.tag_gpu_level(t);
     B1_Blocal_r2_r_init.tag_gpu_level(t);
     B1_Blocal_r2_i_init.tag_gpu_level(t);
 
-    C_prop_init_r.tag_gpu_level(t);
-    C_prop_init_i.tag_gpu_level(t);
+
 
 #endif
 
