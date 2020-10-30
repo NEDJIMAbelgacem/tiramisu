@@ -392,9 +392,24 @@ void generate_function(std::string name)
     // Layer III
     // -------------------------------------------------------
 
-    computation* handle = &(C_init_r
-          .then(C_init_i, n)
-    );
+    computation* handle = &copy_B1_prop_r_host_to_device.then(copy_buf_C_r_host_to_device, computation::root);
+    handle = &handle->then(copy_buf_C_i_host_to_device, computation::root)
+            .then(copy_B1_prop_i_host_to_device, computation::root)
+            .then(copy_src_psi_B1_r_host_to_device, computation::root)
+            .then(copy_src_psi_B1_i_host_to_device, computation::root)
+            .then(copy_snk_psi_r_host_to_device, computation::root)
+            .then(copy_snk_psi_i_host_to_device, computation::root)
+            .then(copy_src_color_weights_host_to_device, computation::root)
+            .then(copy_src_spin_weights_host_to_device, computation::root)
+            .then(copy_src_weights_host_to_device, computation::root)
+            .then(copy_src_spins_host_to_device, computation::root)
+            .then(copy_snk_color_weights_host_to_device, computation::root)
+            .then(copy_snk_spin_weights_host_to_device, computation::root)
+            .then(copy_snk_weights_host_to_device, computation::root)
+            .then(copy_sigs_host_to_device, computation::root)
+            .then(C_init_r, computation::root);
+
+    handle = &handle->then(C_init_i, n);
 
     // first the x only arrays
     handle = &(handle
@@ -430,25 +445,9 @@ void generate_function(std::string name)
           .then(C_prop_update_i, wnum)
           .then(C_update_r, r) 
           .then(C_update_i, n));
+    
 
-    copy_B1_prop_r_host_to_device.then(copy_buf_C_r_host_to_device, computation::root)
-                                .then(copy_buf_C_i_host_to_device, computation::root)
-                                .then(copy_B1_prop_i_host_to_device, computation::root)
-                                .then(copy_src_psi_B1_r_host_to_device, computation::root)
-                                .then(copy_src_psi_B1_i_host_to_device, computation::root)
-                                .then(copy_snk_psi_r_host_to_device, computation::root)
-                                .then(copy_snk_psi_i_host_to_device, computation::root)
-                                .then(copy_src_color_weights_host_to_device, computation::root)
-                                .then(copy_src_spin_weights_host_to_device, computation::root)
-                                .then(copy_src_weights_host_to_device, computation::root)
-                                .then(copy_src_spins_host_to_device, computation::root)
-                                // .then(copy_snk_color_weights_host_to_device, computation::root)
-                                // .then(copy_snk_spin_weights_host_to_device, computation::root)
-                                // .then(copy_snk_weights_host_to_device, computation::root)
-                                // .then(copy_sigs_host_to_device, computation::root)
-                                .then(C_init_r, computation::root);
-
-    C_init_i.then(copy_buf_C_r_device_to_host, computation::root)
+    handle = &handle->then(copy_buf_C_r_device_to_host, computation::root)
             .then(copy_buf_C_i_device_to_host, computation::root)
             .then(copy_B1_prop_r_device_to_host, computation::root)
             .then(copy_B1_prop_i_device_to_host, computation::root)
@@ -460,10 +459,10 @@ void generate_function(std::string name)
             .then(copy_src_spin_weights_device_to_host, computation::root)
             .then(copy_src_weights_device_to_host, computation::root)
             .then(copy_src_spins_device_to_host, computation::root)
-            // .then(copy_snk_color_weights_device_to_host, computation::root)
-            // .then(copy_snk_spin_weights_device_to_host, computation::root)
-            // .then(copy_snk_weights_device_to_host, computation::root)
-            // .then(copy_sigs_device_to_host, computation::root)
+            .then(copy_snk_color_weights_device_to_host, computation::root)
+            .then(copy_snk_spin_weights_device_to_host, computation::root)
+            .then(copy_snk_weights_device_to_host, computation::root)
+            .then(copy_sigs_device_to_host, computation::root)
             ;
 
 
