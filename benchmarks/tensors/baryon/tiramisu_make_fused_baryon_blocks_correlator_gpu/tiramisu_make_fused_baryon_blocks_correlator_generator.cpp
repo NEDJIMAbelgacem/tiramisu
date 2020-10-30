@@ -367,7 +367,7 @@ void generate_function(std::string name)
     computation copy_src_weights_host_to_device({}, memcpy(src_weights_cpu, buf_src_weights));
     computation copy_src_spins_host_to_device({}, memcpy(src_spins_cpu, buf_src_spins));
     // computation copy_snk_color_weights_host_to_device({}, memcpy(snk_color_weights_cpu, buf_snk_color_weights));
-    computation copy_snk_spin_weights_host_to_device({}, memcpy(snk_spin_weights_cpu, buf_snk_spin_weights));
+    // computation copy_snk_spin_weights_host_to_device({}, memcpy(snk_spin_weights_cpu, buf_snk_spin_weights));
     // computation copy_snk_weights_host_to_device({}, memcpy(snk_weights_cpu, buf_snk_weights));
     computation copy_sigs_host_to_device({}, memcpy(sigs_cpu, buf_sigs));
 
@@ -384,7 +384,7 @@ void generate_function(std::string name)
     computation copy_src_weights_device_to_host({}, memcpy(*src_weights.get_buffer(), src_weights_cpu));
     computation copy_src_spins_device_to_host({}, memcpy(*src_spins.get_buffer(), src_spins_cpu));
     // computation copy_snk_color_weights_device_to_host({}, memcpy(*snk_color_weights.get_buffer(), snk_color_weights_cpu));
-    computation copy_snk_spin_weights_device_to_host({}, memcpy(*snk_spin_weights.get_buffer(), snk_spin_weights_cpu));
+    // computation copy_snk_spin_weights_device_to_host({}, memcpy(*snk_spin_weights.get_buffer(), snk_spin_weights_cpu));
     // computation copy_snk_weights_device_to_host({}, memcpy(*snk_weights.get_buffer(), snk_weights_cpu));
     computation copy_sigs_device_to_host({}, memcpy(*sigs.get_buffer(), sigs_cpu));
 
@@ -443,7 +443,7 @@ void generate_function(std::string name)
                                 .then(copy_src_weights_host_to_device, computation::root)
                                 .then(copy_src_spins_host_to_device, computation::root)
                                 // .then(copy_snk_color_weights_host_to_device, computation::root)
-                                .then(copy_snk_spin_weights_host_to_device, computation::root)
+                                // .then(copy_snk_spin_weights_host_to_device, computation::root)
                                 // .then(copy_snk_weights_host_to_device, computation::root)
                                 .then(copy_sigs_host_to_device, computation::root)
                                 .then(C_init_r, computation::root);
@@ -461,7 +461,7 @@ void generate_function(std::string name)
             .then(copy_src_weights_device_to_host, computation::root)
             .then(copy_src_spins_device_to_host, computation::root)
             // .then(copy_snk_color_weights_device_to_host, computation::root)
-            .then(copy_snk_spin_weights_device_to_host, computation::root)
+            // .then(copy_snk_spin_weights_device_to_host, computation::root)
             // .then(copy_snk_weights_device_to_host, computation::root)
             .then(copy_sigs_device_to_host, computation::root);
 
