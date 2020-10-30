@@ -341,20 +341,20 @@ void generate_function(std::string name)
 
     computation copy_buf_C_r_host_to_device({}, memcpy(buf_C_r_cpu, buf_C_r));
     computation copy_buf_C_i_host_to_device({}, memcpy(buf_C_i_cpu, buf_C_i));
-    computation copy_B1_prop_r_host_to_device({}, memcpy(B1_prop_r_cpu, *B1_prop_r.get_buffer()));
-    computation copy_B1_prop_i_host_to_device({}, memcpy(B1_prop_i_cpu, *B1_prop_i.get_buffer()));
-    computation copy_src_psi_B1_r_host_to_device({}, memcpy(src_psi_B1_r_cpu, *src_psi_B1_r.get_buffer()));
-    computation copy_src_psi_B1_i_host_to_device({}, memcpy(src_psi_B1_i_cpu, *src_psi_B1_i.get_buffer()));
-    computation copy_snk_psi_r_host_to_device({}, memcpy(snk_psi_r_cpu, *snk_psi_r.get_buffer()));
-    computation copy_snk_psi_i_host_to_device({}, memcpy(snk_psi_i_cpu, *snk_psi_i.get_buffer()));
-    computation copy_src_color_weights_host_to_device({}, memcpy(src_color_weights_cpu, *src_color_weights.get_buffer()));
-    computation copy_src_spin_weights_host_to_device({}, memcpy(src_spin_weights_cpu, *src_spin_weights.get_buffer()));
-    computation copy_src_weights_host_to_device({}, memcpy(src_weights_cpu, *src_weights.get_buffer()));
-    computation copy_src_spins_host_to_device({}, memcpy(src_spins_cpu, *src_spins.get_buffer()));
-    computation copy_snk_color_weights_host_to_device({}, memcpy(snk_color_weights_cpu, *snk_color_weights.get_buffer()));
-    computation copy_snk_spin_weights_host_to_device({}, memcpy(snk_spin_weights_cpu, *snk_spin_weights.get_buffer()));
-    computation copy_snk_weights_host_to_device({}, memcpy(snk_weights_cpu, *snk_weights.get_buffer()));
-    computation copy_sigs_host_to_device({}, memcpy(sigs_cpu, *sigs.get_buffer()));
+    computation copy_B1_prop_r_host_to_device({}, memcpy(B1_prop_r_cpu, buf_B1_prop_r));
+    computation copy_B1_prop_i_host_to_device({}, memcpy(B1_prop_i_cpu, buf_B1_prop_i));
+    computation copy_src_psi_B1_r_host_to_device({}, memcpy(src_psi_B1_r_cpu, buf_src_psi_B1_r));
+    computation copy_src_psi_B1_i_host_to_device({}, memcpy(src_psi_B1_i_cpu, buf_src_psi_B1_i));
+    computation copy_snk_psi_r_host_to_device({}, memcpy(snk_psi_r_cpu, buf_snk_psi_r));
+    computation copy_snk_psi_i_host_to_device({}, memcpy(snk_psi_i_cpu, buf_snk_psi_i));
+    computation copy_src_color_weights_host_to_device({}, memcpy(src_color_weights_cpu, buf_src_color_weights));
+    computation copy_src_spin_weights_host_to_device({}, memcpy(src_spin_weights_cpu, buf_src_spin_weights));
+    computation copy_src_weights_host_to_device({}, memcpy(src_weights_cpu, buf_src_weights));
+    computation copy_src_spins_host_to_device({}, memcpy(src_spins_cpu, buf_src_spins));
+    computation copy_snk_color_weights_host_to_device({}, memcpy(snk_color_weights_cpu, buf_snk_color_weights));
+    computation copy_snk_spin_weights_host_to_device({}, memcpy(snk_spin_weights_cpu, buf_snk_spin_weights));
+    computation copy_snk_weights_host_to_device({}, memcpy(snk_weights_cpu, buf_snk_weights));
+    computation copy_sigs_host_to_device({}, memcpy(sigs_cpu, buf_sigs));
 
     computation copy_buf_C_r_device_to_host({}, memcpy(buf_C_r, buf_C_r_cpu));
     computation copy_buf_C_i_device_to_host({}, memcpy(buf_C_i, buf_C_i_cpu));
@@ -378,23 +378,23 @@ void generate_function(std::string name)
     var t1("t1"), t2("t2");
     C_init_r.split(t, 4, t1, t2);
     C_init_i.split(t, 4, t1, t2);
-    // B1_Blocal_r1_r_init.split(t, 4, t1, t2);
-    // B1_Blocal_r1_i_init.split(t, 4, t1, t2);
-    // B1_Blocal_r2_r_init.split(t, 4, t1, t2);
-    // B1_Blocal_r2_i_init.split(t, 4, t1, t2);
-    // C_prop_init_r.split(t, 4, t1, t2);
-    // C_prop_init_i.split(t, 4, t1, t2);
+    B1_Blocal_r1_r_init.split(t, 4, t1, t2);
+    B1_Blocal_r1_i_init.split(t, 4, t1, t2);
+    B1_Blocal_r2_r_init.split(t, 4, t1, t2);
+    B1_Blocal_r2_i_init.split(t, 4, t1, t2);
+    C_prop_init_r.split(t, 4, t1, t2);
+    C_prop_init_i.split(t, 4, t1, t2);
 
     C_init_r.tag_gpu_level(t1, t2);
     C_init_i.tag_gpu_level(t1, t2);
 
-    // B1_Blocal_r1_r_init.tag_gpu_level(t1, t2);
-    // B1_Blocal_r1_i_init.tag_gpu_level(t1, t2);
-    // B1_Blocal_r2_r_init.tag_gpu_level(t1, t2);
-    // B1_Blocal_r2_i_init.tag_gpu_level(t1, t2);
+    B1_Blocal_r1_r_init.tag_gpu_level(t1, t2);
+    B1_Blocal_r1_i_init.tag_gpu_level(t1, t2);
+    B1_Blocal_r2_r_init.tag_gpu_level(t1, t2);
+    B1_Blocal_r2_i_init.tag_gpu_level(t1, t2);
 
-    // C_prop_init_r.tag_gpu_level(t1, t2);
-    // C_prop_init_i.tag_gpu_level(t1, t2);
+    C_prop_init_r.tag_gpu_level(t1, t2);
+    C_prop_init_i.tag_gpu_level(t1, t2);
 
 #endif
 
