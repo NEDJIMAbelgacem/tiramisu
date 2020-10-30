@@ -378,6 +378,10 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
                 // o_call might get buffer as input parameter, in which case the
                 // buffer is interpreted as a var. If so, create scalar_ptr for
                 // the buffer.
+                print_indent(parse_tiramisu_level - 1);
+                std::cerr << "Available buffers: ";
+                for (std::pair<std::string, tiramisu::buffer*> p : this->m_fct.get_buffers()) std::cerr << p.first << " | ";
+                std::cerr << "\n";
                 if (this->m_fct.get_buffers().find(tiramisu_expr.get_name()) != this->m_fct.get_buffers().end()) {
                     cuda_ast::buffer *b = this->get_buffer(tiramisu_expr.get_name()).get();
                     return scalar_ptr{new cuda_ast::scalar{b->get_type(), b->get_name(), b->get_location()}};
@@ -514,7 +518,6 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
             auto tiramisu_buffer = this->m_fct.get_buffers().at(name);
             std::vector<cuda_ast::statement_ptr> sizes;
             for (auto &dim : tiramisu_buffer->get_dim_sizes()) {
-
                 sizes.push_back(this->parse_tiramisu(dim));
             }
             buffer = buffer_ptr{new cuda_ast::buffer{tiramisu_buffer->get_elements_type(), tiramisu_buffer->get_name(),
