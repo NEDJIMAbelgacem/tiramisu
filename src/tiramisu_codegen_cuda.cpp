@@ -511,6 +511,9 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
 
     cuda_ast::buffer_ptr cuda_ast::generator::get_buffer(const std::string &name) {
         std::cerr << "cuda_ast::generator::get_buffer( " << name << " )" << "\n";
+        std::cerr << "Available buffers: ";
+        for (std::pair<std::string, cuda_ast::buffer_ptr> p : m_buffers) std::cerr << p.first << " ";
+        std::cerr << std::endl;
         auto it = m_buffers.find(name);
         cuda_ast::buffer_ptr buffer;
         if (it != m_buffers.end()) {
