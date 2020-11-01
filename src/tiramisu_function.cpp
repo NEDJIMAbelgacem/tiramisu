@@ -2062,6 +2062,7 @@ void tiramisu::function::codegen(const std::vector<tiramisu::buffer *> &argument
     {
         if(!this->mapping.empty())
         {
+            std::cerr << "using Automatic_communication \n";
             tiramisu::computation* c1 = this->get_first_cpt();
             tiramisu::computation* c2 = this->get_last_cpt();
             Automatic_communication(c1,c2);
@@ -2074,6 +2075,7 @@ void tiramisu::function::codegen(const std::vector<tiramisu::buffer *> &argument
     this->gen_time_space_domain();
     this->gen_isl_ast();
     if (gen_cuda_stmt) {
+        std::cerr << "this->gen_cuda_stmt() \n";
         this->gen_cuda_stmt();
     }
     this->gen_halide_stmt();
