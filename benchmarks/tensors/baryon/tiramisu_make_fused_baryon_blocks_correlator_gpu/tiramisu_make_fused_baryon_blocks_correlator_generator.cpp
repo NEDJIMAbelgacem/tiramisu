@@ -35,6 +35,23 @@ void generate_function(std::string name)
         kCprime("kCprime", 0, Nc),
         kSprime("kSprime", 0, Ns);
 
+   input C_r("C_r",      {t, x_out, rp, m, r, n}, p_float64);
+   input C_i("C_i",      {t, x_out, rp, m, r, n}, p_float64);
+   input B1_prop_r("B1_prop_r",   {tri, t, iCprime, iSprime, jCprime, jSprime, x, y}, p_float64);
+   input B1_prop_i("B1_prop_i",   {tri, t, iCprime, iSprime, jCprime, jSprime, x, y}, p_float64);
+   input src_psi_B1_r("src_psi_B1_r",    {y, m}, p_float64);
+   input src_psi_B1_i("src_psi_B1_i",    {y, m}, p_float64);
+   input snk_psi_r("snk_psi_r", {x, n}, p_float64); 
+   input snk_psi_i("snk_psi_i", {x, n}, p_float64);
+   input src_color_weights("src_color_weights", {rp, wnum, q}, p_int32);
+   input src_spin_weights("src_spin_weights", {rp, wnum, q}, p_int32);
+   input src_weights("src_weights", {rp, wnum}, p_float64);
+   input snk_color_weights("snk_color_weights", {r, nperm, wnum, q}, p_int32);
+   input snk_spin_weights("snk_spin_weights", {r, nperm, wnum, q}, p_int32);
+   input snk_weights("snk_weights", {r, wnum}, p_float64);
+   input src_spins("src_spins", {rp}, p_int32);
+   input sigs("sigs", {nperm}, p_int32);
+
     complex_computation B1_prop(&B1_prop_r, &B1_prop_i);
 
     complex_expr src_psi_B1(src_psi_B1_r(y, m), src_psi_B1_i(y, m));
@@ -155,22 +172,6 @@ void generate_function(std::string name)
     // -------------------------------------------------------
     // Layer II
     // -------------------------------------------------------
-   input C_r("C_r",      {t, x_out, rp, m, r, n}, p_float64);
-   input C_i("C_i",      {t, x_out, rp, m, r, n}, p_float64);
-   input B1_prop_r("B1_prop_r",   {tri, t, iCprime, iSprime, jCprime, jSprime, x, y}, p_float64);
-   input B1_prop_i("B1_prop_i",   {tri, t, iCprime, iSprime, jCprime, jSprime, x, y}, p_float64);
-   input src_psi_B1_r("src_psi_B1_r",    {y, m}, p_float64);
-   input src_psi_B1_i("src_psi_B1_i",    {y, m}, p_float64);
-   input snk_psi_r("snk_psi_r", {x, n}, p_float64); 
-   input snk_psi_i("snk_psi_i", {x, n}, p_float64);
-   input src_color_weights("src_color_weights", {rp, wnum, q}, p_int32);
-   input src_spin_weights("src_spin_weights", {rp, wnum, q}, p_int32);
-   input src_weights("src_weights", {rp, wnum}, p_float64);
-   input snk_color_weights("snk_color_weights", {r, nperm, wnum, q}, p_int32);
-   input snk_spin_weights("snk_spin_weights", {r, nperm, wnum, q}, p_int32);
-   input snk_weights("snk_weights", {r, wnum}, p_float64);
-   input src_spins("src_spins", {rp}, p_int32);
-   input sigs("sigs", {nperm}, p_int32);
 
     /* Correlator */
 
