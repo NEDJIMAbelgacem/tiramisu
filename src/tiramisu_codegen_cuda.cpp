@@ -1681,6 +1681,7 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
             for (std::pair<std::string, std::pair<tiramisu::primitive_t, cuda_ast::memory_location>> p : this->m_scalar_data)
                 std::cerr << p.first << ", ";
             std::cerr << std::endl;
+            __builtin_trap();
             ERROR("Scalar not found: " + name, true);
         }
     }
