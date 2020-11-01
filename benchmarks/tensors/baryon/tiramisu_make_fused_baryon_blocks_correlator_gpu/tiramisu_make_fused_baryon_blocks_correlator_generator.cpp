@@ -356,8 +356,8 @@ void generate_function(std::string name)
     B1_Blocal_r2_r_props.store_in(&buf_B1_Blocal_props_r2_r, {jCprime, jSprime});
     B1_Blocal_r2_i_props.store_in(&buf_B1_Blocal_props_r2_i, {jCprime, jSprime});
 
-    computation copy_buf_C_r_host_to_device({}, memcpy(buf_C_r_cpu, buf_C_r));
-    computation copy_buf_C_i_host_to_device({}, memcpy(buf_C_i_cpu, buf_C_i));
+    computation copy_buf_C_r_host_to_device({t, x_out, rp, m, r, n}, memcpy(buf_C_r_cpu, buf_C_r));
+    computation copy_buf_C_i_host_to_device({t, x_out, rp, m, r, n}, memcpy(buf_C_i_cpu, buf_C_i));
     computation copy_B1_prop_r_host_to_device({}, memcpy(B1_prop_r_cpu, buf_B1_prop_r));
     computation copy_B1_prop_i_host_to_device({}, memcpy(B1_prop_i_cpu, buf_B1_prop_i));
     computation copy_src_psi_B1_r_host_to_device({}, memcpy(src_psi_B1_r_cpu, buf_src_psi_B1_r));
