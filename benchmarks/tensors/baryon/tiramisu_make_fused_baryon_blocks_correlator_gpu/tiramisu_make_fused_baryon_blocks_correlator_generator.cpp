@@ -20,7 +20,7 @@ void generate_function(std::string name)
         q("q", 0, Nq),
         wnum("wnum", 0, Nw),
         wnumBlock("wnumBlock", 0, Nw),
-        t("t", 0, Lt),
+        t("t", 0, 16),//Lt),
         x("x", 0, Vsnk),
         x_out("x_out", 0, Vsnk/sites_per_rank),
         x_in("x_in", 0, sites_per_rank),
