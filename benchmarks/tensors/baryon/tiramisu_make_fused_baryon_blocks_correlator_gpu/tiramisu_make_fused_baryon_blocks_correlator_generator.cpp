@@ -245,8 +245,8 @@ void generate_function(std::string name)
 
 
 
-    buffer buf_C_r("buf_C_r", {t, x_out, rp, m, r, n}, p_float64, a_temporary);
-    buffer buf_C_i("buf_C_i", {t, x_out, rp, m, r, n}, p_float64, a_temporary);
+    buffer buf_C_r("buf_C_r", {t, x_out, rp, m, r, n}, p_float64, a_input);
+    buffer buf_C_i("buf_C_i", {t, x_out, rp, m, r, n}, p_float64, a_input);
     buf_C_r.tag_gpu_global();
     buf_C_i.tag_gpu_global();
 
