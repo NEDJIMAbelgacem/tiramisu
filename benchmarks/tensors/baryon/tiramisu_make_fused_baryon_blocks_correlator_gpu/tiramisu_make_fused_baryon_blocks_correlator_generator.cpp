@@ -356,8 +356,8 @@ void generate_function(std::string name)
     B1_Blocal_r2_r_props.store_in(&buf_B1_Blocal_props_r2_r, {jCprime, jSprime});
     B1_Blocal_r2_i_props.store_in(&buf_B1_Blocal_props_r2_i, {jCprime, jSprime});
 
-    computation copy_buf_C_r_host_to_device({t, x_out, rp, m, r, n}, memcpy(buf_C_r_cpu, buf_C_r));
-    computation copy_buf_C_i_host_to_device({t, x_out, rp, m, r, n}, memcpy(buf_C_i_cpu, buf_C_i));
+    computation copy_buf_C_r_host_to_device({}, memcpy(buf_C_r_cpu, buf_C_r));
+    computation copy_buf_C_i_host_to_device({}, memcpy(buf_C_i_cpu, buf_C_i));
     computation copy_B1_prop_r_host_to_device({}, memcpy(B1_prop_r_cpu, buf_B1_prop_r));
     computation copy_B1_prop_i_host_to_device({}, memcpy(B1_prop_i_cpu, buf_B1_prop_i));
     computation copy_src_psi_B1_r_host_to_device({}, memcpy(src_psi_B1_r_cpu, buf_src_psi_B1_r));
@@ -393,6 +393,69 @@ void generate_function(std::string name)
     // -------------------------------------------------------
     // Layer III
     // -------------------------------------------------------
+
+#if GPU_PARALLEL
+
+    // var t1("t1"), t2("t2");
+    // C_init_r.split(t, 4, t1, t2);
+    // C_init_i.split(t, 4, t1, t2);
+    // B1_Blocal_r1_r_init.split(t, 4, t1, t2);
+    // B1_Blocal_r1_i_init.split(t, 4, t1, t2);
+    // B1_Blocal_r2_r_init.split(t, 4, t1, t2);
+    // B1_Blocal_r2_i_init.split(t, 4, t1, t2);
+    // C_prop_init_r.split(t, 4, t1, t2);
+    // C_prop_init_i.split(t, 4, t1, t2);
+
+    C_init_r.tag_gpu_level(t);
+    C_init_i.tag_gpu_level(t);
+
+    // B1_Blocal_r1_r_init.tag_gpu_level(t);
+    // B1_Blocal_r1_i_init.tag_gpu_level(t);
+
+    // B1_Blocal_r1_r_props_init.tag_gpu_level(t);
+    // B1_Blocal_r1_i_props_init.tag_gpu_level(t);
+
+    // B1_Blocal_r1_r_diquark.tag_gpu_level(t);
+    // B1_Blocal_r1_i_diquark.tag_gpu_level(t);
+
+    // B1_Blocal_r1_r_props.tag_gpu_level(t);
+    // B1_Blocal_r1_i_props.tag_gpu_level(t);
+
+    // B1_Blocal_r1_r_update.tag_gpu_level(t);
+    // B1_Blocal_r1_i_update.tag_gpu_level(t);
+
+    // B1_Blocal_r2_r_init.tag_gpu_level(t);
+    // B1_Blocal_r2_i_init.tag_gpu_level(t);
+
+    // B1_Blocal_r2_r_props_init.tag_gpu_level(t);
+    // B1_Blocal_r2_i_props_init.tag_gpu_level(t);
+
+    // B1_Blocal_r2_r_diquark.tag_gpu_level(t);
+    // B1_Blocal_r2_i_diquark.tag_gpu_level(t);
+
+    // B1_Blocal_r2_r_props.tag_gpu_level(t);
+    // B1_Blocal_r2_i_props.tag_gpu_level(t);
+
+    // B1_Blocal_r2_r_update.tag_gpu_level(t);
+    // B1_Blocal_r2_i_update.tag_gpu_level(t);
+
+    // C_prop_init_r.tag_gpu_level(t);
+    // C_prop_init_i.tag_gpu_level(t);
+
+    // new_term_0_r1_b1.get_real()->tag_gpu_level(t);
+    // new_term_0_r1_b1.get_imag()->tag_gpu_level(t);
+
+    // new_term_0_r2_b1.get_real()->tag_gpu_level(t);
+    // new_term_0_r1_b1.get_imag()->tag_gpu_level(t);
+
+    // C_prop_update_r.tag_gpu_level(t);
+    // C_prop_update_i.tag_gpu_level(t);
+
+    // C_update_r.tag_gpu_level(t);
+    // C_update_i.tag_gpu_level(t);
+
+#endif
+
 
     computation* handle = &copy_buf_C_r_host_to_device.then(copy_buf_C_i_host_to_device, computation::root);
 
@@ -485,69 +548,6 @@ void generate_function(std::string name)
     C_prop_init_r.tag_distribute_level(t);
 
 #endif
-
-#if GPU_PARALLEL
-
-    // var t1("t1"), t2("t2");
-    // C_init_r.split(t, 4, t1, t2);
-    // C_init_i.split(t, 4, t1, t2);
-    // B1_Blocal_r1_r_init.split(t, 4, t1, t2);
-    // B1_Blocal_r1_i_init.split(t, 4, t1, t2);
-    // B1_Blocal_r2_r_init.split(t, 4, t1, t2);
-    // B1_Blocal_r2_i_init.split(t, 4, t1, t2);
-    // C_prop_init_r.split(t, 4, t1, t2);
-    // C_prop_init_i.split(t, 4, t1, t2);
-
-    C_init_r.tag_gpu_level(t);
-    C_init_i.tag_gpu_level(t);
-
-    // B1_Blocal_r1_r_init.tag_gpu_level(t);
-    // B1_Blocal_r1_i_init.tag_gpu_level(t);
-
-    // B1_Blocal_r1_r_props_init.tag_gpu_level(t);
-    // B1_Blocal_r1_i_props_init.tag_gpu_level(t);
-
-    // B1_Blocal_r1_r_diquark.tag_gpu_level(t);
-    // B1_Blocal_r1_i_diquark.tag_gpu_level(t);
-
-    // B1_Blocal_r1_r_props.tag_gpu_level(t);
-    // B1_Blocal_r1_i_props.tag_gpu_level(t);
-
-    // B1_Blocal_r1_r_update.tag_gpu_level(t);
-    // B1_Blocal_r1_i_update.tag_gpu_level(t);
-
-    // B1_Blocal_r2_r_init.tag_gpu_level(t);
-    // B1_Blocal_r2_i_init.tag_gpu_level(t);
-
-    // B1_Blocal_r2_r_props_init.tag_gpu_level(t);
-    // B1_Blocal_r2_i_props_init.tag_gpu_level(t);
-
-    // B1_Blocal_r2_r_diquark.tag_gpu_level(t);
-    // B1_Blocal_r2_i_diquark.tag_gpu_level(t);
-
-    // B1_Blocal_r2_r_props.tag_gpu_level(t);
-    // B1_Blocal_r2_i_props.tag_gpu_level(t);
-
-    // B1_Blocal_r2_r_update.tag_gpu_level(t);
-    // B1_Blocal_r2_i_update.tag_gpu_level(t);
-
-    // C_prop_init_r.tag_gpu_level(t);
-    // C_prop_init_i.tag_gpu_level(t);
-
-    // new_term_0_r1_b1.get_real()->tag_gpu_level(t);
-    // new_term_0_r1_b1.get_imag()->tag_gpu_level(t);
-
-    // new_term_0_r2_b1.get_real()->tag_gpu_level(t);
-    // new_term_0_r1_b1.get_imag()->tag_gpu_level(t);
-
-    // C_prop_update_r.tag_gpu_level(t);
-    // C_prop_update_i.tag_gpu_level(t);
-
-    // C_update_r.tag_gpu_level(t);
-    // C_update_i.tag_gpu_level(t);
-
-#endif
-
     // -------------------------------------------------------
     // Code Generation
     // -------------------------------------------------------
