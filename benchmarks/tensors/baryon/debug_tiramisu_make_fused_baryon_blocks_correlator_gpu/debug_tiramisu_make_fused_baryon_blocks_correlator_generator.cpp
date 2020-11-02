@@ -14,20 +14,20 @@ void generate_function(std::string name)
 {
     tiramisu::init(name);
 
-    var r("r", 0, B1Nrows),
-        rp("rp", 0, B1Nrows),
-        nperm("nperm", 0, B1Nperms),
-        q("q", 0, Nq),
-        wnum("wnum", 0, Nw),
-        wnumBlock("wnumBlock", 0, Nw),
+    var r("r", 0, 4 * B1Nrows),
+        rp("rp", 0, 4 * B1Nrows),
+        nperm("nperm", 0, 4 * B1Nperms),
+        q("q", 0, 4 * Nq),
+        wnum("wnum", 0, 4 * Nw),
+        wnumBlock("wnumBlock", 0, 4 * Nw),
         t("t", 0, 16),//Lt),
-        x("x", 0, Vsnk),
-        x_out("x_out", 0, Vsnk/sites_per_rank),
-        x_in("x_in", 0, sites_per_rank),
-        y("y", 0, Vsrc),
-        m("m", 0, NsrcHex),
-        n("n", 0, NsnkHex),
-        tri("tri", 0, Nq),
+        x("x", 0, 4 * Vsnk),
+        x_out("x_out", 0, 4 * Vsnk/sites_per_rank),
+        x_in("x_in", 0, 4 * sites_per_rank),
+        y("y", 0, 4 * Vsrc),
+        m("m", 0, 4 * NsrcHex),
+        n("n", 0, 4 * NsnkHex),
+        tri("tri", 0, 4 * Nq),
         iCprime("iCprime", 0, Nc),
         iSprime("iSprime", 0, Ns),
         jCprime("jCprime", 0, Nc),
@@ -83,6 +83,12 @@ void generate_function(std::string name)
     computation copy_buf_C_i_host_to_device({t, x_out, rp, m, r, n}, memcpy(buf_C_i_cpu, buf_C_i));
     computation copy_buf_C_r_device_to_host({t, x_out, rp, m, r, n}, memcpy(buf_C_r, buf_C_r_cpu));
     computation copy_buf_C_i_device_to_host({t, x_out, rp, m, r, n}, memcpy(buf_C_i, buf_C_i_cpu));
+
+    // computation copy_buf_C_r_host_to_device({}, memcpy(buf_C_r_cpu, buf_C_r));
+    // computation copy_buf_C_i_host_to_device({}, memcpy(buf_C_i_cpu, buf_C_i));
+    // computation copy_buf_C_r_device_to_host({}, memcpy(buf_C_r, buf_C_r_cpu));
+    // computation copy_buf_C_i_device_to_host({}, memcpy(buf_C_i, buf_C_i_cpu));
+
     // -------------------------------------------------------
     // Layer III
     // -------------------------------------------------------
@@ -97,8 +103,8 @@ void generate_function(std::string name)
     C_r.store_in(&buf_C_r);
     C_i.store_in(&buf_C_i);
 
-    C_r.tag_gpu_level(t);
-    C_i.tag_gpu_level(t);
+    // C_r.tag_gpu_level(t);
+    // C_i.tag_gpu_level(t);
 
     // -------------------------------------------------------
     // Code Generation
