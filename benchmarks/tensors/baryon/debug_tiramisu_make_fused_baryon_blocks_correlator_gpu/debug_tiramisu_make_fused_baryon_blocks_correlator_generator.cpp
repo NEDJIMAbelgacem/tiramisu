@@ -193,22 +193,22 @@ void generate_function(std::string name)
     buffer buf_src_spins("buf_src_spins", {rp}, p_int32, a_temporary);
     buffer buf_sigs("buf_sigs", {nperm}, p_int32, a_temporary);
 
-    // C_r.store_in(&buf_C_r);
-    // C_i.store_in(&buf_C_i);
-    // B1_prop_r.store_in(&buf_B1_prop_r, {t, iCprime, iSprime, jCprime, jSprime, x, y, tri});
-    // B1_prop_i.store_in(&buf_B1_prop_i, {t, iCprime, iSprime, jCprime, jSprime, x, y, tri});
-    // src_psi_B1_r.store_in(&buf_src_psi_B1_r, {y, m});
-    // src_psi_B1_i.store_in(&buf_src_psi_B1_i, {y, m});
-    // snk_psi_r.store_in(&buf_snk_psi_r, {x, n});
-    // snk_psi_i.store_in(&buf_snk_psi_i, {x, n});
-    // src_color_weights.store_in(&buf_src_color_weights, {rp, wnum, q});
-    // src_spin_weights.store_in(&buf_src_spin_weights, {rp, wnum, q});
-    // src_weights.store_in(&buf_src_weights, {rp, wnum, q});
-    // snk_color_weights.store_in(&buf_snk_color_weights, {r, nperm, wnum, q});
-    // snk_spin_weights.store_in(&buf_snk_spin_weights, {r, nperm, wnum, q});
-    // snk_weights.store_in(&buf_snk_weights, {r, wnum});
-    // src_spins.store_in(&buf_src_spins, {rp});
-    // sigs.store_in(&buf_sigs, {nperm});
+    C_r.store_in(&buf_C_r);
+    C_i.store_in(&buf_C_i);
+    B1_prop_r.store_in(&buf_B1_prop_r, {t, iCprime, iSprime, jCprime, jSprime, x, y, tri});
+    B1_prop_i.store_in(&buf_B1_prop_i, {t, iCprime, iSprime, jCprime, jSprime, x, y, tri});
+    src_psi_B1_r.store_in(&buf_src_psi_B1_r, {y, m});
+    src_psi_B1_i.store_in(&buf_src_psi_B1_i, {y, m});
+    snk_psi_r.store_in(&buf_snk_psi_r, {x, n});
+    snk_psi_i.store_in(&buf_snk_psi_i, {x, n});
+    src_color_weights.store_in(&buf_src_color_weights, {rp, wnum, q});
+    src_spin_weights.store_in(&buf_src_spin_weights, {rp, wnum, q});
+    src_weights.store_in(&buf_src_weights, {rp, wnum, q});
+    snk_color_weights.store_in(&buf_snk_color_weights, {r, nperm, wnum, q});
+    snk_spin_weights.store_in(&buf_snk_spin_weights, {r, nperm, wnum, q});
+    snk_weights.store_in(&buf_snk_weights, {r, wnum});
+    src_spins.store_in(&buf_src_spins, {rp});
+    sigs.store_in(&buf_sigs, {nperm});
 
     // B1_prop_r.store_in(&buf_B1_prop_r);
     // B1_prop_i.store_in(&buf_B1_prop_i);
@@ -280,19 +280,6 @@ void generate_function(std::string name)
     // C_update_r.store_in(&buf_C_r, {t, x_out, rp, m, r, n});
     // C_update_i.store_in(&buf_C_i, {t, x_out, rp, m, r, n});
 
-        // &buf_C_r_cpu, &buf_C_i_cpu,
-        // &B1_prop_r_cpu, &B1_prop_i_cpu,
-        // &src_psi_B1_r_cpu, &src_psi_B1_i_cpu,
-        // &snk_psi_r_cpu, &snk_psi_i_cpu,
-        // &src_color_weights_cpu,
-        // &src_spin_weights_cpu,
-        // &src_weights_cpu,
-        // &src_spins_cpu, 
-        // &snk_color_weights_cpu,
-        // &snk_spin_weights_cpu,
-        // &snk_weights_cpu,
-        // &sigs_cpu
-        // }, 
     buffer buf_C_r_cpu("buf_C_r_cpu", {t, x_out, rp, m, r, n}, p_float64, a_output);
     buffer buf_C_i_cpu("buf_C_i_cpu", {t, x_out, rp, m, r, n}, p_float64, a_output);
     buffer B1_prop_r_cpu("B1_prop_r_cpu",   {t, iCprime, iSprime, jCprime, jSprime, x, y, tri}, p_float64, a_input);
