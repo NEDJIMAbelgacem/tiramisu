@@ -176,8 +176,8 @@ void generate_function(std::string name)
     /* Correlator */
 
 // declaring buffers
-    // buffer buf_C_r("buf_C_r", {t, x_out, rp, m, r, n}, p_float64, a_temporary);
-    // buffer buf_C_i("buf_C_i", {t, x_out, rp, m, r, n}, p_float64, a_temporary);
+    buffer buf_C_r("buf_C_r", {t, x_out, rp, m, r, n}, p_float64, a_temporary);
+    buffer buf_C_i("buf_C_i", {t, x_out, rp, m, r, n}, p_float64, a_temporary);
     buffer buf_B1_prop_r("buf_B1_prop_r",   {t, iCprime, iSprime, jCprime, jSprime, x, y, tri}, p_float64, a_temporary);
     buffer buf_B1_prop_i("buf_B1_prop_i",   {t, iCprime, iSprime, jCprime, jSprime, x, y, tri}, p_float64, a_temporary);
     buffer buf_src_psi_B1_r("buf_src_psi_B1_r",    {y, m}, p_float64, a_temporary);
