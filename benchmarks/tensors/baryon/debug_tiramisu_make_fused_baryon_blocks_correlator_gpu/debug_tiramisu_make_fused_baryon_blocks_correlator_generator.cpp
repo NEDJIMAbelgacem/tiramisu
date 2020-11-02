@@ -97,6 +97,9 @@ void generate_function(std::string name)
     C_r.store_in(&buf_C_r);
     C_i.store_in(&buf_C_i);
 
+    C_r.tag_gpu_level(t);
+    C_i.tag_gpu_level(t);
+
     // -------------------------------------------------------
     // Code Generation
     // -------------------------------------------------------
