@@ -333,8 +333,8 @@ void generate_function(std::string name)
     // B1_Blocal_r2_r_props.store_in(&buf_B1_Blocal_props_r2_r, {jCprime, jSprime});
     // B1_Blocal_r2_i_props.store_in(&buf_B1_Blocal_props_r2_i, {jCprime, jSprime});
 
-    computation copy_buf_C_r_host_to_device({}, memcpy(buf_C_r_cpu, buf_C_r));
-    computation copy_buf_C_i_host_to_device({}, memcpy(buf_C_i_cpu, buf_C_i));
+    computation copy_buf_C_r_host_to_device({t, x_out, rp, m, r, n}, memcpy(buf_C_r_cpu, buf_C_r));
+    computation copy_buf_C_i_host_to_device({t, x_out, rp, m, r, n}, memcpy(buf_C_i_cpu, buf_C_i));
     // computation copy_B1_prop_r_host_to_device({}, memcpy(B1_prop_r_cpu, buf_B1_prop_r));
     // computation copy_B1_prop_i_host_to_device({}, memcpy(B1_prop_i_cpu, buf_B1_prop_i));
     // computation copy_src_psi_B1_r_host_to_device({}, memcpy(src_psi_B1_r_cpu, buf_src_psi_B1_r));
@@ -350,8 +350,8 @@ void generate_function(std::string name)
     // computation copy_snk_weights_host_to_device({}, memcpy(snk_weights_cpu, buf_snk_weights));
     // computation copy_sigs_host_to_device({}, memcpy(sigs_cpu, buf_sigs));
 
-    computation copy_buf_C_r_device_to_host({}, memcpy(buf_C_r, buf_C_r_cpu));
-    computation copy_buf_C_i_device_to_host({}, memcpy(buf_C_i, buf_C_i_cpu));
+    computation copy_buf_C_r_device_to_host({t, x_out, rp, m, r, n}, memcpy(buf_C_r, buf_C_r_cpu));
+    computation copy_buf_C_i_device_to_host({t, x_out, rp, m, r, n}, memcpy(buf_C_i, buf_C_i_cpu));
     // computation copy_B1_prop_r_device_to_host({}, memcpy(*B1_prop_r.get_buffer(), B1_prop_r_cpu));
     // computation copy_B1_prop_i_device_to_host({}, memcpy(*B1_prop_i.get_buffer(), B1_prop_i_cpu));
     // computation copy_src_psi_B1_r_device_to_host({}, memcpy(*src_psi_B1_r.get_buffer(), src_psi_B1_r_cpu));
