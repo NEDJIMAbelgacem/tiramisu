@@ -20,7 +20,7 @@ void generate_function(std::string name)
         q("q", 0, 4 * Nq),
         wnum("wnum", 0, 4 * Nw),
         wnumBlock("wnumBlock", 0, 4 * Nw),
-        t("t", 0, 16),//Lt),
+        t("t", 0, 4 * Lt),
         x("x", 0, 4 * Vsnk),
         x_out("x_out", 0, 4 * Vsnk/sites_per_rank),
         x_in("x_in", 0, 4 * sites_per_rank),
@@ -57,13 +57,13 @@ void generate_function(std::string name)
 
     /* Correlator */
 
-    buffer buf_C_r("buf_C_r", {t, x_out, rp, m, r, n}, p_float64, a_temporary);
-    buffer buf_C_i("buf_C_i", {t, x_out, rp, m, r, n}, p_float64, a_temporary);
+    buffer buf_C_r("buf_C_r", {4 * Lt, x_out, rp, m, r, n}, p_float64, a_temporary);
+    buffer buf_C_i("buf_C_i", {4 * Lt, x_out, rp, m, r, n}, p_float64, a_temporary);
 
     buf_C_r.tag_gpu_global();
     buf_C_i.tag_gpu_global();
-    buffer buf_C_r_cpu("buf_C_r_cpu", {t, x_out, rp, m, r, n}, p_float64, a_temporary);
-    buffer buf_C_i_cpu("buf_C_i_cpu", {t, x_out, rp, m, r, n}, p_float64, a_temporary);
+    buffer buf_C_r_cpu("buf_C_r_cpu", {4 * Lt, x_out, rp, m, r, n}, p_float64, a_temporary);
+    buffer buf_C_i_cpu("buf_C_i_cpu", {4 * Lt, x_out, rp, m, r, n}, p_float64, a_temporary);
 
     computation C_init_r("C_init_r", {t, x_out, rp, m, r, n}, expr((double) 0));
     computation C_init_i("C_init_i", {t, x_out, rp, m, r, n}, expr((double) 0));
