@@ -64,6 +64,13 @@ void generate_function(std::string name)
     buf_C_i.tag_gpu_global();
     buffer buf_C_r_cpu("buf_C_r_cpu", {t, x_out, rp, m, r, n}, p_float64, a_temporary);
     buffer buf_C_i_cpu("buf_C_i_cpu", {t, x_out, rp, m, r, n}, p_float64, a_temporary);
+
+    computation C_init_r("C_init_r", {t, x_out, rp, m, r, n}, expr((double) 0));
+    computation C_init_i("C_init_i", {t, x_out, rp, m, r, n}, expr((double) 0));
+
+    C_init_r.store_in(buf_C_r);
+    C_init_i.store_in(buf_C_i);
+
     // buffer B1_prop_r_cpu("B1_prop_r_cpu",   {t, iCprime, iSprime, jCprime, jSprime, x, y, tri}, p_float64, a_temporary);
     // buffer B1_prop_i_cpu("B1_prop_i_cpu",   {t, iCprime, iSprime, jCprime, jSprime, x, y, tri}, p_float64, a_temporary);
     // buffer src_psi_B1_r_cpu("src_psi_B1_r_cpu",    {y, m}, p_float64, a_temporary);
@@ -94,10 +101,11 @@ void generate_function(std::string name)
     // -------------------------------------------------------
 
     computation* handle = &copy_buf_C_r_host_to_device.then(copy_buf_C_i_host_to_device, computation::root);
+    handle = &handle->then(C_init_r, computation::root).then(C_init_i, computation::root);
     handle = &handle->then(copy_buf_C_r_device_to_host, computation::root)
             .then(copy_buf_C_i_device_to_host, computation::root)
             ;
-
+    C_init_r.tag_gpu_level(t);
    input C_r("C_r",      {t, x_out, rp, m, r, n}, p_float64);
    input C_i("C_i",      {t, x_out, rp, m, r, n}, p_float64);
     C_r.store_in(&buf_C_r);
