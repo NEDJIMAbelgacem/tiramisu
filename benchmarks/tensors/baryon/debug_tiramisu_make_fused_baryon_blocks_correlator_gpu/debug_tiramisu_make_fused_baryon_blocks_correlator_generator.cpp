@@ -226,8 +226,8 @@ void generate_function(std::string name)
     // sigs.store_in(&buf_sigs);
 
 
-//    buf_C_r.tag_gpu_global();
-//    buf_C_i.tag_gpu_global();
+   buf_C_r.tag_gpu_global();
+   buf_C_i.tag_gpu_global();
    buf_B1_prop_r.tag_gpu_global();
    buf_B1_prop_i.tag_gpu_global();
    buf_src_psi_B1_r.tag_gpu_global();
@@ -242,16 +242,6 @@ void generate_function(std::string name)
    buf_snk_weights.tag_gpu_global();
    buf_src_spins.tag_gpu_global();
    buf_sigs.tag_gpu_global();
-
-
-
-    buffer buf_C_r("buf_C_r", {t, x_out, rp, m, r, n}, p_float64, a_temporary);
-    buffer buf_C_i("buf_C_i", {t, x_out, rp, m, r, n}, p_float64, a_temporary);
-    buf_C_r.tag_gpu_global();
-    buf_C_i.tag_gpu_global();
-
-    // C_r.store_in(&buf_C_r);
-    // C_i.store_in(&buf_C_i);
 
     buffer* buf_new_term_r_b1;//("buf_new_term_r_b1", {1}, p_float64, a_temporary);
     buffer* buf_new_term_i_b1;//("buf_new_term_i_b1", {1}, p_float64, a_temporary);
