@@ -57,13 +57,13 @@ void generate_function(std::string name)
 
     /* Correlator */
 
-    buffer buf_C_r("buf_C_r", {t, x_out, rp, m, r, n}, p_float64, a_temporary);
-    buffer buf_C_i("buf_C_i", {t, x_out, rp, m, r, n}, p_float64, a_temporary);
+    buffer buf_C_r("buf_C_r", {t, x_out, rp, m, r, n}, p_float64, a_input);
+    buffer buf_C_i("buf_C_i", {t, x_out, rp, m, r, n}, p_float64, a_output);
 
     buf_C_r.tag_gpu_global();
     buf_C_i.tag_gpu_global();
-    buffer buf_C_r_cpu("buf_C_r_cpu", {t, x_out, rp, m, r, n}, p_float64, a_temporary);
-    buffer buf_C_i_cpu("buf_C_i_cpu", {t, x_out, rp, m, r, n}, p_float64, a_temporary);
+    buffer buf_C_r_cpu("buf_C_r_cpu", {t, x_out, rp, m, r, n}, p_float64, a_input);
+    buffer buf_C_i_cpu("buf_C_i_cpu", {t, x_out, rp, m, r, n}, p_float64, a_output);
     // buffer B1_prop_r_cpu("B1_prop_r_cpu",   {t, iCprime, iSprime, jCprime, jSprime, x, y, tri}, p_float64, a_temporary);
     // buffer B1_prop_i_cpu("B1_prop_i_cpu",   {t, iCprime, iSprime, jCprime, jSprime, x, y, tri}, p_float64, a_temporary);
     // buffer src_psi_B1_r_cpu("src_psi_B1_r_cpu",    {y, m}, p_float64, a_temporary);
@@ -79,10 +79,10 @@ void generate_function(std::string name)
     // buffer src_spins_cpu("src_spins_cpu", {rp}, p_int32, a_temporary);
     // buffer sigs_cpu("sigs_cpu", {nperm}, p_int32, a_temporary);
 
-    computation copy_buf_C_r_host_to_device({t, x_out, rp, m, r, n}, memcpy(buf_C_r_cpu, buf_C_r));
-    computation copy_buf_C_i_host_to_device({t, x_out, rp, m, r, n}, memcpy(buf_C_i_cpu, buf_C_i));
-    computation copy_buf_C_r_device_to_host({t, x_out, rp, m, r, n}, memcpy(buf_C_r, buf_C_r_cpu));
-    computation copy_buf_C_i_device_to_host({t, x_out, rp, m, r, n}, memcpy(buf_C_i, buf_C_i_cpu));
+    computation copy_buf_C_r_host_to_device({}, memcpy(buf_C_r_cpu, buf_C_r));
+    computation copy_buf_C_i_host_to_device({}, memcpy(buf_C_i_cpu, buf_C_i));
+    computation copy_buf_C_r_device_to_host({}, memcpy(buf_C_r, buf_C_r_cpu));
+    computation copy_buf_C_i_device_to_host({}, memcpy(buf_C_i, buf_C_i_cpu));
     // -------------------------------------------------------
     // Layer III
     // -------------------------------------------------------
@@ -96,7 +96,7 @@ void generate_function(std::string name)
    input C_i("C_i",      {t, x_out, rp, m, r, n}, p_float64);
     C_r.store_in(&buf_C_r);
     C_i.store_in(&buf_C_i);
-    
+
     // -------------------------------------------------------
     // Code Generation
     // -------------------------------------------------------
