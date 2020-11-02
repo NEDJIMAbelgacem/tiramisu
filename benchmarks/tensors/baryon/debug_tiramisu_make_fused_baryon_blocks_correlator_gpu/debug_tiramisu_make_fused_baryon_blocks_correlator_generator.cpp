@@ -100,8 +100,8 @@ void generate_function(std::string name)
     // Layer III
     // -------------------------------------------------------
 
-    computation* handle = &C_init_r.then(C_init_i, computation::root).then(C_init_r, computation::root).then(copy_buf_C_r_host_to_device, computation::root).then(copy_buf_C_i_host_to_device, computation::root);
-    // handle = &handle->then(C_init_r, computation::root).then(C_init_i, computation::root);
+    computation* handle = &copy_buf_C_r_host_to_device.then(copy_buf_C_i_host_to_device, computation::root);
+    handle = &handle->then(C_init_r, computation::root).then(C_init_i, computation::root);
     handle = &handle->then(copy_buf_C_r_device_to_host, computation::root)
             .then(copy_buf_C_i_device_to_host, computation::root)
             ;
