@@ -35,8 +35,7 @@ void generate_function(std::string name)
         kCprime("kCprime", 0, Nc),
         kSprime("kSprime", 0, Ns);
 
-   input C_r("C_r",      {t, x_out, rp, m, r, n}, p_float64);
-   input C_i("C_i",      {t, x_out, rp, m, r, n}, p_float64);
+
 //    input B1_prop_r("B1_prop_r",   {tri, t, iCprime, iSprime, jCprime, jSprime, x, y}, p_float64);
 //    input B1_prop_i("B1_prop_i",   {tri, t, iCprime, iSprime, jCprime, jSprime, x, y}, p_float64);
 //    input src_psi_B1_r("src_psi_B1_r",    {y, m}, p_float64);
@@ -60,8 +59,6 @@ void generate_function(std::string name)
 
     buffer buf_C_r("buf_C_r", {t, x_out, rp, m, r, n}, p_float64, a_temporary);
     buffer buf_C_i("buf_C_i", {t, x_out, rp, m, r, n}, p_float64, a_temporary);
-    C_r.store_in(&buf_C_r);
-    C_i.store_in(&buf_C_i);
 
     buf_C_r.tag_gpu_global();
     buf_C_i.tag_gpu_global();
@@ -95,6 +92,11 @@ void generate_function(std::string name)
             .then(copy_buf_C_i_device_to_host, computation::root)
             ;
 
+   input C_r("C_r",      {t, x_out, rp, m, r, n}, p_float64);
+   input C_i("C_i",      {t, x_out, rp, m, r, n}, p_float64);
+    C_r.store_in(&buf_C_r);
+    C_i.store_in(&buf_C_i);
+    
     // -------------------------------------------------------
     // Code Generation
     // -------------------------------------------------------
