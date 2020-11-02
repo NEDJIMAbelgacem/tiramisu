@@ -178,8 +178,8 @@ void generate_function(std::string name)
     /* Correlator */
 
 // declaring buffers
-    // buffer buf_C_r("buf_C_r", {t, x_out, rp, m, r, n}, p_float64, a_temporary);
-    // buffer buf_C_i("buf_C_i", {t, x_out, rp, m, r, n}, p_float64, a_temporary);
+    buffer buf_C_r("buf_C_r", {Lt, Vsnk/sites_per_rank, B1Nrows, NsrcHex, B1Nrows, NsnkHex}, p_float64, a_temporary);
+    buffer buf_C_i("buf_C_i", {Lt, Vsnk/sites_per_rank, B1Nrows, NsrcHex, B1Nrows, NsnkHex}, p_float64, a_temporary);
     buffer buf_B1_prop_r("buf_B1_prop_r",   {Lt, Nc, Ns, Nc, Ns, Vsnk, Vsrc, Nq}, p_float64, a_temporary);
     buffer buf_B1_prop_i("buf_B1_prop_i",   {Lt, Nc, Ns, Nc, Ns, Vsnk, Vsrc, Nq}, p_float64, a_temporary);
     buffer buf_src_psi_B1_r("buf_src_psi_B1_r",    {Vsrc, NsrcHex}, p_float64, a_temporary);
@@ -192,26 +192,12 @@ void generate_function(std::string name)
     buffer buf_snk_color_weights("buf_snk_color_weights", {B1Nrows, B1Nperms, Nw, Nq}, p_int32, a_temporary);
     buffer buf_snk_spin_weights("buf_snk_spin_weights", {B1Nrows, B1Nperms, Nw, Nq}, p_int32, a_temporary);
     buffer buf_snk_weights("buf_snk_weights", {B1Nrows, Nw}, p_float64, a_temporary);
+    // strange: needed to change buf_src_spins name from "buf_src_spins" to work
     buffer buf_src_spins("src_spins", {B1Nrows}, p_int32, a_temporary);
     buffer buf_sigs("buf_sigs", {B1Nperms}, p_int32, a_temporary);
 
-    // C_r.store_in(&buf_C_r);
-    // C_i.store_in(&buf_C_i);
-    // B1_prop_r.store_in(&buf_B1_prop_r, {t, iCprime, iSprime, jCprime, jSprime, x, y, tri});
-    // B1_prop_i.store_in(&buf_B1_prop_i, {t, iCprime, iSprime, jCprime, jSprime, x, y, tri});
-    // src_psi_B1_r.store_in(&buf_src_psi_B1_r, {y, m});
-    // src_psi_B1_i.store_in(&buf_src_psi_B1_i, {y, m});
-    // snk_psi_r.store_in(&buf_snk_psi_r, {x, n});
-    // snk_psi_i.store_in(&buf_snk_psi_i, {x, n});
-    // src_color_weights.store_in(&buf_src_color_weights, {rp, wnum, q});
-    // src_spin_weights.store_in(&buf_src_spin_weights, {rp, wnum, q});
-    // src_weights.store_in(&buf_src_weights, {rp, wnum, q});
-    // snk_color_weights.store_in(&buf_snk_color_weights, {r, nperm, wnum, q});
-    // snk_spin_weights.store_in(&buf_snk_spin_weights, {r, nperm, wnum, q});
-    // snk_weights.store_in(&buf_snk_weights, {r, wnum});
-    // src_spins.store_in(&buf_src_spins, {rp});
-    // sigs.store_in(&buf_sigs, {nperm});
-
+    C_r.store_in(&buf_C_r);
+    C_i.store_in(&buf_C_i);
     B1_prop_r.store_in(&buf_B1_prop_r);
     B1_prop_i.store_in(&buf_B1_prop_i);
     src_psi_B1_r.store_in(&buf_src_psi_B1_r);
@@ -228,8 +214,8 @@ void generate_function(std::string name)
     sigs.store_in(&buf_sigs);
 
 
-//    buf_C_r.tag_gpu_global();
-//    buf_C_i.tag_gpu_global();
+   buf_C_r.tag_gpu_global();
+   buf_C_i.tag_gpu_global();
    buf_B1_prop_r.tag_gpu_global();
    buf_B1_prop_i.tag_gpu_global();
    buf_src_psi_B1_r.tag_gpu_global();
@@ -244,16 +230,6 @@ void generate_function(std::string name)
    buf_snk_weights.tag_gpu_global();
    buf_src_spins.tag_gpu_global();
    buf_sigs.tag_gpu_global();
-
-
-
-    buffer buf_C_r("buf_C_r", {Lt, Vsnk/sites_per_rank, B1Nrows, NsrcHex, B1Nrows, NsnkHex}, p_float64, a_temporary);
-    buffer buf_C_i("buf_C_i", {Lt, Vsnk/sites_per_rank, B1Nrows, NsrcHex, B1Nrows, NsnkHex}, p_float64, a_temporary);
-    buf_C_r.tag_gpu_global();
-    buf_C_i.tag_gpu_global();
-
-    C_r.store_in(&buf_C_r);
-    C_i.store_in(&buf_C_i);
 
     buffer* buf_new_term_r_b1;//("buf_new_term_r_b1", {1}, p_float64, a_temporary);
     buffer* buf_new_term_i_b1;//("buf_new_term_i_b1", {1}, p_float64, a_temporary);
