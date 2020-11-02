@@ -90,10 +90,10 @@ void generate_function(std::string name)
     // Layer III
     // -------------------------------------------------------
 
-    // computation* handle = &copy_buf_C_r_host_to_device.then(copy_buf_C_i_host_to_device, computation::root);
-    // handle = &handle->then(copy_buf_C_r_device_to_host, computation::root)
-            // .then(copy_buf_C_i_device_to_host, computation::root)
-            // ;
+    computation* handle = &copy_buf_C_r_host_to_device.then(copy_buf_C_i_host_to_device, computation::root);
+    handle = &handle->then(copy_buf_C_r_device_to_host, computation::root)
+            .then(copy_buf_C_i_device_to_host, computation::root)
+            ;
 
     // -------------------------------------------------------
     // Code Generation
