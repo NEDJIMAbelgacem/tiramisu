@@ -272,20 +272,20 @@ void generate_function(std::string name)
 
     buffer buf_C_r_cpu("buf_C_r_cpu", {t, x_out, rp, m, r, n}, p_float64, a_output);
     buffer buf_C_i_cpu("buf_C_i_cpu", {t, x_out, rp, m, r, n}, p_float64, a_output);
-    // buffer B1_prop_r_cpu("B1_prop_r_cpu",   {t, iCprime, iSprime, jCprime, jSprime, x, y, tri}, p_float64, a_input);
-    // buffer B1_prop_i_cpu("B1_prop_i_cpu",   {t, iCprime, iSprime, jCprime, jSprime, x, y, tri}, p_float64, a_input);
-    // buffer src_psi_B1_r_cpu("src_psi_B1_r_cpu",    {y, m}, p_float64, a_input);
-    // buffer src_psi_B1_i_cpu("src_psi_B1_i_cpu",    {y, m}, p_float64, a_input);
-    // buffer snk_psi_r_cpu("snk_psi_r_cpu", {x, n}, p_float64, a_input);
-    // buffer snk_psi_i_cpu("snk_psi_i_cpu", {x, n}, p_float64, a_input);
-    // buffer src_color_weights_cpu("src_color_weights_cpu", {rp, wnum, q}, p_int32, a_input);
-    // buffer src_spin_weights_cpu("src_spin_weights_cpu", {rp, wnum, q}, p_int32, a_input);
-    // buffer src_weights_cpu("src_weights_cpu", {rp, wnum}, p_float64, a_input);
-    // buffer snk_color_weights_cpu("snk_color_weights_cpu", {r, nperm, wnum, q}, p_int32, a_input);
-    // buffer snk_spin_weights_cpu("snk_spin_weights_cpu", {r, nperm, wnum, q}, p_int32, a_input);
-    // buffer snk_weights_cpu("snk_weights_cpu", {r, wnum}, p_float64, a_input);
-    // buffer src_spins_cpu("src_spins_cpu", {rp}, p_int32, a_input);
-    // buffer sigs_cpu("sigs_cpu", {nperm}, p_int32, a_input);
+    buffer B1_prop_r_cpu("B1_prop_r_cpu",   {t, iCprime, iSprime, jCprime, jSprime, x, y, tri}, p_float64, a_input);
+    buffer B1_prop_i_cpu("B1_prop_i_cpu",   {t, iCprime, iSprime, jCprime, jSprime, x, y, tri}, p_float64, a_input);
+    buffer src_psi_B1_r_cpu("src_psi_B1_r_cpu",    {y, m}, p_float64, a_input);
+    buffer src_psi_B1_i_cpu("src_psi_B1_i_cpu",    {y, m}, p_float64, a_input);
+    buffer snk_psi_r_cpu("snk_psi_r_cpu", {x, n}, p_float64, a_input);
+    buffer snk_psi_i_cpu("snk_psi_i_cpu", {x, n}, p_float64, a_input);
+    buffer src_color_weights_cpu("src_color_weights_cpu", {rp, wnum, q}, p_int32, a_input);
+    buffer src_spin_weights_cpu("src_spin_weights_cpu", {rp, wnum, q}, p_int32, a_input);
+    buffer src_weights_cpu("src_weights_cpu", {rp, wnum}, p_float64, a_input);
+    buffer snk_color_weights_cpu("snk_color_weights_cpu", {r, nperm, wnum, q}, p_int32, a_input);
+    buffer snk_spin_weights_cpu("snk_spin_weights_cpu", {r, nperm, wnum, q}, p_int32, a_input);
+    buffer snk_weights_cpu("snk_weights_cpu", {r, wnum}, p_float64, a_input);
+    buffer src_spins_cpu("src_spins_cpu", {rp}, p_int32, a_input);
+    buffer sigs_cpu("sigs_cpu", {nperm}, p_int32, a_input);
 
     // buffer buf_B1_Blocal_r1_r("buf_B1_Blocal_r1_r",   {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m}, p_float64, a_temporary);
     // buffer buf_B1_Blocal_r1_i("buf_B1_Blocal_r1_i",   {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m}, p_float64, a_temporary);
