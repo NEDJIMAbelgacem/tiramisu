@@ -176,39 +176,39 @@ void generate_function(std::string name)
     /* Correlator */
 
 // declaring buffers
-    buffer buf_C_r("buf_C_r", {t, x_out, rp, m, r, n}, p_float64, a_input);
-    buffer buf_C_i("buf_C_i", {t, x_out, rp, m, r, n}, p_float64, a_input);
-    buffer buf_B1_prop_r("buf_B1_prop_r",   {t, iCprime, iSprime, jCprime, jSprime, x, y, tri}, p_float64, a_temporary);
-    buffer buf_B1_prop_i("buf_B1_prop_i",   {t, iCprime, iSprime, jCprime, jSprime, x, y, tri}, p_float64, a_temporary);
-    buffer buf_src_psi_B1_r("buf_src_psi_B1_r",    {y, m}, p_float64, a_temporary);
-    buffer buf_src_psi_B1_i("buf_src_psi_B1_i",    {y, m}, p_float64, a_temporary);
-    buffer buf_snk_psi_r("buf_snk_psi_r", {x, n}, p_float64, a_temporary);
-    buffer buf_snk_psi_i("buf_snk_psi_i", {x, n}, p_float64, a_temporary);
-    buffer buf_src_color_weights("buf_src_color_weights", {rp, wnum, q}, p_int32, a_temporary);
-    buffer buf_src_spin_weights("buf_src_spin_weights", {rp, wnum, q}, p_int32, a_temporary);
-    buffer buf_src_weights("buf_src_weights", {rp, wnum}, p_float64, a_temporary);
-    buffer buf_snk_color_weights("buf_snk_color_weights", {r, nperm, wnum, q}, p_int32, a_temporary);
-    buffer buf_snk_spin_weights("buf_snk_spin_weights", {r, nperm, wnum, q}, p_int32, a_temporary);
-    buffer buf_snk_weights("buf_snk_weights", {r, wnum}, p_float64, a_temporary);
-    buffer buf_src_spins("buf_src_spins", {rp}, p_int32, a_temporary);
-    buffer buf_sigs("buf_sigs", {nperm}, p_int32, a_temporary);
+    buffer buf_C_r("buf_C_r", {t, x_out, rp, m, r, n}, p_float64, a_temporary);
+    buffer buf_C_i("buf_C_i", {t, x_out, rp, m, r, n}, p_float64, a_temporary);
+    // buffer buf_B1_prop_r("buf_B1_prop_r",   {t, iCprime, iSprime, jCprime, jSprime, x, y, tri}, p_float64, a_temporary);
+    // buffer buf_B1_prop_i("buf_B1_prop_i",   {t, iCprime, iSprime, jCprime, jSprime, x, y, tri}, p_float64, a_temporary);
+    // buffer buf_src_psi_B1_r("buf_src_psi_B1_r",    {y, m}, p_float64, a_temporary);
+    // buffer buf_src_psi_B1_i("buf_src_psi_B1_i",    {y, m}, p_float64, a_temporary);
+    // buffer buf_snk_psi_r("buf_snk_psi_r", {x, n}, p_float64, a_temporary);
+    // buffer buf_snk_psi_i("buf_snk_psi_i", {x, n}, p_float64, a_temporary);
+    // buffer buf_src_color_weights("buf_src_color_weights", {rp, wnum, q}, p_int32, a_temporary);
+    // buffer buf_src_spin_weights("buf_src_spin_weights", {rp, wnum, q}, p_int32, a_temporary);
+    // buffer buf_src_weights("buf_src_weights", {rp, wnum}, p_float64, a_temporary);
+    // buffer buf_snk_color_weights("buf_snk_color_weights", {r, nperm, wnum, q}, p_int32, a_temporary);
+    // buffer buf_snk_spin_weights("buf_snk_spin_weights", {r, nperm, wnum, q}, p_int32, a_temporary);
+    // buffer buf_snk_weights("buf_snk_weights", {r, wnum}, p_float64, a_temporary);
+    // buffer buf_src_spins("buf_src_spins", {rp}, p_int32, a_temporary);
+    // buffer buf_sigs("buf_sigs", {nperm}, p_int32, a_temporary);
 
     C_r.store_in(&buf_C_r);
     C_i.store_in(&buf_C_i);
-    B1_prop_r.store_in(&buf_B1_prop_r, {t, iCprime, iSprime, jCprime, jSprime, x, y, tri});
-    B1_prop_i.store_in(&buf_B1_prop_i, {t, iCprime, iSprime, jCprime, jSprime, x, y, tri});
-    src_psi_B1_r.store_in(&buf_src_psi_B1_r, {y, m});
-    src_psi_B1_i.store_in(&buf_src_psi_B1_i, {y, m});
-    snk_psi_r.store_in(&buf_snk_psi_r, {x, n});
-    snk_psi_i.store_in(&buf_snk_psi_i, {x, n});
-    src_color_weights.store_in(&buf_src_color_weights, {rp, wnum, q});
-    src_spin_weights.store_in(&buf_src_spin_weights, {rp, wnum, q});
-    src_weights.store_in(&buf_src_weights, {rp, wnum, q});
-    snk_color_weights.store_in(&buf_snk_color_weights, {r, nperm, wnum, q});
-    snk_spin_weights.store_in(&buf_snk_spin_weights, {r, nperm, wnum, q});
-    snk_weights.store_in(&buf_snk_weights, {r, wnum});
-    src_spins.store_in(&buf_src_spins, {rp});
-    sigs.store_in(&buf_sigs, {nperm});
+    // B1_prop_r.store_in(&buf_B1_prop_r, {t, iCprime, iSprime, jCprime, jSprime, x, y, tri});
+    // B1_prop_i.store_in(&buf_B1_prop_i, {t, iCprime, iSprime, jCprime, jSprime, x, y, tri});
+    // src_psi_B1_r.store_in(&buf_src_psi_B1_r, {y, m});
+    // src_psi_B1_i.store_in(&buf_src_psi_B1_i, {y, m});
+    // snk_psi_r.store_in(&buf_snk_psi_r, {x, n});
+    // snk_psi_i.store_in(&buf_snk_psi_i, {x, n});
+    // src_color_weights.store_in(&buf_src_color_weights, {rp, wnum, q});
+    // src_spin_weights.store_in(&buf_src_spin_weights, {rp, wnum, q});
+    // src_weights.store_in(&buf_src_weights, {rp, wnum, q});
+    // snk_color_weights.store_in(&buf_snk_color_weights, {r, nperm, wnum, q});
+    // snk_spin_weights.store_in(&buf_snk_spin_weights, {r, nperm, wnum, q});
+    // snk_weights.store_in(&buf_snk_weights, {r, wnum});
+    // src_spins.store_in(&buf_src_spins, {rp});
+    // sigs.store_in(&buf_sigs, {nperm});
 
     // B1_prop_r.store_in(&buf_B1_prop_r);
     // B1_prop_i.store_in(&buf_B1_prop_i);
@@ -228,26 +228,26 @@ void generate_function(std::string name)
 
    buf_C_r.tag_gpu_global();
    buf_C_i.tag_gpu_global();
-   buf_B1_prop_r.tag_gpu_global();
-   buf_B1_prop_i.tag_gpu_global();
-   buf_src_psi_B1_r.tag_gpu_global();
-   buf_src_psi_B1_i.tag_gpu_global();
-   buf_snk_psi_r.tag_gpu_global();
-   buf_snk_psi_i.tag_gpu_global();
-   buf_src_color_weights.tag_gpu_global();
-   buf_src_spin_weights.tag_gpu_global();
-   buf_src_weights.tag_gpu_global();
-   buf_snk_color_weights.tag_gpu_global();
-   buf_snk_spin_weights.tag_gpu_global();
-   buf_snk_weights.tag_gpu_global();
-   buf_src_spins.tag_gpu_global();
-   buf_sigs.tag_gpu_global();
+//    buf_B1_prop_r.tag_gpu_global();
+//    buf_B1_prop_i.tag_gpu_global();
+//    buf_src_psi_B1_r.tag_gpu_global();
+//    buf_src_psi_B1_i.tag_gpu_global();
+//    buf_snk_psi_r.tag_gpu_global();
+//    buf_snk_psi_i.tag_gpu_global();
+//    buf_src_color_weights.tag_gpu_global();
+//    buf_src_spin_weights.tag_gpu_global();
+//    buf_src_weights.tag_gpu_global();
+//    buf_snk_color_weights.tag_gpu_global();
+//    buf_snk_spin_weights.tag_gpu_global();
+//    buf_snk_weights.tag_gpu_global();
+//    buf_src_spins.tag_gpu_global();
+//    buf_sigs.tag_gpu_global();
 
-    buffer* buf_new_term_r_b1;//("buf_new_term_r_b1", {1}, p_float64, a_temporary);
-    buffer* buf_new_term_i_b1;//("buf_new_term_i_b1", {1}, p_float64, a_temporary);
-    allocate_complex_buffers(buf_new_term_r_b1, buf_new_term_i_b1, {1}, "buf_new_term_b1");
-    buf_new_term_r_b1->tag_gpu_global();
-    buf_new_term_i_b1->tag_gpu_global();
+    // buffer* buf_new_term_r_b1;//("buf_new_term_r_b1", {1}, p_float64, a_temporary);
+    // buffer* buf_new_term_i_b1;//("buf_new_term_i_b1", {1}, p_float64, a_temporary);
+    // allocate_complex_buffers(buf_new_term_r_b1, buf_new_term_i_b1, {1}, "buf_new_term_b1");
+    // buf_new_term_r_b1->tag_gpu_global();
+    // buf_new_term_i_b1->tag_gpu_global();
 
     // new_term_0_r1_b1.get_real()->store_in(buf_new_term_r_b1, {0});
     // new_term_0_r1_b1.get_imag()->store_in(buf_new_term_i_b1, {0});
@@ -255,10 +255,10 @@ void generate_function(std::string name)
     // new_term_0_r2_b1.get_real()->store_in(buf_new_term_r_b1, {0});
     // new_term_0_r2_b1.get_imag()->store_in(buf_new_term_i_b1, {0});
 
-    buffer buf_C_prop_r("buf_C_prop_r", {1}, p_float64, a_temporary);
-    buffer buf_C_prop_i("buf_C_prop_i", {1}, p_float64, a_temporary);
-    buf_C_prop_r.tag_gpu_global();
-    buf_C_prop_i.tag_gpu_global();
+    // buffer buf_C_prop_r("buf_C_prop_r", {1}, p_float64, a_temporary);
+    // buffer buf_C_prop_i("buf_C_prop_i", {1}, p_float64, a_temporary);
+    // buf_C_prop_r.tag_gpu_global();
+    // buf_C_prop_i.tag_gpu_global();
 
     // C_prop_init_r.store_in(&buf_C_prop_r, {0});
     // C_prop_init_i.store_in(&buf_C_prop_i, {0});
@@ -272,62 +272,62 @@ void generate_function(std::string name)
 
     buffer buf_C_r_cpu("buf_C_r_cpu", {t, x_out, rp, m, r, n}, p_float64, a_output);
     buffer buf_C_i_cpu("buf_C_i_cpu", {t, x_out, rp, m, r, n}, p_float64, a_output);
-    buffer B1_prop_r_cpu("B1_prop_r_cpu",   {t, iCprime, iSprime, jCprime, jSprime, x, y, tri}, p_float64, a_input);
-    buffer B1_prop_i_cpu("B1_prop_i_cpu",   {t, iCprime, iSprime, jCprime, jSprime, x, y, tri}, p_float64, a_input);
-    buffer src_psi_B1_r_cpu("src_psi_B1_r_cpu",    {y, m}, p_float64, a_input);
-    buffer src_psi_B1_i_cpu("src_psi_B1_i_cpu",    {y, m}, p_float64, a_input);
-    buffer snk_psi_r_cpu("snk_psi_r_cpu", {x, n}, p_float64, a_input);
-    buffer snk_psi_i_cpu("snk_psi_i_cpu", {x, n}, p_float64, a_input);
-    buffer src_color_weights_cpu("src_color_weights_cpu", {rp, wnum, q}, p_int32, a_input);
-    buffer src_spin_weights_cpu("src_spin_weights_cpu", {rp, wnum, q}, p_int32, a_input);
-    buffer src_weights_cpu("src_weights_cpu", {rp, wnum}, p_float64, a_input);
-    buffer snk_color_weights_cpu("snk_color_weights_cpu", {r, nperm, wnum, q}, p_int32, a_input);
-    buffer snk_spin_weights_cpu("snk_spin_weights_cpu", {r, nperm, wnum, q}, p_int32, a_input);
-    buffer snk_weights_cpu("snk_weights_cpu", {r, wnum}, p_float64, a_input);
-    buffer src_spins_cpu("src_spins_cpu", {rp}, p_int32, a_input);
-    buffer sigs_cpu("sigs_cpu", {nperm}, p_int32, a_input);
+    // buffer B1_prop_r_cpu("B1_prop_r_cpu",   {t, iCprime, iSprime, jCprime, jSprime, x, y, tri}, p_float64, a_input);
+    // buffer B1_prop_i_cpu("B1_prop_i_cpu",   {t, iCprime, iSprime, jCprime, jSprime, x, y, tri}, p_float64, a_input);
+    // buffer src_psi_B1_r_cpu("src_psi_B1_r_cpu",    {y, m}, p_float64, a_input);
+    // buffer src_psi_B1_i_cpu("src_psi_B1_i_cpu",    {y, m}, p_float64, a_input);
+    // buffer snk_psi_r_cpu("snk_psi_r_cpu", {x, n}, p_float64, a_input);
+    // buffer snk_psi_i_cpu("snk_psi_i_cpu", {x, n}, p_float64, a_input);
+    // buffer src_color_weights_cpu("src_color_weights_cpu", {rp, wnum, q}, p_int32, a_input);
+    // buffer src_spin_weights_cpu("src_spin_weights_cpu", {rp, wnum, q}, p_int32, a_input);
+    // buffer src_weights_cpu("src_weights_cpu", {rp, wnum}, p_float64, a_input);
+    // buffer snk_color_weights_cpu("snk_color_weights_cpu", {r, nperm, wnum, q}, p_int32, a_input);
+    // buffer snk_spin_weights_cpu("snk_spin_weights_cpu", {r, nperm, wnum, q}, p_int32, a_input);
+    // buffer snk_weights_cpu("snk_weights_cpu", {r, wnum}, p_float64, a_input);
+    // buffer src_spins_cpu("src_spins_cpu", {rp}, p_int32, a_input);
+    // buffer sigs_cpu("sigs_cpu", {nperm}, p_int32, a_input);
 
-    buffer buf_B1_Blocal_r1_r("buf_B1_Blocal_r1_r",   {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m}, p_float64, a_temporary);
-    buffer buf_B1_Blocal_r1_i("buf_B1_Blocal_r1_i",   {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m}, p_float64, a_temporary);
-    buf_B1_Blocal_r1_r.tag_gpu_global();
-    buf_B1_Blocal_r1_i.tag_gpu_global();
+    // buffer buf_B1_Blocal_r1_r("buf_B1_Blocal_r1_r",   {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m}, p_float64, a_temporary);
+    // buffer buf_B1_Blocal_r1_i("buf_B1_Blocal_r1_i",   {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m}, p_float64, a_temporary);
+    // buf_B1_Blocal_r1_r.tag_gpu_global();
+    // buf_B1_Blocal_r1_i.tag_gpu_global();
     // B1_Blocal_r1_r_init.store_in(&buf_B1_Blocal_r1_r, {iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m});
     // B1_Blocal_r1_i_init.store_in(&buf_B1_Blocal_r1_i, {iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m});
     // B1_Blocal_r1_r_update.store_in(&buf_B1_Blocal_r1_r, {iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m});
     // B1_Blocal_r1_i_update.store_in(&buf_B1_Blocal_r1_i, {iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m});
-    buffer buf_B1_Blocal_diquark_r1_r("buf_B1_Blocal_diquark_r1_r",   {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, wnumBlock}, p_float64, a_temporary);
-    buffer buf_B1_Blocal_diquark_r1_i("buf_B1_Blocal_diquark_r1_i",   {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, wnumBlock}, p_float64, a_temporary);
-    buf_B1_Blocal_diquark_r1_r.tag_gpu_global();
-    buf_B1_Blocal_diquark_r1_i.tag_gpu_global();
+    // buffer buf_B1_Blocal_diquark_r1_r("buf_B1_Blocal_diquark_r1_r",   {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, wnumBlock}, p_float64, a_temporary);
+    // buffer buf_B1_Blocal_diquark_r1_i("buf_B1_Blocal_diquark_r1_i",   {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, wnumBlock}, p_float64, a_temporary);
+    // buf_B1_Blocal_diquark_r1_r.tag_gpu_global();
+    // buf_B1_Blocal_diquark_r1_i.tag_gpu_global();
     // B1_Blocal_r1_r_diquark.store_in(&buf_B1_Blocal_diquark_r1_r, {0});
     // B1_Blocal_r1_i_diquark.store_in(&buf_B1_Blocal_diquark_r1_i, {0});
-    buffer buf_B1_Blocal_props_r1_r("buf_B1_Blocal_props_r1_r",   {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime}, p_float64, a_temporary);
-    buffer buf_B1_Blocal_props_r1_i("buf_B1_Blocal_props_r1_i",   {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime}, p_float64, a_temporary);
-    buf_B1_Blocal_props_r1_r.tag_gpu_global();
-    buf_B1_Blocal_props_r1_i.tag_gpu_global();
+    // buffer buf_B1_Blocal_props_r1_r("buf_B1_Blocal_props_r1_r",   {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime}, p_float64, a_temporary);
+    // buffer buf_B1_Blocal_props_r1_i("buf_B1_Blocal_props_r1_i",   {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime}, p_float64, a_temporary);
+    // buf_B1_Blocal_props_r1_r.tag_gpu_global();
+    // buf_B1_Blocal_props_r1_i.tag_gpu_global();
     // B1_Blocal_r1_r_props_init.store_in(&buf_B1_Blocal_props_r1_r, {jCprime, jSprime});
     // B1_Blocal_r1_i_props_init.store_in(&buf_B1_Blocal_props_r1_i, {jCprime, jSprime});
     // B1_Blocal_r1_r_props.store_in(&buf_B1_Blocal_props_r1_r, {jCprime, jSprime});
     // B1_Blocal_r1_i_props.store_in(&buf_B1_Blocal_props_r1_i, {jCprime, jSprime});
 
-    buffer buf_B1_Blocal_r2_r("buf_B1_Blocal_r2_r",   {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m}, p_float64, a_temporary);
-    buffer buf_B1_Blocal_r2_i("buf_B1_Blocal_r2_i",   {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m}, p_float64, a_temporary);
-    buf_B1_Blocal_r2_r.tag_gpu_global();
-    buf_B1_Blocal_r2_i.tag_gpu_global();
+    // buffer buf_B1_Blocal_r2_r("buf_B1_Blocal_r2_r",   {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m}, p_float64, a_temporary);
+    // buffer buf_B1_Blocal_r2_i("buf_B1_Blocal_r2_i",   {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m}, p_float64, a_temporary);
+    // buf_B1_Blocal_r2_r.tag_gpu_global();
+    // buf_B1_Blocal_r2_i.tag_gpu_global();
     // B1_Blocal_r2_r_init.store_in(&buf_B1_Blocal_r2_r, {iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m});
     // B1_Blocal_r2_i_init.store_in(&buf_B1_Blocal_r2_i, {iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m});
     // B1_Blocal_r2_r_update.store_in(&buf_B1_Blocal_r2_r, {iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m});
     // B1_Blocal_r2_i_update.store_in(&buf_B1_Blocal_r2_i, {iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m});
-    buffer buf_B1_Blocal_diquark_r2_r("buf_B1_Blocal_diquark_r2_r", {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, wnumBlock}, p_float64, a_temporary);
-    buffer buf_B1_Blocal_diquark_r2_i("buf_B1_Blocal_diquark_r2_i", {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, wnumBlock}, p_float64, a_temporary);
-    buf_B1_Blocal_diquark_r2_r.tag_gpu_global();
-    buf_B1_Blocal_diquark_r2_i.tag_gpu_global();
+    // buffer buf_B1_Blocal_diquark_r2_r("buf_B1_Blocal_diquark_r2_r", {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, wnumBlock}, p_float64, a_temporary);
+    // buffer buf_B1_Blocal_diquark_r2_i("buf_B1_Blocal_diquark_r2_i", {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, wnumBlock}, p_float64, a_temporary);
+    // buf_B1_Blocal_diquark_r2_r.tag_gpu_global();
+    // buf_B1_Blocal_diquark_r2_i.tag_gpu_global();
     // B1_Blocal_r2_r_diquark.store_in(&buf_B1_Blocal_diquark_r2_r, {0});
     // B1_Blocal_r2_i_diquark.store_in(&buf_B1_Blocal_diquark_r2_i, {0});
-    buffer buf_B1_Blocal_props_r2_r("buf_B1_Blocal_props_r2_r", {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime}, p_float64, a_temporary);
-    buffer buf_B1_Blocal_props_r2_i("buf_B1_Blocal_props_r2_i", {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime}, p_float64, a_temporary);
-    buf_B1_Blocal_props_r2_r.tag_gpu_global();
-    buf_B1_Blocal_props_r2_i.tag_gpu_global();
+    // buffer buf_B1_Blocal_props_r2_r("buf_B1_Blocal_props_r2_r", {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime}, p_float64, a_temporary);
+    // buffer buf_B1_Blocal_props_r2_i("buf_B1_Blocal_props_r2_i", {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime}, p_float64, a_temporary);
+    // buf_B1_Blocal_props_r2_r.tag_gpu_global();
+    // buf_B1_Blocal_props_r2_i.tag_gpu_global();
     // B1_Blocal_r2_r_props_init.store_in(&buf_B1_Blocal_props_r2_r, {jCprime, jSprime});
     // B1_Blocal_r2_i_props_init.store_in(&buf_B1_Blocal_props_r2_i, {jCprime, jSprime});
     // B1_Blocal_r2_r_props.store_in(&buf_B1_Blocal_props_r2_r, {jCprime, jSprime});
@@ -335,37 +335,37 @@ void generate_function(std::string name)
 
     computation copy_buf_C_r_host_to_device({}, memcpy(buf_C_r_cpu, buf_C_r));
     computation copy_buf_C_i_host_to_device({}, memcpy(buf_C_i_cpu, buf_C_i));
-    computation copy_B1_prop_r_host_to_device({}, memcpy(B1_prop_r_cpu, buf_B1_prop_r));
-    computation copy_B1_prop_i_host_to_device({}, memcpy(B1_prop_i_cpu, buf_B1_prop_i));
-    computation copy_src_psi_B1_r_host_to_device({}, memcpy(src_psi_B1_r_cpu, buf_src_psi_B1_r));
-    computation copy_src_psi_B1_i_host_to_device({}, memcpy(src_psi_B1_i_cpu, buf_src_psi_B1_i));
-    computation copy_snk_psi_r_host_to_device({}, memcpy(snk_psi_r_cpu, buf_snk_psi_r));
-    computation copy_snk_psi_i_host_to_device({}, memcpy(snk_psi_i_cpu, buf_snk_psi_i));
-    computation copy_src_color_weights_host_to_device({}, memcpy(src_color_weights_cpu, buf_src_color_weights));
-    computation copy_src_spin_weights_host_to_device({}, memcpy(src_spin_weights_cpu, buf_src_spin_weights));
-    computation copy_src_weights_host_to_device({}, memcpy(src_weights_cpu, buf_src_weights));
-    computation copy_src_spins_host_to_device({}, memcpy(src_spins_cpu, buf_src_spins));
-    computation copy_snk_color_weights_host_to_device({}, memcpy(snk_color_weights_cpu, buf_snk_color_weights));
-    computation copy_snk_spin_weights_host_to_device({}, memcpy(snk_spin_weights_cpu, buf_snk_spin_weights));
-    computation copy_snk_weights_host_to_device({}, memcpy(snk_weights_cpu, buf_snk_weights));
-    computation copy_sigs_host_to_device({}, memcpy(sigs_cpu, buf_sigs));
+    // computation copy_B1_prop_r_host_to_device({}, memcpy(B1_prop_r_cpu, buf_B1_prop_r));
+    // computation copy_B1_prop_i_host_to_device({}, memcpy(B1_prop_i_cpu, buf_B1_prop_i));
+    // computation copy_src_psi_B1_r_host_to_device({}, memcpy(src_psi_B1_r_cpu, buf_src_psi_B1_r));
+    // computation copy_src_psi_B1_i_host_to_device({}, memcpy(src_psi_B1_i_cpu, buf_src_psi_B1_i));
+    // computation copy_snk_psi_r_host_to_device({}, memcpy(snk_psi_r_cpu, buf_snk_psi_r));
+    // computation copy_snk_psi_i_host_to_device({}, memcpy(snk_psi_i_cpu, buf_snk_psi_i));
+    // computation copy_src_color_weights_host_to_device({}, memcpy(src_color_weights_cpu, buf_src_color_weights));
+    // computation copy_src_spin_weights_host_to_device({}, memcpy(src_spin_weights_cpu, buf_src_spin_weights));
+    // computation copy_src_weights_host_to_device({}, memcpy(src_weights_cpu, buf_src_weights));
+    // computation copy_src_spins_host_to_device({}, memcpy(src_spins_cpu, buf_src_spins));
+    // computation copy_snk_color_weights_host_to_device({}, memcpy(snk_color_weights_cpu, buf_snk_color_weights));
+    // computation copy_snk_spin_weights_host_to_device({}, memcpy(snk_spin_weights_cpu, buf_snk_spin_weights));
+    // computation copy_snk_weights_host_to_device({}, memcpy(snk_weights_cpu, buf_snk_weights));
+    // computation copy_sigs_host_to_device({}, memcpy(sigs_cpu, buf_sigs));
 
     computation copy_buf_C_r_device_to_host({}, memcpy(buf_C_r, buf_C_r_cpu));
     computation copy_buf_C_i_device_to_host({}, memcpy(buf_C_i, buf_C_i_cpu));
-    computation copy_B1_prop_r_device_to_host({}, memcpy(*B1_prop_r.get_buffer(), B1_prop_r_cpu));
-    computation copy_B1_prop_i_device_to_host({}, memcpy(*B1_prop_i.get_buffer(), B1_prop_i_cpu));
-    computation copy_src_psi_B1_r_device_to_host({}, memcpy(*src_psi_B1_r.get_buffer(), src_psi_B1_r_cpu));
-    computation copy_src_psi_B1_i_device_to_host({}, memcpy(*src_psi_B1_i.get_buffer(), src_psi_B1_i_cpu));
-    computation copy_snk_psi_r_device_to_host({}, memcpy(*snk_psi_r.get_buffer(), snk_psi_r_cpu));
-    computation copy_snk_psi_i_device_to_host({}, memcpy(*snk_psi_i.get_buffer(), snk_psi_i_cpu));
-    computation copy_src_color_weights_device_to_host({}, memcpy(*src_color_weights.get_buffer(), src_color_weights_cpu));
-    computation copy_src_spin_weights_device_to_host({}, memcpy(*src_spin_weights.get_buffer(), src_spin_weights_cpu));
-    computation copy_src_weights_device_to_host({}, memcpy(*src_weights.get_buffer(), src_weights_cpu));
-    computation copy_src_spins_device_to_host({}, memcpy(*src_spins.get_buffer(), src_spins_cpu));
-    computation copy_snk_color_weights_device_to_host({}, memcpy(*snk_color_weights.get_buffer(), snk_color_weights_cpu));
-    computation copy_snk_spin_weights_device_to_host({}, memcpy(*snk_spin_weights.get_buffer(), snk_spin_weights_cpu));
-    computation copy_snk_weights_device_to_host({}, memcpy(*snk_weights.get_buffer(), snk_weights_cpu));
-    computation copy_sigs_device_to_host({}, memcpy(*sigs.get_buffer(), sigs_cpu));
+    // computation copy_B1_prop_r_device_to_host({}, memcpy(*B1_prop_r.get_buffer(), B1_prop_r_cpu));
+    // computation copy_B1_prop_i_device_to_host({}, memcpy(*B1_prop_i.get_buffer(), B1_prop_i_cpu));
+    // computation copy_src_psi_B1_r_device_to_host({}, memcpy(*src_psi_B1_r.get_buffer(), src_psi_B1_r_cpu));
+    // computation copy_src_psi_B1_i_device_to_host({}, memcpy(*src_psi_B1_i.get_buffer(), src_psi_B1_i_cpu));
+    // computation copy_snk_psi_r_device_to_host({}, memcpy(*snk_psi_r.get_buffer(), snk_psi_r_cpu));
+    // computation copy_snk_psi_i_device_to_host({}, memcpy(*snk_psi_i.get_buffer(), snk_psi_i_cpu));
+    // computation copy_src_color_weights_device_to_host({}, memcpy(*src_color_weights.get_buffer(), src_color_weights_cpu));
+    // computation copy_src_spin_weights_device_to_host({}, memcpy(*src_spin_weights.get_buffer(), src_spin_weights_cpu));
+    // computation copy_src_weights_device_to_host({}, memcpy(*src_weights.get_buffer(), src_weights_cpu));
+    // computation copy_src_spins_device_to_host({}, memcpy(*src_spins.get_buffer(), src_spins_cpu));
+    // computation copy_snk_color_weights_device_to_host({}, memcpy(*snk_color_weights.get_buffer(), snk_color_weights_cpu));
+    // computation copy_snk_spin_weights_device_to_host({}, memcpy(*snk_spin_weights.get_buffer(), snk_spin_weights_cpu));
+    // computation copy_snk_weights_device_to_host({}, memcpy(*snk_weights.get_buffer(), snk_weights_cpu));
+    // computation copy_sigs_device_to_host({}, memcpy(*sigs.get_buffer(), sigs_cpu));
 
     // -------------------------------------------------------
     // Layer III
@@ -436,21 +436,21 @@ void generate_function(std::string name)
 
     computation* handle = &copy_buf_C_r_host_to_device.then(copy_buf_C_i_host_to_device, computation::root);
 
-    handle = &(handle->
-             then(copy_B1_prop_r_host_to_device, computation::root)
-            .then(copy_B1_prop_i_host_to_device, computation::root)
-            .then(copy_src_psi_B1_r_host_to_device, computation::root)
-            .then(copy_src_psi_B1_i_host_to_device, computation::root)
-            .then(copy_snk_psi_r_host_to_device, computation::root)
-            .then(copy_snk_psi_i_host_to_device, computation::root)
-            .then(copy_src_color_weights_host_to_device, computation::root)
-            .then(copy_src_spin_weights_host_to_device, computation::root)
-            .then(copy_src_weights_host_to_device, computation::root)
-            .then(copy_src_spins_host_to_device, computation::root)
-            .then(copy_snk_color_weights_host_to_device, computation::root)
-            .then(copy_snk_spin_weights_host_to_device, computation::root)
-            .then(copy_snk_weights_host_to_device, computation::root)
-            .then(copy_sigs_host_to_device, computation::root)
+    // handle = &(handle->
+    //          then(copy_B1_prop_r_host_to_device, computation::root)
+    //         .then(copy_B1_prop_i_host_to_device, computation::root)
+    //         .then(copy_src_psi_B1_r_host_to_device, computation::root)
+    //         .then(copy_src_psi_B1_i_host_to_device, computation::root)
+    //         .then(copy_snk_psi_r_host_to_device, computation::root)
+    //         .then(copy_snk_psi_i_host_to_device, computation::root)
+    //         .then(copy_src_color_weights_host_to_device, computation::root)
+    //         .then(copy_src_spin_weights_host_to_device, computation::root)
+    //         .then(copy_src_weights_host_to_device, computation::root)
+    //         .then(copy_src_spins_host_to_device, computation::root)
+    //         .then(copy_snk_color_weights_host_to_device, computation::root)
+    //         .then(copy_snk_spin_weights_host_to_device, computation::root)
+    //         .then(copy_snk_weights_host_to_device, computation::root)
+    //         .then(copy_sigs_host_to_device, computation::root)
             // .then(C_init_r, computation::root)
             // .then(C_init_i, computation::root)
             );
@@ -495,20 +495,20 @@ void generate_function(std::string name)
 
     handle = &handle->then(copy_buf_C_r_device_to_host, computation::root)
             .then(copy_buf_C_i_device_to_host, computation::root)
-            .then(copy_B1_prop_r_device_to_host, computation::root)
-            .then(copy_B1_prop_i_device_to_host, computation::root)
-            .then(copy_src_psi_B1_r_device_to_host, computation::root)
-            .then(copy_src_psi_B1_i_device_to_host, computation::root)
-            .then(copy_snk_psi_r_device_to_host, computation::root)
-            .then(copy_snk_psi_i_device_to_host, computation::root)
-            .then(copy_src_color_weights_device_to_host, computation::root)
-            .then(copy_src_spin_weights_device_to_host, computation::root)
-            .then(copy_src_weights_device_to_host, computation::root)
-            .then(copy_src_spins_device_to_host, computation::root)
-            .then(copy_snk_color_weights_device_to_host, computation::root)
-            .then(copy_snk_spin_weights_device_to_host, computation::root)
-            .then(copy_snk_weights_device_to_host, computation::root)
-            .then(copy_sigs_device_to_host, computation::root)
+            // .then(copy_B1_prop_r_device_to_host, computation::root)
+            // .then(copy_B1_prop_i_device_to_host, computation::root)
+            // .then(copy_src_psi_B1_r_device_to_host, computation::root)
+            // .then(copy_src_psi_B1_i_device_to_host, computation::root)
+            // .then(copy_snk_psi_r_device_to_host, computation::root)
+            // .then(copy_snk_psi_i_device_to_host, computation::root)
+            // .then(copy_src_color_weights_device_to_host, computation::root)
+            // .then(copy_src_spin_weights_device_to_host, computation::root)
+            // .then(copy_src_weights_device_to_host, computation::root)
+            // .then(copy_src_spins_device_to_host, computation::root)
+            // .then(copy_snk_color_weights_device_to_host, computation::root)
+            // .then(copy_snk_spin_weights_device_to_host, computation::root)
+            // .then(copy_snk_weights_device_to_host, computation::root)
+            // .then(copy_sigs_device_to_host, computation::root)
             ;
 
 
