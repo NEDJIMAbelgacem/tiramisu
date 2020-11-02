@@ -35,6 +35,7 @@ void generate_function(std::string name)
         kCprime("kCprime", 0, Nc),
         kSprime("kSprime", 0, Ns);
     // {Lt, Nc, Ns, Nc, Ns, Vsnk, Vsrc, Nq};
+    //  {Lt, Vsnk/sites_per_rank, B1Nrows, NsrcHex, B1Nrows, NsnkHex}
 
    input C_r("C_r",      {t, x_out, rp, m, r, n}, p_float64);
    input C_i("C_i",      {t, x_out, rp, m, r, n}, p_float64);
@@ -246,8 +247,8 @@ void generate_function(std::string name)
 
 
 
-    buffer buf_C_r("buf_C_r", {t, x_out, rp, m, r, n}, p_float64, a_temporary);
-    buffer buf_C_i("buf_C_i", {t, x_out, rp, m, r, n}, p_float64, a_temporary);
+    buffer buf_C_r("buf_C_r", {Lt, Vsnk/sites_per_rank, B1Nrows, NsrcHex, B1Nrows, NsnkHex}, p_float64, a_temporary);
+    buffer buf_C_i("buf_C_i", {Lt, Vsnk/sites_per_rank, B1Nrows, NsrcHex, B1Nrows, NsnkHex}, p_float64, a_temporary);
     buf_C_r.tag_gpu_global();
     buf_C_i.tag_gpu_global();
 
@@ -295,8 +296,8 @@ void generate_function(std::string name)
         // &sigs_cpu
         // }, 
 
-    buffer buf_C_r_cpu("buf_C_r_cpu", {t, x_out, rp, m, r, n}, p_float64, a_input);
-    buffer buf_C_i_cpu("buf_C_i_cpu", {t, x_out, rp, m, r, n}, p_float64, a_input);
+    buffer buf_C_r_cpu("buf_C_r_cpu", {Lt, Vsnk/sites_per_rank, B1Nrows, NsrcHex, B1Nrows, NsnkHex}, p_float64, a_input);
+    buffer buf_C_i_cpu("buf_C_i_cpu", {Lt, Vsnk/sites_per_rank, B1Nrows, NsrcHex, B1Nrows, NsnkHex}, p_float64, a_input);
     buffer B1_prop_r_cpu("B1_prop_r_cpu",   {Lt, Nc, Ns, Nc, Ns, Vsnk, Vsrc, Nq}, p_float64, a_input);
     buffer B1_prop_i_cpu("B1_prop_i_cpu",   {Lt, Nc, Ns, Nc, Ns, Vsnk, Vsrc, Nq}, p_float64, a_input);
     buffer src_psi_B1_r_cpu("src_psi_B1_r_cpu",    {Vsrc, NsrcHex}, p_float64, a_input);
