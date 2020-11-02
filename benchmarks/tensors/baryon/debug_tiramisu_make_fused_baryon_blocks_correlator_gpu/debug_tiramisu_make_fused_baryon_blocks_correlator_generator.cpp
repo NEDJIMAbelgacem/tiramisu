@@ -99,7 +99,7 @@ void generate_function(std::string name)
             ;
 
    input C_r("C_r",      {t, x_out, rp, m, r, n}, p_float64);
-   output C_i("C_i",      {t, x_out, rp, m, r, n}, p_float64);
+   input C_i("C_i",      {t, x_out, rp, m, r, n}, p_float64);
     C_r.store_in(&buf_C_r);
     C_i.store_in(&buf_C_i);
 
