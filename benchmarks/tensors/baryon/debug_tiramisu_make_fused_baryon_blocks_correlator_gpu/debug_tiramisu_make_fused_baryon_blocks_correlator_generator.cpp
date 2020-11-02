@@ -68,8 +68,8 @@ void generate_function(std::string name)
     computation C_init_r("C_init_r", {t, x_out, rp, m, r, n}, expr((double) 0));
     computation C_init_i("C_init_i", {t, x_out, rp, m, r, n}, expr((double) 0));
 
-    C_init_r.store_in(buf_C_r);
-    C_init_i.store_in(buf_C_i);
+    C_init_r.store_in(&buf_C_r);
+    C_init_i.store_in(&buf_C_i);
 
     // buffer B1_prop_r_cpu("B1_prop_r_cpu",   {t, iCprime, iSprime, jCprime, jSprime, x, y, tri}, p_float64, a_temporary);
     // buffer B1_prop_i_cpu("B1_prop_i_cpu",   {t, iCprime, iSprime, jCprime, jSprime, x, y, tri}, p_float64, a_temporary);
