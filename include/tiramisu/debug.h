@@ -112,6 +112,7 @@ extern int tiramisu_indentation;
               << __LINE__ << " - " << message << std::endl; \
     if (exit_program)                                       \
     {                                                       \
+        __builtin_trap();                                   \
         exit(1);                                            \
     }                                                       \
 }
