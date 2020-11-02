@@ -20,7 +20,7 @@ void generate_function(std::string name)
         q("q", 0, Nq),
         wnum("wnum", 0, Nw),
         wnumBlock("wnumBlock", 0, Nw),
-        t("t", 0, 16),//Lt),
+        t("t", 0, Lt),
         x("x", 0, Vsnk),
         x_out("x_out", 0, Vsnk/sites_per_rank),
         x_in("x_in", 0, sites_per_rank),
@@ -34,6 +34,7 @@ void generate_function(std::string name)
         jSprime("jSprime", 0, Ns),
         kCprime("kCprime", 0, Nc),
         kSprime("kSprime", 0, Ns);
+    // {Lt, Nc, Ns, Nc, Ns, Vsnk, Vsrc, Nq};
 
    input C_r("C_r",      {t, x_out, rp, m, r, n}, p_float64);
    input C_i("C_i",      {t, x_out, rp, m, r, n}, p_float64);
@@ -178,20 +179,20 @@ void generate_function(std::string name)
 // declaring buffers
     // buffer buf_C_r("buf_C_r", {t, x_out, rp, m, r, n}, p_float64, a_temporary);
     // buffer buf_C_i("buf_C_i", {t, x_out, rp, m, r, n}, p_float64, a_temporary);
-    buffer buf_B1_prop_r("buf_B1_prop_r",   {t, iCprime, iSprime, jCprime, jSprime, x, y, tri}, p_float64, a_temporary);
-    buffer buf_B1_prop_i("buf_B1_prop_i",   {t, iCprime, iSprime, jCprime, jSprime, x, y, tri}, p_float64, a_temporary);
-    buffer buf_src_psi_B1_r("buf_src_psi_B1_r",    {y, m}, p_float64, a_temporary);
-    buffer buf_src_psi_B1_i("buf_src_psi_B1_i",    {y, m}, p_float64, a_temporary);
-    buffer buf_snk_psi_r("buf_snk_psi_r", {x, n}, p_float64, a_temporary);
-    buffer buf_snk_psi_i("buf_snk_psi_i", {x, n}, p_float64, a_temporary);
-    buffer buf_src_color_weights("buf_src_color_weights", {rp, wnum, q}, p_int32, a_temporary);
-    buffer buf_src_spin_weights("buf_src_spin_weights", {rp, wnum, q}, p_int32, a_temporary);
-    buffer buf_src_weights("buf_src_weights", {rp, wnum}, p_float64, a_temporary);
-    buffer buf_snk_color_weights("buf_snk_color_weights", {r, nperm, wnum, q}, p_int32, a_temporary);
-    buffer buf_snk_spin_weights("buf_snk_spin_weights", {r, nperm, wnum, q}, p_int32, a_temporary);
-    buffer buf_snk_weights("buf_snk_weights", {r, wnum}, p_float64, a_temporary);
-    buffer buf_src_spins("buf_src_spins", {rp}, p_int32, a_temporary);
-    buffer buf_sigs("buf_sigs", {nperm}, p_int32, a_temporary);
+    buffer buf_B1_prop_r("buf_B1_prop_r",   {Lt, Nc, Ns, Nc, Ns, Vsnk, Vsrc, Nq}, p_float64, a_temporary);
+    buffer buf_B1_prop_i("buf_B1_prop_i",   {Lt, Nc, Ns, Nc, Ns, Vsnk, Vsrc, Nq}, p_float64, a_temporary);
+    buffer buf_src_psi_B1_r("buf_src_psi_B1_r",    {Vsrc, NsrcHex}, p_float64, a_temporary);
+    buffer buf_src_psi_B1_i("buf_src_psi_B1_i",    {Vsrc, NsrcHex}, p_float64, a_temporary);
+    buffer buf_snk_psi_r("buf_snk_psi_r", {Vsnk, NsnkHex}, p_float64, a_temporary);
+    buffer buf_snk_psi_i("buf_snk_psi_i", {Vsnk, NsnkHex}, p_float64, a_temporary);
+    buffer buf_src_color_weights("buf_src_color_weights", {B1Nrows, Nw, Nq}, p_int32, a_temporary);
+    buffer buf_src_spin_weights("buf_src_spin_weights", {B1Nrows, Nw, Nq}, p_int32, a_temporary);
+    buffer buf_src_weights("buf_src_weights", {B1Nrows, Nw}, p_float64, a_temporary);
+    buffer buf_snk_color_weights("buf_snk_color_weights", {B1Nrows, B1Nperms, Nw, Nq}, p_int32, a_temporary);
+    buffer buf_snk_spin_weights("buf_snk_spin_weights", {B1Nrows, B1Nperms, Nw, Nq}, p_int32, a_temporary);
+    buffer buf_snk_weights("buf_snk_weights", {B1Nrows, Nw}, p_float64, a_temporary);
+    buffer buf_src_spins("buf_src_spins", {B1Nrows}, p_int32, a_temporary);
+    buffer buf_sigs("buf_sigs", {B1Nperms}, p_int32, a_temporary);
 
     // C_r.store_in(&buf_C_r);
     // C_i.store_in(&buf_C_i);
@@ -293,22 +294,37 @@ void generate_function(std::string name)
         // &snk_weights_cpu,
         // &sigs_cpu
         // }, 
+    buffer buf_B1_prop_r("buf_B1_prop_r",   {Lt, Nc, Ns, Nc, Ns, Vsnk, Vsrc, Nq}, p_float64, a_temporary);
+    buffer buf_B1_prop_i("buf_B1_prop_i",   {Lt, Nc, Ns, Nc, Ns, Vsnk, Vsrc, Nq}, p_float64, a_temporary);
+    buffer buf_src_psi_B1_r("buf_src_psi_B1_r",    {Vsrc, NsrcHex}, p_float64, a_temporary);
+    buffer buf_src_psi_B1_i("buf_src_psi_B1_i",    {Vsrc, NsrcHex}, p_float64, a_temporary);
+    buffer buf_snk_psi_r("buf_snk_psi_r", {Vsnk, NsnkHex}, p_float64, a_temporary);
+    buffer buf_snk_psi_i("buf_snk_psi_i", {Vsnk, NsnkHex}, p_float64, a_temporary);
+    buffer buf_src_color_weights("buf_src_color_weights", {B1Nrows, Nw, Nq}, p_int32, a_temporary);
+    buffer buf_src_spin_weights("buf_src_spin_weights", {B1Nrows, Nw, Nq}, p_int32, a_temporary);
+    buffer buf_src_weights("buf_src_weights", {B1Nrows, Nw}, p_float64, a_temporary);
+    buffer buf_snk_color_weights("buf_snk_color_weights", {B1Nrows, B1Nperms, Nw, Nq}, p_int32, a_temporary);
+    buffer buf_snk_spin_weights("buf_snk_spin_weights", {B1Nrows, B1Nperms, Nw, Nq}, p_int32, a_temporary);
+    buffer buf_snk_weights("buf_snk_weights", {B1Nrows, Nw}, p_float64, a_temporary);
+    buffer buf_src_spins("buf_src_spins", {B1Nrows}, p_int32, a_temporary);
+    buffer buf_sigs("buf_sigs", {B1Nperms}, p_int32, a_temporary);
+
     buffer buf_C_r_cpu("buf_C_r_cpu", {t, x_out, rp, m, r, n}, p_float64, a_input);
     buffer buf_C_i_cpu("buf_C_i_cpu", {t, x_out, rp, m, r, n}, p_float64, a_input);
-    buffer B1_prop_r_cpu("B1_prop_r_cpu",   {t, iCprime, iSprime, jCprime, jSprime, x, y, tri}, p_float64, a_input);
-    buffer B1_prop_i_cpu("B1_prop_i_cpu",   {t, iCprime, iSprime, jCprime, jSprime, x, y, tri}, p_float64, a_input);
-    buffer src_psi_B1_r_cpu("src_psi_B1_r_cpu",    {y, m}, p_float64, a_input);
-    buffer src_psi_B1_i_cpu("src_psi_B1_i_cpu",    {y, m}, p_float64, a_input);
-    buffer snk_psi_r_cpu("snk_psi_r_cpu", {x, n}, p_float64, a_input);
-    buffer snk_psi_i_cpu("snk_psi_i_cpu", {x, n}, p_float64, a_input);
-    buffer src_color_weights_cpu("src_color_weights_cpu", {rp, wnum, q}, p_int32, a_input);
-    buffer src_spin_weights_cpu("src_spin_weights_cpu", {rp, wnum, q}, p_int32, a_input);
-    buffer src_weights_cpu("src_weights_cpu", {rp, wnum}, p_float64, a_input);
-    buffer snk_color_weights_cpu("snk_color_weights_cpu", {r, nperm, wnum, q}, p_int32, a_input);
-    buffer snk_spin_weights_cpu("snk_spin_weights_cpu", {r, nperm, wnum, q}, p_int32, a_input);
-    buffer snk_weights_cpu("snk_weights_cpu", {r, wnum}, p_float64, a_input);
-    buffer src_spins_cpu("src_spins_cpu", {rp}, p_int32, a_input);
-    buffer sigs_cpu("sigs_cpu", {nperm}, p_int32, a_input);
+    buffer B1_prop_r_cpu("B1_prop_r_cpu",   {Lt, Nc, Ns, Nc, Ns, Vsnk, Vsrc, Nq}, p_float64, a_input);
+    buffer B1_prop_i_cpu("B1_prop_i_cpu",   {Lt, Nc, Ns, Nc, Ns, Vsnk, Vsrc, Nq}, p_float64, a_input);
+    buffer src_psi_B1_r_cpu("src_psi_B1_r_cpu",    {Vsrc, NsrcHex}, p_float64, a_input);
+    buffer src_psi_B1_i_cpu("src_psi_B1_i_cpu",    {Vsrc, NsrcHex}, p_float64, a_input);
+    buffer snk_psi_r_cpu("snk_psi_r_cpu", {Vsnk, NsnkHex}, p_float64, a_input);
+    buffer snk_psi_i_cpu("snk_psi_i_cpu", {Vsnk, NsnkHex}, p_float64, a_input);
+    buffer src_color_weights_cpu("src_color_weights_cpu", {B1Nrows, Nw, Nq}, p_int32, a_input);
+    buffer src_spin_weights_cpu("src_spin_weights_cpu", {B1Nrows, Nw, Nq}, p_int32, a_input);
+    buffer src_weights_cpu("src_weights_cpu", {B1Nrows, Nw}, p_float64, a_input);
+    buffer snk_color_weights_cpu("snk_color_weights_cpu", {B1Nrows, B1Nperms, Nw, Nq}, p_int32, a_input);
+    buffer snk_spin_weights_cpu("snk_spin_weights_cpu", {B1Nrows, B1Nperms, Nw, Nq}, p_int32, a_input);
+    buffer snk_weights_cpu("snk_weights_cpu", {B1Nrows, Nw}, p_float64, a_input);
+    buffer src_spins_cpu("src_spins_cpu", {B1Nrows}, p_int32, a_input);
+    buffer sigs_cpu("sigs_cpu", {B1Nperms}, p_int32, a_input);
 
     buffer buf_B1_Blocal_r1_r("buf_B1_Blocal_r1_r",   {Nc, Ns, Nc, Ns, Nc, Ns, NsrcHex}, p_float64, a_temporary);
     buffer buf_B1_Blocal_r1_i("buf_B1_Blocal_r1_i",   {Nc, Ns, Nc, Ns, Nc, Ns, NsrcHex}, p_float64, a_temporary);
