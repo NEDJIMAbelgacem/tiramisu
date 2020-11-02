@@ -79,15 +79,15 @@ void generate_function(std::string name)
     // buffer src_spins_cpu("src_spins_cpu", {rp}, p_int32, a_temporary);
     // buffer sigs_cpu("sigs_cpu", {nperm}, p_int32, a_temporary);
 
-    computation copy_buf_C_r_host_to_device({t, x_out, rp, m, r, n}, memcpy(buf_C_r_cpu, buf_C_r));
-    computation copy_buf_C_i_host_to_device({t, x_out, rp, m, r, n}, memcpy(buf_C_i_cpu, buf_C_i));
-    computation copy_buf_C_r_device_to_host({t, x_out, rp, m, r, n}, memcpy(buf_C_r, buf_C_r_cpu));
-    computation copy_buf_C_i_device_to_host({t, x_out, rp, m, r, n}, memcpy(buf_C_i, buf_C_i_cpu));
+    // computation copy_buf_C_r_host_to_device({t, x_out, rp, m, r, n}, memcpy(buf_C_r_cpu, buf_C_r));
+    // computation copy_buf_C_i_host_to_device({t, x_out, rp, m, r, n}, memcpy(buf_C_i_cpu, buf_C_i));
+    // computation copy_buf_C_r_device_to_host({t, x_out, rp, m, r, n}, memcpy(buf_C_r, buf_C_r_cpu));
+    // computation copy_buf_C_i_device_to_host({t, x_out, rp, m, r, n}, memcpy(buf_C_i, buf_C_i_cpu));
 
-    // computation copy_buf_C_r_host_to_device({}, memcpy(buf_C_r_cpu, buf_C_r));
-    // computation copy_buf_C_i_host_to_device({}, memcpy(buf_C_i_cpu, buf_C_i));
-    // computation copy_buf_C_r_device_to_host({}, memcpy(buf_C_r, buf_C_r_cpu));
-    // computation copy_buf_C_i_device_to_host({}, memcpy(buf_C_i, buf_C_i_cpu));
+    computation copy_buf_C_r_host_to_device({}, memcpy(buf_C_r_cpu, buf_C_r));
+    computation copy_buf_C_i_host_to_device({}, memcpy(buf_C_i_cpu, buf_C_i));
+    computation copy_buf_C_r_device_to_host({}, memcpy(buf_C_r, buf_C_r_cpu));
+    computation copy_buf_C_i_device_to_host({}, memcpy(buf_C_i, buf_C_i_cpu));
 
     // -------------------------------------------------------
     // Layer III
@@ -99,7 +99,7 @@ void generate_function(std::string name)
             ;
 
    input C_r("C_r",      {t, x_out, rp, m, r, n}, p_float64);
-   input C_i("C_i",      {t, x_out, rp, m, r, n}, p_float64);
+   output C_i("C_i",      {t, x_out, rp, m, r, n}, p_float64);
     C_r.store_in(&buf_C_r);
     C_i.store_in(&buf_C_i);
 
