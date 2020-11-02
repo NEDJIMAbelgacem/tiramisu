@@ -65,8 +65,8 @@ void generate_function(std::string name)
 
     buf_C_r.tag_gpu_global();
     buf_C_i.tag_gpu_global();
-    // buffer buf_C_r_cpu("buf_C_r_cpu", {t, x_out, rp, m, r, n}, p_float64, a_temporary);
-    // buffer buf_C_i_cpu("buf_C_i_cpu", {t, x_out, rp, m, r, n}, p_float64, a_temporary);
+    buffer buf_C_r_cpu("buf_C_r_cpu", {t, x_out, rp, m, r, n}, p_float64, a_temporary);
+    buffer buf_C_i_cpu("buf_C_i_cpu", {t, x_out, rp, m, r, n}, p_float64, a_temporary);
     // buffer B1_prop_r_cpu("B1_prop_r_cpu",   {t, iCprime, iSprime, jCprime, jSprime, x, y, tri}, p_float64, a_temporary);
     // buffer B1_prop_i_cpu("B1_prop_i_cpu",   {t, iCprime, iSprime, jCprime, jSprime, x, y, tri}, p_float64, a_temporary);
     // buffer src_psi_B1_r_cpu("src_psi_B1_r_cpu",    {y, m}, p_float64, a_temporary);
