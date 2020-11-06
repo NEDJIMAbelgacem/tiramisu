@@ -495,7 +495,7 @@ void generate_function(std::string name)
 
     // first the x only arrays
     handle = &(handle
-        ->then(B1_Blocal_r1_r_init, t)
+        ->then(B1_Blocal_r1_r_init, t2)
         .then(B1_Blocal_r1_i_init, jSprime)
         .then(B1_Blocal_r1_r_props_init, x_in)
         .then(B1_Blocal_r1_i_props_init, jSprime)
