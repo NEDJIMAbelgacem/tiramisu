@@ -385,51 +385,85 @@ void generate_function(std::string name)
     // C_prop_init_r.split(t, 4, t1, t2);
     // C_prop_init_i.split(t, 4, t1, t2);
 
+    var t1("t1"), t2("t2");
+
+    C_init_r.split(t, Lt / 4, t1, t2);
+    C_init_i.split(t, Lt / 4, t1, t2);
     C_init_r.tag_gpu_level(t);
     C_init_i.tag_gpu_level(t);
 
+    B1_Blocal_r1_r_init.split(t, Lt / 4, t1, t2);
+    B1_Blocal_r1_i_init.split(t, Lt / 4, t1, t2);
     B1_Blocal_r1_r_init.tag_gpu_level(t);
     B1_Blocal_r1_i_init.tag_gpu_level(t);
 
+    B1_Blocal_r1_r_props_init.split(t, Lt / 4, t1, t2);
+    B1_Blocal_r1_i_props_init.split(t, Lt / 4, t1, t2);
     B1_Blocal_r1_r_props_init.tag_gpu_level(t);
     B1_Blocal_r1_i_props_init.tag_gpu_level(t);
 
+    B1_Blocal_r1_r_diquark.split(t, Lt / 4, t1, t2);
+    B1_Blocal_r1_i_diquark.split(t, Lt / 4, t1, t2);
     B1_Blocal_r1_r_diquark.tag_gpu_level(t);
     B1_Blocal_r1_i_diquark.tag_gpu_level(t);
 
+    B1_Blocal_r1_r_props.split(t, Lt / 4, t1, t2);
+    B1_Blocal_r1_i_props.split(t, Lt / 4, t1, t2);
     B1_Blocal_r1_r_props.tag_gpu_level(t);
     B1_Blocal_r1_i_props.tag_gpu_level(t);
 
+    B1_Blocal_r1_r_update.split(t, Lt / 4, t1, t2);
+    B1_Blocal_r1_i_update.split(t, Lt / 4, t1, t2);
     B1_Blocal_r1_r_update.tag_gpu_level(t);
     B1_Blocal_r1_i_update.tag_gpu_level(t);
 
+    B1_Blocal_r2_r_init.split(t, Lt / 4, t1, t2);
+    B1_Blocal_r2_i_init.split(t, Lt / 4, t1, t2);
     B1_Blocal_r2_r_init.tag_gpu_level(t);
     B1_Blocal_r2_i_init.tag_gpu_level(t);
 
+    B1_Blocal_r2_r_props_init.split(t, Lt / 4, t1, t2);
+    B1_Blocal_r2_i_props_init.split(t, Lt / 4, t1, t2);
     B1_Blocal_r2_r_props_init.tag_gpu_level(t);
     B1_Blocal_r2_i_props_init.tag_gpu_level(t);
 
+    B1_Blocal_r2_r_diquark.split(t, Lt / 4, t1, t2);
+    B1_Blocal_r2_i_diquark.split(t, Lt / 4, t1, t2);
     B1_Blocal_r2_r_diquark.tag_gpu_level(t);
     B1_Blocal_r2_i_diquark.tag_gpu_level(t);
 
+    B1_Blocal_r2_r_props.split(t, Lt / 4, t1, t2);
+    B1_Blocal_r2_i_props.split(t, Lt / 4, t1, t2);
     B1_Blocal_r2_r_props.tag_gpu_level(t);
     B1_Blocal_r2_i_props.tag_gpu_level(t);
 
+    B1_Blocal_r2_r_update.split(t, Lt / 4, t1, t2);
+    B1_Blocal_r2_i_update.split(t, Lt / 4, t1, t2);
     B1_Blocal_r2_r_update.tag_gpu_level(t);
     B1_Blocal_r2_i_update.tag_gpu_level(t);
 
+    C_prop_init_r.split(t, Lt / 4, t1, t2);
+    C_prop_init_i.split(t, Lt / 4, t1, t2);
     C_prop_init_r.tag_gpu_level(t);
     C_prop_init_i.tag_gpu_level(t);
 
+    new_term_0_r1_b1.get_real()->split(t, Lt / 4, t1, t2);
+    new_term_0_r1_b1.get_imag()->split(t, Lt / 4, t1, t2);
     new_term_0_r1_b1.get_real()->tag_gpu_level(t);
     new_term_0_r1_b1.get_imag()->tag_gpu_level(t);
 
+    new_term_0_r2_b1.get_real()->split(t, Lt / 4, t1, t2);
+    new_term_0_r2_b1.get_imag()->split(t, Lt / 4, t1, t2);
     new_term_0_r2_b1.get_real()->tag_gpu_level(t);
     new_term_0_r2_b1.get_imag()->tag_gpu_level(t);
 
+    C_prop_update_r.split(t, Lt / 4, t1, t2);
+    C_prop_update_i.split(t, Lt / 4, t1, t2);
     C_prop_update_r.tag_gpu_level(t);
     C_prop_update_i.tag_gpu_level(t);
 
+    C_update_r.split(t, Lt / 4, t1, t2);
+    C_update_i.split(t, Lt / 4, t1, t2);
     C_update_r.tag_gpu_level(t);
     C_update_i.tag_gpu_level(t);
 
