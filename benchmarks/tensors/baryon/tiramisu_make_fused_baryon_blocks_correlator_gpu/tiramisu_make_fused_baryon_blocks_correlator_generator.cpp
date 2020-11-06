@@ -385,6 +385,10 @@ void generate_function(std::string name)
     // C_prop_init_r.split(t, 4, t1, t2);
     // C_prop_init_i.split(t, 4, t1, t2);
 
+    std::cerr << Lt << std::endl;
+    int num;
+    std::cin >> num;
+
     var t1("t1"), t2("t2");
 
     C_init_r.split(t, Lt / 4, t1, t2);
