@@ -464,8 +464,8 @@ void generate_function(std::string name)
     // C_init_r.tag_gpu_level(t1, t2);
     // C_init_i.tag_gpu_level(t1, t2);
 
-    B1_Blocal_r1_r_init.tag_gpu_level(iCprime, iSprime, kCprime);
-    B1_Blocal_r1_i_init.tag_gpu_level(iCprime, iSprime, kCprime);
+    B1_Blocal_r1_r_init.tag_gpu_level(iCprime, iSprime);
+    B1_Blocal_r1_i_init.tag_gpu_level(iCprime, iSprime);
 
     // B1_Blocal_r1_r_props_init.split(t, t_MAX / split_t, t1, t2);
     // B1_Blocal_r1_i_props_init.split(t, t_MAX / split_t, t1, t2);
