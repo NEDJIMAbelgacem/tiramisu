@@ -13,7 +13,7 @@ using namespace tiramisu;
 void generate_function(std::string name)
 {
     tiramisu::init(name);
-    const int t_MAX = 4;
+    const int t_MAX = Lt;
     const int split_t = 2;
 
     var r("r", 0, B1Nrows),
@@ -22,7 +22,7 @@ void generate_function(std::string name)
         q("q", 0, Nq),
         wnum("wnum", 0, Nw),
         wnumBlock("wnumBlock", 0, Nw),
-        t("t", 0, t_MAX),//Lt),
+        t("t", 0, Lt),
         x("x", 0, Vsnk),
         x_out("x_out", 0, Vsnk/sites_per_rank),
         x_in("x_in", 0, sites_per_rank),
