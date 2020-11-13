@@ -449,7 +449,7 @@ int main(int, char **)
 #if RUN_CHECK
     print_time("performance_CPU.csv", "dibaryon", {"Ref", "Tiramisu"}, {median(duration_vector_2)/1000., median(duration_vector_1)/1000.});
     std::cout << "\nSpeedup = " << median(duration_vector_2)/median(duration_vector_1) << std::endl;
-    
+   
    for (rp=0; rp<B1Nrows; rp++) {
       printf("\n");
       for (m=0; m<NsrcHex; m++)
