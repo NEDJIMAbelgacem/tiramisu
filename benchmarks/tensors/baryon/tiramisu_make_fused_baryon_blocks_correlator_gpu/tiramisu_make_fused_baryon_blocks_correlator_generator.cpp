@@ -586,7 +586,7 @@ void generate_function(std::string name)
     // C_update_i.tag_gpu_level(t1, t2);
 
 #endif
-    // var &t2 = t;
+    var &t2 = t;
 
     computation* handle = &copy_buf_C_r_host_to_device.then(copy_buf_C_i_host_to_device, computation::root);
 
