@@ -290,7 +290,7 @@ void generate_function(std::string name)
     buffer sigs_cpu("sigs_cpu", {B1Nperms}, p_int32, a_temporary);
     
     C_init_r.store_in(&buf_C_r_cpu, {t, x_out, rp, m, r, n});
-    C_init_i.store_in(&buf_C_r_cpu, {t, x_out, rp, m, r, n});
+    C_init_i.store_in(&buf_C_i_cpu, {t, x_out, rp, m, r, n});
 
     buffer buf_B1_Blocal_r1_r("buf_B1_Blocal_r1_r",   {Nc, Ns, Nc, Ns, Nc, Ns, NsrcHex}, p_float64, a_temporary);
     buffer buf_B1_Blocal_r1_i("buf_B1_Blocal_r1_i",   {Nc, Ns, Nc, Ns, Nc, Ns, NsrcHex}, p_float64, a_temporary);
