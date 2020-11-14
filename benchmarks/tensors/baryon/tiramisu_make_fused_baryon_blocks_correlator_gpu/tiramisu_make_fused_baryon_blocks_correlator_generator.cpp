@@ -253,8 +253,8 @@ void generate_function(std::string name)
     C_prop_update_r.store_in(&buf_C_prop_r, {0});
     C_prop_update_i.store_in(&buf_C_prop_i, {0});
 
-    C_init_r.store_in(&buf_C_r, {t, x_out, rp, m, r, n});
-    C_init_i.store_in(&buf_C_i, {t, x_out, rp, m, r, n});
+    // C_init_r.store_in(&buf_C_r, {t, x_out, rp, m, r, n});
+    // C_init_i.store_in(&buf_C_i, {t, x_out, rp, m, r, n});
     C_update_r.store_in(&buf_C_r, {t, x_out, rp, m, r, n});
     C_update_i.store_in(&buf_C_i, {t, x_out, rp, m, r, n});
 
@@ -288,6 +288,9 @@ void generate_function(std::string name)
     buffer snk_weights_cpu("snk_weights_cpu", {B1Nrows, Nw}, p_float64, a_temporary);
     buffer src_spins_cpu("src_spins_cpu", {B1Nrows}, p_int32, a_temporary);
     buffer sigs_cpu("sigs_cpu", {B1Nperms}, p_int32, a_temporary);
+    
+    C_init_r.store_in(&buf_C_r_cpu, {t, x_out, rp, m, r, n});
+    C_init_i.store_in(&buf_C_r_cpu, {t, x_out, rp, m, r, n});
 
     buffer buf_B1_Blocal_r1_r("buf_B1_Blocal_r1_r",   {Nc, Ns, Nc, Ns, Nc, Ns, NsrcHex}, p_float64, a_temporary);
     buffer buf_B1_Blocal_r1_i("buf_B1_Blocal_r1_i",   {Nc, Ns, Nc, Ns, Nc, Ns, NsrcHex}, p_float64, a_temporary);
