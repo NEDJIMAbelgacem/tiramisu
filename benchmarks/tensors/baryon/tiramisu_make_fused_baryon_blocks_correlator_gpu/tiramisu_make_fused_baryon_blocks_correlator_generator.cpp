@@ -139,8 +139,8 @@ void generate_function(std::string name)
 
     /* Correlator */
 
-    computation C_init_r("C_init_r", {t, x_out, rp, m, r, n}, expr((double) 0));
-    computation C_init_i("C_init_i", {t, x_out, rp, m, r, n}, expr((double) 0));
+    computation C_init_r("C_init_r", {t, x_out, x_in, rp, m, r, n}, expr((double) 0));
+    computation C_init_i("C_init_i", {t, x_out, x_in, rp, m, r, n}, expr((double) 0));
 
     computation C_prop_init_r("C_prop_init_r", {t, x_out, x_in, rp, m, r}, expr((double) 0));
     computation C_prop_init_i("C_prop_init_i", {t, x_out, x_in, rp, m, r}, expr((double) 0));
