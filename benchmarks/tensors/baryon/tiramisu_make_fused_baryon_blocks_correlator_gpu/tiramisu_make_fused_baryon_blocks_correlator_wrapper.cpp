@@ -37,7 +37,7 @@ void tiramisu_make_nucleon_2pt(double* C_re,
      double* snk_psi_B1_re, 
      double* snk_psi_B1_im)
 {
-
+   std::cout << "Called: " << __PRETTY_FUNCTION__ << std::endl;
    int q, t, iC, iS, jC, jS, y, x, x1, x2, m, n, k, wnum, b, rp, r;
    int iC1, iS1, iC2, iS2, jC1, jS1, jC2, jS2, kC1, kS1, kC2, kS2;
 
@@ -97,7 +97,9 @@ void tiramisu_make_nucleon_2pt(double* C_re,
    Halide::Buffer<int> b_sigs((int *)sigs, {B1Nperms});
 
    // Weights
- 
+
+   std::cout << __PRETTY_FUNCTION__ << " : Weights" << std::endl;
+
    int* snk_color_weights_r1 = (int *) malloc(Nw * Nq * sizeof (int));
    int* snk_color_weights_r2 = (int *) malloc(Nw * Nq * sizeof (int));
    int* snk_spin_weights_r1 = (int *) malloc(Nw * Nq * sizeof (int));
@@ -116,6 +118,9 @@ void tiramisu_make_nucleon_2pt(double* C_re,
             snk_spin_weights_r2[index_2d(nB1,nq ,Nq)] = src_spin_weights_r2[index_2d(nB1,nq ,Nq)];
          }
    }
+
+   std::cout << __PRETTY_FUNCTION__ << " : Weights 2" << std::endl;
+
    b_src_spins(0) = 1;
    b_src_spins(1) = 2;
    for (int nperm=0; nperm<B1Nperms; nperm++) {
@@ -153,6 +158,8 @@ void tiramisu_make_nucleon_2pt(double* C_re,
       }
    }
 
+   std::cout << __PRETTY_FUNCTION__ << " : Weights 3" << std::endl;
+
    for (int rp=0; rp<B1Nrows; rp++)
       for (int m=0; m<NsrcHex; m++)
          for (int r=0; r<B1Nrows; r++)
@@ -163,12 +170,15 @@ void tiramisu_make_nucleon_2pt(double* C_re,
                      b_C_i(n,r,m,rp,x,t) = 0.0;
                   } 
 
+   std::cout << __PRETTY_FUNCTION__ << " : b_C_i init ended" << std::endl;
+
    if (rank == 0) {
    printf("prop 1 %4.9f + I %4.9f \n", b_B1_prop_r(0,0,0,0,0,0,0,0), b_B1_prop_i(0,0,0,0,0,0,0,0));
    printf("psi src 1 %4.9f + I %4.9f \n", b_B1_src_psi_r(0,0), b_B1_src_psi_i(0,0));
    printf("psi snk %4.9f + I %4.9f \n", b_B1_snk_psi_r(0,0,0,0), b_B1_snk_psi_i(0,0,0,0));
    printf("weights snk %4.9f \n", b_snk_weights(0,0));
    }
+   std::cout << __PRETTY_FUNCTION__ << " : about to call tiramisu_make_fused_baryon_blocks_correlator" << std::endl;
    tiramisu_make_fused_baryon_blocks_correlator(
 				    b_C_r.raw_buffer(),
 				    b_C_i.raw_buffer(),
@@ -390,7 +400,6 @@ int main(int, char **)
       if (rank == 0)
          std::cout << "Run " << i << "/" << nb_tests <<  std::endl;
       auto start1 = std::chrono::high_resolution_clock::now();
-
        tiramisu_make_nucleon_2pt(t_C_re,
            t_C_im,
            B1_prop_re, 
