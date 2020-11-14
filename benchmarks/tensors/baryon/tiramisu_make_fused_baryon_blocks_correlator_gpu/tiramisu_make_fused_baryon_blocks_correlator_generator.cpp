@@ -607,7 +607,7 @@ void generate_function(std::string name)
             .then(copy_snk_color_weights_host_to_device, computation::root)
             .then(copy_snk_spin_weights_host_to_device, computation::root)
             .then(copy_snk_weights_host_to_device, computation::root)
-            .then(copy_sigs_host_to_device, computation::root)
+            .then(copy_sigs_host_to_device, computation::root));
             // .then(C_init_r, computation::root)
             // .then(C_init_i, t2));
 
