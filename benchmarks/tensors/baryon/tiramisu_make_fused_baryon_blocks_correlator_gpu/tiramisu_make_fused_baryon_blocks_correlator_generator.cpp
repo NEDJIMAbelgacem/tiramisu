@@ -591,7 +591,7 @@ void generate_function(std::string name)
     computation* handle = &C_init_r.then(C_init_i, computation::root);
 
     // computation* handle = &copy_buf_C_r_host_to_device.then(copy_buf_C_i_host_to_device, computation::root);
-    handle = &(handle->then(copy_buf_C_r_host_to_device, computation::root).then(copy_buf_C_i_host_to_device, computation::root))
+    handle = &(handle->then(copy_buf_C_r_host_to_device, computation::root).then(copy_buf_C_i_host_to_device, computation::root));
 
     handle = &(handle->
              then(copy_B1_prop_r_host_to_device, computation::root)
