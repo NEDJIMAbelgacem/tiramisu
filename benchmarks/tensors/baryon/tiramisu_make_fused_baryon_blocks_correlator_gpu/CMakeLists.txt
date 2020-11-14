@@ -3,7 +3,7 @@ set(generator_name ${benchmark_name}_generator)
 set(wrapper_name ${benchmark_name}_wrapper)
 set(object_files generated_${benchmark_name}.o generated_${benchmark_name}.o_cpu.o generated_${benchmark_name}.o_gpu.o)
 
-# add_compile_options(-DTIRAMISU_LARGE -g)
+add_compile_options(-DTIRAMISU_LARGE -g)
 
 add_executable(${generator_name} ${benchmark_name}_generator.cpp)
 target_link_libraries(${generator_name} tiramisu ${HalideLib} ${ISLLib} ${LINK_FLAGS} cuda_wrapper)
@@ -11,8 +11,8 @@ add_custom_command(OUTPUT ${object_files} COMMAND ${generator_name} DEPENDS ${ge
 
 add_executable(${wrapper_name} ${benchmark_name}_wrapper.cpp ${object_files})
 # Override optimization flag to make correctness fast:
-# set_target_properties(${wrapper_name} PROPERTIES COMPILE_FLAGS -O3)
-set_target_properties(${wrapper_name} PROPERTIES COMPILE_FLAGS -g)
+set_target_properties(${wrapper_name} PROPERTIES COMPILE_FLAGS -O3)
+# set_target_properties(${wrapper_name} PROPERTIES COMPILE_FLAGS -g)
 target_link_libraries(${wrapper_name} tiramisu ${HalideLib} ${ISLLib} ${LINK_FLAGS} cuda_wrapper ${CUDA_LIBRARIES} ${CUDA_CUBLAS_LIBRARIES})
 
 set(testN 100)
