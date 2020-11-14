@@ -11,7 +11,7 @@
 #define Nw2Hex P_Nw2Hex
 #define Nperms P_Nperms
 #define B1Nperms P_B1Nperms
-#define Lt 8/*P_Nt*/
+#define Lt /*8*/P_Nt
 #define Vsrc P_Vsrc
 #define Vsnk P_Vsnk
 #define Nsrc P_Nsrc
