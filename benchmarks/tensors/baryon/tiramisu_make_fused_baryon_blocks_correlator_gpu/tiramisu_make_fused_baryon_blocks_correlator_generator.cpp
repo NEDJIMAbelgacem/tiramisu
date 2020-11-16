@@ -38,6 +38,8 @@ void generate_function(std::string name)
         kSprime("kSprime", 0, Ns);
     // {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, wnumBlock}
     // {Lt, Vsnk/sites_per_rank, sites_per_rank, Nc, Ns, Nc, Ns, Vsrc, Nw }
+    // {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime}
+    // {Lt, Vsnk/sites_per_rank, sites_per_rank, Nc, Ns, Nc, Ns, Vsrc, Nc, Ns}
 
    input C_r("C_r",      {t, x_out, x_in, rp, m, r, n}, p_float64);
    input C_i("C_i",      {t, x_out, x_in, rp, m, r, n}, p_float64);
@@ -309,10 +311,10 @@ void generate_function(std::string name)
     buffer buf_B1_Blocal_props_r1_i("buf_B1_Blocal_props_r1_i",  {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime}, p_float64, a_temporary);
     buf_B1_Blocal_props_r1_r.tag_gpu_global();
     buf_B1_Blocal_props_r1_i.tag_gpu_global();
-    B1_Blocal_r1_r_props_init.store_in(&buf_B1_Blocal_props_r1_r, {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime});
-    B1_Blocal_r1_i_props_init.store_in(&buf_B1_Blocal_props_r1_i, {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime});
-    B1_Blocal_r1_r_props.store_in(&buf_B1_Blocal_props_r1_r, {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime});
-    B1_Blocal_r1_i_props.store_in(&buf_B1_Blocal_props_r1_i, {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime});
+    B1_Blocal_r1_r_props_init.store_in(&buf_B1_Blocal_props_r1_r, {Lt, Vsnk/sites_per_rank, sites_per_rank, Nc, Ns, Nc, Ns, Vsrc, Nc, Ns});
+    B1_Blocal_r1_i_props_init.store_in(&buf_B1_Blocal_props_r1_i, {Lt, Vsnk/sites_per_rank, sites_per_rank, Nc, Ns, Nc, Ns, Vsrc, Nc, Ns});
+    B1_Blocal_r1_r_props.store_in(&buf_B1_Blocal_props_r1_r, {Lt, Vsnk/sites_per_rank, sites_per_rank, Nc, Ns, Nc, Ns, Vsrc, Nc, Ns});
+    B1_Blocal_r1_i_props.store_in(&buf_B1_Blocal_props_r1_i, {Lt, Vsnk/sites_per_rank, sites_per_rank, Nc, Ns, Nc, Ns, Vsrc, Nc, Ns});
 
     buffer buf_B1_Blocal_r2_r("buf_B1_Blocal_r2_r",   {Nc, Ns, Nc, Ns, Nc, Ns, NsrcHex}, p_float64, a_temporary);
     buffer buf_B1_Blocal_r2_i("buf_B1_Blocal_r2_i",   {Nc, Ns, Nc, Ns, Nc, Ns, NsrcHex}, p_float64, a_temporary);
