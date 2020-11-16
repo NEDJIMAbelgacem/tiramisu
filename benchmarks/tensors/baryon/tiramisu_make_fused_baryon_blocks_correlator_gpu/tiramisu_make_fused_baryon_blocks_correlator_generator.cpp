@@ -324,12 +324,12 @@ void generate_function(std::string name)
     B1_Blocal_r2_i_init.store_in(&buf_B1_Blocal_r2_i, {iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m});
     B1_Blocal_r2_r_update.store_in(&buf_B1_Blocal_r2_r, {iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m});
     B1_Blocal_r2_i_update.store_in(&buf_B1_Blocal_r2_i, {iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m});
-    buffer buf_B1_Blocal_diquark_r2_r("buf_B1_Blocal_diquark_r2_r",   {1}, p_float64, a_temporary);
-    buffer buf_B1_Blocal_diquark_r2_i("buf_B1_Blocal_diquark_r2_i",   {1}, p_float64, a_temporary);
+    buffer buf_B1_Blocal_diquark_r2_r("buf_B1_Blocal_diquark_r2_r",   {Lt, Vsnk/sites_per_rank, sites_per_rank, Nc, Ns, Nc, Ns, Vsrc, Nw }, p_float64, a_temporary);
+    buffer buf_B1_Blocal_diquark_r2_i("buf_B1_Blocal_diquark_r2_i",   {Lt, Vsnk/sites_per_rank, sites_per_rank, Nc, Ns, Nc, Ns, Vsrc, Nw }, p_float64, a_temporary);
     buf_B1_Blocal_diquark_r2_r.tag_gpu_global();
     buf_B1_Blocal_diquark_r2_i.tag_gpu_global();
-    B1_Blocal_r2_r_diquark.store_in(&buf_B1_Blocal_diquark_r2_r, {0});
-    B1_Blocal_r2_i_diquark.store_in(&buf_B1_Blocal_diquark_r2_i, {0});
+    B1_Blocal_r2_r_diquark.store_in(&buf_B1_Blocal_diquark_r2_r, {Lt, Vsnk/sites_per_rank, sites_per_rank, Nc, Ns, Nc, Ns, Vsrc, Nw });
+    B1_Blocal_r2_i_diquark.store_in(&buf_B1_Blocal_diquark_r2_i, {Lt, Vsnk/sites_per_rank, sites_per_rank, Nc, Ns, Nc, Ns, Vsrc, Nw });
     buffer buf_B1_Blocal_props_r2_r("buf_B1_Blocal_props_r2_r",   {Nc, Ns}, p_float64, a_temporary);
     buffer buf_B1_Blocal_props_r2_i("buf_B1_Blocal_props_r2_i",   {Nc, Ns}, p_float64, a_temporary);
     buf_B1_Blocal_props_r2_r.tag_gpu_global();
