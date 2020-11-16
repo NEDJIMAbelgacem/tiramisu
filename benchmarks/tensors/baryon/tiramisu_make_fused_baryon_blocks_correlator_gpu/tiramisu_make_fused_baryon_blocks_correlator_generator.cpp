@@ -282,8 +282,8 @@ void generate_function(std::string name)
 
     buffer buf_C_r_cpu("buf_C_r_cpu", {t_MAX, Vsnk/sites_per_rank, sites_per_rank, B1Nrows, NsrcHex, B1Nrows, NsnkHex}, p_float64, a_temporary);
     buffer buf_C_i_cpu("buf_C_i_cpu", {t_MAX, Vsnk/sites_per_rank, sites_per_rank, B1Nrows, NsrcHex, B1Nrows, NsnkHex}, p_float64, a_temporary);
-    buffer B1_prop_r_cpu("B1_prop_r_cpu",   {t_MAX, Nc, Ns, Nc, Ns, Vsnk, Vsrc, Nq}, p_float64, a_temporary);
-    buffer B1_prop_i_cpu("B1_prop_i_cpu",   {t_MAX, Nc, Ns, Nc, Ns, Vsnk, Vsrc, Nq}, p_float64, a_temporary);
+    buffer B1_prop_r_cpu("B1_prop_r_cpu",   {Nq, t_MAX, Nc, Ns, Nc, Ns, Vsnk, Vsrc}, p_float64, a_temporary);
+    buffer B1_prop_i_cpu("B1_prop_i_cpu",   {Nq, t_MAX, Nc, Ns, Nc, Ns, Vsnk, Vsrc}, p_float64, a_temporary);
     buffer src_psi_B1_r_cpu("src_psi_B1_r_cpu",    {Vsrc, NsrcHex}, p_float64, a_temporary);
     buffer src_psi_B1_i_cpu("src_psi_B1_i_cpu",    {Vsrc, NsrcHex}, p_float64, a_temporary);
     buffer snk_psi_r_cpu("snk_psi_r_cpu", {Vsnk, NsnkHex}, p_float64, a_temporary);
