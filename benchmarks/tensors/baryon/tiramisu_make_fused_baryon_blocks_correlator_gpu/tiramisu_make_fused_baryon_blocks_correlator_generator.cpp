@@ -296,8 +296,8 @@ void generate_function(std::string name)
     buffer src_spins_cpu("src_spins_cpu", {B1Nrows}, p_int32, a_temporary);
     buffer sigs_cpu("sigs_cpu", {B1Nperms}, p_int32, a_temporary);
     
-    buffer buf_B1_Blocal_r1_r("buf_B1_Blocal_r1_r",   {Nc, Ns, Nc, Ns, Nc, Ns, NsrcHex}, p_float64, a_temporary);
-    buffer buf_B1_Blocal_r1_i("buf_B1_Blocal_r1_i",   {Nc, Ns, Nc, Ns, Nc, Ns, NsrcHex}, p_float64, a_temporary);
+    buffer buf_B1_Blocal_r1_r("buf_B1_Blocal_r1_r",   {Lt, Vsnk/sites_per_rank, sites_per_rank, Nc, Ns, Nc, Ns, Nc, Ns, NsrcHex}}, p_float64, a_temporary);
+    buffer buf_B1_Blocal_r1_i("buf_B1_Blocal_r1_i",   {Lt, Vsnk/sites_per_rank, sites_per_rank, Nc, Ns, Nc, Ns, Nc, Ns, NsrcHex}, p_float64, a_temporary);
     buf_B1_Blocal_r1_r.tag_gpu_global();
     buf_B1_Blocal_r1_i.tag_gpu_global();
     B1_Blocal_r1_r_init.store_in(&buf_B1_Blocal_r1_r, {Lt, Vsnk/sites_per_rank, sites_per_rank, Nc, Ns, Nc, Ns, Nc, Ns, NsrcHex});
