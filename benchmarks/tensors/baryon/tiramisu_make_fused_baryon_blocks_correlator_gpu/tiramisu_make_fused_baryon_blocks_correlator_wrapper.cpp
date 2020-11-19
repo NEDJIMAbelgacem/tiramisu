@@ -459,7 +459,7 @@ int main(int, char **)
     print_time("performance_CPU.csv", "dibaryon", {"Ref", "Tiramisu"}, {median(duration_vector_2)/1000., median(duration_vector_1)/1000.});
     std::cout << "\nSpeedup = " << median(duration_vector_2)/median(duration_vector_1) << std::endl;
    
-   for (int i = 0; i < NsrcHex * B1Nrows * NsnkHex *Lt; ++i)
+   for (int i = 0; i < B1Nrows * B1Nrows * (NsrcHex) * (NsnkHex) * Lt; ++i)
    {
       std::cout << C_re[i] << "+ " << C_im[i] << "i | " << t_C_re[i] << "+ " << t_C_im[i] << "i\n";
    }
