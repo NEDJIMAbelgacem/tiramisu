@@ -309,12 +309,20 @@ void generate_function(std::string name)
     B1_Blocal_r1_i_init.store_in(&buf_B1_Blocal_r1_i, {Lt, Vsnk/sites_per_rank, sites_per_rank, Nc, Ns, Nc, Ns, Nc, Ns, NsrcHex});
     B1_Blocal_r1_r_update.store_in(&buf_B1_Blocal_r1_r, {Lt, Vsnk/sites_per_rank, sites_per_rank, Nc, Ns, Nc, Ns, Nc, Ns, NsrcHex});
     B1_Blocal_r1_i_update.store_in(&buf_B1_Blocal_r1_i, {Lt, Vsnk/sites_per_rank, sites_per_rank, Nc, Ns, Nc, Ns, Nc, Ns, NsrcHex});
-    buffer buf_B1_Blocal_diquark_r1_r("buf_B1_Blocal_diquark_r1_r", {Lt, Vsnk/sites_per_rank, sites_per_rank, Nc, Ns, Nc, Ns, Vsrc, Nw }, p_float64, a_temporary);
-    buffer buf_B1_Blocal_diquark_r1_i("buf_B1_Blocal_diquark_r1_i", {Lt, Vsnk/sites_per_rank, sites_per_rank, Nc, Ns, Nc, Ns, Vsrc, Nw }, p_float64, a_temporary);
+    // buffer buf_B1_Blocal_diquark_r1_r("buf_B1_Blocal_diquark_r1_r", {Lt, Vsnk/sites_per_rank, sites_per_rank, Nc, Ns, Nc, Ns, Vsrc, Nw }, p_float64, a_temporary);
+    // buffer buf_B1_Blocal_diquark_r1_i("buf_B1_Blocal_diquark_r1_i", {Lt, Vsnk/sites_per_rank, sites_per_rank, Nc, Ns, Nc, Ns, Vsrc, Nw }, p_float64, a_temporary);
+    // buf_B1_Blocal_diquark_r1_r.tag_gpu_global();
+    // buf_B1_Blocal_diquark_r1_i.tag_gpu_global();
+    // B1_Blocal_r1_r_diquark.store_in(&buf_B1_Blocal_diquark_r1_r, {Lt, Vsnk/sites_per_rank, sites_per_rank, Nc, Ns, Nc, Ns, Vsrc, Nw});
+    // B1_Blocal_r1_i_diquark.store_in(&buf_B1_Blocal_diquark_r1_i, {Lt, Vsnk/sites_per_rank, sites_per_rank, Nc, Ns, Nc, Ns, Vsrc, Nw});
+    buffer buf_B1_Blocal_diquark_r1_r("buf_B1_Blocal_diquark_r1_r", {1}, p_float64, a_temporary);
+    buffer buf_B1_Blocal_diquark_r1_i("buf_B1_Blocal_diquark_r1_i", {1}, p_float64, a_temporary);
     buf_B1_Blocal_diquark_r1_r.tag_gpu_global();
     buf_B1_Blocal_diquark_r1_i.tag_gpu_global();
-    B1_Blocal_r1_r_diquark.store_in(&buf_B1_Blocal_diquark_r1_r, {Lt, Vsnk/sites_per_rank, sites_per_rank, Nc, Ns, Nc, Ns, Vsrc, Nw});
-    B1_Blocal_r1_i_diquark.store_in(&buf_B1_Blocal_diquark_r1_i, {Lt, Vsnk/sites_per_rank, sites_per_rank, Nc, Ns, Nc, Ns, Vsrc, Nw});
+    B1_Blocal_r1_r_diquark.store_in(&buf_B1_Blocal_diquark_r1_r, {0});
+    B1_Blocal_r1_i_diquark.store_in(&buf_B1_Blocal_diquark_r1_i, {0});
+
+    
     buffer buf_B1_Blocal_props_r1_r("buf_B1_Blocal_props_r1_r",  {Lt, Vsnk/sites_per_rank, sites_per_rank, Nc, Ns, Nc, Ns, Vsrc, Nc, Ns}, p_float64, a_temporary);
     buffer buf_B1_Blocal_props_r1_i("buf_B1_Blocal_props_r1_i",  {Lt, Vsnk/sites_per_rank, sites_per_rank, Nc, Ns, Nc, Ns, Vsrc, Nc, Ns}, p_float64, a_temporary);
     buf_B1_Blocal_props_r1_r.tag_gpu_global();
