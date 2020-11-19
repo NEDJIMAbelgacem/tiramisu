@@ -44,6 +44,10 @@ void generate_function(std::string name)
     // {Lt, Vsnk/sites_per_rank, sites_per_rank, Nc, Ns, Nc, Ns, Nc, Ns, NsrcHex}
     // {tri, t, iCprime, iSprime, jCprime, jSprime, x, y}
     // {Nq, t_MAX, Nc, Ns, Nc, Ns, Vsnk, Vsrc}
+    // {t, x_out, x_in, rp, m, r, nperm, wnum}
+    // {Lt, Vsnk/sites_per_rank, sites_per_rank, B1Nrows, NsrcHex, B1Nperms, Nw}
+    // {t, x_out, x_in, rp, m, r}
+    // {Lt, Vsnk/sites_per_rank, sites_per_rank, B1Nrows, NsrcHex}
 
    input C_r("C_r",      {t, x_out, x_in, rp, m, r, n}, p_float64);
    input C_i("C_i",      {t, x_out, x_in, rp, m, r, n}, p_float64);
@@ -241,25 +245,25 @@ void generate_function(std::string name)
 
     buffer* buf_new_term_r_b1;//("buf_new_term_r_b1", {1}, p_float64, a_temporary);
     buffer* buf_new_term_i_b1;//("buf_new_term_i_b1", {1}, p_float64, a_temporary);
-    allocate_complex_buffers(buf_new_term_r_b1, buf_new_term_i_b1, {1}, "buf_new_term_b1");
+    allocate_complex_buffers(buf_new_term_r_b1, buf_new_term_i_b1, {{Lt, Vsnk/sites_per_rank, sites_per_rank, B1Nrows, NsrcHex, B1Nperms, Nw}}, "buf_new_term_b1");
     buf_new_term_r_b1->tag_gpu_global();
     buf_new_term_i_b1->tag_gpu_global();
 
-    new_term_0_r1_b1.get_real()->store_in(buf_new_term_r_b1, {0});
-    new_term_0_r1_b1.get_imag()->store_in(buf_new_term_i_b1, {0});
+    new_term_0_r1_b1.get_real()->store_in(buf_new_term_r_b1, {Lt, Vsnk/sites_per_rank, sites_per_rank, B1Nrows, NsrcHex, B1Nperms, Nw});
+    new_term_0_r1_b1.get_imag()->store_in(buf_new_term_i_b1, {Lt, Vsnk/sites_per_rank, sites_per_rank, B1Nrows, NsrcHex, B1Nperms, Nw});
 
-    new_term_0_r2_b1.get_real()->store_in(buf_new_term_r_b1, {0});
-    new_term_0_r2_b1.get_imag()->store_in(buf_new_term_i_b1, {0});
+    new_term_0_r2_b1.get_real()->store_in(buf_new_term_r_b1, {Lt, Vsnk/sites_per_rank, sites_per_rank, B1Nrows, NsrcHex, B1Nperms, Nw});
+    new_term_0_r2_b1.get_imag()->store_in(buf_new_term_i_b1, {Lt, Vsnk/sites_per_rank, sites_per_rank, B1Nrows, NsrcHex, B1Nperms, Nw});
 
-    buffer buf_C_prop_r("buf_C_prop_r", {1}, p_float64, a_temporary);
-    buffer buf_C_prop_i("buf_C_prop_i", {1}, p_float64, a_temporary);
+    buffer buf_C_prop_r("buf_C_prop_r", {Lt, Vsnk/sites_per_rank, sites_per_rank, B1Nrows, NsrcHex}, p_float64, a_temporary);
+    buffer buf_C_prop_i("buf_C_prop_i", {Lt, Vsnk/sites_per_rank, sites_per_rank, B1Nrows, NsrcHex}, p_float64, a_temporary);
     buf_C_prop_r.tag_gpu_global();
     buf_C_prop_i.tag_gpu_global();
 
-    C_prop_init_r.store_in(&buf_C_prop_r, {0});
-    C_prop_init_i.store_in(&buf_C_prop_i, {0});
-    C_prop_update_r.store_in(&buf_C_prop_r, {0});
-    C_prop_update_i.store_in(&buf_C_prop_i, {0});
+    C_prop_init_r.store_in(&buf_C_prop_r, {t, x_out, x_in, rp, m, r});
+    C_prop_init_i.store_in(&buf_C_prop_i, {t, x_out, x_in, rp, m, r});
+    C_prop_update_r.store_in(&buf_C_prop_r, {t, x_out, x_in, rp, m, r});
+    C_prop_update_i.store_in(&buf_C_prop_i, {t, x_out, x_in, rp, m, r});
 
     C_init_r.store_in(&buf_C_r, {t, x_out, x_in, rp, m, r, n});
     C_init_i.store_in(&buf_C_i, {t, x_out, x_in, rp, m, r, n});
