@@ -180,8 +180,8 @@ void generate_function(std::string name)
 
     complex_expr term = C_prop_update(t, x_out, x_in, rp, m, r, B1Nperms-1, Nw-1) * snk_psi;
 
-    computation C_update_r("C_update_r", {t, x_out, x_in, rp, m, r, n}, C_init_r(t, x_out, x_in, rp, m, r, n) + term.get_real());
-    computation C_update_i("C_update_i", {t, x_out, x_in, rp, m, r, n}, C_init_i(t, x_out, x_in, rp, m, r, n) + term.get_imag());
+    computation C_update_r("C_update_r", {t, x_out, x_in, rp, m, r, n}, C_init_r(t, x_out, 0, rp, m, r, n) + term.get_real());
+    computation C_update_i("C_update_i", {t, x_out, x_in, rp, m, r, n}, C_init_i(t, x_out, 0, rp, m, r, n) + term.get_imag());
 
     // -------------------------------------------------------
     // Layer II
@@ -309,12 +309,6 @@ void generate_function(std::string name)
     B1_Blocal_r1_i_init.store_in(&buf_B1_Blocal_r1_i, {iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m});
     B1_Blocal_r1_r_update.store_in(&buf_B1_Blocal_r1_r, {iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m});
     B1_Blocal_r1_i_update.store_in(&buf_B1_Blocal_r1_i, {iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m});
-    // buffer buf_B1_Blocal_diquark_r1_r("buf_B1_Blocal_diquark_r1_r", {Lt, Vsnk/sites_per_rank, sites_per_rank, Nc, Ns, Nc, Ns, Vsrc, Nw }, p_float64, a_temporary);
-    // buffer buf_B1_Blocal_diquark_r1_i("buf_B1_Blocal_diquark_r1_i", {Lt, Vsnk/sites_per_rank, sites_per_rank, Nc, Ns, Nc, Ns, Vsrc, Nw }, p_float64, a_temporary);
-    // buf_B1_Blocal_diquark_r1_r.tag_gpu_global();
-    // buf_B1_Blocal_diquark_r1_i.tag_gpu_global();
-    // B1_Blocal_r1_r_diquark.store_in(&buf_B1_Blocal_diquark_r1_r, {Lt, Vsnk/sites_per_rank, sites_per_rank, Nc, Ns, Nc, Ns, Vsrc, Nw});
-    // B1_Blocal_r1_i_diquark.store_in(&buf_B1_Blocal_diquark_r1_i, {Lt, Vsnk/sites_per_rank, sites_per_rank, Nc, Ns, Nc, Ns, Vsrc, Nw});
     buffer buf_B1_Blocal_diquark_r1_r("buf_B1_Blocal_diquark_r1_r", {1}, p_float64, a_temporary);
     buffer buf_B1_Blocal_diquark_r1_i("buf_B1_Blocal_diquark_r1_i", {1}, p_float64, a_temporary);
     buf_B1_Blocal_diquark_r1_r.tag_gpu_global();
