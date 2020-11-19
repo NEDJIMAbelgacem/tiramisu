@@ -49,8 +49,8 @@ void generate_function(std::string name)
     // {t, x_out, x_in, rp, m, r}
     // {Lt, Vsnk/sites_per_rank, sites_per_rank, B1Nrows, NsrcHex}
 
-   input C_r("C_r",      {t, x_out, rp, m, r, n}, p_float64);
-   input C_i("C_i",      {t, x_out, rp, m, r, n}, p_float64);
+   input C_r("C_r",      {t, x_out, x_in, rp, m, r, n}, p_float64);
+   input C_i("C_i",      {t, x_out, x_in, rp, m, r, n}, p_float64);
    input B1_prop_r("B1_prop_r",   {tri, t, iCprime, iSprime, jCprime, jSprime, x, y}, p_float64);
    input B1_prop_i("B1_prop_i",   {tri, t, iCprime, iSprime, jCprime, jSprime, x, y}, p_float64);
    input src_psi_B1_r("src_psi_B1_r",    {y, m}, p_float64);
@@ -151,8 +151,8 @@ void generate_function(std::string name)
 
     /* Correlator */
 
-    computation C_init_r("C_init_r", {t, x_out, rp, m, r, n}, expr((double) 0));
-    computation C_init_i("C_init_i", {t, x_out, rp, m, r, n}, expr((double) 0));
+    computation C_init_r("C_init_r", {t, x_out, x_in, rp, m, r, n}, expr((double) 0));
+    computation C_init_i("C_init_i", {t, x_out, x_in, rp, m, r, n}, expr((double) 0));
 
     computation C_prop_init_r("C_prop_init_r", {t, x_out, x_in, rp, m, r}, expr((double) 0));
     computation C_prop_init_i("C_prop_init_i", {t, x_out, x_in, rp, m, r}, expr((double) 0));
@@ -180,8 +180,10 @@ void generate_function(std::string name)
 
     complex_expr term = C_prop_update(t, x_out, x_in, rp, m, r, B1Nperms-1, Nw-1) * snk_psi;
 
-    computation C_update_r("C_update_r", {t, x_out, rp, m, r, n}, C_init_r(t, x_out, rp, m, r, n) + term.get_real());
-    computation C_update_i("C_update_i", {t, x_out, rp, m, r, n}, C_init_i(t, x_out, rp, m, r, n) + term.get_imag());
+    computation C_update_r("C_update_r", {t, x_out, x_in, rp, m, r, n}, C_init_r(t, x_out, 0, rp, m, r, n) + term.get_real());
+    C_update_r.add_predicate(x_in == 0);
+    computation C_update_i("C_update_i", {t, x_out, x_in, rp, m, r, n}, C_init_i(t, x_out, 0, rp, m, r, n) + term.get_imag());
+    C_update_i.add_predicate(x_in == 0);
 
     // -------------------------------------------------------
     // Layer II
@@ -190,8 +192,8 @@ void generate_function(std::string name)
     /* Correlator */
 
 // declaring buffers
-    buffer buf_C_r("buf_C_r", {t_MAX, Vsnk/sites_per_rank, B1Nrows, NsrcHex, B1Nrows, NsnkHex}, p_float64, a_temporary);
-    buffer buf_C_i("buf_C_i", {t_MAX, Vsnk/sites_per_rank, B1Nrows, NsrcHex, B1Nrows, NsnkHex}, p_float64, a_temporary);
+    buffer buf_C_r("buf_C_r", {t_MAX, Vsnk/sites_per_rank, sites_per_rank, B1Nrows, NsrcHex, B1Nrows, NsnkHex}, p_float64, a_temporary);
+    buffer buf_C_i("buf_C_i", {t_MAX, Vsnk/sites_per_rank, sites_per_rank, B1Nrows, NsrcHex, B1Nrows, NsnkHex}, p_float64, a_temporary);
     buffer buf_B1_prop_r("buf_B1_prop_r",   {Nq, t_MAX, Nc, Ns, Nc, Ns, Vsnk, Vsrc}, p_float64, a_temporary);
     buffer buf_B1_prop_i("buf_B1_prop_i",   {Nq, t_MAX, Nc, Ns, Nc, Ns, Vsnk, Vsrc}, p_float64, a_temporary);
     buffer buf_src_psi_B1_r("buf_src_psi_B1_r",    {Vsrc, NsrcHex}, p_float64, a_temporary);
@@ -265,10 +267,10 @@ void generate_function(std::string name)
     C_prop_update_r.store_in(&buf_C_prop_r, {t, x_out, x_in, rp, m, r});
     C_prop_update_i.store_in(&buf_C_prop_i, {t, x_out, x_in, rp, m, r});
 
-    C_init_r.store_in(&buf_C_r, {t, x_out, rp, m, r, n});
-    C_init_i.store_in(&buf_C_i, {t, x_out, rp, m, r, n});
-    C_update_r.store_in(&buf_C_r, {t, x_out, rp, m, r, n});
-    C_update_i.store_in(&buf_C_i, {t, x_out, rp, m, r, n});
+    C_init_r.store_in(&buf_C_r, {t, x_out, x_in, rp, m, r, n});
+    C_init_i.store_in(&buf_C_i, {t, x_out, x_in, rp, m, r, n});
+    C_update_r.store_in(&buf_C_r, {t, x_out, x_in, rp, m, r, n});
+    C_update_i.store_in(&buf_C_i, {t, x_out, x_in, rp, m, r, n});
 
         // &buf_C_r_cpu, &buf_C_i_cpu,
         // &B1_prop_r_cpu, &B1_prop_i_cpu,
@@ -284,8 +286,8 @@ void generate_function(std::string name)
         // &sigs_cpu
         // }, 
 
-    buffer buf_C_r_cpu("buf_C_r_cpu", {t_MAX, Vsnk/sites_per_rank, B1Nrows, NsrcHex, B1Nrows, NsnkHex}, p_float64, a_temporary);
-    buffer buf_C_i_cpu("buf_C_i_cpu", {t_MAX, Vsnk/sites_per_rank, B1Nrows, NsrcHex, B1Nrows, NsnkHex}, p_float64, a_temporary);
+    buffer buf_C_r_cpu("buf_C_r_cpu", {t_MAX, Vsnk/sites_per_rank, sites_per_rank, B1Nrows, NsrcHex, B1Nrows, NsnkHex}, p_float64, a_temporary);
+    buffer buf_C_i_cpu("buf_C_i_cpu", {t_MAX, Vsnk/sites_per_rank, sites_per_rank, B1Nrows, NsrcHex, B1Nrows, NsnkHex}, p_float64, a_temporary);
     buffer B1_prop_r_cpu("B1_prop_r_cpu",   {Nq, t_MAX, Nc, Ns, Nc, Ns, Vsnk, Vsrc}, p_float64, a_temporary);
     buffer B1_prop_i_cpu("B1_prop_i_cpu",   {Nq, t_MAX, Nc, Ns, Nc, Ns, Vsnk, Vsrc}, p_float64, a_temporary);
     buffer src_psi_B1_r_cpu("src_psi_B1_r_cpu",    {Vsrc, NsrcHex}, p_float64, a_temporary);
@@ -474,8 +476,8 @@ void generate_function(std::string name)
 //-------------------------------
 
 
-    // C_init_r.tag_gpu_level(x_out, x_in);
-    // C_init_i.tag_gpu_level(x_out, x_in);
+    C_init_r.tag_gpu_level(x_out, x_in);
+    C_init_i.tag_gpu_level(x_out, x_in);
 
     B1_Blocal_r1_r_init.tag_gpu_level(x_out, x_in);
     B1_Blocal_r1_i_init.tag_gpu_level(x_out, x_in);
@@ -519,8 +521,8 @@ void generate_function(std::string name)
     C_prop_update_r.tag_gpu_level(x_out, x_in);
     C_prop_update_i.tag_gpu_level(x_out, x_in);
 
-    // C_update_r.tag_gpu_level(x_out, x_in);
-    // C_update_i.tag_gpu_level(x_out, x_in);
+    C_update_r.tag_gpu_level(x_out, x_in);
+    C_update_i.tag_gpu_level(x_out, x_in);
 
 //-------------------------------
 
@@ -620,8 +622,8 @@ void generate_function(std::string name)
             .then(copy_snk_spin_weights_host_to_device, computation::root)
             .then(copy_snk_weights_host_to_device, computation::root)
             .then(copy_sigs_host_to_device, computation::root)
-            .then(C_init_r, x_out)
-            .then(C_init_i, x_out));
+            .then(C_init_r, x_in)
+            .then(C_init_i, x_in));
 
     // handle = &handle->then(C_init_i, computation::root);
 
