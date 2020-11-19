@@ -463,7 +463,7 @@ int main(int, char **)
    {
       std::cout << C_re[i] << "+ " << C_im[i] << "i | " << t_C_re[i] << "+ " << t_C_im[i] << "i\n";
    }
-   std::cout <<Std::endl;
+   std::cout << std::endl;
 
    for (rp=0; rp<B1Nrows; rp++) {
       printf("\n");
