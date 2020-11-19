@@ -1766,7 +1766,7 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
         command << NVCC_PATH;
         command << " -O0";
         command << " -g -G";
-        // command << " -gencode arch=compute_20,code=sm_20";
+        command << " -gencode arch=compute_10,code=sm_10";
         // Basic streaming for parallelization
         command << " --default-stream per-thread";
         // Say that this is actually cuda code
@@ -1802,7 +1802,7 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
         command << NVCC_PATH;
         command << " -O0";
         command << " -g -G";
-        // command << " -gencode arch=compute_20,code=sm_20";
+        command << " -gencode arch=compute_10,code=sm_10";
         // Basic streaming for parallelization
         command << " --default-stream per-thread";
         // Link device object code
