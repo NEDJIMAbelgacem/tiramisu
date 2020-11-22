@@ -151,8 +151,8 @@ void generate_function(std::string name)
 
     /* Correlator */
 
-    computation C_init_r("C_init_r", {t, x_out, x_in, rp, m, r, n}, expr((double) 0));
-    computation C_init_i("C_init_i", {t, x_out, x_in, rp, m, r, n}, expr((double) 0));
+    computation C_init_r("C_init_r", {t, x_out, rp, m, r, n}, expr((double) 0));
+    computation C_init_i("C_init_i", {t, x_out, rp, m, r, n}, expr((double) 0));
 
     computation C_prop_init_r("C_prop_init_r", {t, x_out, x_in, rp, m, r}, expr((double) 0));
     computation C_prop_init_i("C_prop_init_i", {t, x_out, x_in, rp, m, r}, expr((double) 0));
@@ -180,9 +180,9 @@ void generate_function(std::string name)
 
     complex_expr term = C_prop_update(t, x_out, x_in, rp, m, r, B1Nperms-1, Nw-1) * snk_psi;
 
-    computation C_update_r("C_update_r", {t, x_out, x_in, rp, m, r, n}, C_init_r(t, x_out, 0, rp, m, r, n) + term.get_real());
+    computation C_update_r("C_update_r", {t, x_out, x_in, rp, m, r, n}, C_init_r(t, x_out, rp, m, r, n) + term.get_real());
     C_update_r.add_predicate(x_in == 0);
-    computation C_update_i("C_update_i", {t, x_out, x_in, rp, m, r, n}, C_init_i(t, x_out, 0, rp, m, r, n) + term.get_imag());
+    computation C_update_i("C_update_i", {t, x_out, x_in, rp, m, r, n}, C_init_i(t, x_out, rp, m, r, n) + term.get_imag());
     C_update_i.add_predicate(x_in == 0);
 
     // -------------------------------------------------------
@@ -267,8 +267,8 @@ void generate_function(std::string name)
     C_prop_update_r.store_in(&buf_C_prop_r, {t, x_out, x_in, rp, m, r});
     C_prop_update_i.store_in(&buf_C_prop_i, {t, x_out, x_in, rp, m, r});
 
-    C_init_r.store_in(&buf_C_r, {t, x_out, x_in, rp, m, r, n});
-    C_init_i.store_in(&buf_C_i, {t, x_out, x_in, rp, m, r, n});
+    C_init_r.store_in(&buf_C_r, {t, x_out, rp, m, r, n});
+    C_init_i.store_in(&buf_C_i, {t, x_out, rp, m, r, n});
     C_update_r.store_in(&buf_C_r, {t, x_out, x_in, rp, m, r, n});
     C_update_i.store_in(&buf_C_i, {t, x_out, x_in, rp, m, r, n});
 
@@ -476,8 +476,8 @@ void generate_function(std::string name)
 //-------------------------------
 
 
-    C_init_r.tag_gpu_level(x_out, x_in);
-    C_init_i.tag_gpu_level(x_out, x_in);
+    // C_init_r.tag_gpu_level(x_out, x_in);
+    // C_init_i.tag_gpu_level(x_out, x_in);
 
     B1_Blocal_r1_r_init.tag_gpu_level(x_out, x_in);
     B1_Blocal_r1_i_init.tag_gpu_level(x_out, x_in);
@@ -622,8 +622,8 @@ void generate_function(std::string name)
             .then(copy_snk_spin_weights_host_to_device, computation::root)
             .then(copy_snk_weights_host_to_device, computation::root)
             .then(copy_sigs_host_to_device, computation::root)
-            .then(C_init_r, x_in)
-            .then(C_init_i, x_in));
+            .then(C_init_r, computation::root)
+            .then(C_init_i, computation::root));
 
     // handle = &handle->then(C_init_i, computation::root);
 
