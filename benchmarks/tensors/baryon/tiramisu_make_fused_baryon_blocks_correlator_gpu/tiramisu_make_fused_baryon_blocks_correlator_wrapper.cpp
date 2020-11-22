@@ -69,8 +69,8 @@ void tiramisu_make_nucleon_2pt(double* C_re,
     }
 
    // Halide buffers
-   Halide::Buffer<double> b_C_r(NsnkHex, B1Nrows, NsrcHex, B1Nrows, sites_per_rank, Vsnk/sites_per_rank, Lt, "C_r");
-   Halide::Buffer<double> b_C_i(NsnkHex, B1Nrows, NsrcHex, B1Nrows, sites_per_rank, Vsnk/sites_per_rank, Lt, "C_i");
+   Halide::Buffer<double> b_C_r(NsnkHex, B1Nrows, NsrcHex, B1Nrows, Vsnk/sites_per_rank, Lt, "C_r");
+   Halide::Buffer<double> b_C_i(NsnkHex, B1Nrows, NsrcHex, B1Nrows, Vsnk/sites_per_rank, Lt, "C_i");
 
    Halide::Buffer<int> b_src_color_weights(Nq, Nw, B1Nrows, "src_color_weights");
    Halide::Buffer<int> b_src_spin_weights(Nq, Nw, B1Nrows, "src_spin_weights");
@@ -227,7 +227,6 @@ void tiramisu_make_nucleon_2pt(double* C_re,
             for (int n=0; n<NsnkHex; n++)
                for (int t=0; t<Lt; t++)
                 for (int x=0; x<Vsnk; x++) {
-                   if (x % sites_per_rank != 0) continue;
                   double number0r;
                   double number0i;
                   number0r = b_C_r(n,r,m,rp,x,t);
