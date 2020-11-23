@@ -386,95 +386,16 @@ void generate_function(std::string name)
     computation copy_snk_weights_device_to_host({}, memcpy(*snk_weights.get_buffer(), snk_weights_cpu));
     computation copy_sigs_device_to_host({}, memcpy(*sigs.get_buffer(), sigs_cpu));
 
+    computation set_C_i_0("set_C_i_0", {t, x_out, x_in, rp, m, r, n}, expr((double) 0));
+    computation set_C_r_0("set_C_r_0", {t, x_out, x_in, rp, m, r, n}, expr((double) 0));
+    set_C_i_0.store_in(buf_C_i);
+    set_C_r_0.store_in(buf_C_r);
+
     // -------------------------------------------------------
     // Layer III
     // -------------------------------------------------------
 
 #if GPU_PARALLEL
-
-    // var t1("t1"), t2("t2");
-
-    // C_init_r.split(t, t_MAX / split_t, t1, t2);
-    // C_init_i.split(t, t_MAX / split_t, t1, t2);
-    // C_init_r.tag_gpu_level(t1, t2);
-    // C_init_i.tag_gpu_level(t1, t2);
-
-    // B1_Blocal_r1_r_init.split(t, t_MAX / split_t, t1, t2);
-    // B1_Blocal_r1_i_init.split(t, t_MAX / split_t, t1, t2);
-    // B1_Blocal_r1_r_init.tag_gpu_level(t1, t2);
-    // B1_Blocal_r1_i_init.tag_gpu_level(t1, t2);
-
-    // B1_Blocal_r1_r_props_init.split(t, t_MAX / split_t, t1, t2);
-    // B1_Blocal_r1_i_props_init.split(t, t_MAX / split_t, t1, t2);
-    // B1_Blocal_r1_r_props_init.tag_gpu_level(t1, t2);
-    // B1_Blocal_r1_i_props_init.tag_gpu_level(t1, t2);
-
-    // B1_Blocal_r1_r_diquark.split(t, t_MAX / split_t, t1, t2);
-    // B1_Blocal_r1_i_diquark.split(t, t_MAX / split_t, t1, t2);
-    // B1_Blocal_r1_r_diquark.tag_gpu_level(t1, t2);
-    // B1_Blocal_r1_i_diquark.tag_gpu_level(t1, t2);
-
-    // B1_Blocal_r1_r_props.split(t, t_MAX / split_t, t1, t2);
-    // B1_Blocal_r1_i_props.split(t, t_MAX / split_t, t1, t2);
-    // B1_Blocal_r1_r_props.tag_gpu_level(t1, t2);
-    // B1_Blocal_r1_i_props.tag_gpu_level(t1, t2);
-
-    // B1_Blocal_r1_r_update.split(t, t_MAX / split_t, t1, t2);
-    // B1_Blocal_r1_i_update.split(t, t_MAX / split_t, t1, t2);
-    // B1_Blocal_r1_r_update.tag_gpu_level(t1, t2);
-    // B1_Blocal_r1_i_update.tag_gpu_level(t1, t2);
-
-    // B1_Blocal_r2_r_init.split(t, t_MAX / split_t, t1, t2);
-    // B1_Blocal_r2_i_init.split(t, t_MAX / split_t, t1, t2);
-    // B1_Blocal_r2_r_init.tag_gpu_level(t1, t2);
-    // B1_Blocal_r2_i_init.tag_gpu_level(t1, t2);
-
-    // B1_Blocal_r2_r_props_init.split(t, t_MAX / split_t, t1, t2);
-    // B1_Blocal_r2_i_props_init.split(t, t_MAX / split_t, t1, t2);
-    // B1_Blocal_r2_r_props_init.tag_gpu_level(t1, t2);
-    // B1_Blocal_r2_i_props_init.tag_gpu_level(t1, t2);
-
-    // B1_Blocal_r2_r_diquark.split(t, t_MAX / split_t, t1, t2);
-    // B1_Blocal_r2_i_diquark.split(t, t_MAX / split_t, t1, t2);
-    // B1_Blocal_r2_r_diquark.tag_gpu_level(t1, t2);
-    // B1_Blocal_r2_i_diquark.tag_gpu_level(t1, t2);
-
-    // B1_Blocal_r2_r_props.split(t, t_MAX / split_t, t1, t2);
-    // B1_Blocal_r2_i_props.split(t, t_MAX / split_t, t1, t2);
-    // B1_Blocal_r2_r_props.tag_gpu_level(t1, t2);
-    // B1_Blocal_r2_i_props.tag_gpu_level(t1, t2);
-
-    // B1_Blocal_r2_r_update.split(t, t_MAX / split_t, t1, t2);
-    // B1_Blocal_r2_i_update.split(t, t_MAX / split_t, t1, t2);
-    // B1_Blocal_r2_r_update.tag_gpu_level(t1, t2);
-    // B1_Blocal_r2_i_update.tag_gpu_level(t1, t2);
-
-    // C_prop_init_r.split(t, t_MAX / split_t, t1, t2);
-    // C_prop_init_i.split(t, t_MAX / split_t, t1, t2);
-    // C_prop_init_r.tag_gpu_level(t1, t2);
-    // C_prop_init_i.tag_gpu_level(t1, t2);
-
-    // new_term_0_r1_b1.get_real()->split(t, t_MAX / split_t, t1, t2);
-    // new_term_0_r1_b1.get_imag()->split(t, t_MAX / split_t, t1, t2);
-    // new_term_0_r1_b1.get_real()->tag_gpu_level(t1, t2);
-    // new_term_0_r1_b1.get_imag()->tag_gpu_level(t1, t2);
-
-    // new_term_0_r2_b1.get_real()->split(t, t_MAX / split_t, t1, t2);
-    // new_term_0_r2_b1.get_imag()->split(t, t_MAX / split_t, t1, t2);
-    // new_term_0_r2_b1.get_real()->tag_gpu_level(t1, t2);
-    // new_term_0_r2_b1.get_imag()->tag_gpu_level(t1, t2);
-
-    // C_prop_update_r.split(t, t_MAX / split_t, t1, t2);
-    // C_prop_update_i.split(t, t_MAX / split_t, t1, t2);
-    // C_prop_update_r.tag_gpu_level(t1, t2);
-    // C_prop_update_i.tag_gpu_level(t1, t2);
-
-    // C_update_r.split(t, t_MAX / split_t, t1, t2);
-    // C_update_i.split(t, t_MAX / split_t, t1, t2);
-    // C_update_r.tag_gpu_level(t1, t2);
-    // C_update_i.tag_gpu_level(t1, t2);
-//-------------------------------
-
 
     C_init_r.tag_gpu_level(x_out, x_in);
     C_init_i.tag_gpu_level(x_out, x_in);
@@ -524,83 +445,8 @@ void generate_function(std::string name)
     C_update_r.tag_gpu_level(x_out, x_in);
     C_update_i.tag_gpu_level(x_out, x_in);
 
-//-------------------------------
-
-    // C_init_r.tag_gpu_level(t1, t2);
-    // C_init_i.tag_gpu_level(t1, t2);
-
-    // B1_Blocal_r1_r_init.tag_gpu_level(iCprime, iSprime);
-    // B1_Blocal_r1_i_init.tag_gpu_level(iCprime, iSprime);
-
-    // B1_Blocal_r1_r_props_init.split(t, t_MAX / split_t, t1, t2);
-    // B1_Blocal_r1_i_props_init.split(t, t_MAX / split_t, t1, t2);
-    // B1_Blocal_r1_r_props_init.tag_gpu_level(t1, t2);
-    // B1_Blocal_r1_i_props_init.tag_gpu_level(t1, t2);
-
-    // B1_Blocal_r1_r_diquark.split(t, t_MAX / split_t, t1, t2);
-    // B1_Blocal_r1_i_diquark.split(t, t_MAX / split_t, t1, t2);
-    // B1_Blocal_r1_r_diquark.tag_gpu_level(t1, t2);
-    // B1_Blocal_r1_i_diquark.tag_gpu_level(t1, t2);
-
-    // B1_Blocal_r1_r_props.split(t, t_MAX / split_t, t1, t2);
-    // B1_Blocal_r1_i_props.split(t, t_MAX / split_t, t1, t2);
-    // B1_Blocal_r1_r_props.tag_gpu_level(t1, t2);
-    // B1_Blocal_r1_i_props.tag_gpu_level(t1, t2);
-
-    // B1_Blocal_r1_r_update.split(t, t_MAX / split_t, t1, t2);
-    // B1_Blocal_r1_i_update.split(t, t_MAX / split_t, t1, t2);
-    // B1_Blocal_r1_r_update.tag_gpu_level(t1, t2);
-    // B1_Blocal_r1_i_update.tag_gpu_level(t1, t2);
-
-    // B1_Blocal_r2_r_init.split(t, t_MAX / split_t, t1, t2);
-    // B1_Blocal_r2_i_init.split(t, t_MAX / split_t, t1, t2);
-    // B1_Blocal_r2_r_init.tag_gpu_level(t1, t2);
-    // B1_Blocal_r2_i_init.tag_gpu_level(t1, t2);
-
-    // B1_Blocal_r2_r_props_init.split(t, t_MAX / split_t, t1, t2);
-    // B1_Blocal_r2_i_props_init.split(t, t_MAX / split_t, t1, t2);
-    // B1_Blocal_r2_r_props_init.tag_gpu_level(t1, t2);
-    // B1_Blocal_r2_i_props_init.tag_gpu_level(t1, t2);
-
-    // B1_Blocal_r2_r_diquark.split(t, t_MAX / split_t, t1, t2);
-    // B1_Blocal_r2_i_diquark.split(t, t_MAX / split_t, t1, t2);
-    // B1_Blocal_r2_r_diquark.tag_gpu_level(t1, t2);
-    // B1_Blocal_r2_i_diquark.tag_gpu_level(t1, t2);
-
-    // B1_Blocal_r2_r_props.split(t, t_MAX / split_t, t1, t2);
-    // B1_Blocal_r2_i_props.split(t, t_MAX / split_t, t1, t2);
-    // B1_Blocal_r2_r_props.tag_gpu_level(t1, t2);
-    // B1_Blocal_r2_i_props.tag_gpu_level(t1, t2);
-
-    // B1_Blocal_r2_r_update.split(t, t_MAX / split_t, t1, t2);
-    // B1_Blocal_r2_i_update.split(t, t_MAX / split_t, t1, t2);
-    // B1_Blocal_r2_r_update.tag_gpu_level(t1, t2);
-    // B1_Blocal_r2_i_update.tag_gpu_level(t1, t2);
-
-    // C_prop_init_r.split(t, t_MAX / split_t, t1, t2);
-    // C_prop_init_i.split(t, t_MAX / split_t, t1, t2);
-    // C_prop_init_r.tag_gpu_level(t1, t2);
-    // C_prop_init_i.tag_gpu_level(t1, t2);
-
-    // new_term_0_r1_b1.get_real()->split(t, t_MAX / split_t, t1, t2);
-    // new_term_0_r1_b1.get_imag()->split(t, t_MAX / split_t, t1, t2);
-    // new_term_0_r1_b1.get_real()->tag_gpu_level(t1, t2);
-    // new_term_0_r1_b1.get_imag()->tag_gpu_level(t1, t2);
-
-    // new_term_0_r2_b1.get_real()->split(t, t_MAX / split_t, t1, t2);
-    // new_term_0_r2_b1.get_imag()->split(t, t_MAX / split_t, t1, t2);
-    // new_term_0_r2_b1.get_real()->tag_gpu_level(t1, t2);
-    // new_term_0_r2_b1.get_imag()->tag_gpu_level(t1, t2);
-
-    // C_prop_update_r.split(t, t_MAX / split_t, t1, t2);
-    // C_prop_update_i.split(t, t_MAX / split_t, t1, t2);
-    // C_prop_update_r.tag_gpu_level(t1, t2);
-    // C_prop_update_i.tag_gpu_level(t1, t2);
-
-    // C_update_r.split(t, t_MAX / split_t, t1, t2);
-    // C_update_i.split(t, t_MAX / split_t, t1, t2);
-    // C_update_r.tag_gpu_level(t1, t2);
-    // C_update_i.tag_gpu_level(t1, t2);
+    set_C_i_0.tag_gpu_level(x_out, x_in);
+    set_C_r_0.tag_gpu_level(x_out, x_in);
 
 #endif
     var &t2 = t;
@@ -664,6 +510,7 @@ void generate_function(std::string name)
           .then(C_prop_update_i, wnum)
           .then(C_update_r, r) 
           .then(C_update_i, n));
+    handle = &handle->then(set_C_i_0, computation::root).then(set_C_r_0, computation::root);
     
 
     handle = &handle->
