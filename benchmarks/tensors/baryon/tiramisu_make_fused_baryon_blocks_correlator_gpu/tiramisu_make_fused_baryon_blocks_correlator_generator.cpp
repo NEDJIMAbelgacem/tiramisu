@@ -180,9 +180,9 @@ void generate_function(std::string name)
 
     complex_expr term = C_prop_update(t, x_out, x_in, rp, m, r, B1Nperms-1, Nw-1) * snk_psi;
 
-    computation C_update_r("C_update_r", {t, x_out, x_in, rp, m, r, n}, C_init_r(t, x_out, rp, m, r, n) + term.get_real());
+    computation C_update_r("C_update_r", {t, x_out, x_in, rp, m, r, n}, C_init_r(t, x_out, x_in, rp, m, r, n) + term.get_real());
     C_update_r.add_predicate(x_in == 0);
-    computation C_update_i("C_update_i", {t, x_out, x_in, rp, m, r, n}, C_init_i(t, x_out, rp, m, r, n) + term.get_imag());
+    computation C_update_i("C_update_i", {t, x_out, x_in, rp, m, r, n}, C_init_i(t, x_out, x_in, rp, m, r, n) + term.get_imag());
     C_update_i.add_predicate(x_in == 0);
 
     // -------------------------------------------------------
@@ -207,7 +207,7 @@ void generate_function(std::string name)
     buffer buf_snk_spin_weights("buf_snk_spin_weights", {B1Nrows, B1Nperms, Nw, Nq}, p_int32, a_temporary);
     buffer buf_snk_weights("buf_snk_weights", {B1Nrows, Nw}, p_float64, a_temporary);
     // strange: needed to change buf_src_spins name from "buf_src_spins" to work
-    buffer buf_src_spins("src_spins", {B1Nrows}, p_int32, a_temporary);
+    buffer buf_src_spins("src_spins___", {B1Nrows}, p_int32, a_temporary);
     buffer buf_sigs("buf_sigs", {B1Nperms}, p_int32, a_temporary);
 
     C_r.store_in(&buf_C_r);
@@ -244,6 +244,11 @@ void generate_function(std::string name)
    buf_snk_weights.tag_gpu_global();
    buf_src_spins.tag_gpu_global();
    buf_sigs.tag_gpu_global();
+
+    C_init_r.store_in(&buf_C_r, {t, x_out, x_in, rp, m, r, n});
+    C_init_i.store_in(&buf_C_i, {t, x_out, x_in, rp, m, r, n});
+    C_update_r.store_in(&buf_C_r, {t, x_out, x_in, rp, m, r, n});
+    C_update_i.store_in(&buf_C_i, {t, x_out, x_in, rp, m, r, n});
 
     buffer* buf_new_term_r_b1;//("buf_new_term_r_b1", {1}, p_float64, a_temporary);
     buffer* buf_new_term_i_b1;//("buf_new_term_i_b1", {1}, p_float64, a_temporary);
@@ -299,11 +304,6 @@ void generate_function(std::string name)
     buffer snk_weights_cpu("snk_weights_cpu", {B1Nrows, Nw}, p_float64, a_temporary);
     buffer src_spins_cpu("src_spins_cpu", {B1Nrows}, p_int32, a_temporary);
     buffer sigs_cpu("sigs_cpu", {B1Nperms}, p_int32, a_temporary);
-    
-    C_init_r.store_in(&buf_C_r_cpu, {t, x_out, rp, m, r, n});
-    C_init_i.store_in(&buf_C_i_cpu, {t, x_out, rp, m, r, n});
-    C_update_r.store_in(&buf_C_r, {t, x_out, rp, m, r, n});
-    C_update_i.store_in(&buf_C_i, {t, x_out, rp, m, r, n});
 
     buffer buf_B1_Blocal_r1_r("buf_B1_Blocal_r1_r", {Nc, Ns, Nc, Ns, Nc, Ns, NsrcHex}, p_float64, a_temporary);
     buffer buf_B1_Blocal_r1_i("buf_B1_Blocal_r1_i", {Nc, Ns, Nc, Ns, Nc, Ns, NsrcHex}, p_float64, a_temporary);
@@ -478,8 +478,8 @@ void generate_function(std::string name)
 //-------------------------------
 
 
-    // C_init_r.tag_gpu_level(x_out, x_in);
-    // C_init_i.tag_gpu_level(x_out, x_in);
+    C_init_r.tag_gpu_level(x_out, x_in);
+    C_init_i.tag_gpu_level(x_out, x_in);
 
     B1_Blocal_r1_r_init.tag_gpu_level(x_out, x_in);
     B1_Blocal_r1_i_init.tag_gpu_level(x_out, x_in);
@@ -607,14 +607,12 @@ void generate_function(std::string name)
 #endif
     var &t2 = t;
 
-    // computation *handle = &copy_buf_C_r_host_to_device.then(copy_buf_C_i_host_to_device, computation::root);
-    computation *handle = &C_init_r.then(C_init_i, n);
+    computation *handle = &copy_buf_C_r_host_to_device.then(copy_buf_C_i_host_to_device, computation::root);
+    // computation *handle = &C_init_r.then(C_init_i, n);
 
 
     handle = &(handle->
-             then(copy_buf_C_r_host_to_device, computation::root)
-            .then(copy_buf_C_i_host_to_device, computation::root)
-            .then(copy_B1_prop_r_host_to_device, computation::root)
+            then(copy_B1_prop_r_host_to_device, computation::root)
             .then(copy_B1_prop_i_host_to_device, computation::root)
             .then(copy_src_psi_B1_r_host_to_device, computation::root)
             .then(copy_src_psi_B1_i_host_to_device, computation::root)
@@ -629,8 +627,8 @@ void generate_function(std::string name)
             .then(copy_snk_weights_host_to_device, computation::root)
             .then(copy_sigs_host_to_device, computation::root));
 
-    // handle = &(handle->then(C_init_r, computation::root)
-    //         .then(C_init_i, n));
+    handle = &(handle->then(C_init_r, computation::root)
+            .then(C_init_i, n));
 
     // handle = &handle->then(C_init_i, computation::root);
 

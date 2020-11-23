@@ -148,7 +148,7 @@ void make_nucleon_2pt(double* C_re,
                std::complex<double> block(Blocal_r1_re[Blocal_index(iC,iS,kC,kS,jC,jS,m ,Nc_f,Ns_f,Nsrc_f)], Blocal_r1_im[Blocal_index(iC,iS,kC,kS,jC,jS,m ,Nc_f,Ns_f,Nsrc_f)]);
                std::complex<double> p_block(Blocal_r1_re[Blocal_index(kC,kS,iC,iS,jC,jS,m ,Nc_f,Ns_f,Nsrc_f)], Blocal_r1_im[Blocal_index(kC,kS,iC,iS,jC,jS,m ,Nc_f,Ns_f,Nsrc_f)]);
                for (n=0; n<Nsnk_f; n++) {
-                  std::complex<double> psi(snk_psi_re[index_2d(x,n ,Nsnk_f)], snk_psi_im[index_2d(x,n ,Nsnk_f)]);
+                  std::complex<double> psi(snk_psi_re[index_2d( x , n ,Nsnk_f)], snk_psi_im[index_2d( x ,n ,Nsnk_f)]);
                   std::complex<double> corr = (block - p_block) * psi;
                   C_re[index_5d(0,m,0,n,t ,Nsrc_f,2,Nsnk_f,Nt_f)] += src_weights_r1[wnum] * real(corr);
                   C_im[index_5d(0,m,0,n,t ,Nsrc_f,2,Nsnk_f,Nt_f)] += src_weights_r1[wnum] * imag(corr);
@@ -156,7 +156,7 @@ void make_nucleon_2pt(double* C_re,
                std::complex<double> r_block(Blocal_r2_re[Blocal_index(iC,iS,kC,kS,jC,jS,m ,Nc_f,Ns_f,Nsrc_f)], Blocal_r2_im[Blocal_index(iC,iS,kC,kS,jC,jS,m ,Nc_f,Ns_f,Nsrc_f)]);
                std::complex<double> r_p_block(Blocal_r2_re[Blocal_index(kC,kS,iC,iS,jC,jS,m ,Nc_f,Ns_f,Nsrc_f)], Blocal_r2_im[Blocal_index(kC,kS,iC,iS,jC,jS,m ,Nc_f,Ns_f,Nsrc_f)]);
                for (n=0; n<Nsnk_f; n++) {
-                  std::complex<double> psi(snk_psi_re[index_2d(x,n ,Nsnk_f)], snk_psi_im[index_2d(x,n ,Nsnk_f)]);
+                  std::complex<double> psi(snk_psi_re[index_2d( x, n ,Nsnk_f)], snk_psi_im[index_2d( x, n ,Nsnk_f)]);
                   std::complex<double> corr = (r_block - r_p_block) * psi;
                   C_re[index_5d(1,m,0,n,t ,Nsrc_f,2,Nsnk_f,Nt_f)] += src_weights_r1[wnum] * real(corr);
                   C_im[index_5d(1,m,0,n,t ,Nsrc_f,2,Nsnk_f,Nt_f)] += src_weights_r1[wnum] * imag(corr);
