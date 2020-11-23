@@ -623,7 +623,7 @@ void generate_function(std::string name)
             .then(copy_snk_weights_host_to_device, computation::root)
             .then(copy_sigs_host_to_device, computation::root)
             .then(C_init_r, computation::root)
-            .then(C_init_i, x_in));
+            .then(C_init_i, n));
 
     // handle = &handle->then(C_init_i, computation::root);
 
