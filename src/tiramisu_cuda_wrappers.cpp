@@ -47,7 +47,7 @@ int tiramisu_cuda_memcpy_to_host(void * to, void * from, uint64_t size)
     static bool b = true;
     if (b)
     {
-        cudaDeviceSynchronize():
+        cudaDeviceSynchronize();
         b = false;
     }
     std::cerr << __FUNCTION__ << std::endl;
