@@ -205,7 +205,7 @@ void generate_function(std::string name)
     buffer buf_snk_spin_weights("buf_snk_spin_weights", {B1Nrows, B1Nperms, Nw, Nq}, p_int32, a_temporary);
     buffer buf_snk_weights("buf_snk_weights", {B1Nrows, Nw}, p_float64, a_temporary);
     // strange: needed to change buf_src_spins name from "buf_src_spins" to work
-    buffer buf_src_spins("src_spins___", {B1Nrows}, p_int32, a_temporary);
+    buffer buf_src_spins("buf_src_spins", {B1Nrows}, p_int32, a_temporary);
     buffer buf_sigs("buf_sigs", {B1Nperms}, p_int32, a_temporary);
 
     C_r.store_in(&buf_C_r);
