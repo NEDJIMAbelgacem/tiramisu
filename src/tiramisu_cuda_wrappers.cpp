@@ -44,6 +44,12 @@ int tiramisu_cuda_memcpy_to_device(void * to, void * from, uint64_t size)
 extern "C"
 int tiramisu_cuda_memcpy_to_host(void * to, void * from, uint64_t size)
 {
+    static bool b = true;
+    if (b)
+    {
+        cudaDeviceSynchronize():
+        b = false;
+    }
     std::cerr << __FUNCTION__ << std::endl;
     std::cerr << "Copying from " << std::hex << (long long)(from) << " to " << (long long)(to) << std::endl; 
     handle_cuda_error(cudaMemcpy(to, from, size, cudaMemcpyKind::cudaMemcpyDeviceToHost), __FUNCTION__);
