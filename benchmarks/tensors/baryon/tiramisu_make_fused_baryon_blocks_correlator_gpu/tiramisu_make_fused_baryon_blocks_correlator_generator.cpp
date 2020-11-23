@@ -386,10 +386,10 @@ void generate_function(std::string name)
     computation copy_snk_weights_device_to_host({}, memcpy(*snk_weights.get_buffer(), snk_weights_cpu));
     computation copy_sigs_device_to_host({}, memcpy(*sigs.get_buffer(), sigs_cpu));
 
-    computation set_C_i_0("set_C_i_0", {t, x_out, x_in, rp, m, r, n}, expr((double) 0));
-    computation set_C_r_0("set_C_r_0", {t, x_out, x_in, rp, m, r, n}, expr((double) 0));
-    set_C_i_0.store_in(&buf_C_i, {t, x_out, x_in, rp, m, r, n});
-    set_C_r_0.store_in(&buf_C_r, {t, x_out, x_in, rp, m, r, n});
+    // computation set_C_i_0("set_C_i_0", {t, x_out, x_in, rp, m, r, n}, expr((double) 0));
+    // computation set_C_r_0("set_C_r_0", {t, x_out, x_in, rp, m, r, n}, expr((double) 0));
+    // set_C_i_0.store_in(&buf_C_i, {t, x_out, x_in, rp, m, r, n});
+    // set_C_r_0.store_in(&buf_C_r, {t, x_out, x_in, rp, m, r, n});
 
     // -------------------------------------------------------
     // Layer III
@@ -445,8 +445,8 @@ void generate_function(std::string name)
     C_update_r.tag_gpu_level(x_out, x_in);
     C_update_i.tag_gpu_level(x_out, x_in);
 
-    set_C_i_0.tag_gpu_level(x_out, x_in);
-    set_C_r_0.tag_gpu_level(x_out, x_in);
+    // set_C_i_0.tag_gpu_level(x_out, x_in);
+    // set_C_r_0.tag_gpu_level(x_out, x_in);
 
 #endif
     var &t2 = t;
@@ -510,7 +510,7 @@ void generate_function(std::string name)
           .then(C_prop_update_i, wnum)
           .then(C_update_r, r) 
           .then(C_update_i, n));
-    handle = &handle->then(set_C_i_0, x_in).then(set_C_r_0, n);
+    // handle = &handle->then(set_C_i_0, x_in).then(set_C_r_0, n);
     
 
     handle = &handle->
