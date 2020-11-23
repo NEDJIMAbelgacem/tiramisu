@@ -388,8 +388,8 @@ void generate_function(std::string name)
 
     computation set_C_i_0("set_C_i_0", {t, x_out, x_in, rp, m, r, n}, expr((double) 0));
     computation set_C_r_0("set_C_r_0", {t, x_out, x_in, rp, m, r, n}, expr((double) 0));
-    set_C_i_0.store_in(buf_C_i);
-    set_C_r_0.store_in(buf_C_r);
+    set_C_i_0.store_in(buf_C_i, {t_MAX, Vsnk/sites_per_rank, B1Nrows, NsrcHex, B1Nrows, NsnkHex});
+    set_C_r_0.store_in(buf_C_r, {t_MAX, Vsnk/sites_per_rank, B1Nrows, NsrcHex, B1Nrows, NsnkHex});
 
     // -------------------------------------------------------
     // Layer III
