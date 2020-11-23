@@ -151,8 +151,8 @@ void generate_function(std::string name)
 
     /* Correlator */
 
-    computation C_init_r("C_init_r", {t, x_out, rp, m, r, n}, expr((double) 0));
-    computation C_init_i("C_init_i", {t, x_out, rp, m, r, n}, expr((double) 0));
+    computation C_init_r("C_init_r", {t, x_out, x_in, rp, m, r, n}, expr((double) 0));
+    computation C_init_i("C_init_i", {t, x_out, x_in, rp, m, r, n}, expr((double) 0));
 
     computation C_prop_init_r("C_prop_init_r", {t, x_out, x_in, rp, m, r}, expr((double) 0));
     computation C_prop_init_i("C_prop_init_i", {t, x_out, x_in, rp, m, r}, expr((double) 0));
@@ -181,9 +181,7 @@ void generate_function(std::string name)
     complex_expr term = C_prop_update(t, x_out, x_in, rp, m, r, B1Nperms-1, Nw-1) * snk_psi;
 
     computation C_update_r("C_update_r", {t, x_out, x_in, rp, m, r, n}, C_init_r(t, x_out, x_in, rp, m, r, n) + term.get_real());
-    C_update_r.add_predicate(x_in == 0);
     computation C_update_i("C_update_i", {t, x_out, x_in, rp, m, r, n}, C_init_i(t, x_out, x_in, rp, m, r, n) + term.get_imag());
-    C_update_i.add_predicate(x_in == 0);
 
     // -------------------------------------------------------
     // Layer II
