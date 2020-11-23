@@ -510,7 +510,7 @@ void generate_function(std::string name)
           .then(C_prop_update_i, wnum)
           .then(C_update_r, r) 
           .then(C_update_i, n));
-    handle = &handle->then(set_C_i_0, x_in).then(set_C_r_0, x_in);
+    handle = &handle->then(set_C_i_0, x_in).then(set_C_r_0, n);
     
 
     handle = &handle->
