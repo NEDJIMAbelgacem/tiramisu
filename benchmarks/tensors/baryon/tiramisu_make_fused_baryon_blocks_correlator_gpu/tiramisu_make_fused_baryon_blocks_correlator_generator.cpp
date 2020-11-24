@@ -270,22 +270,6 @@ void generate_function(std::string name)
     C_prop_update_r.store_in(&buf_C_prop_r, {t, x_out, x_in, rp, m, r});
     C_prop_update_i.store_in(&buf_C_prop_i, {t, x_out, x_in, rp, m, r});
 
-
-
-        // &buf_C_r_cpu, &buf_C_i_cpu,
-        // &B1_prop_r_cpu, &B1_prop_i_cpu,
-        // &src_psi_B1_r_cpu, &src_psi_B1_i_cpu,
-        // &snk_psi_r_cpu, &snk_psi_i_cpu,
-        // &src_color_weights_cpu,
-        // &src_spin_weights_cpu,
-        // &src_weights_cpu,
-        // &src_spins_cpu, 
-        // &snk_color_weights_cpu,
-        // &snk_spin_weights_cpu,
-        // &snk_weights_cpu,
-        // &sigs_cpu
-        // }, 
-
     buffer buf_C_r_cpu("buf_C_r_cpu", {t_MAX, Vsnk/sites_per_rank, B1Nrows, NsrcHex, B1Nrows, NsnkHex}, p_float64, a_temporary);
     buffer buf_C_i_cpu("buf_C_i_cpu", {t_MAX, Vsnk/sites_per_rank, B1Nrows, NsrcHex, B1Nrows, NsnkHex}, p_float64, a_temporary);
     buffer B1_prop_r_cpu("B1_prop_r_cpu",   {Nq, t_MAX, Nc, Ns, Nc, Ns, Vsnk, Vsrc}, p_float64, a_temporary);
