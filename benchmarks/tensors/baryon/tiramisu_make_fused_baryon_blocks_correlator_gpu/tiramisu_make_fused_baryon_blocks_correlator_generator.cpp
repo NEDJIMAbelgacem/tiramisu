@@ -27,7 +27,7 @@ void generate_function(std::string name)
         x_out("x_out", 0, Vsnk/sites_per_rank),
         x_in("x_in", 0, sites_per_rank),
         y("y", 0, Vsrc),
-        m("m", 0, NsrcHex),
+        m("m", 0, NsrcHex), // 1
         n("n", 0, NsnkHex),
         tri("tri", 0, Nq),
         iCprime("iCprime", 0, Nc),
