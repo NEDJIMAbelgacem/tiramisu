@@ -246,8 +246,8 @@ void generate_function(std::string name)
     buffer buf_C_r_cpu("buf_C_r_cpu", {t_MAX, Vsnk/sites_per_rank, B1Nrows, NsrcHex, B1Nrows, NsnkHex}, p_float64, a_temporary);
     buffer buf_C_i_cpu("buf_C_i_cpu", {t_MAX, Vsnk/sites_per_rank, B1Nrows, NsrcHex, B1Nrows, NsnkHex}, p_float64, a_temporary);
 
-    C_init_r.store_in(&buf_C_r, {t, x_out, rp, m, r, n});
-    C_init_i.store_in(&buf_C_r, {t, x_out, rp, m, r, n});
+    C_init_r.store_in(&buf_C_r_cpu, {t, x_out, rp, m, r, n});
+    C_init_i.store_in(&buf_C_i_cpu, {t, x_out, rp, m, r, n});
     C_update_r.store_in(&buf_C_r, {t, x_out, rp, m, r, n});
     C_update_i.store_in(&buf_C_i, {t, x_out, rp, m, r, n});
 
@@ -397,50 +397,50 @@ void generate_function(std::string name)
     C_init_r.tag_gpu_level(x_out);
     C_init_i.tag_gpu_level(x_out);
 
-    B1_Blocal_r1_r_init.tag_gpu_level(x_out, x_in);
-    B1_Blocal_r1_i_init.tag_gpu_level(x_out, x_in);
+    B1_Blocal_r1_r_init.tag_gpu_level(x_out);//, x_in);
+    B1_Blocal_r1_i_init.tag_gpu_level(x_out);//, x_in);
 
-    B1_Blocal_r1_r_props_init.tag_gpu_level(x_out, x_in);
-    B1_Blocal_r1_i_props_init.tag_gpu_level(x_out, x_in);
+    B1_Blocal_r1_r_props_init.tag_gpu_level(x_out);//, x_in);
+    B1_Blocal_r1_i_props_init.tag_gpu_level(x_out);//, x_in);
 
-    B1_Blocal_r1_r_diquark.tag_gpu_level(x_out, x_in);
-    B1_Blocal_r1_i_diquark.tag_gpu_level(x_out, x_in);
+    B1_Blocal_r1_r_diquark.tag_gpu_level(x_out);//, x_in);
+    B1_Blocal_r1_i_diquark.tag_gpu_level(x_out);//, x_in);
 
-    B1_Blocal_r1_r_props.tag_gpu_level(x_out, x_in);
-    B1_Blocal_r1_i_props.tag_gpu_level(x_out, x_in);
+    B1_Blocal_r1_r_props.tag_gpu_level(x_out);//, x_in);
+    B1_Blocal_r1_i_props.tag_gpu_level(x_out);//, x_in);
 
-    B1_Blocal_r1_r_update.tag_gpu_level(x_out, x_in);
-    B1_Blocal_r1_i_update.tag_gpu_level(x_out, x_in);
+    B1_Blocal_r1_r_update.tag_gpu_level(x_out);//, x_in);
+    B1_Blocal_r1_i_update.tag_gpu_level(x_out);//, x_in);
 
-    B1_Blocal_r2_r_init.tag_gpu_level(x_out, x_in);
-    B1_Blocal_r2_i_init.tag_gpu_level(x_out, x_in);
+    B1_Blocal_r2_r_init.tag_gpu_level(x_out);//, x_in);
+    B1_Blocal_r2_i_init.tag_gpu_level(x_out);//, x_in);
 
-    B1_Blocal_r2_r_props_init.tag_gpu_level(x_out, x_in);
-    B1_Blocal_r2_i_props_init.tag_gpu_level(x_out, x_in);
+    B1_Blocal_r2_r_props_init.tag_gpu_level(x_out)//, x_in);
+    B1_Blocal_r2_i_props_init.tag_gpu_level(x_out)//, x_in);
 
-    B1_Blocal_r2_r_diquark.tag_gpu_level(x_out, x_in);
-    B1_Blocal_r2_i_diquark.tag_gpu_level(x_out, x_in);
+    B1_Blocal_r2_r_diquark.tag_gpu_level(x_out)//, x_in);
+    B1_Blocal_r2_i_diquark.tag_gpu_level(x_out)//, x_in);
 
-    B1_Blocal_r2_r_props.tag_gpu_level(x_out, x_in);
-    B1_Blocal_r2_i_props.tag_gpu_level(x_out, x_in);
+    B1_Blocal_r2_r_props.tag_gpu_level(x_out)//, x_in);
+    B1_Blocal_r2_i_props.tag_gpu_level(x_out)//, x_in);
 
     B1_Blocal_r2_r_update.tag_gpu_level(x_out, x_in);
     B1_Blocal_r2_i_update.tag_gpu_level(x_out, x_in);
 
-    C_prop_init_r.tag_gpu_level(x_out, x_in);
-    C_prop_init_i.tag_gpu_level(x_out, x_in);
+    C_prop_init_r.tag_gpu_level(x_out);//, x_in);
+    C_prop_init_i.tag_gpu_level(x_out);//, x_in);
 
-    new_term_0_r1_b1.get_real()->tag_gpu_level(x_out, x_in);
-    new_term_0_r1_b1.get_imag()->tag_gpu_level(x_out, x_in);
+    new_term_0_r1_b1.get_real()->tag_gpu_level(x_out);//, x_in);
+    new_term_0_r1_b1.get_imag()->tag_gpu_level(x_out);//, x_in);
 
-    new_term_0_r2_b1.get_real()->tag_gpu_level(x_out, x_in);
-    new_term_0_r2_b1.get_imag()->tag_gpu_level(x_out, x_in);
+    new_term_0_r2_b1.get_real()->tag_gpu_level(x_out);//, x_in);
+    new_term_0_r2_b1.get_imag()->tag_gpu_level(x_out);//, x_in);
 
-    C_prop_update_r.tag_gpu_level(x_out, x_in);
-    C_prop_update_i.tag_gpu_level(x_out, x_in);
+    C_prop_update_r.tag_gpu_level(x_out);//, x_in);
+    C_prop_update_i.tag_gpu_level(x_out);//, x_in);
 
-    C_update_r.tag_gpu_level(x_out, x_in);
-    C_update_i.tag_gpu_level(x_out, x_in);
+    C_update_r.tag_gpu_level(x_out);//, x_in);
+    C_update_i.tag_gpu_level(x_out);//, x_in);
 
 #endif
     var &t2 = t;
