@@ -160,10 +160,10 @@ void generate_function(std::string name)
     int b=0;
     /* r1, b = 0 */
     complex_computation new_term_0_r1_b1("new_term_0_r1_b1", {t, x_out, x_in, rp, m, r, nperm, wnum}, B1_Blocal_r1_init(t, x_out, x_in, snk_color_weights(r, nperm, wnum, 0), snk_spin_weights(r, nperm, wnum, 0), snk_color_weights(r, nperm, wnum, 2), snk_spin_weights(r, nperm, wnum, 2), snk_color_weights(r, nperm, wnum, 1), snk_spin_weights(r, nperm, wnum, 1), m));
-    new_term_0_r1_b1.add_predicate(src_spins(rp) == 1);
+    // new_term_0_r1_b1.add_predicate(src_spins(rp) == 1);
     /* r2, b = 0 */
     complex_computation new_term_0_r2_b1("new_term_0_r2_b1", {t, x_out, x_in, rp, m, r, nperm, wnum}, B1_Blocal_r2_init(t, x_out, x_in, snk_color_weights(r, nperm, wnum, 0), snk_spin_weights(r, nperm, wnum, 0), snk_color_weights(r, nperm, wnum, 2), snk_spin_weights(r, nperm, wnum, 2), snk_color_weights(r, nperm, wnum, 1), snk_spin_weights(r, nperm, wnum, 1), m));
-    new_term_0_r2_b1.add_predicate(src_spins(rp) == 2);
+    // new_term_0_r2_b1.add_predicate(src_spins(rp) == 2);
 
     complex_expr prefactor(cast(p_float64, snk_weights(r, wnum))*cast(p_float64, sigs(nperm)), 0.0);
 
@@ -294,7 +294,7 @@ void generate_function(std::string name)
     buffer src_spin_weights_cpu("src_spin_weights_cpu", {B1Nrows, Nw, Nq}, p_int32, a_temporary);
     buffer src_weights_cpu("src_weights_cpu", {B1Nrows, Nw}, p_float64, a_temporary);
     buffer snk_color_weights_cpu("snk_color_weights_cpu", {B1Nrows, B1Nperms, Nw, Nq}, p_int32, a_temporary);
-    buffer snk_spin_weights_cpu("snk_spin_weight    s_cpu", {B1Nrows, B1Nperms, Nw, Nq}, p_int32, a_temporary);
+    buffer snk_spin_weights_cpu("snk_spin_weights_cpu", {B1Nrows, B1Nperms, Nw, Nq}, p_int32, a_temporary);
     buffer snk_weights_cpu("snk_weights_cpu", {B1Nrows, Nw}, p_float64, a_temporary);
     buffer src_spins_cpu("src_spins_cpu", {B1Nrows}, p_int32, a_temporary);
     buffer sigs_cpu("sigs_cpu", {B1Nperms}, p_int32, a_temporary);
