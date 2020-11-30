@@ -180,8 +180,8 @@ void generate_function(std::string name)
 
     complex_expr term = C_prop_update(t, x_out, x_in, rp, m, r, B1Nperms-1, Nw-1) * snk_psi;
 
-    computation C_update_r("C_update_r", {t, x_out, x_in, rp, m, r, n}, C_init_r(t, x_out, rp, m, r, n) + term.get_real());
-    computation C_update_i("C_update_i", {t, x_out, x_in, rp, m, r, n}, C_init_i(t, x_out, rp, m, r, n) + term.get_imag());
+    computation C_update_r("C_update_r", {t, x_out, x_in, rp, m, r, n}, (expr)C_init_r(t, x_out, rp, m, r, n) + term.get_real());
+    computation C_update_i("C_update_i", {t, x_out, x_in, rp, m, r, n}, (expr)C_init_i(t, x_out, rp, m, r, n) + term.get_imag());
 
     // -------------------------------------------------------
     // Layer II
