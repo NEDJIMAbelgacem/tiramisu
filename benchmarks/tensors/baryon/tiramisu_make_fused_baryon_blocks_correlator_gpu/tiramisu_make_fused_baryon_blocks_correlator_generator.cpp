@@ -424,8 +424,8 @@ void generate_function(std::string name)
     B1_Blocal_r2_r_props.tag_gpu_level(x_out);//, x_in);
     B1_Blocal_r2_i_props.tag_gpu_level(x_out);//, x_in);
 
-    B1_Blocal_r2_r_update.tag_gpu_level(x_out, x_in);
-    B1_Blocal_r2_i_update.tag_gpu_level(x_out, x_in);
+    B1_Blocal_r2_r_update.tag_gpu_level(x_out);//, x_in);
+    B1_Blocal_r2_i_update.tag_gpu_level(x_out);//, x_in);
 
     C_prop_init_r.tag_gpu_level(x_out);//, x_in);
     C_prop_init_i.tag_gpu_level(x_out);//, x_in);
