@@ -160,10 +160,10 @@ void generate_function(std::string name)
     int b=0;
     /* r1, b = 0 */
     complex_computation new_term_0_r1_b1("new_term_0_r1_b1", {t, x_out, x_in, rp, m, r, nperm, wnum}, B1_Blocal_r1_init(t, x_out, x_in, snk_color_weights(r, nperm, wnum, 0), snk_spin_weights(r, nperm, wnum, 0), snk_color_weights(r, nperm, wnum, 2), snk_spin_weights(r, nperm, wnum, 2), snk_color_weights(r, nperm, wnum, 1), snk_spin_weights(r, nperm, wnum, 1), m));
-    // new_term_0_r1_b1.add_predicate(src_spins(rp) == 1);
+    new_term_0_r1_b1.add_predicate(src_spins(rp) == 1);
     /* r2, b = 0 */
     complex_computation new_term_0_r2_b1("new_term_0_r2_b1", {t, x_out, x_in, rp, m, r, nperm, wnum}, B1_Blocal_r2_init(t, x_out, x_in, snk_color_weights(r, nperm, wnum, 0), snk_spin_weights(r, nperm, wnum, 0), snk_color_weights(r, nperm, wnum, 2), snk_spin_weights(r, nperm, wnum, 2), snk_color_weights(r, nperm, wnum, 1), snk_spin_weights(r, nperm, wnum, 1), m));
-    // new_term_0_r2_b1.add_predicate(src_spins(rp) == 2);
+    new_term_0_r2_b1.add_predicate(src_spins(rp) == 2);
 
     complex_expr prefactor(cast(p_float64, snk_weights(r, wnum))*cast(p_float64, sigs(nperm)), 0.0);
 
@@ -246,10 +246,10 @@ void generate_function(std::string name)
     buffer buf_C_r_cpu("buf_C_r_cpu", {t_MAX, Vsnk/sites_per_rank, B1Nrows, NsrcHex, B1Nrows, NsnkHex}, p_float64, a_temporary);
     buffer buf_C_i_cpu("buf_C_i_cpu", {t_MAX, Vsnk/sites_per_rank, B1Nrows, NsrcHex, B1Nrows, NsnkHex}, p_float64, a_temporary);
 
-    C_init_r.store_in(&buf_C_r, {t, x_out, rp, m, r, n});
-    C_init_i.store_in(&buf_C_i, {t, x_out, rp, m, r, n});
+    C_init_r.store_in(&buf_C_r,   {t, x_out, rp, m, r, n});
+    C_init_i.store_in(&buf_C_i,   {t, x_out, rp, m, r, n});
     C_update_r.store_in(&buf_C_r, {t, x_out, rp, m, r, n});
-    C_update_i.store_in(&buf_C_i, {t, x_out, rp, m, r, n});
+    C_update_i.store_in(&buf_C_i, {t, x_out, x_in, rp, m, r, n});
 
     // buffer* buf_new_term_r_b1;//("buf_new_term_r_b1", {1}, p_float64, a_temporary);
     // buffer* buf_new_term_i_b1;//("buf_new_term_i_b1", {1}, p_float64, a_temporary);
