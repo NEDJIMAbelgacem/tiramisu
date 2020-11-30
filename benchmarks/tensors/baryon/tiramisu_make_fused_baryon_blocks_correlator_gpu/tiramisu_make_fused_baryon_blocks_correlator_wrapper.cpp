@@ -394,22 +394,6 @@ int main(int, char **)
                   t_C_im[index_5d(rp,m,r,n,t, NsrcHex,B1Nrows,NsnkHex,Lt)] = 0.0;
                }
 
-#if RUN_REFERENCE
-   std::cout << "Start reference C code." <<  std::endl;
-   for (int i = 0; i < nb_tests; i++)
-   {
-	   std::cout << "Run " << i << "/" << nb_tests <<  std::endl;
-	   auto start2 = std::chrono::high_resolution_clock::now();
-
-      make_nucleon_2pt(C_re, C_im, B1_prop_re, B1_prop_im, src_color_weights_r1, src_spin_weights_r1, src_weights_r1, src_color_weights_r2, src_spin_weights_r2, src_weights_r2, src_psi_B1_re, src_psi_B1_im, snk_psi_B1_re, snk_psi_B1_im, Nc, Ns, Vsrc, Vsnk, Lt, Nw, Nq, NsrcHex, NsnkHex);
-
-	   auto end2 = std::chrono::high_resolution_clock::now();
-	   std::chrono::duration<double,std::milli> duration2 = end2 - start2;
-	   duration_vector_2.push_back(duration2);
-   }
-   std::cout << "End reference C code." <<  std::endl;
-#endif
-   
    if (rank == 0)
    std::cout << "Start Tiramisu code." <<  std::endl;
 
@@ -452,6 +436,24 @@ int main(int, char **)
                   printf("rp=%d, m=%d, r=%d, n=%d, t=%d: %4.1f + I (%4.1f) \n", rp, m, r, n, t, t_C_re[index_5d(rp,m,r,n,t, NsrcHex,B1Nrows,NsnkHex,Lt)],  t_C_im[index_5d(rp,m,r,n,t, NsrcHex,B1Nrows,NsnkHex,Lt)]);
             }
    }
+
+
+
+#if RUN_REFERENCE
+   std::cout << "Start reference C code." <<  std::endl;
+   for (int i = 0; i < nb_tests; i++)
+   {
+	   std::cout << "Run " << i << "/" << nb_tests <<  std::endl;
+	   auto start2 = std::chrono::high_resolution_clock::now();
+
+      make_nucleon_2pt(C_re, C_im, B1_prop_re, B1_prop_im, src_color_weights_r1, src_spin_weights_r1, src_weights_r1, src_color_weights_r2, src_spin_weights_r2, src_weights_r2, src_psi_B1_re, src_psi_B1_im, snk_psi_B1_re, snk_psi_B1_im, Nc, Ns, Vsrc, Vsnk, Lt, Nw, Nq, NsrcHex, NsnkHex);
+
+	   auto end2 = std::chrono::high_resolution_clock::now();
+	   std::chrono::duration<double,std::milli> duration2 = end2 - start2;
+	   duration_vector_2.push_back(duration2);
+   }
+   std::cout << "End reference C code." <<  std::endl;
+#endif
 
     print_time("performance_CPU.csv", "dibaryon", {"Tiramisu"}, {median(duration_vector_1)/1000.});
 
