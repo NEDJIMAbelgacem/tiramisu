@@ -270,8 +270,8 @@ void generate_function(std::string name)
     C_prop_update_r.store_in(&buf_C_prop_r, {t, x_out, x_in, rp, m, r});
     C_prop_update_i.store_in(&buf_C_prop_i, {t, x_out, x_in, rp, m, r});
 
-    buffer buf_C_r_cpu("buf_C_r_cpu", {t_MAX, Vsnk/sites_per_rank, B1Nrows, NsrcHex, B1Nrows, NsnkHex}, p_float64, a_temporary);
-    buffer buf_C_i_cpu("buf_C_i_cpu", {t_MAX, Vsnk/sites_per_rank, B1Nrows, NsrcHex, B1Nrows, NsnkHex}, p_float64, a_temporary);
+    buffer buf_C_r_cpu("buf_C_r_cpu", {t_MAX, Vsnk/sites_per_rank, sites_per_rank, B1Nrows, NsrcHex, B1Nrows, NsnkHex}, p_float64, a_temporary);
+    buffer buf_C_i_cpu("buf_C_i_cpu", {t_MAX, Vsnk/sites_per_rank, sites_per_rank, B1Nrows, NsrcHex, B1Nrows, NsnkHex}, p_float64, a_temporary);
     buffer B1_prop_r_cpu("B1_prop_r_cpu",   {Nq, t_MAX, Nc, Ns, Nc, Ns, Vsnk, Vsrc}, p_float64, a_temporary);
     buffer B1_prop_i_cpu("B1_prop_i_cpu",   {Nq, t_MAX, Nc, Ns, Nc, Ns, Vsnk, Vsrc}, p_float64, a_temporary);
     buffer src_psi_B1_r_cpu("src_psi_B1_r_cpu",    {Vsrc, NsrcHex}, p_float64, a_temporary);
@@ -458,7 +458,6 @@ void generate_function(std::string name)
     handle = &(handle->then(C_init_r, computation::root)
             .then(C_init_i, n));
 
-    // handle = &handle->then(C_init_i, computation::root);
 
     // handle = &(handle
     //     ->then(B1_Blocal_r1_r_init, x_in)
@@ -517,7 +516,6 @@ void generate_function(std::string name)
           .then(C_prop_update_i, wnum)
           .then(C_update_r, r) 
           .then(C_update_i, n));
-    // handle = &handle->then(set_C_i_0, x_in).then(set_C_r_0, n);
     
 
     handle = &handle->
@@ -556,7 +554,7 @@ void generate_function(std::string name)
 #endif
     // -------------------------------------------------------
     // Code Generation
-    // -------------------------------------------------------
+    // -----------------------------------kernel_0<<--------------------
     tiramisu::codegen({
         &buf_C_r_cpu, &buf_C_i_cpu,
         &B1_prop_r_cpu, &B1_prop_i_cpu,
