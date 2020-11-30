@@ -243,8 +243,11 @@ void generate_function(std::string name)
    buf_src_spins.tag_gpu_global();
    buf_sigs.tag_gpu_global();
 
-    C_init_r.store_in(&buf_C_r, {t, x_out, rp, m, r, n});
-    C_init_i.store_in(&buf_C_i, {t, x_out, rp, m, r, n});
+    buffer buf_C_r_cpu("buf_C_r_cpu", {t_MAX, Vsnk/sites_per_rank, B1Nrows, NsrcHex, B1Nrows, NsnkHex}, p_float64, a_temporary);
+    buffer buf_C_i_cpu("buf_C_i_cpu", {t_MAX, Vsnk/sites_per_rank, B1Nrows, NsrcHex, B1Nrows, NsnkHex}, p_float64, a_temporary);
+
+    C_init_r.store_in(&buf_C_r_cpu, {t, x_out, rp, m, r, n});
+    C_init_i.store_in(&buf_C_i_cpu, {t, x_out, rp, m, r, n});
     C_update_r.store_in(&buf_C_r, {t, x_out, x_in, rp, m, r, n});
     C_update_i.store_in(&buf_C_i, {t, x_out, x_in, rp, m, r, n});
 
@@ -270,8 +273,6 @@ void generate_function(std::string name)
     C_prop_update_r.store_in(&buf_C_prop_r, {t, x_out, x_in, rp, m, r});
     C_prop_update_i.store_in(&buf_C_prop_i, {t, x_out, x_in, rp, m, r});
 
-    buffer buf_C_r_cpu("buf_C_r_cpu", {t_MAX, Vsnk/sites_per_rank, B1Nrows, NsrcHex, B1Nrows, NsnkHex}, p_float64, a_temporary);
-    buffer buf_C_i_cpu("buf_C_i_cpu", {t_MAX, Vsnk/sites_per_rank, B1Nrows, NsrcHex, B1Nrows, NsnkHex}, p_float64, a_temporary);
     buffer B1_prop_r_cpu("B1_prop_r_cpu",   {Nq, t_MAX, Nc, Ns, Nc, Ns, Vsnk, Vsrc}, p_float64, a_temporary);
     buffer B1_prop_i_cpu("B1_prop_i_cpu",   {Nq, t_MAX, Nc, Ns, Nc, Ns, Vsnk, Vsrc}, p_float64, a_temporary);
     buffer src_psi_B1_r_cpu("src_psi_B1_r_cpu",    {Vsrc, NsrcHex}, p_float64, a_temporary);
