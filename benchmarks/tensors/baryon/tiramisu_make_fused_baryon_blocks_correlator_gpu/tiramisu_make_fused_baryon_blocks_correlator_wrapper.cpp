@@ -166,10 +166,10 @@ void tiramisu_make_nucleon_2pt(double* C_re,
             for (int n=0; n<NsnkHex; n++)
                for (int t=0; t<Lt; t++) 
                   for (int x_out=0; x_out<Vsnk/sites_per_rank; x_out++)
-                     for (int x_in = 0; x_in < sites_per_rank; ++x_in)
+                     // for (int x_in = 0; x_in < sites_per_rank; ++x_in)
                      {
-                        b_C_r(n, r, m, rp, x_in, x_out, t) = 0.0;
-                        b_C_i(n, r, m, rp, x_in, x_out, t) = 0.0;
+                        b_C_r(n, r, m, rp, x_out, t) = 0.0;
+                        b_C_i(n, r, m, rp, x_out, t) = 0.0;
                      }
 
    std::cout << __PRETTY_FUNCTION__ << " : b_C_i init ended" << std::endl;
