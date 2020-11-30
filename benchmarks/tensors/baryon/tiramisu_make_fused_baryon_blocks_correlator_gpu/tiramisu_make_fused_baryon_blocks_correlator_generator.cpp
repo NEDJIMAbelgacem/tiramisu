@@ -246,8 +246,8 @@ void generate_function(std::string name)
     buffer buf_C_r_cpu("buf_C_r_cpu", {t_MAX, Vsnk/sites_per_rank, B1Nrows, NsrcHex, B1Nrows, NsnkHex}, p_float64, a_temporary);
     buffer buf_C_i_cpu("buf_C_i_cpu", {t_MAX, Vsnk/sites_per_rank, B1Nrows, NsrcHex, B1Nrows, NsnkHex}, p_float64, a_temporary);
 
-    C_init_r.store_in(&buf_C_r, {t, x_out, rp, m, r, n});
-    C_init_i.store_in(&buf_C_i, {t, x_out, rp, m, r, n});
+    C_init_r.store_in(&buf_C_r_cpu, {t, x_out, rp, m, r, n});
+    C_init_i.store_in(&buf_C_i_cpu, {t, x_out, rp, m, r, n});
     C_update_r.store_in(&buf_C_r, {t, x_out, rp, m, r, n});
     C_update_i.store_in(&buf_C_i, {t, x_out, rp, m, r, n});
 
@@ -435,10 +435,10 @@ void generate_function(std::string name)
 
 #endif
     var &t2 = t;
-    // computation *handle = &C_init_r.then(C_init_i, n);
+    computation *handle = &C_init_r.then(C_init_i, n);
 
-    computation *handle = &copy_buf_C_r_host_to_device.then(copy_buf_C_i_host_to_device, computation::root);
-    // handle = &handle->then(copy_buf_C_r_host_to_device, computation::root).then(copy_buf_C_i_host_to_device, computation::root);
+    // computation *handle = &copy_buf_C_r_host_to_device.then(copy_buf_C_i_host_to_device, computation::root);
+    handle = &handle->then(copy_buf_C_r_host_to_device, computation::root).then(copy_buf_C_i_host_to_device, computation::root);
 
 
     handle = &(handle->
@@ -457,8 +457,7 @@ void generate_function(std::string name)
             .then(copy_snk_weights_host_to_device, computation::root)
             .then(copy_sigs_host_to_device, computation::root));
 
-    handle = &(handle->then(C_init_r, computation::root)
-            .then(C_init_i, n));
+    // handle = &(handle->then(C_init_r, computation::root).then(C_init_i, n));
 
 
     // handle = &(handle
