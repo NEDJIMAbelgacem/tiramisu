@@ -427,8 +427,8 @@ void generate_function(std::string name)
     C_prop_update_r.tag_gpu_level(x_out, x_in);
     C_prop_update_i.tag_gpu_level(x_out, x_in);
 
-    C_update_r.tag_gpu_level(x_out, x_in);
-    C_update_i.tag_gpu_level(x_out, x_in);
+    // C_update_r.tag_gpu_level(x_out, x_in);
+    // C_update_i.tag_gpu_level(x_out, x_in);
 
     // set_C_i_0.tag_gpu_level(x_out, x_in);
     // set_C_r_0.tag_gpu_level(x_out, x_in);
@@ -438,7 +438,7 @@ void generate_function(std::string name)
     computation *handle = &C_init_r.then(C_init_i, n);
 
     // computation *handle = &copy_buf_C_r_host_to_device.then(copy_buf_C_i_host_to_device, computation::root);
-    handle = &handle->then(copy_buf_C_r_host_to_device, computation::root).then(copy_buf_C_i_host_to_device, computation::root);
+    handle = &handle->then(copy_buf_C_r_host_to_devicb_C_re, computation::root).then(copy_buf_C_i_host_to_device, computation::root);
 
 
     handle = &(handle->
