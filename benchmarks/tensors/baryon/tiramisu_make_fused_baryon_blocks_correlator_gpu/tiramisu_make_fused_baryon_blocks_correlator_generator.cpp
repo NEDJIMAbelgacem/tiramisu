@@ -393,8 +393,8 @@ void generate_function(std::string name)
 
 #if GPU_PARALLEL
 
-    C_init_r.tag_gpu_level(x_out, x_in);
-    C_init_i.tag_gpu_level(x_out, x_in);
+    C_init_r.tag_gpu_level(x_out);
+    C_init_i.tag_gpu_level(x_out);
 
     B1_Blocal_r1_r_init.tag_gpu_level(x_out, x_in);
     B1_Blocal_r1_i_init.tag_gpu_level(x_out, x_in);
@@ -440,9 +440,6 @@ void generate_function(std::string name)
 
     C_update_r.tag_gpu_level(x_out, x_in);
     C_update_i.tag_gpu_level(x_out, x_in);
-
-    // set_C_i_0.tag_gpu_level(x_out, x_in);
-    // set_C_r_0.tag_gpu_level(x_out, x_in);
 
 #endif
     var &t2 = t;
