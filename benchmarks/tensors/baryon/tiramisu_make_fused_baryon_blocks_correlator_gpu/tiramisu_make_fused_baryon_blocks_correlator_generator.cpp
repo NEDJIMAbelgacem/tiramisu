@@ -393,6 +393,7 @@ void generate_function(std::string name)
 
 #if GPU_PARALLEL
 
+
     C_init_r.tag_gpu_level(x_out);
     C_init_i.tag_gpu_level(x_out);
 
