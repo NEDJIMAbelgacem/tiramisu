@@ -1,8 +1,8 @@
 #ifndef QBLOCKS_2PT_PARAMETERS_H
 #define QBLOCKS_2PT_PARAMETERS_H
 
-#define DATA_SET_1 1
-#define DATA_SET_2 0
+#define DATA_SET_1 0
+#define DATA_SET_2 1
 
 #if DATA_SET_1
 
@@ -30,7 +30,7 @@
 #define P_B0Nrows 1
 #define P_Mw 12
 #define P_NsFull 4
-#define P_sites_per_rank 64
+#define P_sites_per_rank 128
 #define P_src_sites_per_rank 4
 
 #elif DATA_SET_2
@@ -59,7 +59,7 @@
 #define P_B0Nrows 1
 #define P_Mw 12
 #define P_NsFull 4
-#define P_sites_per_rank 4
+#define P_sites_per_rank 2
 #define P_src_sites_per_rank 4
 
 #endif
