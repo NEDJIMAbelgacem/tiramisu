@@ -253,7 +253,7 @@ void generate_function(std::string name)
 
     // buffer* buf_new_term_r_b1;//("buf_new_term_r_b1", {1}, p_float64, a_temporary);
     // buffer* buf_new_term_i_b1;//("buf_new_term_i_b1", {1}, p_float64, a_temporary);
-    allocate_complex_buffers(buf_new_term_r_b1, buf_new_term_i_b1, {{Lt, Vsnk/sites_per_rank, sites_per_rank, B1Nrows, NsrcHex, B1Nrows, B1Nperms, Nw}}, "buf_new_term_b1");
+    // allocate_complex_buffers(buf_new_term_r_b1, buf_new_term_i_b1, {{Lt, Vsnk/sites_per_rank, sites_per_rank, B1Nrows, NsrcHex, B1Nrows, B1Nperms, Nw}}, "buf_new_term_b1");
     // buf_new_term_r_b1->tag_gpu_global();
     // buf_new_term_i_b1->tag_gpu_global();
     buffer buf_new_term_r_b1( "buf_new_term_r_b1", {Lt, Vsnk/sites_per_rank, sites_per_rank, B1Nrows, NsrcHex, B1Nrows, B1Nperms, Nw}, p_float64, a_temporary );
