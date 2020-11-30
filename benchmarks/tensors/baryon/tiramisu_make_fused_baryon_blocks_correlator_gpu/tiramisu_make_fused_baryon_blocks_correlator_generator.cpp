@@ -246,8 +246,8 @@ void generate_function(std::string name)
     buffer buf_C_r_cpu("buf_C_r_cpu", {t_MAX, Vsnk/sites_per_rank, B1Nrows, NsrcHex, B1Nrows, NsnkHex}, p_float64, a_temporary);
     buffer buf_C_i_cpu("buf_C_i_cpu", {t_MAX, Vsnk/sites_per_rank, B1Nrows, NsrcHex, B1Nrows, NsnkHex}, p_float64, a_temporary);
 
-    C_init_r.store_in(&buf_C_r_cpu, {t, x_out, rp, m, r, n});
-    C_init_i.store_in(&buf_C_i_cpu, {t, x_out, rp, m, r, n});
+    C_init_r.store_in(&buf_C_r, {t, x_out, rp, m, r, n});
+    C_init_i.store_in(&buf_C_r, {t, x_out, rp, m, r, n});
     C_update_r.store_in(&buf_C_r, {t, x_out, rp, m, r, n});
     C_update_i.store_in(&buf_C_i, {t, x_out, rp, m, r, n});
 
