@@ -248,8 +248,8 @@ void generate_function(std::string name)
 
     C_init_r.store_in(&buf_C_r_cpu, {t, x_out, rp, m, r, n});
     C_init_i.store_in(&buf_C_i_cpu, {t, x_out, rp, m, r, n});
-    C_update_r.store_in(&buf_C_r, {t, x_out, x_in, rp, m, r, n});
-    C_update_i.store_in(&buf_C_i, {t, x_out, x_in, rp, m, r, n});
+    C_update_r.store_in(&buf_C_r, {t, x_out, rp, m, r, n});
+    C_update_i.store_in(&buf_C_i, {t, x_out, rp, m, r, n});
 
     buffer* buf_new_term_r_b1;//("buf_new_term_r_b1", {1}, p_float64, a_temporary);
     buffer* buf_new_term_i_b1;//("buf_new_term_i_b1", {1}, p_float64, a_temporary);
