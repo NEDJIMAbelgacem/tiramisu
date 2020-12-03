@@ -28,7 +28,6 @@ const int Nq_f = Nq;
 const int Nsrc_f = NsrcHex;
 const int Nsnk_f = NsnkHex;
 
-
 void tiramisu_make_nucleon_2pt(double* C_re,
     double* C_im,
      double* B1_prop_re, 
@@ -195,6 +194,10 @@ void tiramisu_make_nucleon_2pt(double* C_re,
    Halide::Buffer<double> b_Blocal_r1_re((double *)Blocal_r1_re, {Nsrc_f, Ns_f, Nc_f, Ns_f, Nc_f, Ns_f, Nc_f});
    Halide::Buffer<double> b_Blocal_r1_im((double *)Blocal_r1_im, {Nsrc_f, Ns_f, Nc_f, Ns_f, Nc_f, Ns_f, Nc_f});
 
+   printf("before Tiramisu Sum Blocal_r1_re: %d \n", calculate_sum(Blocal_r1_re, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f));
+   printf("before Tiramisu Sum Blocal_r1_im: %d \n", calculate_sum(Blocal_r1_im, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f));
+
+
    tiramisu_make_fused_baryon_blocks_correlator(
 				    b_C_r.raw_buffer(),
 				    b_C_i.raw_buffer(),
@@ -215,23 +218,8 @@ void tiramisu_make_nucleon_2pt(double* C_re,
                 b_Blocal_r1_re.raw_buffer(),
                 b_Blocal_r1_im.raw_buffer());
 
-   {
-      double sum = 0.0;
-      for (int i = 0; i < Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f; ++i)
-      {
-         sum += Blocal_r1_re[i];
-      }
-      std::cout << "Blocal_r1_re Sum Tiramisum: " << sum << "\n";
-   }
-
-   {
-      double sum = 0.0;
-      for (int i = 0; i < Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f; ++i)
-      {
-         sum += Blocal_r1_im[i];
-      }
-      std::cout << "Blocal_r1_im Sum Tiramisum: " << sum << "\n";
-   }
+   printf("Tiramisu Sum Blocal_r1_re: %d \n", calculate_sum(Blocal_r1_re, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f));
+   printf("Tiramisu Sum Blocal_r1_im: %d \n", calculate_sum(Blocal_r1_im, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f));
 
    if (rank == 0) {
    printf("non-zero r1? %4.1f + I %4.1f ", b_C_r(0,0,0,0,0,0), b_C_i(0,0,0,0,0,0) );
