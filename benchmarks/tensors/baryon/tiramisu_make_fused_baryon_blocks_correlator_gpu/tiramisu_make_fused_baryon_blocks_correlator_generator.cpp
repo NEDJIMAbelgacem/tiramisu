@@ -151,37 +151,37 @@ void generate_function(std::string name)
 
     // /* Correlator */
 
-    computation C_init_r("C_init_r", {t, x_out, rp, m, r, n}, expr((double) 0));
-    computation C_init_i("C_init_i", {t, x_out, rp, m, r, n}, expr((double) 0));
+    // computation C_init_r("C_init_r", {t, x_out, rp, m, r, n}, expr((double) 0));
+    // computation C_init_i("C_init_i", {t, x_out, rp, m, r, n}, expr((double) 0));
 
-    computation C_prop_init_r("C_prop_init_r", {t, x_out, x_in, rp, m, r}, expr((double) 0));
-    computation C_prop_init_i("C_prop_init_i", {t, x_out, x_in, rp, m, r}, expr((double) 0));
+    // computation C_prop_init_r("C_prop_init_r", {t, x_out, x_in, rp, m, r}, expr((double) 0));
+    // computation C_prop_init_i("C_prop_init_i", {t, x_out, x_in, rp, m, r}, expr((double) 0));
     
-    int b=0;
-    /* r1, b = 0 */
-    complex_computation new_term_0_r1_b1("new_term_0_r1_b1", {t, x_out, x_in, rp, m, r, nperm, wnum}, B1_Blocal_r1_init(t, x_out, x_in, snk_color_weights(r, nperm, wnum, 0), snk_spin_weights(r, nperm, wnum, 0), snk_color_weights(r, nperm, wnum, 2), snk_spin_weights(r, nperm, wnum, 2), snk_color_weights(r, nperm, wnum, 1), snk_spin_weights(r, nperm, wnum, 1), m));
-    new_term_0_r1_b1.add_predicate(src_spins(rp) == 1);
-    /* r2, b = 0 */
-    complex_computation new_term_0_r2_b1("new_term_0_r2_b1", {t, x_out, x_in, rp, m, r, nperm, wnum}, B1_Blocal_r2_init(t, x_out, x_in, snk_color_weights(r, nperm, wnum, 0), snk_spin_weights(r, nperm, wnum, 0), snk_color_weights(r, nperm, wnum, 2), snk_spin_weights(r, nperm, wnum, 2), snk_color_weights(r, nperm, wnum, 1), snk_spin_weights(r, nperm, wnum, 1), m));
-    new_term_0_r2_b1.add_predicate(src_spins(rp) == 2);
+    // int b=0;
+    // /* r1, b = 0 */
+    // complex_computation new_term_0_r1_b1("new_term_0_r1_b1", {t, x_out, x_in, rp, m, r, nperm, wnum}, B1_Blocal_r1_init(t, x_out, x_in, snk_color_weights(r, nperm, wnum, 0), snk_spin_weights(r, nperm, wnum, 0), snk_color_weights(r, nperm, wnum, 2), snk_spin_weights(r, nperm, wnum, 2), snk_color_weights(r, nperm, wnum, 1), snk_spin_weights(r, nperm, wnum, 1), m));
+    // new_term_0_r1_b1.add_predicate(src_spins(rp) == 1);
+    // /* r2, b = 0 */
+    // complex_computation new_term_0_r2_b1("new_term_0_r2_b1", {t, x_out, x_in, rp, m, r, nperm, wnum}, B1_Blocal_r2_init(t, x_out, x_in, snk_color_weights(r, nperm, wnum, 0), snk_spin_weights(r, nperm, wnum, 0), snk_color_weights(r, nperm, wnum, 2), snk_spin_weights(r, nperm, wnum, 2), snk_color_weights(r, nperm, wnum, 1), snk_spin_weights(r, nperm, wnum, 1), m));
+    // new_term_0_r2_b1.add_predicate(src_spins(rp) == 2);
 
-    complex_expr prefactor(cast(p_float64, snk_weights(r, wnum))*cast(p_float64, sigs(nperm)), 0.0);
+    // complex_expr prefactor(cast(p_float64, snk_weights(r, wnum))*cast(p_float64, sigs(nperm)), 0.0);
 
-    complex_expr term_res_b1 = new_term_0_r1_b1(t, x_out, x_in, rp, m, r, nperm, wnum);
+    // complex_expr term_res_b1 = new_term_0_r1_b1(t, x_out, x_in, rp, m, r, nperm, wnum);
 
-    complex_expr snk_psi(snk_psi_r(x_out*sites_per_rank+x_in, n), snk_psi_i(x_out*sites_per_rank+x_in, n));
+    // complex_expr snk_psi(snk_psi_r(x_out*sites_per_rank+x_in, n), snk_psi_i(x_out*sites_per_rank+x_in, n));
 
-    complex_expr term_res = prefactor * term_res_b1;
+    // complex_expr term_res = prefactor * term_res_b1;
 
-    computation C_prop_update_r("C_prop_update_r", {t, x_out, x_in, rp, m, r, nperm, wnum}, C_prop_init_r(t, x_out, x_in, rp, m, r) + term_res.get_real());
-    computation C_prop_update_i("C_prop_update_i", {t, x_out, x_in, rp, m, r, nperm, wnum}, C_prop_init_i(t, x_out, x_in, rp, m, r) + term_res.get_imag());
+    // computation C_prop_update_r("C_prop_update_r", {t, x_out, x_in, rp, m, r, nperm, wnum}, C_prop_init_r(t, x_out, x_in, rp, m, r) + term_res.get_real());
+    // computation C_prop_update_i("C_prop_update_i", {t, x_out, x_in, rp, m, r, nperm, wnum}, C_prop_init_i(t, x_out, x_in, rp, m, r) + term_res.get_imag());
 
-    complex_computation C_prop_update(&C_prop_update_r, &C_prop_update_i);
+    // complex_computation C_prop_update(&C_prop_update_r, &C_prop_update_i);
 
-    complex_expr term = C_prop_update(t, x_out, x_in, rp, m, r, B1Nperms-1, Nw-1) * snk_psi;
+    // complex_expr term = C_prop_update(t, x_out, x_in, rp, m, r, B1Nperms-1, Nw-1) * snk_psi;
 
-    computation C_update_r("C_update_r", {t, x_out, x_in, rp, m, r, n}, (expr)C_init_r(t, x_out, rp, m, r, n) + term.get_real());
-    computation C_update_i("C_update_i", {t, x_out, x_in, rp, m, r, n}, (expr)C_init_i(t, x_out, rp, m, r, n) + term.get_imag());
+    // computation C_update_r("C_update_r", {t, x_out, x_in, rp, m, r, n}, (expr)C_init_r(t, x_out, rp, m, r, n) + term.get_real());
+    // computation C_update_i("C_update_i", {t, x_out, x_in, rp, m, r, n}, (expr)C_init_i(t, x_out, rp, m, r, n) + term.get_imag());
 
     // -------------------------------------------------------
     // Layer II
@@ -394,8 +394,8 @@ void generate_function(std::string name)
 #if GPU_PARALLEL
 
 
-    C_init_r.tag_gpu_level(x_out);
-    C_init_i.tag_gpu_level(x_out);
+    // C_init_r.tag_gpu_level(x_out);
+    // C_init_i.tag_gpu_level(x_out);
 
     B1_Blocal_r1_r_init.tag_gpu_level(x_out);//, x_in);
     B1_Blocal_r1_i_init.tag_gpu_level(x_out);//, x_in);
@@ -412,35 +412,35 @@ void generate_function(std::string name)
     B1_Blocal_r1_r_update.tag_gpu_level(x_out);//, x_in);
     B1_Blocal_r1_i_update.tag_gpu_level(x_out);//, x_in);
 
-    B1_Blocal_r2_r_init.tag_gpu_level(x_out);//, x_in);
-    B1_Blocal_r2_i_init.tag_gpu_level(x_out);//, x_in);
+    // B1_Blocal_r2_r_init.tag_gpu_level(x_out);//, x_in);
+    // B1_Blocal_r2_i_init.tag_gpu_level(x_out);//, x_in);
 
-    B1_Blocal_r2_r_props_init.tag_gpu_level(x_out);//, x_in);
-    B1_Blocal_r2_i_props_init.tag_gpu_level(x_out);//, x_in);
+    // B1_Blocal_r2_r_props_init.tag_gpu_level(x_out);//, x_in);
+    // B1_Blocal_r2_i_props_init.tag_gpu_level(x_out);//, x_in);
 
-    B1_Blocal_r2_r_diquark.tag_gpu_level(x_out);//, x_in);
-    B1_Blocal_r2_i_diquark.tag_gpu_level(x_out);//, x_in);
+    // B1_Blocal_r2_r_diquark.tag_gpu_level(x_out);//, x_in);
+    // B1_Blocal_r2_i_diquark.tag_gpu_level(x_out);//, x_in);
 
-    B1_Blocal_r2_r_props.tag_gpu_level(x_out);//, x_in);
-    B1_Blocal_r2_i_props.tag_gpu_level(x_out);//, x_in);
+    // B1_Blocal_r2_r_props.tag_gpu_level(x_out);//, x_in);
+    // B1_Blocal_r2_i_props.tag_gpu_level(x_out);//, x_in);
 
-    B1_Blocal_r2_r_update.tag_gpu_level(x_out);//, x_in);
-    B1_Blocal_r2_i_update.tag_gpu_level(x_out);//, x_in);
+    // B1_Blocal_r2_r_update.tag_gpu_level(x_out);//, x_in);
+    // B1_Blocal_r2_i_update.tag_gpu_level(x_out);//, x_in);
 
-    C_prop_init_r.tag_gpu_level(x_out);//, x_in);
-    C_prop_init_i.tag_gpu_level(x_out);//, x_in);
+    // C_prop_init_r.tag_gpu_level(x_out);//, x_in);
+    // C_prop_init_i.tag_gpu_level(x_out);//, x_in);
 
-    new_term_0_r1_b1.get_real()->tag_gpu_level(x_out);//, x_in);
-    new_term_0_r1_b1.get_imag()->tag_gpu_level(x_out);//, x_in);
+    // new_term_0_r1_b1.get_real()->tag_gpu_level(x_out);//, x_in);
+    // new_term_0_r1_b1.get_imag()->tag_gpu_level(x_out);//, x_in);
 
-    new_term_0_r2_b1.get_real()->tag_gpu_level(x_out);//, x_in);
-    new_term_0_r2_b1.get_imag()->tag_gpu_level(x_out);//, x_in);
+    // new_term_0_r2_b1.get_real()->tag_gpu_level(x_out);//, x_in);
+    // new_term_0_r2_b1.get_imag()->tag_gpu_level(x_out);//, x_in);
 
-    C_prop_update_r.tag_gpu_level(x_out);//, x_in);
-    C_prop_update_i.tag_gpu_level(x_out);//, x_in);
+    // C_prop_update_r.tag_gpu_level(x_out);//, x_in);
+    // C_prop_update_i.tag_gpu_level(x_out);//, x_in);
 
-    C_update_r.tag_gpu_level(x_out);//, x_in);
-    C_update_i.tag_gpu_level(x_out);//, x_in);
+    // C_update_r.tag_gpu_level(x_out);//, x_in);
+    // C_update_i.tag_gpu_level(x_out);//, x_in);
 
 #endif
     var &t2 = t;
