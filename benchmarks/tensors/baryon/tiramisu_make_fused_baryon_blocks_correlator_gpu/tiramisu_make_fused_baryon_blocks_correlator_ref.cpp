@@ -211,6 +211,8 @@ void make_nucleon_2pt(double* C_re,
          // }
       }
    }
+   
+   printf("--------------------------------------------------\n");
    printf("Reference(after):\n");
    std::cout << "Blocal_r1 size: " << (Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f) << std::endl;
    print_buffer( Blocal_r1_re, 20 );

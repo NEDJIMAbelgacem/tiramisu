@@ -195,6 +195,7 @@ void tiramisu_make_nucleon_2pt(double* C_re,
    Halide::Buffer<double> b_Blocal_r1_re((double *)Blocal_r1_re, {Nsrc_f, Ns_f, Nc_f, Ns_f, Nc_f, Ns_f, Nc_f});
    Halide::Buffer<double> b_Blocal_r1_im((double *)Blocal_r1_im, {Nsrc_f, Ns_f, Nc_f, Ns_f, Nc_f, Ns_f, Nc_f});
 
+   printf("--------------------------------------------------\n");
    printf("Tiramisu(before):\n");
    std::cout << "Blocal_r1 size: " << (Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f) << std::endl;
    print_buffer( Blocal_r1_re, 20 );
@@ -223,6 +224,7 @@ void tiramisu_make_nucleon_2pt(double* C_re,
                 b_Blocal_r1_re.raw_buffer(),
                 b_Blocal_r1_im.raw_buffer());
 
+   printf("--------------------------------------------------\n");
    printf("Tiramisu(after):\n");
    std::cout << "Blocal_r1 size: " << (Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f) << std::endl;
    print_buffer( Blocal_r1_re, 20 );
