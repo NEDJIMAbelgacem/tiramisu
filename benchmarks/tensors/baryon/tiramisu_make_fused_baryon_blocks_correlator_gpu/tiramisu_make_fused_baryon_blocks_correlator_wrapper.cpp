@@ -227,8 +227,8 @@ void tiramisu_make_nucleon_2pt(double* C_re,
    printf("--------------------------------------------------\n");
    printf("Tiramisu(after):\n");
    std::cout << "Blocal_r1 size: " << (Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f) << std::endl;
-   print_buffer( Blocal_r1_re, 20 );
-   print_buffer( Blocal_r1_im, 20 );
+   print_buffer( Blocal_r1_re, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f );
+   print_buffer( Blocal_r1_im, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f );
    printf("Sum Blocal_r1_re: %d \n", calculate_sum(Blocal_r1_re, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f));
    printf("Sum Blocal_r1_im: %d \n", calculate_sum(Blocal_r1_im, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f));
    printf("--------------------------------------------------\n");
