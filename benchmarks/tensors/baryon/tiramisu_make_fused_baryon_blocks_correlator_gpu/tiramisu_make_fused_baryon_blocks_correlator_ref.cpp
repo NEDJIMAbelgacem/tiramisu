@@ -101,6 +101,12 @@ void make_local_block(double* Blocal_re,
    }
 }
 
+double calculate_sum( double* buff, size_t size )
+{
+   double sum = 0.0;
+   for (int i = 0; i < size; ++i) sum += buff[i];
+   return sum;
+}
 
 void make_nucleon_2pt(double* C_re,
     double* C_im,
@@ -190,7 +196,9 @@ void make_nucleon_2pt(double* C_re,
          //    }
          // }
       }
-   } 
+   }
+   printf("Sum Blocal_r1_re: %d \n", calculate_sum(Blocal_r1_re, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f));
+   printf("Sum Blocal_r1_im: %d \n", calculate_sum(Blocal_r1_im, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f));
    /* clean up */
    free(Blocal_r1_re);
    free(Blocal_r1_im);
