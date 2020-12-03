@@ -18,6 +18,15 @@ extern "C" {
 int nb_tests = 1;
 int randommode = 1;
 
+const int Nc_f = Nc;
+const int Ns_f= Ns;
+const int Vsrc_f = Vsrc;
+const int Vsnk_f = Vsnk;
+const int Nt_f = Lt;
+const int Nw_f = Nw;
+const int Nq_f = Nq;
+const int Nsrc_f = NsrcHex;
+const int Nsnk_f = NsnkHex;
 
 
 void tiramisu_make_nucleon_2pt(double* C_re,
@@ -40,7 +49,6 @@ void tiramisu_make_nucleon_2pt(double* C_re,
    std::cout << "Called: " << __PRETTY_FUNCTION__ << std::endl;
    int q, t, iC, iS, jC, jS, y, x, x1, x2, m, n, k, wnum, b, rp, r;
    int iC1, iS1, iC2, iS2, jC1, jS1, jC2, jS2, kC1, kS1, kC2, kS2;
-
     int rank = 0;
 #ifdef WITH_MPI
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
@@ -181,6 +189,12 @@ void tiramisu_make_nucleon_2pt(double* C_re,
    printf("weights snk %4.9f \n", b_snk_weights(0,0));
    }
    std::cout << __PRETTY_FUNCTION__ << " : about to call tiramisu_make_fused_baryon_blocks_correlator" << std::endl;
+   double* Blocal_r1_re = (double *) malloc(Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f * sizeof (double));
+   double* Blocal_r1_im = (double *) malloc(Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f * sizeof (double));
+
+   Halide::Buffer<double> b_Blocal_r1_re((double *)Blocal_r1_re, {Nsrc_f, Ns_f, Nc_f, Ns_f, Nc_f, Ns_f, Nc_f});
+   Halide::Buffer<double> b_Blocal_r1_im((double *)Blocal_r1_im, {Nsrc_f, Ns_f, Nc_f, Ns_f, Nc_f, Ns_f, Nc_f});
+
    tiramisu_make_fused_baryon_blocks_correlator(
 				    b_C_r.raw_buffer(),
 				    b_C_i.raw_buffer(),
@@ -197,7 +211,9 @@ void tiramisu_make_nucleon_2pt(double* C_re,
 				    b_snk_color_weights.raw_buffer(),
 				    b_snk_spin_weights.raw_buffer(),
 				    b_snk_weights.raw_buffer(),
-				    b_sigs.raw_buffer());
+				    b_sigs.raw_buffer(),
+                b_Blocal_r1_re.raw_buffer(),
+                b_Blocal_r1_im.raw_buffer());
 
    if (rank == 0) {
    printf("non-zero r1? %4.1f + I %4.1f ", b_C_r(0,0,0,0,0,0), b_C_i(0,0,0,0,0,0) );

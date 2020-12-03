@@ -580,7 +580,9 @@ void generate_function(std::string name)
         &snk_color_weights_cpu,
         &snk_spin_weights_cpu,
         &snk_weights_cpu,
-        &sigs_cpu
+        &sigs_cpu,
+        &buf_B1_Blocal_r1_r_cpu,
+        &buf_B1_Blocal_r1_i_cpu
         }, 
         "generated_tiramisu_make_fused_baryon_blocks_correlator.o", true);
     
