@@ -513,7 +513,7 @@ void generate_function(std::string name)
         // .then(B1_Blocal_r2_i_props, jSprime)
         // .then(B1_Blocal_r2_r_update, y)
         // .then(B1_Blocal_r2_i_update, m))
-        ;
+        );
 
 
     // handle = &(handle 
