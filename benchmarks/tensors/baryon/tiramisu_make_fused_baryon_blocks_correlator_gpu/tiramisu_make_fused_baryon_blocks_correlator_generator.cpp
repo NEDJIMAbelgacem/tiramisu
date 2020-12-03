@@ -528,7 +528,6 @@ void generate_function(std::string name)
         //   .then(C_prop_update_i, wnum)
         //   .then(C_update_r, r) 
         //   .then(C_update_i, n));
-    
 
     handle = &handle->
              then(copy_B1_prop_r_device_to_host, computation::root)
