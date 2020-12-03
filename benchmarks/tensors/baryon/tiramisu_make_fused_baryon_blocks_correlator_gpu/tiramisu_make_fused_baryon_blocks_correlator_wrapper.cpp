@@ -190,6 +190,7 @@ void tiramisu_make_nucleon_2pt(double* C_re,
    std::cout << __PRETTY_FUNCTION__ << " : about to call tiramisu_make_fused_baryon_blocks_correlator" << std::endl;
    double* Blocal_r1_re = (double *) malloc(Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f * sizeof (double));
    double* Blocal_r1_im = (double *) malloc(Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f * sizeof (double));
+   for (int i = 0; i < Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f; ++i) Blocal_r1_re[i] = Blocal_r1_im[i] = 0.0;
 
    Halide::Buffer<double> b_Blocal_r1_re((double *)Blocal_r1_re, {Nsrc_f, Ns_f, Nc_f, Ns_f, Nc_f, Ns_f, Nc_f});
    Halide::Buffer<double> b_Blocal_r1_im((double *)Blocal_r1_im, {Nsrc_f, Ns_f, Nc_f, Ns_f, Nc_f, Ns_f, Nc_f});
