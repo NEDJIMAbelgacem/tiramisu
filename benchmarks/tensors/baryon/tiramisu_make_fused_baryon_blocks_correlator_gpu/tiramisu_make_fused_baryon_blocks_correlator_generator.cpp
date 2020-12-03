@@ -127,6 +127,8 @@ void generate_function(std::string name)
     complex_expr B1_r2_prop_2p = B1_prop(2, t, iCprime, iSprime, src_color_weights(1, wnumBlock, 2), src_spin_weights(1, wnumBlock, 2), x_out*sites_per_rank+x_in, y);
     complex_expr B1_r2_prop_1 = B1_prop(1, t, jCprime, jSprime, src_color_weights(1, wnumBlock, 1), src_spin_weights(1, wnumBlock, 1), x_out*sites_per_rank+x_in, y);
 
+
+
     complex_expr B1_r2_diquark = ( B1_r2_prop_0 * B1_r2_prop_2 ) *  src_weights(1, wnumBlock);
 
     computation B1_Blocal_r2_r_props_init("B1_Blocal_r2_r_props_init", {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime}, expr((double) 0));
@@ -470,31 +472,8 @@ void generate_function(std::string name)
     handle = &(handle->then(C_init_r, computation::root).then(C_init_i, n));
 
 
-    // handle = &(handle
-    //     ->then(B1_Blocal_r1_r_init, x_in)
-    //     .then(B1_Blocal_r1_i_init, jSprime)
-    //     .then(B1_Blocal_r1_r_props_init, x_in)
-    //     .then(B1_Blocal_r1_i_props_init, jSprime)
-    //     .then(B1_Blocal_r1_r_diquark, y)
-    //     .then(B1_Blocal_r1_i_diquark, wnumBlock)
-    //     .then(B1_Blocal_r1_r_props, wnumBlock)
-    //     .then(B1_Blocal_r1_i_props, jSprime)
-    //     .then(B1_Blocal_r1_r_update, y)
-    //     .then(B1_Blocal_r1_i_update, m)
-    //     .then(B1_Blocal_r2_r_init, x_in)
-    //     .then(B1_Blocal_r2_i_init, jSprime)
-    //     .then(B1_Blocal_r2_r_props_init, x_in)
-    //     .then(B1_Blocal_r2_i_props_init, jSprime)
-    //     .then(B1_Blocal_r2_r_diquark, y)
-    //     .then(B1_Blocal_r2_i_diquark, wnumBlock)
-    //     .then(B1_Blocal_r2_r_props, wnumBlock)
-    //     .then(B1_Blocal_r2_i_props, jSprime)
-    //     .then(B1_Blocal_r2_r_update, y)
-    //     .then(B1_Blocal_r2_i_update, m));
-
-    // first the x only arrays
     handle = &(handle
-        ->then(B1_Blocal_r1_r_init, t2)
+        ->then(B1_Blocal_r1_r_init, x_in)
         .then(B1_Blocal_r1_i_init, jSprime)
         .then(B1_Blocal_r1_r_props_init, x_in)
         .then(B1_Blocal_r1_i_props_init, jSprime)
@@ -513,8 +492,31 @@ void generate_function(std::string name)
         .then(B1_Blocal_r2_r_props, wnumBlock)
         .then(B1_Blocal_r2_i_props, jSprime)
         .then(B1_Blocal_r2_r_update, y)
-        .then(B1_Blocal_r2_i_update, m)
-        );
+        .then(B1_Blocal_r2_i_update, m));
+
+    // // first the x only arrays
+    // handle = &(handle
+    //     ->then(B1_Blocal_r1_r_init, t2)
+    //     .then(B1_Blocal_r1_i_init, jSprime)
+    //     .then(B1_Blocal_r1_r_props_init, x_in)
+    //     .then(B1_Blocal_r1_i_props_init, jSprime)
+    //     .then(B1_Blocal_r1_r_diquark, y)
+    //     .then(B1_Blocal_r1_i_diquark, wnumBlock)
+    //     .then(B1_Blocal_r1_r_props, wnumBlock)
+    //     .then(B1_Blocal_r1_i_props, jSprime)
+    //     .then(B1_Blocal_r1_r_update, y)
+    //     .then(B1_Blocal_r1_i_update, m)
+    //     .then(B1_Blocal_r2_r_init, x_in)
+    //     .then(B1_Blocal_r2_i_init, jSprime)
+    //     .then(B1_Blocal_r2_r_props_init, x_in)
+    //     .then(B1_Blocal_r2_i_props_init, jSprime)
+    //     .then(B1_Blocal_r2_r_diquark, y)
+    //     .then(B1_Blocal_r2_i_diquark, wnumBlock)
+    //     .then(B1_Blocal_r2_r_props, wnumBlock)
+    //     .then(B1_Blocal_r2_i_props, jSprime)
+    //     .then(B1_Blocal_r2_r_update, y)
+    //     .then(B1_Blocal_r2_i_update, m)
+    //     );
 
 
     handle = &(handle 
