@@ -1579,55 +1579,55 @@ void tiramisu::function::dump(bool exhaustive) const
 {
     if (ENABLE_DEBUG)
     {
-        std::cout << "\n\nFunction \"" << this->name << "\"" << std::endl << std::endl;
+        std::cout << "\n\nFunction \"" << this->name << "\"" << "\n" << "\n";
 
         if (this->function_arguments.size() > 0)
         {
-            std::cout << "Function arguments (tiramisu buffers):" << std::endl;
+            std::cout << "Function arguments (tiramisu buffers):" << "\n";
             for (const auto &buf : this->function_arguments)
             {
                 buf->dump(exhaustive);
             }
-            std::cout << std::endl;
+            std::cout << "\n";
         }
 
         if (this->invariants.size() > 0)
         {
-            std::cout << "Function invariants:" << std::endl;
+            std::cout << "Function invariants:" << "\n";
             for (const auto &inv : this->invariants)
             {
                 inv.dump(exhaustive);
             }
-            std::cout << std::endl;
+            std::cout << "\n";
         }
 
         if (this->get_program_context() != NULL)
         {
             std::cout << "Function context set: "
                       << isl_set_to_str(this->get_program_context())
-                      << std::endl;
+                      << "\n";
         }
 
-        std::cout << "Body " << std::endl;
+        std::cout << "Body " << "\n";
         for (const auto &cpt : this->body)
         {
             cpt->dump();
         }
-        std::cout << std::endl;
+        std::cout << "\n";
 
         if (this->halide_stmt.defined())
         {
-            std::cout << "Halide stmt " << this->halide_stmt << std::endl;
+            std::cout << "Halide stmt " << this->halide_stmt << "\n";
         }
 
-        std::cout << "Buffers" << std::endl;
+        std::cout << "Buffers" << "\n";
         for (const auto &buf : this->buffers_list)
         {
-            std::cout << "Buffer name: " << buf.second->get_name() << std::endl;
+            std::cout << "Buffer name: " << buf.second->get_name() << "\n";
             buf.second->dump(false);
         }
 
-        std::cout << std::endl << std::endl;
+        std::cout << "\n" << "\n";
     }
 }
 
@@ -1661,7 +1661,7 @@ void tiramisu::function::dump_schedule() const
             std::cout << par_dim.first << "(" << par_dim.second << ") ";
         }
 
-        std::cout << std::endl;
+        std::cout << "\n";
 
         std::cout << "Vector dimensions: ";
         for (const auto &vec_dim : vector_dimensions)
@@ -1669,7 +1669,7 @@ void tiramisu::function::dump_schedule() const
             std::cout << std::get<0>(vec_dim) << "(" << std::get<1>(vec_dim) << ") ";
         }
 
-        std::cout << std::endl << std::endl << std::endl;
+        std::cout << "\n" << "\n" << "\n";
     }
 }
 

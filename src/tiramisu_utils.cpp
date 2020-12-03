@@ -50,14 +50,14 @@ void print_time(const string &file_name, const string &kernel_name,
     {
         file << t << "; ";
     }
-    file << std::endl;
+    file << "\n";
 
     std::cout << "Kernel" << str_identation(14) << ": ";
     for (const auto &t : header_text)
     {
         std::cout << t << str_identation(15 - t.size()) << "; ";
     }
-    std::cout << std::endl;
+    std::cout << "\n";
 
     std::cout << kernel_name << str_identation(20 - kernel_name.size()) << ": ";
     for (const auto &t : time_vector)
@@ -65,7 +65,7 @@ void print_time(const string &file_name, const string &kernel_name,
         string str = std::to_string(t);
         std::cout << str << str_identation(15 - str.size()) << "; ";
     }
-    std::cout << std::endl;
+    std::cout << "\n";
 
     file.close();
 }
@@ -84,7 +84,7 @@ void combine_dist_results(const std::string &test, std::vector<int> dims, int nu
             std::string line;
             for (int v = 0; v < total_vals; v++) {
                 std::getline(f, line);
-                output_file << line << std::endl;
+                output_file << line << "\n";
             }
         } else {
             assert(false); // TODO put in appropriate error checking

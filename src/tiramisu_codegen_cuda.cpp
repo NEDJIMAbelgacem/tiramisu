@@ -387,8 +387,8 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
                     return scalar_ptr{new cuda_ast::scalar{b->get_type(), b->get_name(), b->get_location()}};
                 }
                 // Otherwise expr must be a scalar.
-                std::cerr << "parse_tiramisu : about to execute get_scalar_from_name with " << tiramisu_expr.get_name() << std::endl;
-                std::cerr << "expression: " << tiramisu_expr.to_str() << std::endl;
+                std::cerr << "parse_tiramisu : about to execute get_scalar_from_name with " << tiramisu_expr.get_name() << "\n";
+                std::cerr << "expression: " << tiramisu_expr.to_str() << "\n";
                 ret = get_scalar_from_name(tiramisu_expr.get_name());
             break;
             case e_none:
@@ -513,7 +513,7 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
         std::cerr << "cuda_ast::generator::get_buffer( " << name << " )" << "\n";
         std::cerr << "Available buffers: ";
         for (std::pair<std::string, cuda_ast::buffer_ptr> p : m_buffers) std::cerr << p.first << " ";
-        std::cerr << std::endl;
+        std::cerr << "\n";
         auto it = m_buffers.find(name);
         cuda_ast::buffer_ptr buffer;
         if (it != m_buffers.end()) {
@@ -831,7 +831,7 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
             arguments.push_back(generator.get_buffer(b->get_name()));
         body->add_statement(cuda_ast::statement_ptr {new cuda_ast::host_function{p_none, this->get_name(), arguments, cuda_ast::statement_ptr{function_body}}});
 
-        std::cout << ((cuda_ast::statement *) body)->print() << std::endl;
+        std::cout << ((cuda_ast::statement *) body)->print() << "\n";
         delete body;
 
         std::shared_ptr<cuda_ast::block> resulting_file{new cuda_ast::block};
@@ -859,7 +859,7 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
 
 
         std::string code = std::static_pointer_cast<cuda_ast::statement>(resulting_file)->print();
-        std::cout << code << std::endl;
+        std::cout << code << "\n";
 
         nvcc_compiler = std::shared_ptr<cuda_ast::compiler>{new cuda_ast::compiler{code}};
 
@@ -1626,15 +1626,15 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
 
     cuda_ast::statement_ptr cuda_ast::generator::get_scalar_from_name(std::string name) {
         if (this->gpu_iterators.find(name) != this->gpu_iterators.end()) {
-            std::cerr << "In gpu_iterators" << std::endl;
+            std::cerr << "In gpu_iterators" << "\n";
             auto it = this->gpu_iterators.find(name);
             return statement_ptr {new cuda_ast::gpu_iterator_read{it->second}};
         } else if (this->m_scalar_data.find(name) != this->m_scalar_data.end()) {
-            std::cerr << "In m_scalar_data" << std::endl;
+            std::cerr << "In m_scalar_data" << "\n";
             auto data_it = m_scalar_data.find(name);
             auto const &data = data_it->second;
             scalar_ptr used_scalar{new cuda_ast::scalar{data.first, name, data.second}};
-            std::cerr << "this->in_kernel: " << this->in_kernel << std::endl;
+            std::cerr << "this->in_kernel: " << this->in_kernel << "\n";
             if (this->in_kernel) {
                 // Check if it was defined inside
                 bool defined_inside = gpu_local.find(name) != gpu_local.end();
@@ -1651,36 +1651,36 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
                 }
                 if (!defined_inside)
                 {
-                    std::cerr << "about to run this->current_kernel->add_used_scalar" << std::endl;
+                    std::cerr << "about to run this->current_kernel->add_used_scalar" << "\n";
                     this->current_kernel->add_used_scalar(used_scalar);
                 }
             }
             return used_scalar;
         } else {
-            std::cerr << "In kernel: " << this->in_kernel << std::endl;
-            std::cerr << "Iterator stack: " << std::endl;
+            std::cerr << "In kernel: " << this->in_kernel << "\n";
+            std::cerr << "Iterator stack: " << "\n";
             for (std::string s : iterator_stack) std::cerr << s << " | ";
-            std::cerr << std::endl;
+            std::cerr << "\n";
 
-            std::cerr << "gpu_iterators: " << std::endl;
+            std::cerr << "gpu_iterators: " << "\n";
             for (std::pair<std::string, cuda_ast::gpu_iterator> p : gpu_iterators)
                 std::cerr << p.first << ", ";
-            std::cerr << std::endl;
+            std::cerr << "\n";
 
-            std::cerr << "gpu_local: " << std::endl;
+            std::cerr << "gpu_local: " << "\n";
             for (std::string s : gpu_local)
                 std::cerr << s << ", ";
-            std::cerr << std::endl;
+            std::cerr << "\n";
 
-            std::cerr << "gpu_iterators contents: " << std::endl;
+            std::cerr << "gpu_iterators contents: " << "\n";
             for (std::pair<std::string, cuda_ast::gpu_iterator> p : this->gpu_iterators)
                 std::cerr << p.first << ", ";
-            std::cerr << std::endl;
+            std::cerr << "\n";
 
-            std::cerr << "m_scalar_data contents: " << std::endl;
+            std::cerr << "m_scalar_data contents: " << "\n";
             for (std::pair<std::string, std::pair<tiramisu::primitive_t, cuda_ast::memory_location>> p : this->m_scalar_data)
                 std::cerr << p.first << ", ";
-            std::cerr << std::endl;
+            std::cerr << "\n";
             ERROR("Scalar not found: " + name, true);
         }
     }

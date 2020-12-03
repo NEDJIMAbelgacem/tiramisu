@@ -1346,7 +1346,7 @@ void computation::dump() const
 {
     if (ENABLE_DEBUG)
     {
-        std::cout << std::endl << "Dumping the computation \"" + this->get_name() + "\" :" << std::endl;
+        std::cout << "\n" << "Dumping the computation \"" + this->get_name() + "\" :" << "\n";
         std::cout << "Iteration domain of the computation \"" << this->name << "\" : ";
         std::flush(std::cout);
         isl_set_dump(this->get_iteration_domain());
@@ -1356,7 +1356,7 @@ void computation::dump() const
         std::flush(std::cout);
         std::cout << "Expression of the computation : "; std::flush(std::cout);
         this->get_expr().dump(false);
-        std::cout << std::endl; std::flush(std::cout);
+        std::cout << "\n"; std::flush(std::cout);
 
         std::cout << "Access relation of the computation : "; std::flush(std::cout);
         isl_map_dump(this->get_access_relation());
@@ -1368,15 +1368,15 @@ void computation::dump() const
 
         if (this->get_time_processor_domain() != NULL)
         {
-            std::cout << "Time-space domain " << std::endl; std::flush(std::cout);
+            std::cout << "Time-space domain " << "\n"; std::flush(std::cout);
             isl_set_dump(this->get_time_processor_domain());
         }
         else
         {
-            std::cout << "Time-space domain : NULL." << std::endl;
+            std::cout << "Time-space domain : NULL." << "\n";
         }
 
-        std::cout << "Computation to be scheduled ? " << (this->schedule_this_computation) << std::endl;
+        std::cout << "Computation to be scheduled ? " << (this->schedule_this_computation) << "\n";
 
         for (const auto &e : this->index_expr)
         {
@@ -5683,7 +5683,7 @@ void tiramisu::buffer::dump(bool exhaustive) const
     {
         std::cout << "Buffer \"" << this->name
                   << "\", Number of dimensions: " << this->get_n_dims()
-                  << std::endl;
+                  << "\n";
 
         std::cout << "Dimension sizes: ";
         for (const auto &size : dim_sizes)
@@ -5691,18 +5691,18 @@ void tiramisu::buffer::dump(bool exhaustive) const
             size.dump(false);
             std::cout << "    ";
         }
-        std::cout << std::endl;
+        std::cout << "\n";
 
         std::cout << "Elements type: "
-                  << str_from_tiramisu_type_primitive(this->type) << std::endl;
+                  << str_from_tiramisu_type_primitive(this->type) << "\n";
 
         std::cout << "Function field: "
-                  << str_from_is_null(this->fct) << std::endl;
+                  << str_from_is_null(this->fct) << "\n";
 
         std::cout << "Argument type: "
-                  << str_from_tiramisu_type_argument(this->argtype) << std::endl;
+                  << str_from_tiramisu_type_argument(this->argtype) << "\n";
 
-        std::cout << std::endl << std::endl;
+        std::cout << "\n" << "\n";
     }
 }
 
@@ -6950,10 +6950,10 @@ void tiramisu::constant::dump(bool exhaustive) const
 {
     if (ENABLE_DEBUG)
     {
-        std::cout << "Invariant \"" << this->get_name() << "\"" << std::endl;
+        std::cout << "Invariant \"" << this->get_name() << "\"" << "\n";
         std::cout << "Expression: ";
         this->get_expr().dump(false);
-        std::cout << std::endl;
+        std::cout << "\n";
     }
 }
 

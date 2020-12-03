@@ -2102,7 +2102,7 @@ tiramisu::generator::halide_stmt_from_isl_node(const tiramisu::function &fct, is
                                         DEBUG(3, tiramisu::str_dump("Loop not vectorized (extent is non constant)"));
                                         // Currently we can only print Halide expressions using
                                         // "std::cout << ".
-                                        DEBUG(3, std::cout << cond_upper_bound_halide_format << std::endl);
+                                        DEBUG(3, std::cout << cond_upper_bound_halide_format << "\n");
                                     }
                         */
 
@@ -2183,7 +2183,7 @@ tiramisu::generator::halide_stmt_from_isl_node(const tiramisu::function &fct, is
 				DEBUG(3, tiramisu::str_dump("Loop unrolled"));
 			    } else {
 				DEBUG(3, tiramisu::str_dump("Loop not unrolled (extent is non constant)"));
-				DEBUG(3, std::cout << cond_upper_bound_halide_format << std::endl);
+				DEBUG(3, std::cout << cond_upper_bound_halide_format << "\n");
 				DEBUG(3, tiramisu::str_dump("Please pass the unrolling factor to the unrolling command."));
 			    }
 			}
@@ -2425,7 +2425,7 @@ void function::gen_halide_stmt()
     // Generate the statement that represents the whole function
     stmt = tiramisu::generator::halide_stmt_from_isl_node(*this, this->get_isl_ast(), 0, generated_stmts, false);
 
-    DEBUG(3, tiramisu::str_dump("The following Halide statement was generated:\n"); std::cout << stmt << std::endl);
+    DEBUG(3, tiramisu::str_dump("The following Halide statement was generated:\n"); std::cout << stmt << "\n");
 
     Halide::Internal::Stmt freestmts;
     for (const auto &b : this->get_buffers())
@@ -2710,7 +2710,7 @@ std::string generator::get_buffer_name(const tiramisu::computation * comp)
     isl_map *access = comp->get_access_relation_adapted_to_time_processor_domain();
     isl_space *space = isl_map_get_space(access);
     const char *buffer_name = isl_space_get_tuple_name(space, isl_dim_out);
-    std::cerr << comp->get_name() << std::endl;
+    std::cerr << comp->get_name() << "\n";
     isl_map_dump(access);
     assert(buffer_name != nullptr);
     return std::string{buffer_name};
@@ -2779,7 +2779,7 @@ tiramisu::expr generator::comp_to_buffer(tiramisu::computation *comp, std::vecto
         index = tiramisu::generator::linearize_access((int) dim_sizes.size(), strides, index_expr[0]);
 
         DEBUG(3, tiramisu::str_dump("After linearization: ");
-                std::cout << index.to_str() << std::endl);
+                std::cout << index.to_str() << "\n");
 
         DEBUG(3, tiramisu::str_dump("Index expressions of this statement are:"));
         print_isl_ast_expr_vector(index_expr);
@@ -2915,7 +2915,7 @@ void computation::create_halide_assignment()
             DEBUG(10, tiramisu::str_dump("4."));
         }
 
-        DEBUG(10, tiramisu::str_dump("The expression translated to a Halide expression: "); std::cout << result << std::endl);
+        DEBUG(10, tiramisu::str_dump("The expression translated to a Halide expression: "); std::cout << result << "\n");
 
         Halide::Type l_type = halide_type_from_tiramisu_type(this->get_data_type());
 
@@ -3009,7 +3009,7 @@ void computation::create_halide_assignment()
                 index = tiramisu::generator::linearize_access(buf_dims, strides_vector, this->index_expr[0]);
 
             DEBUG(3, tiramisu::str_dump("After linearization: ");
-                    std::cout << index << std::endl);
+                    std::cout << index << "\n");
 
             DEBUG(3, tiramisu::str_dump(
                     "Index expressions of this statement are (the first is the LHS and the others are the RHS) :"));
