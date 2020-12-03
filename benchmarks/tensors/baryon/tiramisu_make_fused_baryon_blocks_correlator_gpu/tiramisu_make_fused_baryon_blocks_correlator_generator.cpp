@@ -348,8 +348,8 @@ void generate_function(std::string name)
     // B1_Blocal_r2_r_props.store_in(&buf_B1_Blocal_props_r2_r, {jCprime, jSprime});
     // B1_Blocal_r2_i_props.store_in(&buf_B1_Blocal_props_r2_i, {jCprime, jSprime});
 
-    // buffer buf_B1_Blocal_r1_r_cpu("buf_B1_Blocal_r1_r_cpu", {Nc, Ns, Nc, Ns, Nc, Ns, NsrcHex}, p_float64, a_temporary);
-    // buffer buf_B1_Blocal_r1_i_cpu("buf_B1_Blocal_r1_i_cpu", {Nc, Ns, Nc, Ns, Nc, Ns, NsrcHex}, p_float64, a_temporary);
+    buffer buf_B1_Blocal_r1_r_cpu("buf_B1_Blocal_r1_r_cpu", {Nc, Ns, Nc, Ns, Nc, Ns, NsrcHex}, p_float64, a_temporary);
+    buffer buf_B1_Blocal_r1_i_cpu("buf_B1_Blocal_r1_i_cpu", {Nc, Ns, Nc, Ns, Nc, Ns, NsrcHex}, p_float64, a_temporary);
 
     computation copy_buf_C_r_host_to_device({}, memcpy(buf_C_r_cpu, buf_C_r));
     computation copy_buf_C_i_host_to_device({}, memcpy(buf_C_i_cpu, buf_C_i));
@@ -384,6 +384,9 @@ void generate_function(std::string name)
     computation copy_snk_spin_weights_device_to_host({}, memcpy(*snk_spin_weights.get_buffer(), snk_spin_weights_cpu));
     computation copy_snk_weights_device_to_host({}, memcpy(*snk_weights.get_buffer(), snk_weights_cpu));
     computation copy_sigs_device_to_host({}, memcpy(*sigs.get_buffer(), sigs_cpu));
+
+    computation copy_B1_Blocal_r1_i_device_to_host({}, memcpy(buf_B1_Blocal_r1_i, buf_B1_Blocal_r1_i_cpu));
+    computation copy_B1_Blocal_r1_r_device_to_host({}, memcpy(buf_B1_Blocal_r1_r, buf_B1_Blocal_r1_r_cpu));
 
     // -------------------------------------------------------
     // Layer III
@@ -544,6 +547,8 @@ void generate_function(std::string name)
             .then(copy_sigs_device_to_host, computation::root)
             .then(copy_buf_C_r_device_to_host, computation::root)
             .then(copy_buf_C_i_device_to_host, computation::root)
+            .then(copy_B1_Blocal_r1_i_device_to_host, computation::root)
+            .then(copy_B1_Blocal_r1_r_device_to_host, computation::root)
             ;
 
 
