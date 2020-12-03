@@ -517,17 +517,17 @@ void generate_function(std::string name)
         );
 
 
-    // handle = &(handle 
-        //   ->then(C_prop_init_r, x_in) 
-        //   .then(C_prop_init_i, r)
-        //   .then( *(new_term_0_r1_b1.get_real()), r)
-        //   .then( *(new_term_0_r1_b1.get_imag()), wnum)
-        //   .then( *(new_term_0_r2_b1.get_real()), wnum)
-        //   .then( *(new_term_0_r2_b1.get_imag()), wnum)
-        //   .then(C_prop_update_r, wnum) 
-        //   .then(C_prop_update_i, wnum)
-        //   .then(C_update_r, r) 
-        //   .then(C_update_i, n));
+    handle = &(handle 
+          ->then(C_prop_init_r, x_in) 
+          .then(C_prop_init_i, r)
+          .then( *(new_term_0_r1_b1.get_real()), r)
+          .then( *(new_term_0_r1_b1.get_imag()), wnum)
+          .then( *(new_term_0_r2_b1.get_real()), wnum)
+          .then( *(new_term_0_r2_b1.get_imag()), wnum)
+          .then(C_prop_update_r, wnum) 
+          .then(C_prop_update_i, wnum)
+          .then(C_update_r, r) 
+          .then(C_update_i, n));
 
     handle = &handle->
              then(copy_B1_prop_r_device_to_host, computation::root)
