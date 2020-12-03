@@ -466,7 +466,7 @@ void generate_function(std::string name)
             .then(copy_snk_weights_host_to_device, computation::root)
             .then(copy_sigs_host_to_device, computation::root));
 
-    handle = &(handle->then(C_init_r, computation::root).then(C_init_i, n));
+    // handle = &(handle->then(C_init_r, computation::root).then(C_init_i, n));
 
 
     // handle = &(handle
@@ -503,29 +503,30 @@ void generate_function(std::string name)
         .then(B1_Blocal_r1_i_props, jSprime)
         .then(B1_Blocal_r1_r_update, y)
         .then(B1_Blocal_r1_i_update, m)
-        .then(B1_Blocal_r2_r_init, x_in)
-        .then(B1_Blocal_r2_i_init, jSprime)
-        .then(B1_Blocal_r2_r_props_init, x_in)
-        .then(B1_Blocal_r2_i_props_init, jSprime)
-        .then(B1_Blocal_r2_r_diquark, y)
-        .then(B1_Blocal_r2_i_diquark, wnumBlock)
-        .then(B1_Blocal_r2_r_props, wnumBlock)
-        .then(B1_Blocal_r2_i_props, jSprime)
-        .then(B1_Blocal_r2_r_update, y)
-        .then(B1_Blocal_r2_i_update, m));
+        // .then(B1_Blocal_r2_r_init, x_in)
+        // .then(B1_Blocal_r2_i_init, jSprime)
+        // .then(B1_Blocal_r2_r_props_init, x_in)
+        // .then(B1_Blocal_r2_i_props_init, jSprime)
+        // .then(B1_Blocal_r2_r_diquark, y)
+        // .then(B1_Blocal_r2_i_diquark, wnumBlock)
+        // .then(B1_Blocal_r2_r_props, wnumBlock)
+        // .then(B1_Blocal_r2_i_props, jSprime)
+        // .then(B1_Blocal_r2_r_update, y)
+        // .then(B1_Blocal_r2_i_update, m))
+        ;
 
 
-    handle = &(handle 
-          ->then(C_prop_init_r, x_in) 
-          .then(C_prop_init_i, r)
-          .then( *(new_term_0_r1_b1.get_real()), r)
-          .then( *(new_term_0_r1_b1.get_imag()), wnum)
-          .then( *(new_term_0_r2_b1.get_real()), wnum)
-          .then( *(new_term_0_r2_b1.get_imag()), wnum)
-          .then(C_prop_update_r, wnum) 
-          .then(C_prop_update_i, wnum)
-          .then(C_update_r, r) 
-          .then(C_update_i, n));
+    // handle = &(handle 
+        //   ->then(C_prop_init_r, x_in) 
+        //   .then(C_prop_init_i, r)
+        //   .then( *(new_term_0_r1_b1.get_real()), r)
+        //   .then( *(new_term_0_r1_b1.get_imag()), wnum)
+        //   .then( *(new_term_0_r2_b1.get_real()), wnum)
+        //   .then( *(new_term_0_r2_b1.get_imag()), wnum)
+        //   .then(C_prop_update_r, wnum) 
+        //   .then(C_prop_update_i, wnum)
+        //   .then(C_update_r, r) 
+        //   .then(C_update_i, n));
     
 
     handle = &handle->
