@@ -101,11 +101,15 @@ void make_local_block(double* Blocal_re,
    }
 }
 
+void print_buffer( double* buff, long long size )
+{
+   for (long long i = 0; i < size; ++i) std::cout << buff[i] << " ";
+   std::cout << "\n";
+}
+
 double calculate_sum( double* buff, long long size )
 {
    double sum = 0.0;
-   for (long long i = 0; i < size; ++i) std::cout << buff[i] << " ";
-   std::cout << "\n";
    for (long long i = 0; i < size; ++i) sum += buff[i];
    return sum;
 }
@@ -139,9 +143,13 @@ void make_nucleon_2pt(double* C_re,
    double* Blocal_r1_im = (double *) malloc(Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f * sizeof (double));
    double* Blocal_r2_re = (double *) malloc(Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f * sizeof (double));
    double* Blocal_r2_im = (double *) malloc(Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f * sizeof (double));
-   std::cout << "Size: " << (Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f) << std::endl;
-   printf("Reference(before): Sum Blocal_r1_re: %d \n", calculate_sum(Blocal_r1_re, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f));
-   printf("Reference(before): Sum Blocal_r1_im: %d \n", calculate_sum(Blocal_r1_im, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f));
+   printf("Reference(before):\n");
+   std::cout << "Blocal_r1 size: " << (Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f) << std::endl;
+   print_buffer( Blocal_r1_re, 20 );
+   print_buffer( Blocal_r1_im, 20 );
+   printf("Sum Blocal_r1_re: %d \n", calculate_sum(Blocal_r1_re, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f));
+   printf("Sum Blocal_r1_im: %d \n", calculate_sum(Blocal_r1_im, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f));
+   printf("R--------------------------------------------------\n");
 
    for (t=0; t<Nt_f; t++) {
       for (x=0; x<Vsnk_f; x++) {
@@ -203,8 +211,13 @@ void make_nucleon_2pt(double* C_re,
          // }
       }
    }
-   printf("Reference: Sum Blocal_r1_re: %d \n", calculate_sum(Blocal_r1_re, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f));
-   printf("Reference: Sum Blocal_r1_im: %d \n", calculate_sum(Blocal_r1_im, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f));
+   printf("Reference(after):\n");
+   std::cout << "Blocal_r1 size: " << (Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f) << std::endl;
+   print_buffer( Blocal_r1_re, 20 );
+   print_buffer( Blocal_r1_im, 20 );
+   printf("Sum Blocal_r1_re: %d \n", calculate_sum(Blocal_r1_re, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f));
+   printf("Sum Blocal_r1_im: %d \n", calculate_sum(Blocal_r1_im, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f));
+   printf("R--------------------------------------------------\n");
    /* clean up */
    free(Blocal_r1_re);
    free(Blocal_r1_im);

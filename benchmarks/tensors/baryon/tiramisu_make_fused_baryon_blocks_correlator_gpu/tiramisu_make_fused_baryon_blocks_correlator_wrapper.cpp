@@ -195,9 +195,13 @@ void tiramisu_make_nucleon_2pt(double* C_re,
    Halide::Buffer<double> b_Blocal_r1_re((double *)Blocal_r1_re, {Nsrc_f, Ns_f, Nc_f, Ns_f, Nc_f, Ns_f, Nc_f});
    Halide::Buffer<double> b_Blocal_r1_im((double *)Blocal_r1_im, {Nsrc_f, Ns_f, Nc_f, Ns_f, Nc_f, Ns_f, Nc_f});
 
-   printf("before Tiramisu Sum Blocal_r1_re: %d \n", calculate_sum(Blocal_r1_re, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f));
-   printf("before Tiramisu Sum Blocal_r1_im: %d \n", calculate_sum(Blocal_r1_im, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f));
-
+   printf("Tiramisu(before):\n");
+   std::cout << "Blocal_r1 size: " << (Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f) << std::endl;
+   print_buffer( Blocal_r1_re, 20 );
+   print_buffer( Blocal_r1_im, 20 );
+   printf("Sum Blocal_r1_re: %d \n", calculate_sum(Blocal_r1_re, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f));
+   printf("Sum Blocal_r1_im: %d \n", calculate_sum(Blocal_r1_im, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f));
+   printf("--------------------------------------------------\n");
 
    tiramisu_make_fused_baryon_blocks_correlator(
 				    b_C_r.raw_buffer(),
@@ -219,8 +223,13 @@ void tiramisu_make_nucleon_2pt(double* C_re,
                 b_Blocal_r1_re.raw_buffer(),
                 b_Blocal_r1_im.raw_buffer());
 
-   printf("Tiramisu Sum Blocal_r1_re: %d \n", calculate_sum(Blocal_r1_re, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f));
-   printf("Tiramisu Sum Blocal_r1_im: %d \n", calculate_sum(Blocal_r1_im, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f));
+   printf("Tiramisu(after):\n");
+   std::cout << "Blocal_r1 size: " << (Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f) << std::endl;
+   print_buffer( Blocal_r1_re, 20 );
+   print_buffer( Blocal_r1_im, 20 );
+   printf("Sum Blocal_r1_re: %d \n", calculate_sum(Blocal_r1_re, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f));
+   printf("Sum Blocal_r1_im: %d \n", calculate_sum(Blocal_r1_im, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f));
+   printf("--------------------------------------------------\n");
 
    if (rank == 0) {
    printf("non-zero r1? %4.1f + I %4.1f ", b_C_r(0,0,0,0,0,0), b_C_i(0,0,0,0,0,0) );
