@@ -45,7 +45,7 @@ void tiramisu_make_nucleon_2pt(double* C_re,
      double* snk_psi_B1_re, 
      double* snk_psi_B1_im)
 {
-   std::cout << "Called: " << __PRETTY_FUNCTION__ << std::endl;
+   std::cout << "Called: " << __PRETTY_FUNCTION__ << "\n";
    int q, t, iC, iS, jC, jS, y, x, x1, x2, m, n, k, wnum, b, rp, r;
    int iC1, iS1, iC2, iS2, jC1, jS1, jC2, jS2, kC1, kS1, kC2, kS2;
     int rank = 0;
@@ -57,22 +57,22 @@ void tiramisu_make_nucleon_2pt(double* C_re,
 
     if (rank == 0) {
     long mega = 1024*1024;
-    std::cout << "Array sizes" << std::endl;
-    std::cout << "Prop:" <<  std::endl;
-    std::cout << "	Max index size = " << Nq*Vsnk*Vsrc*Nc*Ns*Nc*Ns*Lt <<  std::endl;
-    std::cout << "	Array size = " << Nq*Vsnk*Vsrc*Nc*Ns*Nc*Ns*Lt*sizeof(std::complex<double>)/mega << " Mega bytes" << std::endl;
-    std::cout << "Q, O & P:" <<  std::endl;
-    std::cout << "	Max index size = " << Vsnk*Vsrc*Nc*Ns*Nc*Ns <<  std::endl;
-    std::cout << "	Array size = " << Vsnk*Vsrc*Nc*Ns*Nc*Ns*sizeof(std::complex<double>)/mega << " Mega bytes" <<  std::endl;
+    std::cout << "Array sizes" << "\n";
+    std::cout << "Prop:" <<  "\n";
+    std::cout << "	Max index size = " << Nq*Vsnk*Vsrc*Nc*Ns*Nc*Ns*Lt <<  "\n";
+    std::cout << "	Array size = " << Nq*Vsnk*Vsrc*Nc*Ns*Nc*Ns*Lt*sizeof(std::complex<double>)/mega << " Mega bytes" << "\n";
+    std::cout << "Q, O & P:" <<  "\n";
+    std::cout << "	Max index size = " << Vsnk*Vsrc*Nc*Ns*Nc*Ns <<  "\n";
+    std::cout << "	Array size = " << Vsnk*Vsrc*Nc*Ns*Nc*Ns*sizeof(std::complex<double>)/mega << " Mega bytes" <<  "\n";
 
     long kilo = 1024;
-    std::cout << "Blocal:" <<  std::endl;
-    std::cout << "	Max index size = " << Vsnk*NsrcHex*Nc*Ns*Nc*Ns*Nc*Ns <<  std::endl;
-    std::cout << "	Array size = " << Vsnk*NsrcHex*Nc*Ns*Nc*Ns*Nc*Ns*sizeof(std::complex<double>)/kilo << " kilo bytes" <<  std::endl;
-    std::cout << "Blocal, Bsingle, Bdouble:" <<  std::endl;
-    std::cout << "	Max index size = " << Nc*Ns*Nc*Ns*Nc*Ns <<  std::endl;
-    std::cout << "	Array size = " << Nc*Ns*Nc*Ns*Nc*Ns*sizeof(std::complex<double>)/kilo << " kilo bytes" <<  std::endl;
-    std::cout << std::endl;
+    std::cout << "Blocal:" <<  "\n";
+    std::cout << "	Max index size = " << Vsnk*NsrcHex*Nc*Ns*Nc*Ns*Nc*Ns <<  "\n";
+    std::cout << "	Array size = " << Vsnk*NsrcHex*Nc*Ns*Nc*Ns*Nc*Ns*sizeof(std::complex<double>)/kilo << " kilo bytes" <<  "\n";
+    std::cout << "Blocal, Bsingle, Bdouble:" <<  "\n";
+    std::cout << "	Max index size = " << Nc*Ns*Nc*Ns*Nc*Ns <<  "\n";
+    std::cout << "	Array size = " << Nc*Ns*Nc*Ns*Nc*Ns*sizeof(std::complex<double>)/kilo << " kilo bytes" <<  "\n";
+    std::cout << "\n";
     }
 
    // Halide buffers
@@ -105,7 +105,7 @@ void tiramisu_make_nucleon_2pt(double* C_re,
 
    // Weights
 
-   std::cout << __PRETTY_FUNCTION__ << " : Weights" << std::endl;
+   std::cout << __PRETTY_FUNCTION__ << " : Weights" << "\n";
 
    int* snk_color_weights_r1 = (int *) malloc(Nw * Nq * sizeof (int));
    int* snk_color_weights_r2 = (int *) malloc(Nw * Nq * sizeof (int));
@@ -126,7 +126,7 @@ void tiramisu_make_nucleon_2pt(double* C_re,
          }
    }
 
-   std::cout << __PRETTY_FUNCTION__ << " : Weights 2" << std::endl;
+   std::cout << __PRETTY_FUNCTION__ << " : Weights 2" << "\n";
 
    b_src_spins(0) = 1;
    b_src_spins(1) = 2;
@@ -165,7 +165,7 @@ void tiramisu_make_nucleon_2pt(double* C_re,
       }
    }
 
-   std::cout << __PRETTY_FUNCTION__ << " : Weights 3" << std::endl;
+   std::cout << __PRETTY_FUNCTION__ << " : Weights 3" << "\n";
 
    for (int rp=0; rp<B1Nrows; rp++)
       for (int m=0; m<NsrcHex; m++)
@@ -179,7 +179,7 @@ void tiramisu_make_nucleon_2pt(double* C_re,
                         b_C_i(n, r, m, rp, x_out, t) = 0.0;
                      }
 
-   std::cout << __PRETTY_FUNCTION__ << " : b_C_i init ended" << std::endl;
+   std::cout << __PRETTY_FUNCTION__ << " : b_C_i init ended" << "\n";
 
    if (rank == 0) {
    printf("prop 1 %4.9f + I %4.9f \n", b_B1_prop_r(0,0,0,0,0,0,0,0), b_B1_prop_i(0,0,0,0,0,0,0,0));
@@ -187,7 +187,7 @@ void tiramisu_make_nucleon_2pt(double* C_re,
    printf("psi snk %4.9f + I %4.9f \n", b_B1_snk_psi_r(0,0,0,0), b_B1_snk_psi_i(0,0,0,0));
    printf("weights snk %4.9f \n", b_snk_weights(0,0));
    }
-   std::cout << __PRETTY_FUNCTION__ << " : about to call tiramisu_make_fused_baryon_blocks_correlator" << std::endl;
+   std::cout << __PRETTY_FUNCTION__ << " : about to call tiramisu_make_fused_baryon_blocks_correlator" << "\n";
    double* Blocal_r1_re = (double *) malloc(Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f * sizeof (double));
    double* Blocal_r1_im = (double *) malloc(Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f * sizeof (double));
    for (int i = 0; i < Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f; ++i) Blocal_r1_re[i] = Blocal_r1_im[i] = 0.0;
@@ -197,7 +197,7 @@ void tiramisu_make_nucleon_2pt(double* C_re,
 
    printf("--------------------------------------------------\n");
    printf("Tiramisu(before):\n");
-   std::cout << "Blocal_r1 size: " << (Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f) << std::endl;
+   std::cout << "Blocal_r1 size: " << (Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f) << "\n";
    print_buffer( Blocal_r1_re, 20 );
    print_buffer( Blocal_r1_im, 20 );
    printf("Sum Blocal_r1_re: %d \n", calculate_sum(Blocal_r1_re, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f));
@@ -226,7 +226,7 @@ void tiramisu_make_nucleon_2pt(double* C_re,
 
    printf("--------------------------------------------------\n");
    printf("Tiramisu(after):\n");
-   std::cout << "Blocal_r1 size: " << (Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f) << std::endl;
+   std::cout << "Blocal_r1 size: " << (Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f) << "\n";
    print_buffer( Blocal_r1_re, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f );
    print_buffer( Blocal_r1_im, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f );
    printf("Sum Blocal_r1_re: %d \n", calculate_sum(Blocal_r1_re, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f));
@@ -429,12 +429,12 @@ int main(int, char **)
                }
 
    if (rank == 0)
-   std::cout << "Start Tiramisu code." <<  std::endl;
+   std::cout << "Start Tiramisu code." <<  "\n";
 
    for (int i = 0; i < nb_tests; i++)
    {
       if (rank == 0)
-         std::cout << "Run " << i << "/" << nb_tests <<  std::endl;
+         std::cout << "Run " << i << "/" << nb_tests <<  "\n";
       auto start1 = std::chrono::high_resolution_clock::now();
        tiramisu_make_nucleon_2pt(t_C_re,
            t_C_im,
@@ -459,7 +459,7 @@ int main(int, char **)
    }
 
    if (rank == 0) {
-    std::cout << "End Tiramisu code." <<  std::endl;
+    std::cout << "End Tiramisu code." <<  "\n";
 
    for (rp=0; rp<B1Nrows; rp++) {
       printf("\n");
@@ -474,10 +474,10 @@ int main(int, char **)
 
 
 #if RUN_REFERENCE
-   std::cout << "Start reference C code." <<  std::endl;
+   std::cout << "Start reference C code." <<  "\n";
    for (int i = 0; i < nb_tests; i++)
    {
-	   std::cout << "Run " << i << "/" << nb_tests <<  std::endl;
+	   std::cout << "Run " << i << "/" << nb_tests <<  "\n";
 	   auto start2 = std::chrono::high_resolution_clock::now();
 
       make_nucleon_2pt(C_re, C_im, B1_prop_re, B1_prop_im, src_color_weights_r1, src_spin_weights_r1, src_weights_r1, src_color_weights_r2, src_spin_weights_r2, src_weights_r2, src_psi_B1_re, src_psi_B1_im, snk_psi_B1_re, snk_psi_B1_im, Nc, Ns, Vsrc, Vsnk, Lt, Nw, Nq, NsrcHex, NsnkHex);
@@ -486,20 +486,20 @@ int main(int, char **)
 	   std::chrono::duration<double,std::milli> duration2 = end2 - start2;
 	   duration_vector_2.push_back(duration2);
    }
-   std::cout << "End reference C code." <<  std::endl;
+   std::cout << "End reference C code." <<  "\n";
 #endif
 
     print_time("performance_CPU.csv", "dibaryon", {"Tiramisu"}, {median(duration_vector_1)/1000.});
 
 #if RUN_CHECK
     print_time("performance_CPU.csv", "dibaryon", {"Ref", "Tiramisu"}, {median(duration_vector_2)/1000., median(duration_vector_1)/1000.});
-    std::cout << "\nSpeedup = " << median(duration_vector_2)/median(duration_vector_1) << std::endl;
+    std::cout << "\nSpeedup = " << median(duration_vector_2)/median(duration_vector_1) << "\n";
    
    for (int i = 0; i < B1Nrows * B1Nrows * (NsrcHex) * (NsnkHex) * Lt; ++i)
    {
       std::cout << C_re[i] << "+ " << C_im[i] << "i | " << t_C_re[i] << "+ " << t_C_im[i] << "i\n";
    }
-   std::cout << std::endl;
+   std::cout << "\n";
 
    for (rp=0; rp<B1Nrows; rp++) {
       printf("\n");
@@ -512,14 +512,14 @@ int main(int, char **)
                   if ((diff1 >= 0.01*Vsnk*Vsnk) || (diff2 >= 0.01*Vsnk*Vsnk))
                   {
                      printf("rp=%d, m=%d, n=%d, t=%d: %4.1f + I (%4.1f) vs %4.1f + I (%4.1f) \n", rp, m, n, t, C_re[index_5d(rp,m,r,n,t, NsrcHex,B1Nrows,NsnkHex,Lt)], C_im[index_5d(rp,m,r,n,t, NsrcHex,B1Nrows,NsnkHex,Lt)],  t_C_re[index_5d(rp,m,r,n,t, NsrcHex,B1Nrows,NsnkHex,Lt)],  t_C_im[index_5d(rp,m,r,n,t, NsrcHex,B1Nrows,NsnkHex,Lt)]);
-                     std::cout << "Error: different computed values for C_r or C_i!" << std::endl;
-                     std::cout << "diff re: " << diff1 << std::endl;
-                     std::cout << "diff im: " << diff2 << std::endl;
-                     std::cout << "diff factor " << (t_C_re[index_5d(rp,m,r,n,t, NsrcHex,B1Nrows,NsnkHex,Lt)] / C_re[index_5d(rp,m,r,n,t, NsrcHex,B1Nrows,NsnkHex,Lt)]) << " | " << (t_C_im[index_5d(rp,m,r,n,t, NsrcHex,B1Nrows,NsnkHex,Lt)] / C_im[index_5d(rp,m,r,n,t, NsrcHex,B1Nrows,NsnkHex,Lt)]) << std::endl;
-                     std::cout << "C_re[index_5d(rp,m,r,n,t, NsrcHex,B1Nrows,NsnkHex,Lt)]=" << C_re[index_5d(rp,m,r,n,t, NsrcHex,B1Nrows,NsnkHex,Lt)] << std::endl;
-                     std::cout << "t_C_re[index_5d(rp,m,r,n,t, NsrcHex,B1Nrows,NsnkHex,Lt)]=" << t_C_re[index_5d(rp,m,r,n,t, NsrcHex,B1Nrows,NsnkHex,Lt)] << std::endl;
-                     std::cout << "C_im[index_5d(rp,m,r,n,t, NsrcHex,B1Nrows,NsnkHex,Lt)]=" << C_im[index_5d(rp,m,r,n,t, NsrcHex,B1Nrows,NsnkHex,Lt)] << std::endl;
-                     std::cout << "t_C_im[index_5d(rp,m,r,n,t, NsrcHex,B1Nrows,NsnkHex,Lt)]=" << t_C_im[index_5d(rp,m,r,n,t, NsrcHex,B1Nrows,NsnkHex,Lt)] << std::endl;
+                     std::cout << "Error: different computed values for C_r or C_i!" << "\n";
+                     std::cout << "diff re: " << diff1 << "\n";
+                     std::cout << "diff im: " << diff2 << "\n";
+                     std::cout << "diff factor " << (t_C_re[index_5d(rp,m,r,n,t, NsrcHex,B1Nrows,NsnkHex,Lt)] / C_re[index_5d(rp,m,r,n,t, NsrcHex,B1Nrows,NsnkHex,Lt)]) << " | " << (t_C_im[index_5d(rp,m,r,n,t, NsrcHex,B1Nrows,NsnkHex,Lt)] / C_im[index_5d(rp,m,r,n,t, NsrcHex,B1Nrows,NsnkHex,Lt)]) << "\n";
+                     std::cout << "C_re[index_5d(rp,m,r,n,t, NsrcHex,B1Nrows,NsnkHex,Lt)]=" << C_re[index_5d(rp,m,r,n,t, NsrcHex,B1Nrows,NsnkHex,Lt)] << "\n";
+                     std::cout << "t_C_re[index_5d(rp,m,r,n,t, NsrcHex,B1Nrows,NsnkHex,Lt)]=" << t_C_re[index_5d(rp,m,r,n,t, NsrcHex,B1Nrows,NsnkHex,Lt)] << "\n";
+                     std::cout << "C_im[index_5d(rp,m,r,n,t, NsrcHex,B1Nrows,NsnkHex,Lt)]=" << C_im[index_5d(rp,m,r,n,t, NsrcHex,B1Nrows,NsnkHex,Lt)] << "\n";
+                     std::cout << "t_C_im[index_5d(rp,m,r,n,t, NsrcHex,B1Nrows,NsnkHex,Lt)]=" << t_C_im[index_5d(rp,m,r,n,t, NsrcHex,B1Nrows,NsnkHex,Lt)] << "\n";
                      exit(1);
                   }
             }
@@ -528,7 +528,7 @@ int main(int, char **)
 #endif
    printf("Finished\n");
 
-    std::cout << "\n\n\033[1;32mSuccess: computed values are equal!\033[0m\n\n" << std::endl;
+    std::cout << "\n\n\033[1;32mSuccess: computed values are equal!\033[0m\n\n" << "\n";
    }
 
 #ifdef WITH_MPI
