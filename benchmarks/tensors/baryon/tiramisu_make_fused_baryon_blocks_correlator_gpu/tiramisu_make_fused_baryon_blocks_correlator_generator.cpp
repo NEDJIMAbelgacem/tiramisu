@@ -542,7 +542,7 @@ void generate_function(std::string name)
             .then(copy_snk_spin_weights_device_to_host, computation::root)
             .then(copy_snk_weights_device_to_host, computation::root)
             .then(copy_sigs_device_to_host, computation::root)
-             then(copy_buf_C_r_device_to_host, computation::root)
+            .then(copy_buf_C_r_device_to_host, computation::root)
             .then(copy_buf_C_i_device_to_host, computation::root)
             ;
 
