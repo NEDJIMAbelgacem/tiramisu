@@ -215,6 +215,24 @@ void tiramisu_make_nucleon_2pt(double* C_re,
                 b_Blocal_r1_re.raw_buffer(),
                 b_Blocal_r1_im.raw_buffer());
 
+   {
+      double sum = 0.0;
+      for (int i = 0; i < Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f; ++i)
+      {
+         sum += Blocal_r1_re[i];
+      }
+      std::cout << "Blocal_r1_re Sum Tiramisum: " << sum << "\n";
+   }
+
+   {
+      double sum = 0.0;
+      for (int i = 0; i < Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f; ++i)
+      {
+         sum += Blocal_r1_im[i];
+      }
+      std::cout << "Blocal_r1_im Sum Tiramisum: " << sum << "\n";
+   }
+
    if (rank == 0) {
    printf("non-zero r1? %4.1f + I %4.1f ", b_C_r(0,0,0,0,0,0), b_C_i(0,0,0,0,0,0) );
    printf("non-zero r2? %4.1f + I %4.1f ", b_C_r(0,1,0,1,0,0), b_C_i(0,1,0,1,0,0) );
