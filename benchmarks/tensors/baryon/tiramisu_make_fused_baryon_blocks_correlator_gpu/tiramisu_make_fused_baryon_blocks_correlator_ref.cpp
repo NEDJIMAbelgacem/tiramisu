@@ -101,10 +101,10 @@ void make_local_block(double* Blocal_re,
    }
 }
 
-double calculate_sum( double* buff, size_t size )
+double calculate_sum( double* buff, long long size )
 {
    double sum = 0.0;
-   for (int i = 0; i < size; ++i) sum += buff[i];
+   for (long long i = 0; i < size; ++i) sum += buff[i];
    return sum;
 }
 
