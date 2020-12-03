@@ -585,7 +585,6 @@ void generate_function(std::string name)
         &buf_B1_Blocal_r1_i_cpu
         }, 
         "generated_tiramisu_make_fused_baryon_blocks_correlator.o", true);
-    
 }
 
 int main(int argc, char **argv)
