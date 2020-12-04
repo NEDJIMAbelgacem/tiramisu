@@ -153,8 +153,8 @@ void generate_function(std::string name)
 
     /* Correlator */
 
-    computation C_init_r("C_init_r", {t, x_out, rp, m, r, n}, expr((double) 0));
-    computation C_init_i("C_init_i", {t, x_out, rp, m, r, n}, expr((double) 0));
+    computation C_init_r("C_init_r", {t, x_out, x_in, rp, m, r, n}, expr((double) 0));
+    computation C_init_i("C_init_i", {t, x_out, x_in, rp, m, r, n}, expr((double) 0));
 
     computation C_prop_init_r("C_prop_init_r", {t, x_out, x_in, rp, m, r}, expr((double) 0));
     computation C_prop_init_i("C_prop_init_i", {t, x_out, x_in, rp, m, r}, expr((double) 0));
@@ -182,8 +182,8 @@ void generate_function(std::string name)
 
     complex_expr term = C_prop_update(t, x_out, x_in, rp, m, r, B1Nperms-1, Nw-1) * snk_psi;
 
-    computation C_update_r("C_update_r", {t, x_out, x_in, rp, m, r, n}, (expr)C_init_r(t, x_out, rp, m, r, n) + term.get_real());
-    computation C_update_i("C_update_i", {t, x_out, x_in, rp, m, r, n}, (expr)C_init_i(t, x_out, rp, m, r, n) + term.get_imag());
+    computation C_update_r("C_update_r", {t, x_out, x_in, rp, m, r, n}, (expr)C_init_r(t, x_out, x_in, rp, m, r, n) + term.get_real());
+    computation C_update_i("C_update_i", {t, x_out, x_in, rp, m, r, n}, (expr)C_init_i(t, x_out, x_in, rp, m, r, n) + term.get_imag());
 
     // -------------------------------------------------------
     // Layer II
@@ -192,8 +192,8 @@ void generate_function(std::string name)
     /* Correlator */
 
 // declaring buffers
-    buffer buf_C_r("buf_C_r", {t_MAX, Vsnk/sites_per_rank, B1Nrows, NsrcHex, B1Nrows, NsnkHex}, p_float64, a_temporary);
-    buffer buf_C_i("buf_C_i", {t_MAX, Vsnk/sites_per_rank, B1Nrows, NsrcHex, B1Nrows, NsnkHex}, p_float64, a_temporary);
+    buffer buf_C_r("buf_C_r", {t_MAX, Vsnk/sites_per_rank, sites_per_rank, B1Nrows, NsrcHex, B1Nrows, NsnkHex}, p_float64, a_temporary);
+    buffer buf_C_i("buf_C_i", {t_MAX, Vsnk/sites_per_rank, sites_per_rank, B1Nrows, NsrcHex, B1Nrows, NsnkHex}, p_float64, a_temporary);
     buffer buf_B1_prop_r("buf_B1_prop_r",   {Nq, t_MAX, Nc, Ns, Nc, Ns, Vsnk, Vsrc}, p_float64, a_temporary);
     buffer buf_B1_prop_i("buf_B1_prop_i",   {Nq, t_MAX, Nc, Ns, Nc, Ns, Vsnk, Vsrc}, p_float64, a_temporary);
     buffer buf_src_psi_B1_r("buf_src_psi_B1_r",    {Vsrc, NsrcHex}, p_float64, a_temporary);
@@ -245,13 +245,13 @@ void generate_function(std::string name)
    buf_src_spins.tag_gpu_global();
    buf_sigs.tag_gpu_global();
 
-    buffer buf_C_r_cpu("buf_C_r_cpu", {t_MAX, Vsnk/sites_per_rank, B1Nrows, NsrcHex, B1Nrows, NsnkHex}, p_float64, a_temporary);
-    buffer buf_C_i_cpu("buf_C_i_cpu", {t_MAX, Vsnk/sites_per_rank, B1Nrows, NsrcHex, B1Nrows, NsnkHex}, p_float64, a_temporary);
+    buffer buf_C_r_cpu("buf_C_r_cpu", {t_MAX, Vsnk/sites_per_rank, sites_per_rank, B1Nrows, NsrcHex, B1Nrows, NsnkHex}, p_float64, a_temporary);
+    buffer buf_C_i_cpu("buf_C_i_cpu", {t_MAX, Vsnk/sites_per_rank, sites_per_rank, B1Nrows, NsrcHex, B1Nrows, NsnkHex}, p_float64, a_temporary);
 
-    C_init_r.store_in(&buf_C_r,   {t, x_out, rp, m, r, n});
-    C_init_i.store_in(&buf_C_i,   {t, x_out, rp, m, r, n});
-    C_update_r.store_in(&buf_C_r, {t, x_out, rp, m, r, n});
-    C_update_i.store_in(&buf_C_i, {t, x_out, rp, m, r, n});
+    C_init_r.store_in(&buf_C_r,   {t, x_out, x_in, rp, m, r, n});
+    C_init_i.store_in(&buf_C_i,   {t, x_out, x_in, rp, m, r, n});
+    C_update_r.store_in(&buf_C_r, {t, x_out, x_in, rp, m, r, n});
+    C_update_i.store_in(&buf_C_i, {t, x_out, x_in, rp, m, r, n});
 
     // buffer* buf_new_term_r_b1;//("buf_new_term_r_b1", {1}, p_float64, a_temporary);
     // buffer* buf_new_term_i_b1;//("buf_new_term_i_b1", {1}, p_float64, a_temporary);
