@@ -454,7 +454,7 @@ int main(int, char **)
    }
    std::cout << "End reference C code." <<  "\n";
 #endif
-
+   
 
    if (rank == 0)
    std::cout << "Start Tiramisu code." <<  "\n";
