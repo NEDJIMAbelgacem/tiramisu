@@ -449,7 +449,7 @@ void generate_function(std::string name)
     handle = &(handle
         ->then(B1_Blocal_r1_r_init, t)
         .then(B1_Blocal_r1_i_init, jSprime)
-        .then(B1_Blocal_r1_r_props_init, x_in)
+        .then(B1_Blocal_r1_r_props_init, t)
         .then(B1_Blocal_r1_i_props_init, jSprime)
         .then(B1_Blocal_r1_r_diquark, y)
         .then(B1_Blocal_r1_i_diquark, wnumBlock)
@@ -457,9 +457,9 @@ void generate_function(std::string name)
         .then(B1_Blocal_r1_i_props, jSprime)
         .then(B1_Blocal_r1_r_update, y)
         .then(B1_Blocal_r1_i_update, m)
-        .then(B1_Blocal_r2_r_init, x_in)
+        .then(B1_Blocal_r2_r_init, t)
         .then(B1_Blocal_r2_i_init, jSprime)
-        .then(B1_Blocal_r2_r_props_init, x_in)
+        .then(B1_Blocal_r2_r_props_init, t)
         .then(B1_Blocal_r2_i_props_init, jSprime)
         .then(B1_Blocal_r2_r_diquark, y)
         .then(B1_Blocal_r2_i_diquark, wnumBlock)
@@ -502,8 +502,6 @@ void generate_function(std::string name)
             .then(copy_B1_Blocal_r1_i_device_to_host, computation::root)
             .then(copy_B1_Blocal_r1_r_device_to_host, computation::root)
             ;
-
-
 
 
 #if VECTORIZED
