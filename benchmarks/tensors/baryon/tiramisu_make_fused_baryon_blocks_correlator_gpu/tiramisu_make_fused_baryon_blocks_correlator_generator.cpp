@@ -407,20 +407,20 @@ void generate_function(std::string name)
     B1_Blocal_r2_r_update.tag_gpu_level(x_out, x_in);
     B1_Blocal_r2_i_update.tag_gpu_level(x_out, x_in);
 
-    C_prop_init_r.tag_gpu_level(x_out);//, x_in);
-    C_prop_init_i.tag_gpu_level(x_out);//, x_in);
+    C_prop_init_r.tag_gpu_level(x_out, x_in);
+    C_prop_init_i.tag_gpu_level(x_out, x_in);
 
-    new_term_0_r1_b1.get_real()->tag_gpu_level(x_out);//, x_in);
-    new_term_0_r1_b1.get_imag()->tag_gpu_level(x_out);//, x_in);
+    new_term_0_r1_b1.get_real()->tag_gpu_level(x_out, x_in);
+    new_term_0_r1_b1.get_imag()->tag_gpu_level(x_out, x_in);
 
-    new_term_0_r2_b1.get_real()->tag_gpu_level(x_out);//, x_in);
-    new_term_0_r2_b1.get_imag()->tag_gpu_level(x_out);//, x_in);
+    new_term_0_r2_b1.get_real()->tag_gpu_level(x_out, x_in);
+    new_term_0_r2_b1.get_imag()->tag_gpu_level(x_out, x_in);
 
-    C_prop_update_r.tag_gpu_level(x_out);//, x_in);
-    C_prop_update_i.tag_gpu_level(x_out);//, x_in);
+    C_prop_update_r.tag_gpu_level(x_out, x_in);
+    C_prop_update_i.tag_gpu_level(x_out, x_in);
 
-    C_update_r.tag_gpu_level(x_out);//, x_in);
-    C_update_i.tag_gpu_level(x_out);//, x_in);
+    C_update_r.tag_gpu_level(x_out, x_in);
+    C_update_i.tag_gpu_level(x_out, x_in);
 
 #endif
 
