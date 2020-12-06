@@ -33,8 +33,8 @@
 // #define P_sites_per_rank 128
 // #define P_src_sites_per_rank 4
 
-#define P_Vsrc 512//512
-#define P_Vsnk 512//512
+#define P_Vsrc 128//512
+#define P_Vsnk 128//512
 #define P_Nsrc 44
 #define P_Nsnk 44
 #define P_NEntangled 3
