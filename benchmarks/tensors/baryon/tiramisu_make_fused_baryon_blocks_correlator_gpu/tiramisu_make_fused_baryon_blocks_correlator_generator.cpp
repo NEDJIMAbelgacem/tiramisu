@@ -376,9 +376,9 @@ void generate_function(std::string name)
 
     C_init_r.tag_gpu_level(x_out, x_in);
     C_init_i.tag_gpu_level(x_out, x_in);
-
-    B1_Blocal_r1_r_init.tag_gpu_level(x_out, x_in);
-    B1_Blocal_r1_i_init.tag_gpu_level(x_out, x_in);
+// {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m}
+    B1_Blocal_r1_r_init.tag_gpu_level(x_out, x_in, iCprime, iSprime, kCprime, kSprime)
+    B1_Blocal_r1_i_init.tag_gpu_level(x_out, x_in, iCprime, iSprime, kCprime, kSprime);
 
     B1_Blocal_r1_r_props_init.tag_gpu_level(x_out, x_in);
     B1_Blocal_r1_i_props_init.tag_gpu_level(x_out, x_in);
@@ -471,7 +471,7 @@ void generate_function(std::string name)
 
 
     handle = &(handle 
-          ->then(C_prop_init_r, computation::root) 
+          ->then(C_prop_init_r, x_in) 
           .then(C_prop_init_i, r)
           .then( *(new_term_0_r1_b1.get_real()), r)
           .then( *(new_term_0_r1_b1.get_imag()), wnum)
