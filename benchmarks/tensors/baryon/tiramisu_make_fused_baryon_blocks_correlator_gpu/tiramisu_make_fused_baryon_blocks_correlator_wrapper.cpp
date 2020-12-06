@@ -525,6 +525,7 @@ int main(int, char **)
                   // if ((diff1 >= 0.01*Vsnk*Vsnk) || (diff2 >= 0.01*Vsnk*Vsnk))
                   if (fact_re >= 0.05 || fact_im >= 0.05)
                   {
+                     std::cout << "fators " << fact_re << " + " << fact_im << "I \n";
                      printf("rp=%d, m=%d, n=%d, t=%d: %4.1f + I (%4.1f) vs %4.1f + I (%4.1f) \n", rp, m, n, t, C_re[index_5d(rp,m,r,n,t, NsrcHex,B1Nrows,NsnkHex,Lt)], C_im[index_5d(rp,m,r,n,t, NsrcHex,B1Nrows,NsnkHex,Lt)],  t_C_re[index_5d(rp,m,r,n,t, NsrcHex,B1Nrows,NsnkHex,Lt)],  t_C_im[index_5d(rp,m,r,n,t, NsrcHex,B1Nrows,NsnkHex,Lt)]);
                      std::cout << "Error: different computed values for C_r or C_i!" << "\n";
                      std::cout << "diff re: " << diff1 << "\n";
