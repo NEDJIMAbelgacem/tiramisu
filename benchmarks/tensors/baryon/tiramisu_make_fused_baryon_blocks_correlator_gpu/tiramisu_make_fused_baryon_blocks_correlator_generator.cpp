@@ -391,9 +391,9 @@ void generate_function(std::string name)
 
     B1_Blocal_r1_r_update.tag_gpu_level(x_out, x_in);
     B1_Blocal_r1_i_update.tag_gpu_level(x_out, x_in);
-
-    B1_Blocal_r2_r_init.tag_gpu_level(x_out, x_in);
-    B1_Blocal_r2_i_init.tag_gpu_level(x_out, x_in);
+// {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m}
+    B1_Blocal_r2_r_init.tag_gpu_level(x_out, x_in, iCprime, iSprime, kCprime, kSprime);
+    B1_Blocal_r2_i_init.tag_gpu_level(x_out, x_in, iCprime, iSprime, kCprime, kSprime);
 
     B1_Blocal_r2_r_props_init.tag_gpu_level(x_out, x_in);
     B1_Blocal_r2_i_props_init.tag_gpu_level(x_out, x_in);
@@ -449,6 +449,7 @@ void generate_function(std::string name)
     handle = &(handle
         ->then(B1_Blocal_r1_r_init, t)
         .then(B1_Blocal_r1_i_init, jSprime)
+        //
         .then(B1_Blocal_r1_r_props_init, t)
         .then(B1_Blocal_r1_i_props_init, jSprime)
         .then(B1_Blocal_r1_r_diquark, y)
@@ -457,8 +458,10 @@ void generate_function(std::string name)
         .then(B1_Blocal_r1_i_props, jSprime)
         .then(B1_Blocal_r1_r_update, y)
         .then(B1_Blocal_r1_i_update, m)
+        //
         .then(B1_Blocal_r2_r_init, t)
         .then(B1_Blocal_r2_i_init, jSprime)
+        //
         .then(B1_Blocal_r2_r_props_init, t)
         .then(B1_Blocal_r2_i_props_init, jSprime)
         .then(B1_Blocal_r2_r_diquark, y)
