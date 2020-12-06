@@ -36,18 +36,6 @@ void generate_function(std::string name)
         jSprime("jSprime", 0, Ns),
         kCprime("kCprime", 0, Nc),
         kSprime("kSprime", 0, Ns);
-    // {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, wnumBlock}
-    // {Lt, Vsnk/sites_per_rank, sites_per_rank, Nc, Ns, Nc, Ns, Vsrc, Nw }
-    // {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime}
-    // {Lt, Vsnk/sites_per_rank, sites_per_rank, Nc, Ns, Nc, Ns, Vsrc, Nc, Ns}
-    // {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m}
-    // {Lt, Vsnk/sites_per_rank, sites_per_rank, Nc, Ns, Nc, Ns, Nc, Ns, NsrcHex}
-    // {tri, t, iCprime, iSprime, jCprime, jSprime, x, y}
-    // {Nq, t_MAX, Nc, Ns, Nc, Ns, Vsnk, Vsrc}
-    // {t, x_out, x_in, rp, m, r, nperm, wnum}
-    // {Lt, Vsnk/sites_per_rank, sites_per_rank, B1Nrows, NsrcHex, B1Nperms, Nw}
-    // {t, x_out, x_in, rp, m, r}
-    // {Lt, Vsnk/sites_per_rank, sites_per_rank, B1Nrows, NsrcHex}
 
    input C_r("C_r",      {t, x_out, x_in, rp, m, r, n}, p_float64);
    input C_i("C_i",      {t, x_out, x_in, rp, m, r, n}, p_float64);
@@ -191,7 +179,7 @@ void generate_function(std::string name)
 
     /* Correlator */
 
-// declaring buffers
+    // declaring buffers
     buffer buf_C_r("buf_C_r", {t_MAX, Vsnk/sites_per_rank, sites_per_rank, B1Nrows, NsrcHex, B1Nrows, NsnkHex}, p_float64, a_temporary);
     buffer buf_C_i("buf_C_i", {t_MAX, Vsnk/sites_per_rank, sites_per_rank, B1Nrows, NsrcHex, B1Nrows, NsnkHex}, p_float64, a_temporary);
     buffer buf_B1_prop_r("buf_B1_prop_r",   {Nq, t_MAX, Nc, Ns, Nc, Ns, Vsnk, Vsrc}, p_float64, a_temporary);
@@ -253,21 +241,10 @@ void generate_function(std::string name)
     C_update_r.store_in(&buf_C_r, {t, x_out, x_in, rp, m, r, n});
     C_update_i.store_in(&buf_C_i, {t, x_out, x_in, rp, m, r, n});
 
-    // buffer* buf_new_term_r_b1;//("buf_new_term_r_b1", {1}, p_float64, a_temporary);
-    // buffer* buf_new_term_i_b1;//("buf_new_term_i_b1", {1}, p_float64, a_temporary);
-    // allocate_complex_buffers(buf_new_term_r_b1, buf_new_term_i_b1, {{Lt, Vsnk/sites_per_rank, sites_per_rank, B1Nrows, NsrcHex, B1Nrows, B1Nperms, Nw}}, "buf_new_term_b1");
-    // buf_new_term_r_b1->tag_gpu_global();
-    // buf_new_term_i_b1->tag_gpu_global();
     buffer buf_new_term_r_b1( "buf_new_term_r_b1", {Lt, Vsnk/sites_per_rank, sites_per_rank, B1Nrows, NsrcHex, B1Nrows, B1Nperms, Nw}, p_float64, a_temporary );
     buffer buf_new_term_i_b1( "buf_new_term_i_b1", {Lt, Vsnk/sites_per_rank, sites_per_rank, B1Nrows, NsrcHex, B1Nrows, B1Nperms, Nw}, p_float64, a_temporary );
     buf_new_term_r_b1.tag_gpu_global();
     buf_new_term_i_b1.tag_gpu_global();
-
-    // new_term_0_r1_b1.get_real()->store_in(buf_new_term_r_b1, {Lt, Vsnk/sites_per_rank, sites_per_rank, B1Nrows, NsrcHex, B1Nrows, B1Nperms, Nw});
-    // new_term_0_r1_b1.get_imag()->store_in(buf_new_term_i_b1, {Lt, Vsnk/sites_per_rank, sites_per_rank, B1Nrows, NsrcHex, B1Nrows, B1Nperms, Nw});
-
-    // new_term_0_r2_b1.get_real()->store_in(buf_new_term_r_b1, {Lt, Vsnk/sites_per_rank, sites_per_rank, B1Nrows, NsrcHex, B1Nrows, B1Nperms, Nw});
-    // new_term_0_r2_b1.get_imag()->store_in(buf_new_term_i_b1, {Lt, Vsnk/sites_per_rank, sites_per_rank, B1Nrows, NsrcHex, B1Nrows, B1Nperms, Nw});
 
     new_term_0_r1_b1.get_real()->store_in(&buf_new_term_r_b1, {Lt, Vsnk/sites_per_rank, sites_per_rank, B1Nrows, NsrcHex, B1Nrows, B1Nperms, Nw});
     new_term_0_r1_b1.get_imag()->store_in(&buf_new_term_i_b1, {Lt, Vsnk/sites_per_rank, sites_per_rank, B1Nrows, NsrcHex, B1Nrows, B1Nperms, Nw});
@@ -446,11 +423,8 @@ void generate_function(std::string name)
     C_update_i.tag_gpu_level(x_out);//, x_in);
 
 #endif
-    var &t2 = t;
-    // computation *handle = &C_init_r.then(C_init_i, n);
 
     computation *handle = &copy_buf_C_r_host_to_device.then(copy_buf_C_i_host_to_device, computation::root);
-    // handle = &handle->then(copy_buf_C_r_host_to_device, computation::root).then(copy_buf_C_i_host_to_device, computation::root);
 
 
     handle = &(handle->
@@ -471,32 +445,9 @@ void generate_function(std::string name)
 
     handle = &(handle->then(C_init_r, computation::root).then(C_init_i, n));
 
-
-    // handle = &(handle
-    //     ->then(B1_Blocal_r1_r_init, x_in)
-    //     .then(B1_Blocal_r1_i_init, jSprime)
-    //     .then(B1_Blocal_r1_r_props_init, x_in)
-    //     .then(B1_Blocal_r1_i_props_init, jSprime)
-    //     .then(B1_Blocal_r1_r_diquark, y)
-    //     .then(B1_Blocal_r1_i_diquark, wnumBlock)
-    //     .then(B1_Blocal_r1_r_props, wnumBlock)
-    //     .then(B1_Blocal_r1_i_props, jSprime)
-    //     .then(B1_Blocal_r1_r_update, y)
-    //     .then(B1_Blocal_r1_i_update, m)
-    //     .then(B1_Blocal_r2_r_init, x_in)
-    //     .then(B1_Blocal_r2_i_init, jSprime)
-    //     .then(B1_Blocal_r2_r_props_init, x_in)
-    //     .then(B1_Blocal_r2_i_props_init, jSprime)
-    //     .then(B1_Blocal_r2_r_diquark, y)
-    //     .then(B1_Blocal_r2_i_diquark, wnumBlock)
-    //     .then(B1_Blocal_r2_r_props, wnumBlock)
-    //     .then(B1_Blocal_r2_i_props, jSprime)
-    //     .then(B1_Blocal_r2_r_update, y)
-    //     .then(B1_Blocal_r2_i_update, m));
-
     // // first the x only arrays
     handle = &(handle
-        ->then(B1_Blocal_r1_r_init, t2)
+        ->then(B1_Blocal_r1_r_init, t)
         .then(B1_Blocal_r1_i_init, jSprime)
         .then(B1_Blocal_r1_r_props_init, x_in)
         .then(B1_Blocal_r1_i_props_init, jSprime)
