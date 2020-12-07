@@ -1764,8 +1764,8 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
 
         stringstream command;
         command << NVCC_PATH;
-        command << " -O0";
-        command << " -g -G";
+        //command << " -O0";
+        //command << " -g -G";
         command << " -gencode arch=compute_70,code=sm_70";
         // Basic streaming for parallelization
         command << " --default-stream per-thread";
@@ -1800,8 +1800,8 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
 
         stringstream command;
         command << NVCC_PATH;
-        command << " -O0";
-        command << " -g -G";
+        // command << " -O0";
+        // command << " -g -G";
         command << " -gencode arch=compute_70,code=sm_70";
         // Basic streaming for parallelization
         command << " --default-stream per-thread";
