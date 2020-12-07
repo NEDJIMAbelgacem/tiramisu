@@ -377,8 +377,8 @@ void generate_function(std::string name)
     C_init_r.tag_gpu_level(x_out, x_in);
     C_init_i.tag_gpu_level(x_out, x_in);
 // {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m}
-    B1_Blocal_r1_r_init.tag_gpu_level(x_out);
-    B1_Blocal_r1_i_init.tag_gpu_level(x_out);
+    B1_Blocal_r1_r_init.tag_gpu_level(x_out, x_in);
+    B1_Blocal_r1_i_init.tag_gpu_level(x_out, x_in);
 
         // .then(B1_Blocal_r1_r_props_init, t)
         // .then(B1_Blocal_r1_i_props_init, jSprime)
