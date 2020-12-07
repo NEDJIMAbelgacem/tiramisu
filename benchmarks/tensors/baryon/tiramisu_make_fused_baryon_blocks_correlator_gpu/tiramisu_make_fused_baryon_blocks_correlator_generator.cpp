@@ -463,7 +463,7 @@ void generate_function(std::string name)
         ->then(B1_Blocal_r1_r_init, computation::root)
         .then(B1_Blocal_r1_i_init, jSprime)
         //
-        .then(B1_Blocal_r1_r_props_init, x_in)
+        .then(B1_Blocal_r1_r_props_init, t)
         .then(B1_Blocal_r1_i_props_init, jSprime)
         .then(B1_Blocal_r1_r_diquark, y)
         .then(B1_Blocal_r1_i_diquark, wnumBlock)
