@@ -373,12 +373,12 @@ void generate_function(std::string name)
 
 #if GPU_PARALLEL
 
-
-    C_init_r.tag_gpu_level(x_out, x_in);
-    C_init_i.tag_gpu_level(x_out, x_in);
+// {t, x_out, x_in, rp, m, r, n}
+    C_init_r.tag_gpu_level(x_out, x_in, rp, m);
+    C_init_i.tag_gpu_level(x_out, x_in, rp, m);
 // {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m}
-    B1_Blocal_r1_r_init.tag_gpu_level(x_out, x_in, iCprime, iSprime, kCprime, kSprime);
-    B1_Blocal_r1_i_init.tag_gpu_level(x_out, x_in, iCprime, iSprime, kCprime, kSprime);
+    B1_Blocal_r1_r_init.tag_gpu_level(x_out);
+    B1_Blocal_r1_i_init.tag_gpu_level(x_out);
 
         // .then(B1_Blocal_r1_r_props_init, t)
         // .then(B1_Blocal_r1_i_props_init, jSprime)
@@ -472,7 +472,7 @@ void generate_function(std::string name)
         .then(B1_Blocal_r1_r_update, y)
         .then(B1_Blocal_r1_i_update, m)
         //
-        .then(B1_Blocal_r2_r_init, t)
+        .then(B1_Blocal_r2_r_init, computation::root)
         .then(B1_Blocal_r2_i_init, jSprime)
         //
         .then(B1_Blocal_r2_r_props_init, x_in)
