@@ -458,14 +458,12 @@ void generate_function(std::string name)
 
     handle = &(handle->then(C_init_r, computation::root).then(C_init_i, n));
 
-
-
     // // first the x only arrays
     handle = &(handle
-        ->then(B1_Blocal_r1_r_init, computation::root)
+        ->then(B1_Blocal_r1_r_init, x_in)
         .then(B1_Blocal_r1_i_init, jSprime)
         //
-        .then(B1_Blocal_r1_r_props_init, computation::root)
+        .then(B1_Blocal_r1_r_props_init, x_in)
         .then(B1_Blocal_r1_i_props_init, jSprime)
         .then(B1_Blocal_r1_r_diquark, y)
         .then(B1_Blocal_r1_i_diquark, wnumBlock)
