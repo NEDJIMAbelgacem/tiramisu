@@ -36,7 +36,7 @@ extern "C"
 int tiramisu_cuda_memcpy_to_device(void * to, void * from, uint64_t size)
 {
     std::cerr << __FUNCTION__ << "\n";
-    std::cerr << "Copying from " << std::hex << (long long)(from) << " to " << (long long)(to) << "\n"; 
+    // std::cerr << "Copying from " << std::hex << (long long)(from) << " to " << (long long)(to) << "\n"; 
    handle_cuda_error(cudaMemcpy(to, from, size, cudaMemcpyKind::cudaMemcpyHostToDevice), __FUNCTION__);
    return 0;
 }
@@ -51,7 +51,7 @@ int tiramisu_cuda_memcpy_to_host(void * to, void * from, uint64_t size)
         b = false;
     }
     std::cerr << __FUNCTION__ << "\n";
-    std::cerr << "Copying from " << std::hex << (long long)(from) << " to " << (long long)(to) << "\n"; 
+    // std::cerr << "Copying from " << std::hex << (long long)(from) << " to " << (long long)(to) << "\n"; 
     handle_cuda_error(cudaMemcpy(to, from, size, cudaMemcpyKind::cudaMemcpyDeviceToHost), __FUNCTION__);
     return 0;
 }
