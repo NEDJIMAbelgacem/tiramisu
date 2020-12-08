@@ -522,7 +522,7 @@ int main(int, char **)
                   double diff2 = std::abs(C_im[index_5d(rp,m,r,n,t, NsrcHex,B1Nrows,NsnkHex,Lt)] - t_C_im[index_5d(rp,m,r,n,t, NsrcHex,B1Nrows,NsnkHex,Lt)]);
                   double fact_re = t_C_re[index_5d(rp,m,r,n,t, NsrcHex,B1Nrows,NsnkHex,Lt)] / C_re[index_5d(rp,m,r,n,t, NsrcHex,B1Nrows,NsnkHex,Lt)];
                   double fact_im = t_C_im[index_5d(rp,m,r,n,t, NsrcHex,B1Nrows,NsnkHex,Lt)] / C_im[index_5d(rp,m,r,n,t, NsrcHex,B1Nrows,NsnkHex,Lt)];
-                  if ((diff1 >= 0.01*Vsnk*Vsnk) || (diff2 >= 0.01*Vsnk*Vsnk))
+                  if (true || (diff1 >= 0.01*Vsnk*Vsnk) || (diff2 >= 0.01*Vsnk*Vsnk))
                   // if (fact_re >= 1.05 || fact_im >= 1.05)
                   {
                      std::cout << "factors " << fact_re << " + " << fact_im << "I \n";
