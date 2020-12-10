@@ -69,8 +69,8 @@ void make_local_block(double* Blocal_re,
    for (wnum=0; wnum<Nw_f; wnum++) {
       iC = color_weights[index_2d(wnum,0, Nq_f)];
       iS = spin_weights[index_2d(wnum,0, Nq_f)];
-      jC = color_weights[index_2d(wnum,1, 0)];
-      jS = spin_weights[index_2d(wnum,1, 0)];
+      jC = 0;//color_weights[index_2d(wnum,1, Nq_f)];
+      jS = 0;//spin_weights[index_2d(wnum,1, Nq_f)];
       kC = color_weights[index_2d(wnum,2, Nq_f)];
       kS = spin_weights[index_2d(wnum,2, Nq_f)];
       for (iCprime=0; iCprime<Nc_f; iCprime++) {
