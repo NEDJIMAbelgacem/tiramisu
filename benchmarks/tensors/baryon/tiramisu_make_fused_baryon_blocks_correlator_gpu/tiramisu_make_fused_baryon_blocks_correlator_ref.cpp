@@ -83,7 +83,7 @@ void make_local_block(double* Blocal_re,
                      prop_prod_02 = weights[wnum] * ( prop_0 * prop_2 );
                      for (jCprime=0; jCprime<Nc_f; jCprime++) {
                         for (jSprime=0; jSprime<Ns_f; jSprime++) {
-                           std::complex<double> prop_1(prop_re[prop_index(1,t,jC,jS,jCprime,jSprime,y,x ,Nc_f,Ns_f,Vsrc_f,Vsnk_f,Nt_f)], prop_im[prop_index(1,t,jC,jS,jCprime,jSprime,y,x ,Nc_f,Ns_f,Vsrc_f,Vsnk_f,Nt_f)]);
+                           std::complex<double> prop_1(prop_re[prop_index(0,t,jC,jS,jCprime,jSprime,y,x ,Nc_f,Ns_f,Vsrc_f,Vsnk_f,Nt_f)], prop_im[prop_index(0,t,jC,jS,jCprime,jSprime,y,x ,Nc_f,Ns_f,Vsrc_f,Vsnk_f,Nt_f)]);
                            // std::complex<double> prop_1(jC, jS);
                            prop_prod = /*prop_prod_02 **/ prop_1;
                            for (m=0; m<Nsrc_f; m++) {
