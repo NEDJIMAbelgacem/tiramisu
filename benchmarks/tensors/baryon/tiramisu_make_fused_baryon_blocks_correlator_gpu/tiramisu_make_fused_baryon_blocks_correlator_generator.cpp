@@ -86,8 +86,8 @@ void generate_function(std::string name)
 
     complex_expr B1_r1_diquark = ( B1_r1_prop_0 * B1_r1_prop_2 - B1_r1_prop_0s * B1_r1_prop_2s ) *  src_weights(0, wnumBlock); */
 
-    computation B1_Blocal_r1_r_props_init("B1_Blocal_r1_r_props_init", {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime}, expr((double) 0));
-    computation B1_Blocal_r1_i_props_init("B1_Blocal_r1_i_props_init", {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime}, expr((double) 0));
+    computation B1_Blocal_r1_r_props_init("B1_Blocal_r1_r_props_init", {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, expr((double) 0));
+    computation B1_Blocal_r1_i_props_init("B1_Blocal_r1_i_props_init", {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, expr((double) 0));
 
     computation B1_Blocal_r1_r_diquark("B1_Blocal_r1_r_diquark", {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, wnumBlock}, B1_r1_diquark.get_real());
     computation B1_Blocal_r1_i_diquark("B1_Blocal_r1_i_diquark", {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, wnumBlock}, B1_r1_diquark.get_imag());
@@ -96,8 +96,8 @@ void generate_function(std::string name)
 
     complex_expr B1_r1_props = B1_r1_prop_1 * B1_Blocal_r1_diquark(t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, wnumBlock);
 
-    computation B1_Blocal_r1_r_props("B1_Blocal_r1_r_props", {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, B1_r1_props.get_real() + B1_Blocal_r1_r_props_init(t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime));
-    computation B1_Blocal_r1_i_props("B1_Blocal_r1_i_props", {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, B1_r1_props.get_imag() + B1_Blocal_r1_i_props_init(t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime));
+    computation B1_Blocal_r1_r_props("B1_Blocal_r1_r_props", {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, B1_r1_props.get_real() + B1_Blocal_r1_r_props_init(t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime));
+    computation B1_Blocal_r1_i_props("B1_Blocal_r1_i_props", {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, B1_r1_props.get_imag() + B1_Blocal_r1_i_props_init(t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime));
 
     complex_computation B1_Blocal_r1_props(&B1_Blocal_r1_r_props, &B1_Blocal_r1_i_props);
 
@@ -300,15 +300,15 @@ void generate_function(std::string name)
     B1_Blocal_r1_i_diquark.store_in(&buf_B1_Blocal_diquark_r1_i, {Lt, Vsnk/sites_per_rank, sites_per_rank, 0});
 
     
-    buffer buf_B1_Blocal_props_r1_r("buf_B1_Blocal_props_r1_r", {Lt, Vsnk/sites_per_rank, sites_per_rank, Nc, Ns, Nc, Ns, Vsrc, Ns, Ns}, p_float64, a_temporary);
-    buffer buf_B1_Blocal_props_r1_i("buf_B1_Blocal_props_r1_i", {Lt, Vsnk/sites_per_rank, sites_per_rank, Nc, Ns, Nc, Ns, Vsrc, Ns, Ns}, p_float64, a_temporary);
+    buffer buf_B1_Blocal_props_r1_r("buf_B1_Blocal_props_r1_r", {Lt, Vsnk/sites_per_rank, sites_per_rank, Nc, Ns, Nc, Ns, Vsrc, Nw, Ns, Ns}, p_float64, a_temporary);
+    buffer buf_B1_Blocal_props_r1_i("buf_B1_Blocal_props_r1_i", {Lt, Vsnk/sites_per_rank, sites_per_rank, Nc, Ns, Nc, Ns, Vsrc, Nw, Ns, Ns}, p_float64, a_temporary);
     buf_B1_Blocal_props_r1_r.tag_gpu_global();
     buf_B1_Blocal_props_r1_i.tag_gpu_global();
     // t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime
-    B1_Blocal_r1_r_props_init.store_in(&buf_B1_Blocal_props_r1_r, {Lt, Vsnk/sites_per_rank, sites_per_rank, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime});
-    B1_Blocal_r1_i_props_init.store_in(&buf_B1_Blocal_props_r1_i, {Lt, Vsnk/sites_per_rank, sites_per_rank, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime});
-    B1_Blocal_r1_r_props.store_in(&buf_B1_Blocal_props_r1_r, {Lt, Vsnk/sites_per_rank, sites_per_rank, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime});
-    B1_Blocal_r1_i_props.store_in(&buf_B1_Blocal_props_r1_i, {Lt, Vsnk/sites_per_rank, sites_per_rank, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime});
+    B1_Blocal_r1_r_props_init.store_in(&buf_B1_Blocal_props_r1_r, {Lt, Vsnk/sites_per_rank, sites_per_rank, iCprime, iSprime, kCprime, kSprime, y, wnum, jCprime, jSprime});
+    B1_Blocal_r1_i_props_init.store_in(&buf_B1_Blocal_props_r1_i, {Lt, Vsnk/sites_per_rank, sites_per_rank, iCprime, iSprime, kCprime, kSprime, y, wnum, jCprime, jSprime});
+    B1_Blocal_r1_r_props.store_in(&buf_B1_Blocal_props_r1_r, {Lt, Vsnk/sites_per_rank, sites_per_rank, iCprime, iSprime, kCprime, kSprime, y, wnum, jCprime, jSprime});
+    B1_Blocal_r1_i_props.store_in(&buf_B1_Blocal_props_r1_i, {Lt, Vsnk/sites_per_rank, sites_per_rank, iCprime, iSprime, kCprime, kSprime, y, wnum, jCprime, jSprime});
 
     buffer buf_B1_Blocal_r2_r("buf_B1_Blocal_r2_r",   {Lt, Vsnk/sites_per_rank, sites_per_rank, Nc, Ns, Nc, Ns, Nc, Ns, NsrcHex}, p_float64, a_temporary);
     buffer buf_B1_Blocal_r2_i("buf_B1_Blocal_r2_i",   {Lt, Vsnk/sites_per_rank, sites_per_rank, Nc, Ns, Nc, Ns, Nc, Ns, NsrcHex}, p_float64, a_temporary);
