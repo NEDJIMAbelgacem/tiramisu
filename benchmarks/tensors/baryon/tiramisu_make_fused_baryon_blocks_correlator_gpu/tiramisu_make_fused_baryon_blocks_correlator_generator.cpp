@@ -71,7 +71,7 @@ void generate_function(std::string name)
     // complex_expr B1_r1_prop_1 =  B1_prop(1, t, jCprime, jSprime, src_color_weights(0, wnumBlock, 1), src_spin_weights(0, wnumBlock, 1), x_out*sites_per_rank+x_in, y);
     complex_expr B1_r1_prop_2 =  B1_prop(2, t, kCprime, kSprime, src_color_weights(0, wnumBlock, 2), src_spin_weights(0, wnumBlock, 2), x_out*sites_per_rank+x_in, y);
 
-    complex_expr B1_r1_prop_1 =  B1_prop(0, t, jCprime, jSprime, 0, 0, x_out*sites_per_rank+x_in, y);
+    complex_expr B1_r1_prop_1 =  B1_prop(1, t, jCprime, jSprime, 0, 0, x_out*sites_per_rank+x_in, y);
 
 
     complex_expr B1_r1_diquark = ( B1_r1_prop_0 * B1_r1_prop_2 ) *  src_weights(0, wnumBlock); // prop_prod_02
@@ -281,14 +281,14 @@ void generate_function(std::string name)
     buffer src_spins_cpu("src_spins_cpu", {B1Nrows}, p_int32, a_temporary);
     buffer sigs_cpu("sigs_cpu", {B1Nperms}, p_int32, a_temporary);
 
-    buffer buf_B1_Blocal_r1_r("buf_B1_Blocal_r1_r", {Nc, Ns, Nc, Ns, Nc, Ns, NsrcHex}, p_float64, a_temporary);
-    buffer buf_B1_Blocal_r1_i("buf_B1_Blocal_r1_i", {Nc, Ns, Nc, Ns, Nc, Ns, NsrcHex}, p_float64, a_temporary);
+    buffer buf_B1_Blocal_r1_r("buf_B1_Blocal_r1_r", {t_MAX, Vsnk/sites_per_rank, sites_per_rank, Nc, Ns, Nc, Ns, Nc, Ns, NsrcHex}, p_float64, a_temporary);
+    buffer buf_B1_Blocal_r1_i("buf_B1_Blocal_r1_i", {t_MAX, Vsnk/sites_per_rank, sites_per_rank, Nc, Ns, Nc, Ns, Nc, Ns, NsrcHex}, p_float64, a_temporary);
     buf_B1_Blocal_r1_r.tag_gpu_global();
     buf_B1_Blocal_r1_i.tag_gpu_global();
-    B1_Blocal_r1_r_init.store_in(&buf_B1_Blocal_r1_r, {iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m});
-    B1_Blocal_r1_i_init.store_in(&buf_B1_Blocal_r1_i, {iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m});
-    B1_Blocal_r1_r_update.store_in(&buf_B1_Blocal_r1_r, {iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m});
-    B1_Blocal_r1_i_update.store_in(&buf_B1_Blocal_r1_i, {iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m});
+    B1_Blocal_r1_r_init.store_in(&buf_B1_Blocal_r1_r, {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m});
+    B1_Blocal_r1_i_init.store_in(&buf_B1_Blocal_r1_i, {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m});
+    B1_Blocal_r1_r_update.store_in(&buf_B1_Blocal_r1_r, {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m});
+    B1_Blocal_r1_i_update.store_in(&buf_B1_Blocal_r1_i, {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m});
     buffer buf_B1_Blocal_diquark_r1_r("buf_B1_Blocal_diquark_r1_r", {1}, p_float64, a_temporary);
     buffer buf_B1_Blocal_diquark_r1_i("buf_B1_Blocal_diquark_r1_i", {1}, p_float64, a_temporary);
     buf_B1_Blocal_diquark_r1_r.tag_gpu_global();
@@ -330,8 +330,8 @@ void generate_function(std::string name)
     B1_Blocal_r2_r_props.store_in(&buf_B1_Blocal_props_r2_r, {jCprime, jSprime});
     B1_Blocal_r2_i_props.store_in(&buf_B1_Blocal_props_r2_i, {jCprime, jSprime});
 
-    buffer buf_B1_Blocal_r1_r_cpu("buf_B1_Blocal_r1_r_cpu", {Nc, Ns, Nc, Ns, Nc, Ns, NsrcHex}, p_float64, a_temporary);
-    buffer buf_B1_Blocal_r1_i_cpu("buf_B1_Blocal_r1_i_cpu", {Nc, Ns, Nc, Ns, Nc, Ns, NsrcHex}, p_float64, a_temporary);
+    buffer buf_B1_Blocal_r1_r_cpu("buf_B1_Blocal_r1_r_cpu", {t_MAX, Vsnk/sites_per_rank, sites_per_rank, Nc, Ns, Nc, Ns, Nc, Ns, NsrcHex}, p_float64, a_temporary);
+    buffer buf_B1_Blocal_r1_i_cpu("buf_B1_Blocal_r1_i_cpu", {t_MAX, Vsnk/sites_per_rank, sites_per_rank, Nc, Ns, Nc, Ns, Nc, Ns, NsrcHex}, p_float64, a_temporary);
 
     computation copy_buf_C_r_host_to_device({}, memcpy(buf_C_r_cpu, buf_C_r));
     computation copy_buf_C_i_host_to_device({}, memcpy(buf_C_i_cpu, buf_C_i));
