@@ -71,7 +71,7 @@ void generate_function(std::string name)
     // complex_expr B1_r1_prop_1 =  B1_prop(1, t, jCprime, jSprime, src_color_weights(0, wnumBlock, 1), src_spin_weights(0, wnumBlock, 1), x_out*sites_per_rank+x_in, y);
     complex_expr B1_r1_prop_2 =  B1_prop(2, t, kCprime, kSprime, src_color_weights(0, wnumBlock, 2), src_spin_weights(0, wnumBlock, 2), x_out*sites_per_rank+x_in, y);
 
-    complex_expr B1_r1_prop_1 =  B1_prop(0, t, jSprime, jCprime, 0, 0, x_out*sites_per_rank+x_in, y);
+    complex_expr B1_r1_prop_1 =  B1_prop(0, t, jCprime, jSprime, 0, 0, x_out*sites_per_rank+x_in, y);
 
 
     complex_expr B1_r1_diquark = ( B1_r1_prop_0 * B1_r1_prop_2 ) *  src_weights(0, wnumBlock); // prop_prod_02
@@ -98,7 +98,7 @@ void generate_function(std::string name)
 
     complex_computation B1_Blocal_r1_props(&B1_Blocal_r1_r_props, &B1_Blocal_r1_i_props);
 
-    complex_expr B1_r1 = src_psi_B1 * B1_Blocal_r1_props(t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, Nw-1, jCprime, jSprime);
+    complex_expr B1_r1 = /*src_psi_B1 **/ B1_Blocal_r1_props(t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, Nw-1, jCprime, jSprime);
 
     computation B1_Blocal_r1_r_update("B1_Blocal_r1_r_update", {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime, m}, B1_Blocal_r1_r_init(t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m) + B1_r1.get_real());
     computation B1_Blocal_r1_i_update("B1_Blocal_r1_i_update", {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime, m}, B1_Blocal_r1_i_init(t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m) + B1_r1.get_imag());
