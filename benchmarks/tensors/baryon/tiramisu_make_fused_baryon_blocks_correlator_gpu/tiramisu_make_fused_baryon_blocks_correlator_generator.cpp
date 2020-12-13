@@ -286,7 +286,7 @@ void generate_function(std::string name)
     buffer buf_B1_Blocal_props_r2_r("buf_B1_Blocal_props_r2_r",   {Lt, Vsnk/sites_per_rank, sites_per_rank, Nc, Ns}, p_float64, a_temporary);
     buffer buf_B1_Blocal_props_r2_i("buf_B1_Blocal_props_r2_i",   {Lt, Vsnk/sites_per_rank, sites_per_rank, Nc, Ns}, p_float64, a_temporary);
 
-#ifdef TAG_INTERNALS_GLOBAL
+#if TAG_INTERNALS_GLOBAL
     buf_new_term_r_b1.tag_gpu_global();
     buf_new_term_i_b1.tag_gpu_global();
 
@@ -312,7 +312,7 @@ void generate_function(std::string name)
     buf_B1_Blocal_props_r2_r.tag_gpu_global();
     buf_B1_Blocal_props_r2_i.tag_gpu_global();
 #endif
-#ifdef TAG_INTERNALS_SHARED
+#if TAG_INTERNALS_SHARED
     buf_new_term_r_b1.tag_gpu_shared();
     buf_new_term_i_b1.tag_gpu_shared();
 
