@@ -16,26 +16,26 @@ void generate_function(std::string name)
     const int t_MAX = Lt;
     const int split_t = 2;
 
-    var r("r", 0, B1Nrows),
-        rp("rp", 0, B1Nrows),
-        nperm("nperm", 0, B1Nperms),
-        q("q", 0, Nq),
-        wnum("wnum", 0, Nw),
-        wnumBlock("wnumBlock", 0, Nw),
-        t("t", 0, Lt),
+    var r("r", 0, B1Nrows), // 2
+        rp("rp", 0, B1Nrows), // 2
+        nperm("nperm", 0, B1Nperms), // 2
+        q("q", 0, Nq), // 3
+        wnum("wnum", 0, Nw), // 12
+        wnumBlock("wnumBlock", 0, Nw), // 12
+        t("t", 0, Lt), // 2
         x("x", 0, Vsnk),
         x_out("x_out", 0, Vsnk/sites_per_rank),
         x_in("x_in", 0, sites_per_rank),
-        y("y", 0, Vsrc),
+        y("y", 0, Vsrc), 
         m("m", 0, NsrcHex), // 1
-        n("n", 0, NsnkHex),
-        tri("tri", 0, Nq),
-        iCprime("iCprime", 0, Nc),
-        iSprime("iSprime", 0, Ns),
-        jCprime("jCprime", 0, Nc),
-        jSprime("jSprime", 0, Ns),
-        kCprime("kCprime", 0, Nc),
-        kSprime("kSprime", 0, Ns);
+        n("n", 0, NsnkHex), // 1
+        tri("tri", 0, Nq), // 3
+        iCprime("iCprime", 0, Nc), // 3
+        iSprime("iSprime", 0, Ns), // 2
+        jCprime("jCprime", 0, Nc), // 3
+        jSprime("jSprime", 0, Ns), // 2
+        kCprime("kCprime", 0, Nc), // 3
+        kSprime("kSprime", 0, Ns); // 2
 
    input C_r("C_r",      {t, x_out, x_in, rp, m, r, n}, p_float64);
    input C_i("C_i",      {t, x_out, x_in, rp, m, r, n}, p_float64);
@@ -379,8 +379,8 @@ void generate_function(std::string name)
 #if GPU_PARALLEL
 
 // {t, x_out, x_in, rp, m, r, n}
-    C_init_r.tag_gpu_level(x_out, x_in);
-    C_init_i.tag_gpu_level(x_out, x_in);
+    C_init_r.tag_gpu_level(x_out, x_in, rp, r);
+    C_init_i.tag_gpu_level(x_out, x_in, rp, r);
 // {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m}
     B1_Blocal_r1_r_init.tag_gpu_level(x_out, x_in);
     B1_Blocal_r1_i_init.tag_gpu_level(x_out, x_in);
