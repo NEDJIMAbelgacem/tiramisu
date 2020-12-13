@@ -313,30 +313,30 @@ void generate_function(std::string name)
     buf_B1_Blocal_props_r2_i.tag_gpu_global();
 #endif
 #if TAG_INTERNALS_SHARED
-    buf_new_term_r_b1.tag_gpu_shared();
-    buf_new_term_i_b1.tag_gpu_shared();
+    buf_new_term_r_b1.tag_gpu_local();
+    buf_new_term_i_b1.tag_gpu_local();
 
-    buf_C_prop_r.tag_gpu_shared();
-    buf_C_prop_i.tag_gpu_shared();
+    buf_C_prop_r.tag_gpu_local();
+    buf_C_prop_i.tag_gpu_local();
 
 
-    buf_B1_Blocal_r1_r.tag_gpu_shared();
-    buf_B1_Blocal_r1_i.tag_gpu_shared();
+    buf_B1_Blocal_r1_r.tag_gpu_local();
+    buf_B1_Blocal_r1_i.tag_gpu_local();
 
-    buf_B1_Blocal_diquark_r1_r.tag_gpu_shared();
-    buf_B1_Blocal_diquark_r1_i.tag_gpu_shared();
+    buf_B1_Blocal_diquark_r1_r.tag_gpu_local();
+    buf_B1_Blocal_diquark_r1_i.tag_gpu_local();
 
-    buf_B1_Blocal_props_r1_r.tag_gpu_shared();
-    buf_B1_Blocal_props_r1_i.tag_gpu_shared();
+    buf_B1_Blocal_props_r1_r.tag_gpu_local();
+    buf_B1_Blocal_props_r1_i.tag_gpu_local();
 
-    buf_B1_Blocal_r2_r.tag_gpu_shared();
-    buf_B1_Blocal_r2_i.tag_gpu_shared();
+    buf_B1_Blocal_r2_r.tag_gpu_local();
+    buf_B1_Blocal_r2_i.tag_gpu_local();
 
-    buf_B1_Blocal_diquark_r2_r.tag_gpu_shared();
-    buf_B1_Blocal_diquark_r2_i.tag_gpu_shared();
+    buf_B1_Blocal_diquark_r2_r.tag_gpu_local();
+    buf_B1_Blocal_diquark_r2_i.tag_gpu_local();
 
-    buf_B1_Blocal_props_r2_r.tag_gpu_shared();
-    buf_B1_Blocal_props_r2_i.tag_gpu_shared();
+    buf_B1_Blocal_props_r2_r.tag_gpu_local();
+    buf_B1_Blocal_props_r2_i.tag_gpu_local();
 #endif
 
     // {t, x_out, x_in, rp, m, r, nperm, wnum}
