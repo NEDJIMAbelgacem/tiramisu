@@ -7719,7 +7719,7 @@ expr tiramisu::computation::get_span(int level)
 
 void tiramisu::buffer::tag_gpu_shared() {
     location = cuda_ast::memory_location::shared;
-    set_auto_allocate(false);
+    set_auto_allocate(true);
 }
 
 void tiramisu::buffer::tag_gpu_constant() {
