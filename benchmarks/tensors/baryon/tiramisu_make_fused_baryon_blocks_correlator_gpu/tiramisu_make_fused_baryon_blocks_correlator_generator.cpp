@@ -382,8 +382,8 @@ void generate_function(std::string name)
     C_init_r.tag_gpu_level(x_out, x_in);
     C_init_i.tag_gpu_level(x_out, x_in);
 // {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m}
-    B1_Blocal_r1_r_init.tag_gpu_level(x_out, x_in, iCprime, iSprime, kCprime, kSprime);
-    B1_Blocal_r1_i_init.tag_gpu_level(x_out, x_in, iCprime, iSprime, kCprime, kSprime);
+    B1_Blocal_r1_r_init.tag_gpu_level(x_out, iCprime, iSprime, kCprime, kSprime, x_in);
+    B1_Blocal_r1_i_init.tag_gpu_level(x_out, iCprime, iSprime, kCprime, kSprime, x_in);
 
 // {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime}
     B1_Blocal_r1_r_props_init.tag_gpu_level(x_out, x_in);//, iCprime, iSprime, kCprime, kSprime);
@@ -400,8 +400,8 @@ void generate_function(std::string name)
 
 
 // {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m}
-    B1_Blocal_r2_r_init.tag_gpu_level(x_out, x_in, iCprime, iSprime, kCprime, kSprime);
-    B1_Blocal_r2_i_init.tag_gpu_level(x_out, x_in, iCprime, iSprime, kCprime, kSprime);
+    B1_Blocal_r2_r_init.tag_gpu_level(x_out, iCprime, iSprime, kCprime, kSprime, x_in);
+    B1_Blocal_r2_i_init.tag_gpu_level(x_out, iCprime, iSprime, kCprime, kSprime, x_in);
 
     B1_Blocal_r2_r_props_init.tag_gpu_level(x_out, x_in);
     B1_Blocal_r2_i_props_init.tag_gpu_level(x_out, x_in);
