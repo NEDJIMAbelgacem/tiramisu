@@ -424,7 +424,7 @@ void generate_function(std::string name)
     new_term_0_r2_b1.get_real()->tag_gpu_level(x_out, x_in);
     new_term_0_r2_b1.get_imag()->tag_gpu_level(x_out, x_in);
 
-    C_prop_update_r.tag_gpu_level(x_out, x_in)
+    C_prop_update_r.tag_gpu_level(x_out, x_in);
     C_prop_update_r.tag_gpu_level(x_out, x_in);
     C_prop_update_i.tag_gpu_level(x_out, x_in);
 
