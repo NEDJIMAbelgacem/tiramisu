@@ -54,8 +54,7 @@ int tiramisu_make_fused_baryon_blocks_correlator(
 			    halide_buffer_t *,
 			    halide_buffer_t *,
 			    halide_buffer_t *,
-			    halide_buffer_t *,
-				halide_buffer_t *, halide_buffer_t */* Added buffers */);
+			    halide_buffer_t *);
 
 
 int tiramisu_generated_code_argv(void **args);

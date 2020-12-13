@@ -220,9 +220,9 @@ void tiramisu_make_nucleon_2pt(double* C_re,
 				    b_snk_color_weights.raw_buffer(),
 				    b_snk_spin_weights.raw_buffer(),
 				    b_snk_weights.raw_buffer(),
-				    b_sigs.raw_buffer(),
-                b_Blocal_r1_re.raw_buffer(),
-                b_Blocal_r1_im.raw_buffer());
+				    b_sigs.raw_buffer());//,
+               //  b_Blocal_r1_re.raw_buffer(),
+               //  b_Blocal_r1_im.raw_buffer());
 
    // printf("--------------------------------------------------\n");
    // printf("Tiramisu(after):\n");
