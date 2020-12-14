@@ -500,7 +500,7 @@ void generate_function(std::string name)
     new_term_0_r1_b1.get_real()->tag_parallel_level(t);
     new_term_0_r1_b1.get_imag()->tag_parallel_level(t);
 
-    new_term_0_r2_b1.get_real()->tag_parallel_level(t;
+    new_term_0_r2_b1.get_real()->tag_parallel_level(t);
     new_term_0_r2_b1.get_imag()->tag_parallel_level(t);
 
     C_prop_update_r.tag_parallel_level(t);
