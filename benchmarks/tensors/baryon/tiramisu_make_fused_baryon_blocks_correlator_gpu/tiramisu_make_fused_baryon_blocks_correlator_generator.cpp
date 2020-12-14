@@ -420,6 +420,9 @@ void generate_function(std::string name)
 
 // kernel_0
 // {t, x_out, x_in, rp, m, r, n}
+    C_init_r.tag_parallel_level(t);
+    C_init_i.tag_parallel_level(t);
+
     C_init_r.tag_gpu_level(x_out, x_in);
     C_init_i.tag_gpu_level(x_out, x_in);
 
