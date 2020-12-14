@@ -418,13 +418,17 @@ void generate_function(std::string name)
 
 #if GPU_PARALLEL
 
+// kernel_0
 // {t, x_out, x_in, rp, m, r, n}
     C_init_r.tag_gpu_level(x_out, x_in);
     C_init_i.tag_gpu_level(x_out, x_in);
+
+// kernel_1
 // {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m}
     B1_Blocal_r1_r_init.tag_gpu_level(x_out, x_in);
     B1_Blocal_r1_i_init.tag_gpu_level(x_out, x_in);
 
+// kernel_2
 // {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime}
     B1_Blocal_r1_r_props_init.tag_gpu_level(x_out, x_in);//, iCprime, iSprime, kCprime, kSprime);
     B1_Blocal_r1_i_props_init.tag_gpu_level(x_out, x_in);//, iCprime, iSprime, kCprime, kSprime);
@@ -438,7 +442,7 @@ void generate_function(std::string name)
     B1_Blocal_r1_r_update.tag_gpu_level(x_out, x_in);//, iCprime, iSprime, kCprime, kSprime);
     B1_Blocal_r1_i_update.tag_gpu_level(x_out, x_in);//, iCprime, iSprime, kCprime, kSprime);
 
-
+// kernel_3
 // {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m}
     B1_Blocal_r2_r_init.tag_gpu_level(x_out, x_in);
     B1_Blocal_r2_i_init.tag_gpu_level(x_out, x_in);
@@ -455,6 +459,7 @@ void generate_function(std::string name)
     B1_Blocal_r2_r_update.tag_gpu_level(x_out, x_in);
     B1_Blocal_r2_i_update.tag_gpu_level(x_out, x_in);
 
+// kernel_4
     C_prop_init_r.tag_gpu_level(x_out, x_in);
     C_prop_init_i.tag_gpu_level(x_out, x_in);
 
@@ -472,7 +477,7 @@ void generate_function(std::string name)
     C_update_i.tag_gpu_level(x_out, x_in);
 
 #endif
-
+    tiramisu::memcpy
     computation *handle = &copy_buf_C_r_host_to_device.then(copy_buf_C_i_host_to_device, computation::root);
 
 
