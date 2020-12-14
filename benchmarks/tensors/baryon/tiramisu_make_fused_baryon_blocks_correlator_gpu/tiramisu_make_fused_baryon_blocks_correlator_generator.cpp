@@ -477,7 +477,6 @@ void generate_function(std::string name)
     C_update_i.tag_gpu_level(x_out, x_in);
 
 #endif
-    tiramisu::memcpy
     computation *handle = &copy_buf_C_r_host_to_device.then(copy_buf_C_i_host_to_device, computation::root);
 
 
