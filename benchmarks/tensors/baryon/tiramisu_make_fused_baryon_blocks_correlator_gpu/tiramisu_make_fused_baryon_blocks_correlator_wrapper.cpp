@@ -13,7 +13,7 @@ extern "C" {
 #include "tiramisu_make_fused_baryon_blocks_correlator_wrapper.h"
 #include "tiramisu_make_fused_baryon_blocks_correlator_ref.cpp"
 
-#define RUN_REFERENCE 0
+#define RUN_REFERENCE 1
 #define RUN_CHECK 1
 int nb_tests = 1;
 int randommode = 0;
@@ -498,8 +498,9 @@ int main(int, char **)
 	   duration_vector_2.push_back(duration2);
    }
    std::cout << "End reference C code." <<  "\n";
-#endif
+#else
    duration_vector_2.push_back(std::chrono::duration<double,std::milli>(307519.883));
+#endif
 
     print_time("performance_CPU.csv", "dibaryon", {"Tiramisu"}, {median(duration_vector_1)/1000.});
 
