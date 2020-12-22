@@ -12,6 +12,7 @@ using namespace tiramisu;
 
 #define TAG_INTERNALS_GLOBAL 1
 #define TAG_INTERNALS_SHARED 0
+#define TAG_PARALLEL_T 0
 
 void generate_function(std::string name)
 {
@@ -419,20 +420,25 @@ void generate_function(std::string name)
 
 // kernel_0
 // {t, x_out, x_in, rp, m, r, n}
+#if TAG_PARALLEL_T
     C_init_r.tag_parallel_level(t);
     C_init_i.tag_parallel_level(t);
+#endif
 
     C_init_r.tag_gpu_level(x_out, x_in);
     C_init_i.tag_gpu_level(x_out, x_in);
 
 // kernel_1
 // {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m}
+#if TAG_PARALLEL_T
     B1_Blocal_r1_r_init.tag_parallel_level(t);
     B1_Blocal_r1_i_init.tag_parallel_level(t);
+#endif
     B1_Blocal_r1_r_init.tag_gpu_level(x_out, x_in);
     B1_Blocal_r1_i_init.tag_gpu_level(x_out, x_in);
 
 // kernel_2
+#if TAG_PARALLEL_T
 // {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime}
     B1_Blocal_r1_r_props_init.tag_parallel_level(t);//, iCprime, iSprime, kCprime, kSprime);
     B1_Blocal_r1_i_props_init.tag_parallel_level(t);//, iCprime, iSprime, kCprime, kSprime);
@@ -445,6 +451,7 @@ void generate_function(std::string name)
 // {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime, m}
     B1_Blocal_r1_r_update.tag_parallel_level(t);//, iCprime, iSprime, kCprime, kSprime);
     B1_Blocal_r1_i_update.tag_parallel_level(t);//, iCprime, iSprime, kCprime, kSprime);
+#endif
 
 // {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime}
     B1_Blocal_r1_r_props_init.tag_gpu_level(x_out, x_in);//, iCprime, iSprime, kCprime, kSprime);
@@ -460,6 +467,7 @@ void generate_function(std::string name)
     B1_Blocal_r1_i_update.tag_gpu_level(x_out, x_in);//, iCprime, iSprime, kCprime, kSprime);
 
 // kernel_3
+#if TAG_PARALLEL_T
     B1_Blocal_r2_r_init.tag_parallel_level(t);
     B1_Blocal_r2_i_init.tag_parallel_level(t);
 
@@ -474,6 +482,7 @@ void generate_function(std::string name)
 
     B1_Blocal_r2_r_update.tag_parallel_level(t);
     B1_Blocal_r2_i_update.tag_parallel_level(t);
+#endif
 
 // {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m}
     B1_Blocal_r2_r_init.tag_gpu_level(x_out, x_in);
@@ -492,6 +501,7 @@ void generate_function(std::string name)
     B1_Blocal_r2_i_update.tag_gpu_level(x_out, x_in);
 
 // kernel_4
+#if TAG_PARALLEL_T
     C_prop_init_r.tag_parallel_level(t);
     C_prop_init_i.tag_parallel_level(t);
 
@@ -507,6 +517,7 @@ void generate_function(std::string name)
 
     C_update_r.tag_parallel_level(t);
     C_update_i.tag_parallel_level(t);
+#endif
 //
     C_prop_init_r.tag_gpu_level(x_out, x_in);
     C_prop_init_i.tag_gpu_level(x_out, x_in);
