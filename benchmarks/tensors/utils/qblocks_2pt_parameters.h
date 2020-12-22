@@ -46,7 +46,7 @@
 #define P_Nw 12
 #define P_Nw2 288
 #define P_Nw2Hex 32
-#define P_Nt 2
+#define P_Nt 8
 #define P_Nc 3
 #define P_Ns 2
 #define P_Nq 3
@@ -58,7 +58,7 @@
 #define P_B0Nrows 1
 #define P_Mw 12
 #define P_NsFull 4
-#define P_sites_per_rank 128
+#define P_sites_per_rank 8
 #define P_src_sites_per_rank (P_Vsrc / P_sites_per_rank)
 
 #elif DATA_SET_2

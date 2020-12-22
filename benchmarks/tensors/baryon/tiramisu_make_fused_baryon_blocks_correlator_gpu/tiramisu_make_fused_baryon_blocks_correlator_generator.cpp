@@ -12,7 +12,7 @@ using namespace tiramisu;
 
 #define TAG_INTERNALS_GLOBAL 1
 #define TAG_INTERNALS_SHARED 0
-#define TAG_PARALLEL_T 0
+#define TAG_PARALLEL_T 1
 
 void generate_function(std::string name)
 {
