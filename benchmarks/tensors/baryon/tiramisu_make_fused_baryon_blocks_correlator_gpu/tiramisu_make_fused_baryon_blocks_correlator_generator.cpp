@@ -433,9 +433,7 @@ void generate_function(std::string name)
     B1_Blocal_r1_i_init.tag_gpu_level(x_out, x_in);
 
 // kernel_2
-tiramisu::cblas_gemm
 // {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime}
-B1_Blocal_r1_r_props_init.tag_gpu_thread()
     B1_Blocal_r1_r_props_init.tag_parallel_level(t);//, iCprime, iSprime, kCprime, kSprime);
     B1_Blocal_r1_i_props_init.tag_parallel_level(t);//, iCprime, iSprime, kCprime, kSprime);
 // {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, wnumBlock}
