@@ -1425,6 +1425,7 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
                 ss << "cudaMalloc(&" << b->get_name() << ", ";
                 break;
             default:
+                std::cout << b->get_name() << "\n";
                 assert(!"Can only allocate global or host memory");
         }
         b->print_size(ss, base, " * ");
