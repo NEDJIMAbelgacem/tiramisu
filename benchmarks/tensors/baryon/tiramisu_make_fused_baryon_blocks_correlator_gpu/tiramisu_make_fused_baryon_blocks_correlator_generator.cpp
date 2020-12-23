@@ -10,9 +10,9 @@ using namespace tiramisu;
 #define PARALLEL 0
 #define GPU_PARALLEL 1
 
-#define TAG_INTERNALS_GLOBAL 1
-#define TAG_INTERNALS_SHARED 0
-#define TAG_PARALLEL_T 1
+#define TAG_INTERNALS_GLOBAL 0
+#define TAG_INTERNALS_SHARED 1
+#define TAG_PARALLEL_T 0
 
 void generate_function(std::string name)
 {
