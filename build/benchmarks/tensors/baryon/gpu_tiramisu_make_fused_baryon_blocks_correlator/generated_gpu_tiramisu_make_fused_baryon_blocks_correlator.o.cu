@@ -72,23 +72,23 @@
 #define NEntangled P_NEntangled
 #define sites_per_rank P_sites_per_rank
 
-__shared__ double buf_B1_Blocal_diquark_r1_i[Lt * P_Vsnk];
-__shared__ double buf_B1_Blocal_diquark_r1_r[Lt * P_Vsnk];
-__shared__ double buf_B1_Blocal_diquark_r2_i[Lt * P_Vsnk];
-__shared__ double buf_B1_Blocal_diquark_r2_r[Lt * P_Vsnk];
-__shared__ double buf_B1_Blocal_props_r1_i[Lt * Vsnk * Nc * Ns];
-__shared__ double buf_B1_Blocal_props_r1_r[Lt * Vsnk * Nc * Ns];
-__shared__ double buf_B1_Blocal_props_r2_i[Lt * Vsnk * Nc * Ns];
-__shared__ double buf_B1_Blocal_props_r2_r[Lt * Vsnk * Nc * Ns];
-__shared__ double buf_B1_Blocal_r1_i[Lt * Vsnk * Nc * Ns * Nc * Ns * Nc * Ns * NsrcHex];
-__shared__ double buf_B1_Blocal_r1_r[Lt * Vsnk * Nc * Ns * Nc * Ns * Nc * Ns * NsrcHex];
-__shared__ double buf_B1_Blocal_r2_i[Lt * Vsnk * Nc * Ns * Nc * Ns * Nc * Ns * NsrcHex];
-__shared__ double buf_B1_Blocal_r2_r[Lt * Vsnk * Nc * Ns * Nc * Ns * Nc * Ns * NsrcHex];
+// __shared__ double buf_B1_Blocal_diquark_r1_i[Lt * P_Vsnk];
+// __shared__ double buf_B1_Blocal_diquark_r1_r[Lt * P_Vsnk];
+// __shared__ double buf_B1_Blocal_diquark_r2_i[Lt * P_Vsnk];
+// __shared__ double buf_B1_Blocal_diquark_r2_r[Lt * P_Vsnk];
+// __shared__ double buf_B1_Blocal_props_r1_i[Lt * Vsnk * Nc * Ns];
+// __shared__ double buf_B1_Blocal_props_r1_r[Lt * Vsnk * Nc * Ns];
+// __shared__ double buf_B1_Blocal_props_r2_i[Lt * Vsnk * Nc * Ns];
+// __shared__ double buf_B1_Blocal_props_r2_r[Lt * Vsnk * Nc * Ns];
+// __shared__ double buf_B1_Blocal_r1_i[Lt * Vsnk * Nc * Ns * Nc * Ns * Nc * Ns * NsrcHex];
+// __shared__ double buf_B1_Blocal_r1_r[Lt * Vsnk * Nc * Ns * Nc * Ns * Nc * Ns * NsrcHex];
+// __shared__ double buf_B1_Blocal_r2_i[Lt * Vsnk * Nc * Ns * Nc * Ns * Nc * Ns * NsrcHex];
+// __shared__ double buf_B1_Blocal_r2_r[Lt * Vsnk * Nc * Ns * Nc * Ns * Nc * Ns * NsrcHex];
 
-__shared__ double buf_C_prop_r[Lt * Vsnk * B1Nrows * NsrcHex * B1Nrows];
-__shared__ double buf_C_prop_i[Lt * Vsnk * B1Nrows * NsrcHex * B1Nrows];
-__shared__ double buf_new_term_i_b1[Lt * Vsnk * B1Nrows * NsrcHex * B1Nrows * B1Nperms * Nw];
-__shared__ double buf_new_term_r_b1[Lt * Vsnk * B1Nrows * NsrcHex * B1Nrows * B1Nperms * Nw];
+// __shared__ double buf_C_prop_r[Lt * Vsnk * B1Nrows * NsrcHex * B1Nrows];
+// __shared__ double buf_C_prop_i[Lt * Vsnk * B1Nrows * NsrcHex * B1Nrows];
+// __shared__ double buf_new_term_i_b1[Lt * Vsnk * B1Nrows * NsrcHex * B1Nrows * B1Nperms * Nw];
+// __shared__ double buf_new_term_r_b1[Lt * Vsnk * B1Nrows * NsrcHex * B1Nrows * B1Nperms * Nw];
 
 static __global__ void _kernel_0(int32_t c1, double *buf_C_i, double *buf_C_r)
 {
