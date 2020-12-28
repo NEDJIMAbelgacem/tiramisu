@@ -114,7 +114,7 @@ extern "C" int32_t* _kernel_0_wrapper(int32_t c1, double *buf_C_i, double *buf_C
 	};
 	return 0;
 };
-static __global__ void _kernel_1(int32_t c1, double *__buf_B1_Blocal_r1_i, double *__buf_B1_Blocal_r1_r)
+static __global__ void _kernel_1(int32_t c1, double *buf_B1_Blocal_r1_i, double *buf_B1_Blocal_r1_r)
 {
 	const int32_t __bx__ = (blockIdx.x + 0);
 	const int32_t __tx__ = (threadIdx.x + 0);
@@ -148,7 +148,7 @@ extern "C" int32_t _kernel_1_wrapper(int32_t c1, double *buf_B1_Blocal_r1_i, dou
 	};
 	return 0;
 };
-static __global__ void _kernel_2(int32_t c1, double *__buf_B1_Blocal_diquark_r1_i, double *__buf_B1_Blocal_diquark_r1_r, double *__buf_B1_Blocal_props_r1_i, double *__buf_B1_Blocal_props_r1_r, double *buf_B1_Blocal_r1_i, double *buf_B1_Blocal_r1_r, double *buf_B1_prop_i, double *buf_B1_prop_r, int32_t *buf_src_color_weights, double *buf_src_psi_B1_i, double *buf_src_psi_B1_r, int32_t *buf_src_spin_weights, double *buf_src_weights)
+static __global__ void _kernel_2(int32_t c1, double *buf_B1_Blocal_diquark_r1_i, double *buf_B1_Blocal_diquark_r1_r, double *__buf_B1_Blocal_props_r1_i, double *__buf_B1_Blocal_props_r1_r, double *buf_B1_Blocal_r1_i, double *buf_B1_Blocal_r1_r, double *buf_B1_prop_i, double *buf_B1_prop_r, int32_t *buf_src_color_weights, double *buf_src_psi_B1_i, double *buf_src_psi_B1_r, int32_t *buf_src_spin_weights, double *buf_src_weights)
 {
 	const int32_t __bx__ = (blockIdx.x + 0);
 	const int32_t __tx__ = (threadIdx.x + 0);
@@ -230,7 +230,7 @@ extern "C" int32_t _kernel_2_wrapper(int32_t c1, double *buf_B1_Blocal_diquark_r
 	};
 	return 0;
 };
-static __global__ void _kernel_3(int32_t c1, double *__buf_B1_Blocal_r2_i, double *__buf_B1_Blocal_r2_r)
+static __global__ void _kernel_3(int32_t c1, double *buf_B1_Blocal_r2_i, double *buf_B1_Blocal_r2_r)
 {
 	const int32_t __bx__ = (blockIdx.x + 0);
 	const int32_t __tx__ = (threadIdx.x + 0);
@@ -264,7 +264,7 @@ extern "C" int32_t _kernel_3_wrapper(int32_t c1, double *buf_B1_Blocal_r2_i, dou
 	};
 	return 0;
 };
-static __global__ void _kernel_4(int32_t c1, double *__buf_B1_Blocal_diquark_r2_i, double *__buf_B1_Blocal_diquark_r2_r, double *__buf_B1_Blocal_props_r2_i, double *__buf_B1_Blocal_props_r2_r, double *buf_B1_Blocal_r2_i, double *buf_B1_Blocal_r2_r, double *buf_B1_prop_i, double *buf_B1_prop_r, int32_t *buf_src_color_weights, double *buf_src_psi_B1_i, double *buf_src_psi_B1_r, int32_t *buf_src_spin_weights, double *buf_src_weights)
+static __global__ void _kernel_4(int32_t c1, double *buf_B1_Blocal_diquark_r2_i, double *buf_B1_Blocal_diquark_r2_r, double *__buf_B1_Blocal_props_r2_i, double *__buf_B1_Blocal_props_r2_r, double *buf_B1_Blocal_r2_i, double *buf_B1_Blocal_r2_r, double *buf_B1_prop_i, double *buf_B1_prop_r, int32_t *buf_src_color_weights, double *buf_src_psi_B1_i, double *buf_src_psi_B1_r, int32_t *buf_src_spin_weights, double *buf_src_weights)
 {
 	const int32_t __bx__ = (blockIdx.x + 0);
 	const int32_t __tx__ = (threadIdx.x + 0);
@@ -346,7 +346,7 @@ extern "C" int32_t _kernel_4_wrapper(int32_t c1, double *buf_B1_Blocal_diquark_r
 	};
 	return 0;
 };
-static __global__ void _kernel_5(int32_t c1, double *__buf_B1_Blocal_r1_i, double *__buf_B1_Blocal_r1_r, double *__buf_B1_Blocal_r2_i, double *__buf_B1_Blocal_r2_r, double *buf_C_i, double *__buf_C_prop_i, double *__buf_C_prop_r, double *buf_C_r, double *__buf_new_term_i_b1, double *__buf_new_term_r_b1, int32_t *buf_sigs, int32_t *buf_snk_color_weights, double *buf_snk_psi_i, double *buf_snk_psi_r, int32_t *buf_snk_spin_weights, double *buf_snk_weights, int32_t *src_spins)
+static __global__ void _kernel_5(int32_t c1, double *buf_B1_Blocal_r1_i, double *buf_B1_Blocal_r1_r, double *buf_B1_Blocal_r2_i, double *buf_B1_Blocal_r2_r, double *buf_C_i, double *buf_C_prop_i, double *buf_C_prop_r, double *buf_C_r, double *buf_new_term_i_b1, double *buf_new_term_r_b1, int32_t *buf_sigs, int32_t *buf_snk_color_weights, double *buf_snk_psi_i, double *buf_snk_psi_r, int32_t *buf_snk_spin_weights, double *buf_snk_weights, int32_t *src_spins)
 {
 	const int32_t __bx__ = (blockIdx.x + 0);
 	const int32_t __tx__ = (threadIdx.x + 0);
