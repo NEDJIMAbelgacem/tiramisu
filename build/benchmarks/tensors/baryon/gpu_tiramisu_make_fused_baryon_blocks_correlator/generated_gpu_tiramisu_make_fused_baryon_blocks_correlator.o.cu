@@ -21,7 +21,7 @@ extern "C" int32_t* _kernel_0_wrapper(int32_t c1, double *buf_C_i, double *buf_C
 	};
 	return 0;
 };
-static __global__ void _kernel_1(int32_t c1, double *buf_B1_Blocal_r1_i, double *buf_B1_Blocal_r1_r)
+static __global__ void _kernel_1(int32_t c1, double *buf_B1_Blocal_diquark_r1_i, double *buf_B1_Blocal_diquark_r1_r, double *buf_B1_Blocal_props_r1_i, double *buf_B1_Blocal_props_r1_r, double *buf_B1_Blocal_r1_i, double *buf_B1_Blocal_r1_r, double *buf_B1_prop_i, double *buf_B1_prop_r, int32_t *buf_src_color_weights, double *buf_src_psi_B1_i, double *buf_src_psi_B1_r, int32_t *buf_src_spin_weights, double *buf_src_weights)
 {
 	const int32_t __bx__ = (blockIdx.x + 0);
 	const int32_t __tx__ = (threadIdx.x + 0);
@@ -45,20 +45,6 @@ static __global__ void _kernel_1(int32_t c1, double *buf_B1_Blocal_r1_i, double 
 			};
 		};
 	};
-};
-extern "C" int32_t _kernel_1_wrapper(int32_t c1, double *buf_B1_Blocal_r1_i, double *buf_B1_Blocal_r1_r)
-{
-	{
-		dim3 blocks((63 + 1), 1, 1);
-		dim3 threads((1 + 1), 1, 1);
-		_kernel_1<<<blocks, threads>>>(c1, buf_B1_Blocal_r1_i, buf_B1_Blocal_r1_r);
-	};
-	return 0;
-};
-static __global__ void _kernel_2(int32_t c1, double *buf_B1_Blocal_diquark_r1_i, double *buf_B1_Blocal_diquark_r1_r, double *buf_B1_Blocal_props_r1_i, double *buf_B1_Blocal_props_r1_r, double *buf_B1_Blocal_r1_i, double *buf_B1_Blocal_r1_r, double *buf_B1_prop_i, double *buf_B1_prop_r, int32_t *buf_src_color_weights, double *buf_src_psi_B1_i, double *buf_src_psi_B1_r, int32_t *buf_src_spin_weights, double *buf_src_weights)
-{
-	const int32_t __bx__ = (blockIdx.x + 0);
-	const int32_t __tx__ = (threadIdx.x + 0);
 	for (int32_t c7 = 0; (c7 <= 2); (c7 += 1))
 	{
 		for (int32_t c9 = 0; (c9 <= 1); (c9 += 1))
@@ -128,16 +114,16 @@ static __global__ void _kernel_2(int32_t c1, double *buf_B1_Blocal_diquark_r1_i,
 		};
 	};
 };
-extern "C" int32_t _kernel_2_wrapper(int32_t c1, double *buf_B1_Blocal_diquark_r1_i, double *buf_B1_Blocal_diquark_r1_r, double *buf_B1_Blocal_props_r1_i, double *buf_B1_Blocal_props_r1_r, double *buf_B1_Blocal_r1_i, double *buf_B1_Blocal_r1_r, double *buf_B1_prop_i, double *buf_B1_prop_r, int32_t *buf_src_color_weights, double *buf_src_psi_B1_i, double *buf_src_psi_B1_r, int32_t *buf_src_spin_weights, double *buf_src_weights)
+extern "C" int32_t _kernel_1_wrapper(int32_t c1, double *buf_B1_Blocal_diquark_r1_i, double *buf_B1_Blocal_diquark_r1_r, double *buf_B1_Blocal_props_r1_i, double *buf_B1_Blocal_props_r1_r, double *buf_B1_Blocal_r1_i, double *buf_B1_Blocal_r1_r, double *buf_B1_prop_i, double *buf_B1_prop_r, int32_t *buf_src_color_weights, double *buf_src_psi_B1_i, double *buf_src_psi_B1_r, int32_t *buf_src_spin_weights, double *buf_src_weights)
 {
 	{
 		dim3 blocks((63 + 1), 1, 1);
 		dim3 threads((1 + 1), 1, 1);
-		_kernel_2<<<blocks, threads>>>(c1, buf_B1_Blocal_diquark_r1_i, buf_B1_Blocal_diquark_r1_r, buf_B1_Blocal_props_r1_i, buf_B1_Blocal_props_r1_r, buf_B1_Blocal_r1_i, buf_B1_Blocal_r1_r, buf_B1_prop_i, buf_B1_prop_r, buf_src_color_weights, buf_src_psi_B1_i, buf_src_psi_B1_r, buf_src_spin_weights, buf_src_weights);
+		_kernel_1<<<blocks, threads>>>(c1, buf_B1_Blocal_diquark_r1_i, buf_B1_Blocal_diquark_r1_r, buf_B1_Blocal_props_r1_i, buf_B1_Blocal_props_r1_r, buf_B1_Blocal_r1_i, buf_B1_Blocal_r1_r, buf_B1_prop_i, buf_B1_prop_r, buf_src_color_weights, buf_src_psi_B1_i, buf_src_psi_B1_r, buf_src_spin_weights, buf_src_weights);
 	};
 	return 0;
 };
-static __global__ void _kernel_3(int32_t c1, double *buf_B1_Blocal_r2_i, double *buf_B1_Blocal_r2_r)
+static __global__ void _kernel_2(int32_t c1, double *buf_B1_Blocal_diquark_r2_i, double *buf_B1_Blocal_diquark_r2_r, double *buf_B1_Blocal_props_r2_i, double *buf_B1_Blocal_props_r2_r, double *buf_B1_Blocal_r2_i, double *buf_B1_Blocal_r2_r, double *buf_B1_prop_i, double *buf_B1_prop_r, int32_t *buf_src_color_weights, double *buf_src_psi_B1_i, double *buf_src_psi_B1_r, int32_t *buf_src_spin_weights, double *buf_src_weights)
 {
 	const int32_t __bx__ = (blockIdx.x + 0);
 	const int32_t __tx__ = (threadIdx.x + 0);
@@ -161,20 +147,6 @@ static __global__ void _kernel_3(int32_t c1, double *buf_B1_Blocal_r2_i, double 
 			};
 		};
 	};
-};
-extern "C" int32_t _kernel_3_wrapper(int32_t c1, double *buf_B1_Blocal_r2_i, double *buf_B1_Blocal_r2_r)
-{
-	{
-		dim3 blocks((63 + 1), 1, 1);
-		dim3 threads((1 + 1), 1, 1);
-		_kernel_3<<<blocks, threads>>>(c1, buf_B1_Blocal_r2_i, buf_B1_Blocal_r2_r);
-	};
-	return 0;
-};
-static __global__ void _kernel_4(int32_t c1, double *buf_B1_Blocal_diquark_r2_i, double *buf_B1_Blocal_diquark_r2_r, double *buf_B1_Blocal_props_r2_i, double *buf_B1_Blocal_props_r2_r, double *buf_B1_Blocal_r2_i, double *buf_B1_Blocal_r2_r, double *buf_B1_prop_i, double *buf_B1_prop_r, int32_t *buf_src_color_weights, double *buf_src_psi_B1_i, double *buf_src_psi_B1_r, int32_t *buf_src_spin_weights, double *buf_src_weights)
-{
-	const int32_t __bx__ = (blockIdx.x + 0);
-	const int32_t __tx__ = (threadIdx.x + 0);
 	for (int32_t c7 = 0; (c7 <= 2); (c7 += 1))
 	{
 		for (int32_t c9 = 0; (c9 <= 1); (c9 += 1))
@@ -244,16 +216,16 @@ static __global__ void _kernel_4(int32_t c1, double *buf_B1_Blocal_diquark_r2_i,
 		};
 	};
 };
-extern "C" int32_t _kernel_4_wrapper(int32_t c1, double *buf_B1_Blocal_diquark_r2_i, double *buf_B1_Blocal_diquark_r2_r, double *buf_B1_Blocal_props_r2_i, double *buf_B1_Blocal_props_r2_r, double *buf_B1_Blocal_r2_i, double *buf_B1_Blocal_r2_r, double *buf_B1_prop_i, double *buf_B1_prop_r, int32_t *buf_src_color_weights, double *buf_src_psi_B1_i, double *buf_src_psi_B1_r, int32_t *buf_src_spin_weights, double *buf_src_weights)
+extern "C" int32_t _kernel_2_wrapper(int32_t c1, double *buf_B1_Blocal_diquark_r2_i, double *buf_B1_Blocal_diquark_r2_r, double *buf_B1_Blocal_props_r2_i, double *buf_B1_Blocal_props_r2_r, double *buf_B1_Blocal_r2_i, double *buf_B1_Blocal_r2_r, double *buf_B1_prop_i, double *buf_B1_prop_r, int32_t *buf_src_color_weights, double *buf_src_psi_B1_i, double *buf_src_psi_B1_r, int32_t *buf_src_spin_weights, double *buf_src_weights)
 {
 	{
 		dim3 blocks((63 + 1), 1, 1);
 		dim3 threads((1 + 1), 1, 1);
-		_kernel_4<<<blocks, threads>>>(c1, buf_B1_Blocal_diquark_r2_i, buf_B1_Blocal_diquark_r2_r, buf_B1_Blocal_props_r2_i, buf_B1_Blocal_props_r2_r, buf_B1_Blocal_r2_i, buf_B1_Blocal_r2_r, buf_B1_prop_i, buf_B1_prop_r, buf_src_color_weights, buf_src_psi_B1_i, buf_src_psi_B1_r, buf_src_spin_weights, buf_src_weights);
+		_kernel_2<<<blocks, threads>>>(c1, buf_B1_Blocal_diquark_r2_i, buf_B1_Blocal_diquark_r2_r, buf_B1_Blocal_props_r2_i, buf_B1_Blocal_props_r2_r, buf_B1_Blocal_r2_i, buf_B1_Blocal_r2_r, buf_B1_prop_i, buf_B1_prop_r, buf_src_color_weights, buf_src_psi_B1_i, buf_src_psi_B1_r, buf_src_spin_weights, buf_src_weights);
 	};
 	return 0;
 };
-static __global__ void _kernel_5(int32_t c1, double *buf_B1_Blocal_r1_i, double *buf_B1_Blocal_r1_r, double *buf_B1_Blocal_r2_i, double *buf_B1_Blocal_r2_r, double *buf_C_i, double *buf_C_prop_i, double *buf_C_prop_r, double *buf_C_r, double *buf_new_term_i_b1, double *buf_new_term_r_b1, int32_t *buf_sigs, int32_t *buf_snk_color_weights, double *buf_snk_psi_i, double *buf_snk_psi_r, int32_t *buf_snk_spin_weights, double *buf_snk_weights, int32_t *src_spins)
+static __global__ void _kernel_3(int32_t c1, double *buf_B1_Blocal_r1_i, double *buf_B1_Blocal_r1_r, double *buf_B1_Blocal_r2_i, double *buf_B1_Blocal_r2_r, double *buf_C_i, double *buf_C_prop_i, double *buf_C_prop_r, double *buf_C_r, double *buf_new_term_i_b1, double *buf_new_term_r_b1, int32_t *buf_sigs, int32_t *buf_snk_color_weights, double *buf_snk_psi_i, double *buf_snk_psi_r, int32_t *buf_snk_spin_weights, double *buf_snk_weights, int32_t *src_spins)
 {
 	const int32_t __bx__ = (blockIdx.x + 0);
 	const int32_t __tx__ = (threadIdx.x + 0);
@@ -316,12 +288,12 @@ static __global__ void _kernel_5(int32_t c1, double *buf_B1_Blocal_r1_i, double 
 		};
 	};
 };
-extern "C" int32_t _kernel_5_wrapper(int32_t c1, double *buf_B1_Blocal_r1_i, double *buf_B1_Blocal_r1_r, double *buf_B1_Blocal_r2_i, double *buf_B1_Blocal_r2_r, double *buf_C_i, double *buf_C_prop_i, double *buf_C_prop_r, double *buf_C_r, double *buf_new_term_i_b1, double *buf_new_term_r_b1, int32_t *buf_sigs, int32_t *buf_snk_color_weights, double *buf_snk_psi_i, double *buf_snk_psi_r, int32_t *buf_snk_spin_weights, double *buf_snk_weights, int32_t *src_spins)
+extern "C" int32_t _kernel_3_wrapper(int32_t c1, double *buf_B1_Blocal_r1_i, double *buf_B1_Blocal_r1_r, double *buf_B1_Blocal_r2_i, double *buf_B1_Blocal_r2_r, double *buf_C_i, double *buf_C_prop_i, double *buf_C_prop_r, double *buf_C_r, double *buf_new_term_i_b1, double *buf_new_term_r_b1, int32_t *buf_sigs, int32_t *buf_snk_color_weights, double *buf_snk_psi_i, double *buf_snk_psi_r, int32_t *buf_snk_spin_weights, double *buf_snk_weights, int32_t *src_spins)
 {
 	{
 		dim3 blocks((63 + 1), 1, 1);
 		dim3 threads((1 + 1), 1, 1);
-		_kernel_5<<<blocks, threads>>>(c1, buf_B1_Blocal_r1_i, buf_B1_Blocal_r1_r, buf_B1_Blocal_r2_i, buf_B1_Blocal_r2_r, buf_C_i, buf_C_prop_i, buf_C_prop_r, buf_C_r, buf_new_term_i_b1, buf_new_term_r_b1, buf_sigs, buf_snk_color_weights, buf_snk_psi_i, buf_snk_psi_r, buf_snk_spin_weights, buf_snk_weights, src_spins);
+		_kernel_3<<<blocks, threads>>>(c1, buf_B1_Blocal_r1_i, buf_B1_Blocal_r1_r, buf_B1_Blocal_r2_i, buf_B1_Blocal_r2_r, buf_C_i, buf_C_prop_i, buf_C_prop_r, buf_C_r, buf_new_term_i_b1, buf_new_term_r_b1, buf_sigs, buf_snk_color_weights, buf_snk_psi_i, buf_snk_psi_r, buf_snk_spin_weights, buf_snk_weights, src_spins);
 	};
 	return 0;
 }

@@ -1,0 +1,2 @@
+/usr/bin/ar qc libcuda_wrapper.a  CMakeFiles/cuda_wrapper.dir/src/tiramisu_cuda_wrappers.cpp.o
+/usr/bin/ranlib libcuda_wrapper.a

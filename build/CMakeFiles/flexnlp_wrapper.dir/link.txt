@@ -1,0 +1,2 @@
+/usr/bin/ar qc libflexnlp_wrapper.a  CMakeFiles/flexnlp_wrapper.dir/src/tiramisu_flexnlp_wrappers.cpp.o
+/usr/bin/ranlib libflexnlp_wrapper.a

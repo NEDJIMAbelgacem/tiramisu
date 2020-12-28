@@ -1,0 +1,2 @@
+/usr/bin/ar qc libmkl_wrapper.a  CMakeFiles/mkl_wrapper.dir/src/tiramisu_mkl_wrappers.cpp.o
+/usr/bin/ranlib libmkl_wrapper.a

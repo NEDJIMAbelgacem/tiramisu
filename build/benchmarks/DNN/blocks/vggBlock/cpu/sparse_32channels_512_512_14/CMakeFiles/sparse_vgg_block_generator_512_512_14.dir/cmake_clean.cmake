@@ -1,0 +1,10 @@
+file(REMOVE_RECURSE
+  "CMakeFiles/sparse_vgg_block_generator_512_512_14.dir/sparse_vgg_block_generator.cpp.o"
+  "../../../../../../../benchmarks/DNN/blocks/vggBlock/cpu/sparse_32channels_512_512_14/sparse_vgg_block_generator_512_512_14.pdb"
+  "../../../../../../../benchmarks/DNN/blocks/vggBlock/cpu/sparse_32channels_512_512_14/sparse_vgg_block_generator_512_512_14"
+)
+
+# Per-language clean rules from dependency scanning.
+foreach(lang CXX)
+  include(CMakeFiles/sparse_vgg_block_generator_512_512_14.dir/cmake_clean_${lang}.cmake OPTIONAL)
+endforeach()

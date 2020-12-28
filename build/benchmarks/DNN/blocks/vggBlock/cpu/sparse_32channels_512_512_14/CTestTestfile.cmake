@@ -1,0 +1,6 @@
+# CMake generated Testfile for 
+# Source directory: /data/scratch/belgacem_nedjima/tiramisu_fork/tiramisu/benchmarks/DNN/blocks/vggBlock/cpu/sparse_32channels_512_512_14
+# Build directory: /data/scratch/belgacem_nedjima/tiramisu_fork/tiramisu/build/benchmarks/DNN/blocks/vggBlock/cpu/sparse_32channels_512_512_14
+# 
+# This file includes the relevant testing commands required for 
+# testing this directory and lists subdirectories to be tested as well.
