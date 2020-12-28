@@ -21,19 +21,84 @@
 
 // =================================================================================================
 
-__shared__ double buf_B1_Blocal_diquark_r1_i[1024];
-__shared__ double buf_B1_Blocal_diquark_r1_r[1024];
-__shared__ double buf_B1_Blocal_diquark_r2_i[1024];
-__shared__ double buf_B1_Blocal_diquark_r2_r[1024];
+#define P_size 128
+#define P_Vsrc P_size
+#define P_Vsnk P_size
+#define P_Nsrc 44
+#define P_Nsnk 44
+#define P_NEntangled 3
+#define P_NsrcHex 1
+#define P_NsnkHex 1
+#define P_Nperms 36
+#define P_B1Nperms 2
+#define P_Nw 12
+#define P_Nw2 288
+#define P_Nw2Hex 32
+#define P_Nt 2
+#define P_Nc 3
+#define P_Ns 2
+#define P_Nq 3
+#define P_B2Nrows 4
+#define P_B1Nrows 2
+#define P_Nb 2
+#define P_mq 1.0
+#define P_Mq 2
+#define P_B0Nrows 1
+#define P_Mw 12
+#define P_NsFull 4
+#define P_sites_per_rank 2 // threads per block
+#define P_src_sites_per_rank (P_Vsrc / P_sites_per_rank) // blocks count
+
+
+#define Nq P_Nq
+#define Nc P_Nc
+#define Ns P_Ns
+#define Nw P_Nw
+#define Nw2 Nw*Nw
+#define Nw2Hex P_Nw2Hex
+#define Nperms P_Nperms
+#define B1Nperms P_B1Nperms
+#define Lt P_Nt
+#define Vsrc P_Vsrc
+#define Vsnk P_Vsnk
+#define Nsrc P_Nsrc
+#define Nsnk P_Nsnk
+#define NsrcHex P_NsrcHex
+#define NsnkHex P_NsnkHex
+#define mq P_mq
+#define Nb P_Nb
+#define B2Nrows P_B2Nrows
+#define B1Nrows P_B1Nrows
+#define NEntangled P_NEntangled
+#define sites_per_rank P_sites_per_rank
+
+__shared__ double buf_B1_Blocal_diquark_r1_i[Lt * P_Vsnk];
+__shared__ double buf_B1_Blocal_diquark_r1_r[Lt * P_Vsnk];
+__shared__ double buf_B1_Blocal_diquark_r2_i[Lt * P_Vsnk];
+__shared__ double buf_B1_Blocal_diquark_r2_r[Lt * P_Vsnk];
+__shared__ double buf_B1_Blocal_props_r1_i[Lt * Vsnk * Nc * Ns];
+__shared__ double buf_B1_Blocal_props_r1_r[Lt * Vsnk * Nc * Ns];
+__shared__ double buf_B1_Blocal_props_r2_i[Lt * Vsnk * Nc * Ns];
+__shared__ double buf_B1_Blocal_props_r2_r[Lt * Vsnk * Nc * Ns];
+__shared__ double buf_B1_Blocal_r1_i[Lt * Vsnk * Nc * Ns * Nc * Ns * Nc * Ns * NsrcHex];
+__shared__ double buf_B1_Blocal_r1_r[Lt * Vsnk * Nc * Ns * Nc * Ns * Nc * Ns * NsrcHex];
+__shared__ double buf_B1_Blocal_r2_i[Lt * Vsnk * Nc * Ns * Nc * Ns * Nc * Ns * NsrcHex];
+__shared__ double buf_B1_Blocal_r2_r[Lt * Vsnk * Nc * Ns * Nc * Ns * Nc * Ns * NsrcHex];
+
+__shared__ double buf_C_prop_r[Lt * Vsnk * B1Nrows * NsrcHex * B1Nrows];
+__shared__ double buf_C_prop_i[Lt * Vsnk * B1Nrows * NsrcHex * B1Nrows];
+__shared__ double buf_new_term_i_b1[Lt * Vsnk * B1Nrows * NsrcHex * B1Nrows * B1Nperms * Nw];
+__shared__ double buf_new_term_r_b1[Lt * Vsnk * B1Nrows * NsrcHex * B1Nrows * B1Nperms * Nw];
+
 
 static __global__ void _kernel_0(int32_t c1, double *__buf_B1_Blocal_diquark_r1_i, double *__buf_B1_Blocal_diquark_r1_r, double *__buf_B1_Blocal_diquark_r2_i, double *__buf_B1_Blocal_diquark_r2_r, 
 	double *buf_B1_Blocal_props_r1_i, double *buf_B1_Blocal_props_r1_r, double *buf_B1_Blocal_props_r2_i, double *buf_B1_Blocal_props_r2_r,
-	double *buf_B1_Blocal_r1_i, double *buf_B1_Blocal_r1_r, double *buf_B1_Blocal_r2_i, double *buf_B1_Blocal_r2_r, double *buf_B1_prop_i, double *buf_B1_prop_r, double *buf_C_i, double *buf_C_prop_i, double *buf_C_prop_r, double *buf_C_r, double *buf_new_term_i_b1, double *buf_new_term_r_b1, int32_t *buf_sigs, int32_t *buf_snk_color_weights, double *buf_snk_psi_i, double *buf_snk_psi_r, int32_t *buf_snk_spin_weights, double *buf_snk_weights, int32_t *buf_src_color_weights, double *buf_src_psi_B1_i, double *buf_src_psi_B1_r, int32_t *buf_src_spin_weights, double *buf_src_weights, int32_t *src_spins)
+	double *buf_B1_Blocal_r1_i, double *buf_B1_Blocal_r1_r, double *buf_B1_Blocal_r2_i, double *buf_B1_Blocal_r2_r, 
+	double *buf_B1_prop_i, double *buf_B1_prop_r, double *buf_C_i, double *buf_C_prop_i, 
+	double *buf_C_prop_r, double *buf_C_r, 
+	double *buf_new_term_i_b1, double *buf_new_term_r_b1, 
+	int32_t *buf_sigs, int32_t *buf_snk_color_weights, double *buf_snk_psi_i, double *buf_snk_psi_r, int32_t *buf_snk_spin_weights, double *buf_snk_weights, int32_t *buf_src_color_weights, double *buf_src_psi_B1_i, double *buf_src_psi_B1_r, int32_t *buf_src_spin_weights, double *buf_src_weights, int32_t *src_spins)
 {
-	// __shared__ double buf_B1_Blocal_props_r1_i[1024 * 6];
-	// __shared__ double buf_B1_Blocal_props_r1_r[1024 * 6];
-	// __shared__ double buf_B1_Blocal_props_r2_i[1024 * 6];
-	// __shared__ double buf_B1_Blocal_props_r2_r[1024 * 6];
 
 	const int32_t __bx__ = (blockIdx.x + 0);
 	const int32_t __tx__ = (threadIdx.x + 0);
