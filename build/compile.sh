@@ -21,7 +21,9 @@ CMakeFiles/gpu_tiramisu_make_fused_baryon_blocks_correlator_generator.dir/gpu_ti
 /usr/local/cuda/lib64/libcublas.so -Wl,-rpath,/data/scratch/belgacem_nedjima/tiramisu_fork/tiramisu/build:/data/scratch/belgacem_nedjima/tiramisu_fork/tiramisu/3rdParty/isl/build/lib:/usr/local/cuda/lib64 
 
 # run generator
-../../../../gpu_tiramisu_make_fused_baryon_blocks_correlator_generator
+# ../../../../gpu_tiramisu_make_fused_baryon_blocks_correlator_generator
+/usr/local/cuda/bin/nvcc --default-stream per-thread -x cu -c -dc generated_gpu_tiramisu_make_fused_baryon_blocks_correlator.o.cu -o generated_gpu_tiramisu_make_fused_baryon_blocks_correlator.o_cpu.o
+/usr/local/cuda/bin/nvcc --default-stream per-thread -dlink generated_gpu_tiramisu_make_fused_baryon_blocks_correlator.o_cpu.o -o generated_gpu_tiramisu_make_fused_baryon_blocks_correlator.o_gpu.o
 # compile wrapper
 /usr/bin/cmake -E cmake_link_script CMakeFiles/gpu_tiramisu_make_fused_baryon_blocks_correlator_wrapper.dir/link.txt --verbose=1
 g++   -std=c++11 -Wall -Wno-sign-compare -fno-rtti -DHALIDE_NO_JPEG -g -O0  \
