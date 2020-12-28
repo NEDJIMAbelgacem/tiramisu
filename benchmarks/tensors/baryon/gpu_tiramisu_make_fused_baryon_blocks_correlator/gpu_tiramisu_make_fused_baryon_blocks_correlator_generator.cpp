@@ -16,7 +16,6 @@ void generate_function(std::string name)
 {
     tiramisu::init(name);
     const int t_MAX = Lt;
-    const int split_t = 2;
 
     var r("r", 0, B1Nrows),
         rp("rp", 0, B1Nrows),
