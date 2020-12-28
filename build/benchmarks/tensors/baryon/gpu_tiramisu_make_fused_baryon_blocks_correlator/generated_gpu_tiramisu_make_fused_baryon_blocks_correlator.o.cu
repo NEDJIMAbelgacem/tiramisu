@@ -21,14 +21,15 @@
 
 // =================================================================================================
 
+__shared__ double buf_B1_Blocal_diquark_r1_i[1024];
+__shared__ double buf_B1_Blocal_diquark_r1_r[1024];
+__shared__ double buf_B1_Blocal_diquark_r2_i[1024];
+__shared__ double buf_B1_Blocal_diquark_r2_r[1024];
+
 static __global__ void _kernel_0(int32_t c1, double *__buf_B1_Blocal_diquark_r1_i, double *__buf_B1_Blocal_diquark_r1_r, double *__buf_B1_Blocal_diquark_r2_i, double *__buf_B1_Blocal_diquark_r2_r, 
 	double *buf_B1_Blocal_props_r1_i, double *buf_B1_Blocal_props_r1_r, double *buf_B1_Blocal_props_r2_i, double *buf_B1_Blocal_props_r2_r,
 	double *buf_B1_Blocal_r1_i, double *buf_B1_Blocal_r1_r, double *buf_B1_Blocal_r2_i, double *buf_B1_Blocal_r2_r, double *buf_B1_prop_i, double *buf_B1_prop_r, double *buf_C_i, double *buf_C_prop_i, double *buf_C_prop_r, double *buf_C_r, double *buf_new_term_i_b1, double *buf_new_term_r_b1, int32_t *buf_sigs, int32_t *buf_snk_color_weights, double *buf_snk_psi_i, double *buf_snk_psi_r, int32_t *buf_snk_spin_weights, double *buf_snk_weights, int32_t *buf_src_color_weights, double *buf_src_psi_B1_i, double *buf_src_psi_B1_r, int32_t *buf_src_spin_weights, double *buf_src_weights, int32_t *src_spins)
 {
-	__shared__ double buf_B1_Blocal_diquark_r1_i[1024];
-	__shared__ double buf_B1_Blocal_diquark_r1_r[1024];
-	__shared__ double buf_B1_Blocal_diquark_r2_i[1024];
-	__shared__ double buf_B1_Blocal_diquark_r2_r[1024];
 	// __shared__ double buf_B1_Blocal_props_r1_i[1024 * 6];
 	// __shared__ double buf_B1_Blocal_props_r1_r[1024 * 6];
 	// __shared__ double buf_B1_Blocal_props_r2_i[1024 * 6];
