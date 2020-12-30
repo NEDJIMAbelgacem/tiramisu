@@ -23,7 +23,7 @@
 
 // =================================================================================================
 
-#define P_size 128
+#define P_size 256
 #define P_Vsrc P_size
 #define P_Vsnk P_size
 #define P_Nsrc 44
