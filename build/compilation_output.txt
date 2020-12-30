@@ -1830,3 +1830,7 @@ make[3]: Leaving directory '/data/scratch/belgacem_nedjima/tiramisu_fork/tiramis
 make[2]: Leaving directory '/data/scratch/belgacem_nedjima/tiramisu_fork/tiramisu/build'
 /usr/bin/cmake -E cmake_progress_start /data/scratch/belgacem_nedjima/tiramisu_fork/tiramisu/build/CMakeFiles 0
 make[1]: Leaving directory '/data/scratch/belgacem_nedjima/tiramisu_fork/tiramisu/build'
+CMakeFiles/Makefile2:16302: recipe for target 'benchmarks/tensors/baryon/gpu_tiramisu_make_fused_baryon_blocks_correlator/CMakeFiles/run_gpu_tiramisu_make_fused_baryon_blocks_correlator.dir/rule' failed
+make[1]: *** [benchmarks/tensors/baryon/gpu_tiramisu_make_fused_baryon_blocks_correlator/CMakeFiles/run_gpu_tiramisu_make_fused_baryon_blocks_correlator.dir/rule] Terminated
+Makefile:5735: recipe for target 'run_gpu_tiramisu_make_fused_baryon_blocks_correlator' failed
+make: *** [run_gpu_tiramisu_make_fused_baryon_blocks_correlator] Terminated
