@@ -31,7 +31,7 @@ computation copy_src_spin_block_weights_device_to_host({}, memcpy(*src_spin_bloc
 computation copy_snk_b_device_to_host({}, memcpy(*snk_b.get_buffer(), snk_b_cpu));"""
 lines = lines.split('\n')
 for l in lines:
-    l = l.replace('device', '1').replace('host', 'device').replace('1', 'host')
+    l = l.replace('device', '~').replace('host', 'device').replace('~', 'host')
     firstOpenParenIndex = l.index('(')
     secondOpenParenIndex = firstOpenParenIndex + l[firstOpenParenIndex + 1:].index('(') + 1
     inv_l = l[::-1]
@@ -40,4 +40,9 @@ for l in lines:
     firstCloseParenIndex = len(l) - firstCloseParenIndex - 1
     secondCloseParenIndex = len(l) - secondCloseParenIndex - 1
     left, right = [i.strip() for i in l[secondOpenParenIndex + 1: secondCloseParenIndex].split(',')]
-    print(l[:secondOpenParenIndex+1] + left + ", " + right + l[secondCloseParenIndex:])
+    # print(l[:secondOpenParenIndex+1] + right + ", " + left + l[secondCloseParenIndex:]) # reverse copies
+    computation_name = l[12:firstOpenParenIndex]
+    # print("handle = &handle->then(" + l[12:firstOpenParenIndex] + ", computation::root);") # first copy
+    l = l.replace('device', '~').replace('host', 'device').replace('~', 'host') 
+    print("handle = &handle->then(" + l[12:firstOpenParenIndex] + ", computation::root);") # second copy
+    
