@@ -1,4 +1,4 @@
-set(benchmark_name gpu_tiramisu_make_fused_dibaryon_blocks_correlator)
+set(benchmark_name gpu_tiramisu_make_fused_baryon_blocks_correlator)
 set(generator_name ${benchmark_name}_generator)
 set(wrapper_name ${benchmark_name}_wrapper)
 set(object_files generated_${benchmark_name}.o generated_${benchmark_name}.o_cpu.o generated_${benchmark_name}.o_gpu.o)
