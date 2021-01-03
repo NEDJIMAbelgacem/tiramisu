@@ -62,7 +62,7 @@ void generate_function(std::string name)
    buffer buf_B1_prop_r_cpu("buf_B1_prop_r_cpu",   {Nq, Lt, Nc, Ns, Nc, Vsnk, Vsrc}, p_float64, a_temporary);
    buffer buf_B1_prop_i_cpu("buf_B1_prop_i_cpu",   {Nq, Lt, Nc, Ns, Nc, Vsnk, Vsrc}, p_float64, a_temporary);
    buffer buf_B2_prop_r_cpu("buf_B2_prop_r_cpu",   {Nq, Lt, Nc, Ns, Nc, Vsnk, Vsrc}, p_float64, a_temporary);
-   buffer buf_B2_prop_i_cpu("buf_B2_prop_r_cpu",   {Nq, Lt, Nc, Ns, Nc, Vsnk, Vsrc}, p_float64, a_temporary);
+   buffer buf_B2_prop_i_cpu("buf_B2_prop_i_cpu",   {Nq, Lt, Nc, Ns, Nc, Vsnk, Vsrc}, p_float64, a_temporary);
    B1_prop_r.get_buffer()->tag_gpu_global();
    B1_prop_i.get_buffer()->tag_gpu_global();
    B2_prop_r.get_buffer()->tag_gpu_global();
