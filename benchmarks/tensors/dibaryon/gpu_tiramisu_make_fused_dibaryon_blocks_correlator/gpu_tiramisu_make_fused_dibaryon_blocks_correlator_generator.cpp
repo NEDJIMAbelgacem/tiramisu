@@ -59,10 +59,10 @@ void generate_function(std::string name)
    input B1_prop_i("B1_prop_i",   {tri, t, iCprime, iSprime, jCprime, jSprime, x, y}, p_float64);
    input B2_prop_r("B2_prop_r",   {tri, t, iCprime, iSprime, jCprime, jSprime, x, y}, p_float64);
    input B2_prop_i("B2_prop_i",   {tri, t, iCprime, iSprime, jCprime, jSprime, x, y}, p_float64);
-   buffer buff_B1_prop_r_cpu("buf_B1_prop_r_cpu",   {Nq, Lt, Nc, Ns, Nc, Vsnk, Vsrc}, p_float64, a_temporary);
-   buffer buff_B1_prop_i_cpu("buf_B1_prop_i_cpu",   {Nq, Lt, Nc, Ns, Nc, Vsnk, Vsrc}, p_float64, a_temporary);
-   buffer buff_B2_prop_r_cpu("buf_B2_prop_r_cpu",   {Nq, Lt, Nc, Ns, Nc, Vsnk, Vsrc}, p_float64, a_temporary);
-   buffer buff_B2_prop_i_cpu("buf_B2_prop_r_cpu",   {Nq, Lt, Nc, Ns, Nc, Vsnk, Vsrc}, p_float64, a_temporary);
+   buffer buf_B1_prop_r_cpu("buf_B1_prop_r_cpu",   {Nq, Lt, Nc, Ns, Nc, Vsnk, Vsrc}, p_float64, a_temporary);
+   buffer buf_B1_prop_i_cpu("buf_B1_prop_i_cpu",   {Nq, Lt, Nc, Ns, Nc, Vsnk, Vsrc}, p_float64, a_temporary);
+   buffer buf_B2_prop_r_cpu("buf_B2_prop_r_cpu",   {Nq, Lt, Nc, Ns, Nc, Vsnk, Vsrc}, p_float64, a_temporary);
+   buffer buf_B2_prop_i_cpu("buf_B2_prop_r_cpu",   {Nq, Lt, Nc, Ns, Nc, Vsnk, Vsrc}, p_float64, a_temporary);
    B1_prop_r.get_buffer()->tag_gpu_global();
    B1_prop_i.get_buffer()->tag_gpu_global();
    B2_prop_r.get_buffer()->tag_gpu_global();
@@ -2274,10 +2274,10 @@ void generate_function(std::string name)
     
     computation copy_buf_C_r_device_to_host({}, memcpy(buf_C_r, buf_C_r_cpu));
     computation copy_buf_C_i_device_to_host({}, memcpy(buf_C_i, buf_C_i_cpu));
-    computation copy_B1_prop_r_device_to_host({}, memcpy(*B1_prop_r.get_buffer(), buff_B1_prop_r_cpu));
-    computation copy_B1_prop_i_device_to_host({}, memcpy(*B1_prop_i.get_buffer(), buff_B1_prop_i_cpu));
-    computation copy_B2_prop_r_device_to_host({}, memcpy(*B2_prop_r.get_buffer(), buff_B2_prop_r_cpu));
-    computation copy_B2_prop_i_device_to_host({}, memcpy(*B2_prop_i.get_buffer(), buff_B2_prop_i_cpu));
+    computation copy_B1_prop_r_device_to_host({}, memcpy(*B1_prop_r.get_buffer(), buf_B1_prop_r_cpu));
+    computation copy_B1_prop_i_device_to_host({}, memcpy(*B1_prop_i.get_buffer(), buf_B1_prop_i_cpu));
+    computation copy_B2_prop_r_device_to_host({}, memcpy(*B2_prop_r.get_buffer(), buf_B2_prop_r_cpu));
+    computation copy_B2_prop_i_device_to_host({}, memcpy(*B2_prop_i.get_buffer(), buf_B2_prop_i_cpu));
     computation copy_src_psi_B1_r_device_to_host({}, memcpy(*src_psi_B1_r.get_buffer(), buf_src_psi_B1_r_cpu));
     computation copy_src_psi_B1_i_device_to_host({}, memcpy(*src_psi_B1_i.get_buffer(), buf_src_psi_B1_i_cpu));
     computation copy_src_psi_B2_r_device_to_host({}, memcpy(*src_psi_B2_r.get_buffer(), buf_src_psi_B2_r_cpu));
