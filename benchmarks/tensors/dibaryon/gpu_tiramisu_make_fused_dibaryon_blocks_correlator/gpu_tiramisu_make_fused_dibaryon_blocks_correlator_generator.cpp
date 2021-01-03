@@ -2396,7 +2396,7 @@ computation copy_snk_b_host_to_device({}, memcpy(buf_snk_b_cpu, *snk_b.get_buffe
       handle = &handle->then(copy_src_spin_block_weights_host_to_device, computation::root);
       handle = &handle->then(copy_snk_b_host_to_device, computation::root);
 
-    computation* handle = &(handle->then(C_init_r).then(C_init_i, npnH));
+    handle = &(handle->then(C_init_r, computation::root).then(C_init_i, npnH));
 
     // BB_BB
     handle = &(handle
