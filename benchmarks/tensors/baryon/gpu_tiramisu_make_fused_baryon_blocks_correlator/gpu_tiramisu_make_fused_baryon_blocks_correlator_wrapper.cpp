@@ -12,6 +12,8 @@ extern "C" {
 #include "gpu_tiramisu_make_fused_baryon_blocks_correlator_wrapper.h"
 #include "gpu_tiramisu_make_fused_baryon_blocks_correlator_ref.cpp"
 
+#include "qblocks_2pt_parameters.h"
+
 #define RUN_REFERENCE 1
 #define RUN_CHECK 1
 int nb_tests = 1;
