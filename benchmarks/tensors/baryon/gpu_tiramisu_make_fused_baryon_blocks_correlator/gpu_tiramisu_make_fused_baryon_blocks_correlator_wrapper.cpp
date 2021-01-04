@@ -467,7 +467,7 @@ int main(int, char **)
    //  print_time("performance_CPU.csv", "dibaryon", {"Tiramisu"}, {median(duration_vector_1)/1000.});
 
 #if RUN_CHECK
-    print_time("performance_CPU.csv", std::string( "dibaryon_" ) + std::to_string(P_size), {"Ref", "Tiramisu"}, {median(duration_vector_2)/1000., median(duration_vector_1)/1000.});
+    print_time("performance_CPU.csv", std::string( "dibaryon_" ) + std::to_string(P_size), {"Ref", "Tiramisu", "speedup"}, {median(duration_vector_2)/1000., median(duration_vector_1)/1000., median(duration_vector_2)/median(duration_vector_1)});
     std::cout << "\nSpeedup = " << median(duration_vector_2)/median(duration_vector_1) << std::endl;
     
    for (rp=0; rp<B1Nrows; rp++) {
