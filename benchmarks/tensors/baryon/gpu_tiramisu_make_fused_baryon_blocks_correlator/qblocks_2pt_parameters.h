@@ -33,7 +33,7 @@
 // #define P_sites_per_rank 128
 // #define P_src_sites_per_rank 4
 
-#define P_size 64
+#define P_size 128
 #define P_Vsrc P_size
 #define P_Vsnk P_size
 #define P_Nsrc 44
