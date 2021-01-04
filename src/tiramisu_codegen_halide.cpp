@@ -3011,7 +3011,7 @@ void computation::create_halide_assignment()
 
             // The number of dimensions in the Halide buffer should be equal to
             // the number of dimensions of the access function.
-            if (buf_dims != access_dims || this->index_expr[0] != NULL)
+            if (buf_dims != access_dims || this->index_expr[0] == NULL)
             {
                 std::cout << "Problematic buffer: " << buffer_name << "\n";
             }

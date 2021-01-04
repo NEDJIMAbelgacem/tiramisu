@@ -6114,6 +6114,10 @@ isl_map *tiramisu::computation::get_access_relation_adapted_to_time_processor_do
 
     DEBUG(10, tiramisu::str_dump("Getting the access of the computation " + this->get_name() +
                                  " adapted to time-space."));
+    if (this->has_accesses() == true)
+    {
+        std::cout << "Problematic computation: " << this->name() << "\n";
+    }
     assert((this->has_accesses() == true) && ("This computation must have accesses."));
 
     isl_map *access = isl_map_copy(this->get_access_relation());
