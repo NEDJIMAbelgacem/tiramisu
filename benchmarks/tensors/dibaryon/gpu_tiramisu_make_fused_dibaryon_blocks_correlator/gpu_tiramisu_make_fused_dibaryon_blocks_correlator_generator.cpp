@@ -50,10 +50,10 @@ void generate_function(std::string name)
         kCprime("kCprime", 0, Nc),
         kSprime("kSprime", 0, Ns);
 
-   input C_r("C_r",      {t, x_out, rp, mpmH, r, npnH}, p_float64);
-   input C_i("C_i",      {t, x_out, rp, mpmH, r, npnH}, p_float64);
-   buffer buf_C_r_cpu("buf_C_r_cpu", {Lt, Vsnk/sites_per_rank, B2Nrows, NsrcTot, B2Nrows, NsnkTot}, p_float64, a_input);
-   buffer buf_C_i_cpu("buf_C_i_cpu", {Lt, Vsnk/sites_per_rank, B2Nrows, NsrcTot, B2Nrows, NsnkTot}, p_float64, a_input);
+   input C_r("C_r",      {t, x_out, x_in, rp, mpmH, r, npnH}, p_float64);
+   input C_i("C_i",      {t, x_out, x_in, rp, mpmH, r, npnH}, p_float64);
+   buffer buf_C_r_cpu("buf_C_r_cpu", {Lt, Vsnk/sites_per_rank, sites_per_rank, B2Nrows, NsrcTot, B2Nrows, NsnkTot}, p_float64, a_input);
+   buffer buf_C_i_cpu("buf_C_i_cpu", {Lt, Vsnk/sites_per_rank, sites_per_rank, B2Nrows, NsrcTot, B2Nrows, NsnkTot}, p_float64, a_input);
 
    input B1_prop_r("B1_prop_r",   {tri, t, iCprime, iSprime, jCprime, jSprime, x, y}, p_float64);
    input B1_prop_i("B1_prop_i",   {tri, t, iCprime, iSprime, jCprime, jSprime, x, y}, p_float64);
@@ -3426,29 +3426,29 @@ handle = &handle->then(copy_snk_b_device_to_host, computation::root);
     // Code Generation
     // -------------------------------------------------------
     tiramisu::codegen({
-	     &buf_C_r, &buf_C_i,
-        B1_prop_r.get_buffer(), B1_prop_i.get_buffer(),
-        B2_prop_r.get_buffer(), B2_prop_i.get_buffer(),
-        src_psi_B1_r.get_buffer(), src_psi_B1_i.get_buffer(),
-        src_psi_B2_r.get_buffer(), src_psi_B2_i.get_buffer(),
-        snk_psi_B1_r.get_buffer(), snk_psi_B1_i.get_buffer(),
-        snk_psi_B2_r.get_buffer(), snk_psi_B2_i.get_buffer(),
-        hex_src_psi_r.get_buffer(), hex_src_psi_i.get_buffer(),
-        hex_snk_psi_r.get_buffer(), hex_snk_psi_i.get_buffer(),
-        snk_psi_r.get_buffer(), snk_psi_i.get_buffer(),
-	     src_spins.get_buffer(),
-	     src_spin_block_weights.get_buffer(),
-        sigs.get_buffer(),
-	     src_color_weights.get_buffer(),
-	     src_spin_weights.get_buffer(),
-	     src_weights.get_buffer(),
-	     snk_b.get_buffer(),
-	     snk_color_weights.get_buffer(),
-	     snk_spin_weights.get_buffer(),
-	     snk_weights.get_buffer(),
-	     hex_snk_color_weights.get_buffer(),
-	     hex_snk_spin_weights.get_buffer(),
-	     hex_snk_weights.get_buffer()
+	     &buf_C_r_cpu, &buf_C_i_cpu,
+        &buf_B1_prop_r_cpu, &buf_B1_prop_i,
+        &buf_B2_prop_r_cpu, &buf_B2_prop_i,
+        &buf_src_psi_B1_r_cpu, &buf_src_psi_B1_i,
+        &buf_src_psi_B2_r_cpu, &buf_src_psi_B2_i,
+        &buf_snk_psi_B1_r_cpu, &buf_snk_psi_B1_i,
+        &buf_snk_psi_B2_r_cpu, &buf_snk_psi_B2_i,
+        &buf_hex_src_psi_r_cpu, &buf_hex_src_psi_i,
+        &buf_hex_snk_psi_r_cpu, &buf_hex_snk_psi_i,
+        &buf_snk_psi_r_cpu, &buf_snk_psi_i,
+	     &buf_src_spins_cpu,
+	     &buf_src_spin_block_weights_cpu,
+           &buf_sigs_cpu,
+	     &buf_src_color_weights_cpu,
+	     &buf_src_spin_weights_cpu,
+	     &buf_src_weights_cpu,
+	     &buf_snk_b_cpu,
+	     &buf_snk_color_weights_cpu,
+	     &buf_snk_spin_weights_cpu,
+	     &buf_snk_weights_cpu,
+	     &buf_hex_snk_color_weights_cpu,
+	     &buf_hex_snk_spin_weights_cpu,
+	     &buf_hex_snk_weights_cpu
         },
         "generated_tiramisu_make_fused_dibaryon_blocks_correlator.o");
 }
