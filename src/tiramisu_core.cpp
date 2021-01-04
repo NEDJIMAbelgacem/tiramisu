@@ -6116,7 +6116,7 @@ isl_map *tiramisu::computation::get_access_relation_adapted_to_time_processor_do
                                  " adapted to time-space."));
     if (this->has_accesses() == true)
     {
-        std::cout << "Problematic computation: " << this->name() << "\n";
+        std::cout << "Problematic computation: " << this->name << "\n";
     }
     assert((this->has_accesses() == true) && ("This computation must have accesses."));
 
