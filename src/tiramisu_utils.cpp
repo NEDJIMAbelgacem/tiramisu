@@ -44,7 +44,7 @@ void print_time(const string &file_name, const string &kernel_name,
 
     file.open(file_name, std::ios::app);
     file << std::fixed << std::setprecision(6);
-
+    std::cout << "Kernel name: " << kernel_name << "\n";
     file << kernel_name << "; ";
     for (const auto &t : time_vector)
     {
