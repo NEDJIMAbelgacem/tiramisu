@@ -465,7 +465,9 @@ int main(int, char **)
    //  print_time("performance_CPU.csv", "dibaryon", {"Tiramisu"}, {median(duration_vector_1)/1000.});
 
 #if RUN_CHECK
-    print_time("performance_CPU.csv", std::string( "dibaryon_" ) + std::to_string(P_size), {"Ref", "Tiramisu"}, {median(duration_vector_2)/1000., median(duration_vector_1)/1000.});
+   std::string kernel_name = std::string( "dibaryon" ) + std::to_string((int)P_size);
+   std::cout << "kernel_name: " << kernel_name << "\n";
+    print_time("performance_CPU.csv", kernel_name, {"Ref", "Tiramisu"}, {median(duration_vector_2)/1000., median(duration_vector_1)/1000.});
     std::cout << "\nSpeedup = " << median(duration_vector_2)/median(duration_vector_1) << std::endl;
     
    for (rp=0; rp<B1Nrows; rp++) {
