@@ -1,0 +1,115 @@
+/usr/bin/cmake -H/data/scratch/belgacem_nedjima/tiramisu_fork/tiramisu -B/data/scratch/belgacem_nedjima/tiramisu_fork/tiramisu/build --check-build-system CMakeFiles/Makefile.cmake 0
+make -f CMakeFiles/Makefile2 run_gpu_tiramisu_make_fused_baryon_blocks_correlator
+make[1]: Entering directory '/data/scratch/belgacem_nedjima/tiramisu_fork/tiramisu/build'
+/usr/bin/cmake -H/data/scratch/belgacem_nedjima/tiramisu_fork/tiramisu -B/data/scratch/belgacem_nedjima/tiramisu_fork/tiramisu/build --check-build-system CMakeFiles/Makefile.cmake 0
+/usr/bin/cmake -E cmake_progress_start /data/scratch/belgacem_nedjima/tiramisu_fork/tiramisu/build/CMakeFiles 1
+make -f CMakeFiles/Makefile2 benchmarks/tensors/baryon/gpu_tiramisu_make_fused_baryon_blocks_correlator/CMakeFiles/run_gpu_tiramisu_make_fused_baryon_blocks_correlator.dir/all
+make[2]: Entering directory '/data/scratch/belgacem_nedjima/tiramisu_fork/tiramisu/build'
+make -f CMakeFiles/tiramisu.dir/build.make CMakeFiles/tiramisu.dir/depend
+make[3]: Entering directory '/data/scratch/belgacem_nedjima/tiramisu_fork/tiramisu/build'
+cd /data/scratch/belgacem_nedjima/tiramisu_fork/tiramisu/build && /usr/bin/cmake -E cmake_depends "Unix Makefiles" /data/scratch/belgacem_nedjima/tiramisu_fork/tiramisu /data/scratch/belgacem_nedjima/tiramisu_fork/tiramisu /data/scratch/belgacem_nedjima/tiramisu_fork/tiramisu/build /data/scratch/belgacem_nedjima/tiramisu_fork/tiramisu/build /data/scratch/belgacem_nedjima/tiramisu_fork/tiramisu/build/CMakeFiles/tiramisu.dir/DependInfo.cmake --color=
+make[3]: Leaving directory '/data/scratch/belgacem_nedjima/tiramisu_fork/tiramisu/build'
+make -f CMakeFiles/tiramisu.dir/build.make CMakeFiles/tiramisu.dir/build
+make[3]: Entering directory '/data/scratch/belgacem_nedjima/tiramisu_fork/tiramisu/build'
+make[3]: Nothing to be done for 'CMakeFiles/tiramisu.dir/build'.
+make[3]: Leaving directory '/data/scratch/belgacem_nedjima/tiramisu_fork/tiramisu/build'
+[100%] Built target tiramisu
+make -f CMakeFiles/cuda_wrapper.dir/build.make CMakeFiles/cuda_wrapper.dir/depend
+make[3]: Entering directory '/data/scratch/belgacem_nedjima/tiramisu_fork/tiramisu/build'
+cd /data/scratch/belgacem_nedjima/tiramisu_fork/tiramisu/build && /usr/bin/cmake -E cmake_depends "Unix Makefiles" /data/scratch/belgacem_nedjima/tiramisu_fork/tiramisu /data/scratch/belgacem_nedjima/tiramisu_fork/tiramisu /data/scratch/belgacem_nedjima/tiramisu_fork/tiramisu/build /data/scratch/belgacem_nedjima/tiramisu_fork/tiramisu/build /data/scratch/belgacem_nedjima/tiramisu_fork/tiramisu/build/CMakeFiles/cuda_wrapper.dir/DependInfo.cmake --color=
+make[3]: Leaving directory '/data/scratch/belgacem_nedjima/tiramisu_fork/tiramisu/build'
+make -f CMakeFiles/cuda_wrapper.dir/build.make CMakeFiles/cuda_wrapper.dir/build
+make[3]: Entering directory '/data/scratch/belgacem_nedjima/tiramisu_fork/tiramisu/build'
+make[3]: Nothing to be done for 'CMakeFiles/cuda_wrapper.dir/build'.
+make[3]: Leaving directory '/data/scratch/belgacem_nedjima/tiramisu_fork/tiramisu/build'
+[100%] Built target cuda_wrapper
+make -f benchmarks/tensors/baryon/gpu_tiramisu_make_fused_baryon_blocks_correlator/CMakeFiles/gpu_tiramisu_make_fused_baryon_blocks_correlator_generator.dir/build.make benchmarks/tensors/baryon/gpu_tiramisu_make_fused_baryon_blocks_correlator/CMakeFiles/gpu_tiramisu_make_fused_baryon_blocks_correlator_generator.dir/depend
+make[3]: Entering directory '/data/scratch/belgacem_nedjima/tiramisu_fork/tiramisu/build'
+cd /data/scratch/belgacem_nedjima/tiramisu_fork/tiramisu/build && /usr/bin/cmake -E cmake_depends "Unix Makefiles" /data/scratch/belgacem_nedjima/tiramisu_fork/tiramisu /data/scratch/belgacem_nedjima/tiramisu_fork/tiramisu/benchmarks/tensors/baryon/gpu_tiramisu_make_fused_baryon_blocks_correlator /data/scratch/belgacem_nedjima/tiramisu_fork/tiramisu/build /data/scratch/belgacem_nedjima/tiramisu_fork/tiramisu/build/benchmarks/tensors/baryon/gpu_tiramisu_make_fused_baryon_blocks_correlator /data/scratch/belgacem_nedjima/tiramisu_fork/tiramisu/build/benchmarks/tensors/baryon/gpu_tiramisu_make_fused_baryon_blocks_correlator/CMakeFiles/gpu_tiramisu_make_fused_baryon_blocks_correlator_generator.dir/DependInfo.cmake --color=
+make[3]: Leaving directory '/data/scratch/belgacem_nedjima/tiramisu_fork/tiramisu/build'
+make -f benchmarks/tensors/baryon/gpu_tiramisu_make_fused_baryon_blocks_correlator/CMakeFiles/gpu_tiramisu_make_fused_baryon_blocks_correlator_generator.dir/build.make benchmarks/tensors/baryon/gpu_tiramisu_make_fused_baryon_blocks_correlator/CMakeFiles/gpu_tiramisu_make_fused_baryon_blocks_correlator_generator.dir/build
+make[3]: Entering directory '/data/scratch/belgacem_nedjima/tiramisu_fork/tiramisu/build'
+make[3]: Nothing to be done for 'benchmarks/tensors/baryon/gpu_tiramisu_make_fused_baryon_blocks_correlator/CMakeFiles/gpu_tiramisu_make_fused_baryon_blocks_correlator_generator.dir/build'.
+make[3]: Leaving directory '/data/scratch/belgacem_nedjima/tiramisu_fork/tiramisu/build'
+[100%] Built target gpu_tiramisu_make_fused_baryon_blocks_correlator_generator
+make -f benchmarks/tensors/baryon/gpu_tiramisu_make_fused_baryon_blocks_correlator/CMakeFiles/gpu_tiramisu_make_fused_baryon_blocks_correlator_wrapper.dir/build.make benchmarks/tensors/baryon/gpu_tiramisu_make_fused_baryon_blocks_correlator/CMakeFiles/gpu_tiramisu_make_fused_baryon_blocks_correlator_wrapper.dir/depend
+make[3]: Entering directory '/data/scratch/belgacem_nedjima/tiramisu_fork/tiramisu/build'
+cd /data/scratch/belgacem_nedjima/tiramisu_fork/tiramisu/build && /usr/bin/cmake -E cmake_depends "Unix Makefiles" /data/scratch/belgacem_nedjima/tiramisu_fork/tiramisu /data/scratch/belgacem_nedjima/tiramisu_fork/tiramisu/benchmarks/tensors/baryon/gpu_tiramisu_make_fused_baryon_blocks_correlator /data/scratch/belgacem_nedjima/tiramisu_fork/tiramisu/build /data/scratch/belgacem_nedjima/tiramisu_fork/tiramisu/build/benchmarks/tensors/baryon/gpu_tiramisu_make_fused_baryon_blocks_correlator /data/scratch/belgacem_nedjima/tiramisu_fork/tiramisu/build/benchmarks/tensors/baryon/gpu_tiramisu_make_fused_baryon_blocks_correlator/CMakeFiles/gpu_tiramisu_make_fused_baryon_blocks_correlator_wrapper.dir/DependInfo.cmake --color=
+make[3]: Leaving directory '/data/scratch/belgacem_nedjima/tiramisu_fork/tiramisu/build'
+make -f benchmarks/tensors/baryon/gpu_tiramisu_make_fused_baryon_blocks_correlator/CMakeFiles/gpu_tiramisu_make_fused_baryon_blocks_correlator_wrapper.dir/build.make benchmarks/tensors/baryon/gpu_tiramisu_make_fused_baryon_blocks_correlator/CMakeFiles/gpu_tiramisu_make_fused_baryon_blocks_correlator_wrapper.dir/build
+make[3]: Entering directory '/data/scratch/belgacem_nedjima/tiramisu_fork/tiramisu/build'
+make[3]: Nothing to be done for 'benchmarks/tensors/baryon/gpu_tiramisu_make_fused_baryon_blocks_correlator/CMakeFiles/gpu_tiramisu_make_fused_baryon_blocks_correlator_wrapper.dir/build'.
+make[3]: Leaving directory '/data/scratch/belgacem_nedjima/tiramisu_fork/tiramisu/build'
+[100%] Built target gpu_tiramisu_make_fused_baryon_blocks_correlator_wrapper
+make -f benchmarks/tensors/baryon/gpu_tiramisu_make_fused_baryon_blocks_correlator/CMakeFiles/run_gpu_tiramisu_make_fused_baryon_blocks_correlator.dir/build.make benchmarks/tensors/baryon/gpu_tiramisu_make_fused_baryon_blocks_correlator/CMakeFiles/run_gpu_tiramisu_make_fused_baryon_blocks_correlator.dir/depend
+make[3]: Entering directory '/data/scratch/belgacem_nedjima/tiramisu_fork/tiramisu/build'
+cd /data/scratch/belgacem_nedjima/tiramisu_fork/tiramisu/build && /usr/bin/cmake -E cmake_depends "Unix Makefiles" /data/scratch/belgacem_nedjima/tiramisu_fork/tiramisu /data/scratch/belgacem_nedjima/tiramisu_fork/tiramisu/benchmarks/tensors/baryon/gpu_tiramisu_make_fused_baryon_blocks_correlator /data/scratch/belgacem_nedjima/tiramisu_fork/tiramisu/build /data/scratch/belgacem_nedjima/tiramisu_fork/tiramisu/build/benchmarks/tensors/baryon/gpu_tiramisu_make_fused_baryon_blocks_correlator /data/scratch/belgacem_nedjima/tiramisu_fork/tiramisu/build/benchmarks/tensors/baryon/gpu_tiramisu_make_fused_baryon_blocks_correlator/CMakeFiles/run_gpu_tiramisu_make_fused_baryon_blocks_correlator.dir/DependInfo.cmake --color=
+make[3]: Leaving directory '/data/scratch/belgacem_nedjima/tiramisu_fork/tiramisu/build'
+make -f benchmarks/tensors/baryon/gpu_tiramisu_make_fused_baryon_blocks_correlator/CMakeFiles/run_gpu_tiramisu_make_fused_baryon_blocks_correlator.dir/build.make benchmarks/tensors/baryon/gpu_tiramisu_make_fused_baryon_blocks_correlator/CMakeFiles/run_gpu_tiramisu_make_fused_baryon_blocks_correlator.dir/build
+make[3]: Entering directory '/data/scratch/belgacem_nedjima/tiramisu_fork/tiramisu/build'
+cd /data/scratch/belgacem_nedjima/tiramisu_fork/tiramisu/build/benchmarks/tensors/baryon/gpu_tiramisu_make_fused_baryon_blocks_correlator && ../../../../gpu_tiramisu_make_fused_baryon_blocks_correlator_wrapper
+Start Tiramisu code.
+Run 0/1
+Array sizes
+Prop:
+	Max index size = 3538944
+	Array size = 54 Mega bytes
+Q, O & P:
+	Max index size = 589824
+	Array size = 9 Mega bytes
+Blocal:
+	Max index size = 27648
+	Array size = 432 kilo bytes
+Blocal, Bsingle, Bdouble:
+	Max index size = 216
+	Array size = 3 kilo bytes
+
+prop elem 3.000000000 
+prop 1 3.000000000 + I 7.000000000 
+psi src 1 3.000000000 + I 5.000000000 
+psi snk 8.000000000 + I 2.000000000 
+weights snk -0.707106781 
+non-zero r1? -709203.0 + I -522813.0 non-zero r2? -277696.0 + I -400329.0 
+rp=0, m=0, r=0, n=0, t=0: 9064949.0 + I (5266557.5) 
+rp=0, m=0, r=0, n=0, t=1: 4096323.5 + I (-9085221.0) 
+rp=0, m=0, r=1, n=0, t=0: -8429061.5 + I (17843364.0) 
+rp=0, m=0, r=1, n=0, t=1: -2907776.0 + I (1549077.0) 
+
+rp=1, m=0, r=0, n=0, t=0: -13199996.5 + I (-2181514.0) 
+rp=1, m=0, r=0, n=0, t=1: 4253242.5 + I (6290713.5) 
+rp=1, m=0, r=1, n=0, t=0: -18580882.0 + I (17641268.0) 
+rp=1, m=0, r=1, n=0, t=1: 5692017.5 + I (10839178.5) 
+End Tiramisu code.
+Tiramisu execution time: 0.815262
+
+rp=0, m=0, r=0, n=0, t=0: 9064949.0 + I (5266557.5) 
+rp=0, m=0, r=0, n=0, t=1: 4096323.5 + I (-9085221.0) 
+rp=0, m=0, r=1, n=0, t=0: -8429061.5 + I (17843364.0) 
+rp=0, m=0, r=1, n=0, t=1: -2907776.0 + I (1549077.0) 
+
+rp=1, m=0, r=0, n=0, t=0: -13199996.5 + I (-2181514.0) 
+rp=1, m=0, r=0, n=0, t=1: 4253242.5 + I (6290713.5) 
+rp=1, m=0, r=1, n=0, t=0: -18580882.0 + I (17641268.0) 
+rp=1, m=0, r=1, n=0, t=1: 5692017.5 + I (10839178.5) 
+Start reference C code.
+Run 0/1
+End reference C code.
+Kernel              : Tiramisu       ; 
+dibaryon            : 0.815262       ; 
+Kernel              : Ref            ; Tiramisu       ; 
+dibaryon            : 2.431425       ; 0.815262       ; 
+
+Speedup = 2.98239
+
+
+Finished
+
+
+[1;32mSuccess: computed values are equal![0m
+
+
+make[3]: Leaving directory '/data/scratch/belgacem_nedjima/tiramisu_fork/tiramisu/build'
+[100%] Built target run_gpu_tiramisu_make_fused_baryon_blocks_correlator
+make[2]: Leaving directory '/data/scratch/belgacem_nedjima/tiramisu_fork/tiramisu/build'
+/usr/bin/cmake -E cmake_progress_start /data/scratch/belgacem_nedjima/tiramisu_fork/tiramisu/build/CMakeFiles 0
+make[1]: Leaving directory '/data/scratch/belgacem_nedjima/tiramisu_fork/tiramisu/build'
