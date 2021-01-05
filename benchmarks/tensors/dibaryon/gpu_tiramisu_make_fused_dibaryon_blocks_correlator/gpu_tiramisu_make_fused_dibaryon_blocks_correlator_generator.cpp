@@ -3126,10 +3126,10 @@ computation copy_snk_b_host_to_device({}, memcpy(buf_snk_b_cpu, *snk_b.get_buffe
           flip_BB_H_new_term_0_r1_b2.get_imag()->tag_gpu_level(x_out, x_in);
           flip_BB_H_new_term_0_r2_b2.get_real()->tag_gpu_level(x_out, x_in);
           flip_BB_H_new_term_0_r2_b2.get_imag()->tag_gpu_level(x_out, x_in);
-          C_BB_H_prop_update_r.tag_gpu_level(x_out, x_int);
-          C_BB_H_prop_update_i.tag_gpu_level(x_out, x_int);
-          C_BB_H_update_r.tag_gpu_level(x_out, x_int);
-          C_BB_H_update_i.tag_gpu_level(x_out, x_int);
+          C_BB_H_prop_update_r.tag_gpu_level(x_out, x_in);
+          C_BB_H_prop_update_i.tag_gpu_level(x_out, x_in);
+          C_BB_H_update_r.tag_gpu_level(x_out, x_in);
+          C_BB_H_update_i.tag_gpu_level(x_out, x_in);
           );
 
 //     // BB_H
