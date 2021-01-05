@@ -2395,7 +2395,7 @@ computation copy_snk_b_host_to_device({}, memcpy(buf_snk_b_cpu, *snk_b.get_buffe
           flip_B1_Bsecond_r1_i_update.tag_gpu_level(x_out, x_in);
           flip_B1_Bthird_r1_r_update.tag_gpu_level(x_out, x_in);
           flip_B1_Bthird_r1_i_update.tag_gpu_level(x_out, x_in);
-          B1_Blocal_r2_r_init.tag_gpu_level(x_out, x_in);)
+          B1_Blocal_r2_r_init.tag_gpu_level(x_out, x_in);
           B1_Blocal_r2_i_init.tag_gpu_level(x_out, x_in);
           B1_Bfirst_r2_r_init.tag_gpu_level(x_out, x_in);
           B1_Bfirst_r2_i_init.tag_gpu_level(x_out, x_in);
