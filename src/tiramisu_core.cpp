@@ -5586,7 +5586,7 @@ tiramisu::buffer::buffer(std::string name, std::vector<tiramisu::expr> dim_sizes
     assert(fct != NULL && "Input function is NULL");
 
     // Check that the buffer does not already exist.
-    if ((fct->get_buffers().count(name) == 0) && ("Buffer already exists"))
+    if (fct->get_buffers().count(name) != 0)
     {
         std::cout << "Error while looking for: " << name << std::endl;
     }
