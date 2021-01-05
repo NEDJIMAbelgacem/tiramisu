@@ -6,8 +6,8 @@
 
 using namespace tiramisu;
 
-#define VECTORIZED 1
-#define PARALLEL 1
+#define VECTORIZED 0
+#define PARALLEL 0
 
 void generate_function(std::string name)
 {
@@ -3404,19 +3404,19 @@ handle = &handle->then(copy_snk_b_device_to_host, computation::root);
 
 #if VECTORIZED
 
-    (BB_BB_new_term_0_r1_b1.get_real())->tag_vector_level(wnum, Nw2);
-    (BB_H_new_term_0_r1_b1.get_real())->tag_vector_level(wnumHex, Nw2Hex);
-    (H_BB_new_term_0_r1_b1.get_real())->tag_vector_level(wnumHex, Nw2Hex);
-    C_H_H_prop_update_r.tag_vector_level(wnumHexHex, Nw2Hex);
+//     (BB_BB_new_term_0_r1_b1.get_real())->tag_vector_level(wnum, Nw2);
+//     (BB_H_new_term_0_r1_b1.get_real())->tag_vector_level(wnumHex, Nw2Hex);
+//     (H_BB_new_term_0_r1_b1.get_real())->tag_vector_level(wnumHex, Nw2Hex);
+//     C_H_H_prop_update_r.tag_vector_level(wnumHexHex, Nw2Hex);
 
 #endif
 
 #if PARALLEL
 
-    B1_Blocal_r1_r_init.tag_distribute_level(t);
-    src_B1_Blocal_r1_r_init.tag_distribute_level(t);
-    snk_B1_Blocal_r1_r_init.tag_distribute_level(t);
-    C_H_H_prop_init_r.tag_distribute_level(t);
+//     B1_Blocal_r1_r_init.tag_distribute_level(t);
+//     src_B1_Blocal_r1_r_init.tag_distribute_level(t);
+//     snk_B1_Blocal_r1_r_init.tag_distribute_level(t);
+//     C_H_H_prop_init_r.tag_distribute_level(t);
 
 
 #endif
