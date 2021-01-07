@@ -2768,6 +2768,11 @@ tiramisu::expr generator::comp_to_buffer(tiramisu::computation *comp, std::vecto
 
     // The number of dimensions in the Halide buffer should be equal to
     // the number of dimensions of the access function.
+    if (dim_sizes.size() != access_dims)
+    {
+        std::cout << "Problematic buffer: " << buffer_name << "\n";
+        std::cout << "Problematic computation: " << comp->name << "\n";
+    }
     assert(dim_sizes.size() == access_dims);
     if (index_expr.empty())
     {
