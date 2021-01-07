@@ -63,10 +63,20 @@ void generate_function(std::string name)
    buffer buf_B1_prop_i_cpu("buf_B1_prop_i_cpu",   {Nq, Lt, Nc, Ns, Nc, Vsnk, Vsrc}, p_float64, a_temporary);
    buffer buf_B2_prop_r_cpu("buf_B2_prop_r_cpu",   {Nq, Lt, Nc, Ns, Nc, Vsnk, Vsrc}, p_float64, a_temporary);
    buffer buf_B2_prop_i_cpu("buf_B2_prop_i_cpu",   {Nq, Lt, Nc, Ns, Nc, Vsnk, Vsrc}, p_float64, a_temporary);
-   B1_prop_r.get_buffer()->tag_gpu_global();
-   B1_prop_i.get_buffer()->tag_gpu_global();
-   B2_prop_r.get_buffer()->tag_gpu_global();
-   B2_prop_i.get_buffer()->tag_gpu_global();
+
+   buffer buf_B1_prop_r("B1_prop_r",   {Nq, Lt, Nc, Ns, Nc, Vsnk, Vsrc}, p_float64, a_temporary);
+   buffer buf_B1_prop_i("B1_prop_i",   {Nq, Lt, Nc, Ns, Nc, Vsnk, Vsrc}, p_float64, a_temporary);
+   buffer buf_B2_prop_r("B2_prop_r",   {Nq, Lt, Nc, Ns, Nc, Vsnk, Vsrc}, p_float64, a_temporary);
+   buffer buf_B2_prop_i("B2_prop_i",   {Nq, Lt, Nc, Ns, Nc, Vsnk, Vsrc}, p_float64, a_temporary);
+   buf_B1_prop_r.tag_gpu_global();
+   buf_B1_prop_i.tag_gpu_global();
+   buf_B2_prop_r.tag_gpu_global();
+   buf_B2_prop_i.tag_gpu_global();
+
+   B1_prop_r.store_in(buf_B1_prop_r);
+   B1_prop_i.store_in(buf_B1_prop_i);
+   B2_prop_r.store_in(buf_B2_prop_r);
+   B2_prop_i.store_in(buf_B2_prop_i);
 
    input src_psi_B1_r("src_psi_B1_r",    {y, m}, p_float64);
    input src_psi_B1_i("src_psi_B1_i",    {y, m}, p_float64);
@@ -82,20 +92,53 @@ void generate_function(std::string name)
    input hex_snk_psi_i("hex_snk_psi_i",    {x, nH}, p_float64);
    input snk_psi_r("snk_psi_r", {x, x2, ne}, p_float64);
    input snk_psi_i("snk_psi_i", {x, x2, ne}, p_float64);
-   src_psi_B1_r.get_buffer()->tag_gpu_global();
-   src_psi_B1_i.get_buffer()->tag_gpu_global();
-   src_psi_B2_r.get_buffer()->tag_gpu_global();
-   src_psi_B2_i.get_buffer()->tag_gpu_global();
-   snk_psi_B1_r.get_buffer()->tag_gpu_global();
-   snk_psi_B1_i.get_buffer()->tag_gpu_global();
-   snk_psi_B2_r.get_buffer()->tag_gpu_global();
-   snk_psi_B2_i.get_buffer()->tag_gpu_global();
-   hex_src_psi_r.get_buffer()->tag_gpu_global();
-   hex_src_psi_i.get_buffer()->tag_gpu_global();
-   hex_snk_psi_r.get_buffer()->tag_gpu_global();
-   hex_snk_psi_i.get_buffer()->tag_gpu_global();
-   snk_psi_r.get_buffer()->tag_gpu_global();
-   snk_psi_i.get_buffer()->tag_gpu_global();
+
+   buffer buf_src_psi_B1_r("src_psi_B1_r",   {Vsrc, Nsrc}, p_float64, a_temporary);
+   buffer buf_src_psi_B1_i("src_psi_B1_i",   {Vsrc, Nsrc}, p_float64, a_temporary);
+   buffer buf_src_psi_B2_r("src_psi_B2_r",   {Vsrc, Nsrc}, p_float64, a_temporary);
+   buffer buf_src_psi_B2_i("src_psi_B2_i",   {Vsrc, Nsrc}, p_float64, a_temporary);
+   buffer buf_snk_psi_B1_r("snk_psi_B1_r",   {Vsnk, Nsnk}, p_float64, a_temporary);
+   buffer buf_snk_psi_B1_i("snk_psi_B1_i",   {Vsnk, Nsnk}, p_float64, a_temporary);
+   buffer buf_snk_psi_B2_r("snk_psi_B2_r",   {Vsnk, Nsnk}, p_float64, a_temporary);
+   buffer buf_snk_psi_B2_i("snk_psi_B2_i",   {Vsnk, Nsnk}, p_float64, a_temporary);
+   buffer buf_hex_src_psi_r("hex_src_psi_r",   {Vsrc, NsrcHex}, p_float64, a_temporary);
+   buffer buf_hex_src_psi_i("hex_src_psi_i",   {Vsrc, NsrcHex}, p_float64, a_temporary);
+   buffer buf_hex_snk_psi_r("hex_snk_psi_r",   {Vsnk, NsnkHex}, p_float64, a_temporary);
+   buffer buf_hex_snk_psi_i("hex_snk_psi_i",   {Vsnk, NsnkHex}, p_float64, a_temporary);
+   buffer buf_snk_psi_r("snk_psi_r",   {Vsnk, Vsnk, NEntangled}, p_float64, a_temporary);
+   buffer buf_snk_psi_i("snk_psi_i",   {Vsnk, Vsnk, NEntangled}, p_float64, a_temporary);
+
+   buf_src_psi_B1_r.tag_gpu_global();
+   buf_src_psi_B1_i.tag_gpu_global();
+   buf_src_psi_B2_r.tag_gpu_global();
+   buf_src_psi_B2_i.tag_gpu_global();
+   buf_snk_psi_B1_r.tag_gpu_global();
+   buf_snk_psi_B1_i.tag_gpu_global();
+   buf_snk_psi_B2_r.tag_gpu_global();
+   buf_snk_psi_B2_i.tag_gpu_global();
+   buf_hex_src_psi_r.tag_gpu_global();
+   buf_hex_src_psi_i.tag_gpu_global();
+   buf_hex_snk_psi_r.tag_gpu_global();
+   buf_hex_snk_psi_i.tag_gpu_global();
+   buf_snk_psi_r.tag_gpu_global();
+   buf_snk_psi_i.tag_gpu_global();
+
+      src_psi_B1_r.store_in(&buf_src_psi_B1_r);
+      src_psi_B1_i.store_in(&buf_src_psi_B1_i);
+      src_psi_B2_r.store_in(&buf_src_psi_B2_r);
+      src_psi_B2_i.store_in(&buf_src_psi_B2_i);
+      snk_psi_B1_r.store_in(&buf_snk_psi_B1_r);
+      snk_psi_B1_i.store_in(&buf_snk_psi_B1_i);
+      snk_psi_B2_r.store_in(&buf_snk_psi_B2_r);
+      snk_psi_B2_i.store_in(&buf_snk_psi_B2_i);
+      hex_src_psi_r.store_in(&buf_hex_src_psi_r);
+      hex_src_psi_i.store_in(&buf_hex_src_psi_i);
+      hex_snk_psi_r.store_in(&buf_hex_snk_psi_r);
+      hex_snk_psi_i.store_in(&buf_hex_snk_psi_i);
+      snk_psi_r.store_in(&buf_snk_psi_r);
+      snk_psi_i.store_in(&buf_snk_psi_i);
+
+
    buffer buf_src_psi_B1_r_cpu("buf_src_psi_B1_r_cpu",   {Vsrc, Nsrc}, p_float64, a_temporary);
    buffer buf_src_psi_B1_i_cpu("buf_src_psi_B1_i_cpu",   {Vsrc, Nsrc}, p_float64, a_temporary);
    buffer buf_src_psi_B2_r_cpu("buf_src_psi_B2_r_cpu",   {Vsrc, Nsrc}, p_float64, a_temporary);
@@ -124,19 +167,50 @@ void generate_function(std::string name)
    input hex_snk_color_weights("hex_snk_color_weights", {r, nperm, wnumHex, q, to}, p_int32);
    input hex_snk_spin_weights("hex_snk_spin_weights", {r, nperm, wnumHex, q, to}, p_int32);
    input hex_snk_weights("hex_snk_weights", {r, wnumHex}, p_float64);
-   src_spins.get_buffer()->tag_gpu_global();
-   src_spin_block_weights.get_buffer()->tag_gpu_global();
-   sigs.get_buffer()->tag_gpu_global();
-   snk_b.get_buffer()->tag_gpu_global();
-   src_color_weights.get_buffer()->tag_gpu_global();
-   src_spin_weights.get_buffer()->tag_gpu_global();
-   src_weights.get_buffer()->tag_gpu_global();
-   snk_color_weights.get_buffer()->tag_gpu_global();
-   snk_spin_weights.get_buffer()->tag_gpu_global();
-   snk_weights.get_buffer()->tag_gpu_global();
-   hex_snk_color_weights.get_buffer()->tag_gpu_global();
-   hex_snk_spin_weights.get_buffer()->tag_gpu_global();
-   hex_snk_weights.get_buffer()->tag_gpu_global();
+
+   buffer buf_src_spins("src_spins",   {B2Nrows, 2, 2}, p_float64, a_temporary);
+   buffer buf_src_spin_block_weights("src_spin_block_weights",   {B2Nrows, 2}, p_float64, a_temporary);
+   buffer buf_sigs("sigs",   {Nperms}, p_float64, a_temporary);
+   buffer buf_snk_b("snk_b",   {Nperms, Nq, 2}, p_float64, a_temporary);
+   buffer buf_src_color_weights("src_color_weights",   {B2Nrows, Nw, Nq}, p_float64, a_temporary);
+   buffer buf_src_spin_weights("src_spin_weights",   {B2Nrows, Nw, Nq}, p_float64, a_temporary);
+   buffer buf_src_weights("src_weights",   {B2Nrows, Nw}, p_float64, a_temporary);
+   buffer buf_snk_color_weights("snk_color_weights",   {B2Nrows, Nperms, Nw2, Nq, 2}, p_float64, a_temporary);
+   buffer buf_snk_spin_weights("snk_spin_weights",   {B2Nrows, Nperms, Nw2, Nq, 2}, p_float64, a_temporary);
+   buffer buf_snk_weights("snk_weights",   {B2Nrows, Nw2}, p_float64, a_temporary);
+   buffer buf_hex_snk_color_weights("hex_snk_color_weights", {B2Nrows, Nperms, Nw2Hex, Nq, 2}, p_float64, a_temporary);
+   buffer buf_hex_snk_spin_weights("hex_snk_spin_weights", {B2Nrows, Nperms, Nw2Hex, Nq, 2}, p_float64, a_temporary);
+   buffer buf_hex_snk_weights("hex_snk_weights", {B2Nrows, Nw2Hex}, p_float64, a_temporary);
+
+      buf_src_spins.tag_gpu_global();
+      buf_src_spin_block_weights.tag_gpu_global();
+      buf_sigs.tag_gpu_global();
+      buf_snk_b.tag_gpu_global();
+      buf_src_color_weights.tag_gpu_global();
+      buf_src_spin_weights.tag_gpu_global();
+      buf_src_weights.tag_gpu_global();
+      buf_snk_color_weights.tag_gpu_global();
+      buf_snk_spin_weights.tag_gpu_global();
+      buf_snk_weights.tag_gpu_global();
+      buf_hex_snk_color_weights.tag_gpu_global();
+      buf_hex_snk_spin_weights.tag_gpu_global();
+      buf_hex_snk_weights.tag_gpu_global();
+
+      src_spins.store_in(&buf_src_spins);
+      src_spin_block_weights.store_in(&buf_src_spin_block_weights);
+      sigs.store_in(&buf_sigs);
+      snk_b.store_in(&buf_snk_b);
+      src_color_weights.store_in(&buf_src_color_weights);
+      src_spin_weights.store_in(&buf_src_spin_weights);
+      src_weights.store_in(&buf_src_weights);
+      snk_color_weights.store_in(&buf_snk_color_weights);
+      snk_spin_weights.store_in(&buf_snk_spin_weights);
+      snk_weights.store_in(&buf_snk_weights);
+      hex_snk_color_weights.store_in(&buf_hex_snk_color_weights);
+      hex_snk_spin_weights.store_in(&buf_hex_snk_spin_weights);
+      hex_snk_weights.store_in(&buf_hex_snk_weights);
+
+
    buffer buf_src_spins_cpu("buf_src_spins_cpu",   {B2Nrows, 2, 2}, p_float64, a_temporary);
    buffer buf_src_spin_block_weights_cpu("buf_src_spin_block_weights_cpu",   {B2Nrows, 2}, p_float64, a_temporary);
    buffer buf_sigs_cpu("buf_sigs_cpu",   {Nperms}, p_float64, a_temporary);
@@ -2336,6 +2410,604 @@ computation copy_hex_snk_weights_host_to_device({}, memcpy(buf_hex_snk_weights_c
 computation copy_src_spin_block_weights_host_to_device({}, memcpy(buf_src_spin_block_weights_cpu, *src_spin_block_weights.get_buffer()));
 computation copy_snk_b_host_to_device({}, memcpy(buf_snk_b_cpu, *snk_b.get_buffer()));
 
+    // -------------------------------------------------------
+    // Layer II
+    // -------------------------------------------------------
+
+      computation* handle = &copy_buf_C_r_host_to_device.then(copy_buf_C_i_host_to_device, computation::root);
+      handle = &handle->then(copy_B1_prop_r_host_to_device, computation::root);
+      handle = &handle->then(copy_B1_prop_i_host_to_device, computation::root);
+      handle = &handle->then(copy_B2_prop_r_host_to_device, computation::root);
+      handle = &handle->then(copy_B2_prop_i_host_to_device, computation::root);
+      handle = &handle->then(copy_src_psi_B1_r_host_to_device, computation::root);
+      handle = &handle->then(copy_src_psi_B1_i_host_to_device, computation::root);
+      handle = &handle->then(copy_src_psi_B2_r_host_to_device, computation::root);
+      handle = &handle->then(copy_src_psi_B2_i_host_to_device, computation::root);
+      handle = &handle->then(copy_snk_psi_B1_r_host_to_device, computation::root);
+      handle = &handle->then(copy_snk_psi_B1_i_host_to_device, computation::root);
+      handle = &handle->then(copy_snk_psi_B2_r_host_to_device, computation::root);
+      handle = &handle->then(copy_snk_psi_B2_i_host_to_device, computation::root);
+      handle = &handle->then(copy_src_spins_host_to_device, computation::root);
+      handle = &handle->then(copy_sigs_host_to_device, computation::root);
+      handle = &handle->then(copy_snk_psi_r_host_to_device, computation::root);
+      handle = &handle->then(copy_snk_psi_i_host_to_device, computation::root);
+      handle = &handle->then(copy_hex_snk_psi_r_host_to_device, computation::root);
+      handle = &handle->then(copy_hex_snk_psi_i_host_to_device, computation::root);
+      handle = &handle->then(copy_src_color_weights_host_to_device, computation::root);
+      handle = &handle->then(copy_src_spin_weights_host_to_device, computation::root);
+      handle = &handle->then(copy_src_weights_host_to_device, computation::root);
+      handle = &handle->then(copy_snk_color_weights_host_to_device, computation::root);
+      handle = &handle->then(copy_snk_spin_weights_host_to_device, computation::root);
+      handle = &handle->then(copy_snk_weights_host_to_device, computation::root);
+      handle = &handle->then(copy_hex_snk_color_weights_host_to_device, computation::root);
+      handle = &handle->then(copy_hex_snk_spin_weights_host_to_device, computation::root);
+      handle = &handle->then(copy_hex_snk_weights_host_to_device, computation::root);
+      handle = &handle->then(copy_src_spin_block_weights_host_to_device, computation::root);
+      handle = &handle->then(copy_snk_b_host_to_device, computation::root);
+
+    handle = &(handle->then(C_init_r, computation::root).then(C_init_i, npnH));
+
+    // BB_BB
+    handle = &(handle
+          ->then(B1_Blocal_r1_r_init, t)
+          .then(B1_Blocal_r1_i_init, m)
+          .then(B1_Bfirst_r1_r_init, m)
+          .then(B1_Bfirst_r1_i_init, m)
+          .then(B1_Bsecond_r1_r_init, m)
+          .then(B1_Bsecond_r1_i_init, m)
+          .then(B1_Bthird_r1_r_init, m)
+          .then(B1_Bthird_r1_i_init, m)
+          .then(flip_B1_Blocal_r1_r_init, m)
+          .then(flip_B1_Blocal_r1_i_init, m)
+          .then(flip_B1_Bfirst_r1_r_init, m)
+          .then(flip_B1_Bfirst_r1_i_init, m)
+          .then(flip_B1_Bsecond_r1_r_init, m)
+          .then(flip_B1_Bsecond_r1_i_init, m)
+          .then(flip_B1_Bthird_r1_r_init, m)
+          .then(flip_B1_Bthird_r1_i_init, m)
+          .then(B1_Blocal_r1_r_props_init, x2)
+          .then(B1_Blocal_r1_i_props_init, jSprime)
+          .then(B1_Bfirst_r1_r_props_init, jSprime)
+          .then(B1_Bfirst_r1_i_props_init, jSprime)
+          .then(B1_Bsecond_r1_r_props_init, jSprime)
+          .then(B1_Bsecond_r1_i_props_init, jSprime)
+          .then(B1_Bthird_r1_r_props_init, jSprime)
+          .then(B1_Bthird_r1_i_props_init, jSprime)
+          .then(B1_Blocal_r1_r_diquark, y)
+          .then(B1_Blocal_r1_i_diquark, wnumBlock)
+          .then(B1_Bfirst_r1_r_diquark, wnumBlock)
+          .then(B1_Bfirst_r1_i_diquark, wnumBlock)
+          .then(B1_Bthird_r1_r_diquark, wnumBlock)
+          .then(B1_Bthird_r1_i_diquark, wnumBlock)
+          .then(B1_Blocal_r1_r_props, wnumBlock)
+          .then(B1_Blocal_r1_i_props, jSprime)
+          .then(B1_Bfirst_r1_r_props, jSprime)
+          .then(B1_Bfirst_r1_i_props, jSprime)
+          .then(B1_Bsecond_r1_r_props, jSprime)
+          .then(B1_Bsecond_r1_i_props, jSprime)
+          .then(B1_Bthird_r1_r_props, jSprime)
+          .then(B1_Bthird_r1_i_props, jSprime)
+          .then(B1_Blocal_r1_r_update, y)
+          .then(B1_Blocal_r1_i_update, m)
+          .then(B1_Bfirst_r1_r_update, m)
+          .then(B1_Bfirst_r1_i_update, m)
+          .then(B1_Bsecond_r1_r_update, m)
+          .then(B1_Bsecond_r1_i_update, m)
+          .then(B1_Bthird_r1_r_update, m)
+          .then(B1_Bthird_r1_i_update, m)
+          .then(flip_B1_Blocal_r1_r_update, m)
+          .then(flip_B1_Blocal_r1_i_update, m)
+          .then(flip_B1_Bfirst_r1_r_update, m)
+          .then(flip_B1_Bfirst_r1_i_update, m)
+          .then(flip_B1_Bsecond_r1_r_update, m)
+          .then(flip_B1_Bsecond_r1_i_update, m)
+          .then(flip_B1_Bthird_r1_r_update, m)
+          .then(flip_B1_Bthird_r1_i_update, m)
+          .then(B1_Blocal_r2_r_init, x2)
+          .then(B1_Blocal_r2_i_init, m)
+          .then(B1_Bfirst_r2_r_init, m)
+          .then(B1_Bfirst_r2_i_init, m)
+          .then(B1_Bsecond_r2_r_init, m)
+          .then(B1_Bsecond_r2_i_init, m)
+          .then(B1_Bthird_r2_r_init, m)
+          .then(B1_Bthird_r2_i_init, m)
+          .then(flip_B1_Blocal_r2_r_init, m)
+          .then(flip_B1_Blocal_r2_i_init, m)
+          .then(flip_B1_Bfirst_r2_r_init, m)
+          .then(flip_B1_Bfirst_r2_i_init, m)
+          .then(flip_B1_Bsecond_r2_r_init, m)
+          .then(flip_B1_Bsecond_r2_i_init, m)
+          .then(flip_B1_Bthird_r2_r_init, m)
+          .then(flip_B1_Bthird_r2_i_init, m)
+          .then(B1_Blocal_r2_r_props_init, x2)
+          .then(B1_Blocal_r2_i_props_init, jSprime)
+          .then(B1_Bfirst_r2_r_props_init, jSprime)
+          .then(B1_Bfirst_r2_i_props_init, jSprime)
+          .then(B1_Bsecond_r2_r_props_init, jSprime)
+          .then(B1_Bsecond_r2_i_props_init, jSprime)
+          .then(B1_Bthird_r2_r_props_init, jSprime)
+          .then(B1_Bthird_r2_i_props_init, jSprime)
+          .then(B1_Blocal_r2_r_diquark, y)
+          .then(B1_Blocal_r2_i_diquark, wnumBlock)
+          .then(B1_Bfirst_r2_r_diquark, wnumBlock)
+          .then(B1_Bfirst_r2_i_diquark, wnumBlock)
+          .then(B1_Bthird_r2_r_diquark, wnumBlock)
+          .then(B1_Bthird_r2_i_diquark, wnumBlock)
+          .then(B1_Blocal_r2_r_props, wnumBlock)
+          .then(B1_Blocal_r2_i_props, jSprime)
+          .then(B1_Bfirst_r2_r_props, jSprime)
+          .then(B1_Bfirst_r2_i_props, jSprime)
+          .then(B1_Bsecond_r2_r_props, jSprime)
+          .then(B1_Bsecond_r2_i_props, jSprime)
+          .then(B1_Bthird_r2_r_props, jSprime)
+          .then(B1_Bthird_r2_i_props, jSprime)
+          .then(B1_Blocal_r2_r_update, y)
+          .then(B1_Blocal_r2_i_update, m)
+          .then(B1_Bfirst_r2_r_update, m)
+          .then(B1_Bfirst_r2_i_update, m)
+          .then(B1_Bsecond_r2_r_update, m)
+          .then(B1_Bsecond_r2_i_update, m)
+          .then(B1_Bthird_r2_r_update, m)
+          .then(B1_Bthird_r2_i_update, m)
+          .then(flip_B1_Blocal_r2_r_update, m)
+          .then(flip_B1_Blocal_r2_i_update, m)
+          .then(flip_B1_Bfirst_r2_r_update, m)
+          .then(flip_B1_Bfirst_r2_i_update, m)
+          .then(flip_B1_Bsecond_r2_r_update, m)
+          .then(flip_B1_Bsecond_r2_i_update, m)
+          .then(flip_B1_Bthird_r2_r_update, m)
+          .then(flip_B1_Bthird_r2_i_update, m)
+          .then(B2_Blocal_r1_r_init, x2)
+          .then(B2_Blocal_r1_i_init, m)
+          .then(B2_Bfirst_r1_r_init, m)
+          .then(B2_Bfirst_r1_i_init, m)
+          .then(B2_Bsecond_r1_r_init, m)
+          .then(B2_Bsecond_r1_i_init, m)
+          .then(B2_Bthird_r1_r_init, m)
+          .then(B2_Bthird_r1_i_init, m)
+          .then(flip_B2_Blocal_r1_r_init, m)
+          .then(flip_B2_Blocal_r1_i_init, m)
+          .then(flip_B2_Bfirst_r1_r_init, m)
+          .then(flip_B2_Bfirst_r1_i_init, m)
+          .then(flip_B2_Bsecond_r1_r_init, m)
+          .then(flip_B2_Bsecond_r1_i_init, m)
+          .then(flip_B2_Bthird_r1_r_init, m)
+          .then(flip_B2_Bthird_r1_i_init, m)
+          .then(B2_Blocal_r1_r_props_init, x2)
+          .then(B2_Blocal_r1_i_props_init, jSprime)
+          .then(B2_Bfirst_r1_r_props_init, jSprime)
+          .then(B2_Bfirst_r1_i_props_init, jSprime)
+          .then(B2_Bsecond_r1_r_props_init, jSprime)
+          .then(B2_Bsecond_r1_i_props_init, jSprime)
+          .then(B2_Bthird_r1_r_props_init, jSprime)
+          .then(B2_Bthird_r1_i_props_init, jSprime)
+          .then(B2_Blocal_r1_r_diquark, y)
+          .then(B2_Blocal_r1_i_diquark, wnumBlock)
+          .then(B2_Bfirst_r1_r_diquark, wnumBlock)
+          .then(B2_Bfirst_r1_i_diquark, wnumBlock)
+          .then(B2_Bthird_r1_r_diquark, wnumBlock)
+          .then(B2_Bthird_r1_i_diquark, wnumBlock)
+          .then(B2_Blocal_r1_r_props, wnumBlock)
+          .then(B2_Blocal_r1_i_props, jSprime)
+          .then(B2_Bfirst_r1_r_props, jSprime)
+          .then(B2_Bfirst_r1_i_props, jSprime)
+          .then(B2_Bsecond_r1_r_props, jSprime)
+          .then(B2_Bsecond_r1_i_props, jSprime)
+          .then(B2_Bthird_r1_r_props, jSprime)
+          .then(B2_Bthird_r1_i_props, jSprime)
+          .then(B2_Blocal_r1_r_update, y)
+          .then(B2_Blocal_r1_i_update, m)
+          .then(B2_Bfirst_r1_r_update, m)
+          .then(B2_Bfirst_r1_i_update, m)
+          .then(B2_Bsecond_r1_r_update, m)
+          .then(B2_Bsecond_r1_i_update, m)
+          .then(B2_Bthird_r1_r_update, m)
+          .then(B2_Bthird_r1_i_update, m)
+          .then(flip_B2_Blocal_r1_r_update, m)
+          .then(flip_B2_Blocal_r1_i_update, m)
+          .then(flip_B2_Bfirst_r1_r_update, m)
+          .then(flip_B2_Bfirst_r1_i_update, m)
+          .then(flip_B2_Bsecond_r1_r_update, m)
+          .then(flip_B2_Bsecond_r1_i_update, m)
+          .then(flip_B2_Bthird_r1_r_update, m)
+          .then(flip_B2_Bthird_r1_i_update, m)
+          .then(B2_Blocal_r2_r_init, x2)
+          .then(B2_Blocal_r2_i_init, m)
+          .then(B2_Bfirst_r2_r_init, m)
+          .then(B2_Bfirst_r2_i_init, m)
+          .then(B2_Bsecond_r2_r_init, m)
+          .then(B2_Bsecond_r2_i_init, m)
+          .then(B2_Bthird_r2_r_init, m)
+          .then(B2_Bthird_r2_i_init, m)
+          .then(flip_B2_Blocal_r2_r_init, m)
+          .then(flip_B2_Blocal_r2_i_init, m)
+          .then(flip_B2_Bfirst_r2_r_init, m)
+          .then(flip_B2_Bfirst_r2_i_init, m)
+          .then(flip_B2_Bsecond_r2_r_init, m)
+          .then(flip_B2_Bsecond_r2_i_init, m)
+          .then(flip_B2_Bthird_r2_r_init, m)
+          .then(flip_B2_Bthird_r2_i_init, m)
+          .then(B2_Blocal_r2_r_props_init, x2)
+          .then(B2_Blocal_r2_i_props_init, jSprime)
+          .then(B2_Bfirst_r2_r_props_init, jSprime)
+          .then(B2_Bfirst_r2_i_props_init, jSprime)
+          .then(B2_Bsecond_r2_r_props_init, jSprime)
+          .then(B2_Bsecond_r2_i_props_init, jSprime)
+          .then(B2_Bthird_r2_r_props_init, jSprime)
+          .then(B2_Bthird_r2_i_props_init, jSprime)
+          .then(B2_Blocal_r2_r_diquark, y)
+          .then(B2_Blocal_r2_i_diquark, wnumBlock)
+          .then(B2_Bfirst_r2_r_diquark, wnumBlock)
+          .then(B2_Bfirst_r2_i_diquark, wnumBlock)
+          .then(B2_Bthird_r2_r_diquark, wnumBlock)
+          .then(B2_Bthird_r2_i_diquark, wnumBlock)
+          .then(B2_Blocal_r2_r_props, wnumBlock)
+          .then(B2_Blocal_r2_i_props, jSprime)
+          .then(B2_Bfirst_r2_r_props, jSprime)
+          .then(B2_Bfirst_r2_i_props, jSprime)
+          .then(B2_Bsecond_r2_r_props, jSprime)
+          .then(B2_Bsecond_r2_i_props, jSprime)
+          .then(B2_Bthird_r2_r_props, jSprime)
+          .then(B2_Bthird_r2_i_props, jSprime)
+          .then(B2_Blocal_r2_r_update, y)
+          .then(B2_Blocal_r2_i_update, m)
+          .then(B2_Bfirst_r2_r_update, m)
+          .then(B2_Bfirst_r2_i_update, m)
+          .then(B2_Bsecond_r2_r_update, m)
+          .then(B2_Bsecond_r2_i_update, m)
+          .then(B2_Bthird_r2_r_update, m)
+          .then(B2_Bthird_r2_i_update, m)
+          .then(flip_B2_Blocal_r2_r_update, m)
+          .then(flip_B2_Blocal_r2_i_update, m)
+          .then(flip_B2_Bfirst_r2_r_update, m)
+          .then(flip_B2_Bfirst_r2_i_update, m)
+          .then(flip_B2_Bsecond_r2_r_update, m)
+          .then(flip_B2_Bsecond_r2_i_update, m)
+          .then(flip_B2_Bthird_r2_r_update, m)
+          .then(flip_B2_Bthird_r2_i_update, m)
+          .then(C_BB_BB_prop_init_r, x2)
+          .then(C_BB_BB_prop_init_i, r)
+          .then( *(BB_BB_new_term_0_r1_b1.get_real()), r)
+          .then( *(BB_BB_new_term_0_r1_b1.get_imag()), wnum)
+          .then( *(BB_BB_new_term_1_r1_b1.get_real()), wnum)
+          .then( *(BB_BB_new_term_1_r1_b1.get_imag()), wnum)
+          .then( *(BB_BB_new_term_2_r1_b1.get_real()), wnum)
+          .then( *(BB_BB_new_term_2_r1_b1.get_imag()), wnum)
+          .then( *(BB_BB_new_term_3_r1_b1.get_real()), wnum)
+          .then( *(BB_BB_new_term_3_r1_b1.get_imag()), wnum)
+          .then( *(BB_BB_new_term_4_r1_b1.get_real()), wnum)
+          .then( *(BB_BB_new_term_4_r1_b1.get_imag()), wnum)
+          .then( *(BB_BB_new_term_5_r1_b1.get_real()), wnum)
+          .then( *(BB_BB_new_term_5_r1_b1.get_imag()), wnum)
+          .then( *(BB_BB_new_term_6_r1_b1.get_real()), wnum)
+          .then( *(BB_BB_new_term_6_r1_b1.get_imag()), wnum)
+          .then( *(BB_BB_new_term_7_r1_b1.get_real()), wnum)
+          .then( *(BB_BB_new_term_7_r1_b1.get_imag()), wnum)
+          .then( *(BB_BB_new_term_0_r2_b1.get_real()), wnum)
+          .then( *(BB_BB_new_term_0_r2_b1.get_imag()), wnum)
+          .then( *(BB_BB_new_term_1_r2_b1.get_real()), wnum)
+          .then( *(BB_BB_new_term_1_r2_b1.get_imag()), wnum)
+          .then( *(BB_BB_new_term_2_r2_b1.get_real()), wnum)
+          .then( *(BB_BB_new_term_2_r2_b1.get_imag()), wnum)
+          .then( *(BB_BB_new_term_3_r2_b1.get_real()), wnum)
+          .then( *(BB_BB_new_term_3_r2_b1.get_imag()), wnum)
+          .then( *(BB_BB_new_term_4_r2_b1.get_real()), wnum)
+          .then( *(BB_BB_new_term_4_r2_b1.get_imag()), wnum)
+          .then( *(BB_BB_new_term_5_r2_b1.get_real()), wnum)
+          .then( *(BB_BB_new_term_5_r2_b1.get_imag()), wnum)
+          .then( *(BB_BB_new_term_6_r2_b1.get_real()), wnum)
+          .then( *(BB_BB_new_term_6_r2_b1.get_imag()), wnum)
+          .then( *(BB_BB_new_term_7_r2_b1.get_real()), wnum)
+          .then( *(BB_BB_new_term_7_r2_b1.get_imag()), wnum)
+          .then( *(BB_BB_new_term_0_r1_b2.get_real()), wnum)
+          .then( *(BB_BB_new_term_0_r1_b2.get_imag()), wnum)
+          .then( *(BB_BB_new_term_1_r1_b2.get_real()), wnum)
+          .then( *(BB_BB_new_term_1_r1_b2.get_imag()), wnum)
+          .then( *(BB_BB_new_term_2_r1_b2.get_real()), wnum)
+          .then( *(BB_BB_new_term_2_r1_b2.get_imag()), wnum)
+          .then( *(BB_BB_new_term_3_r1_b2.get_real()), wnum)
+          .then( *(BB_BB_new_term_3_r1_b2.get_imag()), wnum)
+          .then( *(BB_BB_new_term_4_r1_b2.get_real()), wnum)
+          .then( *(BB_BB_new_term_4_r1_b2.get_imag()), wnum)
+          .then( *(BB_BB_new_term_5_r1_b2.get_real()), wnum)
+          .then( *(BB_BB_new_term_5_r1_b2.get_imag()), wnum)
+          .then( *(BB_BB_new_term_6_r1_b2.get_real()), wnum)
+          .then( *(BB_BB_new_term_6_r1_b2.get_imag()), wnum)
+          .then( *(BB_BB_new_term_7_r1_b2.get_real()), wnum)
+          .then( *(BB_BB_new_term_7_r1_b2.get_imag()), wnum)
+          .then( *(BB_BB_new_term_0_r2_b2.get_real()), wnum)
+          .then( *(BB_BB_new_term_0_r2_b2.get_imag()), wnum)
+          .then( *(BB_BB_new_term_1_r2_b2.get_real()), wnum)
+          .then( *(BB_BB_new_term_1_r2_b2.get_imag()), wnum)
+          .then( *(BB_BB_new_term_2_r2_b2.get_real()), wnum)
+          .then( *(BB_BB_new_term_2_r2_b2.get_imag()), wnum)
+          .then( *(BB_BB_new_term_3_r2_b2.get_real()), wnum)
+          .then( *(BB_BB_new_term_3_r2_b2.get_imag()), wnum)
+          .then( *(BB_BB_new_term_4_r2_b2.get_real()), wnum)
+          .then( *(BB_BB_new_term_4_r2_b2.get_imag()), wnum)
+          .then( *(BB_BB_new_term_5_r2_b2.get_real()), wnum)
+          .then( *(BB_BB_new_term_5_r2_b2.get_imag()), wnum)
+          .then( *(BB_BB_new_term_6_r2_b2.get_real()), wnum)
+          .then( *(BB_BB_new_term_6_r2_b2.get_imag()), wnum)
+          .then( *(BB_BB_new_term_7_r2_b2.get_real()), wnum)
+          .then( *(BB_BB_new_term_7_r2_b2.get_imag()), wnum)
+          .then( *(flip_BB_BB_new_term_0_r1_b1.get_real()), wnum)
+          .then( *(flip_BB_BB_new_term_0_r1_b1.get_imag()), wnum)
+          .then( *(flip_BB_BB_new_term_1_r1_b1.get_real()), wnum)
+          .then( *(flip_BB_BB_new_term_1_r1_b1.get_imag()), wnum)
+          .then( *(flip_BB_BB_new_term_2_r1_b1.get_real()), wnum)
+          .then( *(flip_BB_BB_new_term_2_r1_b1.get_imag()), wnum)
+          .then( *(flip_BB_BB_new_term_3_r1_b1.get_real()), wnum)
+          .then( *(flip_BB_BB_new_term_3_r1_b1.get_imag()), wnum)
+          .then( *(flip_BB_BB_new_term_4_r1_b1.get_real()), wnum)
+          .then( *(flip_BB_BB_new_term_4_r1_b1.get_imag()), wnum)
+          .then( *(flip_BB_BB_new_term_5_r1_b1.get_real()), wnum)
+          .then( *(flip_BB_BB_new_term_5_r1_b1.get_imag()), wnum)
+          .then( *(flip_BB_BB_new_term_6_r1_b1.get_real()), wnum)
+          .then( *(flip_BB_BB_new_term_6_r1_b1.get_imag()), wnum)
+          .then( *(flip_BB_BB_new_term_7_r1_b1.get_real()), wnum)
+          .then( *(flip_BB_BB_new_term_7_r1_b1.get_imag()), wnum)
+          .then( *(flip_BB_BB_new_term_0_r2_b1.get_real()), wnum)
+          .then( *(flip_BB_BB_new_term_0_r2_b1.get_imag()), wnum)
+          .then( *(flip_BB_BB_new_term_1_r2_b1.get_real()), wnum)
+          .then( *(flip_BB_BB_new_term_1_r2_b1.get_imag()), wnum)
+          .then( *(flip_BB_BB_new_term_2_r2_b1.get_real()), wnum)
+          .then( *(flip_BB_BB_new_term_2_r2_b1.get_imag()), wnum)
+          .then( *(flip_BB_BB_new_term_3_r2_b1.get_real()), wnum)
+          .then( *(flip_BB_BB_new_term_3_r2_b1.get_imag()), wnum)
+          .then( *(flip_BB_BB_new_term_4_r2_b1.get_real()), wnum)
+          .then( *(flip_BB_BB_new_term_4_r2_b1.get_imag()), wnum)
+          .then( *(flip_BB_BB_new_term_5_r2_b1.get_real()), wnum)
+          .then( *(flip_BB_BB_new_term_5_r2_b1.get_imag()), wnum)
+          .then( *(flip_BB_BB_new_term_6_r2_b1.get_real()), wnum)
+          .then( *(flip_BB_BB_new_term_6_r2_b1.get_imag()), wnum)
+          .then( *(flip_BB_BB_new_term_7_r2_b1.get_real()), wnum)
+          .then( *(flip_BB_BB_new_term_7_r2_b1.get_imag()), wnum)
+          .then( *(flip_BB_BB_new_term_0_r1_b2.get_real()), wnum)
+          .then( *(flip_BB_BB_new_term_0_r1_b2.get_imag()), wnum)
+          .then( *(flip_BB_BB_new_term_1_r1_b2.get_real()), wnum)
+          .then( *(flip_BB_BB_new_term_1_r1_b2.get_imag()), wnum)
+          .then( *(flip_BB_BB_new_term_2_r1_b2.get_real()), wnum)
+          .then( *(flip_BB_BB_new_term_2_r1_b2.get_imag()), wnum)
+          .then( *(flip_BB_BB_new_term_3_r1_b2.get_real()), wnum)
+          .then( *(flip_BB_BB_new_term_3_r1_b2.get_imag()), wnum)
+          .then( *(flip_BB_BB_new_term_4_r1_b2.get_real()), wnum)
+          .then( *(flip_BB_BB_new_term_4_r1_b2.get_imag()), wnum)
+          .then( *(flip_BB_BB_new_term_5_r1_b2.get_real()), wnum)
+          .then( *(flip_BB_BB_new_term_5_r1_b2.get_imag()), wnum)
+          .then( *(flip_BB_BB_new_term_6_r1_b2.get_real()), wnum)
+          .then( *(flip_BB_BB_new_term_6_r1_b2.get_imag()), wnum)
+          .then( *(flip_BB_BB_new_term_7_r1_b2.get_real()), wnum)
+          .then( *(flip_BB_BB_new_term_7_r1_b2.get_imag()), wnum)
+          .then( *(flip_BB_BB_new_term_0_r2_b2.get_real()), wnum)
+          .then( *(flip_BB_BB_new_term_0_r2_b2.get_imag()), wnum)
+          .then( *(flip_BB_BB_new_term_1_r2_b2.get_real()), wnum)
+          .then( *(flip_BB_BB_new_term_1_r2_b2.get_imag()), wnum)
+          .then( *(flip_BB_BB_new_term_2_r2_b2.get_real()), wnum)
+          .then( *(flip_BB_BB_new_term_2_r2_b2.get_imag()), wnum)
+          .then( *(flip_BB_BB_new_term_3_r2_b2.get_real()), wnum)
+          .then( *(flip_BB_BB_new_term_3_r2_b2.get_imag()), wnum)
+          .then( *(flip_BB_BB_new_term_4_r2_b2.get_real()), wnum)
+          .then( *(flip_BB_BB_new_term_4_r2_b2.get_imag()), wnum)
+          .then( *(flip_BB_BB_new_term_5_r2_b2.get_real()), wnum)
+          .then( *(flip_BB_BB_new_term_5_r2_b2.get_imag()), wnum)
+          .then( *(flip_BB_BB_new_term_6_r2_b2.get_real()), wnum)
+          .then( *(flip_BB_BB_new_term_6_r2_b2.get_imag()), wnum)
+          .then( *(flip_BB_BB_new_term_7_r2_b2.get_real()), wnum)
+          .then( *(flip_BB_BB_new_term_7_r2_b2.get_imag()), wnum)
+          .then(C_BB_BB_prop_update_r, wnum)
+          .then(C_BB_BB_prop_update_i, wnum)
+          .then(C_BB_BB_update_b_r, r)
+          .then(C_BB_BB_update_b_i, ne)
+          .then(C_BB_BB_update_s_r, r)
+          .then(C_BB_BB_update_s_i, nue)
+          );
+
+    // BB_H
+    handle = &(handle
+          ->then(src_B1_Blocal_r1_r_init, t)
+          .then(src_B1_Blocal_r1_i_init, jSprime)
+          .then(flip_src_B1_Blocal_r1_r_init, jSprime)
+          .then(flip_src_B1_Blocal_r1_i_init, jSprime)
+          .then(src_B1_Blocal_r1_r_props_init, x_in)
+          .then(src_B1_Blocal_r1_i_props_init, jSprime)
+          .then(src_B1_Blocal_r1_r_diquark, y)
+          .then(src_B1_Blocal_r1_i_diquark, wnumBlock)
+          .then(src_B1_Blocal_r1_r_props, wnumBlock)
+          .then(src_B1_Blocal_r1_i_props, jSprime)
+          .then(src_B1_Blocal_r1_r_update, y)
+          .then(src_B1_Blocal_r1_i_update, m)
+          .then(flip_src_B1_Blocal_r1_r_update, m)
+          .then(flip_src_B1_Blocal_r1_i_update, m)
+          .then(src_B1_Blocal_r2_r_init, x_in)
+          .then(src_B1_Blocal_r2_i_init, jSprime)
+          .then(flip_src_B1_Blocal_r2_r_init, jSprime)
+          .then(flip_src_B1_Blocal_r2_i_init, jSprime)
+          .then(src_B1_Blocal_r2_r_props_init, x_in)
+          .then(src_B1_Blocal_r2_i_props_init, jSprime)
+          .then(src_B1_Blocal_r2_r_diquark, y)
+          .then(src_B1_Blocal_r2_i_diquark, wnumBlock)
+          .then(src_B1_Blocal_r2_r_props, wnumBlock)
+          .then(src_B1_Blocal_r2_i_props, jSprime)
+          .then(src_B1_Blocal_r2_r_update, y)
+          .then(src_B1_Blocal_r2_i_update, m)
+          .then(flip_src_B1_Blocal_r2_r_update, m)
+          .then(flip_src_B1_Blocal_r2_i_update, m)
+          .then(src_B2_Blocal_r1_r_init, x_in)
+          .then(src_B2_Blocal_r1_i_init, jSprime)
+          .then(flip_src_B2_Blocal_r1_r_init, jSprime)
+          .then(flip_src_B2_Blocal_r1_i_init, jSprime)
+          .then(src_B2_Blocal_r1_r_props_init, x_in)
+          .then(src_B2_Blocal_r1_i_props_init, jSprime)
+          .then(src_B2_Blocal_r1_r_diquark, y)
+          .then(src_B2_Blocal_r1_i_diquark, wnumBlock)
+          .then(src_B2_Blocal_r1_r_props, wnumBlock)
+          .then(src_B2_Blocal_r1_i_props, jSprime)
+          .then(src_B2_Blocal_r1_r_update, y)
+          .then(src_B2_Blocal_r1_i_update, m)
+          .then(flip_src_B2_Blocal_r1_r_update, m)
+          .then(flip_src_B2_Blocal_r1_i_update, m)
+          .then(src_B2_Blocal_r2_r_init, x_in)
+          .then(src_B2_Blocal_r2_i_init, jSprime)
+          .then(flip_src_B2_Blocal_r2_r_init, jSprime)
+          .then(flip_src_B2_Blocal_r2_i_init, jSprime)
+          .then(src_B2_Blocal_r2_r_props_init, x_in)
+          .then(src_B2_Blocal_r2_i_props_init, jSprime)
+          .then(src_B2_Blocal_r2_r_diquark, y)
+          .then(src_B2_Blocal_r2_i_diquark, wnumBlock)
+          .then(src_B2_Blocal_r2_r_props, wnumBlock)
+          .then(src_B2_Blocal_r2_i_props, jSprime)
+          .then(src_B2_Blocal_r2_r_update, y)
+          .then(src_B2_Blocal_r2_i_update, m)
+          .then(flip_src_B2_Blocal_r2_r_update, m)
+          .then(flip_src_B2_Blocal_r2_i_update, m)
+         .then(C_BB_H_prop_init_r, x_in)
+          .then(C_BB_H_prop_init_i, r)
+          .then( *(BB_H_new_term_0_r1_b1.get_real()), r)
+          .then( *(BB_H_new_term_0_r1_b1.get_imag()), wnumHex)
+          .then( *(BB_H_new_term_0_r2_b1.get_real()), wnumHex)
+          .then( *(BB_H_new_term_0_r2_b1.get_imag()), wnumHex)
+          .then( *(BB_H_new_term_0_r1_b2.get_real()), wnumHex)
+          .then( *(BB_H_new_term_0_r1_b2.get_imag()), wnumHex)
+          .then( *(BB_H_new_term_0_r2_b2.get_real()), wnumHex)
+          .then( *(BB_H_new_term_0_r2_b2.get_imag()), wnumHex)
+          .then( *(flip_BB_H_new_term_0_r1_b1.get_real()), wnumHex)
+          .then( *(flip_BB_H_new_term_0_r1_b1.get_imag()), wnumHex)
+          .then( *(flip_BB_H_new_term_0_r2_b1.get_real()), wnumHex)
+          .then( *(flip_BB_H_new_term_0_r2_b1.get_imag()), wnumHex)
+          .then( *(flip_BB_H_new_term_0_r1_b2.get_real()), wnumHex)
+          .then( *(flip_BB_H_new_term_0_r1_b2.get_imag()), wnumHex)
+          .then( *(flip_BB_H_new_term_0_r2_b2.get_real()), wnumHex)
+          .then( *(flip_BB_H_new_term_0_r2_b2.get_imag()), wnumHex)
+          .then(C_BB_H_prop_update_r, wnumHex)
+          .then(C_BB_H_prop_update_i, wnumHex)
+          .then(C_BB_H_update_r, r)
+          .then(C_BB_H_update_i, nH)
+          );
+
+    // H_BB
+    handle = &(handle
+          ->then( snk_B1_Blocal_r1_r_init, t)
+          .then(snk_B1_Blocal_r1_i_init, jSprime)
+          .then(flip_snk_B1_Blocal_r1_r_init, jSprime)
+          .then(flip_snk_B1_Blocal_r1_i_init, jSprime)
+          .then(snk_B1_Blocal_r1_r_props_init, y_in)
+          .then(snk_B1_Blocal_r1_i_props_init, jSprime)
+          .then(snk_B1_Blocal_r1_r_diquark, x)
+          .then(snk_B1_Blocal_r1_i_diquark, wnumBlock)
+          .then(snk_B1_Blocal_r1_r_props, wnumBlock)
+          .then(snk_B1_Blocal_r1_i_props, jSprime)
+          .then(snk_B1_Blocal_r1_r_update, x)
+          .then(snk_B1_Blocal_r1_i_update, n)
+          .then(flip_snk_B1_Blocal_r1_r_update, n)
+          .then(flip_snk_B1_Blocal_r1_i_update, n)
+          .then(snk_B1_Blocal_r2_r_init, y_in)
+          .then(snk_B1_Blocal_r2_i_init, jSprime)
+          .then(flip_snk_B1_Blocal_r2_r_init, jSprime)
+          .then(flip_snk_B1_Blocal_r2_i_init, jSprime)
+          .then(snk_B1_Blocal_r2_r_props_init, y_in)
+          .then(snk_B1_Blocal_r2_i_props_init, jSprime)
+          .then(snk_B1_Blocal_r2_r_diquark, x)
+          .then(snk_B1_Blocal_r2_i_diquark, wnumBlock)
+          .then(snk_B1_Blocal_r2_r_props, wnumBlock)
+          .then(snk_B1_Blocal_r2_i_props, jSprime)
+          .then(snk_B1_Blocal_r2_r_update, x)
+          .then(snk_B1_Blocal_r2_i_update, n)
+          .then(flip_snk_B1_Blocal_r2_r_update, n)
+          .then(flip_snk_B1_Blocal_r2_i_update, n)
+          .then(snk_B2_Blocal_r1_r_init, y_in)
+          .then(snk_B2_Blocal_r1_i_init, jSprime)
+          .then(flip_snk_B2_Blocal_r1_r_init, jSprime)
+          .then(flip_snk_B2_Blocal_r1_i_init, jSprime)
+          .then(snk_B2_Blocal_r1_r_props_init, y_in)
+          .then(snk_B2_Blocal_r1_i_props_init, jSprime)
+          .then(snk_B2_Blocal_r1_r_diquark, x)
+          .then(snk_B2_Blocal_r1_i_diquark, wnumBlock)
+          .then(snk_B2_Blocal_r1_r_props, wnumBlock)
+          .then(snk_B2_Blocal_r1_i_props, jSprime)
+          .then(snk_B2_Blocal_r1_r_update, x)
+          .then(snk_B2_Blocal_r1_i_update, n)
+          .then(flip_snk_B2_Blocal_r1_r_update, n)
+          .then(flip_snk_B2_Blocal_r1_i_update, n)
+          .then(snk_B2_Blocal_r2_r_init, y_in)
+          .then(snk_B2_Blocal_r2_i_init, jSprime)
+          .then(flip_snk_B2_Blocal_r2_r_init, jSprime)
+          .then(flip_snk_B2_Blocal_r2_i_init, jSprime)
+          .then(snk_B2_Blocal_r2_r_props_init, y_in)
+          .then(snk_B2_Blocal_r2_i_props_init, jSprime)
+          .then(snk_B2_Blocal_r2_r_diquark, x)
+          .then(snk_B2_Blocal_r2_i_diquark, wnumBlock)
+          .then(snk_B2_Blocal_r2_r_props, wnumBlock)
+          .then(snk_B2_Blocal_r2_i_props, jSprime)
+          .then(snk_B2_Blocal_r2_r_update, x)
+          .then(flip_snk_B2_Blocal_r2_r_update, n)
+          .then(flip_snk_B2_Blocal_r2_i_update, n)
+          .then(snk_B2_Blocal_r2_i_update, n)
+          .then(C_H_BB_prop_init_r, y_in)
+          .then(C_H_BB_prop_init_i, r)
+          .then( *(H_BB_new_term_0_r1_b1.get_real()), r)
+          .then( *(H_BB_new_term_0_r1_b1.get_imag()), wnumHex)
+          .then( *(H_BB_new_term_0_r2_b1.get_real()), wnumHex)
+          .then( *(H_BB_new_term_0_r2_b1.get_imag()), wnumHex)
+          .then( *(H_BB_new_term_0_r1_b2.get_real()), wnumHex)
+          .then( *(H_BB_new_term_0_r1_b2.get_imag()), wnumHex)
+          .then( *(H_BB_new_term_0_r2_b2.get_real()), wnumHex)
+          .then( *(H_BB_new_term_0_r2_b2.get_imag()), wnumHex)
+          .then( *(flip_H_BB_new_term_0_r1_b1.get_real()), wnumHex)
+          .then( *(flip_H_BB_new_term_0_r1_b1.get_imag()), wnumHex)
+          .then( *(flip_H_BB_new_term_0_r2_b1.get_real()), wnumHex)
+          .then( *(flip_H_BB_new_term_0_r2_b1.get_imag()), wnumHex)
+          .then( *(flip_H_BB_new_term_0_r1_b2.get_real()), wnumHex)
+          .then( *(flip_H_BB_new_term_0_r1_b2.get_imag()), wnumHex)
+          .then( *(flip_H_BB_new_term_0_r2_b2.get_real()), wnumHex)
+          .then( *(flip_H_BB_new_term_0_r2_b2.get_imag()), wnumHex)
+          .then(C_H_BB_prop_update_r, wnumHex)
+          .then(C_H_BB_prop_update_i, wnumHex)
+          .then(C_H_BB_update_r, r)
+          .then(C_H_BB_update_i, mH)
+          );
+
+    // H_H
+    handle = &(handle
+          ->then(C_H_H_prop_init_r, t)
+          .then(C_H_H_prop_init_i, y)
+          .then(C_H_H_prop_update_r, y)
+          .then(C_H_H_prop_update_i, wnumHexHex)
+          .then(C_H_H_update_r, y)
+          .then(C_H_H_update_i, nH)
+          );
+
+handle = &handle->then(copy_B1_prop_r_device_to_host, computation::root);
+handle = &handle->then(copy_B1_prop_i_device_to_host, computation::root);
+handle = &handle->then(copy_B2_prop_r_device_to_host, computation::root);
+handle = &handle->then(copy_B2_prop_i_device_to_host, computation::root);
+handle = &handle->then(copy_src_psi_B1_r_device_to_host, computation::root);
+handle = &handle->then(copy_src_psi_B1_i_device_to_host, computation::root);
+handle = &handle->then(copy_src_psi_B2_r_device_to_host, computation::root);
+handle = &handle->then(copy_src_psi_B2_i_device_to_host, computation::root);
+handle = &handle->then(copy_snk_psi_B1_r_device_to_host, computation::root);
+handle = &handle->then(copy_snk_psi_B1_i_device_to_host, computation::root);
+handle = &handle->then(copy_snk_psi_B2_r_device_to_host, computation::root);
+handle = &handle->then(copy_snk_psi_B2_i_device_to_host, computation::root);
+handle = &handle->then(copy_src_spins_device_to_host, computation::root);
+handle = &handle->then(copy_sigs_device_to_host, computation::root);
+handle = &handle->then(copy_snk_psi_r_device_to_host, computation::root);
+handle = &handle->then(copy_snk_psi_i_device_to_host, computation::root);
+handle = &handle->then(copy_hex_snk_psi_r_device_to_host, computation::root);
+handle = &handle->then(copy_hex_snk_psi_i_device_to_host, computation::root);
+handle = &handle->then(copy_src_color_weights_device_to_host, computation::root);
+handle = &handle->then(copy_src_spin_weights_device_to_host, computation::root);
+handle = &handle->then(copy_src_weights_device_to_host, computation::root);
+handle = &handle->then(copy_snk_color_weights_device_to_host, computation::root);
+handle = &handle->then(copy_snk_spin_weights_device_to_host, computation::root);
+handle = &handle->then(copy_snk_weights_device_to_host, computation::root);
+handle = &handle->then(copy_hex_snk_color_weights_device_to_host, computation::root);
+handle = &handle->then(copy_hex_snk_spin_weights_device_to_host, computation::root);
+handle = &handle->then(copy_hex_snk_weights_device_to_host, computation::root);
+handle = &handle->then(copy_src_spin_block_weights_device_to_host, computation::root);
+handle = &handle->then(copy_snk_b_device_to_host, computation::root);
+
+
 
       C_init_r.tag_gpu_level(x_out, x_in);
       C_init_i.tag_gpu_level(x_out, x_in);
@@ -3239,602 +3911,7 @@ computation copy_snk_b_host_to_device({}, memcpy(buf_snk_b_cpu, *snk_b.get_buffe
 
 	//      src_spin_block_weights.get_buffer(),
 	//      snk_b.get_buffer(),
-    // -------------------------------------------------------
-    // Layer II
-    // -------------------------------------------------------
 
-      computation* handle = &copy_buf_C_r_host_to_device.then(copy_buf_C_i_host_to_device, computation::root);
-      handle = &handle->then(copy_B1_prop_r_host_to_device, computation::root);
-      handle = &handle->then(copy_B1_prop_i_host_to_device, computation::root);
-      handle = &handle->then(copy_B2_prop_r_host_to_device, computation::root);
-      handle = &handle->then(copy_B2_prop_i_host_to_device, computation::root);
-      handle = &handle->then(copy_src_psi_B1_r_host_to_device, computation::root);
-      handle = &handle->then(copy_src_psi_B1_i_host_to_device, computation::root);
-      handle = &handle->then(copy_src_psi_B2_r_host_to_device, computation::root);
-      handle = &handle->then(copy_src_psi_B2_i_host_to_device, computation::root);
-      handle = &handle->then(copy_snk_psi_B1_r_host_to_device, computation::root);
-      handle = &handle->then(copy_snk_psi_B1_i_host_to_device, computation::root);
-      handle = &handle->then(copy_snk_psi_B2_r_host_to_device, computation::root);
-      handle = &handle->then(copy_snk_psi_B2_i_host_to_device, computation::root);
-      handle = &handle->then(copy_src_spins_host_to_device, computation::root);
-      handle = &handle->then(copy_sigs_host_to_device, computation::root);
-      handle = &handle->then(copy_snk_psi_r_host_to_device, computation::root);
-      handle = &handle->then(copy_snk_psi_i_host_to_device, computation::root);
-      handle = &handle->then(copy_hex_snk_psi_r_host_to_device, computation::root);
-      handle = &handle->then(copy_hex_snk_psi_i_host_to_device, computation::root);
-      handle = &handle->then(copy_src_color_weights_host_to_device, computation::root);
-      handle = &handle->then(copy_src_spin_weights_host_to_device, computation::root);
-      handle = &handle->then(copy_src_weights_host_to_device, computation::root);
-      handle = &handle->then(copy_snk_color_weights_host_to_device, computation::root);
-      handle = &handle->then(copy_snk_spin_weights_host_to_device, computation::root);
-      handle = &handle->then(copy_snk_weights_host_to_device, computation::root);
-      handle = &handle->then(copy_hex_snk_color_weights_host_to_device, computation::root);
-      handle = &handle->then(copy_hex_snk_spin_weights_host_to_device, computation::root);
-      handle = &handle->then(copy_hex_snk_weights_host_to_device, computation::root);
-      handle = &handle->then(copy_src_spin_block_weights_host_to_device, computation::root);
-      handle = &handle->then(copy_snk_b_host_to_device, computation::root);
-
-    handle = &(handle->then(C_init_r, computation::root).then(C_init_i, npnH));
-
-    // BB_BB
-    handle = &(handle
-          ->then(B1_Blocal_r1_r_init, t)
-          .then(B1_Blocal_r1_i_init, m)
-          .then(B1_Bfirst_r1_r_init, m)
-          .then(B1_Bfirst_r1_i_init, m)
-          .then(B1_Bsecond_r1_r_init, m)
-          .then(B1_Bsecond_r1_i_init, m)
-          .then(B1_Bthird_r1_r_init, m)
-          .then(B1_Bthird_r1_i_init, m)
-          .then(flip_B1_Blocal_r1_r_init, m)
-          .then(flip_B1_Blocal_r1_i_init, m)
-          .then(flip_B1_Bfirst_r1_r_init, m)
-          .then(flip_B1_Bfirst_r1_i_init, m)
-          .then(flip_B1_Bsecond_r1_r_init, m)
-          .then(flip_B1_Bsecond_r1_i_init, m)
-          .then(flip_B1_Bthird_r1_r_init, m)
-          .then(flip_B1_Bthird_r1_i_init, m)
-          .then(B1_Blocal_r1_r_props_init, x2)
-          .then(B1_Blocal_r1_i_props_init, jSprime)
-          .then(B1_Bfirst_r1_r_props_init, jSprime)
-          .then(B1_Bfirst_r1_i_props_init, jSprime)
-          .then(B1_Bsecond_r1_r_props_init, jSprime)
-          .then(B1_Bsecond_r1_i_props_init, jSprime)
-          .then(B1_Bthird_r1_r_props_init, jSprime)
-          .then(B1_Bthird_r1_i_props_init, jSprime)
-          .then(B1_Blocal_r1_r_diquark, y)
-          .then(B1_Blocal_r1_i_diquark, wnumBlock)
-          .then(B1_Bfirst_r1_r_diquark, wnumBlock)
-          .then(B1_Bfirst_r1_i_diquark, wnumBlock)
-          .then(B1_Bthird_r1_r_diquark, wnumBlock)
-          .then(B1_Bthird_r1_i_diquark, wnumBlock)
-          .then(B1_Blocal_r1_r_props, wnumBlock)
-          .then(B1_Blocal_r1_i_props, jSprime)
-          .then(B1_Bfirst_r1_r_props, jSprime)
-          .then(B1_Bfirst_r1_i_props, jSprime)
-          .then(B1_Bsecond_r1_r_props, jSprime)
-          .then(B1_Bsecond_r1_i_props, jSprime)
-          .then(B1_Bthird_r1_r_props, jSprime)
-          .then(B1_Bthird_r1_i_props, jSprime)
-          .then(B1_Blocal_r1_r_update, y)
-          .then(B1_Blocal_r1_i_update, m)
-          .then(B1_Bfirst_r1_r_update, m)
-          .then(B1_Bfirst_r1_i_update, m)
-          .then(B1_Bsecond_r1_r_update, m)
-          .then(B1_Bsecond_r1_i_update, m)
-          .then(B1_Bthird_r1_r_update, m)
-          .then(B1_Bthird_r1_i_update, m)
-          .then(flip_B1_Blocal_r1_r_update, m)
-          .then(flip_B1_Blocal_r1_i_update, m)
-          .then(flip_B1_Bfirst_r1_r_update, m)
-          .then(flip_B1_Bfirst_r1_i_update, m)
-          .then(flip_B1_Bsecond_r1_r_update, m)
-          .then(flip_B1_Bsecond_r1_i_update, m)
-          .then(flip_B1_Bthird_r1_r_update, m)
-          .then(flip_B1_Bthird_r1_i_update, m)
-          .then(B1_Blocal_r2_r_init, x2)
-          .then(B1_Blocal_r2_i_init, m)
-          .then(B1_Bfirst_r2_r_init, m)
-          .then(B1_Bfirst_r2_i_init, m)
-          .then(B1_Bsecond_r2_r_init, m)
-          .then(B1_Bsecond_r2_i_init, m)
-          .then(B1_Bthird_r2_r_init, m)
-          .then(B1_Bthird_r2_i_init, m)
-          .then(flip_B1_Blocal_r2_r_init, m)
-          .then(flip_B1_Blocal_r2_i_init, m)
-          .then(flip_B1_Bfirst_r2_r_init, m)
-          .then(flip_B1_Bfirst_r2_i_init, m)
-          .then(flip_B1_Bsecond_r2_r_init, m)
-          .then(flip_B1_Bsecond_r2_i_init, m)
-          .then(flip_B1_Bthird_r2_r_init, m)
-          .then(flip_B1_Bthird_r2_i_init, m)
-          .then(B1_Blocal_r2_r_props_init, x2)
-          .then(B1_Blocal_r2_i_props_init, jSprime)
-          .then(B1_Bfirst_r2_r_props_init, jSprime)
-          .then(B1_Bfirst_r2_i_props_init, jSprime)
-          .then(B1_Bsecond_r2_r_props_init, jSprime)
-          .then(B1_Bsecond_r2_i_props_init, jSprime)
-          .then(B1_Bthird_r2_r_props_init, jSprime)
-          .then(B1_Bthird_r2_i_props_init, jSprime)
-          .then(B1_Blocal_r2_r_diquark, y)
-          .then(B1_Blocal_r2_i_diquark, wnumBlock)
-          .then(B1_Bfirst_r2_r_diquark, wnumBlock)
-          .then(B1_Bfirst_r2_i_diquark, wnumBlock)
-          .then(B1_Bthird_r2_r_diquark, wnumBlock)
-          .then(B1_Bthird_r2_i_diquark, wnumBlock)
-          .then(B1_Blocal_r2_r_props, wnumBlock)
-          .then(B1_Blocal_r2_i_props, jSprime)
-          .then(B1_Bfirst_r2_r_props, jSprime)
-          .then(B1_Bfirst_r2_i_props, jSprime)
-          .then(B1_Bsecond_r2_r_props, jSprime)
-          .then(B1_Bsecond_r2_i_props, jSprime)
-          .then(B1_Bthird_r2_r_props, jSprime)
-          .then(B1_Bthird_r2_i_props, jSprime)
-          .then(B1_Blocal_r2_r_update, y)
-          .then(B1_Blocal_r2_i_update, m)
-          .then(B1_Bfirst_r2_r_update, m)
-          .then(B1_Bfirst_r2_i_update, m)
-          .then(B1_Bsecond_r2_r_update, m)
-          .then(B1_Bsecond_r2_i_update, m)
-          .then(B1_Bthird_r2_r_update, m)
-          .then(B1_Bthird_r2_i_update, m)
-          .then(flip_B1_Blocal_r2_r_update, m)
-          .then(flip_B1_Blocal_r2_i_update, m)
-          .then(flip_B1_Bfirst_r2_r_update, m)
-          .then(flip_B1_Bfirst_r2_i_update, m)
-          .then(flip_B1_Bsecond_r2_r_update, m)
-          .then(flip_B1_Bsecond_r2_i_update, m)
-          .then(flip_B1_Bthird_r2_r_update, m)
-          .then(flip_B1_Bthird_r2_i_update, m)
-          .then(B2_Blocal_r1_r_init, x2)
-          .then(B2_Blocal_r1_i_init, m)
-          .then(B2_Bfirst_r1_r_init, m)
-          .then(B2_Bfirst_r1_i_init, m)
-          .then(B2_Bsecond_r1_r_init, m)
-          .then(B2_Bsecond_r1_i_init, m)
-          .then(B2_Bthird_r1_r_init, m)
-          .then(B2_Bthird_r1_i_init, m)
-          .then(flip_B2_Blocal_r1_r_init, m)
-          .then(flip_B2_Blocal_r1_i_init, m)
-          .then(flip_B2_Bfirst_r1_r_init, m)
-          .then(flip_B2_Bfirst_r1_i_init, m)
-          .then(flip_B2_Bsecond_r1_r_init, m)
-          .then(flip_B2_Bsecond_r1_i_init, m)
-          .then(flip_B2_Bthird_r1_r_init, m)
-          .then(flip_B2_Bthird_r1_i_init, m)
-          .then(B2_Blocal_r1_r_props_init, x2)
-          .then(B2_Blocal_r1_i_props_init, jSprime)
-          .then(B2_Bfirst_r1_r_props_init, jSprime)
-          .then(B2_Bfirst_r1_i_props_init, jSprime)
-          .then(B2_Bsecond_r1_r_props_init, jSprime)
-          .then(B2_Bsecond_r1_i_props_init, jSprime)
-          .then(B2_Bthird_r1_r_props_init, jSprime)
-          .then(B2_Bthird_r1_i_props_init, jSprime)
-          .then(B2_Blocal_r1_r_diquark, y)
-          .then(B2_Blocal_r1_i_diquark, wnumBlock)
-          .then(B2_Bfirst_r1_r_diquark, wnumBlock)
-          .then(B2_Bfirst_r1_i_diquark, wnumBlock)
-          .then(B2_Bthird_r1_r_diquark, wnumBlock)
-          .then(B2_Bthird_r1_i_diquark, wnumBlock)
-          .then(B2_Blocal_r1_r_props, wnumBlock)
-          .then(B2_Blocal_r1_i_props, jSprime)
-          .then(B2_Bfirst_r1_r_props, jSprime)
-          .then(B2_Bfirst_r1_i_props, jSprime)
-          .then(B2_Bsecond_r1_r_props, jSprime)
-          .then(B2_Bsecond_r1_i_props, jSprime)
-          .then(B2_Bthird_r1_r_props, jSprime)
-          .then(B2_Bthird_r1_i_props, jSprime)
-          .then(B2_Blocal_r1_r_update, y)
-          .then(B2_Blocal_r1_i_update, m)
-          .then(B2_Bfirst_r1_r_update, m)
-          .then(B2_Bfirst_r1_i_update, m)
-          .then(B2_Bsecond_r1_r_update, m)
-          .then(B2_Bsecond_r1_i_update, m)
-          .then(B2_Bthird_r1_r_update, m)
-          .then(B2_Bthird_r1_i_update, m)
-          .then(flip_B2_Blocal_r1_r_update, m)
-          .then(flip_B2_Blocal_r1_i_update, m)
-          .then(flip_B2_Bfirst_r1_r_update, m)
-          .then(flip_B2_Bfirst_r1_i_update, m)
-          .then(flip_B2_Bsecond_r1_r_update, m)
-          .then(flip_B2_Bsecond_r1_i_update, m)
-          .then(flip_B2_Bthird_r1_r_update, m)
-          .then(flip_B2_Bthird_r1_i_update, m)
-          .then(B2_Blocal_r2_r_init, x2)
-          .then(B2_Blocal_r2_i_init, m)
-          .then(B2_Bfirst_r2_r_init, m)
-          .then(B2_Bfirst_r2_i_init, m)
-          .then(B2_Bsecond_r2_r_init, m)
-          .then(B2_Bsecond_r2_i_init, m)
-          .then(B2_Bthird_r2_r_init, m)
-          .then(B2_Bthird_r2_i_init, m)
-          .then(flip_B2_Blocal_r2_r_init, m)
-          .then(flip_B2_Blocal_r2_i_init, m)
-          .then(flip_B2_Bfirst_r2_r_init, m)
-          .then(flip_B2_Bfirst_r2_i_init, m)
-          .then(flip_B2_Bsecond_r2_r_init, m)
-          .then(flip_B2_Bsecond_r2_i_init, m)
-          .then(flip_B2_Bthird_r2_r_init, m)
-          .then(flip_B2_Bthird_r2_i_init, m)
-          .then(B2_Blocal_r2_r_props_init, x2)
-          .then(B2_Blocal_r2_i_props_init, jSprime)
-          .then(B2_Bfirst_r2_r_props_init, jSprime)
-          .then(B2_Bfirst_r2_i_props_init, jSprime)
-          .then(B2_Bsecond_r2_r_props_init, jSprime)
-          .then(B2_Bsecond_r2_i_props_init, jSprime)
-          .then(B2_Bthird_r2_r_props_init, jSprime)
-          .then(B2_Bthird_r2_i_props_init, jSprime)
-          .then(B2_Blocal_r2_r_diquark, y)
-          .then(B2_Blocal_r2_i_diquark, wnumBlock)
-          .then(B2_Bfirst_r2_r_diquark, wnumBlock)
-          .then(B2_Bfirst_r2_i_diquark, wnumBlock)
-          .then(B2_Bthird_r2_r_diquark, wnumBlock)
-          .then(B2_Bthird_r2_i_diquark, wnumBlock)
-          .then(B2_Blocal_r2_r_props, wnumBlock)
-          .then(B2_Blocal_r2_i_props, jSprime)
-          .then(B2_Bfirst_r2_r_props, jSprime)
-          .then(B2_Bfirst_r2_i_props, jSprime)
-          .then(B2_Bsecond_r2_r_props, jSprime)
-          .then(B2_Bsecond_r2_i_props, jSprime)
-          .then(B2_Bthird_r2_r_props, jSprime)
-          .then(B2_Bthird_r2_i_props, jSprime)
-          .then(B2_Blocal_r2_r_update, y)
-          .then(B2_Blocal_r2_i_update, m)
-          .then(B2_Bfirst_r2_r_update, m)
-          .then(B2_Bfirst_r2_i_update, m)
-          .then(B2_Bsecond_r2_r_update, m)
-          .then(B2_Bsecond_r2_i_update, m)
-          .then(B2_Bthird_r2_r_update, m)
-          .then(B2_Bthird_r2_i_update, m)
-          .then(flip_B2_Blocal_r2_r_update, m)
-          .then(flip_B2_Blocal_r2_i_update, m)
-          .then(flip_B2_Bfirst_r2_r_update, m)
-          .then(flip_B2_Bfirst_r2_i_update, m)
-          .then(flip_B2_Bsecond_r2_r_update, m)
-          .then(flip_B2_Bsecond_r2_i_update, m)
-          .then(flip_B2_Bthird_r2_r_update, m)
-          .then(flip_B2_Bthird_r2_i_update, m)
-          .then(C_BB_BB_prop_init_r, x2)
-          .then(C_BB_BB_prop_init_i, r)
-          .then( *(BB_BB_new_term_0_r1_b1.get_real()), r)
-          .then( *(BB_BB_new_term_0_r1_b1.get_imag()), wnum)
-          .then( *(BB_BB_new_term_1_r1_b1.get_real()), wnum)
-          .then( *(BB_BB_new_term_1_r1_b1.get_imag()), wnum)
-          .then( *(BB_BB_new_term_2_r1_b1.get_real()), wnum)
-          .then( *(BB_BB_new_term_2_r1_b1.get_imag()), wnum)
-          .then( *(BB_BB_new_term_3_r1_b1.get_real()), wnum)
-          .then( *(BB_BB_new_term_3_r1_b1.get_imag()), wnum)
-          .then( *(BB_BB_new_term_4_r1_b1.get_real()), wnum)
-          .then( *(BB_BB_new_term_4_r1_b1.get_imag()), wnum)
-          .then( *(BB_BB_new_term_5_r1_b1.get_real()), wnum)
-          .then( *(BB_BB_new_term_5_r1_b1.get_imag()), wnum)
-          .then( *(BB_BB_new_term_6_r1_b1.get_real()), wnum)
-          .then( *(BB_BB_new_term_6_r1_b1.get_imag()), wnum)
-          .then( *(BB_BB_new_term_7_r1_b1.get_real()), wnum)
-          .then( *(BB_BB_new_term_7_r1_b1.get_imag()), wnum)
-          .then( *(BB_BB_new_term_0_r2_b1.get_real()), wnum)
-          .then( *(BB_BB_new_term_0_r2_b1.get_imag()), wnum)
-          .then( *(BB_BB_new_term_1_r2_b1.get_real()), wnum)
-          .then( *(BB_BB_new_term_1_r2_b1.get_imag()), wnum)
-          .then( *(BB_BB_new_term_2_r2_b1.get_real()), wnum)
-          .then( *(BB_BB_new_term_2_r2_b1.get_imag()), wnum)
-          .then( *(BB_BB_new_term_3_r2_b1.get_real()), wnum)
-          .then( *(BB_BB_new_term_3_r2_b1.get_imag()), wnum)
-          .then( *(BB_BB_new_term_4_r2_b1.get_real()), wnum)
-          .then( *(BB_BB_new_term_4_r2_b1.get_imag()), wnum)
-          .then( *(BB_BB_new_term_5_r2_b1.get_real()), wnum)
-          .then( *(BB_BB_new_term_5_r2_b1.get_imag()), wnum)
-          .then( *(BB_BB_new_term_6_r2_b1.get_real()), wnum)
-          .then( *(BB_BB_new_term_6_r2_b1.get_imag()), wnum)
-          .then( *(BB_BB_new_term_7_r2_b1.get_real()), wnum)
-          .then( *(BB_BB_new_term_7_r2_b1.get_imag()), wnum)
-          .then( *(BB_BB_new_term_0_r1_b2.get_real()), wnum)
-          .then( *(BB_BB_new_term_0_r1_b2.get_imag()), wnum)
-          .then( *(BB_BB_new_term_1_r1_b2.get_real()), wnum)
-          .then( *(BB_BB_new_term_1_r1_b2.get_imag()), wnum)
-          .then( *(BB_BB_new_term_2_r1_b2.get_real()), wnum)
-          .then( *(BB_BB_new_term_2_r1_b2.get_imag()), wnum)
-          .then( *(BB_BB_new_term_3_r1_b2.get_real()), wnum)
-          .then( *(BB_BB_new_term_3_r1_b2.get_imag()), wnum)
-          .then( *(BB_BB_new_term_4_r1_b2.get_real()), wnum)
-          .then( *(BB_BB_new_term_4_r1_b2.get_imag()), wnum)
-          .then( *(BB_BB_new_term_5_r1_b2.get_real()), wnum)
-          .then( *(BB_BB_new_term_5_r1_b2.get_imag()), wnum)
-          .then( *(BB_BB_new_term_6_r1_b2.get_real()), wnum)
-          .then( *(BB_BB_new_term_6_r1_b2.get_imag()), wnum)
-          .then( *(BB_BB_new_term_7_r1_b2.get_real()), wnum)
-          .then( *(BB_BB_new_term_7_r1_b2.get_imag()), wnum)
-          .then( *(BB_BB_new_term_0_r2_b2.get_real()), wnum)
-          .then( *(BB_BB_new_term_0_r2_b2.get_imag()), wnum)
-          .then( *(BB_BB_new_term_1_r2_b2.get_real()), wnum)
-          .then( *(BB_BB_new_term_1_r2_b2.get_imag()), wnum)
-          .then( *(BB_BB_new_term_2_r2_b2.get_real()), wnum)
-          .then( *(BB_BB_new_term_2_r2_b2.get_imag()), wnum)
-          .then( *(BB_BB_new_term_3_r2_b2.get_real()), wnum)
-          .then( *(BB_BB_new_term_3_r2_b2.get_imag()), wnum)
-          .then( *(BB_BB_new_term_4_r2_b2.get_real()), wnum)
-          .then( *(BB_BB_new_term_4_r2_b2.get_imag()), wnum)
-          .then( *(BB_BB_new_term_5_r2_b2.get_real()), wnum)
-          .then( *(BB_BB_new_term_5_r2_b2.get_imag()), wnum)
-          .then( *(BB_BB_new_term_6_r2_b2.get_real()), wnum)
-          .then( *(BB_BB_new_term_6_r2_b2.get_imag()), wnum)
-          .then( *(BB_BB_new_term_7_r2_b2.get_real()), wnum)
-          .then( *(BB_BB_new_term_7_r2_b2.get_imag()), wnum)
-          .then( *(flip_BB_BB_new_term_0_r1_b1.get_real()), wnum)
-          .then( *(flip_BB_BB_new_term_0_r1_b1.get_imag()), wnum)
-          .then( *(flip_BB_BB_new_term_1_r1_b1.get_real()), wnum)
-          .then( *(flip_BB_BB_new_term_1_r1_b1.get_imag()), wnum)
-          .then( *(flip_BB_BB_new_term_2_r1_b1.get_real()), wnum)
-          .then( *(flip_BB_BB_new_term_2_r1_b1.get_imag()), wnum)
-          .then( *(flip_BB_BB_new_term_3_r1_b1.get_real()), wnum)
-          .then( *(flip_BB_BB_new_term_3_r1_b1.get_imag()), wnum)
-          .then( *(flip_BB_BB_new_term_4_r1_b1.get_real()), wnum)
-          .then( *(flip_BB_BB_new_term_4_r1_b1.get_imag()), wnum)
-          .then( *(flip_BB_BB_new_term_5_r1_b1.get_real()), wnum)
-          .then( *(flip_BB_BB_new_term_5_r1_b1.get_imag()), wnum)
-          .then( *(flip_BB_BB_new_term_6_r1_b1.get_real()), wnum)
-          .then( *(flip_BB_BB_new_term_6_r1_b1.get_imag()), wnum)
-          .then( *(flip_BB_BB_new_term_7_r1_b1.get_real()), wnum)
-          .then( *(flip_BB_BB_new_term_7_r1_b1.get_imag()), wnum)
-          .then( *(flip_BB_BB_new_term_0_r2_b1.get_real()), wnum)
-          .then( *(flip_BB_BB_new_term_0_r2_b1.get_imag()), wnum)
-          .then( *(flip_BB_BB_new_term_1_r2_b1.get_real()), wnum)
-          .then( *(flip_BB_BB_new_term_1_r2_b1.get_imag()), wnum)
-          .then( *(flip_BB_BB_new_term_2_r2_b1.get_real()), wnum)
-          .then( *(flip_BB_BB_new_term_2_r2_b1.get_imag()), wnum)
-          .then( *(flip_BB_BB_new_term_3_r2_b1.get_real()), wnum)
-          .then( *(flip_BB_BB_new_term_3_r2_b1.get_imag()), wnum)
-          .then( *(flip_BB_BB_new_term_4_r2_b1.get_real()), wnum)
-          .then( *(flip_BB_BB_new_term_4_r2_b1.get_imag()), wnum)
-          .then( *(flip_BB_BB_new_term_5_r2_b1.get_real()), wnum)
-          .then( *(flip_BB_BB_new_term_5_r2_b1.get_imag()), wnum)
-          .then( *(flip_BB_BB_new_term_6_r2_b1.get_real()), wnum)
-          .then( *(flip_BB_BB_new_term_6_r2_b1.get_imag()), wnum)
-          .then( *(flip_BB_BB_new_term_7_r2_b1.get_real()), wnum)
-          .then( *(flip_BB_BB_new_term_7_r2_b1.get_imag()), wnum)
-          .then( *(flip_BB_BB_new_term_0_r1_b2.get_real()), wnum)
-          .then( *(flip_BB_BB_new_term_0_r1_b2.get_imag()), wnum)
-          .then( *(flip_BB_BB_new_term_1_r1_b2.get_real()), wnum)
-          .then( *(flip_BB_BB_new_term_1_r1_b2.get_imag()), wnum)
-          .then( *(flip_BB_BB_new_term_2_r1_b2.get_real()), wnum)
-          .then( *(flip_BB_BB_new_term_2_r1_b2.get_imag()), wnum)
-          .then( *(flip_BB_BB_new_term_3_r1_b2.get_real()), wnum)
-          .then( *(flip_BB_BB_new_term_3_r1_b2.get_imag()), wnum)
-          .then( *(flip_BB_BB_new_term_4_r1_b2.get_real()), wnum)
-          .then( *(flip_BB_BB_new_term_4_r1_b2.get_imag()), wnum)
-          .then( *(flip_BB_BB_new_term_5_r1_b2.get_real()), wnum)
-          .then( *(flip_BB_BB_new_term_5_r1_b2.get_imag()), wnum)
-          .then( *(flip_BB_BB_new_term_6_r1_b2.get_real()), wnum)
-          .then( *(flip_BB_BB_new_term_6_r1_b2.get_imag()), wnum)
-          .then( *(flip_BB_BB_new_term_7_r1_b2.get_real()), wnum)
-          .then( *(flip_BB_BB_new_term_7_r1_b2.get_imag()), wnum)
-          .then( *(flip_BB_BB_new_term_0_r2_b2.get_real()), wnum)
-          .then( *(flip_BB_BB_new_term_0_r2_b2.get_imag()), wnum)
-          .then( *(flip_BB_BB_new_term_1_r2_b2.get_real()), wnum)
-          .then( *(flip_BB_BB_new_term_1_r2_b2.get_imag()), wnum)
-          .then( *(flip_BB_BB_new_term_2_r2_b2.get_real()), wnum)
-          .then( *(flip_BB_BB_new_term_2_r2_b2.get_imag()), wnum)
-          .then( *(flip_BB_BB_new_term_3_r2_b2.get_real()), wnum)
-          .then( *(flip_BB_BB_new_term_3_r2_b2.get_imag()), wnum)
-          .then( *(flip_BB_BB_new_term_4_r2_b2.get_real()), wnum)
-          .then( *(flip_BB_BB_new_term_4_r2_b2.get_imag()), wnum)
-          .then( *(flip_BB_BB_new_term_5_r2_b2.get_real()), wnum)
-          .then( *(flip_BB_BB_new_term_5_r2_b2.get_imag()), wnum)
-          .then( *(flip_BB_BB_new_term_6_r2_b2.get_real()), wnum)
-          .then( *(flip_BB_BB_new_term_6_r2_b2.get_imag()), wnum)
-          .then( *(flip_BB_BB_new_term_7_r2_b2.get_real()), wnum)
-          .then( *(flip_BB_BB_new_term_7_r2_b2.get_imag()), wnum)
-          .then(C_BB_BB_prop_update_r, wnum)
-          .then(C_BB_BB_prop_update_i, wnum)
-          .then(C_BB_BB_update_b_r, r)
-          .then(C_BB_BB_update_b_i, ne)
-          .then(C_BB_BB_update_s_r, r)
-          .then(C_BB_BB_update_s_i, nue)
-          );
-
-    // BB_H
-    handle = &(handle
-          ->then(src_B1_Blocal_r1_r_init, t)
-          .then(src_B1_Blocal_r1_i_init, jSprime)
-          .then(flip_src_B1_Blocal_r1_r_init, jSprime)
-          .then(flip_src_B1_Blocal_r1_i_init, jSprime)
-          .then(src_B1_Blocal_r1_r_props_init, x_in)
-          .then(src_B1_Blocal_r1_i_props_init, jSprime)
-          .then(src_B1_Blocal_r1_r_diquark, y)
-          .then(src_B1_Blocal_r1_i_diquark, wnumBlock)
-          .then(src_B1_Blocal_r1_r_props, wnumBlock)
-          .then(src_B1_Blocal_r1_i_props, jSprime)
-          .then(src_B1_Blocal_r1_r_update, y)
-          .then(src_B1_Blocal_r1_i_update, m)
-          .then(flip_src_B1_Blocal_r1_r_update, m)
-          .then(flip_src_B1_Blocal_r1_i_update, m)
-          .then(src_B1_Blocal_r2_r_init, x_in)
-          .then(src_B1_Blocal_r2_i_init, jSprime)
-          .then(flip_src_B1_Blocal_r2_r_init, jSprime)
-          .then(flip_src_B1_Blocal_r2_i_init, jSprime)
-          .then(src_B1_Blocal_r2_r_props_init, x_in)
-          .then(src_B1_Blocal_r2_i_props_init, jSprime)
-          .then(src_B1_Blocal_r2_r_diquark, y)
-          .then(src_B1_Blocal_r2_i_diquark, wnumBlock)
-          .then(src_B1_Blocal_r2_r_props, wnumBlock)
-          .then(src_B1_Blocal_r2_i_props, jSprime)
-          .then(src_B1_Blocal_r2_r_update, y)
-          .then(src_B1_Blocal_r2_i_update, m)
-          .then(flip_src_B1_Blocal_r2_r_update, m)
-          .then(flip_src_B1_Blocal_r2_i_update, m)
-          .then(src_B2_Blocal_r1_r_init, x_in)
-          .then(src_B2_Blocal_r1_i_init, jSprime)
-          .then(flip_src_B2_Blocal_r1_r_init, jSprime)
-          .then(flip_src_B2_Blocal_r1_i_init, jSprime)
-          .then(src_B2_Blocal_r1_r_props_init, x_in)
-          .then(src_B2_Blocal_r1_i_props_init, jSprime)
-          .then(src_B2_Blocal_r1_r_diquark, y)
-          .then(src_B2_Blocal_r1_i_diquark, wnumBlock)
-          .then(src_B2_Blocal_r1_r_props, wnumBlock)
-          .then(src_B2_Blocal_r1_i_props, jSprime)
-          .then(src_B2_Blocal_r1_r_update, y)
-          .then(src_B2_Blocal_r1_i_update, m)
-          .then(flip_src_B2_Blocal_r1_r_update, m)
-          .then(flip_src_B2_Blocal_r1_i_update, m)
-          .then(src_B2_Blocal_r2_r_init, x_in)
-          .then(src_B2_Blocal_r2_i_init, jSprime)
-          .then(flip_src_B2_Blocal_r2_r_init, jSprime)
-          .then(flip_src_B2_Blocal_r2_i_init, jSprime)
-          .then(src_B2_Blocal_r2_r_props_init, x_in)
-          .then(src_B2_Blocal_r2_i_props_init, jSprime)
-          .then(src_B2_Blocal_r2_r_diquark, y)
-          .then(src_B2_Blocal_r2_i_diquark, wnumBlock)
-          .then(src_B2_Blocal_r2_r_props, wnumBlock)
-          .then(src_B2_Blocal_r2_i_props, jSprime)
-          .then(src_B2_Blocal_r2_r_update, y)
-          .then(src_B2_Blocal_r2_i_update, m)
-          .then(flip_src_B2_Blocal_r2_r_update, m)
-          .then(flip_src_B2_Blocal_r2_i_update, m)
-         .then(C_BB_H_prop_init_r, x_in)
-          .then(C_BB_H_prop_init_i, r)
-          .then( *(BB_H_new_term_0_r1_b1.get_real()), r)
-          .then( *(BB_H_new_term_0_r1_b1.get_imag()), wnumHex)
-          .then( *(BB_H_new_term_0_r2_b1.get_real()), wnumHex)
-          .then( *(BB_H_new_term_0_r2_b1.get_imag()), wnumHex)
-          .then( *(BB_H_new_term_0_r1_b2.get_real()), wnumHex)
-          .then( *(BB_H_new_term_0_r1_b2.get_imag()), wnumHex)
-          .then( *(BB_H_new_term_0_r2_b2.get_real()), wnumHex)
-          .then( *(BB_H_new_term_0_r2_b2.get_imag()), wnumHex)
-          .then( *(flip_BB_H_new_term_0_r1_b1.get_real()), wnumHex)
-          .then( *(flip_BB_H_new_term_0_r1_b1.get_imag()), wnumHex)
-          .then( *(flip_BB_H_new_term_0_r2_b1.get_real()), wnumHex)
-          .then( *(flip_BB_H_new_term_0_r2_b1.get_imag()), wnumHex)
-          .then( *(flip_BB_H_new_term_0_r1_b2.get_real()), wnumHex)
-          .then( *(flip_BB_H_new_term_0_r1_b2.get_imag()), wnumHex)
-          .then( *(flip_BB_H_new_term_0_r2_b2.get_real()), wnumHex)
-          .then( *(flip_BB_H_new_term_0_r2_b2.get_imag()), wnumHex)
-          .then(C_BB_H_prop_update_r, wnumHex)
-          .then(C_BB_H_prop_update_i, wnumHex)
-          .then(C_BB_H_update_r, r)
-          .then(C_BB_H_update_i, nH)
-          );
-
-    // H_BB
-    handle = &(handle
-          ->then( snk_B1_Blocal_r1_r_init, t)
-          .then(snk_B1_Blocal_r1_i_init, jSprime)
-          .then(flip_snk_B1_Blocal_r1_r_init, jSprime)
-          .then(flip_snk_B1_Blocal_r1_i_init, jSprime)
-          .then(snk_B1_Blocal_r1_r_props_init, y_in)
-          .then(snk_B1_Blocal_r1_i_props_init, jSprime)
-          .then(snk_B1_Blocal_r1_r_diquark, x)
-          .then(snk_B1_Blocal_r1_i_diquark, wnumBlock)
-          .then(snk_B1_Blocal_r1_r_props, wnumBlock)
-          .then(snk_B1_Blocal_r1_i_props, jSprime)
-          .then(snk_B1_Blocal_r1_r_update, x)
-          .then(snk_B1_Blocal_r1_i_update, n)
-          .then(flip_snk_B1_Blocal_r1_r_update, n)
-          .then(flip_snk_B1_Blocal_r1_i_update, n)
-          .then(snk_B1_Blocal_r2_r_init, y_in)
-          .then(snk_B1_Blocal_r2_i_init, jSprime)
-          .then(flip_snk_B1_Blocal_r2_r_init, jSprime)
-          .then(flip_snk_B1_Blocal_r2_i_init, jSprime)
-          .then(snk_B1_Blocal_r2_r_props_init, y_in)
-          .then(snk_B1_Blocal_r2_i_props_init, jSprime)
-          .then(snk_B1_Blocal_r2_r_diquark, x)
-          .then(snk_B1_Blocal_r2_i_diquark, wnumBlock)
-          .then(snk_B1_Blocal_r2_r_props, wnumBlock)
-          .then(snk_B1_Blocal_r2_i_props, jSprime)
-          .then(snk_B1_Blocal_r2_r_update, x)
-          .then(snk_B1_Blocal_r2_i_update, n)
-          .then(flip_snk_B1_Blocal_r2_r_update, n)
-          .then(flip_snk_B1_Blocal_r2_i_update, n)
-          .then(snk_B2_Blocal_r1_r_init, y_in)
-          .then(snk_B2_Blocal_r1_i_init, jSprime)
-          .then(flip_snk_B2_Blocal_r1_r_init, jSprime)
-          .then(flip_snk_B2_Blocal_r1_i_init, jSprime)
-          .then(snk_B2_Blocal_r1_r_props_init, y_in)
-          .then(snk_B2_Blocal_r1_i_props_init, jSprime)
-          .then(snk_B2_Blocal_r1_r_diquark, x)
-          .then(snk_B2_Blocal_r1_i_diquark, wnumBlock)
-          .then(snk_B2_Blocal_r1_r_props, wnumBlock)
-          .then(snk_B2_Blocal_r1_i_props, jSprime)
-          .then(snk_B2_Blocal_r1_r_update, x)
-          .then(snk_B2_Blocal_r1_i_update, n)
-          .then(flip_snk_B2_Blocal_r1_r_update, n)
-          .then(flip_snk_B2_Blocal_r1_i_update, n)
-          .then(snk_B2_Blocal_r2_r_init, y_in)
-          .then(snk_B2_Blocal_r2_i_init, jSprime)
-          .then(flip_snk_B2_Blocal_r2_r_init, jSprime)
-          .then(flip_snk_B2_Blocal_r2_i_init, jSprime)
-          .then(snk_B2_Blocal_r2_r_props_init, y_in)
-          .then(snk_B2_Blocal_r2_i_props_init, jSprime)
-          .then(snk_B2_Blocal_r2_r_diquark, x)
-          .then(snk_B2_Blocal_r2_i_diquark, wnumBlock)
-          .then(snk_B2_Blocal_r2_r_props, wnumBlock)
-          .then(snk_B2_Blocal_r2_i_props, jSprime)
-          .then(snk_B2_Blocal_r2_r_update, x)
-          .then(flip_snk_B2_Blocal_r2_r_update, n)
-          .then(flip_snk_B2_Blocal_r2_i_update, n)
-          .then(snk_B2_Blocal_r2_i_update, n)
-          .then(C_H_BB_prop_init_r, y_in)
-          .then(C_H_BB_prop_init_i, r)
-          .then( *(H_BB_new_term_0_r1_b1.get_real()), r)
-          .then( *(H_BB_new_term_0_r1_b1.get_imag()), wnumHex)
-          .then( *(H_BB_new_term_0_r2_b1.get_real()), wnumHex)
-          .then( *(H_BB_new_term_0_r2_b1.get_imag()), wnumHex)
-          .then( *(H_BB_new_term_0_r1_b2.get_real()), wnumHex)
-          .then( *(H_BB_new_term_0_r1_b2.get_imag()), wnumHex)
-          .then( *(H_BB_new_term_0_r2_b2.get_real()), wnumHex)
-          .then( *(H_BB_new_term_0_r2_b2.get_imag()), wnumHex)
-          .then( *(flip_H_BB_new_term_0_r1_b1.get_real()), wnumHex)
-          .then( *(flip_H_BB_new_term_0_r1_b1.get_imag()), wnumHex)
-          .then( *(flip_H_BB_new_term_0_r2_b1.get_real()), wnumHex)
-          .then( *(flip_H_BB_new_term_0_r2_b1.get_imag()), wnumHex)
-          .then( *(flip_H_BB_new_term_0_r1_b2.get_real()), wnumHex)
-          .then( *(flip_H_BB_new_term_0_r1_b2.get_imag()), wnumHex)
-          .then( *(flip_H_BB_new_term_0_r2_b2.get_real()), wnumHex)
-          .then( *(flip_H_BB_new_term_0_r2_b2.get_imag()), wnumHex)
-          .then(C_H_BB_prop_update_r, wnumHex)
-          .then(C_H_BB_prop_update_i, wnumHex)
-          .then(C_H_BB_update_r, r)
-          .then(C_H_BB_update_i, mH)
-          );
-
-    // H_H
-    handle = &(handle
-          ->then(C_H_H_prop_init_r, t)
-          .then(C_H_H_prop_init_i, y)
-          .then(C_H_H_prop_update_r, y)
-          .then(C_H_H_prop_update_i, wnumHexHex)
-          .then(C_H_H_update_r, y)
-          .then(C_H_H_update_i, nH)
-          );
-
-handle = &handle->then(copy_B1_prop_r_device_to_host, computation::root);
-handle = &handle->then(copy_B1_prop_i_device_to_host, computation::root);
-handle = &handle->then(copy_B2_prop_r_device_to_host, computation::root);
-handle = &handle->then(copy_B2_prop_i_device_to_host, computation::root);
-handle = &handle->then(copy_src_psi_B1_r_device_to_host, computation::root);
-handle = &handle->then(copy_src_psi_B1_i_device_to_host, computation::root);
-handle = &handle->then(copy_src_psi_B2_r_device_to_host, computation::root);
-handle = &handle->then(copy_src_psi_B2_i_device_to_host, computation::root);
-handle = &handle->then(copy_snk_psi_B1_r_device_to_host, computation::root);
-handle = &handle->then(copy_snk_psi_B1_i_device_to_host, computation::root);
-handle = &handle->then(copy_snk_psi_B2_r_device_to_host, computation::root);
-handle = &handle->then(copy_snk_psi_B2_i_device_to_host, computation::root);
-handle = &handle->then(copy_src_spins_device_to_host, computation::root);
-handle = &handle->then(copy_sigs_device_to_host, computation::root);
-handle = &handle->then(copy_snk_psi_r_device_to_host, computation::root);
-handle = &handle->then(copy_snk_psi_i_device_to_host, computation::root);
-handle = &handle->then(copy_hex_snk_psi_r_device_to_host, computation::root);
-handle = &handle->then(copy_hex_snk_psi_i_device_to_host, computation::root);
-handle = &handle->then(copy_src_color_weights_device_to_host, computation::root);
-handle = &handle->then(copy_src_spin_weights_device_to_host, computation::root);
-handle = &handle->then(copy_src_weights_device_to_host, computation::root);
-handle = &handle->then(copy_snk_color_weights_device_to_host, computation::root);
-handle = &handle->then(copy_snk_spin_weights_device_to_host, computation::root);
-handle = &handle->then(copy_snk_weights_device_to_host, computation::root);
-handle = &handle->then(copy_hex_snk_color_weights_device_to_host, computation::root);
-handle = &handle->then(copy_hex_snk_spin_weights_device_to_host, computation::root);
-handle = &handle->then(copy_hex_snk_weights_device_to_host, computation::root);
-handle = &handle->then(copy_src_spin_block_weights_device_to_host, computation::root);
-handle = &handle->then(copy_snk_b_device_to_host, computation::root);
 
 #if VECTORIZED
 
