@@ -3884,7 +3884,7 @@ handle = &handle->then(copy_snk_b_device_to_host, computation::root);
 	     &buf_hex_snk_spin_weights_cpu,
 	     &buf_hex_snk_weights_cpu
         },
-        "generated_tiramisu_make_fused_dibaryon_blocks_correlator.o");
+        "generated_tiramisu_make_fused_dibaryon_blocks_correlator.o", true);
 }
 
 int main(int argc, char **argv)
