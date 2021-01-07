@@ -73,10 +73,10 @@ void generate_function(std::string name)
    buf_B2_prop_r.tag_gpu_global();
    buf_B2_prop_i.tag_gpu_global();
 
-   B1_prop_r.store_in(buf_B1_prop_r);
-   B1_prop_i.store_in(buf_B1_prop_i);
-   B2_prop_r.store_in(buf_B2_prop_r);
-   B2_prop_i.store_in(buf_B2_prop_i);
+   B1_prop_r.store_in(&buf_B1_prop_r);
+   B1_prop_i.store_in(&buf_B1_prop_i);
+   B2_prop_r.store_in(&buf_B2_prop_r);
+   B2_prop_i.store_in(&buf_B2_prop_i);
 
    input src_psi_B1_r("src_psi_B1_r",    {y, m}, p_float64);
    input src_psi_B1_i("src_psi_B1_i",    {y, m}, p_float64);
