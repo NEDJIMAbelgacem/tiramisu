@@ -18,6 +18,7 @@ class complex_expr {
   tiramisu::expr real, imag;
 
 public:
+  complex_expr( const expr &e ) : real( e ), imag( e ) {}
   complex_expr() : real(double(0)), imag(double(0)) {}
 
   complex_expr(tiramisu::expr r, tiramisu::expr i) : real(r), imag(i) {}
