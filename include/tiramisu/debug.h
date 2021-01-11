@@ -110,6 +110,7 @@ extern int tiramisu_indentation;
 #define ERROR(message, exit_program) {                      \
     std::cerr << "Error in " << __FILE__ << ":"             \
               << __LINE__ << " - " << message << std::endl; \
+    __builtin_debugtrap();                                  \
     if (exit_program)                                       \
     {                                                       \
         exit(1);                                            \
