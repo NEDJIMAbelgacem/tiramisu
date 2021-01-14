@@ -1251,7 +1251,7 @@ void generate_function(std::string name)
 //     computation C_BB_H_update_r("C_BB_H_update_r", {t, x_out, x_in, rp, m, r, nH}, C_init_r(t, x_out, x_in, rp, m, r, Nsnk+nH) + BB_H_term.get_real());
 //     computation C_BB_H_update_i("C_BB_H_update_i", {t, x_out, x_in, rp, m, r, nH}, C_init_i(t, x_out, x_in, rp, m, r, Nsnk+nH) + BB_H_term.get_imag());
 
-    // H_BB
+//     H_BB
 //     computation C_H_BB_prop_init_r("C_H_BB_prop_init_r", {t, y_out, y_in, rp, n, r}, expr((double) 0));
 //     computation C_H_BB_prop_init_i("C_H_BB_prop_init_i", {t, y_out, y_in, rp, n, r}, expr((double) 0));
 
@@ -2263,18 +2263,18 @@ void generate_function(std::string name)
     flip_BB_H_new_term_0_r2_b2.get_imag()->store_in(buf_flip_BB_H_new_term_i_b2, {t, x_out, x_in, 0});
 
 
-    buffer buf_C_BB_H_prop_r("buf_C_BB_H_prop_r", {Lt, Vsnk/sites_per_rank, sites_per_rank, 1}, p_float64, a_temporary);
-    buf_C_BB_H_prop_r.tag_gpu_global();
-    buffer buf_C_BB_H_prop_i("buf_C_BB_H_prop_i", {Lt, Vsnk/sites_per_rank, sites_per_rank, 1}, p_float64, a_temporary);
-    buf_C_BB_H_prop_i.tag_gpu_global();
+//     buffer buf_C_BB_H_prop_r("buf_C_BB_H_prop_r", {Lt, Vsnk/sites_per_rank, sites_per_rank, 1}, p_float64, a_temporary);
+//     buf_C_BB_H_prop_r.tag_gpu_global();
+//     buffer buf_C_BB_H_prop_i("buf_C_BB_H_prop_i", {Lt, Vsnk/sites_per_rank, sites_per_rank, 1}, p_float64, a_temporary);
+//     buf_C_BB_H_prop_i.tag_gpu_global();
 
-    C_BB_H_prop_init_r.store_in(&buf_C_BB_H_prop_r, {t, x_out, x_in, 0});
-    C_BB_H_prop_init_i.store_in(&buf_C_BB_H_prop_i, {t, x_out, x_in, 0});
-    C_BB_H_prop_update_r.store_in(&buf_C_BB_H_prop_r, {t, x_out, x_in, 0});
-    C_BB_H_prop_update_i.store_in(&buf_C_BB_H_prop_i, {t, x_out, x_in, 0});
+//     C_BB_H_prop_init_r.store_in(&buf_C_BB_H_prop_r, {t, x_out, x_in, 0});
+//     C_BB_H_prop_init_i.store_in(&buf_C_BB_H_prop_i, {t, x_out, x_in, 0});
+//     C_BB_H_prop_update_r.store_in(&buf_C_BB_H_prop_r, {t, x_out, x_in, 0});
+//     C_BB_H_prop_update_i.store_in(&buf_C_BB_H_prop_i, {t, x_out, x_in, 0});
 
-    C_BB_H_update_r.store_in(&buf_C_r, {t, x_out, x_in, rp, m, r, Nsnk+nH});
-    C_BB_H_update_i.store_in(&buf_C_i, {t, x_out, x_in, rp, m, r, Nsnk+nH});
+//     C_BB_H_update_r.store_in(&buf_C_r, {t, x_out, x_in, rp, m, r, Nsnk+nH});
+//     C_BB_H_update_i.store_in(&buf_C_i, {t, x_out, x_in, rp, m, r, Nsnk+nH});
 
     // H_BB
 
@@ -2414,6 +2414,7 @@ computation copy_snk_b_host_to_device({}, memcpy(buf_snk_b_cpu, *snk_b.get_buffe
 
       C_init_r.tag_gpu_level(x_out, x_in);
       C_init_i.tag_gpu_level(x_out, x_in);
+// BB_BB
 
       B1_Blocal_r1_r_init.tag_gpu_level(x_out, x_in);
       B1_Blocal_r1_i_init.tag_gpu_level(x_out, x_in);
@@ -2769,85 +2770,86 @@ computation copy_snk_b_host_to_device({}, memcpy(buf_snk_b_cpu, *snk_b.get_buffe
           C_BB_BB_update_s_r.tag_gpu_level(x_out, x_in);
           C_BB_BB_update_s_i.tag_gpu_level(x_out, x_in);
 
+// BB_H
 
-          src_B1_Blocal_r1_r_init.tag_gpu_level(x_out, x_in);
-          src_B1_Blocal_r1_i_init.tag_gpu_level(x_out, x_in);
-          flip_src_B1_Blocal_r1_r_init.tag_gpu_level(x_out, x_in);
-          flip_src_B1_Blocal_r1_i_init.tag_gpu_level(x_out, x_in);
-          src_B1_Blocal_r1_r_props_init.tag_gpu_level(x_out, x_in);
-          src_B1_Blocal_r1_i_props_init.tag_gpu_level(x_out, x_in);
-          src_B1_Blocal_r1_r_diquark.tag_gpu_level(x_out, x_in);
-          src_B1_Blocal_r1_i_diquark.tag_gpu_level(x_out, x_in);
-          src_B1_Blocal_r1_r_props.tag_gpu_level(x_out, x_in);
-          src_B1_Blocal_r1_i_props.tag_gpu_level(x_out, x_in);
-          src_B1_Blocal_r1_r_update.tag_gpu_level(x_out, x_in);
-          src_B1_Blocal_r1_i_update.tag_gpu_level(x_out, x_in);
-          flip_src_B1_Blocal_r1_r_update.tag_gpu_level(x_out, x_in);
-          flip_src_B1_Blocal_r1_i_update.tag_gpu_level(x_out, x_in);
-          src_B1_Blocal_r2_r_init.tag_gpu_level(x_out, x_in);
-          src_B1_Blocal_r2_i_init.tag_gpu_level(x_out, x_in);
-          flip_src_B1_Blocal_r2_r_init.tag_gpu_level(x_out, x_in);
-          flip_src_B1_Blocal_r2_i_init.tag_gpu_level(x_out, x_in);
-          src_B1_Blocal_r2_r_props_init.tag_gpu_level(x_out, x_in);
-          src_B1_Blocal_r2_i_props_init.tag_gpu_level(x_out, x_in);
-          src_B1_Blocal_r2_r_diquark.tag_gpu_level(x_out, x_in);
-          src_B1_Blocal_r2_i_diquark.tag_gpu_level(x_out, x_in);
-          src_B1_Blocal_r2_r_props.tag_gpu_level(x_out, x_in);
-          src_B1_Blocal_r2_i_props.tag_gpu_level(x_out, x_in);
-          src_B1_Blocal_r2_r_update.tag_gpu_level(x_out, x_in);
-          src_B1_Blocal_r2_i_update.tag_gpu_level(x_out, x_in);
-          flip_src_B1_Blocal_r2_r_update.tag_gpu_level(x_out, x_in);
-          flip_src_B1_Blocal_r2_i_update.tag_gpu_level(x_out, x_in);
-          src_B2_Blocal_r1_r_init.tag_gpu_level(x_out, x_in);
-          src_B2_Blocal_r1_i_init.tag_gpu_level(x_out, x_in);
-          flip_src_B2_Blocal_r1_r_init.tag_gpu_level(x_out, x_in);
-          flip_src_B2_Blocal_r1_i_init.tag_gpu_level(x_out, x_in);
-          src_B2_Blocal_r1_r_props_init.tag_gpu_level(x_out, x_in);
-          src_B2_Blocal_r1_i_props_init.tag_gpu_level(x_out, x_in);
-          src_B2_Blocal_r1_r_diquark.tag_gpu_level(x_out, x_in);
-          src_B2_Blocal_r1_i_diquark.tag_gpu_level(x_out, x_in);
-          src_B2_Blocal_r1_r_props.tag_gpu_level(x_out, x_in);
-          src_B2_Blocal_r1_i_props.tag_gpu_level(x_out, x_in);
-          src_B2_Blocal_r1_r_update.tag_gpu_level(x_out, x_in);
-          src_B2_Blocal_r1_i_update.tag_gpu_level(x_out, x_in);
-          flip_src_B2_Blocal_r1_r_update.tag_gpu_level(x_out, x_in);
-          flip_src_B2_Blocal_r1_i_update.tag_gpu_level(x_out, x_in);
-          src_B2_Blocal_r2_r_init.tag_gpu_level(x_out, x_in);
-          src_B2_Blocal_r2_i_init.tag_gpu_level(x_out, x_in);
-          flip_src_B2_Blocal_r2_r_init.tag_gpu_level(x_out, x_in);
-          flip_src_B2_Blocal_r2_i_init.tag_gpu_level(x_out, x_in);
-          src_B2_Blocal_r2_r_props_init.tag_gpu_level(x_out, x_in);
-          src_B2_Blocal_r2_i_props_init.tag_gpu_level(x_out, x_in);
-          src_B2_Blocal_r2_r_diquark.tag_gpu_level(x_out, x_in);
-          src_B2_Blocal_r2_i_diquark.tag_gpu_level(x_out, x_in);
-          src_B2_Blocal_r2_r_props.tag_gpu_level(x_out, x_in);
-          src_B2_Blocal_r2_i_props.tag_gpu_level(x_out, x_in);
-          src_B2_Blocal_r2_r_update.tag_gpu_level(x_out, x_in);
-          src_B2_Blocal_r2_i_update.tag_gpu_level(x_out, x_in);
-          flip_src_B2_Blocal_r2_r_update.tag_gpu_level(x_out, x_in);
-          flip_src_B2_Blocal_r2_i_update.tag_gpu_level(x_out, x_in);
-          C_BB_H_prop_init_r.tag_gpu_level(x_out, x_in);
-          C_BB_H_prop_init_i.tag_gpu_level(x_out, x_in);
-          BB_H_new_term_0_r1_b1.get_real()->tag_gpu_level(x_out, x_in);
-          BB_H_new_term_0_r1_b1.get_imag()->tag_gpu_level(x_out, x_in);
-          BB_H_new_term_0_r2_b1.get_real()->tag_gpu_level(x_out, x_in);
-          BB_H_new_term_0_r2_b1.get_imag()->tag_gpu_level(x_out, x_in);
-          BB_H_new_term_0_r1_b2.get_real()->tag_gpu_level(x_out, x_in);
-          BB_H_new_term_0_r1_b2.get_imag()->tag_gpu_level(x_out, x_in);
-          BB_H_new_term_0_r2_b2.get_real()->tag_gpu_level(x_out, x_in);
-          BB_H_new_term_0_r2_b2.get_imag()->tag_gpu_level(x_out, x_in);
-          flip_BB_H_new_term_0_r1_b1.get_real()->tag_gpu_level(x_out, x_in);
-          flip_BB_H_new_term_0_r1_b1.get_imag()->tag_gpu_level(x_out, x_in);
-          flip_BB_H_new_term_0_r2_b1.get_real()->tag_gpu_level(x_out, x_in);
-          flip_BB_H_new_term_0_r2_b1.get_imag()->tag_gpu_level(x_out, x_in);
-          flip_BB_H_new_term_0_r1_b2.get_real()->tag_gpu_level(x_out, x_in);
-          flip_BB_H_new_term_0_r1_b2.get_imag()->tag_gpu_level(x_out, x_in);
-          flip_BB_H_new_term_0_r2_b2.get_real()->tag_gpu_level(x_out, x_in);
-          flip_BB_H_new_term_0_r2_b2.get_imag()->tag_gpu_level(x_out, x_in);
-          C_BB_H_prop_update_r.tag_gpu_level(x_out, x_in);
-          C_BB_H_prop_update_i.tag_gpu_level(x_out, x_in);
-          C_BB_H_update_r.tag_gpu_level(x_out, x_in);
-          C_BB_H_update_i.tag_gpu_level(x_out, x_in);
+      //     src_B1_Blocal_r1_r_init.tag_gpu_level(x_out, x_in);
+      //     src_B1_Blocal_r1_i_init.tag_gpu_level(x_out, x_in);
+      //     flip_src_B1_Blocal_r1_r_init.tag_gpu_level(x_out, x_in);
+      //     flip_src_B1_Blocal_r1_i_init.tag_gpu_level(x_out, x_in);
+      //     src_B1_Blocal_r1_r_props_init.tag_gpu_level(x_out, x_in);
+      //     src_B1_Blocal_r1_i_props_init.tag_gpu_level(x_out, x_in);
+      //     src_B1_Blocal_r1_r_diquark.tag_gpu_level(x_out, x_in);
+      //     src_B1_Blocal_r1_i_diquark.tag_gpu_level(x_out, x_in);
+      //     src_B1_Blocal_r1_r_props.tag_gpu_level(x_out, x_in);
+      //     src_B1_Blocal_r1_i_props.tag_gpu_level(x_out, x_in);
+      //     src_B1_Blocal_r1_r_update.tag_gpu_level(x_out, x_in);
+      //     src_B1_Blocal_r1_i_update.tag_gpu_level(x_out, x_in);
+      //     flip_src_B1_Blocal_r1_r_update.tag_gpu_level(x_out, x_in);
+      //     flip_src_B1_Blocal_r1_i_update.tag_gpu_level(x_out, x_in);
+      //     src_B1_Blocal_r2_r_init.tag_gpu_level(x_out, x_in);
+      //     src_B1_Blocal_r2_i_init.tag_gpu_level(x_out, x_in);
+      //     flip_src_B1_Blocal_r2_r_init.tag_gpu_level(x_out, x_in);
+      //     flip_src_B1_Blocal_r2_i_init.tag_gpu_level(x_out, x_in);
+      //     src_B1_Blocal_r2_r_props_init.tag_gpu_level(x_out, x_in);
+      //     src_B1_Blocal_r2_i_props_init.tag_gpu_level(x_out, x_in);
+      //     src_B1_Blocal_r2_r_diquark.tag_gpu_level(x_out, x_in);
+      //     src_B1_Blocal_r2_i_diquark.tag_gpu_level(x_out, x_in);
+      //     src_B1_Blocal_r2_r_props.tag_gpu_level(x_out, x_in);
+      //     src_B1_Blocal_r2_i_props.tag_gpu_level(x_out, x_in);
+      //     src_B1_Blocal_r2_r_update.tag_gpu_level(x_out, x_in);
+      //     src_B1_Blocal_r2_i_update.tag_gpu_level(x_out, x_in);
+      //     flip_src_B1_Blocal_r2_r_update.tag_gpu_level(x_out, x_in);
+      //     flip_src_B1_Blocal_r2_i_update.tag_gpu_level(x_out, x_in);
+      //     src_B2_Blocal_r1_r_init.tag_gpu_level(x_out, x_in);
+      //     src_B2_Blocal_r1_i_init.tag_gpu_level(x_out, x_in);
+      //     flip_src_B2_Blocal_r1_r_init.tag_gpu_level(x_out, x_in);
+      //     flip_src_B2_Blocal_r1_i_init.tag_gpu_level(x_out, x_in);
+      //     src_B2_Blocal_r1_r_props_init.tag_gpu_level(x_out, x_in);
+      //     src_B2_Blocal_r1_i_props_init.tag_gpu_level(x_out, x_in);
+      //     src_B2_Blocal_r1_r_diquark.tag_gpu_level(x_out, x_in);
+      //     src_B2_Blocal_r1_i_diquark.tag_gpu_level(x_out, x_in);
+      //     src_B2_Blocal_r1_r_props.tag_gpu_level(x_out, x_in);
+      //     src_B2_Blocal_r1_i_props.tag_gpu_level(x_out, x_in);
+      //     src_B2_Blocal_r1_r_update.tag_gpu_level(x_out, x_in);
+      //     src_B2_Blocal_r1_i_update.tag_gpu_level(x_out, x_in);
+      //     flip_src_B2_Blocal_r1_r_update.tag_gpu_level(x_out, x_in);
+      //     flip_src_B2_Blocal_r1_i_update.tag_gpu_level(x_out, x_in);
+      //     src_B2_Blocal_r2_r_init.tag_gpu_level(x_out, x_in);
+      //     src_B2_Blocal_r2_i_init.tag_gpu_level(x_out, x_in);
+      //     flip_src_B2_Blocal_r2_r_init.tag_gpu_level(x_out, x_in);
+      //     flip_src_B2_Blocal_r2_i_init.tag_gpu_level(x_out, x_in);
+      //     src_B2_Blocal_r2_r_props_init.tag_gpu_level(x_out, x_in);
+      //     src_B2_Blocal_r2_i_props_init.tag_gpu_level(x_out, x_in);
+      //     src_B2_Blocal_r2_r_diquark.tag_gpu_level(x_out, x_in);
+      //     src_B2_Blocal_r2_i_diquark.tag_gpu_level(x_out, x_in);
+      //     src_B2_Blocal_r2_r_props.tag_gpu_level(x_out, x_in);
+      //     src_B2_Blocal_r2_i_props.tag_gpu_level(x_out, x_in);
+      //     src_B2_Blocal_r2_r_update.tag_gpu_level(x_out, x_in);
+      //     src_B2_Blocal_r2_i_update.tag_gpu_level(x_out, x_in);
+      //     flip_src_B2_Blocal_r2_r_update.tag_gpu_level(x_out, x_in);
+      //     flip_src_B2_Blocal_r2_i_update.tag_gpu_level(x_out, x_in);
+      //     C_BB_H_prop_init_r.tag_gpu_level(x_out, x_in);
+      //     C_BB_H_prop_init_i.tag_gpu_level(x_out, x_in);
+      //     BB_H_new_term_0_r1_b1.get_real()->tag_gpu_level(x_out, x_in);
+      //     BB_H_new_term_0_r1_b1.get_imag()->tag_gpu_level(x_out, x_in);
+      //     BB_H_new_term_0_r2_b1.get_real()->tag_gpu_level(x_out, x_in);
+      //     BB_H_new_term_0_r2_b1.get_imag()->tag_gpu_level(x_out, x_in);
+      //     BB_H_new_term_0_r1_b2.get_real()->tag_gpu_level(x_out, x_in);
+      //     BB_H_new_term_0_r1_b2.get_imag()->tag_gpu_level(x_out, x_in);
+      //     BB_H_new_term_0_r2_b2.get_real()->tag_gpu_level(x_out, x_in);
+      //     BB_H_new_term_0_r2_b2.get_imag()->tag_gpu_level(x_out, x_in);
+      //     flip_BB_H_new_term_0_r1_b1.get_real()->tag_gpu_level(x_out, x_in);
+      //     flip_BB_H_new_term_0_r1_b1.get_imag()->tag_gpu_level(x_out, x_in);
+      //     flip_BB_H_new_term_0_r2_b1.get_real()->tag_gpu_level(x_out, x_in);
+      //     flip_BB_H_new_term_0_r2_b1.get_imag()->tag_gpu_level(x_out, x_in);
+      //     flip_BB_H_new_term_0_r1_b2.get_real()->tag_gpu_level(x_out, x_in);
+      //     flip_BB_H_new_term_0_r1_b2.get_imag()->tag_gpu_level(x_out, x_in);
+      //     flip_BB_H_new_term_0_r2_b2.get_real()->tag_gpu_level(x_out, x_in);
+      //     flip_BB_H_new_term_0_r2_b2.get_imag()->tag_gpu_level(x_out, x_in);
+      //     C_BB_H_prop_update_r.tag_gpu_level(x_out, x_in);
+      //     C_BB_H_prop_update_i.tag_gpu_level(x_out, x_in);
+      //     C_BB_H_update_r.tag_gpu_level(x_out, x_in);
+      //     C_BB_H_update_i.tag_gpu_level(x_out, x_in);
 
     // H_BB
       //     snk_B1_Blocal_r1_r_init.tag_gpu_level(y_out, y_in);
