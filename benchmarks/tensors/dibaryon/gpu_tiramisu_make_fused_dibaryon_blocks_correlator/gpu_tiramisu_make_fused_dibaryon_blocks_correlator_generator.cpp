@@ -1515,12 +1515,12 @@ void generate_function(std::string name)
     flip_B1_Bsecond_r2_i_update.store_in(&buf_flip_B1_Bsecond_r2_i, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m});
     flip_B1_Bthird_r2_r_update.store_in(&buf_flip_B1_Bthird_r2_r, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m});
     flip_B1_Bthird_r2_i_update.store_in(&buf_flip_B1_Bthird_r2_i, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m});
-    buffer buf_B1_Blocal_diquark_r2_r("buf_B1_Blocal_diquark_r2_r",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, 1, 1, 1, 1, 1, 1, 1}, p_float64, a_temporary);
-    buffer buf_B1_Blocal_diquark_r2_i("buf_B1_Blocal_diquark_r2_i",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, 1, 1, 1, 1, 1, 1, 1}, p_float64, a_temporary);
-    buffer buf_B1_Bfirst_diquark_r2_r("buf_B1_Bfirst_diquark_r2_r",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, 1, 1, 1, 1, 1, 1, 1}, p_float64, a_temporary);
-    buffer buf_B1_Bfirst_diquark_r2_i("buf_B1_Bfirst_diquark_r2_i",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, 1, 1, 1, 1, 1, 1, 1}, p_float64, a_temporary);
-    buffer buf_B1_Bthird_diquark_r2_r("buf_B1_Bthird_diquark_r2_r",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, 1, 1, 1, 1, 1, 1, 1}, p_float64, a_temporary);
-    buffer buf_B1_Bthird_diquark_r2_i("buf_B1_Bthird_diquark_r2_i",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, 1, 1, 1, 1, 1, 1, 1}, p_float64, a_temporary);
+    buffer buf_B1_Blocal_diquark_r2_r("buf_B1_Blocal_diquark_r2_r",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, 1, 1, 1, 1, 1, 1, 1, 1}, p_float64, a_temporary);
+    buffer buf_B1_Blocal_diquark_r2_i("buf_B1_Blocal_diquark_r2_i",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, 1, 1, 1, 1, 1, 1, 1, 1}, p_float64, a_temporary);
+    buffer buf_B1_Bfirst_diquark_r2_r("buf_B1_Bfirst_diquark_r2_r",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, 1, 1, 1, 1, 1, 1, 1, 1}, p_float64, a_temporary);
+    buffer buf_B1_Bfirst_diquark_r2_i("buf_B1_Bfirst_diquark_r2_i",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, 1, 1, 1, 1, 1, 1, 1, 1}, p_float64, a_temporary);
+    buffer buf_B1_Bthird_diquark_r2_r("buf_B1_Bthird_diquark_r2_r",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, 1, 1, 1, 1, 1, 1, 1, 1}, p_float64, a_temporary);
+    buffer buf_B1_Bthird_diquark_r2_i("buf_B1_Bthird_diquark_r2_i",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, 1, 1, 1, 1, 1, 1, 1, 1}, p_float64, a_temporary);
     buf_B1_Blocal_diquark_r2_r.tag_gpu_global();
     buf_B1_Blocal_diquark_r2_i.tag_gpu_global();
     buf_B1_Bfirst_diquark_r2_r.tag_gpu_global();
