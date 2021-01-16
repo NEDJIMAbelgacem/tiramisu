@@ -2349,7 +2349,7 @@ void generate_function(std::string name)
     C_H_BB_update_r.store_in(&buf_C_r, {t, y_out, y_in, r, Nsrc+mH, rp, n});
     C_H_BB_update_i.store_in(&buf_C_i, {t, y_out, y_in, r, Nsrc+mH, rp, n});
 
-    H_H
+    // H_H
 
     buffer buf_C_H_H_prop_r("buf_C_H_H_prop_r", {Lt, Vsnk/sites_per_rank, sites_per_rank, 1}, p_float64, a_temporary);
     buf_C_H_H_prop_r.tag_gpu_global();
