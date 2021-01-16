@@ -418,19 +418,19 @@ void generate_function(std::string name)
     complex_computation B1_Bfirst_r2_diquark(&B1_Bfirst_r2_r_diquark, &B1_Bfirst_r2_i_diquark);
     complex_computation B1_Bthird_r2_diquark(&B1_Bthird_r2_r_diquark, &B1_Bthird_r2_i_diquark);
 
-    complex_expr B1_r2_props = B1_r2_prop_1 * B1_Blocal_r2_diquark(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, 0, 0);
-    complex_expr first_B1_r2_props = B1_r2_prop_1 * B1_Bfirst_r2_diquark(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, 0, 0);
-    complex_expr second_B1_r2_props = second_B1_r2_prop_1 * B1_Blocal_r2_diquark(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, 0, 0);
-    complex_expr third_B1_r2_props = B1_r2_prop_1 * B1_Bthird_r2_diquark(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, 0, 0);
+    complex_expr B1_r2_props = B1_r2_prop_1 * B1_Blocal_r2_diquark(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime);
+    complex_expr first_B1_r2_props = B1_r2_prop_1 * B1_Bfirst_r2_diquark(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime);
+    complex_expr second_B1_r2_props = second_B1_r2_prop_1 * B1_Blocal_r2_diquark(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime);
+    complex_expr third_B1_r2_props = B1_r2_prop_1 * B1_Bthird_r2_diquark(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime);
 
-    computation B1_Blocal_r2_r_props("B1_Blocal_r2_r_props", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, B1_Blocal_r2_r_props_init(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, 0, jCprime, jSprime) + B1_r2_props.get_real());
-    computation B1_Blocal_r2_i_props("B1_Blocal_r2_i_props", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, B1_Blocal_r2_i_props_init(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, 0, jCprime, jSprime) + B1_r2_props.get_imag());
-    computation B1_Bfirst_r2_r_props("B1_Bfirst_r2_r_props", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, B1_Bfirst_r2_r_props_init(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, 0, jCprime, jSprime) + first_B1_r2_props.get_real());
-    computation B1_Bfirst_r2_i_props("B1_Bfirst_r2_i_props", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, B1_Bfirst_r2_i_props_init(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, 0, jCprime, jSprime) + first_B1_r2_props.get_imag());
-    computation B1_Bsecond_r2_r_props("B1_Bsecond_r2_r_props", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, B1_Bsecond_r2_r_props_init(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, 0, jCprime, jSprime) + second_B1_r2_props.get_real());
-    computation B1_Bsecond_r2_i_props("B1_Bsecond_r2_i_props", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, B1_Bsecond_r2_i_props_init(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, 0, jCprime, jSprime) + second_B1_r2_props.get_imag());
-    computation B1_Bthird_r2_r_props("B1_Bthird_r2_r_props", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, B1_Bthird_r2_r_props_init(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, 0, jCprime, jSprime) + third_B1_r2_props.get_real());
-    computation B1_Bthird_r2_i_props("B1_Bthird_r2_i_props", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, B1_Bthird_r2_i_props_init(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, 0, jCprime, jSprime) + third_B1_r2_props.get_imag());
+    computation B1_Blocal_r2_r_props("B1_Blocal_r2_r_props", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, B1_Blocal_r2_r_props_init(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime) + B1_r2_props.get_real());
+    computation B1_Blocal_r2_i_props("B1_Blocal_r2_i_props", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, B1_Blocal_r2_i_props_init(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime) + B1_r2_props.get_imag());
+    computation B1_Bfirst_r2_r_props("B1_Bfirst_r2_r_props", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, B1_Bfirst_r2_r_props_init(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime) + first_B1_r2_props.get_real());
+    computation B1_Bfirst_r2_i_props("B1_Bfirst_r2_i_props", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, B1_Bfirst_r2_i_props_init(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime) + first_B1_r2_props.get_imag());
+    computation B1_Bsecond_r2_r_props("B1_Bsecond_r2_r_props", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, B1_Bsecond_r2_r_props_init(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime) + second_B1_r2_props.get_real());
+    computation B1_Bsecond_r2_i_props("B1_Bsecond_r2_i_props", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, B1_Bsecond_r2_i_props_init(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime) + second_B1_r2_props.get_imag());
+    computation B1_Bthird_r2_r_props("B1_Bthird_r2_r_props", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, B1_Bthird_r2_r_props_init(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime) + third_B1_r2_props.get_real());
+    computation B1_Bthird_r2_i_props("B1_Bthird_r2_i_props", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, B1_Bthird_r2_i_props_init(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime) + third_B1_r2_props.get_imag());
 
     complex_computation B1_Blocal_r2_props(&B1_Blocal_r2_r_props, &B1_Blocal_r2_i_props);
     complex_computation B1_Bfirst_r2_props(&B1_Bfirst_r2_r_props, &B1_Bfirst_r2_i_props);
@@ -3069,20 +3069,20 @@ computation copy_snk_b_host_to_device({}, memcpy(buf_snk_b_cpu, *snk_b.get_buffe
           .then(flip_B1_Bsecond_r2_i_init, m)
           .then(flip_B1_Bthird_r2_r_init, m)
           .then(flip_B1_Bthird_r2_i_init, m)
-          .then(B1_Blocal_r2_r_props_init, x2)
-          .then(B1_Blocal_r2_i_props_init, jSprime)
-          .then(B1_Bfirst_r2_r_props_init, jSprime)
-          .then(B1_Bfirst_r2_i_props_init, jSprime)
-          .then(B1_Bsecond_r2_r_props_init, jSprime)
-          .then(B1_Bsecond_r2_i_props_init, jSprime)
-          .then(B1_Bthird_r2_r_props_init, jSprime)
-          .then(B1_Bthird_r2_i_props_init, jSprime)
-          .then(B1_Blocal_r2_r_diquark, y)
-          .then(B1_Blocal_r2_i_diquark, wnumBlock)
-          .then(B1_Bfirst_r2_r_diquark, wnumBlock)
-          .then(B1_Bfirst_r2_i_diquark, wnumBlock)
-          .then(B1_Bthird_r2_r_diquark, wnumBlock)
-          .then(B1_Bthird_r2_i_diquark, wnumBlock)
+          .then(B1_Blocal_r2_r_props_init, x2) // {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}
+          .then(B1_Blocal_r2_i_props_init, jSprime) // {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}
+          .then(B1_Bfirst_r2_r_props_init, jSprime) // {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}
+          .then(B1_Bfirst_r2_i_props_init, jSprime) // {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}
+          .then(B1_Bsecond_r2_r_props_init, jSprime) // {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}
+          .then(B1_Bsecond_r2_i_props_init, jSprime) // {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}
+          .then(B1_Bthird_r2_r_props_init, jSprime) // {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}
+          .then(B1_Bthird_r2_i_props_init, jSprime) // {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}
+          .then(B1_Blocal_r2_r_diquark, y) // {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}
+          .then(B1_Blocal_r2_i_diquark, wnumBlock) // {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}
+          .then(B1_Bfirst_r2_r_diquark, wnumBlock) // {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}
+          .then(B1_Bfirst_r2_i_diquark, wnumBlock) // {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}
+          .then(B1_Bthird_r2_r_diquark, wnumBlock) // {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}
+          .then(B1_Bthird_r2_i_diquark, wnumBlock) // {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}
           .then(B1_Blocal_r2_r_props, wnumBlock)
           .then(B1_Blocal_r2_i_props, jSprime)
           .then(B1_Bfirst_r2_r_props, jSprime)
