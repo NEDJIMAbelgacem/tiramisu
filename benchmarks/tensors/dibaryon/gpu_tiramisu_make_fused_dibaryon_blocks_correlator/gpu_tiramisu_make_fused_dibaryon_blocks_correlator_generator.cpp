@@ -252,7 +252,7 @@ void generate_function(std::string name)
         flip_B1_Bfirst_r2_init(t, x_out, x_in, x2, 
                 snk_color_weights_0_0(r, nperm, wnum), snk_color_weights_0_0(r, nperm, wnum), snk_color_weights_2_0(r, nperm, wnum), snk_color_weights_2_0(r, nperm, wnum), snk_color_weights_1_0(r, nperm, wnum), snk_color_weights_1_0(r, nperm, wnum), m
                 ));
-    flip_BB_BB_new_term_2_r2_b1.add_predicate((src_spins(rp, s, 0) == 2) && (snk_b(nperm, 0, b) == 1 && snk_b(nperm, 1, b) == 0 && snk_b(nperm, 2, b) == 0));
+//     flip_BB_BB_new_term_2_r2_b1.add_predicate((src_spins(rp, s, 0) == 2) && (snk_b(nperm, 0, b) == 1 && snk_b(nperm, 1, b) == 0 && snk_b(nperm, 2, b) == 0));
 
 
     computation copy_buf_C_r_device_to_host({}, memcpy(buf_C_r, buf_C_r_cpu));
