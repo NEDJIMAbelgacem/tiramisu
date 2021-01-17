@@ -724,6 +724,8 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
         DEBUG_INDENT(4);
 
         DEBUG(3, this->gen_c_code());
+        int k;
+        std::cin >> k;
 
         cuda_ast::generator generator{*this};
 
