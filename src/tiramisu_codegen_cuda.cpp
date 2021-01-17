@@ -371,16 +371,14 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
                     return scalar_ptr{new cuda_ast::scalar{b->get_type(), b->get_name(), b->get_location()}};
                 }
                 // Otherwise expr must be a scalar.
-                std::cout << "About to lookup scalar of expression: " << std::endl;
-                cuda_ast::statement_ptr ptr = nullptr;
-                tiramisu_expr.dump(true);
                 {
+                    cuda_ast::statement_ptr ptr = nullptr;
                     ptr = get_scalar_from_name(tiramisu_expr.get_name());
                     if (ptr == nullptr)
                         std::cout << "Error while parsing: " << tiramisu_expr.to_str() << "\n";
+                    assert( ptr != nullptr );
+                    return ptr;
                 }
-                assert( ptr != nullptr );
-                return ptr;
             case e_none:
                 assert(false);
             case e_op: {
