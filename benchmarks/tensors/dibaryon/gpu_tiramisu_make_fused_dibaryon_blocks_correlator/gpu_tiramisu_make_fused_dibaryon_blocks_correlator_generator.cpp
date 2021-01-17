@@ -233,12 +233,11 @@ void generate_function(std::string name)
     C_r.store_in(&buf_C_r, {t, x_out, x_in, rp, mpmH, r, npnH});
     C_i.store_in(&buf_C_i, {t, x_out, x_in, rp, mpmH, r, npnH});
 
-
     computation C_init_r("C_init_r", {t, x_out, x_in, rp, m, r, n}, expr((double) 0));
     computation C_init_i("C_init_i", {t, x_out, x_in, rp, m, r, n}, expr((double) 0));
 
-    C_init_r.store_in(&buf_C_r, {t, x_out, x_in, rp, mpmH, r, npnH});
-    C_init_i.store_in(&buf_C_i, {t, x_out, x_in, rp, mpmH, r, npnH});
+    C_init_r.store_in(&buf_C_r, {t, x_out, x_in, rp, m, r, n});
+    C_init_i.store_in(&buf_C_i, {t, x_out, x_in, rp, m, r, n});
 
     // computation flip_B1_Bfirst_r2_r_init("flip_B1_Bfirst_r2_r_init", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m}, expr((double) 0));
     // computation flip_B1_Bfirst_r2_i_init("flip_B1_Bfirst_r2_i_init", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m}, expr((double) 0));
