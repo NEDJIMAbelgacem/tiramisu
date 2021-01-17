@@ -2207,7 +2207,7 @@ void generate_function(std::string name)
     flip_BB_BB_new_term_6_r2_b1.get_imag()->store_in(buf_flip_BB_BB_new_term_i_b1, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
     flip_BB_BB_new_term_7_r2_b1.get_real()->store_in(buf_flip_BB_BB_new_term_r_b1, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
     flip_BB_BB_new_term_7_r2_b1.get_imag()->store_in(buf_flip_BB_BB_new_term_i_b1, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
-, 0, 0, 0, 0, 0, 0
+
     flip_BB_BB_new_term_0_r2_b2.get_real()->store_in(buf_flip_BB_BB_new_term_r_b2, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
     flip_BB_BB_new_term_0_r2_b2.get_imag()->store_in(buf_flip_BB_BB_new_term_i_b2, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
     flip_BB_BB_new_term_1_r2_b2.get_real()->store_in(buf_flip_BB_BB_new_term_r_b2, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
