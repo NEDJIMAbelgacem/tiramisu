@@ -336,7 +336,9 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
                 std::string id_string(isl_id_get_name(id));
                 DEBUG(3, std::cout << '"' << id_string << '"');
                 // TODO handle scheduled lets
-                return get_scalar_from_name(id_string);
+                cuda_ast::statement_ptr ptr = get_scalar_from_name(id_string);
+                assert( ptr != nullptr );
+                return ptr;
             }
             case isl_ast_expr_int: {
                 isl_val_ptr val{isl_ast_expr_get_val(expr.get())};
@@ -369,7 +371,16 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
                     return scalar_ptr{new cuda_ast::scalar{b->get_type(), b->get_name(), b->get_location()}};
                 }
                 // Otherwise expr must be a scalar.
-                return get_scalar_from_name(tiramisu_expr.get_name());
+                std::cout << "About to lookup scalar of expression: " << std::endl;
+                cuda_ast::statement_ptr ptr = nullptr;
+                tiramisu_expr.dump(true);
+                {
+                    ptr = get_scalar_from_name(tiramisu_expr.get_name());
+                    if (ptr == nullptr)
+                        std::cout << "Error while parsing: " << tiramisu_expr.to_str() << "\n";
+                }
+                assert( ptr != nullptr );
+                return ptr;
             case e_none:
                 assert(false);
             case e_op: {
@@ -1605,7 +1616,8 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
             for (auto p : this->gpu_local)
                 std::cout << " " << p;
             std::cout << "\n";
-            ERROR("Scalar not found: " + name, true);
+            // ERROR("Scalar not found: " + name, true);
+            return nullptr;
         }
     }
 
