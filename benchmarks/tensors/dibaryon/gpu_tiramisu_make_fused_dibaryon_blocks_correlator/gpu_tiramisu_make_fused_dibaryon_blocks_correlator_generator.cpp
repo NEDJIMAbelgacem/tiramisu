@@ -244,7 +244,11 @@ void generate_function(std::string name)
 
     complex_computation flip_B1_Bfirst_r2_init(&flip_B1_Bfirst_r2_r_init, &flip_B1_Bfirst_r2_i_init);
 
-    complex_computation flip_BB_BB_new_term_2_r2_b1("flip_BB_BB_new_term_2_r2_b1", {t, x_out, x_in, x2, rp, m, r, s, nperm, wnum}, flip_B1_Bfirst_r2_init(t, x_out, x_in, x2, snk_color_weights(r, nperm, wnum, 0, 0), snk_spin_weights(r, nperm, wnum, 0, 0), snk_color_weights(r, nperm, wnum, 2, 0), snk_spin_weights(r, nperm, wnum, 2, 0), 0, 0, snk_color_weights(r, nperm, wnum, 1, 0), snk_spin_weights(r, nperm, wnum, 1, 0), m));
+    computation snk_color_weights_0_0( "snk_color_weights_0_0", {r, nperm, wnum}, snk_color_weights(r, nperm, wnum, 0, 0) );
+    computation snk_color_weights_1_0( "snk_color_weights_1_0", {r, nperm, wnum}, snk_color_weights(r, nperm, wnum, 1, 0) );
+    computation snk_color_weights_2_0( "snk_color_weights_2_0", {r, nperm, wnum}, snk_color_weights(r, nperm, wnum, 2, 0) );
+
+    complex_computation flip_BB_BB_new_term_2_r2_b1("flip_BB_BB_new_term_2_r2_b1", {t, x_out, x_in, x2, rp, m, r, s, nperm, wnum}, flip_B1_Bfirst_r2_init(t, x_out, x_in, x2, snk_color_weights_0_0, snk_color_weights_0_0, snk_color_weights_2_0, snk_color_weights_2_0, 0, 0, snk_color_weights_1_0, snk_color_weights_1_0, m));
     flip_BB_BB_new_term_2_r2_b1.add_predicate((src_spins(rp, s, 0) == 2) && (snk_b(nperm, 0, b) == 1 && snk_b(nperm, 1, b) == 0 && snk_b(nperm, 2, b) == 0));
 
 
