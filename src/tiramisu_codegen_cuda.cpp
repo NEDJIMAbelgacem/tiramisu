@@ -471,7 +471,7 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
                         const op_data_t &op_data = cuda_ast::tiramisu_operation_description(tiramisu_expr.get_op_type());//it->second;
                         std::vector<statement_ptr> operands;
                         for (int i = 0; i < op_data.arity; i++) {
-                            auto stmt = parse_tiramisu(tiramisu_expr.get_operand(i);
+                            auto stmt = parse_tiramisu(tiramisu_expr.get_operand(i));
                             if (stmt == nullptr)
                             {
                                 std::cout << "Error while parsing: " << tiramisu_expr.to_str() << "\n";
