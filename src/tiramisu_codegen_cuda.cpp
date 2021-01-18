@@ -477,7 +477,7 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
                                 std::cout << "Error while parsing: " << tiramisu_expr.to_str() << "\n";
                                 return nullptr;
                             }
-                            operands.push_back(stmt));
+                            operands.push_back(stmt);
                         }
                         if (op_data.infix) {
                             assert(op_data.arity > 0 && op_data.arity < 4 &&
