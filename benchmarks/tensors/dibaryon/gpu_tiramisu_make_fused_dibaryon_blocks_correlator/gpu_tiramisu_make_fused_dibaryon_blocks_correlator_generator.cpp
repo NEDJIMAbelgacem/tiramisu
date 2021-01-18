@@ -305,6 +305,9 @@ void generate_function(std::string name)
     complex_computation B2_Bsecond_r1_props(&B2_Bsecond_r1_r_props, &B2_Bsecond_r1_i_props);
     complex_computation B2_Bthird_r1_props(&B2_Bthird_r1_r_props, &B2_Bthird_r1_i_props);
 
+    complex_expr src_psi_B2(src_psi_B2_r(y, m), src_psi_B2_i(y, m));
+
+
     complex_expr B2_r1 = src_psi_B2 * B2_Blocal_r1_props(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, Nw-1, jCprime, jSprime);
     complex_expr first_B2_r1 = src_psi_B2 * B2_Bfirst_r1_props(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, Nw-1, jCprime, jSprime);
     complex_expr second_B2_r1 = src_psi_B2 * B2_Bsecond_r1_props(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, Nw-1, jCprime, jSprime);
@@ -531,6 +534,7 @@ void generate_function(std::string name)
           .then(B2_Bsecond_r1_i_update, m)
           .then(B2_Bthird_r1_r_update, m)
           .then(B2_Bthird_r1_i_update, m)
+    );
 
 
     handle = &handle->then(copy_buf_C_r_device_to_host, computation::root);
