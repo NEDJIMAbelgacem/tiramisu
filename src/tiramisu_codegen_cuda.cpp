@@ -881,7 +881,7 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
                 if (cuda_ast_buffer == nullptr)
                 {
                     std::cout << "Error while getting the buffer of  " << buf->get_name() << "\n";
-                    return nullptr;
+                    assert( false );
                 }
                 cuda_ast::statement_ptr declaration{new cuda_ast::declaration{cuda_ast_buffer}};
                 body->add_statement(declaration);
@@ -912,10 +912,10 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
         for (auto &b : this->get_arguments())
         {
             auto buff = generator.get_buffer(b->get_name());
-            if (buffer == nullptr)
+            if (buff == nullptr)
             {
                 std::cout << "Error while getting the buffer of  " << b->get_name() << "\n";
-                return nullptr;
+                assert( false );
             }
             arguments.push_back(buff);
         }
