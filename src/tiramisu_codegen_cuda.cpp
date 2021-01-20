@@ -370,7 +370,7 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
                     cuda_ast::buffer *b = this->get_buffer(tiramisu_expr.get_name()).get();
                     if (b == nullptr)
                     {
-                        std::cout << "Error while trying to parse " << tiramisu_expr.to_str() << "\n";
+                        std::cout << "Error while getting the buffer of  " << tiramisu_expr.get_name() << "\n";
                         return nullptr;
                     }
                     return scalar_ptr{new cuda_ast::scalar{b->get_type(), b->get_name(), b->get_location()}};
@@ -391,7 +391,7 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
                         buffer_ptr b = this->get_buffer(tiramisu_expr.get_name());
                         if (b == nullptr)
                         {
-                            std::cout << "Error while trying to parse " << tiramisu_expr.to_str() << "\n";
+                            std::cout << "Error while getting the buffer of  " << tiramisu_expr.get_name() << "\n";
                             return nullptr;
                         }
                         std::vector<statement_ptr> indices;
@@ -399,7 +399,7 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
                             auto stmt = this->parse_tiramisu(access);
                             if (stmt == nullptr)
                             {
-                                std::cout << "Error while parsing: " << tiramisu_expr.to_str() << "\n";
+                                std::cout << "Error while parsing: " << access.to_str() << "\n";
                                 return nullptr;
                             }
                             indices.push_back( stmt );
@@ -431,7 +431,7 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
                             auto stmt = parse_tiramisu(tiramisu_expr.get_operand(0));
                             if (stmt == nullptr)
                             {
-                                std::cout << "Error while parsing: " << tiramisu_expr.to_str() << "\n";
+                                std::cout << "Error while parsing: " << tiramisu_expr.get_operand(0).to_str() << "\n";
                                 return nullptr;
                             }
                             return statement_ptr{new cuda_ast::cast{tiramisu_expr.get_data_type(), stmt}};
@@ -449,7 +449,7 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
                         auto buffer = get_buffer(tiramisu_expr.get_name());
                         if (buffer == nullptr)
                         {
-                            std::cout << "Error while trying to parse " << tiramisu_expr.to_str() << "\n";
+                            std::cout << "Error while getting the buffer of  " << tiramisu_expr.get_name() << "\n";
                             return nullptr;
                         }
                         if (buffer->get_location() == memory_location::shared
@@ -460,7 +460,15 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
                             return statement_ptr {new cuda_ast::allocate{buffer}};
                     }
                     case o_free:
-                        return statement_ptr {new cuda_ast::free{get_buffer(tiramisu_expr.get_name())}};
+                        {
+                            auto buff = get_buffer(tiramisu_expr.get_name());
+                            if (buff == nullptr)
+                            {
+                                std::cout << "Error while getting the buffer of  " << tiramisu_expr.get_name() << "\n";
+                                return nullptr;
+                            }
+                            return statement_ptr {new cuda_ast::free{ buff }};
+                        }
 
                     case o_memcpy:
                         assert(tiramisu_expr.get_operand(0).get_expr_type() == e_var && tiramisu_expr.get_operand(1).get_expr_type() == e_var && "Can only transfer from buffers to buffers");
@@ -663,7 +671,13 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
             if (comp->get_expr().get_expr_type() == e_sync) {
                 return statement_ptr{new cuda_ast::sync};
             } else if (comp->get_expr().get_op_type() == o_memcpy) {
-                return statement_ptr{parse_tiramisu(comp->get_expr())};
+                auto stmt = parse_tiramisu(comp->get_expr());
+                if (stmt == nullptr)
+                {
+                    std::cout << "Error while parsing: " << comp->get_expr().to_str() << "\n";
+                    assert( false );
+                }
+                return statement_ptr{stmt};
             } else if (comp->get_expr().get_op_type() == o_allocate) {
                 this->gpu_local.insert(comp->get_expr().get_name());
                 auto buffer = get_buffer(comp->get_expr().get_name());
@@ -690,7 +704,14 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
                 const tiramisu::expr &e = comp->get_expr();
                 std::vector<statement_ptr> arguments;
                 for (const auto &arg : e.get_arguments()) {
-                    arguments.push_back(parse_tiramisu(replace_original_indices_with_transformed_indices(arg, comp->get_iterators_map())));
+                    auto expression = replace_original_indices_with_transformed_indices(arg, comp->get_iterators_map());
+                    auto stmt = parse_tiramisu(expression);
+                    if (stmt == nullptr)
+                    {
+                        std::cout << "Error while parsing: " << expression.to_str() << "\n";
+                        assert( false );
+                    }
+                    arguments.push_back( stmt );
                 }
                 return statement_ptr{new cuda_ast::function_call{e.get_data_type(), e.get_name(), arguments}};
             } else {
@@ -706,7 +727,13 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
                 if (result.first.get_expr_type() == e_var) {
                     cuda_ast::scalar_ptr s = scalar_ptr{new scalar{result.first.get_data_type(), result.first.get_name(), memory_location::reg, true}};
                     // TODO associated let statement doesn't work well with declaration
-                    asgmnt = statement_ptr{new declaration{assignment_ptr{new scalar_assignment{s, parse_tiramisu(result.second)}}}};
+                    auto stmt = parse_tiramisu(result.second);
+                    if (stmt == nullptr)
+                    {
+                        std::cout << "Error while parsing: " << result.second.to_str() << "\n";
+                        assert( false );
+                    }
+                    asgmnt = statement_ptr{new declaration{assignment_ptr{new scalar_assignment{s, stmt}}}};
                     // TODO remove once done
                     m_scalar_data.insert(std::make_pair(result.first.get_name(), std::make_pair(result.first.get_data_type(), memory_location::reg)));
                     gpu_local.insert(result.first.get_name());
@@ -714,11 +741,22 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
                     cuda_ast::buffer_ptr b = this->get_buffer(result.first.get_name());
                     if (b == nullptr)
                     {
-                        std::cout << "Error trying to call this->get_buffer( " << result.first.get_name() << ") \n";
+                        std::cout << "Error while getting the buffer of  " << result.first.get_name() << "\n";
                         return nullptr;
                     }
-                    asgmnt = statement_ptr{new buffer_assignment{b, parse_tiramisu(result.first.get_access()[0]),
-                                                                  parse_tiramisu(result.second)}};
+                    auto lhs = parse_tiramisu(result.first.get_access()[0]);
+                    auto rhs = parse_tiramisu(result.second);
+                    if (lhs == nullptr)
+                    {
+                        std::cout << "Error while parsing: " << result.first.get_access()[0].to_str() << "\n";
+                        assert( false );
+                    }
+                    if (rhs == nullptr)
+                    {
+                        std::cout << "Error while parsing: " << result.second << "\n";
+                        assert( false );
+                    }
+                    asgmnt = statement_ptr{new buffer_assignment{b, lhs, rhs}};
                 }
                 if (comp->get_predicate().is_defined()) {
 
@@ -726,7 +764,13 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
                     tiramisu::expr tiramisu_predicate = replace_original_indices_with_transformed_indices(
                             comp->get_predicate(),
                             comp->get_iterators_map());
-                    asgmnt = statement_ptr{new if_condition{parse_tiramisu(tiramisu_predicate), asgmnt}};
+                    auto stmt = parse_tiramisu(tiramisu_predicate);
+                    if (stmt == nullptr)
+                    {
+                        std::cout << "Error while parsing: " << tiramisu_predicate.to_str() << "\n";
+                        assert( false );
+                    }
+                    asgmnt = statement_ptr{new if_condition{stmt, asgmnt}};
                 }
                 if (associated_lets.empty()) {
                     return asgmnt;
@@ -736,12 +780,18 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
                         auto associated_expr = replace_original_indices_with_transformed_indices(stmt.second, comp->get_iterators_map());
                         std::vector<isl_ast_expr *> ie;
                         associated_expr = tiramisu::generator::replace_accesses(&this->m_fct, ie, associated_expr);
+                        auto stmt = parse_tiramisu(associated_expr);
+                        if (stmt == nullptr)
+                        {
+                            std::cout << "Error while parsing: " << associated_expr.to_str();
+                            assert( false );
+                        }
                         block_result->add_statement(
                                 statement_ptr{new declaration{
                                         assignment_ptr{new scalar_assignment{
                                                 scalar_ptr{new scalar{stmt.second.get_data_type(), stmt.first,
                                                                       memory_location::reg, true}},
-                                                parse_tiramisu(associated_expr)}}}});
+                                                stmt}}}});
                         m_scalar_data.erase(stmt.first);
 
                     }
@@ -807,7 +857,13 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
 
         for (auto &invariant: this->get_invariants()) {
             std::vector<isl_ast_expr*> ie{};
-            auto rhs = generator.parse_tiramisu(generator::replace_accesses(this, ie, invariant.get_expr()));
+            auto rhs_expr = generator::replace_accesses(this, ie, invariant.get_expr());
+            auto rhs = generator.parse_tiramisu( rhs_expr );
+            if ( rhs == nullptr )
+            {
+                std::cout << "Error trying to parse expression: " << rhs_expr.to_str() << "\n";
+                assert(false);
+            }
             auto scalar = cuda_ast::scalar_ptr{
                     new cuda_ast::scalar{rhs->get_type(), invariant.get_name(), cuda_ast::memory_location::reg, true}};
             function_body->add_statement(
@@ -824,8 +880,8 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
                 auto cuda_ast_buffer = generator.get_buffer(buf->get_name());
                 if (cuda_ast_buffer == nullptr)
                 {
-                    std::cout << "Error trying to call generator.get_buffer( " << buf->get_name() << " )\n";
-                    assert(false);
+                    std::cout << "Error while getting the buffer of  " << buf.get_name() << "\n";
+                    return nullptr;
                 }
                 cuda_ast::statement_ptr declaration{new cuda_ast::declaration{cuda_ast_buffer}};
                 body->add_statement(declaration);
@@ -856,10 +912,10 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
         for (auto &b : this->get_arguments())
         {
             auto buff = generator.get_buffer(b->get_name());
-            if (buff == nullptr)
+            if (buffer == nullptr)
             {
-                std::cout << "Error trying to call  generator.get_buffer( " << b->get_name() << ") \n";
-                assert(false);
+                std::cout << "Error while getting the buffer of  " << b->get_name() << "\n";
+                return nullptr;
             }
             arguments.push_back(buff);
         }
