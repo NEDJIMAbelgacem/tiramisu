@@ -880,7 +880,7 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
                 auto cuda_ast_buffer = generator.get_buffer(buf->get_name());
                 if (cuda_ast_buffer == nullptr)
                 {
-                    std::cout << "Error while getting the buffer of  " << buf.get_name() << "\n";
+                    std::cout << "Error while getting the buffer of  " << buf->get_name() << "\n";
                     return nullptr;
                 }
                 cuda_ast::statement_ptr declaration{new cuda_ast::declaration{cuda_ast_buffer}};
