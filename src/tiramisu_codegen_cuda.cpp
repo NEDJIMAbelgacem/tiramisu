@@ -753,7 +753,7 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
                     }
                     if (rhs == nullptr)
                     {
-                        std::cout << "Error while parsing: " << result.second << "\n";
+                        std::cout << "Error while parsing: " << result.second.to_str() << "\n";
                         assert( false );
                     }
                     asgmnt = statement_ptr{new buffer_assignment{b, lhs, rhs}};
