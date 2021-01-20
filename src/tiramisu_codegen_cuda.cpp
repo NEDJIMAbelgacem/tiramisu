@@ -780,8 +780,8 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
                         auto associated_expr = replace_original_indices_with_transformed_indices(stmt.second, comp->get_iterators_map());
                         std::vector<isl_ast_expr *> ie;
                         associated_expr = tiramisu::generator::replace_accesses(&this->m_fct, ie, associated_expr);
-                        auto stmt = parse_tiramisu(associated_expr);
-                        if (stmt == nullptr)
+                        auto stmt2 = parse_tiramisu(associated_expr);
+                        if (stmt2 == nullptr)
                         {
                             std::cout << "Error while parsing: " << associated_expr.to_str();
                             assert( false );
@@ -791,7 +791,7 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
                                         assignment_ptr{new scalar_assignment{
                                                 scalar_ptr{new scalar{stmt.second.get_data_type(), stmt.first,
                                                                       memory_location::reg, true}},
-                                                stmt}}}});
+                                                stmt2}}}});
                         m_scalar_data.erase(stmt.first);
 
                     }
