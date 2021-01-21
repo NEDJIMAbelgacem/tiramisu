@@ -1313,11 +1313,11 @@ void generate_function(std::string name)
     complex_expr H_H_B2_prop_1 = B2_prop(1, t, hex_snk_color_weights(r,nperm,wnumHex,1,1), hex_snk_spin_weights(r,nperm,wnumHex,1,1), hex_snk_color_weights(rp,0,wnumHexHex,1,1), hex_snk_spin_weights(rp,0,wnumHexHex,1,1), x_out*sites_per_rank+x_in, y);
     complex_expr B2_H = H_H_B2_prop_0 * H_H_B2_prop_2 * H_H_B2_prop_1;
 
-    computation access_hex_snk_weights( "access_hex_snk_weights", {rp, wnumHexHex}, hex_snk_weights(rp, wnumHexHex));
+    complex_expr hex_hex_prefactor(cast(p_float64, sigs(nperm)) * hex_snk_weights(r, wnumHex) * hex_snk_weights(rp, wnumHexHex), 0.0);
 
-    complex_expr hex_hex_prefactor(cast(p_float64, sigs(nperm)) * hex_snk_weights(r, wnumHex) * access_hex_snk_weights(rp, wnumHexHex) , 0.0);
+    complex_computation hex_hex_prefactor_comp( "hex_hex_prefactor_comp", { nperm, r, wnumHex, rp, wnumHexHex } );
 
-    complex_expr H_H_term_res = hex_hex_prefactor * B1_H * B2_H;
+    complex_expr H_H_term_res = hex_hex_prefactor_comp( nperm, r, wnumHex, rp, wnumHexHex ) * B1_H * B2_H;
 
     computation C_H_H_prop_update_r("C_H_H_prop_update_r", {t, x_out, x_in, rp, r, y, nperm, wnumHex, wnumHexHex}, C_H_H_prop_init_r(t, x_out, x_in, rp, r, y) + H_H_term_res.get_real());
     computation C_H_H_prop_update_i("C_H_H_prop_update_i", {t, x_out, x_in, rp, r, y, nperm, wnumHex, wnumHexHex}, C_H_H_prop_init_i(t, x_out, x_in, rp, r, y) + H_H_term_res.get_imag());
