@@ -1315,7 +1315,7 @@ void generate_function(std::string name)
 
     complex_expr hex_hex_prefactor(cast(p_float64, sigs(nperm)) * hex_snk_weights(r, wnumHex) * hex_snk_weights(rp, wnumHexHex), 0.0);
 
-    complex_computation hex_hex_prefactor_comp( "hex_hex_prefactor_comp", { nperm, r, wnumHex, rp, wnumHexHex } );
+    complex_computation hex_hex_prefactor_comp( "hex_hex_prefactor_comp", { nperm, r, wnumHex, rp, wnumHexHex }, hex_hex_prefactor );
 
     complex_expr H_H_term_res = hex_hex_prefactor_comp( nperm, r, wnumHex, rp, wnumHexHex ) * B1_H * B2_H;
 
