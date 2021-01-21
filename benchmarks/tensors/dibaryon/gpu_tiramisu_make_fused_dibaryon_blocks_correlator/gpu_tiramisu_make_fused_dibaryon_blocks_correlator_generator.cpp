@@ -1313,7 +1313,9 @@ void generate_function(std::string name)
     complex_expr H_H_B2_prop_1 = B2_prop(1, t, hex_snk_color_weights(r,nperm,wnumHex,1,1), hex_snk_spin_weights(r,nperm,wnumHex,1,1), hex_snk_color_weights(rp,0,wnumHexHex,1,1), hex_snk_spin_weights(rp,0,wnumHexHex,1,1), x_out*sites_per_rank+x_in, y);
     complex_expr B2_H = H_H_B2_prop_0 * H_H_B2_prop_2 * H_H_B2_prop_1;
 
-    complex_expr hex_hex_prefactor(cast(p_float64, sigs(nperm)) * hex_snk_weights(r, wnumHex) * hex_snk_weights(rp, wnumHexHex), 0.0);
+    computation access_hex_snk_weights( "access_hex_snk_weights", {rp, wnumHexHex}, hex_snk_weights(rp, wnumHexHex));
+
+    complex_expr hex_hex_prefactor(cast(p_float64, sigs(nperm)) * hex_snk_weights(r, wnumHex) * access_hex_snk_weights(rp, wnumHexHex) , 0.0);
 
     complex_expr H_H_term_res = hex_hex_prefactor * B1_H * B2_H;
 
