@@ -264,6 +264,21 @@ void generate_function(std::string name)
     computation C_H_H_prop_update_r("C_H_H_prop_update_r", {t, x_out, x_in, rp, r, y, nperm, wnumHex, wnumHexHex}, C_H_H_prop_init_r(t, x_out, x_in, rp, r, y, nperm, wnumHex, wnumHexHex) + H_H_term_res.get_real());
     computation C_H_H_prop_update_i("C_H_H_prop_update_i", {t, x_out, x_in, rp, r, y, nperm, wnumHex, wnumHexHex}, C_H_H_prop_init_i(t, x_out, x_in, rp, r, y, nperm, wnumHex, wnumHexHex) + H_H_term_res.get_imag());
 
+    complex_computation C_H_H_prop_update(&C_H_H_prop_update_r, &C_H_H_prop_update_i);
+
+    complex_expr hex_src_psi(hex_src_psi_r(y_out*src_sites_per_rank+y_in, mH), hex_src_psi_i(y_out*src_sites_per_rank+y_in, mH));
+    complex_expr hex_hex_src_psi(hex_src_psi_r(y, mH), hex_src_psi_i(y, mH));
+    complex_expr hex_snk_psi(hex_snk_psi_r(x_out*sites_per_rank+x_in, nH), hex_snk_psi_i(x_out*sites_per_rank+x_in, nH));
+
+    complex_expr H_H_term = hex_hex_src_psi * hex_snk_psi * C_H_H_prop_update(t, x_out, x_in, rp, r, y, Nperms-1, Nw2Hex-1, Nw2Hex-1);
+
+    computation C_H_H_update_r("C_H_H_update_r", {t, x_out, x_in, rp, r, y, mH, nH}, C_init_r(t, x_out, x_in, rp, Nsrc+mH, r, Nsnk+nH) + H_H_term.get_real());
+    computation C_H_H_update_i("C_H_H_update_i", {t, x_out, x_in, rp, r, y, mH, nH}, C_init_i(t, x_out, x_in, rp, Nsrc+mH, r, Nsnk+nH) + H_H_term.get_imag());
+
+
+
+// store ins
+
     buffer buf_C_H_H_prop_r("buf_C_H_H_prop_r", {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, 1, 1, 1, 1, 1}, p_float64, a_temporary);
     buffer buf_C_H_H_prop_i("buf_C_H_H_prop_i", {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, 1, 1, 1, 1, 1}, p_float64, a_temporary);
     buf_C_H_H_prop_r.tag_gpu_global();
@@ -352,8 +367,8 @@ computation copy_snk_b_host_to_device({}, memcpy(buf_snk_b_cpu, *snk_b.get_buffe
           C_H_H_prop_init_i.tag_gpu_level(x_out, x_in);
           C_H_H_prop_update_r.tag_gpu_level(x_out, x_in);
           C_H_H_prop_update_i.tag_gpu_level(x_out, x_in);
-      //     C_H_H_update_r.tag_gpu_level(x_out, x_in);
-      //     C_H_H_update_i.tag_gpu_level(x_out, x_in);
+          C_H_H_update_r.tag_gpu_level(x_out, x_in);
+          C_H_H_update_i.tag_gpu_level(x_out, x_in);
 
     // -------------------------------------------------------
     // Layer II
@@ -399,8 +414,8 @@ computation copy_snk_b_host_to_device({}, memcpy(buf_snk_b_cpu, *snk_b.get_buffe
           .then(C_H_H_prop_init_i, y)
           .then(C_H_H_prop_update_r, y)
           .then(C_H_H_prop_update_i, wnumHexHex)
-      //     .then(C_H_H_update_r, y)
-      //     .then(C_H_H_update_i, nH)
+          .then(C_H_H_update_r, y)
+          .then(C_H_H_update_i, nH)
           );
     }
 
