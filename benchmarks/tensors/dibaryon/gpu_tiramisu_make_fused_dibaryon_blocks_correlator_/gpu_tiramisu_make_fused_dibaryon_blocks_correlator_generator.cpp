@@ -224,24 +224,1083 @@ void generate_function(std::string name)
    buffer buf_hex_snk_spin_weights_cpu("buf_hex_snk_spin_weights_cpu", {B2Nrows, Nperms, Nw2Hex, Nq, 2}, p_int32, a_temporary);
    buffer buf_hex_snk_weights_cpu("buf_hex_snk_weights_cpu", {B2Nrows, Nw2Hex}, p_float64, a_temporary);
 
+    complex_computation B1_prop(&B1_prop_r, &B1_prop_i);
+    complex_computation B2_prop(&B2_prop_r, &B2_prop_i);
 
-    buffer buf_C_r("buf_C_r", {Lt, Vsnk/sites_per_rank, sites_per_rank, B2Nrows, NsrcTot, B2Nrows, NsnkTot}, p_float64, a_temporary);
-    buffer buf_C_i("buf_C_i", {Lt, Vsnk/sites_per_rank, sites_per_rank, B2Nrows, NsrcTot, B2Nrows, NsnkTot}, p_float64, a_temporary);
-    buf_C_r.tag_gpu_global();
-    buf_C_i.tag_gpu_global();
+    complex_expr src_psi_B1(src_psi_B1_r(y, m), src_psi_B1_i(y, m));
+    complex_expr src_psi_B2(src_psi_B2_r(y, m), src_psi_B2_i(y, m));
 
-    C_r.store_in(&buf_C_r);
-    C_i.store_in(&buf_C_i);
+    complex_expr snk_psi_B1(snk_psi_B1_r(x, n), snk_psi_B1_i(x, n));
+    complex_expr snk_psi_B2(snk_psi_B2_r(x, n), snk_psi_B2_i(x, n));
+    complex_expr snk_psi_B1_x2(snk_psi_B1_r(x2, n), snk_psi_B1_i(x2, n));
+    complex_expr snk_psi_B2_x2(snk_psi_B2_r(x2, n), snk_psi_B2_i(x2, n));
+
+    complex_expr snk_psi_B1_ue(snk_psi_B1_r(x_out*sites_per_rank+x_in, NEntangled+nue), snk_psi_B1_i(x_out*sites_per_rank+x_in, NEntangled+nue));
+    complex_expr snk_psi_B2_ue(snk_psi_B2_r(x_out*sites_per_rank+x_in, NEntangled+nue), snk_psi_B2_i(x_out*sites_per_rank+x_in, NEntangled+nue));
+    complex_expr snk_psi_B1_x2_ue(snk_psi_B1_r(x2, NEntangled+nue), snk_psi_B1_i(x2, NEntangled+nue));
+    complex_expr snk_psi_B2_x2_ue(snk_psi_B2_r(x2, NEntangled+nue), snk_psi_B2_i(x2, NEntangled+nue));
+
+    complex_expr hex_src_psi(hex_src_psi_r(y_out*src_sites_per_rank+y_in, mH), hex_src_psi_i(y_out*src_sites_per_rank+y_in, mH));
+    complex_expr hex_hex_src_psi(hex_src_psi_r(y, mH), hex_src_psi_i(y, mH));
+    complex_expr hex_snk_psi(hex_snk_psi_r(x_out*sites_per_rank+x_in, nH), hex_snk_psi_i(x_out*sites_per_rank+x_in, nH));
+
+    complex_expr snk_psi(snk_psi_r(x_out*sites_per_rank+x_in, x2, ne), snk_psi_i(x_out*sites_per_rank+x_in, x2, ne));
+
+     /* Baryon blocks */
+
+     // Computing B1_Blocal_r1, B1_Bsecond_r1, B1_Bfirst_r1
+
+    computation B1_Blocal_r1_r_init("B1_Blocal_r1_r_init", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m}, expr((double) 0));
+    computation B1_Blocal_r1_i_init("B1_Blocal_r1_i_init", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m}, expr((double) 0));
+    computation B1_Bfirst_r1_r_init("B1_Bfirst_r1_r_init", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m}, expr((double) 0));
+    computation B1_Bfirst_r1_i_init("B1_Bfirst_r1_i_init", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m}, expr((double) 0));
+    computation B1_Bsecond_r1_r_init("B1_Bsecond_r1_r_init", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m}, expr((double) 0));
+    computation B1_Bsecond_r1_i_init("B1_Bsecond_r1_i_init", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m}, expr((double) 0));
+    computation B1_Bthird_r1_r_init("B1_Bthird_r1_r_init", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m}, expr((double) 0));
+    computation B1_Bthird_r1_i_init("B1_Bthird_r1_i_init", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m}, expr((double) 0));
+
+    complex_computation B1_Blocal_r1_init(&B1_Blocal_r1_r_init, &B1_Blocal_r1_i_init);
+    complex_computation B1_Bfirst_r1_init(&B1_Bfirst_r1_r_init, &B1_Bfirst_r1_i_init);
+    complex_computation B1_Bsecond_r1_init(&B1_Bsecond_r1_r_init, &B1_Bsecond_r1_i_init);
+    complex_computation B1_Bthird_r1_init(&B1_Bthird_r1_r_init, &B1_Bthird_r1_i_init);
+
+// t, x_out, x_in, x2, rp, m, s, r, nperm, wnum
+    computation flip_B1_Blocal_r1_r_init("flip_B1_Blocal_r1_r_init", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m}, expr((double) 0));
+    computation flip_B1_Blocal_r1_i_init("flip_B1_Blocal_r1_i_init", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m}, expr((double) 0));
+    computation flip_B1_Bfirst_r1_r_init("flip_B1_Bfirst_r1_r_init", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m}, expr((double) 0));
+    computation flip_B1_Bfirst_r1_i_init("flip_B1_Bfirst_r1_i_init", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m}, expr((double) 0));
+    computation flip_B1_Bsecond_r1_r_init("flip_B1_Bsecond_r1_r_init", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m}, expr((double) 0));
+    computation flip_B1_Bsecond_r1_i_init("flip_B1_Bsecond_r1_i_init", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m}, expr((double) 0));
+    computation flip_B1_Bthird_r1_r_init("flip_B1_Bthird_r1_r_init", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m}, expr((double) 0));
+    computation flip_B1_Bthird_r1_i_init("flip_B1_Bthird_r1_i_init", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m}, expr((double) 0));
+
+    complex_computation flip_B1_Blocal_r1_init(&flip_B1_Blocal_r1_r_init, &flip_B1_Blocal_r1_i_init);
+    complex_computation flip_B1_Bfirst_r1_init(&flip_B1_Bfirst_r1_r_init, &flip_B1_Bfirst_r1_i_init);
+    complex_computation flip_B1_Bsecond_r1_init(&flip_B1_Bsecond_r1_r_init, &flip_B1_Bsecond_r1_i_init);
+    complex_computation flip_B1_Bthird_r1_init(&flip_B1_Bthird_r1_r_init, &flip_B1_Bthird_r1_i_init);
+
+    complex_expr B1_r1_prop_0 =  B1_prop(0, t, iCprime, iSprime, src_color_weights(0, wnumBlock, 0), src_spin_weights(0, wnumBlock, 0), x_out*sites_per_rank+x_in, y);
+    complex_expr B1_r1_prop_1 = B1_prop(1, t, jCprime, jSprime, src_color_weights(0, wnumBlock, 1), src_spin_weights(0, wnumBlock, 1), x_out*sites_per_rank+x_in, y);
+    complex_expr B1_r1_prop_2 =  B1_prop(2, t, kCprime, kSprime, src_color_weights(0, wnumBlock, 2), src_spin_weights(0, wnumBlock, 2), x_out*sites_per_rank+x_in, y);
+    complex_expr first_B1_r1_prop_0 =  B1_prop(0, t, iCprime, iSprime, src_color_weights(0, wnumBlock, 0), src_spin_weights(0, wnumBlock, 0), x2, y);
+    complex_expr second_B1_r1_prop_1 = B1_prop(1, t, jCprime, jSprime, src_color_weights(0, wnumBlock, 1), src_spin_weights(0, wnumBlock, 1), x2, y);
+    complex_expr third_B1_r1_prop_2 =  B1_prop(2, t, kCprime, kSprime, src_color_weights(0, wnumBlock, 2), src_spin_weights(0, wnumBlock, 2), x2, y);
+
+    complex_expr B1_r1_diquark = ( B1_r1_prop_0 * B1_r1_prop_2 ) *  src_weights(0, wnumBlock);
+    complex_expr first_B1_r1_diquark = ( first_B1_r1_prop_0 * B1_r1_prop_2 ) *  src_weights(0, wnumBlock);
+    complex_expr third_B1_r1_diquark = ( B1_r1_prop_0 * third_B1_r1_prop_2 ) *  src_weights(0, wnumBlock);
+
+    computation B1_Blocal_r1_r_props_init("B1_Blocal_r1_r_props_init", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, expr((double) 0));
+    computation B1_Blocal_r1_i_props_init("B1_Blocal_r1_i_props_init", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, expr((double) 0));
+    computation B1_Bfirst_r1_r_props_init("B1_Bfirst_r1_r_props_init", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, expr((double) 0));
+    computation B1_Bfirst_r1_i_props_init("B1_Bfirst_r1_i_props_init", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, expr((double) 0));
+    computation B1_Bsecond_r1_r_props_init("B1_Bsecond_r1_r_props_init", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, expr((double) 0));
+    computation B1_Bsecond_r1_i_props_init("B1_Bsecond_r1_i_props_init", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, expr((double) 0));
+    computation B1_Bthird_r1_r_props_init("B1_Bthird_r1_r_props_init", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, expr((double) 0));
+    computation B1_Bthird_r1_i_props_init("B1_Bthird_r1_i_props_init", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, expr((double) 0));
+
+    computation B1_Blocal_r1_r_diquark("B1_Blocal_r1_r_diquark", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock}, B1_r1_diquark.get_real());
+    computation B1_Blocal_r1_i_diquark("B1_Blocal_r1_i_diquark", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock}, B1_r1_diquark.get_imag());
+    computation B1_Bfirst_r1_r_diquark("B1_Bfirst_r1_r_diquark", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock}, first_B1_r1_diquark.get_real());
+    computation B1_Bfirst_r1_i_diquark("B1_Bfirst_r1_i_diquark", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock}, first_B1_r1_diquark.get_imag());
+    computation B1_Bthird_r1_r_diquark("B1_Bthird_r1_r_diquark", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock}, third_B1_r1_diquark.get_real());
+    computation B1_Bthird_r1_i_diquark("B1_Bthird_r1_i_diquark", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock}, third_B1_r1_diquark.get_imag());
+
+    complex_computation B1_Blocal_r1_diquark(&B1_Blocal_r1_r_diquark, &B1_Blocal_r1_i_diquark);
+    complex_computation B1_Bfirst_r1_diquark(&B1_Bfirst_r1_r_diquark, &B1_Bfirst_r1_i_diquark);
+    complex_computation B1_Bthird_r1_diquark(&B1_Bthird_r1_r_diquark, &B1_Bthird_r1_i_diquark);
+
+    complex_expr B1_r1_props = B1_r1_prop_1 * B1_Blocal_r1_diquark(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock);
+    complex_expr first_B1_r1_props = B1_r1_prop_1 * B1_Bfirst_r1_diquark(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock);
+    complex_expr second_B1_r1_props = second_B1_r1_prop_1 * B1_Blocal_r1_diquark(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock);
+    complex_expr third_B1_r1_props = B1_r1_prop_1 * B1_Bthird_r1_diquark(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock);
+
+      computation B1_Blocal_r1_r_props("B1_Blocal_r1_r_props", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, B1_Blocal_r1_r_props_init(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime) + B1_r1_props.get_real());
+      computation B1_Blocal_r1_i_props("B1_Blocal_r1_i_props", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, B1_Blocal_r1_i_props_init(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime) + B1_r1_props.get_imag());
+      computation B1_Bfirst_r1_r_props("B1_Bfirst_r1_r_props", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, B1_Bfirst_r1_r_props_init(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime) + first_B1_r1_props.get_real());
+      computation B1_Bfirst_r1_i_props("B1_Bfirst_r1_i_props", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, B1_Bfirst_r1_i_props_init(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime) + first_B1_r1_props.get_imag());
+      computation B1_Bsecond_r1_r_props("B1_Bsecond_r1_r_props", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, B1_Bsecond_r1_r_props_init(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime) + second_B1_r1_props.get_real());
+      computation B1_Bsecond_r1_i_props("B1_Bsecond_r1_i_props", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, B1_Bsecond_r1_i_props_init(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime) + second_B1_r1_props.get_imag());
+      computation B1_Bthird_r1_r_props("B1_Bthird_r1_r_props", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, B1_Bthird_r1_r_props_init(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime) + third_B1_r1_props.get_real());
+      computation B1_Bthird_r1_i_props("B1_Bthird_r1_i_props", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, B1_Bthird_r1_i_props_init(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime) + third_B1_r1_props.get_imag());
+
+     complex_computation B1_Blocal_r1_props(&B1_Blocal_r1_r_props, &B1_Blocal_r1_i_props);
+     complex_computation B1_Bfirst_r1_props(&B1_Bfirst_r1_r_props, &B1_Bfirst_r1_i_props);
+     complex_computation B1_Bsecond_r1_props(&B1_Bsecond_r1_r_props, &B1_Bsecond_r1_i_props);
+     complex_computation B1_Bthird_r1_props(&B1_Bthird_r1_r_props, &B1_Bthird_r1_i_props);
+
+    complex_expr B1_r1 = src_psi_B1 * B1_Blocal_r1_props(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, Nw-1, jCprime, jSprime);
+    complex_expr first_B1_r1 = src_psi_B1 * B1_Bfirst_r1_props(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, Nw-1, jCprime, jSprime);
+    complex_expr second_B1_r1 = src_psi_B1 * B1_Bsecond_r1_props(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, Nw-1, jCprime, jSprime);
+    complex_expr third_B1_r1 = src_psi_B1 * B1_Bthird_r1_props(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, Nw-1, jCprime, jSprime);
+
+    computation B1_Blocal_r1_r_update("B1_Blocal_r1_r_update", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m}, B1_Blocal_r1_r_init(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m) + B1_r1.get_real());
+    computation B1_Blocal_r1_i_update("B1_Blocal_r1_i_update", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m}, B1_Blocal_r1_i_init(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m) + B1_r1.get_imag());
+    computation B1_Bfirst_r1_r_update("B1_Bfirst_r1_r_update", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m}, B1_Bfirst_r1_r_init(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m) + first_B1_r1.get_real());
+    computation B1_Bfirst_r1_i_update("B1_Bfirst_r1_i_update", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m}, B1_Bfirst_r1_i_init(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m) + first_B1_r1.get_imag());
+    computation B1_Bsecond_r1_r_update("B1_Bsecond_r1_r_update", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m}, B1_Bsecond_r1_r_init(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m) + second_B1_r1.get_real());
+    computation B1_Bsecond_r1_i_update("B1_Bsecond_r1_i_update", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m}, B1_Bsecond_r1_i_init(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m) + second_B1_r1.get_imag());
+    computation B1_Bthird_r1_r_update("B1_Bthird_r1_r_update", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m}, B1_Bthird_r1_r_init(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m) + third_B1_r1.get_real());
+    computation B1_Bthird_r1_i_update("B1_Bthird_r1_i_update", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m}, B1_Bthird_r1_i_init(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m) + third_B1_r1.get_imag());
+
+    complex_expr flip_B1_r1 = src_psi_B2 * B1_Blocal_r1_props(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, y, Nw-1);
+    complex_expr flip_first_B1_r1 = src_psi_B2 * B1_Bfirst_r1_props(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, y, Nw-1);
+    complex_expr flip_second_B1_r1 = src_psi_B2 * B1_Bsecond_r1_props(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, y, Nw-1);
+    complex_expr flip_third_B1_r1 = src_psi_B2 * B1_Bthird_r1_props(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, y, Nw-1);
+
+    computation flip_B1_Blocal_r1_r_update("flip_B1_Blocal_r1_r_update", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime, m}, flip_B1_Blocal_r1_r_init(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m) + flip_B1_r1.get_real());
+    computation flip_B1_Blocal_r1_i_update("flip_B1_Blocal_r1_i_update", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime, m}, flip_B1_Blocal_r1_i_init(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m) + flip_B1_r1.get_imag());
+    computation flip_B1_Bfirst_r1_r_update("flip_B1_Bfirst_r1_r_update", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime, m}, flip_B1_Bfirst_r1_r_init(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m) + flip_first_B1_r1.get_real());
+    computation flip_B1_Bfirst_r1_i_update("flip_B1_Bfirst_r1_i_update", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime, m}, flip_B1_Bfirst_r1_i_init(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m) + flip_first_B1_r1.get_imag());
+    computation flip_B1_Bsecond_r1_r_update("flip_B1_Bsecond_r1_r_update", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime, m}, flip_B1_Bsecond_r1_r_init(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m) + flip_second_B1_r1.get_real());
+    computation flip_B1_Bsecond_r1_i_update("flip_B1_Bsecond_r1_i_update", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime, m}, flip_B1_Bsecond_r1_i_init(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m) + flip_second_B1_r1.get_imag());
+    computation flip_B1_Bthird_r1_r_update("flip_B1_Bthird_r1_r_update", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime, m}, flip_B1_Bthird_r1_r_init(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m) + flip_third_B1_r1.get_real());
+    computation flip_B1_Bthird_r1_i_update("flip_B1_Bthird_r1_i_update", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime, m}, flip_B1_Bthird_r1_i_init(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m) + flip_third_B1_r1.get_imag());
+
+     // Computing B1_Blocal_r2, B1_Bsecond_r2, B1_Bfirst_r2
+
+    computation B1_Blocal_r2_r_init("B1_Blocal_r2_r_init", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m}, expr((double) 0));
+    computation B1_Blocal_r2_i_init("B1_Blocal_r2_i_init", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m}, expr((double) 0));
+    computation B1_Bfirst_r2_r_init("B1_Bfirst_r2_r_init", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m}, expr((double) 0));
+    computation B1_Bfirst_r2_i_init("B1_Bfirst_r2_i_init", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m}, expr((double) 0));
+    computation B1_Bsecond_r2_r_init("B1_Bsecond_r2_r_init", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m}, expr((double) 0));
+    computation B1_Bsecond_r2_i_init("B1_Bsecond_r2_i_init", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m}, expr((double) 0));
+    computation B1_Bthird_r2_r_init("B1_Bthird_r2_r_init", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m}, expr((double) 0));
+    computation B1_Bthird_r2_i_init("B1_Bthird_r2_i_init", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m}, expr((double) 0));
+
+    complex_computation B1_Blocal_r2_init(&B1_Blocal_r2_r_init, &B1_Blocal_r2_i_init);
+    complex_computation B1_Bfirst_r2_init(&B1_Bfirst_r2_r_init, &B1_Bfirst_r2_i_init);
+    complex_computation B1_Bsecond_r2_init(&B1_Bsecond_r2_r_init, &B1_Bsecond_r2_i_init);
+    complex_computation B1_Bthird_r2_init(&B1_Bthird_r2_r_init, &B1_Bthird_r2_i_init);
+
+    computation flip_B1_Blocal_r2_r_init("flip_B1_Blocal_r2_r_init", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m}, expr((double) 0));
+    computation flip_B1_Blocal_r2_i_init("flip_B1_Blocal_r2_i_init", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m}, expr((double) 0));
+    computation flip_B1_Bfirst_r2_r_init("flip_B1_Bfirst_r2_r_init", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m}, expr((double) 0));
+    computation flip_B1_Bfirst_r2_i_init("flip_B1_Bfirst_r2_i_init", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m}, expr((double) 0));
+    computation flip_B1_Bsecond_r2_r_init("flip_B1_Bsecond_r2_r_init", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m}, expr((double) 0));
+    computation flip_B1_Bsecond_r2_i_init("flip_B1_Bsecond_r2_i_init", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m}, expr((double) 0));
+    computation flip_B1_Bthird_r2_r_init("flip_B1_Bthird_r2_r_init", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m}, expr((double) 0));
+    computation flip_B1_Bthird_r2_i_init("flip_B1_Bthird_r2_i_init", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m}, expr((double) 0));
+
+    complex_computation flip_B1_Blocal_r2_init(&flip_B1_Blocal_r2_r_init, &flip_B1_Blocal_r2_i_init);
+    complex_computation flip_B1_Bfirst_r2_init(&flip_B1_Bfirst_r2_r_init, &flip_B1_Bfirst_r2_i_init);
+    complex_computation flip_B1_Bsecond_r2_init(&flip_B1_Bsecond_r2_r_init, &flip_B1_Bsecond_r2_i_init);
+    complex_computation flip_B1_Bthird_r2_init(&flip_B1_Bthird_r2_r_init, &flip_B1_Bthird_r2_i_init);
+
+    complex_expr B1_r2_prop_0 =  B1_prop(0, t, iCprime, iSprime, src_color_weights(1, wnumBlock, 0), src_spin_weights(1, wnumBlock, 0), x_out*sites_per_rank+x_in, y);
+    complex_expr B1_r2_prop_2 =  B1_prop(2, t, kCprime, kSprime, src_color_weights(1, wnumBlock, 2), src_spin_weights(1, wnumBlock, 2), x_out*sites_per_rank+x_in, y);
+    complex_expr B1_r2_prop_1 = B1_prop(1, t, jCprime, jSprime, src_color_weights(1, wnumBlock, 1), src_spin_weights(1, wnumBlock, 1), x_out*sites_per_rank+x_in, y);
+    complex_expr first_B1_r2_prop_0 =  B1_prop(0, t, iCprime, iSprime, src_color_weights(1, wnumBlock, 0), src_spin_weights(1, wnumBlock, 0), x2, y);
+    complex_expr second_B1_r2_prop_1 = B1_prop(1, t, jCprime, jSprime, src_color_weights(1, wnumBlock, 1), src_spin_weights(1, wnumBlock, 1), x2, y);
+    complex_expr third_B1_r2_prop_2 =  B1_prop(2, t, kCprime, kSprime, src_color_weights(1, wnumBlock, 2), src_spin_weights(1, wnumBlock, 2), x2, y);
+
+    complex_expr B1_r2_diquark = ( B1_r2_prop_0 * B1_r2_prop_2 ) *  src_weights(1, wnumBlock);
+    complex_expr first_B1_r2_diquark = ( first_B1_r2_prop_0 * B1_r2_prop_2 ) *  src_weights(1, wnumBlock);
+    complex_expr third_B1_r2_diquark = ( B1_r2_prop_0 * third_B1_r2_prop_2 ) *  src_weights(1, wnumBlock);
+
+    computation B1_Blocal_r2_r_props_init("B1_Blocal_r2_r_props_init", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, expr((double) 0));
+    computation B1_Blocal_r2_i_props_init("B1_Blocal_r2_i_props_init", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, expr((double) 0));
+    computation B1_Bfirst_r2_r_props_init("B1_Bfirst_r2_r_props_init", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, expr((double) 0));
+    computation B1_Bfirst_r2_i_props_init("B1_Bfirst_r2_i_props_init", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, expr((double) 0));
+    computation B1_Bsecond_r2_r_props_init("B1_Bsecond_r2_r_props_init", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, expr((double) 0));
+    computation B1_Bsecond_r2_i_props_init("B1_Bsecond_r2_i_props_init", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, expr((double) 0));
+    computation B1_Bthird_r2_r_props_init("B1_Bthird_r2_r_props_init", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, expr((double) 0));
+    computation B1_Bthird_r2_i_props_init("B1_Bthird_r2_i_props_init", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, expr((double) 0));
+
+    computation B1_Blocal_r2_r_diquark("B1_Blocal_r2_r_diquark", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, B1_r2_diquark.get_real());
+    computation B1_Blocal_r2_i_diquark("B1_Blocal_r2_i_diquark", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, B1_r2_diquark.get_imag());
+    computation B1_Bfirst_r2_r_diquark("B1_Bfirst_r2_r_diquark", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, first_B1_r2_diquark.get_real());
+    computation B1_Bfirst_r2_i_diquark("B1_Bfirst_r2_i_diquark", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, first_B1_r2_diquark.get_imag());
+    computation B1_Bthird_r2_r_diquark("B1_Bthird_r2_r_diquark", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, third_B1_r2_diquark.get_real());
+    computation B1_Bthird_r2_i_diquark("B1_Bthird_r2_i_diquark", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, third_B1_r2_diquark.get_imag());
+
+    complex_computation B1_Blocal_r2_diquark(&B1_Blocal_r2_r_diquark, &B1_Blocal_r2_i_diquark);
+    complex_computation B1_Bfirst_r2_diquark(&B1_Bfirst_r2_r_diquark, &B1_Bfirst_r2_i_diquark);
+    complex_computation B1_Bthird_r2_diquark(&B1_Bthird_r2_r_diquark, &B1_Bthird_r2_i_diquark);
+
+    complex_expr B1_r2_props = B1_r2_prop_1 * B1_Blocal_r2_diquark(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime);
+    complex_expr first_B1_r2_props = B1_r2_prop_1 * B1_Bfirst_r2_diquark(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime);
+    complex_expr second_B1_r2_props = second_B1_r2_prop_1 * B1_Blocal_r2_diquark(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime);
+    complex_expr third_B1_r2_props = B1_r2_prop_1 * B1_Bthird_r2_diquark(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime);
+
+    computation B1_Blocal_r2_r_props("B1_Blocal_r2_r_props", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, B1_Blocal_r2_r_props_init(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime) + B1_r2_props.get_real());
+    computation B1_Blocal_r2_i_props("B1_Blocal_r2_i_props", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, B1_Blocal_r2_i_props_init(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime) + B1_r2_props.get_imag());
+    computation B1_Bfirst_r2_r_props("B1_Bfirst_r2_r_props", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, B1_Bfirst_r2_r_props_init(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime) + first_B1_r2_props.get_real());
+    computation B1_Bfirst_r2_i_props("B1_Bfirst_r2_i_props", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, B1_Bfirst_r2_i_props_init(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime) + first_B1_r2_props.get_imag());
+    computation B1_Bsecond_r2_r_props("B1_Bsecond_r2_r_props", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, B1_Bsecond_r2_r_props_init(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime) + second_B1_r2_props.get_real());
+    computation B1_Bsecond_r2_i_props("B1_Bsecond_r2_i_props", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, B1_Bsecond_r2_i_props_init(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime) + second_B1_r2_props.get_imag());
+    computation B1_Bthird_r2_r_props("B1_Bthird_r2_r_props", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, B1_Bthird_r2_r_props_init(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime) + third_B1_r2_props.get_real());
+    computation B1_Bthird_r2_i_props("B1_Bthird_r2_i_props", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, B1_Bthird_r2_i_props_init(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime) + third_B1_r2_props.get_imag());
+
+    complex_computation B1_Blocal_r2_props(&B1_Blocal_r2_r_props, &B1_Blocal_r2_i_props);
+    complex_computation B1_Bfirst_r2_props(&B1_Bfirst_r2_r_props, &B1_Bfirst_r2_i_props);
+    complex_computation B1_Bsecond_r2_props(&B1_Bsecond_r2_r_props, &B1_Bsecond_r2_i_props);
+    complex_computation B1_Bthird_r2_props(&B1_Bthird_r2_r_props, &B1_Bthird_r2_i_props);
+
+    complex_expr B1_r2 = src_psi_B1 * B1_Blocal_r2_props(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, Nw-1, jCprime, jSprime);
+    complex_expr first_B1_r2 = src_psi_B1 * B1_Bfirst_r2_props(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, Nw-1, jCprime, jSprime);
+    complex_expr second_B1_r2 = src_psi_B1 * B1_Bsecond_r2_props(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, Nw-1, jCprime, jSprime);
+    complex_expr third_B1_r2 = src_psi_B1 * B1_Bthird_r2_props(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, Nw-1, jCprime, jSprime);
+
+    computation B1_Blocal_r2_r_update("B1_Blocal_r2_r_update", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m}, B1_Blocal_r2_r_init(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m) + B1_r2.get_real());
+    computation B1_Blocal_r2_i_update("B1_Blocal_r2_i_update", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m}, B1_Blocal_r2_i_init(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m) + B1_r2.get_imag());
+    computation B1_Bfirst_r2_r_update("B1_Bfirst_r2_r_update", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m}, B1_Bfirst_r2_r_init(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m) + first_B1_r2.get_real());
+    computation B1_Bfirst_r2_i_update("B1_Bfirst_r2_i_update", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m}, B1_Bfirst_r2_i_init(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m) + first_B1_r2.get_imag());
+    computation B1_Bsecond_r2_r_update("B1_Bsecond_r2_r_update", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m}, B1_Bsecond_r2_r_init(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m) + second_B1_r2.get_real());
+    computation B1_Bsecond_r2_i_update("B1_Bsecond_r2_i_update", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m}, B1_Bsecond_r2_i_init(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m) + second_B1_r2.get_imag());
+    computation B1_Bthird_r2_r_update("B1_Bthird_r2_r_update", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m}, B1_Bthird_r2_r_init(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m) + third_B1_r2.get_real());
+    computation B1_Bthird_r2_i_update("B1_Bthird_r2_i_update", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m}, B1_Bthird_r2_i_init(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m) + third_B1_r2.get_imag());
+
+    complex_expr flip_B1_r2 = src_psi_B2 * B1_Blocal_r2_props(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, Nw-1, jCprime, jSprime);
+    complex_expr flip_first_B1_r2 = src_psi_B2 * B1_Bfirst_r2_props(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, Nw-1, jCprime, jSprime);
+    complex_expr flip_second_B1_r2 = src_psi_B2 * B1_Bsecond_r2_props(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, Nw-1, jCprime, jSprime);
+    complex_expr flip_third_B1_r2 = src_psi_B2 * B1_Bthird_r2_props(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, Nw-1, jCprime, jSprime);
+
+    computation flip_B1_Blocal_r2_r_update("flip_B1_Blocal_r2_r_update", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m}, flip_B1_Blocal_r2_r_init(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m) + flip_B1_r2.get_real());
+    computation flip_B1_Blocal_r2_i_update("flip_B1_Blocal_r2_i_update", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m}, flip_B1_Blocal_r2_i_init(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m) + flip_B1_r2.get_imag());
+    computation flip_B1_Bfirst_r2_r_update("flip_B1_Bfirst_r2_r_update", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m}, flip_B1_Bfirst_r2_r_init(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m) + flip_first_B1_r2.get_real());
+    computation flip_B1_Bfirst_r2_i_update("flip_B1_Bfirst_r2_i_update", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m}, flip_B1_Bfirst_r2_i_init(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m) + flip_first_B1_r2.get_imag());
+    computation flip_B1_Bsecond_r2_r_update("flip_B1_Bsecond_r2_r_update", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m}, flip_B1_Bsecond_r2_r_init(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m) + flip_second_B1_r2.get_real());
+    computation flip_B1_Bsecond_r2_i_update("flip_B1_Bsecond_r2_i_update", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m}, flip_B1_Bsecond_r2_i_init(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m) + flip_second_B1_r2.get_imag());
+    computation flip_B1_Bthird_r2_r_update("flip_B1_Bthird_r2_r_update", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m}, flip_B1_Bthird_r2_r_init(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m) + flip_third_B1_r2.get_real());
+    computation flip_B1_Bthird_r2_i_update("flip_B1_Bthird_r2_i_update", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m}, flip_B1_Bthird_r2_i_init(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m) + flip_third_B1_r2.get_imag());
+
+     //Computing B2_Blocal_r1, B2_Bsecond_r1, B2_Bfirst_r1
+
+    computation B2_Blocal_r1_r_init("B2_Blocal_r1_r_init", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m}, expr((double) 0));
+    computation B2_Blocal_r1_i_init("B2_Blocal_r1_i_init", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m}, expr((double) 0));
+    computation B2_Bfirst_r1_r_init("B2_Bfirst_r1_r_init", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m}, expr((double) 0));
+    computation B2_Bfirst_r1_i_init("B2_Bfirst_r1_i_init", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m}, expr((double) 0));
+    computation B2_Bsecond_r1_r_init("B2_Bsecond_r1_r_init", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m}, expr((double) 0));
+    computation B2_Bsecond_r1_i_init("B2_Bsecond_r1_i_init", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m}, expr((double) 0));
+    computation B2_Bthird_r1_r_init("B2_Bthird_r1_r_init", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m}, expr((double) 0));
+    computation B2_Bthird_r1_i_init("B2_Bthird_r1_i_init", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m}, expr((double) 0));
+
+    complex_computation B2_Blocal_r1_init(&B2_Blocal_r1_r_init, &B2_Blocal_r1_i_init);
+    complex_computation B2_Bfirst_r1_init(&B2_Bfirst_r1_r_init, &B2_Bfirst_r1_i_init);
+    complex_computation B2_Bsecond_r1_init(&B2_Bsecond_r1_r_init, &B2_Bsecond_r1_i_init);
+    complex_computation B2_Bthird_r1_init(&B2_Bthird_r1_r_init, &B2_Bthird_r1_i_init);
+
+    computation flip_B2_Blocal_r1_r_init("flip_B2_Blocal_r1_r_init", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m}, expr((double) 0));
+    computation flip_B2_Blocal_r1_i_init("flip_B2_Blocal_r1_i_init", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m}, expr((double) 0));
+    computation flip_B2_Bfirst_r1_r_init("flip_B2_Bfirst_r1_r_init", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m}, expr((double) 0));
+    computation flip_B2_Bfirst_r1_i_init("flip_B2_Bfirst_r1_i_init", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m}, expr((double) 0));
+    computation flip_B2_Bsecond_r1_r_init("flip_B2_Bsecond_r1_r_init", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m}, expr((double) 0));
+    computation flip_B2_Bsecond_r1_i_init("flip_B2_Bsecond_r1_i_init", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m}, expr((double) 0));
+    computation flip_B2_Bthird_r1_r_init("flip_B2_Bthird_r1_r_init", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m}, expr((double) 0));
+    computation flip_B2_Bthird_r1_i_init("flip_B2_Bthird_r1_i_init", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m}, expr((double) 0));
+
+    complex_computation flip_B2_Blocal_r1_init(&flip_B2_Blocal_r1_r_init, &flip_B2_Blocal_r1_i_init);
+    complex_computation flip_B2_Bfirst_r1_init(&flip_B2_Bfirst_r1_r_init, &flip_B2_Bfirst_r1_i_init);
+    complex_computation flip_B2_Bsecond_r1_init(&flip_B2_Bsecond_r1_r_init, &flip_B2_Bsecond_r1_i_init);
+    complex_computation flip_B2_Bthird_r1_init(&flip_B2_Bthird_r1_r_init, &flip_B2_Bthird_r1_i_init);
+
+    complex_expr B2_r1_prop_0 =  B2_prop(0, t, iCprime, iSprime, src_color_weights(0, wnumBlock, 0), src_spin_weights(0, wnumBlock, 0), x2, y);
+    complex_expr B2_r1_prop_2 =  B2_prop(2, t, kCprime, kSprime, src_color_weights(0, wnumBlock, 2), src_spin_weights(0, wnumBlock, 2), x2, y);
+    complex_expr B2_r1_prop_1 = B2_prop(1, t, jCprime, jSprime, src_color_weights(0, wnumBlock, 1), src_spin_weights(0, wnumBlock, 1), x2, y);
+    complex_expr first_B2_r1_prop_0 =  B2_prop(0, t, iCprime, iSprime, src_color_weights(0, wnumBlock, 0), src_spin_weights(0, wnumBlock, 0), x_out*sites_per_rank+x_in, y);
+    complex_expr second_B2_r1_prop_1 = B2_prop(1, t, jCprime, jSprime, src_color_weights(0, wnumBlock, 1), src_spin_weights(0, wnumBlock, 1), x_out*sites_per_rank+x_in, y);
+    complex_expr third_B2_r1_prop_2 =  B2_prop(2, t, kCprime, kSprime, src_color_weights(0, wnumBlock, 2), src_spin_weights(0, wnumBlock, 2), x_out*sites_per_rank+x_in, y);
+
+    complex_expr B2_r1_diquark = ( B2_r1_prop_0 * B2_r1_prop_2 ) *  src_weights(0, wnumBlock);
+    complex_expr first_B2_r1_diquark = ( first_B2_r1_prop_0 * B2_r1_prop_2 ) *  src_weights(0, wnumBlock);
+    complex_expr third_B2_r1_diquark = ( B2_r1_prop_0 * third_B2_r1_prop_2 ) *  src_weights(0, wnumBlock);
+
+    computation B2_Blocal_r1_r_props_init("B2_Blocal_r1_r_props_init", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, expr((double) 0));
+    computation B2_Blocal_r1_i_props_init("B2_Blocal_r1_i_props_init", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, expr((double) 0));
+    computation B2_Bfirst_r1_r_props_init("B2_Bfirst_r1_r_props_init", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, expr((double) 0));
+    computation B2_Bfirst_r1_i_props_init("B2_Bfirst_r1_i_props_init", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, expr((double) 0));
+    computation B2_Bsecond_r1_r_props_init("B2_Bsecond_r1_r_props_init", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, expr((double) 0));
+    computation B2_Bsecond_r1_i_props_init("B2_Bsecond_r1_i_props_init", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, expr((double) 0));
+    computation B2_Bthird_r1_r_props_init("B2_Bthird_r1_r_props_init", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, expr((double) 0));
+    computation B2_Bthird_r1_i_props_init("B2_Bthird_r1_i_props_init", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, expr((double) 0));
+
+    computation B2_Blocal_r1_r_diquark("B2_Blocal_r1_r_diquark", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock}, B2_r1_diquark.get_real());
+    computation B2_Blocal_r1_i_diquark("B2_Blocal_r1_i_diquark", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock}, B2_r1_diquark.get_imag());
+    computation B2_Bfirst_r1_r_diquark("B2_Bfirst_r1_r_diquark", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock}, first_B2_r1_diquark.get_real());
+    computation B2_Bfirst_r1_i_diquark("B2_Bfirst_r1_i_diquark", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock}, first_B2_r1_diquark.get_imag());
+    computation B2_Bthird_r1_r_diquark("B2_Bthird_r1_r_diquark", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock}, third_B2_r1_diquark.get_real());
+    computation B2_Bthird_r1_i_diquark("B2_Bthird_r1_i_diquark", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock}, third_B2_r1_diquark.get_imag());
+
+    complex_computation B2_Blocal_r1_diquark(&B2_Blocal_r1_r_diquark, &B2_Blocal_r1_i_diquark);
+    complex_computation B2_Bfirst_r1_diquark(&B2_Bfirst_r1_r_diquark, &B2_Bfirst_r1_i_diquark);
+    complex_computation B2_Bthird_r1_diquark(&B2_Bthird_r1_r_diquark, &B2_Bthird_r1_i_diquark);
+
+    complex_expr B2_r1_props = B2_r1_prop_1 * B2_Blocal_r1_diquark(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock);
+    complex_expr first_B2_r1_props = B2_r1_prop_1 * B2_Bfirst_r1_diquark(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock);
+    complex_expr second_B2_r1_props = second_B2_r1_prop_1 * B2_Blocal_r1_diquark(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock);
+    complex_expr third_B2_r1_props = B2_r1_prop_1 * B2_Bthird_r1_diquark(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock);
+
+    computation B2_Blocal_r1_r_props("B2_Blocal_r1_r_props", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, B2_Blocal_r1_r_props_init(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime) + B2_r1_props.get_real());
+    computation B2_Blocal_r1_i_props("B2_Blocal_r1_i_props", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, B2_Blocal_r1_i_props_init(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime) + B2_r1_props.get_imag());
+    computation B2_Bfirst_r1_r_props("B2_Bfirst_r1_r_props", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, B2_Bfirst_r1_r_props_init(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime) + first_B2_r1_props.get_real());
+    computation B2_Bfirst_r1_i_props("B2_Bfirst_r1_i_props", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, B2_Bfirst_r1_i_props_init(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime) + first_B2_r1_props.get_imag());
+    computation B2_Bsecond_r1_r_props("B2_Bsecond_r1_r_props", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, B2_Bsecond_r1_r_props_init(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime) + second_B2_r1_props.get_real());
+    computation B2_Bsecond_r1_i_props("B2_Bsecond_r1_i_props", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, B2_Bsecond_r1_i_props_init(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime) + second_B2_r1_props.get_imag());
+    computation B2_Bthird_r1_r_props("B2_Bthird_r1_r_props", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, B2_Bthird_r1_r_props_init(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime) + third_B2_r1_props.get_real());
+    computation B2_Bthird_r1_i_props("B2_Bthird_r1_i_props", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, B2_Bthird_r1_i_props_init(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime) + third_B2_r1_props.get_imag());
+
+    complex_computation B2_Blocal_r1_props(&B2_Blocal_r1_r_props, &B2_Blocal_r1_i_props);
+    complex_computation B2_Bfirst_r1_props(&B2_Bfirst_r1_r_props, &B2_Bfirst_r1_i_props);
+    complex_computation B2_Bsecond_r1_props(&B2_Bsecond_r1_r_props, &B2_Bsecond_r1_i_props);
+    complex_computation B2_Bthird_r1_props(&B2_Bthird_r1_r_props, &B2_Bthird_r1_i_props);
+
+    complex_expr B2_r1 = src_psi_B2 * B2_Blocal_r1_props(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, Nw-1, jCprime, jSprime);
+    complex_expr first_B2_r1 = src_psi_B2 * B2_Bfirst_r1_props(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, Nw-1, jCprime, jSprime);
+    complex_expr second_B2_r1 = src_psi_B2 * B2_Bsecond_r1_props(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, Nw-1, jCprime, jSprime);
+    complex_expr third_B2_r1 = src_psi_B2 * B2_Bthird_r1_props(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, Nw-1, jCprime, jSprime);
+
+    computation B2_Blocal_r1_r_update("B2_Blocal_r1_r_update", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m}, B2_Blocal_r1_r_init(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m) + B2_r1.get_real());
+    computation B2_Blocal_r1_i_update("B2_Blocal_r1_i_update", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m}, B2_Blocal_r1_i_init(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m) + B2_r1.get_imag());
+    computation B2_Bfirst_r1_r_update("B2_Bfirst_r1_r_update", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m}, B2_Bfirst_r1_r_init(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m) + first_B2_r1.get_real());
+    computation B2_Bfirst_r1_i_update("B2_Bfirst_r1_i_update", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m}, B2_Bfirst_r1_i_init(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m) + first_B2_r1.get_imag());
+    computation B2_Bsecond_r1_r_update("B2_Bsecond_r1_r_update", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m}, B2_Bsecond_r1_r_init(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m) + second_B2_r1.get_real());
+    computation B2_Bsecond_r1_i_update("B2_Bsecond_r1_i_update", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m}, B2_Bsecond_r1_i_init(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m) + second_B2_r1.get_imag());
+    computation B2_Bthird_r1_r_update("B2_Bthird_r1_r_update", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m}, B2_Bthird_r1_r_init(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m) + third_B2_r1.get_real());
+    computation B2_Bthird_r1_i_update("B2_Bthird_r1_i_update", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m}, B2_Bthird_r1_i_init(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m) + third_B2_r1.get_imag());
+
+    complex_expr flip_B2_r1 = src_psi_B1 * B2_Blocal_r1_props(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, Nw-1, jCprime, jSprime);
+    complex_expr flip_first_B2_r1 = src_psi_B1 * B2_Bfirst_r1_props(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, Nw-1, jCprime, jSprime);
+    complex_expr flip_second_B2_r1 = src_psi_B1 * B2_Bsecond_r1_props(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, Nw-1, jCprime, jSprime);
+    complex_expr flip_third_B2_r1 = src_psi_B1 * B2_Bthird_r1_props(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, Nw-1, jCprime, jSprime);
+
+    computation flip_B2_Blocal_r1_r_update("flip_B2_Blocal_r1_r_update", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m}, flip_B2_Blocal_r1_r_init(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m) + flip_B2_r1.get_real());
+    computation flip_B2_Blocal_r1_i_update("flip_B2_Blocal_r1_i_update", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m}, flip_B2_Blocal_r1_i_init(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m) + flip_B2_r1.get_imag());
+    computation flip_B2_Bfirst_r1_r_update("flip_B2_Bfirst_r1_r_update", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m}, flip_B2_Bfirst_r1_r_init(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m) + flip_first_B2_r1.get_real());
+    computation flip_B2_Bfirst_r1_i_update("flip_B2_Bfirst_r1_i_update", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m}, flip_B2_Bfirst_r1_i_init(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m) + flip_first_B2_r1.get_imag());
+    computation flip_B2_Bsecond_r1_r_update("flip_B2_Bsecond_r1_r_update", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m}, flip_B2_Bsecond_r1_r_init(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m) + flip_second_B2_r1.get_real());
+    computation flip_B2_Bsecond_r1_i_update("flip_B2_Bsecond_r1_i_update", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m}, flip_B2_Bsecond_r1_i_init(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m) + flip_second_B2_r1.get_imag());
+    computation flip_B2_Bthird_r1_r_update("flip_B2_Bthird_r1_r_update", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m}, flip_B2_Bthird_r1_r_init(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m) + flip_third_B2_r1.get_real());
+    computation flip_B2_Bthird_r1_i_update("flip_B2_Bthird_r1_i_update", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m}, flip_B2_Bthird_r1_i_init(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m) + flip_third_B2_r1.get_imag());
+
+     // Computing B2_Blocal_r2, B2_Bsecond_r2, B2_Bfirst_r2
+
+    computation B2_Blocal_r2_r_init("B2_Blocal_r2_r_init", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m}, expr((double) 0));
+    computation B2_Blocal_r2_i_init("B2_Blocal_r2_i_init", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m}, expr((double) 0));
+    computation B2_Bfirst_r2_r_init("B2_Bfirst_r2_r_init", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m}, expr((double) 0));
+    computation B2_Bfirst_r2_i_init("B2_Bfirst_r2_i_init", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m}, expr((double) 0));
+    computation B2_Bsecond_r2_r_init("B2_Bsecond_r2_r_init", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m}, expr((double) 0));
+    computation B2_Bsecond_r2_i_init("B2_Bsecond_r2_i_init", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m}, expr((double) 0));
+    computation B2_Bthird_r2_r_init("B2_Bthird_r2_r_init", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m}, expr((double) 0));
+    computation B2_Bthird_r2_i_init("B2_Bthird_r2_i_init", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m}, expr((double) 0));
+
+    complex_computation B2_Blocal_r2_init(&B2_Blocal_r2_r_init, &B2_Blocal_r2_i_init);
+    complex_computation B2_Bfirst_r2_init(&B2_Bfirst_r2_r_init, &B2_Bfirst_r2_i_init);
+    complex_computation B2_Bsecond_r2_init(&B2_Bsecond_r2_r_init, &B2_Bsecond_r2_i_init);
+    complex_computation B2_Bthird_r2_init(&B2_Bthird_r2_r_init, &B2_Bthird_r2_i_init);
+
+    computation flip_B2_Blocal_r2_r_init("flip_B2_Blocal_r2_r_init", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m}, expr((double) 0));
+    computation flip_B2_Blocal_r2_i_init("flip_B2_Blocal_r2_i_init", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m}, expr((double) 0));
+    computation flip_B2_Bfirst_r2_r_init("flip_B2_Bfirst_r2_r_init", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m}, expr((double) 0));
+    computation flip_B2_Bfirst_r2_i_init("flip_B2_Bfirst_r2_i_init", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m}, expr((double) 0));
+    computation flip_B2_Bsecond_r2_r_init("flip_B2_Bsecond_r2_r_init", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m}, expr((double) 0));
+    computation flip_B2_Bsecond_r2_i_init("flip_B2_Bsecond_r2_i_init", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m}, expr((double) 0));
+    computation flip_B2_Bthird_r2_r_init("flip_B2_Bthird_r2_r_init", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m}, expr((double) 0));
+    computation flip_B2_Bthird_r2_i_init("flip_B2_Bthird_r2_i_init", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m}, expr((double) 0));
+
+    complex_computation flip_B2_Blocal_r2_init(&flip_B2_Blocal_r2_r_init, &flip_B2_Blocal_r2_i_init);
+    complex_computation flip_B2_Bfirst_r2_init(&flip_B2_Bfirst_r2_r_init, &flip_B2_Bfirst_r2_i_init);
+    complex_computation flip_B2_Bsecond_r2_init(&flip_B2_Bsecond_r2_r_init, &flip_B2_Bsecond_r2_i_init);
+    complex_computation flip_B2_Bthird_r2_init(&flip_B2_Bthird_r2_r_init, &flip_B2_Bthird_r2_i_init);
+
+    complex_expr B2_r2_prop_0 =  B2_prop(0, t, iCprime, iSprime, src_color_weights(1, wnumBlock, 0), src_spin_weights(1, wnumBlock, 0), x2, y);
+    complex_expr B2_r2_prop_2 =  B2_prop(2, t, kCprime, kSprime, src_color_weights(1, wnumBlock, 2), src_spin_weights(1, wnumBlock, 2), x2, y);
+    complex_expr B2_r2_prop_1 = B2_prop(1, t, jCprime, jSprime, src_color_weights(1, wnumBlock, 1), src_spin_weights(1, wnumBlock, 1), x2, y);
+    complex_expr first_B2_r2_prop_0 =  B2_prop(0, t, iCprime, iSprime, src_color_weights(1, wnumBlock, 0), src_spin_weights(1, wnumBlock, 0), x_out*sites_per_rank+x_in, y);
+    complex_expr second_B2_r2_prop_1 = B2_prop(1, t, jCprime, jSprime, src_color_weights(1, wnumBlock, 1), src_spin_weights(1, wnumBlock, 1), x_out*sites_per_rank+x_in, y);
+    complex_expr third_B2_r2_prop_2 =  B2_prop(2, t, kCprime, kSprime, src_color_weights(1, wnumBlock, 2), src_spin_weights(1, wnumBlock, 2), x_out*sites_per_rank+x_in, y);
+
+    complex_expr B2_r2_diquark = ( B2_r2_prop_0 * B2_r2_prop_2 ) *  src_weights(1, wnumBlock);
+    complex_expr first_B2_r2_diquark = ( first_B2_r2_prop_0 * B2_r2_prop_2 ) *  src_weights(1, wnumBlock);
+    complex_expr third_B2_r2_diquark = ( B2_r2_prop_0 * third_B2_r2_prop_2 ) *  src_weights(1, wnumBlock);
+
+    computation B2_Blocal_r2_r_props_init("B2_Blocal_r2_r_props_init", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, expr((double) 0));
+    computation B2_Blocal_r2_i_props_init("B2_Blocal_r2_i_props_init", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, expr((double) 0));
+    computation B2_Bfirst_r2_r_props_init("B2_Bfirst_r2_r_props_init", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, expr((double) 0));
+    computation B2_Bfirst_r2_i_props_init("B2_Bfirst_r2_i_props_init", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, expr((double) 0));
+    computation B2_Bsecond_r2_r_props_init("B2_Bsecond_r2_r_props_init", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, expr((double) 0));
+    computation B2_Bsecond_r2_i_props_init("B2_Bsecond_r2_i_props_init", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, expr((double) 0));
+    computation B2_Bthird_r2_r_props_init("B2_Bthird_r2_r_props_init", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, expr((double) 0));
+    computation B2_Bthird_r2_i_props_init("B2_Bthird_r2_i_props_init", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, expr((double) 0));
+
+    computation B2_Blocal_r2_r_diquark("B2_Blocal_r2_r_diquark", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock}, B2_r2_diquark.get_real());
+    computation B2_Blocal_r2_i_diquark("B2_Blocal_r2_i_diquark", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock}, B2_r2_diquark.get_imag());
+    computation B2_Bfirst_r2_r_diquark("B2_Bfirst_r2_r_diquark", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock}, first_B2_r2_diquark.get_real());
+    computation B2_Bfirst_r2_i_diquark("B2_Bfirst_r2_i_diquark", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock}, first_B2_r2_diquark.get_imag());
+    computation B2_Bthird_r2_r_diquark("B2_Bthird_r2_r_diquark", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock}, third_B2_r2_diquark.get_real());
+    computation B2_Bthird_r2_i_diquark("B2_Bthird_r2_i_diquark", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock}, third_B2_r2_diquark.get_imag());
+
+    complex_computation B2_Blocal_r2_diquark(&B2_Blocal_r2_r_diquark, &B2_Blocal_r2_i_diquark);
+    complex_computation B2_Bfirst_r2_diquark(&B2_Bfirst_r2_r_diquark, &B2_Bfirst_r2_i_diquark);
+    complex_computation B2_Bthird_r2_diquark(&B2_Bthird_r2_r_diquark, &B2_Bthird_r2_i_diquark);
+
+    complex_expr B2_r2_props = B2_r2_prop_1 * B2_Blocal_r2_diquark(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock);
+    complex_expr first_B2_r2_props = B2_r2_prop_1 * B2_Bfirst_r2_diquark(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock);
+    complex_expr second_B2_r2_props = second_B2_r2_prop_1 * B2_Blocal_r2_diquark(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock);
+    complex_expr third_B2_r2_props = B2_r2_prop_1 * B2_Bthird_r2_diquark(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock);
+
+    computation B2_Blocal_r2_r_props("B2_Blocal_r2_r_props", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, B2_Blocal_r2_r_props_init(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime) + B2_r2_props.get_real());
+    computation B2_Blocal_r2_i_props("B2_Blocal_r2_i_props", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, B2_Blocal_r2_i_props_init(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime) + B2_r2_props.get_imag());
+    computation B2_Bfirst_r2_r_props("B2_Bfirst_r2_r_props", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, B2_Bfirst_r2_r_props_init(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime) + first_B2_r2_props.get_real());
+    computation B2_Bfirst_r2_i_props("B2_Bfirst_r2_i_props", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, B2_Bfirst_r2_i_props_init(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime) + first_B2_r2_props.get_imag());
+    computation B2_Bsecond_r2_r_props("B2_Bsecond_r2_r_props", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, B2_Bsecond_r2_r_props_init(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime) + second_B2_r2_props.get_real());
+    computation B2_Bsecond_r2_i_props("B2_Bsecond_r2_i_props", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, B2_Bsecond_r2_i_props_init(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime) + second_B2_r2_props.get_imag());
+    computation B2_Bthird_r2_r_props("B2_Bthird_r2_r_props", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, B2_Bthird_r2_r_props_init(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime) + third_B2_r2_props.get_real());
+    computation B2_Bthird_r2_i_props("B2_Bthird_r2_i_props", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, B2_Bthird_r2_i_props_init(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime) + third_B2_r2_props.get_imag());
+
+    complex_computation B2_Blocal_r2_props(&B2_Blocal_r2_r_props, &B2_Blocal_r2_i_props);
+    complex_computation B2_Bfirst_r2_props(&B2_Bfirst_r2_r_props, &B2_Bfirst_r2_i_props);
+    complex_computation B2_Bsecond_r2_props(&B2_Bsecond_r2_r_props, &B2_Bsecond_r2_i_props);
+    complex_computation B2_Bthird_r2_props(&B2_Bthird_r2_r_props, &B2_Bthird_r2_i_props);
+
+    complex_expr B2_r2 = src_psi_B2 * B2_Blocal_r2_props(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, Nw-1, jCprime, jSprime);
+    complex_expr first_B2_r2 = src_psi_B2 * B2_Bfirst_r2_props(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, Nw-1, jCprime, jSprime);
+    complex_expr second_B2_r2 = src_psi_B2 * B2_Bsecond_r2_props(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, Nw-1, jCprime, jSprime);
+    complex_expr third_B2_r2 = src_psi_B2 * B2_Bthird_r2_props(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, Nw-1, jCprime, jSprime);
+
+    computation B2_Blocal_r2_r_update("B2_Blocal_r2_r_update", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m}, B2_Blocal_r2_r_init(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m) + B2_r2.get_real());
+    computation B2_Blocal_r2_i_update("B2_Blocal_r2_i_update", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m}, B2_Blocal_r2_i_init(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m) + B2_r2.get_imag());
+    computation B2_Bfirst_r2_r_update("B2_Bfirst_r2_r_update", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m}, B2_Bfirst_r2_r_init(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m) + first_B2_r2.get_real());
+    computation B2_Bfirst_r2_i_update("B2_Bfirst_r2_i_update", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m}, B2_Bfirst_r2_i_init(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m) + first_B2_r2.get_imag());
+    computation B2_Bsecond_r2_r_update("B2_Bsecond_r2_r_update", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m}, B2_Bsecond_r2_r_init(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m) + second_B2_r2.get_real());
+    computation B2_Bsecond_r2_i_update("B2_Bsecond_r2_i_update", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m}, B2_Bsecond_r2_i_init(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m) + second_B2_r2.get_imag());
+    computation B2_Bthird_r2_r_update("B2_Bthird_r2_r_update", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m}, B2_Bthird_r2_r_init(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m) + third_B2_r2.get_real());
+    computation B2_Bthird_r2_i_update("B2_Bthird_r2_i_update", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m}, B2_Bthird_r2_i_init(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m) + third_B2_r2.get_imag());
+
+    complex_expr flip_B2_r2 = src_psi_B1 * B2_Blocal_r2_props(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, Nw-1, jCprime, jSprime);
+    complex_expr flip_first_B2_r2 = src_psi_B1 * B2_Bfirst_r2_props(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, Nw-1, jCprime, jSprime);
+    complex_expr flip_second_B2_r2 = src_psi_B1 * B2_Bsecond_r2_props(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, Nw-1, jCprime, jSprime);
+    complex_expr flip_third_B2_r2 = src_psi_B1 * B2_Bthird_r2_props(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, Nw-1, jCprime, jSprime);
+
+    computation flip_B2_Blocal_r2_r_update("flip_B2_Blocal_r2_r_update", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m}, flip_B2_Blocal_r2_r_init(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m) + flip_B2_r2.get_real());
+    computation flip_B2_Blocal_r2_i_update("flip_B2_Blocal_r2_i_update", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m}, flip_B2_Blocal_r2_i_init(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m) + flip_B2_r2.get_imag());
+    computation flip_B2_Bfirst_r2_r_update("flip_B2_Bfirst_r2_r_update", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m}, flip_B2_Bfirst_r2_r_init(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m) + flip_first_B2_r2.get_real());
+    computation flip_B2_Bfirst_r2_i_update("flip_B2_Bfirst_r2_i_update", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m}, flip_B2_Bfirst_r2_i_init(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m) + flip_first_B2_r2.get_imag());
+    computation flip_B2_Bsecond_r2_r_update("flip_B2_Bsecond_r2_r_update", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m}, flip_B2_Bsecond_r2_r_init(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m) + flip_second_B2_r2.get_real());
+    computation flip_B2_Bsecond_r2_i_update("flip_B2_Bsecond_r2_i_update", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m}, flip_B2_Bsecond_r2_i_init(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m) + flip_second_B2_r2.get_imag());
+    computation flip_B2_Bthird_r2_r_update("flip_B2_Bthird_r2_r_update", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m}, flip_B2_Bthird_r2_r_init(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m) + flip_third_B2_r2.get_real());
+    computation flip_B2_Bthird_r2_i_update("flip_B2_Bthird_r2_i_update", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m}, flip_B2_Bthird_r2_i_init(t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime, m) + flip_third_B2_r2.get_imag());
+
+     // Computing src_B1_Blocal_r1
+// ~
+    computation src_B1_Blocal_r1_r_init("src_B1_Blocal_r1_r_init", {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime, m}, expr((double) 0));
+    computation src_B1_Blocal_r1_i_init("src_B1_Blocal_r1_i_init", {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime, m}, expr((double) 0));
+
+    complex_computation src_B1_Blocal_r1_init(&src_B1_Blocal_r1_r_init, &src_B1_Blocal_r1_i_init);
+
+    computation flip_src_B1_Blocal_r1_r_init("flip_src_B1_Blocal_r1_r_init", {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime, m}, expr((double) 0));
+    computation flip_src_B1_Blocal_r1_i_init("flip_src_B1_Blocal_r1_i_init", {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime, m}, expr((double) 0));
+
+    complex_computation flip_src_B1_Blocal_r1_init(&flip_src_B1_Blocal_r1_r_init, &flip_src_B1_Blocal_r1_i_init);
+
+    complex_expr src_B1_r1_prop_0 =  B1_prop(0, t, iCprime, iSprime, src_color_weights(0, wnumBlock, 0), src_spin_weights(0, wnumBlock, 0), x_out*sites_per_rank+x_in, y);
+    complex_expr src_B1_r1_prop_2 =  B1_prop(2, t, kCprime, kSprime, src_color_weights(0, wnumBlock, 2), src_spin_weights(0, wnumBlock, 2), x_out*sites_per_rank+x_in, y);
+    complex_expr src_B1_r1_prop_1 = B1_prop(1, t, jCprime, jSprime, src_color_weights(0, wnumBlock, 1), src_spin_weights(0, wnumBlock, 1), x_out*sites_per_rank+x_in, y);
+
+    complex_expr src_B1_r1_diquark = ( src_B1_r1_prop_0 * src_B1_r1_prop_2 ) *  src_weights(0, wnumBlock);
+
+    computation src_B1_Blocal_r1_r_props_init("src_B1_Blocal_r1_r_props_init", {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime}, expr((double) 0));
+    computation src_B1_Blocal_r1_i_props_init("src_B1_Blocal_r1_i_props_init", {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime}, expr((double) 0));
+
+    computation src_B1_Blocal_r1_r_diquark("src_B1_Blocal_r1_r_diquark", {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, wnumBlock}, src_B1_r1_diquark.get_real());
+    computation src_B1_Blocal_r1_i_diquark("src_B1_Blocal_r1_i_diquark", {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, wnumBlock}, src_B1_r1_diquark.get_imag());
+
+    complex_computation src_B1_Blocal_r1_diquark(&src_B1_Blocal_r1_r_diquark, &src_B1_Blocal_r1_i_diquark);
+
+    complex_expr src_B1_r1_props = src_B1_r1_prop_1 * src_B1_Blocal_r1_diquark(t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, wnumBlock);
+
+    computation src_B1_Blocal_r1_r_props("src_B1_Blocal_r1_r_props", {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime, wnumBlock}, src_B1_Blocal_r1_r_props_init(t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime) + src_B1_r1_props.get_real());
+    computation src_B1_Blocal_r1_i_props("src_B1_Blocal_r1_i_props", {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime, wnumBlock}, src_B1_Blocal_r1_i_props_init(t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime) + src_B1_r1_props.get_imag());
+
+    complex_computation src_B1_Blocal_r1_props(&src_B1_Blocal_r1_r_props, &src_B1_Blocal_r1_i_props);
+
+    complex_expr src_B1_r1 = src_psi_B1 * src_B1_Blocal_r1_props(t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, Nw-1, jCprime, jSprime);
+
+    computation src_B1_Blocal_r1_r_update("src_B1_Blocal_r1_r_update", {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime, m}, src_B1_Blocal_r1_r_init(t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime, m) + src_B1_r1.get_real());
+    computation src_B1_Blocal_r1_i_update("src_B1_Blocal_r1_i_update", {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime, m}, src_B1_Blocal_r1_i_init(t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime, m) + src_B1_r1.get_imag());
+
+    complex_expr flip_src_B1_r1 = src_psi_B2 * src_B1_Blocal_r1_props(t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, Nw-1, jCprime, jSprime);
+
+    computation flip_src_B1_Blocal_r1_r_update("flip_src_B1_Blocal_r1_r_update", {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime, m}, flip_src_B1_Blocal_r1_r_init(t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime, m) + flip_src_B1_r1.get_real());
+    computation flip_src_B1_Blocal_r1_i_update("flip_src_B1_Blocal_r1_i_update", {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime, m}, flip_src_B1_Blocal_r1_i_init(t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime, m) + flip_src_B1_r1.get_imag());
+
+     // Computing src_B1_Blocal_r2
+
+    computation src_B1_Blocal_r2_r_init("src_B1_Blocal_r2_r_init", {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime, m}, expr((double) 0));
+    computation src_B1_Blocal_r2_i_init("src_B1_Blocal_r2_i_init", {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime, m}, expr((double) 0));
+
+    complex_computation src_B1_Blocal_r2_init(&src_B1_Blocal_r2_r_init, &src_B1_Blocal_r2_i_init);
+
+    computation flip_src_B1_Blocal_r2_r_init("flip_src_B1_Blocal_r2_r_init", {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime, m}, expr((double) 0));
+    computation flip_src_B1_Blocal_r2_i_init("flip_src_B1_Blocal_r2_i_init", {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime, m}, expr((double) 0));
+
+    complex_computation flip_src_B1_Blocal_r2_init(&flip_src_B1_Blocal_r2_r_init, &flip_src_B1_Blocal_r2_i_init);
+
+    complex_expr src_B1_r2_prop_0 =  B1_prop(0, t, iCprime, iSprime, src_color_weights(1, wnumBlock, 0), src_spin_weights(1, wnumBlock, 0), x_out*sites_per_rank+x_in, y);
+    complex_expr src_B1_r2_prop_2 =  B1_prop(2, t, kCprime, kSprime, src_color_weights(1, wnumBlock, 2), src_spin_weights(1, wnumBlock, 2), x_out*sites_per_rank+x_in, y);
+    complex_expr src_B1_r2_prop_0p = B1_prop(0, t, kCprime, kSprime, src_color_weights(1, wnumBlock, 0), src_spin_weights(1, wnumBlock, 0), x_out*sites_per_rank+x_in, y);
+    complex_expr src_B1_r2_prop_2p = B1_prop(2, t, iCprime, iSprime, src_color_weights(1, wnumBlock, 2), src_spin_weights(1, wnumBlock, 2), x_out*sites_per_rank+x_in, y);
+    complex_expr src_B1_r2_prop_1 = B1_prop(1, t, jCprime, jSprime, src_color_weights(1, wnumBlock, 1), src_spin_weights(1, wnumBlock, 1), x_out*sites_per_rank+x_in, y);
+
+    complex_expr src_B1_r2_diquark = ( src_B1_r2_prop_0 * src_B1_r2_prop_2 ) *  src_weights(1, wnumBlock);
+
+    computation src_B1_Blocal_r2_r_props_init("src_B1_Blocal_r2_r_props_init", {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime}, expr((double) 0));
+    computation src_B1_Blocal_r2_i_props_init("src_B1_Blocal_r2_i_props_init", {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime}, expr((double) 0));
+
+    computation src_B1_Blocal_r2_r_diquark("src_B1_Blocal_r2_r_diquark", {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, wnumBlock}, src_B1_r2_diquark.get_real());
+    computation src_B1_Blocal_r2_i_diquark("src_B1_Blocal_r2_i_diquark", {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, wnumBlock}, src_B1_r2_diquark.get_imag());
+
+    complex_computation src_B1_Blocal_r2_diquark(&src_B1_Blocal_r2_r_diquark, &src_B1_Blocal_r2_i_diquark);
+
+    complex_expr src_B1_r2_props = src_B1_r2_prop_1 * src_B1_Blocal_r2_diquark(t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, wnumBlock);
+
+    computation src_B1_Blocal_r2_r_props("src_B1_Blocal_r2_r_props", {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, src_B1_Blocal_r2_r_props_init(t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime) + src_B1_r2_props.get_real());
+    computation src_B1_Blocal_r2_i_props("src_B1_Blocal_r2_i_props", {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, src_B1_Blocal_r2_i_props_init(t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime) + src_B1_r2_props.get_imag());
+
+    complex_computation src_B1_Blocal_r2_props(&src_B1_Blocal_r2_r_props, &src_B1_Blocal_r2_i_props);
+
+    complex_expr src_B1_r2 = src_psi_B1 * src_B1_Blocal_r2_props(t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, Nw-1, jCprime, jSprime);
+
+    computation src_B1_Blocal_r2_r_update("src_B1_Blocal_r2_r_update", {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime, m}, src_B1_Blocal_r2_r_init(t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime, m) + src_B1_r2.get_real());
+    computation src_B1_Blocal_r2_i_update("src_B1_Blocal_r2_i_update", {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime, m}, src_B1_Blocal_r2_i_init(t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime, m) + src_B1_r2.get_imag());
+
+    complex_expr flip_src_B1_r2 = src_psi_B2 * src_B1_Blocal_r2_props(t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, Nw-1, jCprime, jSprime);
+
+    computation flip_src_B1_Blocal_r2_r_update("flip_src_B1_Blocal_r2_r_update", {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, y, m}, flip_src_B1_Blocal_r2_r_init(t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m) + flip_src_B1_r2.get_real());
+    computation flip_src_B1_Blocal_r2_i_update("flip_src_B1_Blocal_r2_i_update", {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, y, m}, flip_src_B1_Blocal_r2_i_init(t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m) + flip_src_B1_r2.get_imag());
+
+     // Computing src_B2_Blocal_r1
+
+    computation src_B2_Blocal_r1_r_init("src_B2_Blocal_r1_r_init", {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0));
+    computation src_B2_Blocal_r1_i_init("src_B2_Blocal_r1_i_init", {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0));
+
+    complex_computation src_B2_Blocal_r1_init(&src_B2_Blocal_r1_r_init, &src_B2_Blocal_r1_i_init);
+
+    computation flip_src_B2_Blocal_r1_r_init("flip_src_B2_Blocal_r1_r_init", {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0));
+    computation flip_src_B2_Blocal_r1_i_init("flip_src_B2_Blocal_r1_i_init", {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0));
+
+    complex_computation flip_src_B2_Blocal_r1_init(&flip_src_B2_Blocal_r1_r_init, &flip_src_B2_Blocal_r1_i_init);
+
+    complex_expr src_B2_r1_prop_0 =  B2_prop(0, t, iCprime, iSprime, src_color_weights(0, wnumBlock, 0), src_spin_weights(0, wnumBlock, 0), x_out*sites_per_rank+x_in, y);
+    complex_expr src_B2_r1_prop_2 =  B2_prop(2, t, kCprime, kSprime, src_color_weights(0, wnumBlock, 2), src_spin_weights(0, wnumBlock, 2), x_out*sites_per_rank+x_in, y);
+    complex_expr src_B2_r1_prop_1 = B2_prop(1, t, jCprime, jSprime, src_color_weights(0, wnumBlock, 1), src_spin_weights(0, wnumBlock, 1), x_out*sites_per_rank+x_in, y);
+
+    complex_expr src_B2_r1_diquark = ( src_B2_r1_prop_0 * src_B2_r1_prop_2 ) *  src_weights(0, wnumBlock);
+
+    computation src_B2_Blocal_r1_r_props_init("src_B2_Blocal_r1_r_props_init", {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime}, expr((double) 0));
+    computation src_B2_Blocal_r1_i_props_init("src_B2_Blocal_r1_i_props_init", {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime}, expr((double) 0));
+
+    computation src_B2_Blocal_r1_r_diquark("src_B2_Blocal_r1_r_diquark", {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, wnumBlock}, src_B2_r1_diquark.get_real());
+    computation src_B2_Blocal_r1_i_diquark("src_B2_Blocal_r1_i_diquark", {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, wnumBlock}, src_B2_r1_diquark.get_imag());
+
+    complex_computation src_B2_Blocal_r1_diquark(&src_B2_Blocal_r1_r_diquark, &src_B2_Blocal_r1_i_diquark);
+
+    complex_expr src_B2_r1_props = src_B2_r1_prop_1 * src_B2_Blocal_r1_diquark(t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, wnumBlock);
+
+    computation src_B2_Blocal_r1_r_props("src_B2_Blocal_r1_r_props", {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, src_B2_Blocal_r1_r_props_init(t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime) + src_B2_r1_props.get_real());
+    computation src_B2_Blocal_r1_i_props("src_B2_Blocal_r1_i_props", {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, src_B2_Blocal_r1_i_props_init(t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime) + src_B2_r1_props.get_imag());
+
+    complex_computation src_B2_Blocal_r1_props(&src_B2_Blocal_r1_r_props, &src_B2_Blocal_r1_i_props);
+
+    complex_expr src_B2_r1 = src_psi_B2 * src_B2_Blocal_r1_props(t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, Nw-1, jCprime, jSprime);
+
+    computation src_B2_Blocal_r1_r_update("src_B2_Blocal_r1_r_update", {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime, m}, src_B2_Blocal_r1_r_init(t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m) + src_B2_r1.get_real());
+    computation src_B2_Blocal_r1_i_update("src_B2_Blocal_r1_i_update", {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime, m}, src_B2_Blocal_r1_i_init(t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m) + src_B2_r1.get_imag());
+
+    complex_expr flip_src_B2_r1 = src_psi_B1 * src_B2_Blocal_r1_props(t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, Nw-1, jCprime, jSprime);
+
+    computation flip_src_B2_Blocal_r1_r_update("flip_src_B2_Blocal_r1_r_update", {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime, m}, flip_src_B2_Blocal_r1_r_init(t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m) + flip_src_B2_r1.get_real());
+    computation flip_src_B2_Blocal_r1_i_update("flip_src_B2_Blocal_r1_i_update", {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime, m}, flip_src_B2_Blocal_r1_i_init(t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m) + flip_src_B2_r1.get_imag());
+
+     // Computing src_B2_Blocal_r2
+
+    computation src_B2_Blocal_r2_r_init("src_B2_Blocal_r2_r_init", {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0));
+    computation src_B2_Blocal_r2_i_init("src_B2_Blocal_r2_i_init", {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0));
+
+    complex_computation src_B2_Blocal_r2_init(&src_B2_Blocal_r2_r_init, &src_B2_Blocal_r2_i_init);
+
+    computation flip_src_B2_Blocal_r2_r_init("flip_src_B2_Blocal_r2_r_init", {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0));
+    computation flip_src_B2_Blocal_r2_i_init("flip_src_B2_Blocal_r2_i_init", {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0));
+
+    complex_computation flip_src_B2_Blocal_r2_init(&flip_src_B2_Blocal_r2_r_init, &flip_src_B2_Blocal_r2_i_init);
+
+    complex_expr src_B2_r2_prop_0 =  B2_prop(0, t, iCprime, iSprime, src_color_weights(1, wnumBlock, 0), src_spin_weights(1, wnumBlock, 0), x_out*sites_per_rank+x_in, y);
+    complex_expr src_B2_r2_prop_2 =  B2_prop(2, t, kCprime, kSprime, src_color_weights(1, wnumBlock, 2), src_spin_weights(1, wnumBlock, 2), x_out*sites_per_rank+x_in, y);
+    complex_expr src_B2_r2_prop_1 = B2_prop(1, t, jCprime, jSprime, src_color_weights(1, wnumBlock, 1), src_spin_weights(1, wnumBlock, 1), x_out*sites_per_rank+x_in, y);
+
+    complex_expr src_B2_r2_diquark = ( src_B2_r2_prop_0 * src_B2_r2_prop_2 ) *  src_weights(1, wnumBlock);
+
+    computation src_B2_Blocal_r2_r_props_init("src_B2_Blocal_r2_r_props_init", {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime}, expr((double) 0));
+    computation src_B2_Blocal_r2_i_props_init("src_B2_Blocal_r2_i_props_init", {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime}, expr((double) 0));
+
+    computation src_B2_Blocal_r2_r_diquark("src_B2_Blocal_r2_r_diquark", {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, wnumBlock}, src_B2_r2_diquark.get_real());
+    computation src_B2_Blocal_r2_i_diquark("src_B2_Blocal_r2_i_diquark", {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, wnumBlock}, src_B2_r2_diquark.get_imag());
+
+    complex_computation src_B2_Blocal_r2_diquark(&src_B2_Blocal_r2_r_diquark, &src_B2_Blocal_r2_i_diquark);
+
+    complex_expr src_B2_r2_props = src_B2_r2_prop_1 * src_B2_Blocal_r2_diquark(t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, wnumBlock);
+
+    computation src_B2_Blocal_r2_r_props("src_B2_Blocal_r2_r_props", {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, src_B2_Blocal_r2_r_props_init(t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime) + src_B2_r2_props.get_real());
+    computation src_B2_Blocal_r2_i_props("src_B2_Blocal_r2_i_props", {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, src_B2_Blocal_r2_i_props_init(t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime) + src_B2_r2_props.get_imag());
+
+    complex_computation src_B2_Blocal_r2_props(&src_B2_Blocal_r2_r_props, &src_B2_Blocal_r2_i_props);
+
+    complex_expr src_B2_r2 = src_psi_B2 * src_B2_Blocal_r2_props(t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, Nw-1, jCprime, jSprime);
+
+    computation src_B2_Blocal_r2_r_update("src_B2_Blocal_r2_r_update", {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime, m}, src_B2_Blocal_r2_r_init(t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m) + src_B2_r2.get_real());
+    computation src_B2_Blocal_r2_i_update("src_B2_Blocal_r2_i_update", {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime, m}, src_B2_Blocal_r2_i_init(t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m) + src_B2_r2.get_imag());
+
+    complex_expr flip_src_B2_r2 = src_psi_B1 * src_B2_Blocal_r2_props(t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, Nw-1, jCprime, jSprime);
+
+    computation flip_src_B2_Blocal_r2_r_update("flip_src_B2_Blocal_r2_r_update", {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime, m}, flip_src_B2_Blocal_r2_r_init(t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m) + flip_src_B2_r2.get_real());
+    computation flip_src_B2_Blocal_r2_i_update("flip_src_B2_Blocal_r2_i_update", {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime, m}, flip_src_B2_Blocal_r2_i_init(t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m) + flip_src_B2_r2.get_imag());
+
+     // Computing snk_B1_Blocal_r1
+
+    computation snk_B1_Blocal_r1_r_init("snk_B1_Blocal_r1_r_init", {t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, x, jCprime, jSprime, n}, expr((double) 0));
+    computation snk_B1_Blocal_r1_i_init("snk_B1_Blocal_r1_i_init", {t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, x, jCprime, jSprime, n}, expr((double) 0));
+
+    complex_computation snk_B1_Blocal_r1_init(&snk_B1_Blocal_r1_r_init, &snk_B1_Blocal_r1_i_init);
+
+    computation flip_snk_B1_Blocal_r1_r_init("flip_snk_B1_Blocal_r1_r_init", {t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, x, jCprime, jSprime, n}, expr((double) 0));
+    computation flip_snk_B1_Blocal_r1_i_init("flip_snk_B1_Blocal_r1_i_init", {t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, x, jCprime, jSprime, n}, expr((double) 0));
+
+    complex_computation flip_snk_B1_Blocal_r1_init(&flip_snk_B1_Blocal_r1_r_init, &flip_snk_B1_Blocal_r1_i_init);
+
+    complex_expr snk_B1_r1_prop_0 =  B1_prop(0, t, src_color_weights(0, wnumBlock, 0), src_spin_weights(0, wnumBlock, 0), iCprime, iSprime, x, y_out*src_sites_per_rank+y_in);
+    complex_expr snk_B1_r1_prop_2 =  B1_prop(2, t, src_color_weights(0, wnumBlock, 2), src_spin_weights(0, wnumBlock, 2), kCprime, kSprime, x, y_out*src_sites_per_rank+y_in);
+    complex_expr snk_B1_r1_prop_1 = B1_prop(1, t, src_color_weights(0, wnumBlock, 1), src_spin_weights(0, wnumBlock, 1), jCprime, jSprime, x, y_out*src_sites_per_rank+y_in);
+
+    complex_expr snk_B1_r1_diquark = ( snk_B1_r1_prop_0 * snk_B1_r1_prop_2 ) *  src_weights(0, wnumBlock);
+
+    computation snk_B1_Blocal_r1_r_props_init("snk_B1_Blocal_r1_r_props_init", {t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, x, jCprime, jSprime}, expr((double) 0));
+    computation snk_B1_Blocal_r1_i_props_init("snk_B1_Blocal_r1_i_props_init", {t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, x, jCprime, jSprime}, expr((double) 0));
+
+    computation snk_B1_Blocal_r1_r_diquark("snk_B1_Blocal_r1_r_diquark", {t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, x, wnumBlock}, snk_B1_r1_diquark.get_real());
+    computation snk_B1_Blocal_r1_i_diquark("snk_B1_Blocal_r1_i_diquark", {t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, x, wnumBlock}, snk_B1_r1_diquark.get_imag());
+
+    complex_computation snk_B1_Blocal_r1_diquark(&snk_B1_Blocal_r1_r_diquark, &snk_B1_Blocal_r1_i_diquark);
+
+    complex_expr snk_B1_r1_props = snk_B1_r1_prop_1 * snk_B1_Blocal_r1_diquark(t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, x, wnumBlock);
+
+    computation snk_B1_Blocal_r1_r_props("snk_B1_Blocal_r1_r_props", {t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, x, wnumBlock, jCprime, jSprime}, snk_B1_Blocal_r1_r_props_init(t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, x, jCprime, jSprime) + snk_B1_r1_props.get_real());
+    computation snk_B1_Blocal_r1_i_props("snk_B1_Blocal_r1_i_props", {t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, x, wnumBlock, jCprime, jSprime}, snk_B1_Blocal_r1_i_props_init(t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, x, jCprime, jSprime) + snk_B1_r1_props.get_imag());
+
+    complex_computation snk_B1_Blocal_r1_props(&snk_B1_Blocal_r1_r_props, &snk_B1_Blocal_r1_i_props);
+
+    complex_expr snk_B1_r1 = snk_psi_B1 * snk_B1_Blocal_r1_props(t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, x, Nw-1, jCprime, jSprime);
+
+    computation snk_B1_Blocal_r1_r_update("snk_B1_Blocal_r1_r_update", {t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, x, jCprime, jSprime, n}, snk_B1_Blocal_r1_r_init(t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, x, jCprime, jSprime, n) + snk_B1_r1.get_real());
+    computation snk_B1_Blocal_r1_i_update("snk_B1_Blocal_r1_i_update", {t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, x, jCprime, jSprime, n}, snk_B1_Blocal_r1_i_init(t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, x, jCprime, jSprime, n) + snk_B1_r1.get_imag());
+
+    complex_expr flip_snk_B1_r1 = snk_psi_B2 * snk_B1_Blocal_r1_props(t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, x, Nw-1, jCprime, jSprime);
+
+    computation flip_snk_B1_Blocal_r1_r_update("flip_snk_B1_Blocal_r1_r_update", {t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, x, jCprime, jSprime, n}, flip_snk_B1_Blocal_r1_r_init(t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, x, jCprime, jSprime, n) + flip_snk_B1_r1.get_real());
+    computation flip_snk_B1_Blocal_r1_i_update("flip_snk_B1_Blocal_r1_i_update", {t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, x, jCprime, jSprime, n}, flip_snk_B1_Blocal_r1_i_init(t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, x, jCprime, jSprime, n) + flip_snk_B1_r1.get_imag());
+
+//      // Computing snk_B1_Blocal_r2
+
+    computation snk_B1_Blocal_r2_r_init("snk_B1_Blocal_r2_r_init", {t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, x, jCprime, jSprime, n}, expr((double) 0));
+    computation snk_B1_Blocal_r2_i_init("snk_B1_Blocal_r2_i_init", {t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, x, jCprime, jSprime, n}, expr((double) 0));
+
+    complex_computation snk_B1_Blocal_r2_init(&snk_B1_Blocal_r2_r_init, &snk_B1_Blocal_r2_i_init);
+
+    computation flip_snk_B1_Blocal_r2_r_init("flip_snk_B1_Blocal_r2_r_init", {t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, x, jCprime, jSprime, n}, expr((double) 0));
+    computation flip_snk_B1_Blocal_r2_i_init("flip_snk_B1_Blocal_r2_i_init", {t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, x, jCprime, jSprime, n}, expr((double) 0));
+
+    complex_computation flip_snk_B1_Blocal_r2_init(&flip_snk_B1_Blocal_r2_r_init, &flip_snk_B1_Blocal_r2_i_init);
+
+    complex_expr snk_B1_r2_prop_0 =  B1_prop(0, t, src_color_weights(1, wnumBlock, 0), src_spin_weights(1, wnumBlock, 0), iCprime, iSprime, x, y_out*src_sites_per_rank+y_in);
+    complex_expr snk_B1_r2_prop_2 =  B1_prop(2, t, src_color_weights(1, wnumBlock, 2), src_spin_weights(1, wnumBlock, 2), kCprime, kSprime, x, y_out*src_sites_per_rank+y_in);
+    complex_expr snk_B1_r2_prop_1 = B1_prop(1, t, src_color_weights(1, wnumBlock, 1), src_spin_weights(1, wnumBlock, 1), jCprime, jSprime, x, y_out*src_sites_per_rank+y_in);
+
+    complex_expr snk_B1_r2_diquark = ( snk_B1_r2_prop_0 * snk_B1_r2_prop_2 ) *  src_weights(1, wnumBlock);
+
+    computation snk_B1_Blocal_r2_r_props_init("snk_B1_Blocal_r2_r_props_init", {t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, x, jCprime, jSprime}, expr((double) 0));
+    computation snk_B1_Blocal_r2_i_props_init("snk_B1_Blocal_r2_i_props_init", {t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, x, jCprime, jSprime}, expr((double) 0));
+
+    computation snk_B1_Blocal_r2_r_diquark("snk_B1_Blocal_r2_r_diquark", {t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, x, wnumBlock}, snk_B1_r2_diquark.get_real());
+    computation snk_B1_Blocal_r2_i_diquark("snk_B1_Blocal_r2_i_diquark", {t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, x, wnumBlock}, snk_B1_r2_diquark.get_imag());
+
+    complex_computation snk_B1_Blocal_r2_diquark(&snk_B1_Blocal_r2_r_diquark, &snk_B1_Blocal_r2_i_diquark);
+
+    complex_expr snk_B1_r2_props = snk_B1_r2_prop_1 * snk_B1_Blocal_r2_diquark(t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, x, wnumBlock);
+
+    computation snk_B1_Blocal_r2_r_props("snk_B1_Blocal_r2_r_props", {t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, x, wnumBlock, jCprime, jSprime}, snk_B1_Blocal_r2_r_props_init(t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, x, jCprime, jSprime) + snk_B1_r2_props.get_real());
+    computation snk_B1_Blocal_r2_i_props("snk_B1_Blocal_r2_i_props", {t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, x, wnumBlock, jCprime, jSprime}, snk_B1_Blocal_r2_i_props_init(t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, x, jCprime, jSprime) + snk_B1_r2_props.get_imag());
+
+    complex_computation snk_B1_Blocal_r2_props(&snk_B1_Blocal_r2_r_props, &snk_B1_Blocal_r2_i_props);
+
+    complex_expr snk_B1_r2 = snk_psi_B1 * snk_B1_Blocal_r2_props(t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, x, Nw-1, jCprime, jSprime);
+
+    computation snk_B1_Blocal_r2_r_update("snk_B1_Blocal_r2_r_update", {t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, x, jCprime, jSprime, n}, snk_B1_Blocal_r2_r_init(t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, x, jCprime, jSprime, n) + snk_B1_r2.get_real());
+    computation snk_B1_Blocal_r2_i_update("snk_B1_Blocal_r2_i_update", {t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, x, jCprime, jSprime, n}, snk_B1_Blocal_r2_i_init(t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, x, jCprime, jSprime, n) + snk_B1_r2.get_imag());
+
+    complex_expr flip_snk_B1_r2 = snk_psi_B2 * snk_B1_Blocal_r2_props(t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, x, Nw-1, jCprime, jSprime);
+
+    computation flip_snk_B1_Blocal_r2_r_update("flip_snk_B1_Blocal_r2_r_update", {t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, x, jCprime, jSprime, n}, flip_snk_B1_Blocal_r2_r_init(t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, x, jCprime, jSprime, n) + flip_snk_B1_r2.get_real());
+    computation flip_snk_B1_Blocal_r2_i_update("flip_snk_B1_Blocal_r2_i_update", {t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, x, jCprime, jSprime, n}, flip_snk_B1_Blocal_r2_i_init(t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, x, jCprime, jSprime, n) + flip_snk_B1_r2.get_imag());
+
+     // Computing snk_B2_Blocal_r1
+
+    computation snk_B2_Blocal_r1_r_init("snk_B2_Blocal_r1_r_init", {t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, x, jCprime, jSprime, n}, expr((double) 0));
+    computation snk_B2_Blocal_r1_i_init("snk_B2_Blocal_r1_i_init", {t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, x, jCprime, jSprime, n}, expr((double) 0));
+
+    complex_computation snk_B2_Blocal_r1_init(&snk_B2_Blocal_r1_r_init, &snk_B2_Blocal_r1_i_init);
+
+    computation flip_snk_B2_Blocal_r1_r_init("flip_snk_B2_Blocal_r1_r_init", {t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, x, jCprime, jSprime, n}, expr((double) 0));
+    computation flip_snk_B2_Blocal_r1_i_init("flip_snk_B2_Blocal_r1_i_init", {t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, x, jCprime, jSprime, n}, expr((double) 0));
+
+    complex_computation flip_snk_B2_Blocal_r1_init(&flip_snk_B2_Blocal_r1_r_init, &flip_snk_B2_Blocal_r1_i_init);
+
+    complex_expr snk_B2_r1_prop_0 =  B2_prop(0, t, src_color_weights(0, wnumBlock, 0), src_spin_weights(0, wnumBlock, 0), iCprime, iSprime, x, y_out*src_sites_per_rank+y_in);
+    complex_expr snk_B2_r1_prop_2 =  B2_prop(2, t, src_color_weights(0, wnumBlock, 2), src_spin_weights(0, wnumBlock, 2), kCprime, kSprime, x, y_out*src_sites_per_rank+y_in);
+    complex_expr snk_B2_r1_prop_1 = B2_prop(1, t, src_color_weights(0, wnumBlock, 1), src_spin_weights(0, wnumBlock, 1), jCprime, jSprime, x, y_out*src_sites_per_rank+y_in);
+
+    complex_expr snk_B2_r1_diquark = ( snk_B2_r1_prop_0 * snk_B2_r1_prop_2 ) *  src_weights(0, wnumBlock);
+
+    computation snk_B2_Blocal_r1_r_props_init("snk_B2_Blocal_r1_r_props_init", {t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, x, jCprime, jSprime}, expr((double) 0));
+    computation snk_B2_Blocal_r1_i_props_init("snk_B2_Blocal_r1_i_props_init", {t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, x, jCprime, jSprime}, expr((double) 0));
+
+    computation snk_B2_Blocal_r1_r_diquark("snk_B2_Blocal_r1_r_diquark", {t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, x, wnumBlock}, snk_B2_r1_diquark.get_real());
+    computation snk_B2_Blocal_r1_i_diquark("snk_B2_Blocal_r1_i_diquark", {t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, x, wnumBlock}, snk_B2_r1_diquark.get_imag());
+
+    complex_computation snk_B2_Blocal_r1_diquark(&snk_B2_Blocal_r1_r_diquark, &snk_B2_Blocal_r1_i_diquark);
+
+    complex_expr snk_B2_r1_props = snk_B2_r1_prop_1 * snk_B2_Blocal_r1_diquark(t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, x, wnumBlock);
+
+    computation snk_B2_Blocal_r1_r_props("snk_B2_Blocal_r1_r_props", {t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, x, wnumBlock, jCprime, jSprime}, snk_B2_Blocal_r1_r_props_init(t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, x, jCprime, jSprime) + snk_B2_r1_props.get_real());
+    computation snk_B2_Blocal_r1_i_props("snk_B2_Blocal_r1_i_props", {t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, x, wnumBlock, jCprime, jSprime}, snk_B2_Blocal_r1_i_props_init(t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, x, jCprime, jSprime) + snk_B2_r1_props.get_imag());
+
+    complex_computation snk_B2_Blocal_r1_props(&snk_B2_Blocal_r1_r_props, &snk_B2_Blocal_r1_i_props);
+
+    complex_expr snk_B2_r1 = snk_psi_B2 * snk_B2_Blocal_r1_props(t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, x, Nw-1, jCprime, jSprime);
+
+    computation snk_B2_Blocal_r1_r_update("snk_B2_Blocal_r1_r_update", {t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, x, jCprime, jSprime, n}, snk_B2_Blocal_r1_r_init(t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, n) + snk_B2_r1.get_real());
+    computation snk_B2_Blocal_r1_i_update("snk_B2_Blocal_r1_i_update", {t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, x, jCprime, jSprime, n}, snk_B2_Blocal_r1_i_init(t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, n) + snk_B2_r1.get_imag());
+
+    complex_expr flip_snk_B2_r1 = snk_psi_B1 * snk_B2_Blocal_r1_props(t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, x, Nw-1, jCprime, jSprime);
+
+    computation flip_snk_B2_Blocal_r1_r_update("flip_snk_B2_Blocal_r1_r_update", {t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, x, jCprime, jSprime, n}, flip_snk_B2_Blocal_r1_r_init(t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, x, jCprime, jSprime, n) + flip_snk_B2_r1.get_real());
+    computation flip_snk_B2_Blocal_r1_i_update("flip_snk_B2_Blocal_r1_i_update", {t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, x, jCprime, jSprime, n}, flip_snk_B2_Blocal_r1_i_init(t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, x, jCprime, jSprime, n) + flip_snk_B2_r1.get_imag());
+
+     // Computing snk_B2_Blocal_r2
+
+    computation snk_B2_Blocal_r2_r_init("snk_B2_Blocal_r2_r_init", {t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, n}, expr((double) 0));
+    computation snk_B2_Blocal_r2_i_init("snk_B2_Blocal_r2_i_init", {t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, n}, expr((double) 0));
+
+    complex_computation snk_B2_Blocal_r2_init(&snk_B2_Blocal_r2_r_init, &snk_B2_Blocal_r2_i_init);
+
+    computation flip_snk_B2_Blocal_r2_r_init("flip_snk_B2_Blocal_r2_r_init", {t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, n}, expr((double) 0));
+    computation flip_snk_B2_Blocal_r2_i_init("flip_snk_B2_Blocal_r2_i_init", {t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, n}, expr((double) 0));
+
+    complex_computation flip_snk_B2_Blocal_r2_init(&flip_snk_B2_Blocal_r2_r_init, &flip_snk_B2_Blocal_r2_i_init);
+
+    complex_expr snk_B2_r2_prop_0 =  B2_prop(0, t, src_color_weights(1, wnumBlock, 0), src_spin_weights(1, wnumBlock, 0), iCprime, iSprime, x, y_out*src_sites_per_rank+y_in);
+    complex_expr snk_B2_r2_prop_2 =  B2_prop(2, t, src_color_weights(1, wnumBlock, 2), src_spin_weights(1, wnumBlock, 2), kCprime, kSprime, x, y_out*src_sites_per_rank+y_in);
+    complex_expr snk_B2_r2_prop_1 = B2_prop(1, t, src_color_weights(1, wnumBlock, 1), src_spin_weights(1, wnumBlock, 1), jCprime, jSprime, x, y_out*src_sites_per_rank+y_in);
+
+    complex_expr snk_B2_r2_diquark = ( snk_B2_r2_prop_0 * snk_B2_r2_prop_2 ) *  src_weights(1, wnumBlock);
+
+    computation snk_B2_Blocal_r2_r_props_init("snk_B2_Blocal_r2_r_props_init", {t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, x, jCprime, jSprime}, expr((double) 0));
+    computation snk_B2_Blocal_r2_i_props_init("snk_B2_Blocal_r2_i_props_init", {t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, x, jCprime, jSprime}, expr((double) 0));
+
+    computation snk_B2_Blocal_r2_r_diquark("snk_B2_Blocal_r2_r_diquark", {t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, x, wnumBlock}, snk_B2_r2_diquark.get_real());
+    computation snk_B2_Blocal_r2_i_diquark("snk_B2_Blocal_r2_i_diquark", {t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, x, wnumBlock}, snk_B2_r2_diquark.get_imag());
+
+    complex_computation snk_B2_Blocal_r2_diquark(&snk_B2_Blocal_r2_r_diquark, &snk_B2_Blocal_r2_i_diquark);
+
+    complex_expr snk_B2_r2_props = snk_B2_r2_prop_1 * snk_B2_Blocal_r2_diquark(t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, x, wnumBlock);
+
+    computation snk_B2_Blocal_r2_r_props("snk_B2_Blocal_r2_r_props", {t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, x, wnumBlock, jCprime, jSprime}, snk_B2_Blocal_r2_r_props_init(t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, x, jCprime, jSprime) + snk_B2_r2_props.get_real());
+    computation snk_B2_Blocal_r2_i_props("snk_B2_Blocal_r2_i_props", {t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, x, wnumBlock, jCprime, jSprime}, snk_B2_Blocal_r2_i_props_init(t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, x, jCprime, jSprime) + snk_B2_r2_props.get_imag());
+
+    complex_computation snk_B2_Blocal_r2_props(&snk_B2_Blocal_r2_r_props, &snk_B2_Blocal_r2_i_props);
+
+    complex_expr snk_B2_r2 = snk_psi_B2 * snk_B2_Blocal_r2_props(t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, x, Nw-1, jCprime, jSprime);
+
+    computation snk_B2_Blocal_r2_r_update("snk_B2_Blocal_r2_r_update", {t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, x, jCprime, jSprime, n}, snk_B2_Blocal_r2_r_init(t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, n) + snk_B2_r2.get_real());
+    computation snk_B2_Blocal_r2_i_update("snk_B2_Blocal_r2_i_update", {t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, x, jCprime, jSprime, n}, snk_B2_Blocal_r2_i_init(t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, n) + snk_B2_r2.get_imag());
+
+    complex_expr flip_snk_B2_r2 = snk_psi_B1 * snk_B2_Blocal_r2_props(t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, x, Nw-1, jCprime, jSprime);
+
+    computation flip_snk_B2_Blocal_r2_r_update("flip_snk_B2_Blocal_r2_r_update", {t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, x, jCprime, jSprime, n}, flip_snk_B2_Blocal_r2_r_init(t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, n) + flip_snk_B2_r2.get_real());
+    computation flip_snk_B2_Blocal_r2_i_update("flip_snk_B2_Blocal_r2_i_update", {t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, x, jCprime, jSprime, n}, flip_snk_B2_Blocal_r2_i_init(t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, n) + flip_snk_B2_r2.get_imag());
+
+    /* Correlators */
+
     computation C_init_r("C_init_r", {t, x_out, x_in, rp, mpmH, r, npnH}, expr((double) 0));
     computation C_init_i("C_init_i", {t, x_out, x_in, rp, mpmH, r, npnH}, expr((double) 0));
 
-    C_init_r.store_in(&buf_C_r, {t, x_out, x_in, rp, mpmH, r, npnH});
-    C_init_i.store_in(&buf_C_i, {t, x_out, x_in, rp, mpmH, r, npnH});
+    // BB_BB
+    computation C_BB_BB_prop_init_r("C_BB_BB_prop_init_r", {t, x_out, x_in, x2, rp, m, s, r, nperm, wnum}, expr((double) 0));
+    computation C_BB_BB_prop_init_i("C_BB_BB_prop_init_i", {t, x_out, x_in, x2, rp, m, s, r, nperm, wnum}, expr((double) 0));
 
-// 
+    b=0;
+    // r1, b = 0
+    complex_computation BB_BB_new_term_0_r1_b1("BB_BB_new_term_0_r1_b1", {t, x_out, x_in, x2, rp, m, s, r, nperm, wnum}, B1_Blocal_r1_init(t, x_out, x_in, x2, snk_color_weights(r, nperm, wnum, 0, 0), snk_spin_weights(r, nperm, wnum, 0, 0), snk_color_weights(r, nperm, wnum, 2, 0), snk_spin_weights(r, nperm, wnum, 2, 0), 0, 0, snk_color_weights(r, nperm, wnum, 1, 0), snk_spin_weights(r, nperm, wnum, 1, 0), m));
+    complex_computation BB_BB_new_term_1_r1_b1("BB_BB_new_term_1_r1_b1", {t, x_out, x_in, x2, rp, m, s, r, nperm, wnum}, B2_Blocal_r1_init(t, x_out, x_in, x2, snk_color_weights(r, nperm, wnum, 0, 0), snk_spin_weights(r, nperm, wnum, 0, 0), snk_color_weights(r, nperm, wnum, 2, 0), snk_spin_weights(r, nperm, wnum, 2, 0), 0, 0, snk_color_weights(r, nperm, wnum, 1, 0), snk_spin_weights(r, nperm, wnum, 1, 0), m));
+    complex_computation BB_BB_new_term_2_r1_b1("BB_BB_new_term_2_r1_b1", {t, x_out, x_in, x2, rp, m, s, r, nperm, wnum}, B1_Bfirst_r1_init(t, x_out, x_in, x2, snk_color_weights(r, nperm, wnum, 0, 0), snk_spin_weights(r, nperm, wnum, 0, 0), snk_color_weights(r, nperm, wnum, 2, 0), snk_spin_weights(r, nperm, wnum, 2, 0), 0, 0, snk_color_weights(r, nperm, wnum, 1, 0), snk_spin_weights(r, nperm, wnum, 1, 0), m));
+    complex_computation BB_BB_new_term_3_r1_b1("BB_BB_new_term_3_r1_b1", {t, x_out, x_in, x2, rp, m, s, r, nperm, wnum}, B2_Bfirst_r1_init(t, x_out, x_in, x2, snk_color_weights(r, nperm, wnum, 0, 0), snk_spin_weights(r, nperm, wnum, 0, 0), snk_color_weights(r, nperm, wnum, 2, 0), snk_spin_weights(r, nperm, wnum, 2, 0), 0, 0, snk_color_weights(r, nperm, wnum, 1, 0), snk_spin_weights(r, nperm, wnum, 1, 0), m));
+    complex_computation BB_BB_new_term_4_r1_b1("BB_BB_new_term_4_r1_b1", {t, x_out, x_in, x2, rp, m, s, r, nperm, wnum}, B1_Bsecond_r1_init(t, x_out, x_in, x2, snk_color_weights(r, nperm, wnum, 0, 0), snk_spin_weights(r, nperm, wnum, 0, 0), snk_color_weights(r, nperm, wnum, 2, 0), snk_spin_weights(r, nperm, wnum, 2, 0), 0, 0, snk_color_weights(r, nperm, wnum, 1, 0), snk_spin_weights(r, nperm, wnum, 1, 0), m));
+    complex_computation BB_BB_new_term_5_r1_b1("BB_BB_new_term_5_r1_b1", {t, x_out, x_in, x2, rp, m, s, r, nperm, wnum}, B2_Bsecond_r1_init(t, x_out, x_in, x2, snk_color_weights(r, nperm, wnum, 0, 0), snk_spin_weights(r, nperm, wnum, 0, 0), snk_color_weights(r, nperm, wnum, 2, 0), snk_spin_weights(r, nperm, wnum, 2, 0), 0, 0, snk_color_weights(r, nperm, wnum, 1, 0), snk_spin_weights(r, nperm, wnum, 1, 0), m));
+    complex_computation BB_BB_new_term_6_r1_b1("BB_BB_new_term_6_r1_b1", {t, x_out, x_in, x2, rp, m, s, r, nperm, wnum}, B1_Bthird_r1_init(t, x_out, x_in, x2, snk_color_weights(r, nperm, wnum, 0, 0), snk_spin_weights(r, nperm, wnum, 0, 0), snk_color_weights(r, nperm, wnum, 2, 0), snk_spin_weights(r, nperm, wnum, 2, 0), 0, 0, snk_color_weights(r, nperm, wnum, 1, 0), snk_spin_weights(r, nperm, wnum, 1, 0), m));
+    complex_computation BB_BB_new_term_7_r1_b1("BB_BB_new_term_7_r1_b1", {t, x_out, x_in, x2, rp, m, s, r, nperm, wnum}, B2_Bthird_r1_init(t, x_out, x_in, x2, snk_color_weights(r, nperm, wnum, 0, 0), snk_spin_weights(r, nperm, wnum, 0, 0), snk_color_weights(r, nperm, wnum, 2, 0), snk_spin_weights(r, nperm, wnum, 2, 0), 0, 0, snk_color_weights(r, nperm, wnum, 1, 0), snk_spin_weights(r, nperm, wnum, 1, 0), m));
+    // BB_BB_new_term_0_r1_b1.add_predicate((src_spins(rp, s, 0) == 1) && (snk_b(nperm, 0, b) == 0 && snk_b(nperm, 1, b) == 0 && snk_b(nperm, 2, b) == 0));
+    // BB_BB_new_term_1_r1_b1.add_predicate((src_spins(rp, s, 0) == 1) && (snk_b(nperm, 0, b) == 1 && snk_b(nperm, 1, b) == 1 && snk_b(nperm, 2, b) == 1));
+    // BB_BB_new_term_2_r1_b1.add_predicate((src_spins(rp, s, 0) == 1) && (snk_b(nperm, 0, b) == 1 && snk_b(nperm, 1, b) == 0 && snk_b(nperm, 2, b) == 0));
+    // BB_BB_new_term_3_r1_b1.add_predicate((src_spins(rp, s, 0) == 1) && (snk_b(nperm, 0, b) == 0 && snk_b(nperm, 1, b) == 1 && snk_b(nperm, 2, b) == 1));
+    // BB_BB_new_term_4_r1_b1.add_predicate((src_spins(rp, s, 0) == 1) && (snk_b(nperm, 0, b) == 0 && snk_b(nperm, 1, b) == 1 && snk_b(nperm, 2, b) == 0));
+    // BB_BB_new_term_5_r1_b1.add_predicate((src_spins(rp, s, 0) == 1) && (snk_b(nperm, 0, b) == 1 && snk_b(nperm, 1, b) == 0 && snk_b(nperm, 2, b) == 1));
+    // BB_BB_new_term_7_r1_b1.add_predicate((src_spins(rp, s, 0) == 1) &&  (snk_b(nperm, 0, b) == 1 && snk_b(nperm, 1, b) == 1 && snk_b(nperm, 2, b) == 0));
+    // BB_BB_new_term_6_r1_b1.add_predicate((src_spins(rp, s, 0) == 1) && (snk_b(nperm, 0, b) == 0 && snk_b(nperm, 1, b) == 0 && snk_b(nperm, 2, b) == 1));
 
-    complex_computation B1_prop(&B1_prop_r, &B1_prop_i);
-    complex_computation B2_prop(&B2_prop_r, &B2_prop_i);
+    // r2, b = 0
+    complex_computation BB_BB_new_term_0_r2_b1("BB_BB_new_term_0_r2_b1", {t, x_out, x_in, x2, rp, m, s, r, nperm, wnum}, B1_Blocal_r2_init(t, x_out, x_in, x2, snk_color_weights(r, nperm, wnum, 0, 0), snk_spin_weights(r, nperm, wnum, 0, 0), snk_color_weights(r, nperm, wnum, 2, 0), snk_spin_weights(r, nperm, wnum, 2, 0), 0, 0, snk_color_weights(r, nperm, wnum, 1, 0), snk_spin_weights(r, nperm, wnum, 1, 0), m));
+    complex_computation BB_BB_new_term_1_r2_b1("BB_BB_new_term_1_r2_b1", {t, x_out, x_in, x2, rp, m, s, r, nperm, wnum}, B2_Blocal_r2_init(t, x_out, x_in, x2, snk_color_weights(r, nperm, wnum, 0, 0), snk_spin_weights(r, nperm, wnum, 0, 0), snk_color_weights(r, nperm, wnum, 2, 0), snk_spin_weights(r, nperm, wnum, 2, 0), 0, 0, snk_color_weights(r, nperm, wnum, 1, 0), snk_spin_weights(r, nperm, wnum, 1, 0), m));
+    complex_computation BB_BB_new_term_2_r2_b1("BB_BB_new_term_2_r2_b1", {t, x_out, x_in, x2, rp, m, s, r, nperm, wnum}, B1_Bfirst_r2_init(t, x_out, x_in, x2, snk_color_weights(r, nperm, wnum, 0, 0), snk_spin_weights(r, nperm, wnum, 0, 0), snk_color_weights(r, nperm, wnum, 2, 0), snk_spin_weights(r, nperm, wnum, 2, 0), 0, 0, snk_color_weights(r, nperm, wnum, 1, 0), snk_spin_weights(r, nperm, wnum, 1, 0), m));
+    complex_computation BB_BB_new_term_3_r2_b1("BB_BB_new_term_3_r2_b1", {t, x_out, x_in, x2, rp, m, s, r, nperm, wnum}, B2_Bfirst_r2_init(t, x_out, x_in, x2, snk_color_weights(r, nperm, wnum, 0, 0), snk_spin_weights(r, nperm, wnum, 0, 0), snk_color_weights(r, nperm, wnum, 2, 0), snk_spin_weights(r, nperm, wnum, 2, 0), 0, 0, snk_color_weights(r, nperm, wnum, 1, 0), snk_spin_weights(r, nperm, wnum, 1, 0), m));
+    complex_computation BB_BB_new_term_4_r2_b1("BB_BB_new_term_4_r2_b1", {t, x_out, x_in, x2, rp, m, s, r, nperm, wnum}, B1_Bsecond_r2_init(t, x_out, x_in, x2, snk_color_weights(r, nperm, wnum, 0, 0), snk_spin_weights(r, nperm, wnum, 0, 0), snk_color_weights(r, nperm, wnum, 2, 0), snk_spin_weights(r, nperm, wnum, 2, 0), 0, 0, snk_color_weights(r, nperm, wnum, 1, 0), snk_spin_weights(r, nperm, wnum, 1, 0), m));
+    complex_computation BB_BB_new_term_5_r2_b1("BB_BB_new_term_5_r2_b1", {t, x_out, x_in, x2, rp, m, s, r, nperm, wnum}, B2_Bsecond_r2_init(t, x_out, x_in, x2, snk_color_weights(r, nperm, wnum, 0, 0), snk_spin_weights(r, nperm, wnum, 0, 0), snk_color_weights(r, nperm, wnum, 2, 0), snk_spin_weights(r, nperm, wnum, 2, 0), 0, 0, snk_color_weights(r, nperm, wnum, 1, 0), snk_spin_weights(r, nperm, wnum, 1, 0), m));
+    complex_computation BB_BB_new_term_6_r2_b1("BB_BB_new_term_6_r2_b1", {t, x_out, x_in, x2, rp, m, s, r, nperm, wnum}, B1_Bthird_r2_init(t, x_out, x_in, x2, snk_color_weights(r, nperm, wnum, 0, 0), snk_spin_weights(r, nperm, wnum, 0, 0), snk_color_weights(r, nperm, wnum, 2, 0), snk_spin_weights(r, nperm, wnum, 2, 0), 0, 0, snk_color_weights(r, nperm, wnum, 1, 0), snk_spin_weights(r, nperm, wnum, 1, 0), m));
+    complex_computation BB_BB_new_term_7_r2_b1("BB_BB_new_term_7_r2_b1", {t, x_out, x_in, x2, rp, m, s, r, nperm, wnum}, B2_Bthird_r2_init(t, x_out, x_in, x2, snk_color_weights(r, nperm, wnum, 0, 0), snk_spin_weights(r, nperm, wnum, 0, 0), snk_color_weights(r, nperm, wnum, 2, 0), snk_spin_weights(r, nperm, wnum, 2, 0), 0, 0, snk_color_weights(r, nperm, wnum, 1, 0), snk_spin_weights(r, nperm, wnum, 1, 0), m));
+    // BB_BB_new_term_0_r2_b1.add_predicate((src_spins(rp, s, 0) == 2) && (snk_b(nperm, 0, b) == 0 && snk_b(nperm, 1, b) == 0 && snk_b(nperm, 2, b) == 0));
+    // BB_BB_new_term_1_r2_b1.add_predicate((src_spins(rp, s, 0) == 2) && (snk_b(nperm, 0, b) == 1 && snk_b(nperm, 1, b) == 1 && snk_b(nperm, 2, b) == 1));
+    // BB_BB_new_term_2_r2_b1.add_predicate((src_spins(rp, s, 0) == 2) && (snk_b(nperm, 0, b) == 1 && snk_b(nperm, 1, b) == 0 && snk_b(nperm, 2, b) == 0));
+    // BB_BB_new_term_3_r2_b1.add_predicate((src_spins(rp, s, 0) == 2) && (snk_b(nperm, 0, b) == 0 && snk_b(nperm, 1, b) == 1 && snk_b(nperm, 2, b) == 1));
+    // BB_BB_new_term_4_r2_b1.add_predicate((src_spins(rp, s, 0) == 2) && (snk_b(nperm, 0, b) == 0 && snk_b(nperm, 1, b) == 1 && snk_b(nperm, 2, b) == 0));
+    // BB_BB_new_term_5_r2_b1.add_predicate((src_spins(rp, s, 0) == 2) && (snk_b(nperm, 0, b) == 1 && snk_b(nperm, 1, b) == 0 && snk_b(nperm, 2, b) == 1));
+    // BB_BB_new_term_6_r2_b1.add_predicate((src_spins(rp, s, 0) == 2) && (snk_b(nperm, 0, b) == 0 && snk_b(nperm, 1, b) == 0 && snk_b(nperm, 2, b) == 1));
+    // BB_BB_new_term_7_r2_b1.add_predicate((src_spins(rp, s, 0) == 2) && (snk_b(nperm, 0, b) == 1 && snk_b(nperm, 1, b) == 1 && snk_b(nperm, 2, b) == 0));
+    b=1;
+    // r1, b = 1
+    complex_computation BB_BB_new_term_0_r1_b2("BB_BB_new_term_0_r1_b2", {t, x_out, x_in, x2, rp, m, s, r, nperm, wnum}, B1_Blocal_r1_init(t, x_out, x_in, x2, snk_color_weights(r, nperm, wnum, 0, 1), snk_spin_weights(r, nperm, wnum, 0, 1), snk_color_weights(r, nperm, wnum, 2, 1), snk_spin_weights(r, nperm, wnum, 2, 1), 0, 0, snk_color_weights(r, nperm, wnum, 1, 1), snk_spin_weights(r, nperm, wnum, 1, 1), m));
+    complex_computation BB_BB_new_term_1_r1_b2("BB_BB_new_term_1_r1_b2", {t, x_out, x_in, x2, rp, m, s, r, nperm, wnum}, B2_Blocal_r1_init(t, x_out, x_in, x2, snk_color_weights(r, nperm, wnum, 0, 1), snk_spin_weights(r, nperm, wnum, 0, 1), snk_color_weights(r, nperm, wnum, 2, 1), snk_spin_weights(r, nperm, wnum, 2, 1), 0, 0, snk_color_weights(r, nperm, wnum, 1, 1), snk_spin_weights(r, nperm, wnum, 1, 1), m));
+    complex_computation BB_BB_new_term_2_r1_b2("BB_BB_new_term_2_r1_b2", {t, x_out, x_in, x2, rp, m, s, r, nperm, wnum}, B1_Bfirst_r1_init(t, x_out, x_in, x2, snk_color_weights(r, nperm, wnum, 0, 1), snk_spin_weights(r, nperm, wnum, 0, 1), snk_color_weights(r, nperm, wnum, 2, 1), snk_spin_weights(r, nperm, wnum, 2, 1), 0, 0, snk_color_weights(r, nperm, wnum, 1, 1), snk_spin_weights(r, nperm, wnum, 1, 1), m));
+    complex_computation BB_BB_new_term_3_r1_b2("BB_BB_new_term_3_r1_b2", {t, x_out, x_in, x2, rp, m, s, r, nperm, wnum}, B2_Bfirst_r1_init(t, x_out, x_in, x2, snk_color_weights(r, nperm, wnum, 0, 1), snk_spin_weights(r, nperm, wnum, 0, 1), snk_color_weights(r, nperm, wnum, 2, 1), snk_spin_weights(r, nperm, wnum, 2, 1), 0, 0, snk_color_weights(r, nperm, wnum, 1, 1), snk_spin_weights(r, nperm, wnum, 1, 1), m));
+    complex_computation BB_BB_new_term_4_r1_b2("BB_BB_new_term_4_r1_b2", {t, x_out, x_in, x2, rp, m, s, r, nperm, wnum}, B1_Bsecond_r1_init(t, x_out, x_in, x2, snk_color_weights(r, nperm, wnum, 0, 1), snk_spin_weights(r, nperm, wnum, 0, 1), snk_color_weights(r, nperm, wnum, 2, 1), snk_spin_weights(r, nperm, wnum, 2, 1), 0, 0, snk_color_weights(r, nperm, wnum, 1, 1), snk_spin_weights(r, nperm, wnum, 1, 1), m));
+    complex_computation BB_BB_new_term_5_r1_b2("BB_BB_new_term_5_r1_b2", {t, x_out, x_in, x2, rp, m, s, r, nperm, wnum}, B2_Bsecond_r1_init(t, x_out, x_in, x2, snk_color_weights(r, nperm, wnum, 0, 1), snk_spin_weights(r, nperm, wnum, 0, 1), snk_color_weights(r, nperm, wnum, 2, 1), snk_spin_weights(r, nperm, wnum, 2, 1), 0, 0, snk_color_weights(r, nperm, wnum, 1, 1), snk_spin_weights(r, nperm, wnum, 1, 1), m));
+    complex_computation BB_BB_new_term_6_r1_b2("BB_BB_new_term_6_r1_b2", {t, x_out, x_in, x2, rp, m, s, r, nperm, wnum}, B1_Bthird_r1_init(t, x_out, x_in, x2, snk_color_weights(r, nperm, wnum, 0, 1), snk_spin_weights(r, nperm, wnum, 0, 1), snk_color_weights(r, nperm, wnum, 2, 1), snk_spin_weights(r, nperm, wnum, 2, 1), 0, 0, snk_color_weights(r, nperm, wnum, 1, 1), snk_spin_weights(r, nperm, wnum, 1, 1), m));
+    complex_computation BB_BB_new_term_7_r1_b2("BB_BB_new_term_7_r1_b2", {t, x_out, x_in, x2, rp, m, s, r, nperm, wnum}, B2_Bthird_r1_init(t, x_out, x_in, x2, snk_color_weights(r, nperm, wnum, 0, 1), snk_spin_weights(r, nperm, wnum, 0, 1), snk_color_weights(r, nperm, wnum, 2, 1), snk_spin_weights(r, nperm, wnum, 2, 1), 0, 0, snk_color_weights(r, nperm, wnum, 1, 1), snk_spin_weights(r, nperm, wnum, 1, 1), m));
+    // BB_BB_new_term_0_r1_b2.add_predicate((src_spins(rp, s, 1) == 1) && (snk_b(nperm, 0, b) == 0 && snk_b(nperm, 1, b) == 0 && snk_b(nperm, 2, b) == 0));
+    // BB_BB_new_term_1_r1_b2.add_predicate((src_spins(rp, s, 1) == 1) && (snk_b(nperm, 0, b) == 1 && snk_b(nperm, 1, b) == 1 && snk_b(nperm, 2, b) == 1));
+    // BB_BB_new_term_2_r1_b2.add_predicate((src_spins(rp, s, 1) == 1) && (snk_b(nperm, 0, b) == 1 && snk_b(nperm, 1, b) == 0 && snk_b(nperm, 2, b) == 0));
+    // BB_BB_new_term_3_r1_b2.add_predicate((src_spins(rp, s, 1) == 1) && (snk_b(nperm, 0, b) == 0 && snk_b(nperm, 1, b) == 1 && snk_b(nperm, 2, b) == 1));
+    // BB_BB_new_term_4_r1_b2.add_predicate((src_spins(rp, s, 1) == 1) && (snk_b(nperm, 0, b) == 0 && snk_b(nperm, 1, b) == 1 && snk_b(nperm, 2, b) == 0));
+    // BB_BB_new_term_5_r1_b2.add_predicate((src_spins(rp, s, 1) == 1) && (snk_b(nperm, 0, b) == 1 && snk_b(nperm, 1, b) == 0 && snk_b(nperm, 2, b) == 1));
+    // BB_BB_new_term_6_r1_b2.add_predicate((src_spins(rp, s, 1) == 1) && (snk_b(nperm, 0, b) == 0 && snk_b(nperm, 1, b) == 0 && snk_b(nperm, 2, b) == 1));
+    // BB_BB_new_term_7_r1_b2.add_predicate((src_spins(rp, s, 1) == 1) && (snk_b(nperm, 0, b) == 1 && snk_b(nperm, 1, b) == 1 && snk_b(nperm, 2, b) == 0));
+    // r2, b = 1
+    complex_computation BB_BB_new_term_0_r2_b2("BB_BB_new_term_0_r2_b2", {t, x_out, x_in, x2, rp, m, s, r, nperm, wnum}, B1_Blocal_r2_init(t, x_out, x_in, x2, snk_color_weights(r, nperm, wnum, 0, 1), snk_spin_weights(r, nperm, wnum, 0, 1), snk_color_weights(r, nperm, wnum, 2, 1), snk_spin_weights(r, nperm, wnum, 2, 1), 0, 0, snk_color_weights(r, nperm, wnum, 1, 1), snk_spin_weights(r, nperm, wnum, 1, 1), m));
+    complex_computation BB_BB_new_term_1_r2_b2("BB_BB_new_term_1_r2_b2", {t, x_out, x_in, x2, rp, m, s, r, nperm, wnum}, B2_Blocal_r2_init(t, x_out, x_in, x2, snk_color_weights(r, nperm, wnum, 0, 1), snk_spin_weights(r, nperm, wnum, 0, 1), snk_color_weights(r, nperm, wnum, 2, 1), snk_spin_weights(r, nperm, wnum, 2, 1), 0, 0, snk_color_weights(r, nperm, wnum, 1, 1), snk_spin_weights(r, nperm, wnum, 1, 1), m));
+    complex_computation BB_BB_new_term_2_r2_b2("BB_BB_new_term_2_r2_b2", {t, x_out, x_in, x2, rp, m, s, r, nperm, wnum}, B1_Bfirst_r2_init(t, x_out, x_in, x2, snk_color_weights(r, nperm, wnum, 0, 1), snk_spin_weights(r, nperm, wnum, 0, 1), snk_color_weights(r, nperm, wnum, 2, 1), snk_spin_weights(r, nperm, wnum, 2, 1), 0, 0, snk_color_weights(r, nperm, wnum, 1, 1), snk_spin_weights(r, nperm, wnum, 1, 1), m));
+    complex_computation BB_BB_new_term_3_r2_b2("BB_BB_new_term_3_r2_b2", {t, x_out, x_in, x2, rp, m, s, r, nperm, wnum}, B2_Bfirst_r2_init(t, x_out, x_in, x2, snk_color_weights(r, nperm, wnum, 0, 1), snk_spin_weights(r, nperm, wnum, 0, 1), snk_color_weights(r, nperm, wnum, 2, 1), snk_spin_weights(r, nperm, wnum, 2, 1), 0, 0, snk_color_weights(r, nperm, wnum, 1, 1), snk_spin_weights(r, nperm, wnum, 1, 1), m));
+    complex_computation BB_BB_new_term_4_r2_b2("BB_BB_new_term_4_r2_b2", {t, x_out, x_in, x2, rp, m, s, r, nperm, wnum}, B1_Bsecond_r2_init(t, x_out, x_in, x2, snk_color_weights(r, nperm, wnum, 0, 1), snk_spin_weights(r, nperm, wnum, 0, 1), snk_color_weights(r, nperm, wnum, 2, 1), snk_spin_weights(r, nperm, wnum, 2, 1), 0, 0, snk_color_weights(r, nperm, wnum, 1, 1), snk_spin_weights(r, nperm, wnum, 1, 1), m));
+    complex_computation BB_BB_new_term_5_r2_b2("BB_BB_new_term_5_r2_b2", {t, x_out, x_in, x2, rp, m, s, r, nperm, wnum}, B2_Bsecond_r2_init(t, x_out, x_in, x2, snk_color_weights(r, nperm, wnum, 0, 1), snk_spin_weights(r, nperm, wnum, 0, 1), snk_color_weights(r, nperm, wnum, 2, 1), snk_spin_weights(r, nperm, wnum, 2, 1), 0, 0, snk_color_weights(r, nperm, wnum, 1, 1), snk_spin_weights(r, nperm, wnum, 1, 1), m));
+    complex_computation BB_BB_new_term_6_r2_b2("BB_BB_new_term_6_r2_b2", {t, x_out, x_in, x2, rp, m, s, r, nperm, wnum}, B1_Bthird_r2_init(t, x_out, x_in, x2, snk_color_weights(r, nperm, wnum, 0, 1), snk_spin_weights(r, nperm, wnum, 0, 1), snk_color_weights(r, nperm, wnum, 2, 1), snk_spin_weights(r, nperm, wnum, 2, 1), 0, 0, snk_color_weights(r, nperm, wnum, 1, 1), snk_spin_weights(r, nperm, wnum, 1, 1), m));
+    complex_computation BB_BB_new_term_7_r2_b2("BB_BB_new_term_7_r2_b2", {t, x_out, x_in, x2, rp, m, s, r, nperm, wnum}, B2_Bthird_r2_init(t, x_out, x_in, x2, snk_color_weights(r, nperm, wnum, 0, 1), snk_spin_weights(r, nperm, wnum, 0, 1), snk_color_weights(r, nperm, wnum, 2, 1), snk_spin_weights(r, nperm, wnum, 2, 1), 0, 0, snk_color_weights(r, nperm, wnum, 1, 1), snk_spin_weights(r, nperm, wnum, 1, 1), m));
+    // BB_BB_new_term_0_r2_b2.add_predicate((src_spins(rp, s, 1) == 2) && (snk_b(nperm, 0, b) == 0 && snk_b(nperm, 1, b) == 0 && snk_b(nperm, 2, b) == 0));
+    // BB_BB_new_term_1_r2_b2.add_predicate((src_spins(rp, s, 1) == 2) && (snk_b(nperm, 0, b) == 1 && snk_b(nperm, 1, b) == 1 && snk_b(nperm, 2, b) == 1));
+    // BB_BB_new_term_2_r2_b2.add_predicate((src_spins(rp, s, 1) == 2) && (snk_b(nperm, 0, b) == 1 && snk_b(nperm, 1, b) == 0 && snk_b(nperm, 2, b) == 0));
+    // BB_BB_new_term_3_r2_b2.add_predicate((src_spins(rp, s, 1) == 2) && (snk_b(nperm, 0, b) == 0 && snk_b(nperm, 1, b) == 1 && snk_b(nperm, 2, b) == 1));
+    // BB_BB_new_term_4_r2_b2.add_predicate((src_spins(rp, s, 1) == 2) && (snk_b(nperm, 0, b) == 0 && snk_b(nperm, 1, b) == 1 && snk_b(nperm, 2, b) == 0));
+    // BB_BB_new_term_5_r2_b2.add_predicate((src_spins(rp, s, 1) == 2) && (snk_b(nperm, 0, b) == 1 && snk_b(nperm, 1, b) == 0 && snk_b(nperm, 2, b) == 1));
+    // BB_BB_new_term_6_r2_b2.add_predicate((src_spins(rp, s, 1) == 2) && (snk_b(nperm, 0, b) == 0 && snk_b(nperm, 1, b) == 0 && snk_b(nperm, 2, b) == 1));
+    // BB_BB_new_term_7_r2_b2.add_predicate((src_spins(rp, s, 1) == 2) && (snk_b(nperm, 0, b) == 1 && snk_b(nperm, 1, b) == 1 && snk_b(nperm, 2, b) == 0));
+
+    complex_expr prefactor(cast(p_float64, sigs(nperm)) * snk_weights(r, wnum) * src_spin_block_weights(rp, s), 0.0);
+
+    complex_expr BB_BB_term_res_b1 = BB_BB_new_term_0_r1_b1(t, x_out, x_in, x2, rp, m, r, s, nperm, wnum);
+    complex_expr BB_BB_term_res_b2 = BB_BB_new_term_0_r1_b2(t, x_out, x_in, x2, rp, m, r, s, nperm, wnum);
+
+    complex_expr BB_BB_term_res = prefactor * BB_BB_term_res_b1 * BB_BB_term_res_b2;
+
+    b=0;
+    // r1, b = 0 
+    complex_computation flip_BB_BB_new_term_0_r1_b1("flip_BB_BB_new_term_0_r1_b1", {t, x_out, x_in, x2, rp, m, s, r, nperm, wnum}, flip_B1_Blocal_r1_init(t, x_out, x_in, x2, snk_color_weights(r, nperm, wnum, 0, 0), snk_spin_weights(r, nperm, wnum, 0, 0), snk_color_weights(r, nperm, wnum, 2, 0), snk_spin_weights(r, nperm, wnum, 2, 0), 0, 0, snk_color_weights(r, nperm, wnum, 1, 0), snk_spin_weights(r, nperm, wnum, 1, 0), m));
+    complex_computation flip_BB_BB_new_term_1_r1_b1("flip_BB_BB_new_term_1_r1_b1", {t, x_out, x_in, x2, rp, m, s, r, nperm, wnum}, flip_B2_Blocal_r1_init(t, x_out, x_in, x2, snk_color_weights(r, nperm, wnum, 0, 0), snk_spin_weights(r, nperm, wnum, 0, 0), snk_color_weights(r, nperm, wnum, 2, 0), snk_spin_weights(r, nperm, wnum, 2, 0), 0, 0, snk_color_weights(r, nperm, wnum, 1, 0), snk_spin_weights(r, nperm, wnum, 1, 0), m));
+    complex_computation flip_BB_BB_new_term_2_r1_b1("flip_BB_BB_new_term_2_r1_b1", {t, x_out, x_in, x2, rp, m, s, r, nperm, wnum}, flip_B1_Bfirst_r1_init(t, x_out, x_in, x2, snk_color_weights(r, nperm, wnum, 0, 0), snk_spin_weights(r, nperm, wnum, 0, 0), snk_color_weights(r, nperm, wnum, 2, 0), snk_spin_weights(r, nperm, wnum, 2, 0), 0, 0, snk_color_weights(r, nperm, wnum, 1, 0), snk_spin_weights(r, nperm, wnum, 1, 0), m));
+    complex_computation flip_BB_BB_new_term_3_r1_b1("flip_BB_BB_new_term_3_r1_b1", {t, x_out, x_in, x2, rp, m, s, r, nperm, wnum}, flip_B2_Bfirst_r1_init(t, x_out, x_in, x2, snk_color_weights(r, nperm, wnum, 0, 0), snk_spin_weights(r, nperm, wnum, 0, 0), snk_color_weights(r, nperm, wnum, 2, 0), snk_spin_weights(r, nperm, wnum, 2, 0), 0, 0, snk_color_weights(r, nperm, wnum, 1, 0), snk_spin_weights(r, nperm, wnum, 1, 0), m));
+    complex_computation flip_BB_BB_new_term_4_r1_b1("flip_BB_BB_new_term_4_r1_b1", {t, x_out, x_in, x2, rp, m, s, r, nperm, wnum}, flip_B1_Bsecond_r1_init(t, x_out, x_in, x2, snk_color_weights(r, nperm, wnum, 0, 0), snk_spin_weights(r, nperm, wnum, 0, 0), snk_color_weights(r, nperm, wnum, 2, 0), snk_spin_weights(r, nperm, wnum, 2, 0), 0, 0, snk_color_weights(r, nperm, wnum, 1, 0), snk_spin_weights(r, nperm, wnum, 1, 0), m));
+    complex_computation flip_BB_BB_new_term_5_r1_b1("flip_BB_BB_new_term_5_r1_b1", {t, x_out, x_in, x2, rp, m, s, r, nperm, wnum}, flip_B2_Bsecond_r1_init(t, x_out, x_in, x2, snk_color_weights(r, nperm, wnum, 0, 0), snk_spin_weights(r, nperm, wnum, 0, 0), snk_color_weights(r, nperm, wnum, 2, 0), snk_spin_weights(r, nperm, wnum, 2, 0), 0, 0, snk_color_weights(r, nperm, wnum, 1, 0), snk_spin_weights(r, nperm, wnum, 1, 0), m));
+    complex_computation flip_BB_BB_new_term_6_r1_b1("flip_BB_BB_new_term_6_r1_b1", {t, x_out, x_in, x2, rp, m, s, r, nperm, wnum}, flip_B1_Bthird_r1_init(t, x_out, x_in, x2, snk_color_weights(r, nperm, wnum, 0, 0), snk_spin_weights(r, nperm, wnum, 0, 0), snk_color_weights(r, nperm, wnum, 2, 0), snk_spin_weights(r, nperm, wnum, 2, 0), 0, 0, snk_color_weights(r, nperm, wnum, 1, 0), snk_spin_weights(r, nperm, wnum, 1, 0), m));
+    complex_computation flip_BB_BB_new_term_7_r1_b1("flip_BB_BB_new_term_7_r1_b1", {t, x_out, x_in, x2, rp, m, s, r, nperm, wnum}, flip_B2_Bthird_r1_init(t, x_out, x_in, x2, snk_color_weights(r, nperm, wnum, 0, 0), snk_spin_weights(r, nperm, wnum, 0, 0), snk_color_weights(r, nperm, wnum, 2, 0), snk_spin_weights(r, nperm, wnum, 2, 0), 0, 0, snk_color_weights(r, nperm, wnum, 1, 0), snk_spin_weights(r, nperm, wnum, 1, 0), m));
+    // flip_BB_BB_new_term_0_r1_b1.add_predicate((src_spins(rp, s, 0) == 1) && (snk_b(nperm, 0, b) == 0 && snk_b(nperm, 1, b) == 0 && snk_b(nperm, 2, b) == 0));
+    // flip_BB_BB_new_term_1_r1_b1.add_predicate((src_spins(rp, s, 0) == 1) && (snk_b(nperm, 0, b) == 1 && snk_b(nperm, 1, b) == 1 && snk_b(nperm, 2, b) == 1));
+    // flip_BB_BB_new_term_2_r1_b1.add_predicate((src_spins(rp, s, 0) == 1) && (snk_b(nperm, 0, b) == 1 && snk_b(nperm, 1, b) == 0 && snk_b(nperm, 2, b) == 0));
+    // flip_BB_BB_new_term_3_r1_b1.add_predicate((src_spins(rp, s, 0) == 1) && (snk_b(nperm, 0, b) == 0 && snk_b(nperm, 1, b) == 1 && snk_b(nperm, 2, b) == 1));
+    // flip_BB_BB_new_term_4_r1_b1.add_predicate((src_spins(rp, s, 0) == 1) && (snk_b(nperm, 0, b) == 0 && snk_b(nperm, 1, b) == 1 && snk_b(nperm, 2, b) == 0));
+    // flip_BB_BB_new_term_5_r1_b1.add_predicate((src_spins(rp, s, 0) == 1) && (snk_b(nperm, 0, b) == 1 && snk_b(nperm, 1, b) == 0 && snk_b(nperm, 2, b) == 1))
+    // flip_BB_BB_new_term_6_r1_b1.add_predicate((src_spins(rp, s, 0) == 1) && (snk_b(nperm, 0, b) == 0 && snk_b(nperm, 1, b) == 0 && snk_b(nperm, 2, b) == 1));
+    // flip_BB_BB_new_term_7_r1_b1.add_predicate((src_spins(rp, s, 0) == 1) && (snk_b(nperm, 0, b) == 1 && snk_b(nperm, 1, b) == 1 && snk_b(nperm, 2, b) == 0));
+    // r2, b = 0
+    complex_computation flip_BB_BB_new_term_0_r2_b1("flip_BB_BB_new_term_0_r2_b1", {t, x_out, x_in, x2, rp, m, s, r, nperm, wnum}, flip_B1_Blocal_r2_init(t, x_out, x_in, x2, snk_color_weights(r, nperm, wnum, 0, 0), snk_spin_weights(r, nperm, wnum, 0, 0), snk_color_weights(r, nperm, wnum, 2, 0), snk_spin_weights(r, nperm, wnum, 2, 0), 0, 0, snk_color_weights(r, nperm, wnum, 1, 0), snk_spin_weights(r, nperm, wnum, 1, 0), m));
+    complex_computation flip_BB_BB_new_term_1_r2_b1("flip_BB_BB_new_term_1_r2_b1", {t, x_out, x_in, x2, rp, m, s, r, nperm, wnum}, flip_B2_Blocal_r2_init(t, x_out, x_in, x2, snk_color_weights(r, nperm, wnum, 0, 0), snk_spin_weights(r, nperm, wnum, 0, 0), snk_color_weights(r, nperm, wnum, 2, 0), snk_spin_weights(r, nperm, wnum, 2, 0), 0, 0, snk_color_weights(r, nperm, wnum, 1, 0), snk_spin_weights(r, nperm, wnum, 1, 0), m));
+    complex_computation flip_BB_BB_new_term_2_r2_b1("flip_BB_BB_new_term_2_r2_b1", {t, x_out, x_in, x2, rp, m, s, r, nperm, wnum}, flip_B1_Bfirst_r2_init(t, x_out, x_in, x2, snk_color_weights(r, nperm, wnum, 0, 0), snk_spin_weights(r, nperm, wnum, 0, 0), snk_color_weights(r, nperm, wnum, 2, 0), snk_spin_weights(r, nperm, wnum, 2, 0), 0, 0, snk_color_weights(r, nperm, wnum, 1, 0), snk_spin_weights(r, nperm, wnum, 1, 0), m));
+    complex_computation flip_BB_BB_new_term_3_r2_b1("flip_BB_BB_new_term_3_r2_b1", {t, x_out, x_in, x2, rp, m, s, r, nperm, wnum}, flip_B2_Bfirst_r2_init(t, x_out, x_in, x2, snk_color_weights(r, nperm, wnum, 0, 0), snk_spin_weights(r, nperm, wnum, 0, 0), snk_color_weights(r, nperm, wnum, 2, 0), snk_spin_weights(r, nperm, wnum, 2, 0), 0, 0, snk_color_weights(r, nperm, wnum, 1, 0), snk_spin_weights(r, nperm, wnum, 1, 0), m));
+    complex_computation flip_BB_BB_new_term_4_r2_b1("flip_BB_BB_new_term_4_r2_b1", {t, x_out, x_in, x2, rp, m, s, r, nperm, wnum}, flip_B1_Bsecond_r2_init(t, x_out, x_in, x2, snk_color_weights(r, nperm, wnum, 0, 0), snk_spin_weights(r, nperm, wnum, 0, 0), snk_color_weights(r, nperm, wnum, 2, 0), snk_spin_weights(r, nperm, wnum, 2, 0), 0, 0, snk_color_weights(r, nperm, wnum, 1, 0), snk_spin_weights(r, nperm, wnum, 1, 0), m));
+    complex_computation flip_BB_BB_new_term_5_r2_b1("flip_BB_BB_new_term_5_r2_b1", {t, x_out, x_in, x2, rp, m, s, r, nperm, wnum}, flip_B2_Bsecond_r2_init(t, x_out, x_in, x2, snk_color_weights(r, nperm, wnum, 0, 0), snk_spin_weights(r, nperm, wnum, 0, 0), snk_color_weights(r, nperm, wnum, 2, 0), snk_spin_weights(r, nperm, wnum, 2, 0), 0, 0, snk_color_weights(r, nperm, wnum, 1, 0), snk_spin_weights(r, nperm, wnum, 1, 0), m));
+    complex_computation flip_BB_BB_new_term_6_r2_b1("flip_BB_BB_new_term_6_r2_b1", {t, x_out, x_in, x2, rp, m, s, r, nperm, wnum}, flip_B1_Bthird_r2_init(t, x_out, x_in, x2, snk_color_weights(r, nperm, wnum, 0, 0), snk_spin_weights(r, nperm, wnum, 0, 0), snk_color_weights(r, nperm, wnum, 2, 0), snk_spin_weights(r, nperm, wnum, 2, 0), 0, 0, snk_color_weights(r, nperm, wnum, 1, 0), snk_spin_weights(r, nperm, wnum, 1, 0), m));
+    complex_computation flip_BB_BB_new_term_7_r2_b1("flip_BB_BB_new_term_7_r2_b1", {t, x_out, x_in, x2, rp, m, s, r, nperm, wnum}, flip_B2_Bthird_r2_init(t, x_out, x_in, x2, snk_color_weights(r, nperm, wnum, 0, 0), snk_spin_weights(r, nperm, wnum, 0, 0), snk_color_weights(r, nperm, wnum, 2, 0), snk_spin_weights(r, nperm, wnum, 2, 0), 0, 0, snk_color_weights(r, nperm, wnum, 1, 0), snk_spin_weights(r, nperm, wnum, 1, 0), m));
+    // flip_BB_BB_new_term_0_r2_b1.add_predicate((src_spins(rp, s, 0) == 2) && (snk_b(nperm, 0, b) == 0 && snk_b(nperm, 1, b) == 0 && snk_b(nperm, 2, b) == 0));
+    // flip_BB_BB_new_term_1_r2_b1.add_predicate((src_spins(rp, s, 0) == 2) && (snk_b(nperm, 0, b) == 1 && snk_b(nperm, 1, b) == 1 && snk_b(nperm, 2, b) == 1));
+    // flip_BB_BB_new_term_2_r2_b1.add_predicate((src_spins(rp, s, 0) == 2) && (snk_b(nperm, 0, b) == 1 && snk_b(nperm, 1, b) == 0 && snk_b(nperm, 2, b) == 0));
+    // flip_BB_BB_new_term_3_r2_b1.add_predicate((src_spins(rp, s, 0) == 2) && (snk_b(nperm, 0, b) == 0 && snk_b(nperm, 1, b) == 1 && snk_b(nperm, 2, b) == 1));
+    // flip_BB_BB_new_term_4_r2_b1.add_predicate((src_spins(rp, s, 0) == 2) && (snk_b(nperm, 0, b) == 0 && snk_b(nperm, 1, b) == 1 && snk_b(nperm, 2, b) == 0));
+    // flip_BB_BB_new_term_5_r2_b1.add_predicate((src_spins(rp, s, 0) == 2) && (snk_b(nperm, 0, b) == 1 && snk_b(nperm, 1, b) == 0 && snk_b(nperm, 2, b) == 1));
+    // flip_BB_BB_new_term_6_r2_b1.add_predicate((src_spins(rp, s, 0) == 2) && (snk_b(nperm, 0, b) == 0 && snk_b(nperm, 1, b) == 0 && snk_b(nperm, 2, b) == 1));
+    // flip_BB_BB_new_term_7_r2_b1.add_predicate((src_spins(rp, s, 0) == 2) && (snk_b(nperm, 0, b) == 1 && snk_b(nperm, 1, b) == 1 && snk_b(nperm, 2, b) == 0));
+    b=1;
+    // r1, b = 1
+    complex_computation flip_BB_BB_new_term_0_r1_b2("flip_BB_BB_new_term_0_r1_b2", {t, x_out, x_in, x2, rp, m, s, r, nperm, wnum}, flip_B1_Blocal_r1_init(t, x_out, x_in, x2, snk_color_weights(r, nperm, wnum, 0, 1), snk_spin_weights(r, nperm, wnum, 0, 1), snk_color_weights(r, nperm, wnum, 2, 1), snk_spin_weights(r, nperm, wnum, 2, 1), 0, 0, snk_color_weights(r, nperm, wnum, 1, 1), snk_spin_weights(r, nperm, wnum, 1, 1), m));
+    complex_computation flip_BB_BB_new_term_1_r1_b2("flip_BB_BB_new_term_1_r1_b2", {t, x_out, x_in, x2, rp, m, s, r, nperm, wnum}, flip_B2_Blocal_r1_init(t, x_out, x_in, x2, snk_color_weights(r, nperm, wnum, 0, 1), snk_spin_weights(r, nperm, wnum, 0, 1), snk_color_weights(r, nperm, wnum, 2, 1), snk_spin_weights(r, nperm, wnum, 2, 1), 0, 0, snk_color_weights(r, nperm, wnum, 1, 1), snk_spin_weights(r, nperm, wnum, 1, 1), m));
+    complex_computation flip_BB_BB_new_term_2_r1_b2("flip_BB_BB_new_term_2_r1_b2", {t, x_out, x_in, x2, rp, m, s, r, nperm, wnum}, flip_B1_Bfirst_r1_init(t, x_out, x_in, x2, snk_color_weights(r, nperm, wnum, 0, 1), snk_spin_weights(r, nperm, wnum, 0, 1), snk_color_weights(r, nperm, wnum, 2, 1), snk_spin_weights(r, nperm, wnum, 2, 1), 0, 0, snk_color_weights(r, nperm, wnum, 1, 1), snk_spin_weights(r, nperm, wnum, 1, 1), m));
+    complex_computation flip_BB_BB_new_term_3_r1_b2("flip_BB_BB_new_term_3_r1_b2", {t, x_out, x_in, x2, rp, m, s, r, nperm, wnum}, flip_B2_Bfirst_r1_init(t, x_out, x_in, x2, snk_color_weights(r, nperm, wnum, 0, 1), snk_spin_weights(r, nperm, wnum, 0, 1), snk_color_weights(r, nperm, wnum, 2, 1), snk_spin_weights(r, nperm, wnum, 2, 1), 0, 0, snk_color_weights(r, nperm, wnum, 1, 1), snk_spin_weights(r, nperm, wnum, 1, 1), m));
+    complex_computation flip_BB_BB_new_term_4_r1_b2("flip_BB_BB_new_term_4_r1_b2", {t, x_out, x_in, x2, rp, m, s, r, nperm, wnum}, flip_B1_Bsecond_r1_init(t, x_out, x_in, x2, snk_color_weights(r, nperm, wnum, 0, 1), snk_spin_weights(r, nperm, wnum, 0, 1), snk_color_weights(r, nperm, wnum, 2, 1), snk_spin_weights(r, nperm, wnum, 2, 1), 0, 0, snk_color_weights(r, nperm, wnum, 1, 1), snk_spin_weights(r, nperm, wnum, 1, 1), m));
+    complex_computation flip_BB_BB_new_term_5_r1_b2("flip_BB_BB_new_term_5_r1_b2", {t, x_out, x_in, x2, rp, m, s, r, nperm, wnum}, flip_B2_Bsecond_r1_init(t, x_out, x_in, x2, snk_color_weights(r, nperm, wnum, 0, 1), snk_spin_weights(r, nperm, wnum, 0, 1), snk_color_weights(r, nperm, wnum, 2, 1), snk_spin_weights(r, nperm, wnum, 2, 1), 0, 0, snk_color_weights(r, nperm, wnum, 1, 1), snk_spin_weights(r, nperm, wnum, 1, 1), m));
+    complex_computation flip_BB_BB_new_term_6_r1_b2("flip_BB_BB_new_term_6_r1_b2", {t, x_out, x_in, x2, rp, m, s, r, nperm, wnum}, flip_B1_Bthird_r1_init(t, x_out, x_in, x2, snk_color_weights(r, nperm, wnum, 0, 1), snk_spin_weights(r, nperm, wnum, 0, 1), snk_color_weights(r, nperm, wnum, 2, 1), snk_spin_weights(r, nperm, wnum, 2, 1), 0, 0, snk_color_weights(r, nperm, wnum, 1, 1), snk_spin_weights(r, nperm, wnum, 1, 1), m));
+    complex_computation flip_BB_BB_new_term_7_r1_b2("flip_BB_BB_new_term_7_r1_b2", {t, x_out, x_in, x2, rp, m, s, r, nperm, wnum}, flip_B2_Bthird_r1_init(t, x_out, x_in, x2, snk_color_weights(r, nperm, wnum, 0, 1), snk_spin_weights(r, nperm, wnum, 0, 1), snk_color_weights(r, nperm, wnum, 2, 1), snk_spin_weights(r, nperm, wnum, 2, 1), 0, 0, snk_color_weights(r, nperm, wnum, 1, 1), snk_spin_weights(r, nperm, wnum, 1, 1), m));
+    // flip_BB_BB_new_term_0_r1_b2.add_predicate((src_spins(rp, s, 1) == 1) && (snk_b(nperm, 0, b) == 0 && snk_b(nperm, 1, b) == 0 && snk_b(nperm, 2, b) == 0));
+    // flip_BB_BB_new_term_1_r1_b2.add_predicate((src_spins(rp, s, 1) == 1) && (snk_b(nperm, 0, b) == 1 && snk_b(nperm, 1, b) == 1 && snk_b(nperm, 2, b) == 1));
+    // flip_BB_BB_new_term_2_r1_b2.add_predicate((src_spins(rp, s, 1) == 1) && (snk_b(nperm, 0, b) == 1 && snk_b(nperm, 1, b) == 0 && snk_b(nperm, 2, b) == 0));
+    // flip_BB_BB_new_term_3_r1_b2.add_predicate((src_spins(rp, s, 1) == 1) && (snk_b(nperm, 0, b) == 0 && snk_b(nperm, 1, b) == 1 && snk_b(nperm, 2, b) == 1));
+    // flip_BB_BB_new_term_4_r1_b2.add_predicate((src_spins(rp, s, 1) == 1) && (snk_b(nperm, 0, b) == 0 && snk_b(nperm, 1, b) == 1 && snk_b(nperm, 2, b) == 0));
+    // flip_BB_BB_new_term_5_r1_b2.add_predicate((src_spins(rp, s, 1) == 1) && (snk_b(nperm, 0, b) == 1 && snk_b(nperm, 1, b) == 0 && snk_b(nperm, 2, b) == 1));
+    // flip_BB_BB_new_term_6_r1_b2.add_predicate((src_spins(rp, s, 1) == 1) && (snk_b(nperm, 0, b) == 0 && snk_b(nperm, 1, b) == 0 && snk_b(nperm, 2, b) == 1));
+    // flip_BB_BB_new_term_7_r1_b2.add_predicate((src_spins(rp, s, 1) == 1) && (snk_b(nperm, 0, b) == 1 && snk_b(nperm, 1, b) == 1 && snk_b(nperm, 2, b) == 0));
+    // r2, b = 1
+    complex_computation flip_BB_BB_new_term_0_r2_b2("flip_BB_BB_new_term_0_r2_b2", {t, x_out, x_in, x2, rp, m, s, r, nperm, wnum}, flip_B1_Blocal_r2_init(t, x_out, x_in, x2, snk_color_weights(r, nperm, wnum, 0, 1), snk_spin_weights(r, nperm, wnum, 0, 1), snk_color_weights(r, nperm, wnum, 2, 1), snk_spin_weights(r, nperm, wnum, 2, 1), 0, 0, snk_color_weights(r, nperm, wnum, 1, 1), snk_spin_weights(r, nperm, wnum, 1, 1), m));
+    complex_computation flip_BB_BB_new_term_1_r2_b2("flip_BB_BB_new_term_1_r2_b2", {t, x_out, x_in, x2, rp, m, s, r, nperm, wnum}, flip_B2_Blocal_r2_init(t, x_out, x_in, x2, snk_color_weights(r, nperm, wnum, 0, 1), snk_spin_weights(r, nperm, wnum, 0, 1), snk_color_weights(r, nperm, wnum, 2, 1), snk_spin_weights(r, nperm, wnum, 2, 1), 0, 0, snk_color_weights(r, nperm, wnum, 1, 1), snk_spin_weights(r, nperm, wnum, 1, 1), m));
+    complex_computation flip_BB_BB_new_term_2_r2_b2("flip_BB_BB_new_term_2_r2_b2", {t, x_out, x_in, x2, rp, m, s, r, nperm, wnum}, flip_B1_Bfirst_r2_init(t, x_out, x_in, x2, snk_color_weights(r, nperm, wnum, 0, 1), snk_spin_weights(r, nperm, wnum, 0, 1), snk_color_weights(r, nperm, wnum, 2, 1), snk_spin_weights(r, nperm, wnum, 2, 1), 0, 0, snk_color_weights(r, nperm, wnum, 1, 1), snk_spin_weights(r, nperm, wnum, 1, 1), m));
+    complex_computation flip_BB_BB_new_term_3_r2_b2("flip_BB_BB_new_term_3_r2_b2", {t, x_out, x_in, x2, rp, m, s, r, nperm, wnum}, flip_B2_Bfirst_r2_init(t, x_out, x_in, x2, snk_color_weights(r, nperm, wnum, 0, 1), snk_spin_weights(r, nperm, wnum, 0, 1), snk_color_weights(r, nperm, wnum, 2, 1), snk_spin_weights(r, nperm, wnum, 2, 1), 0, 0, snk_color_weights(r, nperm, wnum, 1, 1), snk_spin_weights(r, nperm, wnum, 1, 1), m));
+    complex_computation flip_BB_BB_new_term_4_r2_b2("flip_BB_BB_new_term_4_r2_b2", {t, x_out, x_in, x2, rp, m, s, r, nperm, wnum}, flip_B1_Bsecond_r2_init(t, x_out, x_in, x2, snk_color_weights(r, nperm, wnum, 0, 1), snk_spin_weights(r, nperm, wnum, 0, 1), snk_color_weights(r, nperm, wnum, 2, 1), snk_spin_weights(r, nperm, wnum, 2, 1), 0, 0, snk_color_weights(r, nperm, wnum, 1, 1), snk_spin_weights(r, nperm, wnum, 1, 1), m));
+    complex_computation flip_BB_BB_new_term_5_r2_b2("flip_BB_BB_new_term_5_r2_b2", {t, x_out, x_in, x2, rp, m, s, r, nperm, wnum}, flip_B2_Bsecond_r2_init(t, x_out, x_in, x2, snk_color_weights(r, nperm, wnum, 0, 1), snk_spin_weights(r, nperm, wnum, 0, 1), snk_color_weights(r, nperm, wnum, 2, 1), snk_spin_weights(r, nperm, wnum, 2, 1), 0, 0, snk_color_weights(r, nperm, wnum, 1, 1), snk_spin_weights(r, nperm, wnum, 1, 1), m));
+    complex_computation flip_BB_BB_new_term_6_r2_b2("flip_BB_BB_new_term_6_r2_b2", {t, x_out, x_in, x2, rp, m, s, r, nperm, wnum}, flip_B1_Bthird_r2_init(t, x_out, x_in, x2, snk_color_weights(r, nperm, wnum, 0, 1), snk_spin_weights(r, nperm, wnum, 0, 1), snk_color_weights(r, nperm, wnum, 2, 1), snk_spin_weights(r, nperm, wnum, 2, 1), 0, 0, snk_color_weights(r, nperm, wnum, 1, 1), snk_spin_weights(r, nperm, wnum, 1, 1), m));
+    complex_computation flip_BB_BB_new_term_7_r2_b2("flip_BB_BB_new_term_7_r2_b2", {t, x_out, x_in, x2, rp, m, s, r, nperm, wnum}, flip_B2_Bthird_r2_init(t, x_out, x_in, x2, snk_color_weights(r, nperm, wnum, 0, 1), snk_spin_weights(r, nperm, wnum, 0, 1), snk_color_weights(r, nperm, wnum, 2, 1), snk_spin_weights(r, nperm, wnum, 2, 1), 0, 0, snk_color_weights(r, nperm, wnum, 1, 1), snk_spin_weights(r, nperm, wnum, 1, 1), m));
+    // flip_BB_BB_new_term_0_r2_b2.add_predicate((src_spins(rp, s, 1) == 2) && (snk_b(nperm, 0, b) == 0 && snk_b(nperm, 1, b) == 0 && snk_b(nperm, 2, b) == 0));
+    // flip_BB_BB_new_term_1_r2_b2.add_predicate((src_spins(rp, s, 1) == 2) && (snk_b(nperm, 0, b) == 1 && snk_b(nperm, 1, b) == 1 && snk_b(nperm, 2, b) == 1));
+    // flip_BB_BB_new_term_2_r2_b2.add_predicate((src_spins(rp, s, 1) == 2) && (snk_b(nperm, 0, b) == 1 && snk_b(nperm, 1, b) == 0 && snk_b(nperm, 2, b) == 0));
+    // flip_BB_BB_new_term_3_r2_b2.add_predicate((src_spins(rp, s, 1) == 2) && (snk_b(nperm, 0, b) == 0 && snk_b(nperm, 1, b) == 1 && snk_b(nperm, 2, b) == 1));
+    // flip_BB_BB_new_term_4_r2_b2.add_predicate((src_spins(rp, s, 1) == 2) && (snk_b(nperm, 0, b) == 0 && snk_b(nperm, 1, b) == 1 && snk_b(nperm, 2, b) == 0));
+    // flip_BB_BB_new_term_5_r2_b2.add_predicate((src_spins(rp, s, 1) == 2) && (snk_b(nperm, 0, b) == 1 && snk_b(nperm, 1, b) == 0 && snk_b(nperm, 2, b) == 1));
+    // flip_BB_BB_new_term_6_r2_b2.add_predicate((src_spins(rp, s, 1) == 2) && (snk_b(nperm, 0, b) == 0 && snk_b(nperm, 1, b) == 0 && snk_b(nperm, 2, b) == 1));
+    // flip_BB_BB_new_term_7_r2_b2.add_predicate((src_spins(rp, s, 1) == 2) && (snk_b(nperm, 0, b) == 1 && snk_b(nperm, 1, b) == 1 && snk_b(nperm, 2, b) == 0));
+
+    complex_expr flip_BB_BB_term_res_b1 = flip_BB_BB_new_term_0_r1_b1(t, x_out, x_in, x2, rp, m, s, r, nperm, wnum);
+    complex_expr flip_BB_BB_term_res_b2 = flip_BB_BB_new_term_0_r1_b2(t, x_out, x_in, x2, rp, m, s, r, nperm, wnum);
+
+    complex_expr flip_BB_BB_term_res = prefactor * flip_BB_BB_term_res_b1 * flip_BB_BB_term_res_b2;
+
+    computation C_BB_BB_prop_update_r("C_BB_BB_prop_update_r", {t, x_out, x_in, x2, rp, m, s, r, nperm, wnum}, C_BB_BB_prop_init_r(t, x_out, x_in, x2, rp, m, s, r, nperm, wnum) + (BB_BB_term_res.get_real() + flip_BB_BB_term_res.get_real())/2.0 );
+    computation C_BB_BB_prop_update_i("C_BB_BB_prop_update_i", {t, x_out, x_in, x2, rp, m, s, r, nperm, wnum}, C_BB_BB_prop_init_i(t, x_out, x_in, x2, rp, m, s, r, nperm, wnum) + (BB_BB_term_res.get_imag() + flip_BB_BB_term_res.get_imag())/2.0 );
+
+    complex_computation C_BB_BB_prop_update(&C_BB_BB_prop_update_r, &C_BB_BB_prop_update_i);
+
+    complex_expr BB_BB_term_s = (snk_psi_B1_ue * snk_psi_B2_x2_ue + snk_psi_B1_x2_ue * snk_psi_B2_ue) * C_BB_BB_prop_update(t, x_out, x_in, x2, rp, m, 1, r, Nperms-1, Nw2-1);
+    complex_expr BB_BB_term_b = snk_psi * C_BB_BB_prop_update(t, x_out, x_in, x2, rp, m, 1, r, Nperms-1, Nw2-1);
+
+    computation C_BB_BB_update_s_r("C_BB_BB_update_s_r", {t, x_out, x_in, x2, rp, m, r, nue}, C_init_r(t, x_out, x_in, rp, m, r, NEntangled+nue) + BB_BB_term_s.get_real());
+    computation C_BB_BB_update_s_i("C_BB_BB_update_s_i", {t, x_out, x_in, x2, rp, m, r, nue}, C_init_i(t, x_out, x_in, rp, m, r, NEntangled+nue) + BB_BB_term_s.get_imag());
+
+    computation C_BB_BB_update_b_r("C_BB_BB_update_b_r", {t, x_out, x_in, x2, rp, m, r, ne}, C_init_r(t, x_out, x_in, rp, m, r, ne) + BB_BB_term_b.get_real());
+    computation C_BB_BB_update_b_i("C_BB_BB_update_b_i", {t, x_out, x_in, x2, rp, m, r, ne}, C_init_i(t, x_out, x_in, rp, m, r, ne) + BB_BB_term_b.get_imag());
+
+    // BB_H
+    computation C_BB_H_prop_init_r("C_BB_H_prop_init_r", {t, x_out, x_in, rp, m, s, r, nperm, wnumHex}, expr((double) 0));
+    computation C_BB_H_prop_init_i("C_BB_H_prop_init_i", {t, x_out, x_in, rp, m, s, r, nperm, wnumHex}, expr((double) 0));
+
+    complex_computation BB_H_new_term_0_r1_b1("BB_H_new_term_0_r1_b1", {t, x_out, x_in, rp, m, s, r, nperm, wnumHex}, src_B1_Blocal_r1_init(t, x_out, x_in, hex_snk_color_weights(r, nperm, wnumHex, 0, 0), hex_snk_spin_weights(r, nperm, wnumHex, 0, 0), hex_snk_color_weights(r, nperm, wnumHex, 2, 0), hex_snk_spin_weights(r, nperm, wnumHex, 2, 0), hex_snk_color_weights(r, nperm, wnumHex, 1, 0), hex_snk_spin_weights(r, nperm, wnumHex, 1, 0), m));
+    // BB_H_new_term_0_r1_b1.add_predicate((src_spins(rp, s, 0) == 1));
+    complex_computation BB_H_new_term_0_r2_b1("BB_H_new_term_0_r2_b1", {t, x_out, x_in, rp, m, s, r, nperm, wnumHex}, src_B1_Blocal_r2_init(t, x_out, x_in, hex_snk_color_weights(r, nperm, wnumHex, 0, 0), hex_snk_spin_weights(r, nperm, wnumHex, 0, 0), hex_snk_color_weights(r, nperm, wnumHex, 2, 0), hex_snk_spin_weights(r, nperm, wnumHex, 2, 0), hex_snk_color_weights(r, nperm, wnumHex, 1, 0), hex_snk_spin_weights(r, nperm, wnumHex, 1, 0), m));
+    // BB_H_new_term_0_r2_b1.add_predicate((src_spins(rp, s, 0) == 2));
+
+    complex_computation BB_H_new_term_0_r1_b2("BB_H_new_term_0_r1_b2", {t, x_out, x_in, rp, m, s, r, nperm, wnumHex}, src_B2_Blocal_r1_init(t, x_out, x_in, hex_snk_color_weights(r, nperm, wnumHex, 0, 1), hex_snk_spin_weights(r, nperm, wnumHex, 0, 1), hex_snk_color_weights(r, nperm, wnumHex, 2, 1), hex_snk_spin_weights(r, nperm, wnumHex, 2, 1), hex_snk_color_weights(r, nperm, wnumHex, 1, 1), hex_snk_spin_weights(r, nperm, wnumHex, 1, 1), m));
+    // BB_H_new_term_0_r1_b2.add_predicate((src_spins(rp, s, 1) == 1));
+    complex_computation BB_H_new_term_0_r2_b2("BB_H_new_term_0_r2_b2", {t, x_out, x_in, rp, m, s, r, nperm, wnumHex}, src_B2_Blocal_r2_init(t, x_out, x_in, hex_snk_color_weights(r, nperm, wnumHex, 0, 1), hex_snk_spin_weights(r, nperm, wnumHex, 0, 1), hex_snk_color_weights(r, nperm, wnumHex, 2, 1), hex_snk_spin_weights(r, nperm, wnumHex, 2, 1), hex_snk_color_weights(r, nperm, wnumHex, 1, 1), hex_snk_spin_weights(r, nperm, wnumHex, 1, 1), m));
+    // BB_H_new_term_0_r2_b2.add_predicate((src_spins(rp, s, 1) == 2));
+
+    complex_expr BB_H_term_res_b1 = BB_H_new_term_0_r1_b1(t, x_out, x_in, rp, m, s, r, nperm, wnumHex);
+    complex_expr BB_H_term_res_b2 = BB_H_new_term_0_r1_b2(t, x_out, x_in, rp, m, s, r, nperm, wnumHex);
+
+    complex_expr src_hex_prefactor(cast(p_float64, sigs(nperm)) * hex_snk_weights(r, wnumHex) * src_spin_block_weights(rp, s), 0.0);
+
+    complex_expr BB_H_term_res = src_hex_prefactor * BB_H_term_res_b1 * BB_H_term_res_b2;
+
+    complex_computation flip_BB_H_new_term_0_r1_b1("flip_BB_H_new_term_0_r1_b1", {t, x_out, x_in, rp, m, s, r, nperm, wnumHex}, flip_src_B1_Blocal_r1_init(t, x_out, x_in, hex_snk_color_weights(r, nperm, wnumHex, 0, 0), hex_snk_spin_weights(r, nperm, wnumHex, 0, 0), hex_snk_color_weights(r, nperm, wnumHex, 2, 0), hex_snk_spin_weights(r, nperm, wnumHex, 2, 0), 0, hex_snk_color_weights(r, nperm, wnumHex, 1, 0), hex_snk_spin_weights(r, nperm, wnumHex, 1, 0), m));
+    // flip_BB_H_new_term_0_r1_b1.add_predicate((src_spins(rp, s, 0) == 1));
+    complex_computation flip_BB_H_new_term_0_r2_b1("flip_BB_H_new_term_0_r2_b1", {t, x_out, x_in, rp, m, s, r, nperm, wnumHex}, flip_src_B1_Blocal_r2_init(t, x_out, x_in, hex_snk_color_weights(r, nperm, wnumHex, 0, 0), hex_snk_spin_weights(r, nperm, wnumHex, 0, 0), hex_snk_color_weights(r, nperm, wnumHex, 2, 0), hex_snk_spin_weights(r, nperm, wnumHex, 2, 0), 0, hex_snk_color_weights(r, nperm, wnumHex, 1, 0), hex_snk_spin_weights(r, nperm, wnumHex, 1, 0), m));
+    // flip_BB_H_new_term_0_r2_b1.add_predicate((src_spins(rp, s, 0) == 2));
+
+    complex_computation flip_BB_H_new_term_0_r1_b2("flip_BB_H_new_term_0_r1_b2", {t, x_out, x_in, rp, m, s, r, nperm, wnumHex}, flip_src_B2_Blocal_r1_init(t, x_out, x_in, hex_snk_color_weights(r, nperm, wnumHex, 0, 1), hex_snk_spin_weights(r, nperm, wnumHex, 0, 1), hex_snk_color_weights(r, nperm, wnumHex, 2, 1), hex_snk_spin_weights(r, nperm, wnumHex, 2, 1), 0, hex_snk_color_weights(r, nperm, wnumHex, 1, 1), hex_snk_spin_weights(r, nperm, wnumHex, 1, 1), m));
+    // flip_BB_H_new_term_0_r1_b2.add_predicate((src_spins(rp, s, 1) == 1));
+    complex_computation flip_BB_H_new_term_0_r2_b2("flip_BB_H_new_term_0_r2_b2", {t, x_out, x_in, rp, m, s, r, nperm, wnumHex}, flip_src_B2_Blocal_r2_init(t, x_out, x_in, hex_snk_color_weights(r, nperm, wnumHex, 0, 1), hex_snk_spin_weights(r, nperm, wnumHex, 0, 1), hex_snk_color_weights(r, nperm, wnumHex, 2, 1), hex_snk_spin_weights(r, nperm, wnumHex, 2, 1), 0, hex_snk_color_weights(r, nperm, wnumHex, 1, 1), hex_snk_spin_weights(r, nperm, wnumHex, 1, 1), m));
+    // flip_BB_H_new_term_0_r2_b2.add_predicate((src_spins(rp, s, 1) == 2));
+
+    complex_expr flip_BB_H_term_res_b1 = flip_BB_H_new_term_0_r1_b1(t, x_out, x_in, rp, m, s, r, nperm, wnumHex);
+    complex_expr flip_BB_H_term_res_b2 = flip_BB_H_new_term_0_r1_b2(t, x_out, x_in, rp, m, s, r, nperm, wnumHex);
+
+    complex_expr flip_BB_H_term_res = src_hex_prefactor * flip_BB_H_term_res_b1 * flip_BB_H_term_res_b2;
+
+    computation C_BB_H_prop_update_r("C_BB_H_prop_update_r", {t, x_out, x_in, rp, m, s, r, nperm, wnumHex}, C_BB_H_prop_init_r(t, x_out, x_in, rp, m, s, r, nperm, wnumHex) + (BB_H_term_res.get_real() + flip_BB_H_term_res.get_real())/2.0 );
+    computation C_BB_H_prop_update_i("C_BB_H_prop_update_i", {t, x_out, x_in, rp, m, s, r, nperm, wnumHex}, C_BB_H_prop_init_i(t, x_out, x_in, rp, m, s, r, nperm, wnumHex) + (BB_H_term_res.get_imag() + flip_BB_H_term_res.get_imag())/2.0 );
+
+    complex_computation C_BB_H_prop_update(&C_BB_H_prop_update_r, &C_BB_H_prop_update_i);
+
+    complex_expr BB_H_term = hex_snk_psi * C_BB_H_prop_update(t, x_out, x_in, rp, m, 1, r, Nperms-1, Nw2Hex-1);
+
+    computation C_BB_H_update_r("C_BB_H_update_r", {t, x_out, x_in, rp, m, r, nH}, C_init_r(t, x_out, x_in, rp, m, r, Nsnk+nH) + BB_H_term.get_real());
+    computation C_BB_H_update_i("C_BB_H_update_i", {t, x_out, x_in, rp, m, r, nH}, C_init_i(t, x_out, x_in, rp, m, r, Nsnk+nH) + BB_H_term.get_imag());
+
+    // H_BB
+    computation C_H_BB_prop_init_r("C_H_BB_prop_init_r", {t, y_out, y_in, rp, n, s, r, nperm, wnumHex}, expr((double) 0));
+    computation C_H_BB_prop_init_i("C_H_BB_prop_init_i", {t, y_out, y_in, rp, n, s, r, nperm, wnumHex}, expr((double) 0));
+
+    complex_computation H_BB_new_term_0_r1_b1("H_BB_new_term_0_r1_b1", {t, y_out, y_in, rp, n, s, r, nperm, wnumHex}, snk_B1_Blocal_r1_init(t, y_out, y_in, hex_snk_color_weights(r, nperm, wnumHex, 0, 0), hex_snk_spin_weights(r, nperm, wnumHex, 0, 0), hex_snk_color_weights(r, nperm, wnumHex, 2, 0), hex_snk_spin_weights(r, nperm, wnumHex, 2, 0), 0, hex_snk_color_weights(r, nperm, wnumHex, 1, 0), hex_snk_spin_weights(r, nperm, wnumHex, 1, 0), n));
+    // H_BB_new_term_0_r1_b1.add_predicate((src_spins(rp, s, 0) == 1));
+    complex_computation H_BB_new_term_0_r2_b1("H_BB_new_term_0_r2_b1", {t, y_out, y_in, rp, n, s, r, nperm, wnumHex}, snk_B1_Blocal_r2_init(t, y_out, y_in, hex_snk_color_weights(r, nperm, wnumHex, 0, 0), hex_snk_spin_weights(r, nperm, wnumHex, 0, 0), hex_snk_color_weights(r, nperm, wnumHex, 2, 0), hex_snk_spin_weights(r, nperm, wnumHex, 2, 0), 0, hex_snk_color_weights(r, nperm, wnumHex, 1, 0), hex_snk_spin_weights(r, nperm, wnumHex, 1, 0), n));
+    // H_BB_new_term_0_r2_b1.add_predicate((src_spins(rp, s, 0) == 2));
+
+    complex_computation H_BB_new_term_0_r1_b2("H_BB_new_term_0_r1_b2", {t, y_out, y_in, rp, n, s, r, nperm, wnumHex}, snk_B2_Blocal_r1_init(t, y_out, y_in, hex_snk_color_weights(r, nperm, wnumHex, 0, 1), hex_snk_spin_weights(r, nperm, wnumHex, 0, 1), hex_snk_color_weights(r, nperm, wnumHex, 2, 1), hex_snk_spin_weights(r, nperm, wnumHex, 2, 1), 0, hex_snk_color_weights(r, nperm, wnumHex, 1, 1), hex_snk_spin_weights(r, nperm, wnumHex, 1, 1), n));
+    // H_BB_new_term_0_r1_b2.add_predicate((src_spins(rp, s, 1) == 1));
+    complex_computation H_BB_new_term_0_r2_b2("H_BB_new_term_0_r2_b2", {t, y_out, y_in, rp, n, s, r, nperm, wnumHex}, snk_B2_Blocal_r2_init(t, y_out, y_in, hex_snk_color_weights(r, nperm, wnumHex, 0, 1), hex_snk_spin_weights(r, nperm, wnumHex, 0, 1), hex_snk_color_weights(r, nperm, wnumHex, 2, 1), hex_snk_spin_weights(r, nperm, wnumHex, 2, 1), 0, hex_snk_color_weights(r, nperm, wnumHex, 1, 1), hex_snk_spin_weights(r, nperm, wnumHex, 1, 1), n));
+    // H_BB_new_term_0_r2_b2.add_predicate((src_spins(rp, s, 1) == 2));
+
+    complex_expr H_BB_term_res_b1 = H_BB_new_term_0_r1_b1(t, y_out, y_in, rp, n, s, r, nperm, wnumHex);
+    complex_expr H_BB_term_res_b2 = H_BB_new_term_0_r1_b2(t, y_out, y_in, rp, n, s, r, nperm, wnumHex);
+
+    complex_expr snk_hex_prefactor(cast(p_float64, sigs(nperm)) * hex_snk_weights(r, wnumHex) * src_spin_block_weights(rp, s), 0.0);
+
+    complex_expr H_BB_term_res = snk_hex_prefactor * H_BB_term_res_b1 * H_BB_term_res_b2;
+
+    complex_computation flip_H_BB_new_term_0_r1_b1("flip_H_BB_new_term_0_r1_b1", {t, y_out, y_in, rp, n, s, r, nperm, wnumHex}, flip_snk_B1_Blocal_r1_init(t, y_out, y_in, hex_snk_color_weights(r, nperm, wnumHex, 0, 0), hex_snk_spin_weights(r, nperm, wnumHex, 0, 0), hex_snk_color_weights(r, nperm, wnumHex, 2, 0), hex_snk_spin_weights(r, nperm, wnumHex, 2, 0), 0, hex_snk_color_weights(r, nperm, wnumHex, 1, 0), 0, hex_snk_spin_weights(r, nperm, wnumHex, 1, 0), n));
+    complex_computation flip_H_BB_new_term_0_r2_b1("flip_H_BB_new_term_0_r2_b1", {t, y_out, y_in, rp, n, s, r, nperm, wnumHex}, flip_snk_B1_Blocal_r2_init(t, y_out, y_in, hex_snk_color_weights(r, nperm, wnumHex, 0, 0), hex_snk_spin_weights(r, nperm, wnumHex, 0, 0), hex_snk_color_weights(r, nperm, wnumHex, 2, 0), hex_snk_spin_weights(r, nperm, wnumHex, 2, 0), 0, hex_snk_color_weights(r, nperm, wnumHex, 1, 0), 0, hex_snk_spin_weights(r, nperm, wnumHex, 1, 0), n));
+    // flip_H_BB_new_term_0_r1_b1.add_predicate((src_spins(rp, s, 0) == 1));
+    // flip_H_BB_new_term_0_r2_b1.add_predicate((src_spins(rp, s, 0) == 2));
+
+    complex_computation flip_H_BB_new_term_0_r1_b2("flip_H_BB_new_term_0_r1_b2", {t, y_out, y_in, rp, n, s, r, nperm, wnumHex}, flip_snk_B2_Blocal_r1_init(t, y_out, y_in, hex_snk_color_weights(r, nperm, wnumHex, 0, 1), hex_snk_spin_weights(r, nperm, wnumHex, 0, 1), hex_snk_color_weights(r, nperm, wnumHex, 2, 1), hex_snk_spin_weights(r, nperm, wnumHex, 2, 1), 0, hex_snk_color_weights(r, nperm, wnumHex, 1, 1), hex_snk_spin_weights(r, nperm, wnumHex, 1, 1), n));
+    complex_computation flip_H_BB_new_term_0_r2_b2("flip_H_BB_new_term_0_r2_b2", {t, y_out, y_in, rp, n, s, r, nperm, wnumHex}, flip_snk_B2_Blocal_r2_init(t, y_out, y_in, hex_snk_color_weights(r, nperm, wnumHex, 0, 1), hex_snk_spin_weights(r, nperm, wnumHex, 0, 1), hex_snk_color_weights(r, nperm, wnumHex, 2, 1), hex_snk_spin_weights(r, nperm, wnumHex, 2, 1), 0, hex_snk_color_weights(r, nperm, wnumHex, 1, 1), hex_snk_spin_weights(r, nperm, wnumHex, 1, 1), n));
+    // flip_H_BB_new_term_0_r1_b2.add_predicate((src_spins(rp, s, 1) == 1));
+    // flip_H_BB_new_term_0_r2_b2.add_predicate((src_spins(rp, s, 1) == 2));
+
+    complex_expr flip_H_BB_term_res_b1 = flip_H_BB_new_term_0_r1_b1(t, y_out, y_in, rp, n, s, r, nperm, wnumHex);
+    complex_expr flip_H_BB_term_res_b2 = flip_H_BB_new_term_0_r1_b2(t, y_out, y_in, rp, n, s, r, nperm, wnumHex);
+
+    complex_expr flip_H_BB_term_res = snk_hex_prefactor * flip_H_BB_term_res_b1 * flip_H_BB_term_res_b2;
+
+    computation C_H_BB_prop_update_r("C_H_BB_prop_update_r", {t, y_out, y_in, rp, n, s, r, nperm, wnumHex}, C_H_BB_prop_init_r(t, y_out, y_in, rp, n, s, r, nperm, wnumHex) + (H_BB_term_res.get_real() + flip_H_BB_term_res.get_real())/2.0 );
+    computation C_H_BB_prop_update_i("C_H_BB_prop_update_i", {t, y_out, y_in, rp, n, s, r, nperm, wnumHex}, C_H_BB_prop_init_i(t, y_out, y_in, rp, n, s, r, nperm, wnumHex) + (H_BB_term_res.get_imag() + flip_H_BB_term_res.get_imag())/2.0 );
+
+    complex_computation C_H_BB_prop_update(&C_H_BB_prop_update_r, &C_H_BB_prop_update_i);
+
+    complex_expr H_BB_term = hex_src_psi * C_H_BB_prop_update(t, y_out, y_in, rp, n, r, 1, Nperms-1, Nw2Hex-1);
+
+    computation C_H_BB_update_r("C_H_BB_update_r", {t, y_out, y_in, rp, n, r, mH}, C_init_r(t, y_out, y_in, r, Nsrc+mH, rp, n) + H_BB_term.get_real());
+    computation C_H_BB_update_i("C_H_BB_update_i", {t, y_out, y_in, rp, n, r, mH}, C_init_i(t, y_out, y_in, r, Nsrc+mH, rp, n) + H_BB_term.get_imag());
+
+
+    // H_H
+    computation C_H_H_prop_init_r("C_H_H_prop_init_r", {t, x_out, x_in, rp, r, y, nperm, wnumHex, wnumHexHex}, expr((double) 0));
+    computation C_H_H_prop_init_i("C_H_H_prop_init_i", {t, x_out, x_in, rp, r, y, nperm, wnumHex, wnumHexHex}, expr((double) 0));
 
     complex_expr H_H_B1_prop_0 =  B1_prop(0, t, hex_snk_color_weights(r,nperm,wnumHex,0,0), hex_snk_spin_weights(r,nperm,wnumHex,0,0), hex_snk_color_weights(rp,0,wnumHexHex,0,0), hex_snk_spin_weights(rp,0,wnumHexHex,0,0), x_out*sites_per_rank+x_in, y);
     complex_expr H_H_B1_prop_2 =  B1_prop(2, t, hex_snk_color_weights(r,nperm,wnumHex,2,0), hex_snk_spin_weights(r,nperm,wnumHex,2,0), hex_snk_color_weights(rp,0,wnumHexHex,2,0), hex_snk_spin_weights(rp,0,wnumHexHex,2,0), x_out*sites_per_rank+x_in, y);
@@ -253,10 +1312,6 @@ void generate_function(std::string name)
     complex_expr H_H_B2_prop_1 = B2_prop(1, t, hex_snk_color_weights(r,nperm,wnumHex,1,1), hex_snk_spin_weights(r,nperm,wnumHex,1,1), hex_snk_color_weights(rp,0,wnumHexHex,1,1), hex_snk_spin_weights(rp,0,wnumHexHex,1,1), x_out*sites_per_rank+x_in, y);
     complex_expr B2_H = H_H_B2_prop_0 * H_H_B2_prop_2 * H_H_B2_prop_1;
 
-
-    computation C_H_H_prop_init_r("C_H_H_prop_init_r", {t, x_out, x_in, rp, r, y, nperm, wnumHex, wnumHexHex}, expr((double) 0));
-    computation C_H_H_prop_init_i("C_H_H_prop_init_i", {t, x_out, x_in, rp, r, y, nperm, wnumHex, wnumHexHex}, expr((double) 0));
-
     complex_expr hex_hex_prefactor(cast(p_float64, sigs(nperm)) * hex_snk_weights(r, wnumHex) * hex_snk_weights(rp, wnumHexHex), 0.0);
 
     complex_expr H_H_term_res = hex_hex_prefactor * B1_H * B2_H;
@@ -266,18 +1321,1043 @@ void generate_function(std::string name)
 
     complex_computation C_H_H_prop_update(&C_H_H_prop_update_r, &C_H_H_prop_update_i);
 
-    complex_expr hex_src_psi(hex_src_psi_r(y_out*src_sites_per_rank+y_in, mH), hex_src_psi_i(y_out*src_sites_per_rank+y_in, mH));
-    complex_expr hex_hex_src_psi(hex_src_psi_r(y, mH), hex_src_psi_i(y, mH));
-    complex_expr hex_snk_psi(hex_snk_psi_r(x_out*sites_per_rank+x_in, nH), hex_snk_psi_i(x_out*sites_per_rank+x_in, nH));
-
-    complex_expr H_H_term = hex_hex_src_psi * hex_snk_psi * C_H_H_prop_update(t, x_out, x_in, rp, r, y, Nperms-1, Nw2Hex-1, Nw2Hex-1);
-
-    computation C_H_H_update_r("C_H_H_update_r", {t, x_out, x_in, rp, r, y, mH, nH}, C_init_r(t, x_out, x_in, rp, Nsrc+mH, r, Nsnk+nH) + H_H_term.get_real());
-    computation C_H_H_update_i("C_H_H_update_i", {t, x_out, x_in, rp, r, y, mH, nH}, C_init_i(t, x_out, x_in, rp, Nsrc+mH, r, Nsnk+nH) + H_H_term.get_imag());
+    complex_computation H_H_term_comp("H_H_term_comp", {t, x_out, x_in, rp, r, y, mH, nH, nperm, wnumHex, wnumHexHex}, hex_hex_src_psi * hex_snk_psi * C_H_H_prop_update(t, x_out, x_in, rp, r, y, nperm, wnumHex, wnumHexHex) );
+    // complex_expr H_H_term = hex_hex_src_psi * hex_snk_psi * C_H_H_prop_update(t, x_out, x_in, rp, r, y, Nperms-1, Nw2Hex-1, Nw2Hex-1);
 
 
 
-// store ins
+    computation C_H_H_update_r("C_H_H_update_r", {t, x_out, x_in, rp, r, y, mH, nH}, C_init_r(t, x_out, x_in, rp, Nsrc+mH, r, Nsnk+nH) + (*H_H_term_comp.get_real())(t, x_out, x_in, rp, r, y, mH, nH, Nperms-1, Nw2Hex-1, Nw2Hex-1));
+    computation C_H_H_update_i("C_H_H_update_i", {t, x_out, x_in, rp, r, y, mH, nH}, C_init_i(t, x_out, x_in, rp, Nsrc+mH, r, Nsnk+nH) + (*H_H_term_comp.get_imag())(t, x_out, x_in, rp, r, y, mH, nH, Nperms-1, Nw2Hex-1, Nw2Hex-1));
+
+    // -------------------------------------------------------
+    // Layer III
+    // -------------------------------------------------------
+
+    buffer buf_B1_Blocal_r1_r("buf_B1_Blocal_r1_r",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, Nc, Ns, Nc, Ns, 1, 1, Nc, Ns, Nsrc}, p_float64, a_temporary);
+    buffer buf_B1_Blocal_r1_i("buf_B1_Blocal_r1_i",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, Nc, Ns, Nc, Ns, 1, 1, Nc, Ns, Nsrc}, p_float64, a_temporary);
+    buffer buf_B1_Bfirst_r1_r("buf_B1_Bfirst_r1_r",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, Nc, Ns, Nc, Ns, 1, 1, Nc, Ns, Nsrc}, p_float64, a_temporary);
+    buffer buf_B1_Bfirst_r1_i("buf_B1_Bfirst_r1_i",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, Nc, Ns, Nc, Ns, 1, 1, Nc, Ns, Nsrc}, p_float64, a_temporary);
+    buffer buf_B1_Bsecond_r1_r("buf_B1_Bsecond_r1_r",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, Nc, Ns, Nc, Ns, 1, 1, Nc, Ns, Nsrc}, p_float64, a_temporary);
+    buffer buf_B1_Bsecond_r1_i("buf_B1_Bsecond_r1_i",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, Nc, Ns, Nc, Ns, 1, 1, Nc, Ns, Nsrc}, p_float64, a_temporary);
+    buffer buf_B1_Bthird_r1_r("buf_B1_Bthird_r1_r",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, Nc, Ns, Nc, Ns, 1, 1, Nc, Ns, Nsrc}, p_float64, a_temporary);
+    buffer buf_B1_Bthird_r1_i("buf_B1_Bthird_r1_i",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, Nc, Ns, Nc, Ns, 1, 1, Nc, Ns, Nsrc}, p_float64, a_temporary);
+    buf_B1_Blocal_r1_r.tag_gpu_global();
+    buf_B1_Blocal_r1_i.tag_gpu_global();
+    buf_B1_Bfirst_r1_r.tag_gpu_global();
+    buf_B1_Bfirst_r1_i.tag_gpu_global();
+    buf_B1_Bsecond_r1_r.tag_gpu_global();
+    buf_B1_Bsecond_r1_i.tag_gpu_global();
+    buf_B1_Bthird_r1_r.tag_gpu_global();
+    buf_B1_Bthird_r1_i.tag_gpu_global();
+// computation B1_Blocal_r1_r_init("B1_Blocal_r1_r_init", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0));
+    B1_Blocal_r1_r_init.store_in(&buf_B1_Blocal_r1_r, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    B1_Blocal_r1_i_init.store_in(&buf_B1_Blocal_r1_i, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    B1_Bfirst_r1_r_init.store_in(&buf_B1_Bfirst_r1_r, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    B1_Bfirst_r1_i_init.store_in(&buf_B1_Bfirst_r1_i, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    B1_Bsecond_r1_r_init.store_in(&buf_B1_Bsecond_r1_r, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    B1_Bsecond_r1_i_init.store_in(&buf_B1_Bsecond_r1_i, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    B1_Bthird_r1_r_init.store_in(&buf_B1_Bthird_r1_r, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    B1_Bthird_r1_i_init.store_in(&buf_B1_Bthird_r1_i, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    B1_Blocal_r1_r_update.store_in(&buf_B1_Blocal_r1_r, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    B1_Blocal_r1_i_update.store_in(&buf_B1_Blocal_r1_i, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    B1_Bfirst_r1_r_update.store_in(&buf_B1_Bfirst_r1_r, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    B1_Bfirst_r1_i_update.store_in(&buf_B1_Bfirst_r1_i, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    B1_Bsecond_r1_r_update.store_in(&buf_B1_Bsecond_r1_r, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    B1_Bsecond_r1_i_update.store_in(&buf_B1_Bsecond_r1_i, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    B1_Bthird_r1_r_update.store_in(&buf_B1_Bthird_r1_r, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    B1_Bthird_r1_i_update.store_in(&buf_B1_Bthird_r1_i, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    buffer buf_flip_B1_Blocal_r1_r("buf_flip_B1_Blocal_r1_r",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, Nc, Ns, Nc, Ns, 1, 1, Nc, Ns, Nsrc}, p_float64, a_temporary);
+    buffer buf_flip_B1_Blocal_r1_i("buf_flip_B1_Blocal_r1_i",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, Nc, Ns, Nc, Ns, 1, 1, Nc, Ns, Nsrc}, p_float64, a_temporary);
+    buffer buf_flip_B1_Bfirst_r1_r("buf_flip_B1_Bfirst_r1_r",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, Nc, Ns, Nc, Ns, 1, 1, Nc, Ns, Nsrc}, p_float64, a_temporary);
+    buffer buf_flip_B1_Bfirst_r1_i("buf_flip_B1_Bfirst_r1_i",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, Nc, Ns, Nc, Ns, 1, 1, Nc, Ns, Nsrc}, p_float64, a_temporary);
+    buffer buf_flip_B1_Bsecond_r1_r("buf_flip_B1_Bsecond_r1_r",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, Nc, Ns, Nc, Ns, 1, 1, Nc, Ns, Nsrc}, p_float64, a_temporary);
+    buffer buf_flip_B1_Bsecond_r1_i("buf_flip_B1_Bsecond_r1_i",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, Nc, Ns, Nc, Ns, 1, 1, Nc, Ns, Nsrc}, p_float64, a_temporary);
+    buffer buf_flip_B1_Bthird_r1_r("buf_flip_B1_Bthird_r1_r",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, Nc, Ns, Nc, Ns, 1, 1, Nc, Ns, Nsrc}, p_float64, a_temporary);
+    buffer buf_flip_B1_Bthird_r1_i("buf_flip_B1_Bthird_r1_i",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, Nc, Ns, Nc, Ns, 1, 1, Nc, Ns, Nsrc}, p_float64, a_temporary);
+    buf_flip_B1_Blocal_r1_r.tag_gpu_global();
+    buf_flip_B1_Blocal_r1_i.tag_gpu_global();
+    buf_flip_B1_Bfirst_r1_r.tag_gpu_global();
+    buf_flip_B1_Bfirst_r1_i.tag_gpu_global();
+    buf_flip_B1_Bsecond_r1_r.tag_gpu_global();
+    buf_flip_B1_Bsecond_r1_i.tag_gpu_global();
+    buf_flip_B1_Bthird_r1_r.tag_gpu_global();
+    buf_flip_B1_Bthird_r1_i.tag_gpu_global();
+// computation flip_B1_Blocal_r1_r_init("flip_B1_Blocal_r1_r_init", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0));
+    flip_B1_Blocal_r1_r_init.store_in(&buf_flip_B1_Blocal_r1_r, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    flip_B1_Blocal_r1_i_init.store_in(&buf_flip_B1_Blocal_r1_i, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    flip_B1_Bfirst_r1_r_init.store_in(&buf_flip_B1_Bfirst_r1_r, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    flip_B1_Bfirst_r1_i_init.store_in(&buf_flip_B1_Bfirst_r1_i, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    flip_B1_Bsecond_r1_r_init.store_in(&buf_flip_B1_Bsecond_r1_r, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    flip_B1_Bsecond_r1_i_init.store_in(&buf_flip_B1_Bsecond_r1_i, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    flip_B1_Bthird_r1_r_init.store_in(&buf_flip_B1_Bthird_r1_r, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    flip_B1_Bthird_r1_i_init.store_in(&buf_flip_B1_Bthird_r1_i, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    flip_B1_Blocal_r1_r_update.store_in(&buf_flip_B1_Blocal_r1_r, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    flip_B1_Blocal_r1_i_update.store_in(&buf_flip_B1_Blocal_r1_i, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    flip_B1_Bfirst_r1_r_update.store_in(&buf_flip_B1_Bfirst_r1_r, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    flip_B1_Bfirst_r1_i_update.store_in(&buf_flip_B1_Bfirst_r1_i, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    flip_B1_Bsecond_r1_r_update.store_in(&buf_flip_B1_Bsecond_r1_r, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    flip_B1_Bsecond_r1_i_update.store_in(&buf_flip_B1_Bsecond_r1_i, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    flip_B1_Bthird_r1_r_update.store_in(&buf_flip_B1_Bthird_r1_r, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    flip_B1_Bthird_r1_i_update.store_in(&buf_flip_B1_Bthird_r1_i, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    buffer buf_B1_Blocal_diquark_r1_r("buf_B1_Blocal_diquark_r1_r",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, 1, 1, 1, 1, 1, 1}, p_float64, a_temporary);
+    buffer buf_B1_Blocal_diquark_r1_i("buf_B1_Blocal_diquark_r1_i",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, 1, 1, 1, 1, 1, 1}, p_float64, a_temporary);
+    buffer buf_B1_Bfirst_diquark_r1_r("buf_B1_Bfirst_diquark_r1_r",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, 1, 1, 1, 1, 1, 1}, p_float64, a_temporary);
+    buffer buf_B1_Bfirst_diquark_r1_i("buf_B1_Bfirst_diquark_r1_i",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, 1, 1, 1, 1, 1, 1}, p_float64, a_temporary);
+    buffer buf_B1_Bthird_diquark_r1_r("buf_B1_Bthird_diquark_r1_r",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, 1, 1, 1, 1, 1, 1}, p_float64, a_temporary);
+    buffer buf_B1_Bthird_diquark_r1_i("buf_B1_Bthird_diquark_r1_i",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, 1, 1, 1, 1, 1, 1}, p_float64, a_temporary);
+    buf_B1_Blocal_diquark_r1_r.tag_gpu_global();
+    buf_B1_Blocal_diquark_r1_i.tag_gpu_global();
+    buf_B1_Bfirst_diquark_r1_r.tag_gpu_global();
+    buf_B1_Bfirst_diquark_r1_i.tag_gpu_global();
+    buf_B1_Bthird_diquark_r1_r.tag_gpu_global();
+    buf_B1_Bthird_diquark_r1_i.tag_gpu_global();
+// computation B1_Blocal_r1_r_diquark("B1_Blocal_r1_r_diquark", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock}, B1_r1_diquark.get_real());
+    B1_Blocal_r1_r_diquark.store_in(&buf_B1_Blocal_diquark_r1_r, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    B1_Blocal_r1_i_diquark.store_in(&buf_B1_Blocal_diquark_r1_i, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    B1_Bfirst_r1_r_diquark.store_in(&buf_B1_Bfirst_diquark_r1_r, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    B1_Bfirst_r1_i_diquark.store_in(&buf_B1_Bfirst_diquark_r1_i, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    B1_Bthird_r1_r_diquark.store_in(&buf_B1_Bthird_diquark_r1_r, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    B1_Bthird_r1_i_diquark.store_in(&buf_B1_Bthird_diquark_r1_i, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    buffer buf_B1_Blocal_props_r1_r("buf_B1_Blocal_props_r1_r",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, 1, 1, 1, 1, 1, 1, Nc, Ns}, p_float64, a_temporary);
+    buffer buf_B1_Blocal_props_r1_i("buf_B1_Blocal_props_r1_i",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, 1, 1, 1, 1, 1, 1, Nc, Ns}, p_float64, a_temporary);
+    buffer buf_B1_Bfirst_props_r1_r("buf_B1_Bfirst_props_r1_r",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, 1, 1, 1, 1, 1, 1, Nc, Ns}, p_float64, a_temporary);
+    buffer buf_B1_Bfirst_props_r1_i("buf_B1_Bfirst_props_r1_i",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, 1, 1, 1, 1, 1, 1, Nc, Ns}, p_float64, a_temporary);
+    buffer buf_B1_Bsecond_props_r1_r("buf_B1_Bsecond_props_r1_r",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, 1, 1, 1, 1, 1, 1, Nc, Ns}, p_float64, a_temporary);
+    buffer buf_B1_Bsecond_props_r1_i("buf_B1_Bsecond_props_r1_i",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, 1, 1, 1, 1, 1, 1, Nc, Ns}, p_float64, a_temporary);
+    buffer buf_B1_Bthird_props_r1_r("buf_B1_Bthird_props_r1_r",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, 1, 1, 1, 1, 1, 1, Nc, Ns}, p_float64, a_temporary);
+    buffer buf_B1_Bthird_props_r1_i("buf_B1_Bthird_props_r1_i",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, 1, 1, 1, 1, 1, 1, Nc, Ns}, p_float64, a_temporary);
+    buf_B1_Blocal_props_r1_r.tag_gpu_global();
+    buf_B1_Blocal_props_r1_i.tag_gpu_global();
+    buf_B1_Bfirst_props_r1_r.tag_gpu_global();
+    buf_B1_Bfirst_props_r1_i.tag_gpu_global();
+    buf_B1_Bsecond_props_r1_r.tag_gpu_global();
+    buf_B1_Bsecond_props_r1_i.tag_gpu_global();
+    buf_B1_Bthird_props_r1_r.tag_gpu_global();
+    buf_B1_Bthird_props_r1_i.tag_gpu_global();
+// computation B1_Blocal_r1_r_props_init("B1_Blocal_r1_r_props_init", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime}, expr((double) 0));
+    B1_Blocal_r1_r_props_init.store_in(&buf_B1_Blocal_props_r1_r, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0, jCprime, jSprime});
+    B1_Blocal_r1_i_props_init.store_in(&buf_B1_Blocal_props_r1_i, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0, jCprime, jSprime});
+    B1_Bfirst_r1_r_props_init.store_in(&buf_B1_Bfirst_props_r1_r, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0, jCprime, jSprime});
+    B1_Bfirst_r1_i_props_init.store_in(&buf_B1_Bfirst_props_r1_i, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0, jCprime, jSprime});
+    B1_Bsecond_r1_r_props_init.store_in(&buf_B1_Bsecond_props_r1_r, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0, jCprime, jSprime});
+    B1_Bsecond_r1_i_props_init.store_in(&buf_B1_Bsecond_props_r1_i, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0, jCprime, jSprime});
+    B1_Bthird_r1_r_props_init.store_in(&buf_B1_Bthird_props_r1_r, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0, jCprime, jSprime});
+    B1_Bthird_r1_i_props_init.store_in(&buf_B1_Bthird_props_r1_i, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0, jCprime, jSprime});
+    B1_Blocal_r1_r_props.store_in(&buf_B1_Blocal_props_r1_r, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0, jCprime, jSprime});
+    B1_Blocal_r1_i_props.store_in(&buf_B1_Blocal_props_r1_i, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0, jCprime, jSprime});
+    B1_Bfirst_r1_r_props.store_in(&buf_B1_Bfirst_props_r1_r, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0, jCprime, jSprime});
+    B1_Bfirst_r1_i_props.store_in(&buf_B1_Bfirst_props_r1_i, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0, jCprime, jSprime});
+    B1_Bsecond_r1_r_props.store_in(&buf_B1_Bsecond_props_r1_r, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0, jCprime, jSprime});
+    B1_Bsecond_r1_i_props.store_in(&buf_B1_Bsecond_props_r1_i, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0, jCprime, jSprime});
+    B1_Bthird_r1_r_props.store_in(&buf_B1_Bthird_props_r1_r, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0, jCprime, jSprime});
+    B1_Bthird_r1_i_props.store_in(&buf_B1_Bthird_props_r1_i, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0, jCprime, jSprime});
+
+    buffer buf_B1_Blocal_r2_r("buf_B1_Blocal_r2_r",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, Nc, Ns, Nc, Ns, 1, 1, Nc, Ns, Nsrc}, p_float64, a_temporary);
+    buffer buf_B1_Blocal_r2_i("buf_B1_Blocal_r2_i",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, Nc, Ns, Nc, Ns, 1, 1, Nc, Ns, Nsrc}, p_float64, a_temporary);
+    buffer buf_B1_Bfirst_r2_r("buf_B1_Bfirst_r2_r",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, Nc, Ns, Nc, Ns, 1, 1, Nc, Ns, Nsrc}, p_float64, a_temporary);
+    buffer buf_B1_Bfirst_r2_i("buf_B1_Bfirst_r2_i",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, Nc, Ns, Nc, Ns, 1, 1, Nc, Ns, Nsrc}, p_float64, a_temporary);
+    buffer buf_B1_Bsecond_r2_r("buf_B1_Bsecond_r2_r",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, Nc, Ns, Nc, Ns, 1, 1, Nc, Ns, Nsrc}, p_float64, a_temporary);
+    buffer buf_B1_Bsecond_r2_i("buf_B1_Bsecond_r2_i",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, Nc, Ns, Nc, Ns, 1, 1, Nc, Ns, Nsrc}, p_float64, a_temporary);
+    buffer buf_B1_Bthird_r2_r("buf_B1_Bthird_r2_r",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, Nc, Ns, Nc, Ns, 1, 1, Nc, Ns, Nsrc}, p_float64, a_temporary);
+    buffer buf_B1_Bthird_r2_i("buf_B1_Bthird_r2_i",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, Nc, Ns, Nc, Ns, 1, 1, Nc, Ns, Nsrc}, p_float64, a_temporary);
+    buf_B1_Blocal_r2_i.tag_gpu_global();
+    buf_B1_Bfirst_r2_r.tag_gpu_global();
+    buf_B1_Bfirst_r2_i.tag_gpu_global();
+    buf_B1_Bsecond_r2_r.tag_gpu_global();
+    buf_B1_Bsecond_r2_i.tag_gpu_global();
+    buf_B1_Bthird_r2_r.tag_gpu_global();
+    buf_B1_Bthird_r2_i.tag_gpu_global();
+// computation B1_Blocal_r2_r_init("B1_Blocal_r2_r_init", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0));
+    B1_Blocal_r2_r_init.store_in(&buf_B1_Blocal_r2_r, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    B1_Blocal_r2_i_init.store_in(&buf_B1_Blocal_r2_i, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    B1_Bfirst_r2_r_init.store_in(&buf_B1_Bfirst_r2_r, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    B1_Bfirst_r2_i_init.store_in(&buf_B1_Bfirst_r2_i, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    B1_Bsecond_r2_r_init.store_in(&buf_B1_Bsecond_r2_r, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    B1_Bsecond_r2_i_init.store_in(&buf_B1_Bsecond_r2_i, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    B1_Bthird_r2_r_init.store_in(&buf_B1_Bthird_r2_r, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    B1_Bthird_r2_i_init.store_in(&buf_B1_Bthird_r2_i, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    B1_Blocal_r2_r_update.store_in(&buf_B1_Blocal_r2_r, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    B1_Blocal_r2_i_update.store_in(&buf_B1_Blocal_r2_i, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    B1_Bfirst_r2_r_update.store_in(&buf_B1_Bfirst_r2_r, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    B1_Bfirst_r2_i_update.store_in(&buf_B1_Bfirst_r2_i, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    B1_Bsecond_r2_r_update.store_in(&buf_B1_Bsecond_r2_r, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    B1_Bsecond_r2_i_update.store_in(&buf_B1_Bsecond_r2_i, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    B1_Bthird_r2_r_update.store_in(&buf_B1_Bthird_r2_r, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    B1_Bthird_r2_i_update.store_in(&buf_B1_Bthird_r2_i, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    buffer buf_flip_B1_Blocal_r2_r("buf_flip_B1_Blocal_r2_r",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, Nc, Ns, Nc, Ns, 1, 1, Nc, Ns, Nsrc}, p_float64, a_temporary);
+    buffer buf_flip_B1_Blocal_r2_i("buf_flip_B1_Blocal_r2_i",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, Nc, Ns, Nc, Ns, 1, 1, Nc, Ns, Nsrc}, p_float64, a_temporary);
+    buffer buf_flip_B1_Bfirst_r2_r("buf_flip_B1_Bfirst_r2_r",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, Nc, Ns, Nc, Ns, 1, 1, Nc, Ns, Nsrc}, p_float64, a_temporary);
+    buffer buf_flip_B1_Bfirst_r2_i("buf_flip_B1_Bfirst_r2_i",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, Nc, Ns, Nc, Ns, 1, 1, Nc, Ns, Nsrc}, p_float64, a_temporary);
+    buffer buf_flip_B1_Bsecond_r2_r("buf_flip_B1_Bsecond_r2_r",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, Nc, Ns, Nc, Ns, 1, 1, Nc, Ns, Nsrc}, p_float64, a_temporary);
+    buffer buf_flip_B1_Bsecond_r2_i("buf_flip_B1_Bsecond_r2_i",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, Nc, Ns, Nc, Ns, 1, 1, Nc, Ns, Nsrc}, p_float64, a_temporary);
+    buffer buf_flip_B1_Bthird_r2_r("buf_flip_B1_Bthird_r2_r",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, Nc, Ns, Nc, Ns, 1, 1, Nc, Ns, Nsrc}, p_float64, a_temporary);
+    buffer buf_flip_B1_Bthird_r2_i("buf_flip_B1_Bthird_r2_i",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, Nc, Ns, Nc, Ns, 1, 1, Nc, Ns, Nsrc}, p_float64, a_temporary);
+    buf_flip_B1_Blocal_r2_r.tag_gpu_global();
+    buf_flip_B1_Blocal_r2_i.tag_gpu_global();
+    buf_flip_B1_Bfirst_r2_r.tag_gpu_global();
+    buf_flip_B1_Bfirst_r2_i.tag_gpu_global();
+    buf_flip_B1_Bsecond_r2_r.tag_gpu_global();
+    buf_flip_B1_Bsecond_r2_i.tag_gpu_global();
+    buf_flip_B1_Bthird_r2_r.tag_gpu_global();
+    buf_flip_B1_Bthird_r2_i.tag_gpu_global();
+// computation flip_B1_Blocal_r2_r_init("flip_B1_Blocal_r2_r_init", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0));
+    flip_B1_Blocal_r2_r_init.store_in(&buf_flip_B1_Blocal_r2_r, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    flip_B1_Blocal_r2_i_init.store_in(&buf_flip_B1_Blocal_r2_i, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    flip_B1_Bfirst_r2_r_init.store_in(&buf_flip_B1_Bfirst_r2_r, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    flip_B1_Bfirst_r2_i_init.store_in(&buf_flip_B1_Bfirst_r2_i, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    flip_B1_Bsecond_r2_r_init.store_in(&buf_flip_B1_Bsecond_r2_r, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    flip_B1_Bsecond_r2_i_init.store_in(&buf_flip_B1_Bsecond_r2_i, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    flip_B1_Bthird_r2_r_init.store_in(&buf_flip_B1_Bthird_r2_r, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    flip_B1_Bthird_r2_i_init.store_in(&buf_flip_B1_Bthird_r2_i, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    flip_B1_Blocal_r2_r_update.store_in(&buf_flip_B1_Blocal_r2_r, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    flip_B1_Blocal_r2_i_update.store_in(&buf_flip_B1_Blocal_r2_i, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    flip_B1_Bfirst_r2_r_update.store_in(&buf_flip_B1_Bfirst_r2_r, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    flip_B1_Bfirst_r2_i_update.store_in(&buf_flip_B1_Bfirst_r2_i, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    flip_B1_Bsecond_r2_r_update.store_in(&buf_flip_B1_Bsecond_r2_r, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    flip_B1_Bsecond_r2_i_update.store_in(&buf_flip_B1_Bsecond_r2_i, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    flip_B1_Bthird_r2_r_update.store_in(&buf_flip_B1_Bthird_r2_r, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    flip_B1_Bthird_r2_i_update.store_in(&buf_flip_B1_Bthird_r2_i, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    buffer buf_B1_Blocal_diquark_r2_r("buf_B1_Blocal_diquark_r2_r",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, 1, 1, 1, 1, 1, 1, 1, 1}, p_float64, a_temporary);
+    buffer buf_B1_Blocal_diquark_r2_i("buf_B1_Blocal_diquark_r2_i",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, 1, 1, 1, 1, 1, 1, 1, 1}, p_float64, a_temporary);
+    buffer buf_B1_Bfirst_diquark_r2_r("buf_B1_Bfirst_diquark_r2_r",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, 1, 1, 1, 1, 1, 1, 1, 1}, p_float64, a_temporary);
+    buffer buf_B1_Bfirst_diquark_r2_i("buf_B1_Bfirst_diquark_r2_i",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, 1, 1, 1, 1, 1, 1, 1, 1}, p_float64, a_temporary);
+    buffer buf_B1_Bthird_diquark_r2_r("buf_B1_Bthird_diquark_r2_r",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, 1, 1, 1, 1, 1, 1, 1, 1}, p_float64, a_temporary);
+    buffer buf_B1_Bthird_diquark_r2_i("buf_B1_Bthird_diquark_r2_i",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, 1, 1, 1, 1, 1, 1, 1, 1}, p_float64, a_temporary);
+    buf_B1_Blocal_diquark_r2_r.tag_gpu_global();
+    buf_B1_Blocal_diquark_r2_i.tag_gpu_global();
+    buf_B1_Bfirst_diquark_r2_r.tag_gpu_global();
+    buf_B1_Bfirst_diquark_r2_i.tag_gpu_global();
+    buf_B1_Bthird_diquark_r2_r.tag_gpu_global();
+    buf_B1_Bthird_diquark_r2_i.tag_gpu_global();
+// computation B1_Blocal_r2_r_diquark("B1_Blocal_r2_r_diquark", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock}, B1_r2_diquark.get_real());
+
+    B1_Blocal_r2_r_diquark.store_in(&buf_B1_Blocal_diquark_r2_r, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0, 0, 0});
+    B1_Blocal_r2_i_diquark.store_in(&buf_B1_Blocal_diquark_r2_i, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0, 0, 0});
+    B1_Bfirst_r2_r_diquark.store_in(&buf_B1_Bfirst_diquark_r2_r, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0, 0, 0});
+    B1_Bfirst_r2_i_diquark.store_in(&buf_B1_Bfirst_diquark_r2_i, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0, 0, 0});
+    B1_Bthird_r2_r_diquark.store_in(&buf_B1_Bthird_diquark_r2_r, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0, 0, 0});
+    B1_Bthird_r2_i_diquark.store_in(&buf_B1_Bthird_diquark_r2_i, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0, 0, 0});
+    buffer buf_B1_Blocal_props_r2_r("buf_B1_Blocal_props_r2_r",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, 1, 1, 1, 1, 1, 1, Nc, Ns}, p_float64, a_temporary);
+    buffer buf_B1_Blocal_props_r2_i("buf_B1_Blocal_props_r2_i",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, 1, 1, 1, 1, 1, 1, Nc, Ns}, p_float64, a_temporary);
+    buffer buf_B1_Bfirst_props_r2_r("buf_B1_Bfirst_props_r2_r",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, 1, 1, 1, 1, 1, 1, Nc, Ns}, p_float64, a_temporary);
+    buffer buf_B1_Bfirst_props_r2_i("buf_B1_Bfirst_props_r2_i",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, 1, 1, 1, 1, 1, 1, Nc, Ns}, p_float64, a_temporary);
+    buffer buf_B1_Bsecond_props_r2_r("buf_B1_Bsecond_props_r2_r",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, 1, 1, 1, 1, 1, 1, Nc, Ns}, p_float64, a_temporary);
+    buffer buf_B1_Bsecond_props_r2_i("buf_B1_Bsecond_props_r2_i",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, 1, 1, 1, 1, 1, 1, Nc, Ns}, p_float64, a_temporary);
+    buffer buf_B1_Bthird_props_r2_r("buf_B1_Bthird_props_r2_r",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, 1, 1, 1, 1, 1, 1, Nc, Ns}, p_float64, a_temporary);
+    buffer buf_B1_Bthird_props_r2_i("buf_B1_Bthird_props_r2_i",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, 1, 1, 1, 1, 1, 1, Nc, Ns}, p_float64, a_temporary);
+    buf_B1_Blocal_props_r2_r.tag_gpu_global();
+    buf_B1_Blocal_props_r2_i.tag_gpu_global();
+    buf_B1_Bfirst_props_r2_r.tag_gpu_global();
+    buf_B1_Bfirst_props_r2_i.tag_gpu_global();
+    buf_B1_Bsecond_props_r2_r.tag_gpu_global();
+    buf_B1_Bsecond_props_r2_i.tag_gpu_global();
+    buf_B1_Bthird_props_r2_r.tag_gpu_global();
+    buf_B1_Bthird_props_r2_i.tag_gpu_global();
+// computation B1_Blocal_r2_r_props_init("B1_Blocal_r2_r_props_init", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime}, expr((double) 0));
+    B1_Blocal_r2_r_props_init.store_in(&buf_B1_Blocal_props_r2_r, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0, jCprime, jSprime});
+    B1_Blocal_r2_i_props_init.store_in(&buf_B1_Blocal_props_r2_i, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0, jCprime, jSprime});
+    B1_Bfirst_r2_r_props_init.store_in(&buf_B1_Bfirst_props_r2_r, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0, jCprime, jSprime});
+    B1_Bfirst_r2_i_props_init.store_in(&buf_B1_Bfirst_props_r2_i, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0, jCprime, jSprime});
+    B1_Bsecond_r2_r_props_init.store_in(&buf_B1_Bsecond_props_r2_r, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0, jCprime, jSprime});
+    B1_Bsecond_r2_i_props_init.store_in(&buf_B1_Bsecond_props_r2_i, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0, jCprime, jSprime});
+    B1_Bthird_r2_r_props_init.store_in(&buf_B1_Bthird_props_r2_r, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0, jCprime, jSprime});
+    B1_Bthird_r2_i_props_init.store_in(&buf_B1_Bthird_props_r2_i, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0, jCprime, jSprime});
+    B1_Blocal_r2_r_props.store_in(&buf_B1_Blocal_props_r2_r, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0, jCprime, jSprime});
+    B1_Blocal_r2_i_props.store_in(&buf_B1_Blocal_props_r2_i, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0, jCprime, jSprime});
+    B1_Bfirst_r2_r_props.store_in(&buf_B1_Bfirst_props_r2_r, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0, jCprime, jSprime});
+    B1_Bfirst_r2_i_props.store_in(&buf_B1_Bfirst_props_r2_i, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0, jCprime, jSprime});
+    B1_Bsecond_r2_r_props.store_in(&buf_B1_Bsecond_props_r2_r, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0, jCprime, jSprime});
+    B1_Bsecond_r2_i_props.store_in(&buf_B1_Bsecond_props_r2_i, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0, jCprime, jSprime});
+    B1_Bthird_r2_r_props.store_in(&buf_B1_Bthird_props_r2_r, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0, jCprime, jSprime});
+    B1_Bthird_r2_i_props.store_in(&buf_B1_Bthird_props_r2_i, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0, jCprime, jSprime});
+
+    buffer buf_B2_Blocal_r1_r("buf_B2_Blocal_r1_r",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, Nc, Ns, Nc, Ns, 1, 1, Nc, Ns, Nsrc}, p_float64, a_temporary);
+    buffer buf_B2_Blocal_r1_i("buf_B2_Blocal_r1_i",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, Nc, Ns, Nc, Ns, 1, 1, Nc, Ns, Nsrc}, p_float64, a_temporary);
+    buffer buf_B2_Bfirst_r1_r("buf_B2_Bfirst_r1_r",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, Nc, Ns, Nc, Ns, 1, 1, Nc, Ns, Nsrc}, p_float64, a_temporary);
+    buffer buf_B2_Bfirst_r1_i("buf_B2_Bfirst_r1_i",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, Nc, Ns, Nc, Ns, 1, 1, Nc, Ns, Nsrc}, p_float64, a_temporary);
+    buffer buf_B2_Bsecond_r1_r("buf_B2_Bsecond_r1_r",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, Nc, Ns, Nc, Ns, 1, 1, Nc, Ns, Nsrc}, p_float64, a_temporary);
+    buffer buf_B2_Bsecond_r1_i("buf_B2_Bsecond_r1_i",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, Nc, Ns, Nc, Ns, 1, 1, Nc, Ns, Nsrc}, p_float64, a_temporary);
+    buffer buf_B2_Bthird_r1_r("buf_B2_Bthird_r1_r",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, Nc, Ns, Nc, Ns, 1, 1, Nc, Ns, Nsrc}, p_float64, a_temporary);
+    buffer buf_B2_Bthird_r1_i("buf_B2_Bthird_r1_i",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, Nc, Ns, Nc, Ns, 1, 1, Nc, Ns, Nsrc}, p_float64, a_temporary);
+    buf_B2_Blocal_r1_r.tag_gpu_global();
+    buf_B2_Blocal_r1_i.tag_gpu_global();
+    buf_B2_Bfirst_r1_r.tag_gpu_global();
+    buf_B2_Bfirst_r1_i.tag_gpu_global();
+    buf_B2_Bsecond_r1_r.tag_gpu_global();
+    buf_B2_Bsecond_r1_i.tag_gpu_global();
+    buf_B2_Bthird_r1_r.tag_gpu_global();
+    buf_B2_Bthird_r1_i.tag_gpu_global();
+// computation B2_Blocal_r1_r_init("B2_Blocal_r1_r_init", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0));
+    B2_Blocal_r1_r_init.store_in(&buf_B2_Blocal_r1_r, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    B2_Blocal_r1_i_init.store_in(&buf_B2_Blocal_r1_i, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    B2_Bfirst_r1_r_init.store_in(&buf_B2_Bfirst_r1_r, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    B2_Bfirst_r1_i_init.store_in(&buf_B2_Bfirst_r1_i, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    B2_Bsecond_r1_r_init.store_in(&buf_B2_Bsecond_r1_r, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    B2_Bsecond_r1_i_init.store_in(&buf_B2_Bsecond_r1_i, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    B2_Bthird_r1_r_init.store_in(&buf_B2_Bthird_r1_r, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    B2_Bthird_r1_i_init.store_in(&buf_B2_Bthird_r1_i, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    B2_Blocal_r1_r_update.store_in(&buf_B2_Blocal_r1_r, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    B2_Blocal_r1_i_update.store_in(&buf_B2_Blocal_r1_i, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    B2_Bfirst_r1_r_update.store_in(&buf_B2_Bfirst_r1_r, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    B2_Bfirst_r1_i_update.store_in(&buf_B2_Bfirst_r1_i, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    B2_Bsecond_r1_r_update.store_in(&buf_B2_Bsecond_r1_r, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    B2_Bsecond_r1_i_update.store_in(&buf_B2_Bsecond_r1_i, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    B2_Bthird_r1_r_update.store_in(&buf_B2_Bthird_r1_r, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    B2_Bthird_r1_i_update.store_in(&buf_B2_Bthird_r1_i, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    buffer buf_flip_B2_Blocal_r1_r("buf_flip_B2_Blocal_r1_r",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, Nc, Ns, Nc, Ns, 1, 1, Nc, Ns, Nsrc}, p_float64, a_temporary);
+    buffer buf_flip_B2_Blocal_r1_i("buf_flip_B2_Blocal_r1_i",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, Nc, Ns, Nc, Ns, 1, 1, Nc, Ns, Nsrc}, p_float64, a_temporary);
+    buffer buf_flip_B2_Bfirst_r1_r("buf_flip_B2_Bfirst_r1_r",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, Nc, Ns, Nc, Ns, 1, 1, Nc, Ns, Nsrc}, p_float64, a_temporary);
+    buffer buf_flip_B2_Bfirst_r1_i("buf_flip_B2_Bfirst_r1_i",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, Nc, Ns, Nc, Ns, 1, 1, Nc, Ns, Nsrc}, p_float64, a_temporary);
+    buffer buf_flip_B2_Bsecond_r1_r("buf_flip_B2_Bsecond_r1_r",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, Nc, Ns, Nc, Ns, 1, 1, Nc, Ns, Nsrc}, p_float64, a_temporary);
+    buffer buf_flip_B2_Bsecond_r1_i("buf_flip_B2_Bsecond_r1_i",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, Nc, Ns, Nc, Ns, 1, 1, Nc, Ns, Nsrc}, p_float64, a_temporary);
+    buffer buf_flip_B2_Bthird_r1_r("buf_flip_B2_Bthird_r1_r",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, Nc, Ns, Nc, Ns, 1, 1, Nc, Ns, Nsrc}, p_float64, a_temporary);
+    buffer buf_flip_B2_Bthird_r1_i("buf_flip_B2_Bthird_r1_i",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, Nc, Ns, Nc, Ns, 1, 1, Nc, Ns, Nsrc}, p_float64, a_temporary);
+    buf_flip_B2_Blocal_r1_r.tag_gpu_global();
+    buf_flip_B2_Blocal_r1_i.tag_gpu_global();
+    buf_flip_B2_Bfirst_r1_r.tag_gpu_global();
+    buf_flip_B2_Bfirst_r1_i.tag_gpu_global();
+    buf_flip_B2_Bsecond_r1_r.tag_gpu_global();
+    buf_flip_B2_Bsecond_r1_i.tag_gpu_global();
+    buf_flip_B2_Bthird_r1_r.tag_gpu_global();
+    buf_flip_B2_Bthird_r1_i.tag_gpu_global();
+// computation flip_B2_Blocal_r1_r_init("flip_B2_Blocal_r1_r_init", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0));
+    flip_B2_Blocal_r1_r_init.store_in(&buf_flip_B2_Blocal_r1_r, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    flip_B2_Blocal_r1_i_init.store_in(&buf_flip_B2_Blocal_r1_i, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    flip_B2_Bfirst_r1_r_init.store_in(&buf_flip_B2_Bfirst_r1_r, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    flip_B2_Bfirst_r1_i_init.store_in(&buf_flip_B2_Bfirst_r1_i, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    flip_B2_Bsecond_r1_r_init.store_in(&buf_flip_B2_Bsecond_r1_r, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    flip_B2_Bsecond_r1_i_init.store_in(&buf_flip_B2_Bsecond_r1_i, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    flip_B2_Bthird_r1_r_init.store_in(&buf_flip_B2_Bthird_r1_r, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    flip_B2_Bthird_r1_i_init.store_in(&buf_flip_B2_Bthird_r1_i, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    flip_B2_Blocal_r1_r_update.store_in(&buf_flip_B2_Blocal_r1_r, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    flip_B2_Blocal_r1_i_update.store_in(&buf_flip_B2_Blocal_r1_i, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    flip_B2_Bfirst_r1_r_update.store_in(&buf_flip_B2_Bfirst_r1_r, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    flip_B2_Bfirst_r1_i_update.store_in(&buf_flip_B2_Bfirst_r1_i, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    flip_B2_Bsecond_r1_r_update.store_in(&buf_flip_B2_Bsecond_r1_r, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    flip_B2_Bsecond_r1_i_update.store_in(&buf_flip_B2_Bsecond_r1_i, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    flip_B2_Bthird_r1_r_update.store_in(&buf_flip_B2_Bthird_r1_r, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    flip_B2_Bthird_r1_i_update.store_in(&buf_flip_B2_Bthird_r1_i, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    buffer buf_B2_Blocal_diquark_r1_r("buf_B2_Blocal_diquark_r1_r",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, 1, 1, 1, 1, 1, 1}, p_float64, a_temporary);
+    buffer buf_B2_Blocal_diquark_r1_i("buf_B2_Blocal_diquark_r1_i",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, 1, 1, 1, 1, 1, 1}, p_float64, a_temporary);
+    buffer buf_B2_Bfirst_diquark_r1_r("buf_B2_Bfirst_diquark_r1_r",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, 1, 1, 1, 1, 1, 1}, p_float64, a_temporary);
+    buffer buf_B2_Bfirst_diquark_r1_i("buf_B2_Bfirst_diquark_r1_i",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, 1, 1, 1, 1, 1, 1}, p_float64, a_temporary);
+    buffer buf_B2_Bthird_diquark_r1_r("buf_B2_Bthird_diquark_r1_r",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, 1, 1, 1, 1, 1, 1}, p_float64, a_temporary);
+    buffer buf_B2_Bthird_diquark_r1_i("buf_B2_Bthird_diquark_r1_i",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, 1, 1, 1, 1, 1, 1}, p_float64, a_temporary);
+    buf_B2_Blocal_diquark_r1_r.tag_gpu_global();
+    buf_B2_Blocal_diquark_r1_i.tag_gpu_global();
+    buf_B2_Bfirst_diquark_r1_r.tag_gpu_global();
+    buf_B2_Bfirst_diquark_r1_i.tag_gpu_global();
+    buf_B2_Bthird_diquark_r1_r.tag_gpu_global();
+    buf_B2_Bthird_diquark_r1_i.tag_gpu_global();
+// computation B2_Blocal_r1_r_diquark("B2_Blocal_r1_r_diquark", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock}, B2_r1_diquark.get_real());
+    B2_Blocal_r1_r_diquark.store_in(&buf_B2_Blocal_diquark_r1_r, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    B2_Blocal_r1_i_diquark.store_in(&buf_B2_Blocal_diquark_r1_i, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    B2_Bfirst_r1_r_diquark.store_in(&buf_B2_Bfirst_diquark_r1_r, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    B2_Bfirst_r1_i_diquark.store_in(&buf_B2_Bfirst_diquark_r1_i, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    B2_Bthird_r1_r_diquark.store_in(&buf_B2_Bthird_diquark_r1_r, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    B2_Bthird_r1_i_diquark.store_in(&buf_B2_Bthird_diquark_r1_i, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    buffer buf_B2_Blocal_props_r1_r("buf_B2_Blocal_props_r1_r",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, 1, 1, 1, 1, 1, 1, Nc, Ns}, p_float64, a_temporary);
+    buffer buf_B2_Blocal_props_r1_i("buf_B2_Blocal_props_r1_i",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, 1, 1, 1, 1, 1, 1, Nc, Ns}, p_float64, a_temporary);
+    buffer buf_B2_Bfirst_props_r1_r("buf_B2_Bfirst_props_r1_r",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, 1, 1, 1, 1, 1, 1, Nc, Ns}, p_float64, a_temporary);
+    buffer buf_B2_Bfirst_props_r1_i("buf_B2_Bfirst_props_r1_i",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, 1, 1, 1, 1, 1, 1, Nc, Ns}, p_float64, a_temporary);
+    buffer buf_B2_Bsecond_props_r1_r("buf_B2_Bsecond_props_r1_r",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, 1, 1, 1, 1, 1, 1, Nc, Ns}, p_float64, a_temporary);
+    buffer buf_B2_Bsecond_props_r1_i("buf_B2_Bsecond_props_r1_i",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, 1, 1, 1, 1, 1, 1, Nc, Ns}, p_float64, a_temporary);
+    buffer buf_B2_Bthird_props_r1_r("buf_B2_Bthird_props_r1_r",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, 1, 1, 1, 1, 1, 1, Nc, Ns}, p_float64, a_temporary);
+    buffer buf_B2_Bthird_props_r1_i("buf_B2_Bthird_props_r1_i",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, 1, 1, 1, 1, 1, 1, Nc, Ns}, p_float64, a_temporary);
+    buf_B2_Blocal_props_r1_r.tag_gpu_global();
+    buf_B2_Blocal_props_r1_i.tag_gpu_global();
+    buf_B2_Bfirst_props_r1_r.tag_gpu_global();
+    buf_B2_Bfirst_props_r1_i.tag_gpu_global();
+    buf_B2_Bsecond_props_r1_r.tag_gpu_global();
+    buf_B2_Bsecond_props_r1_i.tag_gpu_global();
+    buf_B2_Bthird_props_r1_r.tag_gpu_global();
+    buf_B2_Bthird_props_r1_i.tag_gpu_global();
+// computation B2_Blocal_r1_r_props_init("B2_Blocal_r1_r_props_init", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime}, expr((double) 0));
+    B2_Blocal_r1_r_props_init.store_in(&buf_B2_Blocal_props_r1_r, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0, jCprime, jSprime});
+    B2_Blocal_r1_i_props_init.store_in(&buf_B2_Blocal_props_r1_i, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0, jCprime, jSprime});
+    B2_Bfirst_r1_r_props_init.store_in(&buf_B2_Bfirst_props_r1_r, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0, jCprime, jSprime});
+    B2_Bfirst_r1_i_props_init.store_in(&buf_B2_Bfirst_props_r1_i, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0, jCprime, jSprime});
+    B2_Bsecond_r1_r_props_init.store_in(&buf_B2_Bsecond_props_r1_r, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0, jCprime, jSprime});
+    B2_Bsecond_r1_i_props_init.store_in(&buf_B2_Bsecond_props_r1_i, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0, jCprime, jSprime});
+    B2_Bthird_r1_r_props_init.store_in(&buf_B2_Bthird_props_r1_r, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0, jCprime, jSprime});
+    B2_Bthird_r1_i_props_init.store_in(&buf_B2_Bthird_props_r1_i, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0, jCprime, jSprime});
+    B2_Blocal_r1_r_props.store_in(&buf_B2_Blocal_props_r1_r, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0, jCprime, jSprime});
+    B2_Blocal_r1_i_props.store_in(&buf_B2_Blocal_props_r1_i, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0, jCprime, jSprime});
+    B2_Bfirst_r1_r_props.store_in(&buf_B2_Bfirst_props_r1_r, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0, jCprime, jSprime});
+    B2_Bfirst_r1_i_props.store_in(&buf_B2_Bfirst_props_r1_i, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0, jCprime, jSprime});
+    B2_Bsecond_r1_r_props.store_in(&buf_B2_Bsecond_props_r1_r, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0, jCprime, jSprime});
+    B2_Bsecond_r1_i_props.store_in(&buf_B2_Bsecond_props_r1_i, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0, jCprime, jSprime});
+    B2_Bthird_r1_r_props.store_in(&buf_B2_Bthird_props_r1_r, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0, jCprime, jSprime});
+    B2_Bthird_r1_i_props.store_in(&buf_B2_Bthird_props_r1_i, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0, jCprime, jSprime});
+
+    buffer buf_B2_Blocal_r2_r("buf_B2_Blocal_r2_r",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, Nc, Ns, Nc, Ns, 1, 1, Nc, Ns, Nsrc}, p_float64, a_temporary);
+    buffer buf_B2_Blocal_r2_i("buf_B2_Blocal_r2_i",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, Nc, Ns, Nc, Ns, 1, 1, Nc, Ns, Nsrc}, p_float64, a_temporary);
+    buffer buf_B2_Bfirst_r2_r("buf_B2_Bfirst_r2_r",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, Nc, Ns, Nc, Ns, 1, 1, Nc, Ns, Nsrc}, p_float64, a_temporary);
+    buffer buf_B2_Bfirst_r2_i("buf_B2_Bfirst_r2_i",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, Nc, Ns, Nc, Ns, 1, 1, Nc, Ns, Nsrc}, p_float64, a_temporary);
+    buffer buf_B2_Bsecond_r2_r("buf_B2_Bsecond_r2_r",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, Nc, Ns, Nc, Ns, 1, 1, Nc, Ns, Nsrc}, p_float64, a_temporary);
+    buffer buf_B2_Bsecond_r2_i("buf_B2_Bsecond_r2_i",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, Nc, Ns, Nc, Ns, 1, 1, Nc, Ns, Nsrc}, p_float64, a_temporary);
+    buffer buf_B2_Bthird_r2_r("buf_B2_Bthird_r2_r",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, Nc, Ns, Nc, Ns, 1, 1, Nc, Ns, Nsrc}, p_float64, a_temporary);
+    buffer buf_B2_Bthird_r2_i("buf_B2_Bthird_r2_i",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, Nc, Ns, Nc, Ns, 1, 1, Nc, Ns, Nsrc}, p_float64, a_temporary);
+    buf_B2_Blocal_r2_r.tag_gpu_global();
+    buf_B2_Blocal_r2_i.tag_gpu_global();
+    buf_B2_Bfirst_r2_r.tag_gpu_global();
+    buf_B2_Bfirst_r2_i.tag_gpu_global();
+    buf_B2_Bsecond_r2_r.tag_gpu_global();
+    buf_B2_Bsecond_r2_i.tag_gpu_global();
+    buf_B2_Bthird_r2_r.tag_gpu_global();
+    buf_B2_Bthird_r2_i.tag_gpu_global();
+// computation B2_Blocal_r2_r_init("B2_Blocal_r2_r_init", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0));
+    B2_Blocal_r2_r_init.store_in(&buf_B2_Blocal_r2_r, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    B2_Blocal_r2_i_init.store_in(&buf_B2_Blocal_r2_i, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    B2_Bfirst_r2_r_init.store_in(&buf_B2_Bfirst_r2_r, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    B2_Bfirst_r2_i_init.store_in(&buf_B2_Bfirst_r2_i, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    B2_Bsecond_r2_r_init.store_in(&buf_B2_Bsecond_r2_r, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    B2_Bsecond_r2_i_init.store_in(&buf_B2_Bsecond_r2_i, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    B2_Bthird_r2_r_init.store_in(&buf_B2_Bthird_r2_r, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    B2_Bthird_r2_i_init.store_in(&buf_B2_Bthird_r2_i, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    B2_Blocal_r2_r_update.store_in(&buf_B2_Blocal_r2_r, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    B2_Blocal_r2_i_update.store_in(&buf_B2_Blocal_r2_i, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    B2_Bfirst_r2_r_update.store_in(&buf_B2_Bfirst_r2_r, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    B2_Bfirst_r2_i_update.store_in(&buf_B2_Bfirst_r2_i, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    B2_Bsecond_r2_r_update.store_in(&buf_B2_Bsecond_r2_r, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    B2_Bsecond_r2_i_update.store_in(&buf_B2_Bsecond_r2_i, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    B2_Bthird_r2_r_update.store_in(&buf_B2_Bthird_r2_r, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    B2_Bthird_r2_i_update.store_in(&buf_B2_Bthird_r2_i, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    buffer buf_flip_B2_Blocal_r2_r("buf_flip_B2_Blocal_r2_r",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, Nc, Ns, Nc, Ns, 1, 1, Nc, Ns, Nsrc}, p_float64, a_temporary);
+    buffer buf_flip_B2_Blocal_r2_i("buf_flip_B2_Blocal_r2_i",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, Nc, Ns, Nc, Ns, 1, 1, Nc, Ns, Nsrc}, p_float64, a_temporary);
+    buffer buf_flip_B2_Bfirst_r2_r("buf_flip_B2_Bfirst_r2_r",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, Nc, Ns, Nc, Ns, 1, 1, Nc, Ns, Nsrc}, p_float64, a_temporary);
+    buffer buf_flip_B2_Bfirst_r2_i("buf_flip_B2_Bfirst_r2_i",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, Nc, Ns, Nc, Ns, 1, 1, Nc, Ns, Nsrc}, p_float64, a_temporary);
+    buffer buf_flip_B2_Bsecond_r2_r("buf_flip_B2_Bsecond_r2_r",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, Nc, Ns, Nc, Ns, 1, 1, Nc, Ns, Nsrc}, p_float64, a_temporary);
+    buffer buf_flip_B2_Bsecond_r2_i("buf_flip_B2_Bsecond_r2_i",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, Nc, Ns, Nc, Ns, 1, 1, Nc, Ns, Nsrc}, p_float64, a_temporary);
+    buffer buf_flip_B2_Bthird_r2_r("buf_flip_B2_Bthird_r2_r",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, Nc, Ns, Nc, Ns, 1, 1, Nc, Ns, Nsrc}, p_float64, a_temporary);
+    buffer buf_flip_B2_Bthird_r2_i("buf_flip_B2_Bthird_r2_i",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, Nc, Ns, Nc, Ns, 1, 1, Nc, Ns, Nsrc}, p_float64, a_temporary);
+    buf_flip_B2_Blocal_r2_r.tag_gpu_global();
+    buf_flip_B2_Blocal_r2_i.tag_gpu_global();
+    buf_flip_B2_Bfirst_r2_r.tag_gpu_global();
+    buf_flip_B2_Bfirst_r2_i.tag_gpu_global();
+    buf_flip_B2_Bsecond_r2_r.tag_gpu_global();
+    buf_flip_B2_Bsecond_r2_i.tag_gpu_global();
+    buf_flip_B2_Bthird_r2_r.tag_gpu_global();
+    buf_flip_B2_Bthird_r2_i.tag_gpu_global();
+// computation flip_B2_Blocal_r2_r_init("flip_B2_Blocal_r2_r_init", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0));
+    flip_B2_Blocal_r2_r_init.store_in(&buf_flip_B2_Blocal_r2_r, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    flip_B2_Blocal_r2_i_init.store_in(&buf_flip_B2_Blocal_r2_i, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    flip_B2_Bfirst_r2_r_init.store_in(&buf_flip_B2_Bfirst_r2_r, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    flip_B2_Bfirst_r2_i_init.store_in(&buf_flip_B2_Bfirst_r2_i, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    flip_B2_Bsecond_r2_r_init.store_in(&buf_flip_B2_Bsecond_r2_r, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    flip_B2_Bsecond_r2_i_init.store_in(&buf_flip_B2_Bsecond_r2_i, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    flip_B2_Bthird_r2_r_init.store_in(&buf_flip_B2_Bthird_r2_r, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    flip_B2_Bthird_r2_i_init.store_in(&buf_flip_B2_Bthird_r2_i, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    flip_B2_Blocal_r2_r_update.store_in(&buf_flip_B2_Blocal_r2_r, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    flip_B2_Blocal_r2_i_update.store_in(&buf_flip_B2_Blocal_r2_i, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    flip_B2_Bfirst_r2_r_update.store_in(&buf_flip_B2_Bfirst_r2_r, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    flip_B2_Bfirst_r2_i_update.store_in(&buf_flip_B2_Bfirst_r2_i, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    flip_B2_Bsecond_r2_r_update.store_in(&buf_flip_B2_Bsecond_r2_r, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    flip_B2_Bsecond_r2_i_update.store_in(&buf_flip_B2_Bsecond_r2_i, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    flip_B2_Bthird_r2_r_update.store_in(&buf_flip_B2_Bthird_r2_r, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    flip_B2_Bthird_r2_i_update.store_in(&buf_flip_B2_Bthird_r2_i, {t, x_out, x_in, 0, iCprime, iSprime, kCprime, kSprime, 0, 0, jCprime, jSprime, m});
+    buffer buf_B2_Blocal_diquark_r2_r("buf_B2_Blocal_diquark_r2_r",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, 1, 1, 1, 1, 1, 1}, p_float64, a_temporary);
+    buffer buf_B2_Blocal_diquark_r2_i("buf_B2_Blocal_diquark_r2_i",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, 1, 1, 1, 1, 1, 1}, p_float64, a_temporary);
+    buffer buf_B2_Bfirst_diquark_r2_r("buf_B2_Bfirst_diquark_r2_r",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, 1, 1, 1, 1, 1, 1}, p_float64, a_temporary);
+    buffer buf_B2_Bfirst_diquark_r2_i("buf_B2_Bfirst_diquark_r2_i",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, 1, 1, 1, 1, 1, 1}, p_float64, a_temporary);
+    buffer buf_B2_Bthird_diquark_r2_r("buf_B2_Bthird_diquark_r2_r",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, 1, 1, 1, 1, 1, 1}, p_float64, a_temporary);
+    buffer buf_B2_Bthird_diquark_r2_i("buf_B2_Bthird_diquark_r2_i",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, 1, 1, 1, 1, 1, 1}, p_float64, a_temporary);
+    buf_B2_Blocal_diquark_r2_r.tag_gpu_global();
+    buf_B2_Blocal_diquark_r2_i.tag_gpu_global();
+    buf_B2_Bfirst_diquark_r2_r.tag_gpu_global();
+    buf_B2_Bfirst_diquark_r2_i.tag_gpu_global();
+    buf_B2_Bthird_diquark_r2_r.tag_gpu_global();
+    buf_B2_Bthird_diquark_r2_i.tag_gpu_global();
+// computation B2_Blocal_r2_r_diquark("B2_Blocal_r2_r_diquark", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock}, B2_r2_diquark.get_real());
+    B2_Blocal_r2_r_diquark.store_in(&buf_B2_Blocal_diquark_r2_r, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    B2_Blocal_r2_i_diquark.store_in(&buf_B2_Blocal_diquark_r2_i, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    B2_Bfirst_r2_r_diquark.store_in(&buf_B2_Bfirst_diquark_r2_r, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    B2_Bfirst_r2_i_diquark.store_in(&buf_B2_Bfirst_diquark_r2_i, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    B2_Bthird_r2_r_diquark.store_in(&buf_B2_Bthird_diquark_r2_r, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    B2_Bthird_r2_i_diquark.store_in(&buf_B2_Bthird_diquark_r2_i, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    buffer buf_B2_Blocal_props_r2_r("buf_B2_Blocal_props_r2_r",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, 1, 1, 1, 1, 1, 1, Nc, Ns}, p_float64, a_temporary);
+    buffer buf_B2_Blocal_props_r2_i("buf_B2_Blocal_props_r2_i",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, 1, 1, 1, 1, 1, 1, Nc, Ns}, p_float64, a_temporary);
+    buffer buf_B2_Bfirst_props_r2_r("buf_B2_Bfirst_props_r2_r",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, 1, 1, 1, 1, 1, 1, Nc, Ns}, p_float64, a_temporary);
+    buffer buf_B2_Bfirst_props_r2_i("buf_B2_Bfirst_props_r2_i",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, 1, 1, 1, 1, 1, 1, Nc, Ns}, p_float64, a_temporary);
+    buffer buf_B2_Bsecond_props_r2_r("buf_B2_Bsecond_props_r2_r",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, 1, 1, 1, 1, 1, 1, Nc, Ns}, p_float64, a_temporary);
+    buffer buf_B2_Bsecond_props_r2_i("buf_B2_Bsecond_props_r2_i",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, 1, 1, 1, 1, 1, 1, Nc, Ns}, p_float64, a_temporary);
+    buffer buf_B2_Bthird_props_r2_r("buf_B2_Bthird_props_r2_r",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, 1, 1, 1, 1, 1, 1, Nc, Ns}, p_float64, a_temporary);
+    buffer buf_B2_Bthird_props_r2_i("buf_B2_Bthird_props_r2_i",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, 1, 1, 1, 1, 1, 1, Nc, Ns}, p_float64, a_temporary);
+    buf_B2_Blocal_props_r2_r.tag_gpu_global();
+    buf_B2_Blocal_props_r2_i.tag_gpu_global();
+    buf_B2_Bfirst_props_r2_r.tag_gpu_global();
+    buf_B2_Bfirst_props_r2_i.tag_gpu_global();
+    buf_B2_Bsecond_props_r2_r.tag_gpu_global();
+    buf_B2_Bsecond_props_r2_i.tag_gpu_global();
+    buf_B2_Bthird_props_r2_r.tag_gpu_global();
+    buf_B2_Bthird_props_r2_i.tag_gpu_global();
+// computation B2_Blocal_r2_r_props_init("B2_Blocal_r2_r_props_init", {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime}, expr((double) 0));
+    B2_Blocal_r2_r_props_init.store_in(&buf_B2_Blocal_props_r2_r, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0, jCprime, jSprime});
+    B2_Blocal_r2_i_props_init.store_in(&buf_B2_Blocal_props_r2_i, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0, jCprime, jSprime});
+    B2_Bfirst_r2_r_props_init.store_in(&buf_B2_Bfirst_props_r2_r, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0, jCprime, jSprime});
+    B2_Bfirst_r2_i_props_init.store_in(&buf_B2_Bfirst_props_r2_i, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0, jCprime, jSprime});
+    B2_Bsecond_r2_r_props_init.store_in(&buf_B2_Bsecond_props_r2_r, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0, jCprime, jSprime});
+    B2_Bsecond_r2_i_props_init.store_in(&buf_B2_Bsecond_props_r2_i, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0, jCprime, jSprime});
+    B2_Bthird_r2_r_props_init.store_in(&buf_B2_Bthird_props_r2_r, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0, jCprime, jSprime});
+    B2_Bthird_r2_i_props_init.store_in(&buf_B2_Bthird_props_r2_i, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0, jCprime, jSprime});
+    B2_Blocal_r2_r_props.store_in(&buf_B2_Blocal_props_r2_r, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0, jCprime, jSprime});
+    B2_Blocal_r2_i_props.store_in(&buf_B2_Blocal_props_r2_i, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0, jCprime, jSprime});
+    B2_Bfirst_r2_r_props.store_in(&buf_B2_Bfirst_props_r2_r, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0, jCprime, jSprime});
+    B2_Bfirst_r2_i_props.store_in(&buf_B2_Bfirst_props_r2_i, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0, jCprime, jSprime});
+    B2_Bsecond_r2_r_props.store_in(&buf_B2_Bsecond_props_r2_r, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0, jCprime, jSprime});
+    B2_Bsecond_r2_i_props.store_in(&buf_B2_Bsecond_props_r2_i, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0, jCprime, jSprime});
+    B2_Bthird_r2_r_props.store_in(&buf_B2_Bthird_props_r2_r, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0, jCprime, jSprime});
+    B2_Bthird_r2_i_props.store_in(&buf_B2_Bthird_props_r2_i, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0, jCprime, jSprime});
+
+    buffer buf_src_B1_Blocal_r1_r("buf_src_B1_Blocal_r1_r",   {Lt, Vsnk/sites_per_rank, sites_per_rank, Nc, Ns, Nc, Ns, Nc, Ns, Nsrc}, p_float64, a_temporary);
+    buffer buf_src_B1_Blocal_r1_i("buf_src_B1_Blocal_r1_i",   {Lt, Vsnk/sites_per_rank, sites_per_rank, Nc, Ns, Nc, Ns, Nc, Ns, Nsrc}, p_float64, a_temporary);
+    buf_src_B1_Blocal_r1_r.tag_gpu_global();
+    buf_src_B1_Blocal_r1_i.tag_gpu_global();
+    src_B1_Blocal_r1_r_init.store_in(&buf_src_B1_Blocal_r1_r, {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m});
+    src_B1_Blocal_r1_i_init.store_in(&buf_src_B1_Blocal_r1_i, {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m});
+    src_B1_Blocal_r1_r_update.store_in(&buf_src_B1_Blocal_r1_r, {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m});
+    src_B1_Blocal_r1_i_update.store_in(&buf_src_B1_Blocal_r1_i, {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m});
+    buffer buf_flip_src_B1_Blocal_r1_r("buf_flip_src_B1_Blocal_r1_r",   {Lt, Vsnk/sites_per_rank, sites_per_rank, Nc, Ns, Nc, Ns, Nc, Ns, Nsrc}, p_float64, a_temporary);
+    buffer buf_flip_src_B1_Blocal_r1_i("buf_flip_src_B1_Blocal_r1_i",   {Lt, Vsnk/sites_per_rank, sites_per_rank, Nc, Ns, Nc, Ns, Nc, Ns, Nsrc}, p_float64, a_temporary);
+    buf_flip_src_B1_Blocal_r1_r.tag_gpu_global();
+    buf_flip_src_B1_Blocal_r1_i.tag_gpu_global();
+    flip_src_B1_Blocal_r1_r_init.store_in(&buf_flip_src_B1_Blocal_r1_r, {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m});
+    flip_src_B1_Blocal_r1_i_init.store_in(&buf_flip_src_B1_Blocal_r1_i, {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m});
+    flip_src_B1_Blocal_r1_r_update.store_in(&buf_flip_src_B1_Blocal_r1_r, {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m});
+    flip_src_B1_Blocal_r1_i_update.store_in(&buf_flip_src_B1_Blocal_r1_i, {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m});
+    buffer buf_src_B1_Blocal_diquark_r1_r("buf_src_B1_Blocal_diquark_r1_r",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1}, p_float64, a_temporary);
+    buffer buf_src_B1_Blocal_diquark_r1_i("buf_src_B1_Blocal_diquark_r1_i",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1}, p_float64, a_temporary);
+    buf_src_B1_Blocal_diquark_r1_r.tag_gpu_global();
+    buf_src_B1_Blocal_diquark_r1_i.tag_gpu_global();
+    src_B1_Blocal_r1_r_diquark.store_in(&buf_src_B1_Blocal_diquark_r1_r, {t, x_out, x_in, 0});
+    src_B1_Blocal_r1_i_diquark.store_in(&buf_src_B1_Blocal_diquark_r1_i, {t, x_out, x_in, 0});
+    buffer buf_src_B1_Blocal_props_r1_r("buf_src_B1_Blocal_props_r1_r",   {Lt, Vsnk/sites_per_rank, sites_per_rank, Nc, Ns}, p_float64, a_temporary);
+    buffer buf_src_B1_Blocal_props_r1_i("buf_src_B1_Blocal_props_r1_i",   {Lt, Vsnk/sites_per_rank, sites_per_rank, Nc, Ns}, p_float64, a_temporary);
+    buf_src_B1_Blocal_props_r1_r.tag_gpu_global();
+    buf_src_B1_Blocal_props_r1_i.tag_gpu_global();
+    src_B1_Blocal_r1_r_props_init.store_in(&buf_src_B1_Blocal_props_r1_r, {t, x_out, x_in, jCprime, jSprime});
+    src_B1_Blocal_r1_i_props_init.store_in(&buf_src_B1_Blocal_props_r1_i, {t, x_out, x_in, jCprime, jSprime});
+    src_B1_Blocal_r1_r_props.store_in(&buf_src_B1_Blocal_props_r1_r, {t, x_out, x_in, jCprime, jSprime});
+    src_B1_Blocal_r1_i_props.store_in(&buf_src_B1_Blocal_props_r1_i, {t, x_out, x_in, jCprime, jSprime});
+
+    buffer buf_src_B1_Blocal_r2_r("buf_src_B1_Blocal_r2_r",   {Lt, Vsnk/sites_per_rank, sites_per_rank, Nc, Ns, Nc, Ns, Nc, Ns, Nsrc}, p_float64, a_temporary);
+    buffer buf_src_B1_Blocal_r2_i("buf_src_B1_Blocal_r2_i",   {Lt, Vsnk/sites_per_rank, sites_per_rank, Nc, Ns, Nc, Ns, Nc, Ns, Nsrc}, p_float64, a_temporary);
+    buf_src_B1_Blocal_r2_r.tag_gpu_global();
+    buf_src_B1_Blocal_r2_i.tag_gpu_global();
+    src_B1_Blocal_r2_r_init.store_in(&buf_src_B1_Blocal_r2_r, {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m});
+    src_B1_Blocal_r2_i_init.store_in(&buf_src_B1_Blocal_r2_i, {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m});
+    src_B1_Blocal_r2_r_update.store_in(&buf_src_B1_Blocal_r2_r, {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m});
+    src_B1_Blocal_r2_i_update.store_in(&buf_src_B1_Blocal_r2_i, {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m});
+    buffer buf_flip_src_B1_Blocal_r2_r("buf_flip_src_B1_Blocal_r2_r",   {Lt, Vsnk/sites_per_rank, sites_per_rank, Nc, Ns, Nc, Ns, Nc, Ns, Nsrc}, p_float64, a_temporary);
+    buffer buf_flip_src_B1_Blocal_r2_i("buf_flip_src_B1_Blocal_r2_i",   {Lt, Vsnk/sites_per_rank, sites_per_rank, Nc, Ns, Nc, Ns, Nc, Ns, Nsrc}, p_float64, a_temporary);
+    buf_flip_src_B1_Blocal_r2_r.tag_gpu_global();
+    buf_flip_src_B1_Blocal_r2_i.tag_gpu_global();
+    flip_src_B1_Blocal_r2_r_init.store_in(&buf_flip_src_B1_Blocal_r2_r, {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m});
+    flip_src_B1_Blocal_r2_i_init.store_in(&buf_flip_src_B1_Blocal_r2_i, {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m});
+    flip_src_B1_Blocal_r2_r_update.store_in(&buf_flip_src_B1_Blocal_r2_r, {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m});
+    flip_src_B1_Blocal_r2_i_update.store_in(&buf_flip_src_B1_Blocal_r2_i, {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m});
+    buffer buf_src_B1_Blocal_diquark_r2_r("buf_src_B1_Blocal_diquark_r2_r",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1}, p_float64, a_temporary);
+    buffer buf_src_B1_Blocal_diquark_r2_i("buf_src_B1_Blocal_diquark_r2_i",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1}, p_float64, a_temporary);
+    buf_src_B1_Blocal_diquark_r2_r.tag_gpu_global();
+    buf_src_B1_Blocal_diquark_r2_i.tag_gpu_global();
+    src_B1_Blocal_r2_r_diquark.store_in(&buf_src_B1_Blocal_diquark_r2_r, {t, x_out, x_in, 0});
+    src_B1_Blocal_r2_i_diquark.store_in(&buf_src_B1_Blocal_diquark_r2_i, {t, x_out, x_in, 0});
+    buffer buf_src_B1_Blocal_props_r2_r("buf_src_B1_Blocal_props_r2_r",   {Lt, Vsnk/sites_per_rank, sites_per_rank, Nc, Ns}, p_float64, a_temporary);
+    buffer buf_src_B1_Blocal_props_r2_i("buf_src_B1_Blocal_props_r2_i",   {Lt, Vsnk/sites_per_rank, sites_per_rank, Nc, Ns}, p_float64, a_temporary);
+    buf_src_B1_Blocal_props_r2_r.tag_gpu_global();
+    buf_src_B1_Blocal_props_r2_i.tag_gpu_global();
+    src_B1_Blocal_r2_r_props_init.store_in(&buf_src_B1_Blocal_props_r2_r, {t, x_out, x_in, jCprime, jSprime});
+    src_B1_Blocal_r2_i_props_init.store_in(&buf_src_B1_Blocal_props_r2_i, {t, x_out, x_in, jCprime, jSprime});
+    src_B1_Blocal_r2_r_props.store_in(&buf_src_B1_Blocal_props_r2_r, {t, x_out, x_in, jCprime, jSprime});
+    src_B1_Blocal_r2_i_props.store_in(&buf_src_B1_Blocal_props_r2_i, {t, x_out, x_in, jCprime, jSprime});
+
+    buffer buf_src_B2_Blocal_r1_r("buf_src_B2_Blocal_r1_r",   {Lt, Vsnk/sites_per_rank, sites_per_rank, Nc, Ns, Nc, Ns, Nc, Ns, Nsrc}, p_float64, a_temporary);
+    buffer buf_src_B2_Blocal_r1_i("buf_src_B2_Blocal_r1_i",   {Lt, Vsnk/sites_per_rank, sites_per_rank, Nc, Ns, Nc, Ns, Nc, Ns, Nsrc}, p_float64, a_temporary);
+    buf_src_B2_Blocal_r1_r.tag_gpu_global();
+    buf_src_B2_Blocal_r1_i.tag_gpu_global();
+    src_B2_Blocal_r1_r_init.store_in(&buf_src_B2_Blocal_r1_r, {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m});
+    src_B2_Blocal_r1_i_init.store_in(&buf_src_B2_Blocal_r1_i, {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m});
+    src_B2_Blocal_r1_r_update.store_in(&buf_src_B2_Blocal_r1_r, {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m});
+    src_B2_Blocal_r1_i_update.store_in(&buf_src_B2_Blocal_r1_i, {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m});
+    buffer buf_flip_src_B2_Blocal_r1_r("buf_flip_src_B2_Blocal_r1_r",   {Lt, Vsnk/sites_per_rank, sites_per_rank, Nc, Ns, Nc, Ns, Nc, Ns, Nsrc}, p_float64, a_temporary);
+    buffer buf_flip_src_B2_Blocal_r1_i("buf_flip_src_B2_Blocal_r1_i",   {Lt, Vsnk/sites_per_rank, sites_per_rank, Nc, Ns, Nc, Ns, Nc, Ns, Nsrc}, p_float64, a_temporary);
+    buf_flip_src_B2_Blocal_r1_r.tag_gpu_global();
+    buf_flip_src_B2_Blocal_r1_i.tag_gpu_global();
+    flip_src_B2_Blocal_r1_r_init.store_in(&buf_flip_src_B2_Blocal_r1_r, {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m});
+    flip_src_B2_Blocal_r1_i_init.store_in(&buf_flip_src_B2_Blocal_r1_i, {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m});
+    flip_src_B2_Blocal_r1_r_update.store_in(&buf_flip_src_B2_Blocal_r1_r, {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m});
+    flip_src_B2_Blocal_r1_i_update.store_in(&buf_flip_src_B2_Blocal_r1_i, {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m});
+    buffer buf_src_B2_Blocal_diquark_r1_r("buf_src_B2_Blocal_diquark_r1_r",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1}, p_float64, a_temporary);
+    buffer buf_src_B2_Blocal_diquark_r1_i("buf_src_B2_Blocal_diquark_r1_i",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1}, p_float64, a_temporary);
+    buf_src_B2_Blocal_diquark_r1_r.tag_gpu_global();
+    buf_src_B2_Blocal_diquark_r1_i.tag_gpu_global();
+    src_B2_Blocal_r1_r_diquark.store_in(&buf_src_B2_Blocal_diquark_r1_r, {t, x_out, x_in, 0});
+    src_B2_Blocal_r1_i_diquark.store_in(&buf_src_B2_Blocal_diquark_r1_i, {t, x_out, x_in, 0});
+    buffer buf_src_B2_Blocal_props_r1_r("buf_src_B2_Blocal_props_r1_r",   {Lt, Vsnk/sites_per_rank, sites_per_rank, Nc, Ns}, p_float64, a_temporary);
+    buffer buf_src_B2_Blocal_props_r1_i("buf_src_B2_Blocal_props_r1_i",   {Lt, Vsnk/sites_per_rank, sites_per_rank, Nc, Ns}, p_float64, a_temporary);
+    buf_src_B2_Blocal_props_r1_r.tag_gpu_global();
+    buf_src_B2_Blocal_props_r1_i.tag_gpu_global();
+    src_B2_Blocal_r1_r_props_init.store_in(&buf_src_B2_Blocal_props_r1_r, {t, x_out, x_in, jCprime, jSprime});
+    src_B2_Blocal_r1_i_props_init.store_in(&buf_src_B2_Blocal_props_r1_i, {t, x_out, x_in, jCprime, jSprime});
+    src_B2_Blocal_r1_r_props.store_in(&buf_src_B2_Blocal_props_r1_r, {t, x_out, x_in, jCprime, jSprime});
+    src_B2_Blocal_r1_i_props.store_in(&buf_src_B2_Blocal_props_r1_i, {t, x_out, x_in, jCprime, jSprime});
+
+    buffer buf_src_B2_Blocal_r2_r("buf_src_B2_Blocal_r2_r",   {Lt, Vsnk/sites_per_rank, sites_per_rank, Nc, Ns, Nc, Ns, Nc, Ns, Nsrc}, p_float64, a_temporary);
+    buffer buf_src_B2_Blocal_r2_i("buf_src_B2_Blocal_r2_i",   {Lt, Vsnk/sites_per_rank, sites_per_rank, Nc, Ns, Nc, Ns, Nc, Ns, Nsrc}, p_float64, a_temporary);
+    buf_src_B2_Blocal_r2_r.tag_gpu_global();
+    buf_src_B2_Blocal_r2_i.tag_gpu_global();
+    src_B2_Blocal_r2_r_init.store_in(&buf_src_B2_Blocal_r2_r, {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m});
+    src_B2_Blocal_r2_i_init.store_in(&buf_src_B2_Blocal_r2_i, {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m});
+    src_B2_Blocal_r2_r_update.store_in(&buf_src_B2_Blocal_r2_r, {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m});
+    src_B2_Blocal_r2_i_update.store_in(&buf_src_B2_Blocal_r2_i, {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m});
+    buffer buf_flip_src_B2_Blocal_r2_r("buf_flip_src_B2_Blocal_r2_r",   {Lt, Vsnk/sites_per_rank, sites_per_rank, Nc, Ns, Nc, Ns, Nc, Ns, Nsrc}, p_float64, a_temporary);
+    buffer buf_flip_src_B2_Blocal_r2_i("buf_flip_src_B2_Blocal_r2_i",   {Lt, Vsnk/sites_per_rank, sites_per_rank, Nc, Ns, Nc, Ns, Nc, Ns, Nsrc}, p_float64, a_temporary);
+    buf_flip_src_B2_Blocal_r2_r.tag_gpu_global();
+    buf_flip_src_B2_Blocal_r2_i.tag_gpu_global();
+    flip_src_B2_Blocal_r2_r_init.store_in(&buf_flip_src_B2_Blocal_r2_r, {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m});
+    flip_src_B2_Blocal_r2_i_init.store_in(&buf_flip_src_B2_Blocal_r2_i, {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m});
+    flip_src_B2_Blocal_r2_r_update.store_in(&buf_flip_src_B2_Blocal_r2_r, {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m});
+    flip_src_B2_Blocal_r2_i_update.store_in(&buf_flip_src_B2_Blocal_r2_i, {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m});
+    buffer buf_src_B2_Blocal_diquark_r2_r("buf_src_B2_Blocal_diquark_r2_r",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1}, p_float64, a_temporary);
+    buffer buf_src_B2_Blocal_diquark_r2_i("buf_src_B2_Blocal_diquark_r2_i",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1}, p_float64, a_temporary);
+    buf_src_B2_Blocal_diquark_r2_r.tag_gpu_global();
+    buf_src_B2_Blocal_diquark_r2_i.tag_gpu_global();
+    src_B2_Blocal_r2_r_diquark.store_in(&buf_src_B2_Blocal_diquark_r2_r, {t, x_out, x_in, 0});
+    src_B2_Blocal_r2_i_diquark.store_in(&buf_src_B2_Blocal_diquark_r2_i, {t, x_out, x_in, 0});
+    buffer buf_src_B2_Blocal_props_r2_r("buf_src_B2_Blocal_props_r2_r",   {Lt, Vsnk/sites_per_rank, sites_per_rank, Nc, Ns}, p_float64, a_temporary);
+    buffer buf_src_B2_Blocal_props_r2_i("buf_src_B2_Blocal_props_r2_i",   {Lt, Vsnk/sites_per_rank, sites_per_rank, Nc, Ns}, p_float64, a_temporary);
+    buf_src_B2_Blocal_props_r2_r.tag_gpu_global();
+    buf_src_B2_Blocal_props_r2_i.tag_gpu_global();
+    src_B2_Blocal_r2_r_props_init.store_in(&buf_src_B2_Blocal_props_r2_r, {t, x_out, x_in, jCprime, jSprime});
+    src_B2_Blocal_r2_i_props_init.store_in(&buf_src_B2_Blocal_props_r2_i, {t, x_out, x_in, jCprime, jSprime});
+    src_B2_Blocal_r2_r_props.store_in(&buf_src_B2_Blocal_props_r2_r, {t, x_out, x_in, jCprime, jSprime});
+    src_B2_Blocal_r2_i_props.store_in(&buf_src_B2_Blocal_props_r2_i, {t, x_out, x_in, jCprime, jSprime});
+
+// t, y_out, y_in
+
+    buffer buf_snk_B1_Blocal_r1_r("buf_snk_B1_Blocal_r1_r",   {Lt, Vsnk/sites_per_rank, sites_per_rank, Nc, Ns, Nc, Ns, 1, Nc, Ns, Nsnk}, p_float64, a_temporary);
+    buffer buf_snk_B1_Blocal_r1_i("buf_snk_B1_Blocal_r1_i",   {Lt, Vsnk/sites_per_rank, sites_per_rank, Nc, Ns, Nc, Ns, 1, Nc, Ns, Nsnk}, p_float64, a_temporary);
+    buf_snk_B1_Blocal_r1_r.tag_gpu_global();
+    buf_snk_B1_Blocal_r1_i.tag_gpu_global();
+    snk_B1_Blocal_r1_r_init.store_in(&buf_snk_B1_Blocal_r1_r, {t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, 0, jCprime, jSprime, n});
+    snk_B1_Blocal_r1_i_init.store_in(&buf_snk_B1_Blocal_r1_i, {t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, 0, jCprime, jSprime, n});
+    snk_B1_Blocal_r1_r_update.store_in(&buf_snk_B1_Blocal_r1_r, {t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, 0, jCprime, jSprime, n});
+    snk_B1_Blocal_r1_i_update.store_in(&buf_snk_B1_Blocal_r1_i, {t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, 0, jCprime, jSprime, n});
+    buffer buf_flip_snk_B1_Blocal_r1_r("buf_flip_snk_B1_Blocal_r1_r",   {Lt, Vsnk/sites_per_rank, sites_per_rank, Nc, Ns, Nc, Ns, 1, Nc, Ns, Nsnk}, p_float64, a_temporary);
+    buffer buf_flip_snk_B1_Blocal_r1_i("buf_flip_snk_B1_Blocal_r1_i",   {Lt, Vsnk/sites_per_rank, sites_per_rank, Nc, Ns, Nc, Ns, 1, Nc, Ns, Nsnk}, p_float64, a_temporary);
+    buf_flip_snk_B1_Blocal_r1_r.tag_gpu_global();
+    buf_flip_snk_B1_Blocal_r1_i.tag_gpu_global();
+    flip_snk_B1_Blocal_r1_r_init.store_in(&buf_flip_snk_B1_Blocal_r1_r, {t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, 0, jCprime, jSprime, n});
+    flip_snk_B1_Blocal_r1_i_init.store_in(&buf_flip_snk_B1_Blocal_r1_i, {t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, 0, jCprime, jSprime, n});
+    flip_snk_B1_Blocal_r1_r_update.store_in(&buf_flip_snk_B1_Blocal_r1_r, {t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, 0, jCprime, jSprime, n});
+    flip_snk_B1_Blocal_r1_i_update.store_in(&buf_flip_snk_B1_Blocal_r1_i, {t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, 0, jCprime, jSprime, n});
+    buffer buf_snk_B1_Blocal_diquark_r1_r("buf_snk_B1_Blocal_diquark_r1_r",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1}, p_float64, a_temporary);
+    buffer buf_snk_B1_Blocal_diquark_r1_i("buf_snk_B1_Blocal_diquark_r1_i",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1}, p_float64, a_temporary);
+    buf_snk_B1_Blocal_diquark_r1_r.tag_gpu_global();
+    buf_snk_B1_Blocal_diquark_r1_i.tag_gpu_global();
+    snk_B1_Blocal_r1_r_diquark.store_in(&buf_snk_B1_Blocal_diquark_r1_r, {t, y_out, y_in, 0});
+    snk_B1_Blocal_r1_i_diquark.store_in(&buf_snk_B1_Blocal_diquark_r1_i, {t, y_out, y_in, 0});
+    buffer buf_snk_B1_Blocal_props_r1_r("buf_snk_B1_Blocal_props_r1_r",   {Lt, Vsnk/sites_per_rank, sites_per_rank, Nc, Ns}, p_float64, a_temporary);
+    buffer buf_snk_B1_Blocal_props_r1_i("buf_snk_B1_Blocal_props_r1_i",   {Lt, Vsnk/sites_per_rank, sites_per_rank, Nc, Ns}, p_float64, a_temporary);
+    buf_snk_B1_Blocal_props_r1_r.tag_gpu_global();
+    buf_snk_B1_Blocal_props_r1_i.tag_gpu_global();
+    snk_B1_Blocal_r1_r_props_init.store_in(&buf_snk_B1_Blocal_props_r1_r, {t, y_out, y_in, jCprime, jSprime});
+    snk_B1_Blocal_r1_i_props_init.store_in(&buf_snk_B1_Blocal_props_r1_i, {t, y_out, y_in, jCprime, jSprime});
+    snk_B1_Blocal_r1_r_props.store_in(&buf_snk_B1_Blocal_props_r1_r, {t, y_out, y_in, jCprime, jSprime});
+    snk_B1_Blocal_r1_i_props.store_in(&buf_snk_B1_Blocal_props_r1_i, {t, y_out, y_in, jCprime, jSprime});
+
+    buffer buf_snk_B1_Blocal_r2_r("buf_snk_B1_Blocal_r2_r",   {Lt, Vsnk/sites_per_rank, sites_per_rank, Nc, Ns, Nc, Ns, 1, Nc, Ns, Nsnk}, p_float64, a_temporary);
+    buffer buf_snk_B1_Blocal_r2_i("buf_snk_B1_Blocal_r2_i",   {Lt, Vsnk/sites_per_rank, sites_per_rank, Nc, Ns, Nc, Ns, 1, Nc, Ns, Nsnk}, p_float64, a_temporary);
+    buf_snk_B1_Blocal_r2_r.tag_gpu_global();
+    buf_snk_B1_Blocal_r2_i.tag_gpu_global();
+    snk_B1_Blocal_r2_r_init.store_in(&buf_snk_B1_Blocal_r2_r, {t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, 0, jCprime, jSprime, n});
+    snk_B1_Blocal_r2_i_init.store_in(&buf_snk_B1_Blocal_r2_i, {t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, 0, jCprime, jSprime, n});
+    snk_B1_Blocal_r2_r_update.store_in(&buf_snk_B1_Blocal_r2_r, {t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, 0, jCprime, jSprime, n});
+    snk_B1_Blocal_r2_i_update.store_in(&buf_snk_B1_Blocal_r2_i, {t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, 0, jCprime, jSprime, n});
+    buffer buf_flip_snk_B1_Blocal_r2_r("buf_flip_snk_B1_Blocal_r2_r",   {Lt, Vsnk/sites_per_rank, sites_per_rank, Nc, Ns, Nc, Ns, 1, Nc, Ns, Nsnk}, p_float64, a_temporary);
+    buffer buf_flip_snk_B1_Blocal_r2_i("buf_flip_snk_B1_Blocal_r2_i",   {Lt, Vsnk/sites_per_rank, sites_per_rank, Nc, Ns, Nc, Ns, 1, Nc, Ns, Nsnk}, p_float64, a_temporary);
+    buf_flip_snk_B1_Blocal_r2_r.tag_gpu_global();
+    buf_flip_snk_B1_Blocal_r2_i.tag_gpu_global();
+    flip_snk_B1_Blocal_r2_r_init.store_in(&buf_flip_snk_B1_Blocal_r2_r, {t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, 0, jCprime, jSprime, n});
+    flip_snk_B1_Blocal_r2_i_init.store_in(&buf_flip_snk_B1_Blocal_r2_i, {t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, 0, jCprime, jSprime, n});
+    flip_snk_B1_Blocal_r2_r_update.store_in(&buf_flip_snk_B1_Blocal_r2_r, {t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, 0, jCprime, jSprime, n});
+    flip_snk_B1_Blocal_r2_i_update.store_in(&buf_flip_snk_B1_Blocal_r2_i, {t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, 0, jCprime, jSprime, n});
+    buffer buf_snk_B1_Blocal_diquark_r2_r("buf_snk_B1_Blocal_diquark_r2_r",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1}, p_float64, a_temporary);
+    buffer buf_snk_B1_Blocal_diquark_r2_i("buf_snk_B1_Blocal_diquark_r2_i",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1}, p_float64, a_temporary);
+    buf_snk_B1_Blocal_diquark_r2_r.tag_gpu_global();
+    buf_snk_B1_Blocal_diquark_r2_i.tag_gpu_global();
+    snk_B1_Blocal_r2_r_diquark.store_in(&buf_snk_B1_Blocal_diquark_r2_r, {t, y_out, y_in, 0});
+    snk_B1_Blocal_r2_i_diquark.store_in(&buf_snk_B1_Blocal_diquark_r2_i, {t, y_out, y_in, 0});
+    buffer buf_snk_B1_Blocal_props_r2_r("buf_snk_B1_Blocal_props_r2_r",   {Lt, Vsnk/sites_per_rank, sites_per_rank, Nc, Ns}, p_float64, a_temporary);
+    buffer buf_snk_B1_Blocal_props_r2_i("buf_snk_B1_Blocal_props_r2_i",   {Lt, Vsnk/sites_per_rank, sites_per_rank, Nc, Ns}, p_float64, a_temporary);
+    buf_snk_B1_Blocal_props_r2_r.tag_gpu_global();
+    buf_snk_B1_Blocal_props_r2_i.tag_gpu_global();
+    snk_B1_Blocal_r2_r_props_init.store_in(&buf_snk_B1_Blocal_props_r2_r, {t, y_out, y_in, jCprime, jSprime});
+    snk_B1_Blocal_r2_i_props_init.store_in(&buf_snk_B1_Blocal_props_r2_i, {t, y_out, y_in, jCprime, jSprime});
+    snk_B1_Blocal_r2_r_props.store_in(&buf_snk_B1_Blocal_props_r2_r, {t, y_out, y_in, jCprime, jSprime});
+    snk_B1_Blocal_r2_i_props.store_in(&buf_snk_B1_Blocal_props_r2_i, {t, y_out, y_in, jCprime, jSprime});
+
+    buffer buf_snk_B2_Blocal_r1_r("buf_snk_B2_Blocal_r1_r",   {Lt, Vsnk/sites_per_rank, sites_per_rank, Nc, Ns, Nc, Ns, 1, Nc, Ns, Nsnk}, p_float64, a_temporary);
+    buffer buf_snk_B2_Blocal_r1_i("buf_snk_B2_Blocal_r1_i",   {Lt, Vsnk/sites_per_rank, sites_per_rank, Nc, Ns, Nc, Ns, 1, Nc, Ns, Nsnk}, p_float64, a_temporary);
+    buf_snk_B2_Blocal_r1_r.tag_gpu_global();
+    buf_snk_B2_Blocal_r1_i.tag_gpu_global();
+    snk_B2_Blocal_r1_r_init.store_in(&buf_snk_B2_Blocal_r1_r, {t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, x, jCprime, jSprime, n});
+    snk_B2_Blocal_r1_i_init.store_in(&buf_snk_B2_Blocal_r1_i, {t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, x, jCprime, jSprime, n});
+    snk_B2_Blocal_r1_r_update.store_in(&buf_snk_B2_Blocal_r1_r, {t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, x, jCprime, jSprime, n});
+    snk_B2_Blocal_r1_i_update.store_in(&buf_snk_B2_Blocal_r1_i, {t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, x, jCprime, jSprime, n});
+    buffer buf_flip_snk_B2_Blocal_r1_r("buf_flip_snk_B2_Blocal_r1_r",   {Lt, Vsnk/sites_per_rank, sites_per_rank, Nc, Ns, Nc, Ns, 1, Nc, Ns, Nsnk}, p_float64, a_temporary);
+    buffer buf_flip_snk_B2_Blocal_r1_i("buf_flip_snk_B2_Blocal_r1_i",   {Lt, Vsnk/sites_per_rank, sites_per_rank, Nc, Ns, Nc, Ns, 1, Nc, Ns, Nsnk}, p_float64, a_temporary);
+    buf_flip_snk_B2_Blocal_r1_r.tag_gpu_global();
+    buf_flip_snk_B2_Blocal_r1_i.tag_gpu_global();
+    flip_snk_B2_Blocal_r1_r_init.store_in(&buf_flip_snk_B2_Blocal_r1_r, {t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, 0, jCprime, jSprime, n});
+    flip_snk_B2_Blocal_r1_i_init.store_in(&buf_flip_snk_B2_Blocal_r1_i, {t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, 0, jCprime, jSprime, n});
+    flip_snk_B2_Blocal_r1_r_update.store_in(&buf_flip_snk_B2_Blocal_r1_r, {t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, 0, jCprime, jSprime, n});
+    flip_snk_B2_Blocal_r1_i_update.store_in(&buf_flip_snk_B2_Blocal_r1_i, {t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, 0, jCprime, jSprime, n});
+    buffer buf_snk_B2_Blocal_diquark_r1_r("buf_snk_B2_Blocal_diquark_r1_r",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1}, p_float64, a_temporary);
+    buffer buf_snk_B2_Blocal_diquark_r1_i("buf_snk_B2_Blocal_diquark_r1_i",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1}, p_float64, a_temporary);
+    buf_snk_B2_Blocal_diquark_r1_r.tag_gpu_global();
+    buf_snk_B2_Blocal_diquark_r1_i.tag_gpu_global();
+    snk_B2_Blocal_r1_r_diquark.store_in(&buf_snk_B2_Blocal_diquark_r1_r, {t, y_out, y_in, 0});
+    snk_B2_Blocal_r1_i_diquark.store_in(&buf_snk_B2_Blocal_diquark_r1_i, {t, y_out, y_in, 0});
+    buffer buf_snk_B2_Blocal_props_r1_r("buf_snk_B2_Blocal_props_r1_r",   {Lt, Vsnk/sites_per_rank, sites_per_rank, Nc, Ns}, p_float64, a_temporary);
+    buffer buf_snk_B2_Blocal_props_r1_i("buf_snk_B2_Blocal_props_r1_i",   {Lt, Vsnk/sites_per_rank, sites_per_rank, Nc, Ns}, p_float64, a_temporary);
+    buf_snk_B2_Blocal_props_r1_r.tag_gpu_global();
+    buf_snk_B2_Blocal_props_r1_i.tag_gpu_global();
+    snk_B2_Blocal_r1_r_props_init.store_in(&buf_snk_B2_Blocal_props_r1_r, {t, y_out, y_in, jCprime, jSprime});
+    snk_B2_Blocal_r1_i_props_init.store_in(&buf_snk_B2_Blocal_props_r1_i, {t, y_out, y_in, jCprime, jSprime});
+    snk_B2_Blocal_r1_r_props.store_in(&buf_snk_B2_Blocal_props_r1_r, {t, y_out, y_in, jCprime, jSprime});
+    snk_B2_Blocal_r1_i_props.store_in(&buf_snk_B2_Blocal_props_r1_i, {t, y_out, y_in, jCprime, jSprime});
+
+    buffer buf_snk_B2_Blocal_r2_r("buf_snk_B2_Blocal_r2_r",   {Lt, Vsnk/sites_per_rank, sites_per_rank, Nc, Ns, Nc, Ns, Nc, Ns, Nsnk}, p_float64, a_temporary);
+    buffer buf_snk_B2_Blocal_r2_i("buf_snk_B2_Blocal_r2_i",   {Lt, Vsnk/sites_per_rank, sites_per_rank, Nc, Ns, Nc, Ns, Nc, Ns, Nsnk}, p_float64, a_temporary);
+    buf_snk_B2_Blocal_r2_r.tag_gpu_global();
+    buf_snk_B2_Blocal_r2_i.tag_gpu_global();
+    snk_B2_Blocal_r2_r_init.store_in(&buf_snk_B2_Blocal_r2_r, {t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, n});
+    snk_B2_Blocal_r2_i_init.store_in(&buf_snk_B2_Blocal_r2_i, {t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, n});
+    snk_B2_Blocal_r2_r_update.store_in(&buf_snk_B2_Blocal_r2_r, {t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, n});
+    snk_B2_Blocal_r2_i_update.store_in(&buf_snk_B2_Blocal_r2_i, {t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, n});
+    buffer buf_flip_snk_B2_Blocal_r2_r("buf_flip_snk_B2_Blocal_r2_r",   {Lt, Vsnk/sites_per_rank, sites_per_rank, Nc, Ns, Nc, Ns, Nc, Ns, Nsnk}, p_float64, a_temporary);
+    buffer buf_flip_snk_B2_Blocal_r2_i("buf_flip_snk_B2_Blocal_r2_i",   {Lt, Vsnk/sites_per_rank, sites_per_rank, Nc, Ns, Nc, Ns, Nc, Ns, Nsnk}, p_float64, a_temporary);
+    buf_flip_snk_B2_Blocal_r2_r.tag_gpu_global();
+    buf_flip_snk_B2_Blocal_r2_i.tag_gpu_global();
+    flip_snk_B2_Blocal_r2_r_init.store_in(&buf_flip_snk_B2_Blocal_r2_r, {t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, n});
+    flip_snk_B2_Blocal_r2_i_init.store_in(&buf_flip_snk_B2_Blocal_r2_i, {t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, n});
+    flip_snk_B2_Blocal_r2_r_update.store_in(&buf_flip_snk_B2_Blocal_r2_r, {t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, n});
+    flip_snk_B2_Blocal_r2_i_update.store_in(&buf_flip_snk_B2_Blocal_r2_i, {t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, n});
+    buffer buf_snk_B2_Blocal_diquark_r2_r("buf_snk_B2_Blocal_diquark_r2_r",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1}, p_float64, a_temporary);
+    buffer buf_snk_B2_Blocal_diquark_r2_i("buf_snk_B2_Blocal_diquark_r2_i",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1}, p_float64, a_temporary);
+    buf_snk_B2_Blocal_diquark_r2_r.tag_gpu_global();
+    buf_snk_B2_Blocal_diquark_r2_i.tag_gpu_global();
+    snk_B2_Blocal_r2_r_diquark.store_in(&buf_snk_B2_Blocal_diquark_r2_r, {t, y_out, y_in, 0});
+    snk_B2_Blocal_r2_i_diquark.store_in(&buf_snk_B2_Blocal_diquark_r2_i, {t, y_out, y_in, 0});
+    buffer buf_snk_B2_Blocal_props_r2_r("buf_snk_B2_Blocal_props_r2_r",   {Lt, Vsnk/sites_per_rank, sites_per_rank, Nc, Ns}, p_float64, a_temporary);
+    buffer buf_snk_B2_Blocal_props_r2_i("buf_snk_B2_Blocal_props_r2_i",   {Lt, Vsnk/sites_per_rank, sites_per_rank, Nc, Ns}, p_float64, a_temporary);
+    buf_snk_B2_Blocal_props_r2_r.tag_gpu_global();
+    buf_snk_B2_Blocal_props_r2_i.tag_gpu_global();
+    snk_B2_Blocal_r2_r_props_init.store_in(&buf_snk_B2_Blocal_props_r2_r, {t, y_out, y_in, jCprime, jSprime});
+    snk_B2_Blocal_r2_i_props_init.store_in(&buf_snk_B2_Blocal_props_r2_i, {t, y_out, y_in, jCprime, jSprime});
+    snk_B2_Blocal_r2_r_props.store_in(&buf_snk_B2_Blocal_props_r2_r, {t, y_out, y_in, jCprime, jSprime});
+    snk_B2_Blocal_r2_i_props.store_in(&buf_snk_B2_Blocal_props_r2_i, {t, y_out, y_in, jCprime, jSprime});
+
+    /* Correlator */
+
+    buffer buf_C_r("buf_C_r", {Lt, Vsnk/sites_per_rank, sites_per_rank, B2Nrows, NsrcTot, B2Nrows, NsnkTot}, p_float64, a_temporary);
+    buf_C_r.tag_gpu_global();
+    buffer buf_C_i("buf_C_i", {Lt, Vsnk/sites_per_rank, sites_per_rank, B2Nrows, NsrcTot, B2Nrows, NsnkTot}, p_float64, a_temporary);
+    buf_C_i.tag_gpu_global();
+
+    C_r.store_in(&buf_C_r);
+    C_i.store_in(&buf_C_i);
+
+    C_init_r.store_in(&buf_C_r, {t, x_out, x_in, rp, mpmH, r, npnH});
+    C_init_i.store_in(&buf_C_i, {t, x_out, x_in, rp, mpmH, r, npnH});
+
+    // BB_BB
+
+    buffer* buf_BB_BB_new_term_r_b1;
+    buffer* buf_BB_BB_new_term_i_b1;
+    allocate_complex_buffers(buf_BB_BB_new_term_r_b1, buf_BB_BB_new_term_i_b1, {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, 1, 1, 1, 1, 1, 1}, "buf_BB_BB_new_term_b1", true);
+    buffer* buf_BB_BB_new_term_r_b2;
+    buffer* buf_BB_BB_new_term_i_b2;
+    allocate_complex_buffers(buf_BB_BB_new_term_r_b2, buf_BB_BB_new_term_i_b2, {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, 1, 1, 1, 1, 1, 1}, "buf_BB_BB_new_term_b2", true);
+
+    BB_BB_new_term_0_r1_b1.get_real()->store_in(buf_BB_BB_new_term_r_b1, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    BB_BB_new_term_0_r1_b1.get_imag()->store_in(buf_BB_BB_new_term_i_b1, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    BB_BB_new_term_1_r1_b1.get_real()->store_in(buf_BB_BB_new_term_r_b1, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    BB_BB_new_term_1_r1_b1.get_imag()->store_in(buf_BB_BB_new_term_i_b1, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    BB_BB_new_term_2_r1_b1.get_real()->store_in(buf_BB_BB_new_term_r_b1, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    BB_BB_new_term_2_r1_b1.get_imag()->store_in(buf_BB_BB_new_term_i_b1, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    BB_BB_new_term_3_r1_b1.get_real()->store_in(buf_BB_BB_new_term_r_b1, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    BB_BB_new_term_3_r1_b1.get_imag()->store_in(buf_BB_BB_new_term_i_b1, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    BB_BB_new_term_4_r1_b1.get_real()->store_in(buf_BB_BB_new_term_r_b1, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    BB_BB_new_term_4_r1_b1.get_imag()->store_in(buf_BB_BB_new_term_i_b1, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    BB_BB_new_term_5_r1_b1.get_real()->store_in(buf_BB_BB_new_term_r_b1, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    BB_BB_new_term_5_r1_b1.get_imag()->store_in(buf_BB_BB_new_term_i_b1, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    BB_BB_new_term_6_r1_b1.get_real()->store_in(buf_BB_BB_new_term_r_b1, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    BB_BB_new_term_6_r1_b1.get_imag()->store_in(buf_BB_BB_new_term_i_b1, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    BB_BB_new_term_7_r1_b1.get_real()->store_in(buf_BB_BB_new_term_r_b1, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    BB_BB_new_term_7_r1_b1.get_imag()->store_in(buf_BB_BB_new_term_i_b1, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+
+    BB_BB_new_term_0_r1_b2.get_real()->store_in(buf_BB_BB_new_term_r_b2, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    BB_BB_new_term_0_r1_b2.get_imag()->store_in(buf_BB_BB_new_term_i_b2, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    BB_BB_new_term_1_r1_b2.get_real()->store_in(buf_BB_BB_new_term_r_b2, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    BB_BB_new_term_1_r1_b2.get_imag()->store_in(buf_BB_BB_new_term_i_b2, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    BB_BB_new_term_2_r1_b2.get_real()->store_in(buf_BB_BB_new_term_r_b2, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    BB_BB_new_term_2_r1_b2.get_imag()->store_in(buf_BB_BB_new_term_i_b2, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    BB_BB_new_term_3_r1_b2.get_real()->store_in(buf_BB_BB_new_term_r_b2, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    BB_BB_new_term_3_r1_b2.get_imag()->store_in(buf_BB_BB_new_term_i_b2, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    BB_BB_new_term_4_r1_b2.get_real()->store_in(buf_BB_BB_new_term_r_b2, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    BB_BB_new_term_4_r1_b2.get_imag()->store_in(buf_BB_BB_new_term_i_b2, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    BB_BB_new_term_5_r1_b2.get_real()->store_in(buf_BB_BB_new_term_r_b2, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    BB_BB_new_term_5_r1_b2.get_imag()->store_in(buf_BB_BB_new_term_i_b2, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    BB_BB_new_term_6_r1_b2.get_real()->store_in(buf_BB_BB_new_term_r_b2, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    BB_BB_new_term_6_r1_b2.get_imag()->store_in(buf_BB_BB_new_term_i_b2, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    BB_BB_new_term_7_r1_b2.get_real()->store_in(buf_BB_BB_new_term_r_b2, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    BB_BB_new_term_7_r1_b2.get_imag()->store_in(buf_BB_BB_new_term_i_b2, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+
+    BB_BB_new_term_0_r2_b1.get_real()->store_in(buf_BB_BB_new_term_r_b1, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    BB_BB_new_term_0_r2_b1.get_imag()->store_in(buf_BB_BB_new_term_i_b1, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    BB_BB_new_term_1_r2_b1.get_real()->store_in(buf_BB_BB_new_term_r_b1, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    BB_BB_new_term_1_r2_b1.get_imag()->store_in(buf_BB_BB_new_term_i_b1, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    BB_BB_new_term_2_r2_b1.get_real()->store_in(buf_BB_BB_new_term_r_b1, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    BB_BB_new_term_2_r2_b1.get_imag()->store_in(buf_BB_BB_new_term_i_b1, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    BB_BB_new_term_3_r2_b1.get_real()->store_in(buf_BB_BB_new_term_r_b1, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    BB_BB_new_term_3_r2_b1.get_imag()->store_in(buf_BB_BB_new_term_i_b1, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    BB_BB_new_term_4_r2_b1.get_real()->store_in(buf_BB_BB_new_term_r_b1, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    BB_BB_new_term_4_r2_b1.get_imag()->store_in(buf_BB_BB_new_term_i_b1, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    BB_BB_new_term_5_r2_b1.get_real()->store_in(buf_BB_BB_new_term_r_b1, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    BB_BB_new_term_5_r2_b1.get_imag()->store_in(buf_BB_BB_new_term_i_b1, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    BB_BB_new_term_6_r2_b1.get_real()->store_in(buf_BB_BB_new_term_r_b1, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    BB_BB_new_term_6_r2_b1.get_imag()->store_in(buf_BB_BB_new_term_i_b1, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    BB_BB_new_term_7_r2_b1.get_real()->store_in(buf_BB_BB_new_term_r_b1, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    BB_BB_new_term_7_r2_b1.get_imag()->store_in(buf_BB_BB_new_term_i_b1, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+
+    BB_BB_new_term_0_r2_b2.get_real()->store_in(buf_BB_BB_new_term_r_b2, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    BB_BB_new_term_0_r2_b2.get_imag()->store_in(buf_BB_BB_new_term_i_b2, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    BB_BB_new_term_1_r2_b2.get_real()->store_in(buf_BB_BB_new_term_r_b2, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    BB_BB_new_term_1_r2_b2.get_imag()->store_in(buf_BB_BB_new_term_i_b2, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    BB_BB_new_term_2_r2_b2.get_real()->store_in(buf_BB_BB_new_term_r_b2, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    BB_BB_new_term_2_r2_b2.get_imag()->store_in(buf_BB_BB_new_term_i_b2, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    BB_BB_new_term_3_r2_b2.get_real()->store_in(buf_BB_BB_new_term_r_b2, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    BB_BB_new_term_3_r2_b2.get_imag()->store_in(buf_BB_BB_new_term_i_b2, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    BB_BB_new_term_4_r2_b2.get_real()->store_in(buf_BB_BB_new_term_r_b2, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    BB_BB_new_term_4_r2_b2.get_imag()->store_in(buf_BB_BB_new_term_i_b2, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    BB_BB_new_term_5_r2_b2.get_real()->store_in(buf_BB_BB_new_term_r_b2, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    BB_BB_new_term_5_r2_b2.get_imag()->store_in(buf_BB_BB_new_term_i_b2, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    BB_BB_new_term_6_r2_b2.get_real()->store_in(buf_BB_BB_new_term_r_b2, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    BB_BB_new_term_6_r2_b2.get_imag()->store_in(buf_BB_BB_new_term_i_b2, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    BB_BB_new_term_7_r2_b2.get_real()->store_in(buf_BB_BB_new_term_r_b2, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    BB_BB_new_term_7_r2_b2.get_imag()->store_in(buf_BB_BB_new_term_i_b2, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+
+    buffer* buf_flip_BB_BB_new_term_r_b1;
+    buffer* buf_flip_BB_BB_new_term_i_b1;
+    allocate_complex_buffers(buf_flip_BB_BB_new_term_r_b1, buf_flip_BB_BB_new_term_i_b1, {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, 1, 1, 1, 1, 1, 1}, "buf_flip_BB_BB_new_term_b1", true);
+    buffer* buf_flip_BB_BB_new_term_r_b2;
+    buffer* buf_flip_BB_BB_new_term_i_b2;
+    allocate_complex_buffers(buf_flip_BB_BB_new_term_r_b2, buf_flip_BB_BB_new_term_i_b2, {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, 1, 1, 1, 1, 1, 1}, "buf_flip_BB_BB_new_term_b2", true);
+
+// {t, x_out, x_in, x2, rp, m, r, s, nperm, wnum}
+
+    flip_BB_BB_new_term_0_r1_b1.get_real()->store_in(buf_flip_BB_BB_new_term_r_b1, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    flip_BB_BB_new_term_0_r1_b1.get_imag()->store_in(buf_flip_BB_BB_new_term_i_b1, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    flip_BB_BB_new_term_1_r1_b1.get_real()->store_in(buf_flip_BB_BB_new_term_r_b1, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    flip_BB_BB_new_term_1_r1_b1.get_imag()->store_in(buf_flip_BB_BB_new_term_i_b1, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    flip_BB_BB_new_term_2_r1_b1.get_real()->store_in(buf_flip_BB_BB_new_term_r_b1, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    flip_BB_BB_new_term_2_r1_b1.get_imag()->store_in(buf_flip_BB_BB_new_term_i_b1, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    flip_BB_BB_new_term_3_r1_b1.get_real()->store_in(buf_flip_BB_BB_new_term_r_b1, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    flip_BB_BB_new_term_3_r1_b1.get_imag()->store_in(buf_flip_BB_BB_new_term_i_b1, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    flip_BB_BB_new_term_4_r1_b1.get_real()->store_in(buf_flip_BB_BB_new_term_r_b1, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    flip_BB_BB_new_term_4_r1_b1.get_imag()->store_in(buf_flip_BB_BB_new_term_i_b1, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    flip_BB_BB_new_term_5_r1_b1.get_real()->store_in(buf_flip_BB_BB_new_term_r_b1, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    flip_BB_BB_new_term_5_r1_b1.get_imag()->store_in(buf_flip_BB_BB_new_term_i_b1, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    flip_BB_BB_new_term_6_r1_b1.get_real()->store_in(buf_flip_BB_BB_new_term_r_b1, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    flip_BB_BB_new_term_6_r1_b1.get_imag()->store_in(buf_flip_BB_BB_new_term_i_b1, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    flip_BB_BB_new_term_7_r1_b1.get_real()->store_in(buf_flip_BB_BB_new_term_r_b1, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    flip_BB_BB_new_term_7_r1_b1.get_imag()->store_in(buf_flip_BB_BB_new_term_i_b1, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+
+    flip_BB_BB_new_term_0_r1_b2.get_real()->store_in(buf_flip_BB_BB_new_term_r_b2, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    flip_BB_BB_new_term_0_r1_b2.get_imag()->store_in(buf_flip_BB_BB_new_term_i_b2, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    flip_BB_BB_new_term_1_r1_b2.get_real()->store_in(buf_flip_BB_BB_new_term_r_b2, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    flip_BB_BB_new_term_1_r1_b2.get_imag()->store_in(buf_flip_BB_BB_new_term_i_b2, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    flip_BB_BB_new_term_2_r1_b2.get_real()->store_in(buf_flip_BB_BB_new_term_r_b2, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    flip_BB_BB_new_term_2_r1_b2.get_imag()->store_in(buf_flip_BB_BB_new_term_i_b2, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    flip_BB_BB_new_term_3_r1_b2.get_real()->store_in(buf_flip_BB_BB_new_term_r_b2, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    flip_BB_BB_new_term_3_r1_b2.get_imag()->store_in(buf_flip_BB_BB_new_term_i_b2, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    flip_BB_BB_new_term_4_r1_b2.get_real()->store_in(buf_flip_BB_BB_new_term_r_b2, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    flip_BB_BB_new_term_4_r1_b2.get_imag()->store_in(buf_flip_BB_BB_new_term_i_b2, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    flip_BB_BB_new_term_5_r1_b2.get_real()->store_in(buf_flip_BB_BB_new_term_r_b2, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    flip_BB_BB_new_term_5_r1_b2.get_imag()->store_in(buf_flip_BB_BB_new_term_i_b2, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    flip_BB_BB_new_term_6_r1_b2.get_real()->store_in(buf_flip_BB_BB_new_term_r_b2, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    flip_BB_BB_new_term_6_r1_b2.get_imag()->store_in(buf_flip_BB_BB_new_term_i_b2, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    flip_BB_BB_new_term_7_r1_b2.get_real()->store_in(buf_flip_BB_BB_new_term_r_b2, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    flip_BB_BB_new_term_7_r1_b2.get_imag()->store_in(buf_flip_BB_BB_new_term_i_b2, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+
+    flip_BB_BB_new_term_0_r2_b1.get_real()->store_in(buf_flip_BB_BB_new_term_r_b1, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    flip_BB_BB_new_term_0_r2_b1.get_imag()->store_in(buf_flip_BB_BB_new_term_i_b1, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    flip_BB_BB_new_term_1_r2_b1.get_real()->store_in(buf_flip_BB_BB_new_term_r_b1, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    flip_BB_BB_new_term_1_r2_b1.get_imag()->store_in(buf_flip_BB_BB_new_term_i_b1, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    flip_BB_BB_new_term_2_r2_b1.get_real()->store_in(buf_flip_BB_BB_new_term_r_b1, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    flip_BB_BB_new_term_2_r2_b1.get_imag()->store_in(buf_flip_BB_BB_new_term_i_b1, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    flip_BB_BB_new_term_3_r2_b1.get_real()->store_in(buf_flip_BB_BB_new_term_r_b1, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    flip_BB_BB_new_term_3_r2_b1.get_imag()->store_in(buf_flip_BB_BB_new_term_i_b1, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    flip_BB_BB_new_term_4_r2_b1.get_real()->store_in(buf_flip_BB_BB_new_term_r_b1, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    flip_BB_BB_new_term_4_r2_b1.get_imag()->store_in(buf_flip_BB_BB_new_term_i_b1, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    flip_BB_BB_new_term_5_r2_b1.get_real()->store_in(buf_flip_BB_BB_new_term_r_b1, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    flip_BB_BB_new_term_5_r2_b1.get_imag()->store_in(buf_flip_BB_BB_new_term_i_b1, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    flip_BB_BB_new_term_6_r2_b1.get_real()->store_in(buf_flip_BB_BB_new_term_r_b1, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    flip_BB_BB_new_term_6_r2_b1.get_imag()->store_in(buf_flip_BB_BB_new_term_i_b1, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    flip_BB_BB_new_term_7_r2_b1.get_real()->store_in(buf_flip_BB_BB_new_term_r_b1, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    flip_BB_BB_new_term_7_r2_b1.get_imag()->store_in(buf_flip_BB_BB_new_term_i_b1, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+
+    flip_BB_BB_new_term_0_r2_b2.get_real()->store_in(buf_flip_BB_BB_new_term_r_b2, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    flip_BB_BB_new_term_0_r2_b2.get_imag()->store_in(buf_flip_BB_BB_new_term_i_b2, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    flip_BB_BB_new_term_1_r2_b2.get_real()->store_in(buf_flip_BB_BB_new_term_r_b2, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    flip_BB_BB_new_term_1_r2_b2.get_imag()->store_in(buf_flip_BB_BB_new_term_i_b2, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    flip_BB_BB_new_term_2_r2_b2.get_real()->store_in(buf_flip_BB_BB_new_term_r_b2, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    flip_BB_BB_new_term_2_r2_b2.get_imag()->store_in(buf_flip_BB_BB_new_term_i_b2, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    flip_BB_BB_new_term_3_r2_b2.get_real()->store_in(buf_flip_BB_BB_new_term_r_b2, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    flip_BB_BB_new_term_3_r2_b2.get_imag()->store_in(buf_flip_BB_BB_new_term_i_b2, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    flip_BB_BB_new_term_4_r2_b2.get_real()->store_in(buf_flip_BB_BB_new_term_r_b2, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    flip_BB_BB_new_term_4_r2_b2.get_imag()->store_in(buf_flip_BB_BB_new_term_i_b2, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    flip_BB_BB_new_term_5_r2_b2.get_real()->store_in(buf_flip_BB_BB_new_term_r_b2, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    flip_BB_BB_new_term_5_r2_b2.get_imag()->store_in(buf_flip_BB_BB_new_term_i_b2, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    flip_BB_BB_new_term_6_r2_b2.get_real()->store_in(buf_flip_BB_BB_new_term_r_b2, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    flip_BB_BB_new_term_6_r2_b2.get_imag()->store_in(buf_flip_BB_BB_new_term_i_b2, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    flip_BB_BB_new_term_7_r2_b2.get_real()->store_in(buf_flip_BB_BB_new_term_r_b2, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    flip_BB_BB_new_term_7_r2_b2.get_imag()->store_in(buf_flip_BB_BB_new_term_i_b2, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+
+    buffer buf_C_BB_BB_prop_r("buf_C_BB_BB_prop_r", {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, 1, 1, 1, 1, 1, 1}, p_float64, a_temporary);
+    buffer buf_C_BB_BB_prop_i("buf_C_BB_BB_prop_i", {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, 1, 1, 1, 1, 1, 1}, p_float64, a_temporary);
+    buf_C_BB_BB_prop_r.tag_gpu_global();
+    buf_C_BB_BB_prop_i.tag_gpu_global();
+
+// {t, x_out, x_in, x2, rp, m, r}
+// t, x_out, x_in, x2, rp, m, s, r, nperm, wnum
+    C_BB_BB_prop_init_r.store_in(&buf_C_BB_BB_prop_r, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    C_BB_BB_prop_init_i.store_in(&buf_C_BB_BB_prop_i, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    C_BB_BB_prop_update_r.store_in(&buf_C_BB_BB_prop_r, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+    C_BB_BB_prop_update_i.store_in(&buf_C_BB_BB_prop_i, {t, x_out, x_in, 0, 0, 0, 0, 0, 0, 0});
+// {t, x_out, x_in, x2, rp, m, r, ne}
+    C_BB_BB_update_b_r.store_in(&buf_C_r, {t, x_out, x_in, rp, m, r, ne});
+    C_BB_BB_update_b_i.store_in(&buf_C_i, {t, x_out, x_in, rp, m, r, ne});
+    C_BB_BB_update_s_r.store_in(&buf_C_r, {t, x_out, x_in, rp, m, r, NEntangled+nue});
+    C_BB_BB_update_s_i.store_in(&buf_C_i, {t, x_out, x_in, rp, m, r, NEntangled+nue});
+
+    // BB_H
+
+    buffer* buf_BB_H_new_term_r_b1;
+    buffer* buf_BB_H_new_term_i_b1;
+    allocate_complex_buffers(buf_BB_H_new_term_r_b1, buf_BB_H_new_term_i_b1, {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, 1, 1, 1, 1, 1}, "buf_BB_H_new_term_b1", true);
+// {t, x_out, x_in, rp, m, r, s, nperm, wnumHex}
+    BB_H_new_term_0_r1_b1.get_real()->store_in(buf_BB_H_new_term_r_b1, {t, x_out, x_in, 0, 0, 0, 0, 0, 0});
+    BB_H_new_term_0_r1_b1.get_imag()->store_in(buf_BB_H_new_term_i_b1, {t, x_out, x_in, 0, 0, 0, 0, 0, 0});
+// {t, x_out, x_in, rp, m, r, s, nperm, wnumHex}
+    BB_H_new_term_0_r2_b1.get_real()->store_in(buf_BB_H_new_term_r_b1, {t, x_out, x_in, 0, 0, 0, 0, 0, 0});
+    BB_H_new_term_0_r2_b1.get_imag()->store_in(buf_BB_H_new_term_i_b1, {t, x_out, x_in, 0, 0, 0, 0, 0, 0});
+
+    buffer* buf_BB_H_new_term_r_b2;
+    buffer* buf_BB_H_new_term_i_b2;
+    allocate_complex_buffers(buf_BB_H_new_term_r_b2, buf_BB_H_new_term_i_b2, {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, 1, 1, 1, 1, 1}, "buf_BB_H_new_term_b2", true);
+// {t, x_out, x_in, rp, m, r, s, nperm, wnumHex}
+    BB_H_new_term_0_r1_b2.get_real()->store_in(buf_BB_H_new_term_r_b2, {t, x_out, x_in, 0, 0, 0, 0, 0, 0});
+    BB_H_new_term_0_r1_b2.get_imag()->store_in(buf_BB_H_new_term_i_b2, {t, x_out, x_in, 0, 0, 0, 0, 0, 0});
+// {t, x_out, x_in, rp, m, r, s, nperm, wnumHex}
+    BB_H_new_term_0_r2_b2.get_real()->store_in(buf_BB_H_new_term_r_b2, {t, x_out, x_in, 0, 0, 0, 0, 0, 0});
+    BB_H_new_term_0_r2_b2.get_imag()->store_in(buf_BB_H_new_term_i_b2, {t, x_out, x_in, 0, 0, 0, 0, 0, 0});
+
+    buffer* buf_flip_BB_H_new_term_r_b1;
+    buffer* buf_flip_BB_H_new_term_i_b1;
+    allocate_complex_buffers(buf_flip_BB_H_new_term_r_b1, buf_flip_BB_H_new_term_i_b1, {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, 1, 1, 1, 1, 1}, "buf_flip_BB_H_new_term_b1", true);
+// {t, x_out, x_in, rp, m, r, s, nperm, wnumHex}
+    flip_BB_H_new_term_0_r1_b1.get_real()->store_in(buf_flip_BB_H_new_term_r_b1, {t, x_out, x_in, 0, 0, 0, 0, 0, 0});
+    flip_BB_H_new_term_0_r1_b1.get_imag()->store_in(buf_flip_BB_H_new_term_i_b1, {t, x_out, x_in, 0, 0, 0, 0, 0, 0});
+// {t, x_out, x_in, rp, m, r, s, nperm, wnumHex}
+    flip_BB_H_new_term_0_r2_b1.get_real()->store_in(buf_flip_BB_H_new_term_r_b1, {t, x_out, x_in, 0, 0, 0, 0, 0, 0});
+    flip_BB_H_new_term_0_r2_b1.get_imag()->store_in(buf_flip_BB_H_new_term_i_b1, {t, x_out, x_in, 0, 0, 0, 0, 0, 0});
+
+    buffer* buf_flip_BB_H_new_term_r_b2;
+    buffer* buf_flip_BB_H_new_term_i_b2;
+    allocate_complex_buffers(buf_flip_BB_H_new_term_r_b2, buf_flip_BB_H_new_term_i_b2, {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, 1, 1, 1, 1, 1}, "buf_flip_BB_H_new_term_b2", true);
+// {t, x_out, x_in, rp, m, r, s, nperm, wnumHex}
+    flip_BB_H_new_term_0_r1_b2.get_real()->store_in(buf_flip_BB_H_new_term_r_b2, {t, x_out, x_in, 0, 0, 0, 0, 0, 0});
+    flip_BB_H_new_term_0_r1_b2.get_imag()->store_in(buf_flip_BB_H_new_term_i_b2, {t, x_out, x_in, 0, 0, 0, 0, 0, 0});
+// {t, x_out, x_in, rp, m, r, s, nperm, wnumHex}
+    flip_BB_H_new_term_0_r2_b2.get_real()->store_in(buf_flip_BB_H_new_term_r_b2, {t, x_out, x_in, 0, 0, 0, 0, 0, 0});
+    flip_BB_H_new_term_0_r2_b2.get_imag()->store_in(buf_flip_BB_H_new_term_i_b2, {t, x_out, x_in, 0, 0, 0, 0, 0, 0});
+
+
+    buffer buf_C_BB_H_prop_r("buf_C_BB_H_prop_r", {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, 1, 1, 1, 1, 1}, p_float64, a_temporary);
+    buf_C_BB_H_prop_r.tag_gpu_global();
+    buffer buf_C_BB_H_prop_i("buf_C_BB_H_prop_i", {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, 1, 1, 1, 1, 1}, p_float64, a_temporary);
+    buf_C_BB_H_prop_i.tag_gpu_global();
+// {t, x_out, x_in, rp, m, r, s, nperm, wnumHex}
+    C_BB_H_prop_init_r.store_in(&buf_C_BB_H_prop_r, {t, x_out, x_in, 0, 0, 0, 0, 0, 0});
+    C_BB_H_prop_init_i.store_in(&buf_C_BB_H_prop_i, {t, x_out, x_in, 0, 0, 0, 0, 0, 0});
+// {t, x_out, x_in, rp, m, r, s, nperm, wnumHex}
+    C_BB_H_prop_update_r.store_in(&buf_C_BB_H_prop_r, {t, x_out, x_in, 0, 0, 0, 0, 0, 0});
+    C_BB_H_prop_update_i.store_in(&buf_C_BB_H_prop_i, {t, x_out, x_in, 0, 0, 0, 0, 0, 0});
+// {t, x_out, x_in, rp, m, r, nH}
+    C_BB_H_update_r.store_in(&buf_C_r, {t, x_out, x_in, rp, m, r, Nsnk+nH});
+    C_BB_H_update_i.store_in(&buf_C_i, {t, x_out, x_in, rp, m, r, Nsnk+nH});
+
+    // H_BB
+
+    buffer* buf_H_BB_new_term_r_b1;
+    buffer* buf_H_BB_new_term_i_b1;
+    allocate_complex_buffers(buf_H_BB_new_term_r_b1, buf_H_BB_new_term_i_b1, {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, 1, 1, 1, 1, 1}, "buf_H_BB_new_term_b1", true);
+
+    H_BB_new_term_0_r1_b1.get_real()->store_in(buf_H_BB_new_term_r_b1, {t, y_out, y_in, 0, 0, 0, 0, 0, 0});
+    H_BB_new_term_0_r1_b1.get_imag()->store_in(buf_H_BB_new_term_i_b1, {t, y_out, y_in, 0, 0, 0, 0, 0, 0});
+
+    H_BB_new_term_0_r2_b1.get_real()->store_in(buf_H_BB_new_term_r_b1, {t, y_out, y_in, 0, 0, 0, 0, 0, 0});
+    H_BB_new_term_0_r2_b1.get_imag()->store_in(buf_H_BB_new_term_i_b1, {t, y_out, y_in, 0, 0, 0, 0, 0, 0});
+
+    buffer* buf_H_BB_new_term_r_b2;
+    buffer* buf_H_BB_new_term_i_b2;
+    allocate_complex_buffers(buf_H_BB_new_term_r_b2, buf_H_BB_new_term_i_b2, {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, 1, 1, 1, 1, 1}, "buf_H_BB_new_term_b2", true);
+
+    H_BB_new_term_0_r1_b2.get_real()->store_in(buf_H_BB_new_term_r_b2, {t, y_out, y_in, 0, 0, 0, 0, 0, 0});
+    H_BB_new_term_0_r1_b2.get_imag()->store_in(buf_H_BB_new_term_i_b2, {t, y_out, y_in, 0, 0, 0, 0, 0, 0});
+
+    H_BB_new_term_0_r2_b2.get_real()->store_in(buf_H_BB_new_term_r_b2, {t, y_out, y_in, 0, 0, 0, 0, 0, 0});
+    H_BB_new_term_0_r2_b2.get_imag()->store_in(buf_H_BB_new_term_i_b2, {t, y_out, y_in, 0, 0, 0, 0, 0, 0});
+
+    buffer* buf_flip_H_BB_new_term_r_b1;
+    buffer* buf_flip_H_BB_new_term_i_b1;
+    allocate_complex_buffers(buf_flip_H_BB_new_term_r_b1, buf_flip_H_BB_new_term_i_b1, {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, 1, 1, 1, 1, 1}, "buf_flip_H_BB_new_term_b1", true);
+
+// {t, y_out, y_in, rp, n, s, r, nperm, wnumHex}
+    flip_H_BB_new_term_0_r1_b1.get_real()->store_in(buf_flip_H_BB_new_term_r_b1, {t, y_out, y_in, 0, 0, 0, 0, 0, 0});
+    flip_H_BB_new_term_0_r1_b1.get_imag()->store_in(buf_flip_H_BB_new_term_i_b1, {t, y_out, y_in, 0, 0, 0, 0, 0, 0});
+
+    flip_H_BB_new_term_0_r2_b1.get_real()->store_in(buf_flip_H_BB_new_term_r_b1, {t, y_out, y_in, 0, 0, 0, 0, 0, 0});
+    flip_H_BB_new_term_0_r2_b1.get_imag()->store_in(buf_flip_H_BB_new_term_i_b1, {t, y_out, y_in, 0, 0, 0, 0, 0, 0});
+
+    buffer* buf_flip_H_BB_new_term_r_b2;
+    buffer* buf_flip_H_BB_new_term_i_b2;
+    allocate_complex_buffers(buf_flip_H_BB_new_term_r_b2, buf_flip_H_BB_new_term_i_b2, {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, 1, 1, 1, 1, 1}, "buf_flip_H_BB_new_term_b2", true);
+
+// {t, y_out, y_in, rp, n, s, r, nperm, wnumHex}
+    flip_H_BB_new_term_0_r1_b2.get_real()->store_in(buf_flip_H_BB_new_term_r_b2, {t, y_out, y_in, 0, 0, 0, 0, 0, 0});
+    flip_H_BB_new_term_0_r1_b2.get_imag()->store_in(buf_flip_H_BB_new_term_i_b2, {t, y_out, y_in, 0, 0, 0, 0, 0, 0});
+
+    flip_H_BB_new_term_0_r2_b2.get_real()->store_in(buf_flip_H_BB_new_term_r_b2, {t, y_out, y_in, 0, 0, 0, 0, 0, 0});
+    flip_H_BB_new_term_0_r2_b2.get_imag()->store_in(buf_flip_H_BB_new_term_i_b2, {t, y_out, y_in, 0, 0, 0, 0, 0, 0});
+
+    buffer buf_C_H_BB_prop_r("buf_C_H_BB_prop_r", {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, 1, 1, 1, 1, 1}, p_float64, a_temporary);
+    buf_C_H_BB_prop_r.tag_gpu_global();
+    buffer buf_C_H_BB_prop_i("buf_C_H_BB_prop_i", {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, 1, 1, 1, 1, 1}, p_float64, a_temporary);
+    buf_C_H_BB_prop_i.tag_gpu_global();
+// t, y_out, y_in, rp, n, s, r, nperm, wnumHex
+    C_H_BB_prop_init_r.store_in(&buf_C_H_BB_prop_r, {t, y_out, y_in, 0, 0, 0, 0, 0, 0});
+    C_H_BB_prop_init_i.store_in(&buf_C_H_BB_prop_i, {t, y_out, y_in, 0, 0, 0, 0, 0, 0});
+    C_H_BB_prop_update_r.store_in(&buf_C_H_BB_prop_r, {t, y_out, y_in, 0, 0, 0, 0, 0, 0});
+    C_H_BB_prop_update_i.store_in(&buf_C_H_BB_prop_i, {t, y_out, y_in, 0, 0, 0, 0, 0, 0});
+
+    C_H_BB_update_r.store_in(&buf_C_r, {t, y_out, y_in, r, Nsrc+mH, rp, n});
+    C_H_BB_update_i.store_in(&buf_C_i, {t, y_out, y_in, r, Nsrc+mH, rp, n});
+
+    // H_H
 
     buffer buf_C_H_H_prop_r("buf_C_H_H_prop_r", {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, 1, 1, 1, 1, 1}, p_float64, a_temporary);
     buffer buf_C_H_H_prop_i("buf_C_H_H_prop_i", {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, 1, 1, 1, 1, 1}, p_float64, a_temporary);
@@ -289,9 +2369,8 @@ void generate_function(std::string name)
     C_H_H_prop_update_r.store_in(&buf_C_H_H_prop_r, {t, x_out, x_in, 0, 0, 0, 0, 0, 0});
     C_H_H_prop_update_i.store_in(&buf_C_H_H_prop_i, {t, x_out, x_in, 0, 0, 0, 0, 0, 0});
 
-    // -------------------------------------------------------
-    // Layer III
-    // -------------------------------------------------------
+    C_H_H_update_r.store_in(&buf_C_r, {t, x_out, x_in, rp, Nsrc+mH, r, Nsnk+nH});
+    C_H_H_update_i.store_in(&buf_C_i, {t, x_out, x_in, rp, Nsrc+mH, r, Nsnk+nH});
     
     computation copy_buf_C_r_device_to_host({}, memcpy(buf_C_r, buf_C_r_cpu));
     computation copy_buf_C_i_device_to_host({}, memcpy(buf_C_i, buf_C_i_cpu));
@@ -361,6 +2440,522 @@ computation copy_snk_b_host_to_device({}, memcpy(buf_snk_b_cpu, *snk_b.get_buffe
 
       C_init_r.tag_gpu_level(x_out, x_in);
       C_init_i.tag_gpu_level(x_out, x_in);
+// BB_BB
+
+      B1_Blocal_r1_r_init.tag_gpu_level(x_out, x_in);
+      B1_Blocal_r1_i_init.tag_gpu_level(x_out, x_in);
+
+          B1_Bfirst_r1_r_init.tag_gpu_level(x_out, x_in);
+          B1_Bfirst_r1_i_init.tag_gpu_level(x_out, x_in);
+          B1_Bsecond_r1_r_init.tag_gpu_level(x_out, x_in);
+          B1_Bsecond_r1_i_init.tag_gpu_level(x_out, x_in);
+          B1_Bthird_r1_r_init.tag_gpu_level(x_out, x_in);
+          B1_Bthird_r1_i_init.tag_gpu_level(x_out, x_in);
+          flip_B1_Blocal_r1_r_init.tag_gpu_level(x_out, x_in);
+          flip_B1_Blocal_r1_i_init.tag_gpu_level(x_out, x_in);
+          flip_B1_Bfirst_r1_r_init.tag_gpu_level(x_out, x_in);
+          flip_B1_Bfirst_r1_i_init.tag_gpu_level(x_out, x_in);
+          flip_B1_Bsecond_r1_r_init.tag_gpu_level(x_out, x_in);
+          flip_B1_Bsecond_r1_i_init.tag_gpu_level(x_out, x_in);
+          flip_B1_Bthird_r1_r_init.tag_gpu_level(x_out, x_in);
+          flip_B1_Bthird_r1_i_init.tag_gpu_level(x_out, x_in);
+          B1_Blocal_r1_r_props_init.tag_gpu_level(x_out, x_in);
+          B1_Blocal_r1_i_props_init.tag_gpu_level(x_out, x_in);
+          B1_Bfirst_r1_r_props_init.tag_gpu_level(x_out, x_in);
+          B1_Bfirst_r1_i_props_init.tag_gpu_level(x_out, x_in);
+          B1_Bsecond_r1_r_props_init.tag_gpu_level(x_out, x_in);
+          B1_Bsecond_r1_i_props_init.tag_gpu_level(x_out, x_in);
+          B1_Bthird_r1_r_props_init.tag_gpu_level(x_out, x_in);
+          B1_Bthird_r1_i_props_init.tag_gpu_level(x_out, x_in);
+          B1_Blocal_r1_r_diquark.tag_gpu_level(x_out, x_in);
+          B1_Blocal_r1_i_diquark.tag_gpu_level(x_out, x_in);
+          B1_Bfirst_r1_r_diquark.tag_gpu_level(x_out, x_in);
+          B1_Bfirst_r1_i_diquark.tag_gpu_level(x_out, x_in);
+          B1_Bthird_r1_r_diquark.tag_gpu_level(x_out, x_in);
+          B1_Bthird_r1_i_diquark.tag_gpu_level(x_out, x_in);
+          B1_Blocal_r1_r_props.tag_gpu_level(x_out, x_in);
+          B1_Blocal_r1_i_props.tag_gpu_level(x_out, x_in);
+          B1_Bfirst_r1_r_props.tag_gpu_level(x_out, x_in);
+          B1_Bfirst_r1_i_props.tag_gpu_level(x_out, x_in);
+          B1_Bsecond_r1_r_props.tag_gpu_level(x_out, x_in);
+          B1_Bsecond_r1_i_props.tag_gpu_level(x_out, x_in);
+          B1_Bthird_r1_r_props.tag_gpu_level(x_out, x_in);
+          B1_Bthird_r1_i_props.tag_gpu_level(x_out, x_in);
+          B1_Blocal_r1_r_update.tag_gpu_level(x_out, x_in);
+          B1_Blocal_r1_i_update.tag_gpu_level(x_out, x_in);
+          B1_Bfirst_r1_r_update.tag_gpu_level(x_out, x_in);
+          B1_Bfirst_r1_i_update.tag_gpu_level(x_out, x_in);
+          B1_Bsecond_r1_r_update.tag_gpu_level(x_out, x_in);
+          B1_Bsecond_r1_i_update.tag_gpu_level(x_out, x_in);
+          B1_Bthird_r1_r_update.tag_gpu_level(x_out, x_in);
+          B1_Bthird_r1_i_update.tag_gpu_level(x_out, x_in);
+          flip_B1_Blocal_r1_r_update.tag_gpu_level(x_out, x_in);
+          flip_B1_Blocal_r1_i_update.tag_gpu_level(x_out, x_in);
+          flip_B1_Bfirst_r1_r_update.tag_gpu_level(x_out, x_in);
+          flip_B1_Bfirst_r1_i_update.tag_gpu_level(x_out, x_in);
+          flip_B1_Bsecond_r1_r_update.tag_gpu_level(x_out, x_in);
+          flip_B1_Bsecond_r1_i_update.tag_gpu_level(x_out, x_in);
+          flip_B1_Bthird_r1_r_update.tag_gpu_level(x_out, x_in);
+          flip_B1_Bthird_r1_i_update.tag_gpu_level(x_out, x_in);
+          B1_Blocal_r2_r_init.tag_gpu_level(x_out, x_in);
+          B1_Blocal_r2_i_init.tag_gpu_level(x_out, x_in);
+          B1_Bfirst_r2_r_init.tag_gpu_level(x_out, x_in);
+          B1_Bfirst_r2_i_init.tag_gpu_level(x_out, x_in);
+          B1_Bsecond_r2_r_init.tag_gpu_level(x_out, x_in);
+          B1_Bsecond_r2_i_init.tag_gpu_level(x_out, x_in);
+          B1_Bthird_r2_r_init.tag_gpu_level(x_out, x_in);
+          B1_Bthird_r2_i_init.tag_gpu_level(x_out, x_in);
+          flip_B1_Blocal_r2_r_init.tag_gpu_level(x_out, x_in);
+          flip_B1_Blocal_r2_i_init.tag_gpu_level(x_out, x_in);
+          flip_B1_Bfirst_r2_r_init.tag_gpu_level(x_out, x_in);
+          flip_B1_Bfirst_r2_i_init.tag_gpu_level(x_out, x_in);
+          flip_B1_Bsecond_r2_r_init.tag_gpu_level(x_out, x_in);
+          flip_B1_Bsecond_r2_i_init.tag_gpu_level(x_out, x_in);
+          flip_B1_Bthird_r2_r_init.tag_gpu_level(x_out, x_in);
+          flip_B1_Bthird_r2_i_init.tag_gpu_level(x_out, x_in);
+          B1_Blocal_r2_r_props_init.tag_gpu_level(x_out, x_in);
+          B1_Blocal_r2_i_props_init.tag_gpu_level(x_out, x_in);
+          B1_Bfirst_r2_r_props_init.tag_gpu_level(x_out, x_in);
+          B1_Bfirst_r2_i_props_init.tag_gpu_level(x_out, x_in);
+          B1_Bsecond_r2_r_props_init.tag_gpu_level(x_out, x_in);
+          B1_Bsecond_r2_i_props_init.tag_gpu_level(x_out, x_in);
+          B1_Bthird_r2_r_props_init.tag_gpu_level(x_out, x_in);
+          B1_Bthird_r2_i_props_init.tag_gpu_level(x_out, x_in);
+          B1_Blocal_r2_r_diquark.tag_gpu_level(x_out, x_in);
+          B1_Blocal_r2_i_diquark.tag_gpu_level(x_out, x_in);
+          B1_Bfirst_r2_r_diquark.tag_gpu_level(x_out, x_in);
+          B1_Bfirst_r2_i_diquark.tag_gpu_level(x_out, x_in);
+          B1_Bthird_r2_r_diquark.tag_gpu_level(x_out, x_in);
+          B1_Bthird_r2_i_diquark.tag_gpu_level(x_out, x_in);
+          B1_Blocal_r2_r_props.tag_gpu_level(x_out, x_in);
+          B1_Blocal_r2_i_props.tag_gpu_level(x_out, x_in);
+          B1_Bfirst_r2_r_props.tag_gpu_level(x_out, x_in);
+          B1_Bfirst_r2_i_props.tag_gpu_level(x_out, x_in);
+          B1_Bsecond_r2_r_props.tag_gpu_level(x_out, x_in);
+          B1_Bsecond_r2_i_props.tag_gpu_level(x_out, x_in);
+          B1_Bthird_r2_r_props.tag_gpu_level(x_out, x_in);
+          B1_Bthird_r2_i_props.tag_gpu_level(x_out, x_in);
+          B1_Blocal_r2_r_update.tag_gpu_level(x_out, x_in);
+          B1_Blocal_r2_i_update.tag_gpu_level(x_out, x_in);
+          B1_Bfirst_r2_r_update.tag_gpu_level(x_out, x_in);
+          B1_Bfirst_r2_i_update.tag_gpu_level(x_out, x_in);
+          B1_Bsecond_r2_r_update.tag_gpu_level(x_out, x_in);
+          B1_Bsecond_r2_i_update.tag_gpu_level(x_out, x_in);
+          B1_Bthird_r2_r_update.tag_gpu_level(x_out, x_in);
+          B1_Bthird_r2_i_update.tag_gpu_level(x_out, x_in);
+          flip_B1_Blocal_r2_r_update.tag_gpu_level(x_out, x_in);
+          flip_B1_Blocal_r2_i_update.tag_gpu_level(x_out, x_in);
+          flip_B1_Bfirst_r2_r_update.tag_gpu_level(x_out, x_in);
+          flip_B1_Bfirst_r2_i_update.tag_gpu_level(x_out, x_in);
+          flip_B1_Bsecond_r2_r_update.tag_gpu_level(x_out, x_in);
+          flip_B1_Bsecond_r2_i_update.tag_gpu_level(x_out, x_in);
+          flip_B1_Bthird_r2_r_update.tag_gpu_level(x_out, x_in);
+          flip_B1_Bthird_r2_i_update.tag_gpu_level(x_out, x_in);
+          B2_Blocal_r1_r_init.tag_gpu_level(x_out, x_in);
+          B2_Blocal_r1_i_init.tag_gpu_level(x_out, x_in);
+          B2_Bfirst_r1_r_init.tag_gpu_level(x_out, x_in);
+          B2_Bfirst_r1_i_init.tag_gpu_level(x_out, x_in);
+          B2_Bsecond_r1_r_init.tag_gpu_level(x_out, x_in);
+          B2_Bsecond_r1_i_init.tag_gpu_level(x_out, x_in);
+          B2_Bthird_r1_r_init.tag_gpu_level(x_out, x_in);
+          B2_Bthird_r1_i_init.tag_gpu_level(x_out, x_in);
+          flip_B2_Blocal_r1_r_init.tag_gpu_level(x_out, x_in);
+          flip_B2_Blocal_r1_i_init.tag_gpu_level(x_out, x_in);
+          flip_B2_Bfirst_r1_r_init.tag_gpu_level(x_out, x_in);
+          flip_B2_Bfirst_r1_i_init.tag_gpu_level(x_out, x_in);
+          flip_B2_Bsecond_r1_r_init.tag_gpu_level(x_out, x_in);
+          flip_B2_Bsecond_r1_i_init.tag_gpu_level(x_out, x_in);
+          flip_B2_Bthird_r1_r_init.tag_gpu_level(x_out, x_in);
+          flip_B2_Bthird_r1_i_init.tag_gpu_level(x_out, x_in);
+          B2_Blocal_r1_r_props_init.tag_gpu_level(x_out, x_in);
+          B2_Blocal_r1_i_props_init.tag_gpu_level(x_out, x_in);
+          B2_Bfirst_r1_r_props_init.tag_gpu_level(x_out, x_in);
+          B2_Bfirst_r1_i_props_init.tag_gpu_level(x_out, x_in);
+          B2_Bsecond_r1_r_props_init.tag_gpu_level(x_out, x_in);
+          B2_Bsecond_r1_i_props_init.tag_gpu_level(x_out, x_in);
+          B2_Bthird_r1_r_props_init.tag_gpu_level(x_out, x_in);
+          B2_Bthird_r1_i_props_init.tag_gpu_level(x_out, x_in);
+          B2_Blocal_r1_r_diquark.tag_gpu_level(x_out, x_in);
+          B2_Blocal_r1_i_diquark.tag_gpu_level(x_out, x_in);
+          B2_Bfirst_r1_r_diquark.tag_gpu_level(x_out, x_in);
+          B2_Bfirst_r1_i_diquark.tag_gpu_level(x_out, x_in);
+          B2_Bthird_r1_r_diquark.tag_gpu_level(x_out, x_in);
+          B2_Bthird_r1_i_diquark.tag_gpu_level(x_out, x_in);
+          B2_Blocal_r1_r_props.tag_gpu_level(x_out, x_in);
+          B2_Blocal_r1_i_props.tag_gpu_level(x_out, x_in);
+          B2_Bfirst_r1_r_props.tag_gpu_level(x_out, x_in);
+          B2_Bfirst_r1_i_props.tag_gpu_level(x_out, x_in);
+          B2_Bsecond_r1_r_props.tag_gpu_level(x_out, x_in);
+          B2_Bsecond_r1_i_props.tag_gpu_level(x_out, x_in);
+          B2_Bthird_r1_r_props.tag_gpu_level(x_out, x_in);
+          B2_Bthird_r1_i_props.tag_gpu_level(x_out, x_in);
+          B2_Blocal_r1_r_update.tag_gpu_level(x_out, x_in);
+          B2_Blocal_r1_i_update.tag_gpu_level(x_out, x_in);
+          B2_Bfirst_r1_r_update.tag_gpu_level(x_out, x_in);
+          B2_Bfirst_r1_i_update.tag_gpu_level(x_out, x_in);
+          B2_Bsecond_r1_r_update.tag_gpu_level(x_out, x_in);
+          B2_Bsecond_r1_i_update.tag_gpu_level(x_out, x_in);
+          B2_Bthird_r1_r_update.tag_gpu_level(x_out, x_in);
+          B2_Bthird_r1_i_update.tag_gpu_level(x_out, x_in);
+          flip_B2_Blocal_r1_r_update.tag_gpu_level(x_out, x_in);
+          flip_B2_Blocal_r1_i_update.tag_gpu_level(x_out, x_in);
+          flip_B2_Bfirst_r1_r_update.tag_gpu_level(x_out, x_in);
+          flip_B2_Bfirst_r1_i_update.tag_gpu_level(x_out, x_in);
+          flip_B2_Bsecond_r1_r_update.tag_gpu_level(x_out, x_in);
+          flip_B2_Bsecond_r1_i_update.tag_gpu_level(x_out, x_in);
+          flip_B2_Bthird_r1_r_update.tag_gpu_level(x_out, x_in);
+          flip_B2_Bthird_r1_i_update.tag_gpu_level(x_out, x_in);
+          B2_Blocal_r2_r_init.tag_gpu_level(x_out, x_in);
+          B2_Blocal_r2_i_init.tag_gpu_level(x_out, x_in);
+          B2_Bfirst_r2_r_init.tag_gpu_level(x_out, x_in);
+          B2_Bfirst_r2_i_init.tag_gpu_level(x_out, x_in);
+          B2_Bsecond_r2_r_init.tag_gpu_level(x_out, x_in);
+          B2_Bsecond_r2_i_init.tag_gpu_level(x_out, x_in);
+          B2_Bthird_r2_r_init.tag_gpu_level(x_out, x_in);
+          B2_Bthird_r2_i_init.tag_gpu_level(x_out, x_in);
+          flip_B2_Blocal_r2_r_init.tag_gpu_level(x_out, x_in);
+          flip_B2_Blocal_r2_i_init.tag_gpu_level(x_out, x_in);
+          flip_B2_Bfirst_r2_r_init.tag_gpu_level(x_out, x_in);
+          flip_B2_Bfirst_r2_i_init.tag_gpu_level(x_out, x_in);
+          flip_B2_Bsecond_r2_r_init.tag_gpu_level(x_out, x_in);
+          flip_B2_Bsecond_r2_i_init.tag_gpu_level(x_out, x_in);
+          flip_B2_Bthird_r2_r_init.tag_gpu_level(x_out, x_in);
+          flip_B2_Bthird_r2_i_init.tag_gpu_level(x_out, x_in);
+          B2_Blocal_r2_r_props_init.tag_gpu_level(x_out, x_in);
+          B2_Blocal_r2_i_props_init.tag_gpu_level(x_out, x_in);
+          B2_Bfirst_r2_r_props_init.tag_gpu_level(x_out, x_in);
+          B2_Bfirst_r2_i_props_init.tag_gpu_level(x_out, x_in);
+          B2_Bsecond_r2_r_props_init.tag_gpu_level(x_out, x_in);
+          B2_Bsecond_r2_i_props_init.tag_gpu_level(x_out, x_in);
+          B2_Bthird_r2_r_props_init.tag_gpu_level(x_out, x_in);
+          B2_Bthird_r2_i_props_init.tag_gpu_level(x_out, x_in);
+          B2_Blocal_r2_r_diquark.tag_gpu_level(x_out, x_in);
+          B2_Blocal_r2_i_diquark.tag_gpu_level(x_out, x_in);
+          B2_Bfirst_r2_r_diquark.tag_gpu_level(x_out, x_in);
+          B2_Bfirst_r2_i_diquark.tag_gpu_level(x_out, x_in);
+          B2_Bthird_r2_r_diquark.tag_gpu_level(x_out, x_in);
+          B2_Bthird_r2_i_diquark.tag_gpu_level(x_out, x_in);
+          B2_Blocal_r2_r_props.tag_gpu_level(x_out, x_in);
+          B2_Blocal_r2_i_props.tag_gpu_level(x_out, x_in);
+          B2_Bfirst_r2_r_props.tag_gpu_level(x_out, x_in);
+          B2_Bfirst_r2_i_props.tag_gpu_level(x_out, x_in);
+          B2_Bsecond_r2_r_props.tag_gpu_level(x_out, x_in);
+          B2_Bsecond_r2_i_props.tag_gpu_level(x_out, x_in);
+          B2_Bthird_r2_r_props.tag_gpu_level(x_out, x_in);
+          B2_Bthird_r2_i_props.tag_gpu_level(x_out, x_in);
+          B2_Blocal_r2_r_update.tag_gpu_level(x_out, x_in);
+          B2_Blocal_r2_i_update.tag_gpu_level(x_out, x_in);
+          B2_Bfirst_r2_r_update.tag_gpu_level(x_out, x_in);
+          B2_Bfirst_r2_i_update.tag_gpu_level(x_out, x_in);
+          B2_Bsecond_r2_r_update.tag_gpu_level(x_out, x_in);
+          B2_Bsecond_r2_i_update.tag_gpu_level(x_out, x_in);
+          B2_Bthird_r2_r_update.tag_gpu_level(x_out, x_in);
+          B2_Bthird_r2_i_update.tag_gpu_level(x_out, x_in);
+          flip_B2_Blocal_r2_r_update.tag_gpu_level(x_out, x_in);
+          flip_B2_Blocal_r2_i_update.tag_gpu_level(x_out, x_in);
+          flip_B2_Bfirst_r2_r_update.tag_gpu_level(x_out, x_in);
+          flip_B2_Bfirst_r2_i_update.tag_gpu_level(x_out, x_in);
+          flip_B2_Bsecond_r2_r_update.tag_gpu_level(x_out, x_in);
+          flip_B2_Bsecond_r2_i_update.tag_gpu_level(x_out, x_in);
+          flip_B2_Bthird_r2_r_update.tag_gpu_level(x_out, x_in);
+          flip_B2_Bthird_r2_i_update.tag_gpu_level(x_out, x_in);
+          C_BB_BB_prop_init_r.tag_gpu_level(x_out, x_in);
+          C_BB_BB_prop_init_i.tag_gpu_level(x_out, x_in);
+          BB_BB_new_term_0_r1_b1.get_real()->tag_gpu_level(x_out, x_in);
+          BB_BB_new_term_0_r1_b1.get_imag()->tag_gpu_level(x_out, x_in);
+          BB_BB_new_term_1_r1_b1.get_real()->tag_gpu_level(x_out, x_in);
+          BB_BB_new_term_1_r1_b1.get_imag()->tag_gpu_level(x_out, x_in);
+          BB_BB_new_term_2_r1_b1.get_real()->tag_gpu_level(x_out, x_in);
+          BB_BB_new_term_2_r1_b1.get_imag()->tag_gpu_level(x_out, x_in);
+          BB_BB_new_term_3_r1_b1.get_real()->tag_gpu_level(x_out, x_in);
+          BB_BB_new_term_3_r1_b1.get_imag()->tag_gpu_level(x_out, x_in);
+          BB_BB_new_term_4_r1_b1.get_real()->tag_gpu_level(x_out, x_in);
+          BB_BB_new_term_4_r1_b1.get_imag()->tag_gpu_level(x_out, x_in);
+          BB_BB_new_term_5_r1_b1.get_real()->tag_gpu_level(x_out, x_in);
+          BB_BB_new_term_5_r1_b1.get_imag()->tag_gpu_level(x_out, x_in);
+          BB_BB_new_term_6_r1_b1.get_real()->tag_gpu_level(x_out, x_in);
+          BB_BB_new_term_6_r1_b1.get_imag()->tag_gpu_level(x_out, x_in);
+          BB_BB_new_term_7_r1_b1.get_real()->tag_gpu_level(x_out, x_in);
+          BB_BB_new_term_7_r1_b1.get_imag()->tag_gpu_level(x_out, x_in);
+          BB_BB_new_term_0_r2_b1.get_real()->tag_gpu_level(x_out, x_in);
+          BB_BB_new_term_0_r2_b1.get_imag()->tag_gpu_level(x_out, x_in);
+          BB_BB_new_term_1_r2_b1.get_real()->tag_gpu_level(x_out, x_in);
+          BB_BB_new_term_1_r2_b1.get_imag()->tag_gpu_level(x_out, x_in);
+          BB_BB_new_term_2_r2_b1.get_real()->tag_gpu_level(x_out, x_in);
+          BB_BB_new_term_2_r2_b1.get_imag()->tag_gpu_level(x_out, x_in);
+          BB_BB_new_term_3_r2_b1.get_real()->tag_gpu_level(x_out, x_in);
+          BB_BB_new_term_3_r2_b1.get_imag()->tag_gpu_level(x_out, x_in);
+          BB_BB_new_term_4_r2_b1.get_real()->tag_gpu_level(x_out, x_in);
+          BB_BB_new_term_4_r2_b1.get_imag()->tag_gpu_level(x_out, x_in);
+          BB_BB_new_term_5_r2_b1.get_real()->tag_gpu_level(x_out, x_in);
+          BB_BB_new_term_5_r2_b1.get_imag()->tag_gpu_level(x_out, x_in);
+          BB_BB_new_term_6_r2_b1.get_real()->tag_gpu_level(x_out, x_in);
+          BB_BB_new_term_6_r2_b1.get_imag()->tag_gpu_level(x_out, x_in);
+          BB_BB_new_term_7_r2_b1.get_real()->tag_gpu_level(x_out, x_in);
+          BB_BB_new_term_7_r2_b1.get_imag()->tag_gpu_level(x_out, x_in);
+          BB_BB_new_term_0_r1_b2.get_real()->tag_gpu_level(x_out, x_in);
+          BB_BB_new_term_0_r1_b2.get_imag()->tag_gpu_level(x_out, x_in);
+          BB_BB_new_term_1_r1_b2.get_real()->tag_gpu_level(x_out, x_in);
+          BB_BB_new_term_1_r1_b2.get_imag()->tag_gpu_level(x_out, x_in);
+          BB_BB_new_term_2_r1_b2.get_real()->tag_gpu_level(x_out, x_in);
+          BB_BB_new_term_2_r1_b2.get_imag()->tag_gpu_level(x_out, x_in);
+          BB_BB_new_term_3_r1_b2.get_real()->tag_gpu_level(x_out, x_in);
+          BB_BB_new_term_3_r1_b2.get_imag()->tag_gpu_level(x_out, x_in);
+          BB_BB_new_term_4_r1_b2.get_real()->tag_gpu_level(x_out, x_in);
+          BB_BB_new_term_4_r1_b2.get_imag()->tag_gpu_level(x_out, x_in);
+          BB_BB_new_term_5_r1_b2.get_real()->tag_gpu_level(x_out, x_in);
+          BB_BB_new_term_5_r1_b2.get_imag()->tag_gpu_level(x_out, x_in);
+          BB_BB_new_term_6_r1_b2.get_real()->tag_gpu_level(x_out, x_in);
+          BB_BB_new_term_6_r1_b2.get_imag()->tag_gpu_level(x_out, x_in);
+          BB_BB_new_term_7_r1_b2.get_real()->tag_gpu_level(x_out, x_in);
+          BB_BB_new_term_7_r1_b2.get_imag()->tag_gpu_level(x_out, x_in);
+          BB_BB_new_term_0_r2_b2.get_real()->tag_gpu_level(x_out, x_in);
+          BB_BB_new_term_0_r2_b2.get_imag()->tag_gpu_level(x_out, x_in);
+          BB_BB_new_term_1_r2_b2.get_real()->tag_gpu_level(x_out, x_in);
+          BB_BB_new_term_1_r2_b2.get_imag()->tag_gpu_level(x_out, x_in);
+          BB_BB_new_term_2_r2_b2.get_real()->tag_gpu_level(x_out, x_in);
+          BB_BB_new_term_2_r2_b2.get_imag()->tag_gpu_level(x_out, x_in);
+          BB_BB_new_term_3_r2_b2.get_real()->tag_gpu_level(x_out, x_in);
+          BB_BB_new_term_3_r2_b2.get_imag()->tag_gpu_level(x_out, x_in);
+          BB_BB_new_term_4_r2_b2.get_real()->tag_gpu_level(x_out, x_in);
+          BB_BB_new_term_4_r2_b2.get_imag()->tag_gpu_level(x_out, x_in);
+          BB_BB_new_term_5_r2_b2.get_real()->tag_gpu_level(x_out, x_in);
+          BB_BB_new_term_5_r2_b2.get_imag()->tag_gpu_level(x_out, x_in);
+          BB_BB_new_term_6_r2_b2.get_real()->tag_gpu_level(x_out, x_in);
+          BB_BB_new_term_6_r2_b2.get_imag()->tag_gpu_level(x_out, x_in);
+          BB_BB_new_term_7_r2_b2.get_real()->tag_gpu_level(x_out, x_in);
+          BB_BB_new_term_7_r2_b2.get_imag()->tag_gpu_level(x_out, x_in);
+          flip_BB_BB_new_term_0_r1_b1.get_real()->tag_gpu_level(x_out, x_in);
+          flip_BB_BB_new_term_0_r1_b1.get_imag()->tag_gpu_level(x_out, x_in);
+          flip_BB_BB_new_term_1_r1_b1.get_real()->tag_gpu_level(x_out, x_in);
+          flip_BB_BB_new_term_1_r1_b1.get_imag()->tag_gpu_level(x_out, x_in);
+          flip_BB_BB_new_term_2_r1_b1.get_real()->tag_gpu_level(x_out, x_in);
+          flip_BB_BB_new_term_2_r1_b1.get_imag()->tag_gpu_level(x_out, x_in);
+          flip_BB_BB_new_term_3_r1_b1.get_real()->tag_gpu_level(x_out, x_in);
+          flip_BB_BB_new_term_3_r1_b1.get_imag()->tag_gpu_level(x_out, x_in);
+          flip_BB_BB_new_term_4_r1_b1.get_real()->tag_gpu_level(x_out, x_in);
+          flip_BB_BB_new_term_4_r1_b1.get_imag()->tag_gpu_level(x_out, x_in);
+          flip_BB_BB_new_term_5_r1_b1.get_real()->tag_gpu_level(x_out, x_in);
+          flip_BB_BB_new_term_5_r1_b1.get_imag()->tag_gpu_level(x_out, x_in);
+          flip_BB_BB_new_term_6_r1_b1.get_real()->tag_gpu_level(x_out, x_in);
+          flip_BB_BB_new_term_6_r1_b1.get_imag()->tag_gpu_level(x_out, x_in);
+          flip_BB_BB_new_term_7_r1_b1.get_real()->tag_gpu_level(x_out, x_in);
+          flip_BB_BB_new_term_7_r1_b1.get_imag()->tag_gpu_level(x_out, x_in);
+          flip_BB_BB_new_term_0_r2_b1.get_real()->tag_gpu_level(x_out, x_in);
+          flip_BB_BB_new_term_0_r2_b1.get_imag()->tag_gpu_level(x_out, x_in);
+          flip_BB_BB_new_term_1_r2_b1.get_real()->tag_gpu_level(x_out, x_in);
+          flip_BB_BB_new_term_1_r2_b1.get_imag()->tag_gpu_level(x_out, x_in);
+          flip_BB_BB_new_term_2_r2_b1.get_real()->tag_gpu_level(x_out, x_in);
+          flip_BB_BB_new_term_2_r2_b1.get_imag()->tag_gpu_level(x_out, x_in);
+          flip_BB_BB_new_term_3_r2_b1.get_real()->tag_gpu_level(x_out, x_in);
+          flip_BB_BB_new_term_3_r2_b1.get_imag()->tag_gpu_level(x_out, x_in);
+          flip_BB_BB_new_term_4_r2_b1.get_real()->tag_gpu_level(x_out, x_in);
+          flip_BB_BB_new_term_4_r2_b1.get_imag()->tag_gpu_level(x_out, x_in);
+          flip_BB_BB_new_term_5_r2_b1.get_real()->tag_gpu_level(x_out, x_in);
+          flip_BB_BB_new_term_5_r2_b1.get_imag()->tag_gpu_level(x_out, x_in);
+          flip_BB_BB_new_term_6_r2_b1.get_real()->tag_gpu_level(x_out, x_in);
+          flip_BB_BB_new_term_6_r2_b1.get_imag()->tag_gpu_level(x_out, x_in);
+          flip_BB_BB_new_term_7_r2_b1.get_real()->tag_gpu_level(x_out, x_in);
+          flip_BB_BB_new_term_7_r2_b1.get_imag()->tag_gpu_level(x_out, x_in);
+          flip_BB_BB_new_term_0_r1_b2.get_real()->tag_gpu_level(x_out, x_in);
+          flip_BB_BB_new_term_0_r1_b2.get_imag()->tag_gpu_level(x_out, x_in);
+          flip_BB_BB_new_term_1_r1_b2.get_real()->tag_gpu_level(x_out, x_in);
+          flip_BB_BB_new_term_1_r1_b2.get_imag()->tag_gpu_level(x_out, x_in);
+          flip_BB_BB_new_term_2_r1_b2.get_real()->tag_gpu_level(x_out, x_in);
+          flip_BB_BB_new_term_2_r1_b2.get_imag()->tag_gpu_level(x_out, x_in);
+          flip_BB_BB_new_term_3_r1_b2.get_real()->tag_gpu_level(x_out, x_in);
+          flip_BB_BB_new_term_3_r1_b2.get_imag()->tag_gpu_level(x_out, x_in);
+          flip_BB_BB_new_term_4_r1_b2.get_real()->tag_gpu_level(x_out, x_in);
+          flip_BB_BB_new_term_4_r1_b2.get_imag()->tag_gpu_level(x_out, x_in);
+          flip_BB_BB_new_term_5_r1_b2.get_real()->tag_gpu_level(x_out, x_in);
+          flip_BB_BB_new_term_5_r1_b2.get_imag()->tag_gpu_level(x_out, x_in);
+          flip_BB_BB_new_term_6_r1_b2.get_real()->tag_gpu_level(x_out, x_in);
+          flip_BB_BB_new_term_6_r1_b2.get_imag()->tag_gpu_level(x_out, x_in);
+          flip_BB_BB_new_term_7_r1_b2.get_real()->tag_gpu_level(x_out, x_in);
+          flip_BB_BB_new_term_7_r1_b2.get_imag()->tag_gpu_level(x_out, x_in);
+          flip_BB_BB_new_term_0_r2_b2.get_real()->tag_gpu_level(x_out, x_in);
+          flip_BB_BB_new_term_0_r2_b2.get_imag()->tag_gpu_level(x_out, x_in);
+          flip_BB_BB_new_term_1_r2_b2.get_real()->tag_gpu_level(x_out, x_in);
+          flip_BB_BB_new_term_1_r2_b2.get_imag()->tag_gpu_level(x_out, x_in);
+          flip_BB_BB_new_term_2_r2_b2.get_real()->tag_gpu_level(x_out, x_in);
+          flip_BB_BB_new_term_2_r2_b2.get_imag()->tag_gpu_level(x_out, x_in);
+          flip_BB_BB_new_term_3_r2_b2.get_real()->tag_gpu_level(x_out, x_in);
+          flip_BB_BB_new_term_3_r2_b2.get_imag()->tag_gpu_level(x_out, x_in);
+          flip_BB_BB_new_term_4_r2_b2.get_real()->tag_gpu_level(x_out, x_in);
+          flip_BB_BB_new_term_4_r2_b2.get_imag()->tag_gpu_level(x_out, x_in);
+          flip_BB_BB_new_term_5_r2_b2.get_real()->tag_gpu_level(x_out, x_in);
+          flip_BB_BB_new_term_5_r2_b2.get_imag()->tag_gpu_level(x_out, x_in);
+          flip_BB_BB_new_term_6_r2_b2.get_real()->tag_gpu_level(x_out, x_in);
+          flip_BB_BB_new_term_6_r2_b2.get_imag()->tag_gpu_level(x_out, x_in);
+          flip_BB_BB_new_term_7_r2_b2.get_real()->tag_gpu_level(x_out, x_in);
+          flip_BB_BB_new_term_7_r2_b2.get_imag()->tag_gpu_level(x_out, x_in);
+          C_BB_BB_prop_update_r.tag_gpu_level(x_out, x_in);
+          C_BB_BB_prop_update_i.tag_gpu_level(x_out, x_in);
+          C_BB_BB_update_b_r.tag_gpu_level(x_out, x_in);
+          C_BB_BB_update_b_i.tag_gpu_level(x_out, x_in);
+          C_BB_BB_update_s_r.tag_gpu_level(x_out, x_in);
+          C_BB_BB_update_s_i.tag_gpu_level(x_out, x_in);
+
+// BB_H
+
+          src_B1_Blocal_r1_r_init.tag_gpu_level(x_out, x_in);
+          src_B1_Blocal_r1_i_init.tag_gpu_level(x_out, x_in);
+          flip_src_B1_Blocal_r1_r_init.tag_gpu_level(x_out, x_in);
+          flip_src_B1_Blocal_r1_i_init.tag_gpu_level(x_out, x_in);
+          src_B1_Blocal_r1_r_props_init.tag_gpu_level(x_out, x_in);
+          src_B1_Blocal_r1_i_props_init.tag_gpu_level(x_out, x_in);
+          src_B1_Blocal_r1_r_diquark.tag_gpu_level(x_out, x_in);
+          src_B1_Blocal_r1_i_diquark.tag_gpu_level(x_out, x_in);
+          src_B1_Blocal_r1_r_props.tag_gpu_level(x_out, x_in);
+          src_B1_Blocal_r1_i_props.tag_gpu_level(x_out, x_in);
+          src_B1_Blocal_r1_r_update.tag_gpu_level(x_out, x_in);
+          src_B1_Blocal_r1_i_update.tag_gpu_level(x_out, x_in);
+          flip_src_B1_Blocal_r1_r_update.tag_gpu_level(x_out, x_in);
+          flip_src_B1_Blocal_r1_i_update.tag_gpu_level(x_out, x_in);
+          src_B1_Blocal_r2_r_init.tag_gpu_level(x_out, x_in);
+          src_B1_Blocal_r2_i_init.tag_gpu_level(x_out, x_in);
+          flip_src_B1_Blocal_r2_r_init.tag_gpu_level(x_out, x_in);
+          flip_src_B1_Blocal_r2_i_init.tag_gpu_level(x_out, x_in);
+          src_B1_Blocal_r2_r_props_init.tag_gpu_level(x_out, x_in);
+          src_B1_Blocal_r2_i_props_init.tag_gpu_level(x_out, x_in);
+          src_B1_Blocal_r2_r_diquark.tag_gpu_level(x_out, x_in);
+          src_B1_Blocal_r2_i_diquark.tag_gpu_level(x_out, x_in);
+          src_B1_Blocal_r2_r_props.tag_gpu_level(x_out, x_in);
+          src_B1_Blocal_r2_i_props.tag_gpu_level(x_out, x_in);
+          src_B1_Blocal_r2_r_update.tag_gpu_level(x_out, x_in);
+          src_B1_Blocal_r2_i_update.tag_gpu_level(x_out, x_in);
+          flip_src_B1_Blocal_r2_r_update.tag_gpu_level(x_out, x_in);
+          flip_src_B1_Blocal_r2_i_update.tag_gpu_level(x_out, x_in);
+          src_B2_Blocal_r1_r_init.tag_gpu_level(x_out, x_in);
+          src_B2_Blocal_r1_i_init.tag_gpu_level(x_out, x_in);
+          flip_src_B2_Blocal_r1_r_init.tag_gpu_level(x_out, x_in);
+          flip_src_B2_Blocal_r1_i_init.tag_gpu_level(x_out, x_in);
+          src_B2_Blocal_r1_r_props_init.tag_gpu_level(x_out, x_in);
+          src_B2_Blocal_r1_i_props_init.tag_gpu_level(x_out, x_in);
+          src_B2_Blocal_r1_r_diquark.tag_gpu_level(x_out, x_in);
+          src_B2_Blocal_r1_i_diquark.tag_gpu_level(x_out, x_in);
+          src_B2_Blocal_r1_r_props.tag_gpu_level(x_out, x_in);
+          src_B2_Blocal_r1_i_props.tag_gpu_level(x_out, x_in);
+          src_B2_Blocal_r1_r_update.tag_gpu_level(x_out, x_in);
+          src_B2_Blocal_r1_i_update.tag_gpu_level(x_out, x_in);
+          flip_src_B2_Blocal_r1_r_update.tag_gpu_level(x_out, x_in);
+          flip_src_B2_Blocal_r1_i_update.tag_gpu_level(x_out, x_in);
+          src_B2_Blocal_r2_r_init.tag_gpu_level(x_out, x_in);
+          src_B2_Blocal_r2_i_init.tag_gpu_level(x_out, x_in);
+          flip_src_B2_Blocal_r2_r_init.tag_gpu_level(x_out, x_in);
+          flip_src_B2_Blocal_r2_i_init.tag_gpu_level(x_out, x_in);
+          src_B2_Blocal_r2_r_props_init.tag_gpu_level(x_out, x_in);
+          src_B2_Blocal_r2_i_props_init.tag_gpu_level(x_out, x_in);
+          src_B2_Blocal_r2_r_diquark.tag_gpu_level(x_out, x_in);
+          src_B2_Blocal_r2_i_diquark.tag_gpu_level(x_out, x_in);
+          src_B2_Blocal_r2_r_props.tag_gpu_level(x_out, x_in);
+          src_B2_Blocal_r2_i_props.tag_gpu_level(x_out, x_in);
+          src_B2_Blocal_r2_r_update.tag_gpu_level(x_out, x_in);
+          src_B2_Blocal_r2_i_update.tag_gpu_level(x_out, x_in);
+          flip_src_B2_Blocal_r2_r_update.tag_gpu_level(x_out, x_in);
+          flip_src_B2_Blocal_r2_i_update.tag_gpu_level(x_out, x_in);
+          C_BB_H_prop_init_r.tag_gpu_level(x_out, x_in);
+          C_BB_H_prop_init_i.tag_gpu_level(x_out, x_in);
+          BB_H_new_term_0_r1_b1.get_real()->tag_gpu_level(x_out, x_in);
+          BB_H_new_term_0_r1_b1.get_imag()->tag_gpu_level(x_out, x_in);
+          BB_H_new_term_0_r2_b1.get_real()->tag_gpu_level(x_out, x_in);
+          BB_H_new_term_0_r2_b1.get_imag()->tag_gpu_level(x_out, x_in);
+          BB_H_new_term_0_r1_b2.get_real()->tag_gpu_level(x_out, x_in);
+          BB_H_new_term_0_r1_b2.get_imag()->tag_gpu_level(x_out, x_in);
+          BB_H_new_term_0_r2_b2.get_real()->tag_gpu_level(x_out, x_in);
+          BB_H_new_term_0_r2_b2.get_imag()->tag_gpu_level(x_out, x_in);
+          flip_BB_H_new_term_0_r1_b1.get_real()->tag_gpu_level(x_out, x_in);
+          flip_BB_H_new_term_0_r1_b1.get_imag()->tag_gpu_level(x_out, x_in);
+          flip_BB_H_new_term_0_r2_b1.get_real()->tag_gpu_level(x_out, x_in);
+          flip_BB_H_new_term_0_r2_b1.get_imag()->tag_gpu_level(x_out, x_in);
+          flip_BB_H_new_term_0_r1_b2.get_real()->tag_gpu_level(x_out, x_in);
+          flip_BB_H_new_term_0_r1_b2.get_imag()->tag_gpu_level(x_out, x_in);
+          flip_BB_H_new_term_0_r2_b2.get_real()->tag_gpu_level(x_out, x_in);
+          flip_BB_H_new_term_0_r2_b2.get_imag()->tag_gpu_level(x_out, x_in);
+          C_BB_H_prop_update_r.tag_gpu_level(x_out, x_in);
+          C_BB_H_prop_update_i.tag_gpu_level(x_out, x_in);
+          C_BB_H_update_r.tag_gpu_level(x_out, x_in);
+          C_BB_H_update_i.tag_gpu_level(x_out, x_in);
+
+    // H_BB
+          snk_B1_Blocal_r1_r_init.tag_gpu_level(y_out, y_in);
+          snk_B1_Blocal_r1_i_init.tag_gpu_level(y_out, y_in);
+          flip_snk_B1_Blocal_r1_r_init.tag_gpu_level(y_out, y_in);
+          flip_snk_B1_Blocal_r1_i_init.tag_gpu_level(y_out, y_in);
+          snk_B1_Blocal_r1_r_props_init.tag_gpu_level(y_out, y_in);
+          snk_B1_Blocal_r1_i_props_init.tag_gpu_level(y_out, y_in);
+          snk_B1_Blocal_r1_r_diquark.tag_gpu_level(y_out, y_in);
+          snk_B1_Blocal_r1_i_diquark.tag_gpu_level(y_out, y_in);
+          snk_B1_Blocal_r1_r_props.tag_gpu_level(y_out, y_in);
+          snk_B1_Blocal_r1_i_props.tag_gpu_level(y_out, y_in);
+          snk_B1_Blocal_r1_r_update.tag_gpu_level(y_out, y_in);
+          snk_B1_Blocal_r1_i_update.tag_gpu_level(y_out, y_in);
+          flip_snk_B1_Blocal_r1_r_update.tag_gpu_level(y_out, y_in);
+          flip_snk_B1_Blocal_r1_i_update.tag_gpu_level(y_out, y_in);
+          snk_B1_Blocal_r2_r_init.tag_gpu_level(y_out, y_in);
+          snk_B1_Blocal_r2_i_init.tag_gpu_level(y_out, y_in);
+          flip_snk_B1_Blocal_r2_r_init.tag_gpu_level(y_out, y_in);
+          flip_snk_B1_Blocal_r2_i_init.tag_gpu_level(y_out, y_in);
+          snk_B1_Blocal_r2_r_props_init.tag_gpu_level(y_out, y_in);
+          snk_B1_Blocal_r2_i_props_init.tag_gpu_level(y_out, y_in);
+          snk_B1_Blocal_r2_r_diquark.tag_gpu_level(y_out, y_in);
+          snk_B1_Blocal_r2_i_diquark.tag_gpu_level(y_out, y_in);
+          snk_B1_Blocal_r2_r_props.tag_gpu_level(y_out, y_in);
+          snk_B1_Blocal_r2_i_props.tag_gpu_level(y_out, y_in);
+          snk_B1_Blocal_r2_r_update.tag_gpu_level(y_out, y_in);
+          snk_B1_Blocal_r2_i_update.tag_gpu_level(y_out, y_in);
+          flip_snk_B1_Blocal_r2_r_update.tag_gpu_level(y_out, y_in);
+          flip_snk_B1_Blocal_r2_i_update.tag_gpu_level(y_out, y_in);
+          snk_B2_Blocal_r1_r_init.tag_gpu_level(y_out, y_in);
+          snk_B2_Blocal_r1_i_init.tag_gpu_level(y_out, y_in);
+          flip_snk_B2_Blocal_r1_r_init.tag_gpu_level(y_out, y_in);
+          flip_snk_B2_Blocal_r1_i_init.tag_gpu_level(y_out, y_in);
+          snk_B2_Blocal_r1_r_props_init.tag_gpu_level(y_out, y_in);
+          snk_B2_Blocal_r1_i_props_init.tag_gpu_level(y_out, y_in);
+          snk_B2_Blocal_r1_r_diquark.tag_gpu_level(y_out, y_in);
+          snk_B2_Blocal_r1_i_diquark.tag_gpu_level(y_out, y_in);
+          snk_B2_Blocal_r1_r_props.tag_gpu_level(y_out, y_in);
+          snk_B2_Blocal_r1_i_props.tag_gpu_level(y_out, y_in);
+          snk_B2_Blocal_r1_r_update.tag_gpu_level(y_out, y_in);
+          snk_B2_Blocal_r1_i_update.tag_gpu_level(y_out, y_in);
+          flip_snk_B2_Blocal_r1_r_update.tag_gpu_level(y_out, y_in);
+          flip_snk_B2_Blocal_r1_i_update.tag_gpu_level(y_out, y_in);
+          snk_B2_Blocal_r2_r_init.tag_gpu_level(y_out, y_in);
+          snk_B2_Blocal_r2_i_init.tag_gpu_level(y_out, y_in);
+          flip_snk_B2_Blocal_r2_r_init.tag_gpu_level(y_out, y_in);
+          flip_snk_B2_Blocal_r2_i_init.tag_gpu_level(y_out, y_in);
+          snk_B2_Blocal_r2_r_props_init.tag_gpu_level(y_out, y_in);
+          snk_B2_Blocal_r2_i_props_init.tag_gpu_level(y_out, y_in);
+          snk_B2_Blocal_r2_r_diquark.tag_gpu_level(y_out, y_in);
+          snk_B2_Blocal_r2_i_diquark.tag_gpu_level(y_out, y_in);
+          snk_B2_Blocal_r2_r_props.tag_gpu_level(y_out, y_in);
+          snk_B2_Blocal_r2_i_props.tag_gpu_level(y_out, y_in);
+          snk_B2_Blocal_r2_r_update.tag_gpu_level(y_out, y_in);
+          flip_snk_B2_Blocal_r2_r_update.tag_gpu_level(y_out, y_in);
+          flip_snk_B2_Blocal_r2_i_update.tag_gpu_level(y_out, y_in);
+          snk_B2_Blocal_r2_i_update.tag_gpu_level(y_out, y_in);
+          C_H_BB_prop_init_r.tag_gpu_level(y_out, y_in);
+          C_H_BB_prop_init_i.tag_gpu_level(y_out, y_in);
+          H_BB_new_term_0_r1_b1.get_real()->tag_gpu_level(y_out, y_in);
+          H_BB_new_term_0_r1_b1.get_imag()->tag_gpu_level(y_out, y_in);
+          H_BB_new_term_0_r2_b1.get_real()->tag_gpu_level(y_out, y_in);
+          H_BB_new_term_0_r2_b1.get_imag()->tag_gpu_level(y_out, y_in);
+          H_BB_new_term_0_r1_b2.get_real()->tag_gpu_level(y_out, y_in);
+          H_BB_new_term_0_r1_b2.get_imag()->tag_gpu_level(y_out, y_in);
+          H_BB_new_term_0_r2_b2.get_real()->tag_gpu_level(y_out, y_in);
+          H_BB_new_term_0_r2_b2.get_imag()->tag_gpu_level(y_out, y_in);
+          flip_H_BB_new_term_0_r1_b1.get_real()->tag_gpu_level(y_out, y_in);
+          flip_H_BB_new_term_0_r1_b1.get_imag()->tag_gpu_level(y_out, y_in);
+          flip_H_BB_new_term_0_r2_b1.get_real()->tag_gpu_level(y_out, y_in);
+          flip_H_BB_new_term_0_r2_b1.get_imag()->tag_gpu_level(y_out, y_in);
+          flip_H_BB_new_term_0_r1_b2.get_real()->tag_gpu_level(y_out, y_in);
+          flip_H_BB_new_term_0_r1_b2.get_imag()->tag_gpu_level(y_out, y_in);
+          flip_H_BB_new_term_0_r2_b2.get_real()->tag_gpu_level(y_out, y_in);
+          flip_H_BB_new_term_0_r2_b2.get_imag()->tag_gpu_level(y_out, y_in);
+          C_H_BB_prop_update_r.tag_gpu_level(y_out, y_in);
+          C_H_BB_prop_update_i.tag_gpu_level(y_out, y_in);
+          C_H_BB_update_r.tag_gpu_level(y_out, y_in);
+          C_H_BB_update_i.tag_gpu_level(y_out, y_in);
 
     // H_H
           C_H_H_prop_init_r.tag_gpu_level(x_out, x_in);
@@ -406,6 +3001,534 @@ computation copy_snk_b_host_to_device({}, memcpy(buf_snk_b_cpu, *snk_b.get_buffe
       handle = &handle->then(copy_snk_b_host_to_device, computation::root);
 
     handle = &(handle->then(C_init_r, computation::root).then(C_init_i, npnH));
+
+    // BB_BB
+    {
+    handle = &(handle
+          ->then(B1_Blocal_r1_r_init, computation::root)
+          .then(B1_Blocal_r1_i_init, m)
+          .then(B1_Bfirst_r1_r_init, m)
+          .then(B1_Bfirst_r1_i_init, m)
+          .then(B1_Bsecond_r1_r_init, m)
+          .then(B1_Bsecond_r1_i_init, m)
+          .then(B1_Bthird_r1_r_init, m)
+          .then(B1_Bthird_r1_i_init, m)
+          .then(flip_B1_Blocal_r1_r_init, m)
+          .then(flip_B1_Blocal_r1_i_init, m)
+          .then(flip_B1_Bfirst_r1_r_init, m)
+          .then(flip_B1_Bfirst_r1_i_init, m)
+          .then(flip_B1_Bsecond_r1_r_init, m)
+          .then(flip_B1_Bsecond_r1_i_init, m)
+          .then(flip_B1_Bthird_r1_r_init, m)
+          .then(flip_B1_Bthird_r1_i_init, m)
+
+          .then(B1_Blocal_r1_r_props_init, x2)
+          .then(B1_Blocal_r1_i_props_init, jSprime)
+          .then(B1_Bfirst_r1_r_props_init, jSprime)
+          .then(B1_Bfirst_r1_i_props_init, jSprime)
+          .then(B1_Bsecond_r1_r_props_init, jSprime)
+          .then(B1_Bsecond_r1_i_props_init, jSprime)
+          .then(B1_Bthird_r1_r_props_init, jSprime)
+          .then(B1_Bthird_r1_i_props_init, jSprime)
+
+          .then(B1_Blocal_r1_r_diquark, y)
+          .then(B1_Blocal_r1_i_diquark, wnumBlock)
+          .then(B1_Bfirst_r1_r_diquark, wnumBlock)
+          .then(B1_Bfirst_r1_i_diquark, wnumBlock)
+          .then(B1_Bthird_r1_r_diquark, wnumBlock)
+          .then(B1_Bthird_r1_i_diquark, wnumBlock)
+          .then(B1_Blocal_r1_r_props, wnumBlock)
+          .then(B1_Blocal_r1_i_props, jSprime)
+          .then(B1_Bfirst_r1_r_props, jSprime)
+          .then(B1_Bfirst_r1_i_props, jSprime)
+          .then(B1_Bsecond_r1_r_props, jSprime)
+          .then(B1_Bsecond_r1_i_props, jSprime)
+          .then(B1_Bthird_r1_r_props, jSprime)
+          .then(B1_Bthird_r1_i_props, jSprime)
+          .then(B1_Blocal_r1_r_update, y)
+          .then(B1_Blocal_r1_i_update, m)
+          .then(B1_Bfirst_r1_r_update, m)
+          .then(B1_Bfirst_r1_i_update, m)
+          .then(B1_Bsecond_r1_r_update, m)
+          .then(B1_Bsecond_r1_i_update, m)
+          .then(B1_Bthird_r1_r_update, m)
+          .then(B1_Bthird_r1_i_update, m)
+          .then(flip_B1_Blocal_r1_r_update, m)
+          .then(flip_B1_Blocal_r1_i_update, m)
+          .then(flip_B1_Bfirst_r1_r_update, m)
+          .then(flip_B1_Bfirst_r1_i_update, m)
+          .then(flip_B1_Bsecond_r1_r_update, m)
+          .then(flip_B1_Bsecond_r1_i_update, m)
+          .then(flip_B1_Bthird_r1_r_update, m)
+          .then(flip_B1_Bthird_r1_i_update, m)
+          .then(B1_Blocal_r2_r_init, x2)
+          .then(B1_Blocal_r2_i_init, m)
+          .then(B1_Bfirst_r2_r_init, m)
+          .then(B1_Bfirst_r2_i_init, m)
+          .then(B1_Bsecond_r2_r_init, m)
+          .then(B1_Bsecond_r2_i_init, m)
+          .then(B1_Bthird_r2_r_init, m)
+          .then(B1_Bthird_r2_i_init, m)
+          .then(flip_B1_Blocal_r2_r_init, m)
+          .then(flip_B1_Blocal_r2_i_init, m)
+          .then(flip_B1_Bfirst_r2_r_init, m)
+          .then(flip_B1_Bfirst_r2_i_init, m)
+          .then(flip_B1_Bsecond_r2_r_init, m)
+          .then(flip_B1_Bsecond_r2_i_init, m)
+          .then(flip_B1_Bthird_r2_r_init, m)
+          .then(flip_B1_Bthird_r2_i_init, m)
+          .then(B1_Blocal_r2_r_props_init, x2) // {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}
+          .then(B1_Blocal_r2_i_props_init, jSprime) // {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}
+          .then(B1_Bfirst_r2_r_props_init, jSprime) // {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}
+          .then(B1_Bfirst_r2_i_props_init, jSprime) // {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}
+          .then(B1_Bsecond_r2_r_props_init, jSprime) // {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}
+          .then(B1_Bsecond_r2_i_props_init, jSprime) // {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}
+          .then(B1_Bthird_r2_r_props_init, jSprime) // {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}
+          .then(B1_Bthird_r2_i_props_init, jSprime) // {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}
+          .then(B1_Blocal_r2_r_diquark, y) // {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}
+          .then(B1_Blocal_r2_i_diquark, wnumBlock) // {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}
+          .then(B1_Bfirst_r2_r_diquark, wnumBlock) // {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}
+          .then(B1_Bfirst_r2_i_diquark, wnumBlock) // {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}
+          .then(B1_Bthird_r2_r_diquark, wnumBlock) // {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}
+          .then(B1_Bthird_r2_i_diquark, wnumBlock) // {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}
+          .then(B1_Blocal_r2_r_props, wnumBlock)
+          .then(B1_Blocal_r2_i_props, jSprime)
+          .then(B1_Bfirst_r2_r_props, jSprime)
+          .then(B1_Bfirst_r2_i_props, jSprime)
+          .then(B1_Bsecond_r2_r_props, jSprime)
+          .then(B1_Bsecond_r2_i_props, jSprime)
+          .then(B1_Bthird_r2_r_props, jSprime)
+          .then(B1_Bthird_r2_i_props, jSprime)
+          .then(B1_Blocal_r2_r_update, y)
+          .then(B1_Blocal_r2_i_update, m)
+          .then(B1_Bfirst_r2_r_update, m)
+          .then(B1_Bfirst_r2_i_update, m)
+          .then(B1_Bsecond_r2_r_update, m)
+          .then(B1_Bsecond_r2_i_update, m)
+          .then(B1_Bthird_r2_r_update, m)
+          .then(B1_Bthird_r2_i_update, m)
+          .then(flip_B1_Blocal_r2_r_update, m)
+          .then(flip_B1_Blocal_r2_i_update, m)
+          .then(flip_B1_Bfirst_r2_r_update, m)
+          .then(flip_B1_Bfirst_r2_i_update, m)
+          .then(flip_B1_Bsecond_r2_r_update, m)
+          .then(flip_B1_Bsecond_r2_i_update, m)
+          .then(flip_B1_Bthird_r2_r_update, m)
+          .then(flip_B1_Bthird_r2_i_update, m)
+          .then(B2_Blocal_r1_r_init, x2)
+          .then(B2_Blocal_r1_i_init, m)
+          .then(B2_Bfirst_r1_r_init, m)
+          .then(B2_Bfirst_r1_i_init, m)
+          .then(B2_Bsecond_r1_r_init, m)
+          .then(B2_Bsecond_r1_i_init, m)
+          .then(B2_Bthird_r1_r_init, m)
+          .then(B2_Bthird_r1_i_init, m)
+          .then(flip_B2_Blocal_r1_r_init, m)
+          .then(flip_B2_Blocal_r1_i_init, m)
+          .then(flip_B2_Bfirst_r1_r_init, m)
+          .then(flip_B2_Bfirst_r1_i_init, m)
+          .then(flip_B2_Bsecond_r1_r_init, m)
+          .then(flip_B2_Bsecond_r1_i_init, m)
+          .then(flip_B2_Bthird_r1_r_init, m)
+          .then(flip_B2_Bthird_r1_i_init, m)
+          .then(B2_Blocal_r1_r_props_init, x2)
+          .then(B2_Blocal_r1_i_props_init, jSprime)
+          .then(B2_Bfirst_r1_r_props_init, jSprime)
+          .then(B2_Bfirst_r1_i_props_init, jSprime)
+          .then(B2_Bsecond_r1_r_props_init, jSprime)
+          .then(B2_Bsecond_r1_i_props_init, jSprime)
+          .then(B2_Bthird_r1_r_props_init, jSprime)
+          .then(B2_Bthird_r1_i_props_init, jSprime)
+          .then(B2_Blocal_r1_r_diquark, y)
+          .then(B2_Blocal_r1_i_diquark, wnumBlock)
+          .then(B2_Bfirst_r1_r_diquark, wnumBlock)
+          .then(B2_Bfirst_r1_i_diquark, wnumBlock)
+          .then(B2_Bthird_r1_r_diquark, wnumBlock)
+          .then(B2_Bthird_r1_i_diquark, wnumBlock)
+          .then(B2_Blocal_r1_r_props, wnumBlock)
+          .then(B2_Blocal_r1_i_props, jSprime)
+          .then(B2_Bfirst_r1_r_props, jSprime)
+          .then(B2_Bfirst_r1_i_props, jSprime)
+          .then(B2_Bsecond_r1_r_props, jSprime)
+          .then(B2_Bsecond_r1_i_props, jSprime)
+          .then(B2_Bthird_r1_r_props, jSprime)
+          .then(B2_Bthird_r1_i_props, jSprime)
+          .then(B2_Blocal_r1_r_update, y)
+          .then(B2_Blocal_r1_i_update, m)
+          .then(B2_Bfirst_r1_r_update, m)
+          .then(B2_Bfirst_r1_i_update, m)
+          .then(B2_Bsecond_r1_r_update, m)
+          .then(B2_Bsecond_r1_i_update, m)
+          .then(B2_Bthird_r1_r_update, m)
+          .then(B2_Bthird_r1_i_update, m)
+          .then(flip_B2_Blocal_r1_r_update, m)
+          .then(flip_B2_Blocal_r1_i_update, m)
+          .then(flip_B2_Bfirst_r1_r_update, m)
+          .then(flip_B2_Bfirst_r1_i_update, m)
+          .then(flip_B2_Bsecond_r1_r_update, m)
+          .then(flip_B2_Bsecond_r1_i_update, m)
+          .then(flip_B2_Bthird_r1_r_update, m)
+          .then(flip_B2_Bthird_r1_i_update, m)
+          .then(B2_Blocal_r2_r_init, x2)
+          .then(B2_Blocal_r2_i_init, m)
+          .then(B2_Bfirst_r2_r_init, m)
+          .then(B2_Bfirst_r2_i_init, m)
+          .then(B2_Bsecond_r2_r_init, m)
+          .then(B2_Bsecond_r2_i_init, m)
+          .then(B2_Bthird_r2_r_init, m)
+          .then(B2_Bthird_r2_i_init, m)
+          .then(flip_B2_Blocal_r2_r_init, m)
+          .then(flip_B2_Blocal_r2_i_init, m)
+          .then(flip_B2_Bfirst_r2_r_init, m)
+          .then(flip_B2_Bfirst_r2_i_init, m)
+          .then(flip_B2_Bsecond_r2_r_init, m)
+          .then(flip_B2_Bsecond_r2_i_init, m)
+          .then(flip_B2_Bthird_r2_r_init, m)
+          .then(flip_B2_Bthird_r2_i_init, m)
+          .then(B2_Blocal_r2_r_props_init, x2)
+          .then(B2_Blocal_r2_i_props_init, jSprime)
+          .then(B2_Bfirst_r2_r_props_init, jSprime)
+          .then(B2_Bfirst_r2_i_props_init, jSprime)
+          .then(B2_Bsecond_r2_r_props_init, jSprime)
+          .then(B2_Bsecond_r2_i_props_init, jSprime)
+          .then(B2_Bthird_r2_r_props_init, jSprime)
+          .then(B2_Bthird_r2_i_props_init, jSprime)
+          .then(B2_Blocal_r2_r_diquark, y)
+          .then(B2_Blocal_r2_i_diquark, wnumBlock)
+          .then(B2_Bfirst_r2_r_diquark, wnumBlock)
+          .then(B2_Bfirst_r2_i_diquark, wnumBlock)
+          .then(B2_Bthird_r2_r_diquark, wnumBlock)
+          .then(B2_Bthird_r2_i_diquark, wnumBlock)
+          .then(B2_Blocal_r2_r_props, wnumBlock)
+          .then(B2_Blocal_r2_i_props, jSprime)
+          .then(B2_Bfirst_r2_r_props, jSprime)
+          .then(B2_Bfirst_r2_i_props, jSprime)
+          .then(B2_Bsecond_r2_r_props, jSprime)
+          .then(B2_Bsecond_r2_i_props, jSprime)
+          .then(B2_Bthird_r2_r_props, jSprime)
+          .then(B2_Bthird_r2_i_props, jSprime)
+          .then(B2_Blocal_r2_r_update, y)
+          .then(B2_Blocal_r2_i_update, m)
+          .then(B2_Bfirst_r2_r_update, m)
+          .then(B2_Bfirst_r2_i_update, m)
+          .then(B2_Bsecond_r2_r_update, m)
+          .then(B2_Bsecond_r2_i_update, m)
+          .then(B2_Bthird_r2_r_update, m)
+          .then(B2_Bthird_r2_i_update, m)
+          .then(flip_B2_Blocal_r2_r_update, m)
+          .then(flip_B2_Blocal_r2_i_update, m)
+          .then(flip_B2_Bfirst_r2_r_update, m)
+          .then(flip_B2_Bfirst_r2_i_update, m)
+          .then(flip_B2_Bsecond_r2_r_update, m)
+          .then(flip_B2_Bsecond_r2_i_update, m)
+          .then(flip_B2_Bthird_r2_r_update, m)
+          .then(flip_B2_Bthird_r2_i_update, m)
+          .then(C_BB_BB_prop_init_r, x2)
+          .then(C_BB_BB_prop_init_i, r)
+          .then( *(BB_BB_new_term_0_r1_b1.get_real()), r)
+          .then( *(BB_BB_new_term_0_r1_b1.get_imag()), wnum)
+          .then( *(BB_BB_new_term_1_r1_b1.get_real()), wnum)
+          .then( *(BB_BB_new_term_1_r1_b1.get_imag()), wnum)
+          .then( *(BB_BB_new_term_2_r1_b1.get_real()), wnum)
+          .then( *(BB_BB_new_term_2_r1_b1.get_imag()), wnum)
+          .then( *(BB_BB_new_term_3_r1_b1.get_real()), wnum)
+          .then( *(BB_BB_new_term_3_r1_b1.get_imag()), wnum)
+          .then( *(BB_BB_new_term_4_r1_b1.get_real()), wnum)
+          .then( *(BB_BB_new_term_4_r1_b1.get_imag()), wnum)
+          .then( *(BB_BB_new_term_5_r1_b1.get_real()), wnum)
+          .then( *(BB_BB_new_term_5_r1_b1.get_imag()), wnum)
+          .then( *(BB_BB_new_term_6_r1_b1.get_real()), wnum)
+          .then( *(BB_BB_new_term_6_r1_b1.get_imag()), wnum)
+          .then( *(BB_BB_new_term_7_r1_b1.get_real()), wnum)
+          .then( *(BB_BB_new_term_7_r1_b1.get_imag()), wnum)
+          .then( *(BB_BB_new_term_0_r2_b1.get_real()), wnum)
+          .then( *(BB_BB_new_term_0_r2_b1.get_imag()), wnum)
+          .then( *(BB_BB_new_term_1_r2_b1.get_real()), wnum)
+          .then( *(BB_BB_new_term_1_r2_b1.get_imag()), wnum)
+          .then( *(BB_BB_new_term_2_r2_b1.get_real()), wnum)
+          .then( *(BB_BB_new_term_2_r2_b1.get_imag()), wnum)
+          .then( *(BB_BB_new_term_3_r2_b1.get_real()), wnum)
+          .then( *(BB_BB_new_term_3_r2_b1.get_imag()), wnum)
+          .then( *(BB_BB_new_term_4_r2_b1.get_real()), wnum)
+          .then( *(BB_BB_new_term_4_r2_b1.get_imag()), wnum)
+          .then( *(BB_BB_new_term_5_r2_b1.get_real()), wnum)
+          .then( *(BB_BB_new_term_5_r2_b1.get_imag()), wnum)
+          .then( *(BB_BB_new_term_6_r2_b1.get_real()), wnum)
+          .then( *(BB_BB_new_term_6_r2_b1.get_imag()), wnum)
+          .then( *(BB_BB_new_term_7_r2_b1.get_real()), wnum)
+          .then( *(BB_BB_new_term_7_r2_b1.get_imag()), wnum)
+          .then( *(BB_BB_new_term_0_r1_b2.get_real()), wnum)
+          .then( *(BB_BB_new_term_0_r1_b2.get_imag()), wnum)
+          .then( *(BB_BB_new_term_1_r1_b2.get_real()), wnum)
+          .then( *(BB_BB_new_term_1_r1_b2.get_imag()), wnum)
+          .then( *(BB_BB_new_term_2_r1_b2.get_real()), wnum)
+          .then( *(BB_BB_new_term_2_r1_b2.get_imag()), wnum)
+          .then( *(BB_BB_new_term_3_r1_b2.get_real()), wnum)
+          .then( *(BB_BB_new_term_3_r1_b2.get_imag()), wnum)
+          .then( *(BB_BB_new_term_4_r1_b2.get_real()), wnum)
+          .then( *(BB_BB_new_term_4_r1_b2.get_imag()), wnum)
+          .then( *(BB_BB_new_term_5_r1_b2.get_real()), wnum)
+          .then( *(BB_BB_new_term_5_r1_b2.get_imag()), wnum)
+          .then( *(BB_BB_new_term_6_r1_b2.get_real()), wnum)
+          .then( *(BB_BB_new_term_6_r1_b2.get_imag()), wnum)
+          .then( *(BB_BB_new_term_7_r1_b2.get_real()), wnum)
+          .then( *(BB_BB_new_term_7_r1_b2.get_imag()), wnum)
+          .then( *(BB_BB_new_term_0_r2_b2.get_real()), wnum)
+          .then( *(BB_BB_new_term_0_r2_b2.get_imag()), wnum)
+          .then( *(BB_BB_new_term_1_r2_b2.get_real()), wnum)
+          .then( *(BB_BB_new_term_1_r2_b2.get_imag()), wnum)
+          .then( *(BB_BB_new_term_2_r2_b2.get_real()), wnum)
+          .then( *(BB_BB_new_term_2_r2_b2.get_imag()), wnum)
+          .then( *(BB_BB_new_term_3_r2_b2.get_real()), wnum)
+          .then( *(BB_BB_new_term_3_r2_b2.get_imag()), wnum)
+          .then( *(BB_BB_new_term_4_r2_b2.get_real()), wnum)
+          .then( *(BB_BB_new_term_4_r2_b2.get_imag()), wnum)
+          .then( *(BB_BB_new_term_5_r2_b2.get_real()), wnum)
+          .then( *(BB_BB_new_term_5_r2_b2.get_imag()), wnum)
+          .then( *(BB_BB_new_term_6_r2_b2.get_real()), wnum)
+          .then( *(BB_BB_new_term_6_r2_b2.get_imag()), wnum)
+          .then( *(BB_BB_new_term_7_r2_b2.get_real()), wnum)
+          .then( *(BB_BB_new_term_7_r2_b2.get_imag()), wnum)
+          .then( *(flip_BB_BB_new_term_0_r1_b1.get_real()), wnum)
+          .then( *(flip_BB_BB_new_term_0_r1_b1.get_imag()), wnum)
+          .then( *(flip_BB_BB_new_term_1_r1_b1.get_real()), wnum)
+          .then( *(flip_BB_BB_new_term_1_r1_b1.get_imag()), wnum)
+          .then( *(flip_BB_BB_new_term_2_r1_b1.get_real()), wnum)
+          .then( *(flip_BB_BB_new_term_2_r1_b1.get_imag()), wnum)
+          .then( *(flip_BB_BB_new_term_3_r1_b1.get_real()), wnum)
+          .then( *(flip_BB_BB_new_term_3_r1_b1.get_imag()), wnum)
+          .then( *(flip_BB_BB_new_term_4_r1_b1.get_real()), wnum)
+          .then( *(flip_BB_BB_new_term_4_r1_b1.get_imag()), wnum)
+          .then( *(flip_BB_BB_new_term_5_r1_b1.get_real()), wnum)
+          .then( *(flip_BB_BB_new_term_5_r1_b1.get_imag()), wnum)
+          .then( *(flip_BB_BB_new_term_6_r1_b1.get_real()), wnum)
+          .then( *(flip_BB_BB_new_term_6_r1_b1.get_imag()), wnum)
+          .then( *(flip_BB_BB_new_term_7_r1_b1.get_real()), wnum)
+          .then( *(flip_BB_BB_new_term_7_r1_b1.get_imag()), wnum)
+          .then( *(flip_BB_BB_new_term_0_r2_b1.get_real()), wnum)
+          .then( *(flip_BB_BB_new_term_0_r2_b1.get_imag()), wnum)
+          .then( *(flip_BB_BB_new_term_1_r2_b1.get_real()), wnum)
+          .then( *(flip_BB_BB_new_term_1_r2_b1.get_imag()), wnum)
+          .then( *(flip_BB_BB_new_term_2_r2_b1.get_real()), wnum)
+          .then( *(flip_BB_BB_new_term_2_r2_b1.get_imag()), wnum)
+          .then( *(flip_BB_BB_new_term_3_r2_b1.get_real()), wnum)
+          .then( *(flip_BB_BB_new_term_3_r2_b1.get_imag()), wnum)
+          .then( *(flip_BB_BB_new_term_4_r2_b1.get_real()), wnum)
+          .then( *(flip_BB_BB_new_term_4_r2_b1.get_imag()), wnum)
+          .then( *(flip_BB_BB_new_term_5_r2_b1.get_real()), wnum)
+          .then( *(flip_BB_BB_new_term_5_r2_b1.get_imag()), wnum)
+          .then( *(flip_BB_BB_new_term_6_r2_b1.get_real()), wnum)
+          .then( *(flip_BB_BB_new_term_6_r2_b1.get_imag()), wnum)
+          .then( *(flip_BB_BB_new_term_7_r2_b1.get_real()), wnum)
+          .then( *(flip_BB_BB_new_term_7_r2_b1.get_imag()), wnum)
+          .then( *(flip_BB_BB_new_term_0_r1_b2.get_real()), wnum)
+          .then( *(flip_BB_BB_new_term_0_r1_b2.get_imag()), wnum)
+          .then( *(flip_BB_BB_new_term_1_r1_b2.get_real()), wnum)
+          .then( *(flip_BB_BB_new_term_1_r1_b2.get_imag()), wnum)
+          .then( *(flip_BB_BB_new_term_2_r1_b2.get_real()), wnum)
+          .then( *(flip_BB_BB_new_term_2_r1_b2.get_imag()), wnum)
+          .then( *(flip_BB_BB_new_term_3_r1_b2.get_real()), wnum)
+          .then( *(flip_BB_BB_new_term_3_r1_b2.get_imag()), wnum)
+          .then( *(flip_BB_BB_new_term_4_r1_b2.get_real()), wnum)
+          .then( *(flip_BB_BB_new_term_4_r1_b2.get_imag()), wnum)
+          .then( *(flip_BB_BB_new_term_5_r1_b2.get_real()), wnum)
+          .then( *(flip_BB_BB_new_term_5_r1_b2.get_imag()), wnum)
+          .then( *(flip_BB_BB_new_term_6_r1_b2.get_real()), wnum)
+          .then( *(flip_BB_BB_new_term_6_r1_b2.get_imag()), wnum)
+          .then( *(flip_BB_BB_new_term_7_r1_b2.get_real()), wnum)
+          .then( *(flip_BB_BB_new_term_7_r1_b2.get_imag()), wnum)
+          .then( *(flip_BB_BB_new_term_0_r2_b2.get_real()), wnum)
+          .then( *(flip_BB_BB_new_term_0_r2_b2.get_imag()), wnum)
+          .then( *(flip_BB_BB_new_term_1_r2_b2.get_real()), wnum)
+          .then( *(flip_BB_BB_new_term_1_r2_b2.get_imag()), wnum)
+          .then( *(flip_BB_BB_new_term_2_r2_b2.get_real()), wnum)
+          .then( *(flip_BB_BB_new_term_2_r2_b2.get_imag()), wnum)
+          .then( *(flip_BB_BB_new_term_3_r2_b2.get_real()), wnum)
+          .then( *(flip_BB_BB_new_term_3_r2_b2.get_imag()), wnum)
+          .then( *(flip_BB_BB_new_term_4_r2_b2.get_real()), wnum)
+          .then( *(flip_BB_BB_new_term_4_r2_b2.get_imag()), wnum)
+          .then( *(flip_BB_BB_new_term_5_r2_b2.get_real()), wnum)
+          .then( *(flip_BB_BB_new_term_5_r2_b2.get_imag()), wnum)
+          .then( *(flip_BB_BB_new_term_6_r2_b2.get_real()), wnum)
+          .then( *(flip_BB_BB_new_term_6_r2_b2.get_imag()), wnum)
+          .then( *(flip_BB_BB_new_term_7_r2_b2.get_real()), wnum)
+          .then( *(flip_BB_BB_new_term_7_r2_b2.get_imag()), wnum)
+          .then(C_BB_BB_prop_update_r, wnum)
+          .then(C_BB_BB_prop_update_i, wnum)
+          .then(C_BB_BB_update_b_r, r)
+          .then(C_BB_BB_update_b_i, ne)
+          .then(C_BB_BB_update_s_r, r)
+          .then(C_BB_BB_update_s_i, nue)
+          );
+    }
+
+    // BB_H
+    {
+    handle = &(handle
+          ->then(src_B1_Blocal_r1_r_init, t)
+          .then(src_B1_Blocal_r1_i_init, jSprime)
+          .then(flip_src_B1_Blocal_r1_r_init, jSprime)
+          .then(flip_src_B1_Blocal_r1_i_init, jSprime)
+          .then(src_B1_Blocal_r1_r_props_init, x_in)
+          .then(src_B1_Blocal_r1_i_props_init, jSprime)
+          .then(src_B1_Blocal_r1_r_diquark, y)
+          .then(src_B1_Blocal_r1_i_diquark, wnumBlock)
+          .then(src_B1_Blocal_r1_r_props, wnumBlock)
+          .then(src_B1_Blocal_r1_i_props, jSprime)
+          .then(src_B1_Blocal_r1_r_update, y)
+          .then(src_B1_Blocal_r1_i_update, m)
+          .then(flip_src_B1_Blocal_r1_r_update, m)
+          .then(flip_src_B1_Blocal_r1_i_update, m)
+          .then(src_B1_Blocal_r2_r_init, x_in)
+          .then(src_B1_Blocal_r2_i_init, jSprime)
+          .then(flip_src_B1_Blocal_r2_r_init, jSprime)
+          .then(flip_src_B1_Blocal_r2_i_init, jSprime)
+          .then(src_B1_Blocal_r2_r_props_init, x_in)
+          .then(src_B1_Blocal_r2_i_props_init, jSprime)
+          .then(src_B1_Blocal_r2_r_diquark, y)
+          .then(src_B1_Blocal_r2_i_diquark, wnumBlock)
+          .then(src_B1_Blocal_r2_r_props, wnumBlock)
+          .then(src_B1_Blocal_r2_i_props, jSprime)
+          .then(src_B1_Blocal_r2_r_update, y)
+          .then(src_B1_Blocal_r2_i_update, m)
+          .then(flip_src_B1_Blocal_r2_r_update, m)
+          .then(flip_src_B1_Blocal_r2_i_update, m)
+          .then(src_B2_Blocal_r1_r_init, x_in)
+          .then(src_B2_Blocal_r1_i_init, jSprime)
+          .then(flip_src_B2_Blocal_r1_r_init, jSprime)
+          .then(flip_src_B2_Blocal_r1_i_init, jSprime)
+          .then(src_B2_Blocal_r1_r_props_init, x_in)
+          .then(src_B2_Blocal_r1_i_props_init, jSprime)
+          .then(src_B2_Blocal_r1_r_diquark, y)
+          .then(src_B2_Blocal_r1_i_diquark, wnumBlock)
+          .then(src_B2_Blocal_r1_r_props, wnumBlock)
+          .then(src_B2_Blocal_r1_i_props, jSprime)
+          .then(src_B2_Blocal_r1_r_update, y)
+          .then(src_B2_Blocal_r1_i_update, m)
+          .then(flip_src_B2_Blocal_r1_r_update, m)
+          .then(flip_src_B2_Blocal_r1_i_update, m)
+          .then(src_B2_Blocal_r2_r_init, x_in)
+          .then(src_B2_Blocal_r2_i_init, jSprime)
+          .then(flip_src_B2_Blocal_r2_r_init, jSprime)
+          .then(flip_src_B2_Blocal_r2_i_init, jSprime)
+          .then(src_B2_Blocal_r2_r_props_init, x_in)
+          .then(src_B2_Blocal_r2_i_props_init, jSprime)
+          .then(src_B2_Blocal_r2_r_diquark, y)
+          .then(src_B2_Blocal_r2_i_diquark, wnumBlock)
+          .then(src_B2_Blocal_r2_r_props, wnumBlock)
+          .then(src_B2_Blocal_r2_i_props, jSprime)
+          .then(src_B2_Blocal_r2_r_update, y)
+          .then(src_B2_Blocal_r2_i_update, m)
+          .then(flip_src_B2_Blocal_r2_r_update, m)
+          .then(flip_src_B2_Blocal_r2_i_update, m)
+         .then(C_BB_H_prop_init_r, x_in)
+          .then(C_BB_H_prop_init_i, r)
+          .then( *(BB_H_new_term_0_r1_b1.get_real()), r)
+          .then( *(BB_H_new_term_0_r1_b1.get_imag()), wnumHex)
+          .then( *(BB_H_new_term_0_r2_b1.get_real()), wnumHex)
+          .then( *(BB_H_new_term_0_r2_b1.get_imag()), wnumHex)
+          .then( *(BB_H_new_term_0_r1_b2.get_real()), wnumHex)
+          .then( *(BB_H_new_term_0_r1_b2.get_imag()), wnumHex)
+          .then( *(BB_H_new_term_0_r2_b2.get_real()), wnumHex)
+          .then( *(BB_H_new_term_0_r2_b2.get_imag()), wnumHex)
+          .then( *(flip_BB_H_new_term_0_r1_b1.get_real()), wnumHex)
+          .then( *(flip_BB_H_new_term_0_r1_b1.get_imag()), wnumHex)
+          .then( *(flip_BB_H_new_term_0_r2_b1.get_real()), wnumHex)
+          .then( *(flip_BB_H_new_term_0_r2_b1.get_imag()), wnumHex)
+          .then( *(flip_BB_H_new_term_0_r1_b2.get_real()), wnumHex)
+          .then( *(flip_BB_H_new_term_0_r1_b2.get_imag()), wnumHex)
+          .then( *(flip_BB_H_new_term_0_r2_b2.get_real()), wnumHex)
+          .then( *(flip_BB_H_new_term_0_r2_b2.get_imag()), wnumHex)
+          .then(C_BB_H_prop_update_r, wnumHex)
+          .then(C_BB_H_prop_update_i, wnumHex)
+          .then(C_BB_H_update_r, r)
+          .then(C_BB_H_update_i, nH)
+          );
+    }
+
+    // H_BB
+    {
+    handle = &(handle
+          ->then(snk_B1_Blocal_r1_r_init, t)
+          .then(snk_B1_Blocal_r1_i_init, jSprime)
+          .then(flip_snk_B1_Blocal_r1_r_init, jSprime)
+          .then(flip_snk_B1_Blocal_r1_i_init, jSprime)
+          .then(snk_B1_Blocal_r1_r_props_init, y_in)
+          .then(snk_B1_Blocal_r1_i_props_init, jSprime)
+          .then(snk_B1_Blocal_r1_r_diquark, x)
+          .then(snk_B1_Blocal_r1_i_diquark, wnumBlock)
+          .then(snk_B1_Blocal_r1_r_props, wnumBlock)
+          .then(snk_B1_Blocal_r1_i_props, jSprime)
+          .then(snk_B1_Blocal_r1_r_update, x)
+          .then(snk_B1_Blocal_r1_i_update, n)
+          .then(flip_snk_B1_Blocal_r1_r_update, n)
+          .then(flip_snk_B1_Blocal_r1_i_update, n)
+          .then(snk_B1_Blocal_r2_r_init, y_in)
+          .then(snk_B1_Blocal_r2_i_init, jSprime)
+          .then(flip_snk_B1_Blocal_r2_r_init, jSprime)
+          .then(flip_snk_B1_Blocal_r2_i_init, jSprime)
+          .then(snk_B1_Blocal_r2_r_props_init, y_in)
+          .then(snk_B1_Blocal_r2_i_props_init, jSprime)
+          .then(snk_B1_Blocal_r2_r_diquark, x)
+          .then(snk_B1_Blocal_r2_i_diquark, wnumBlock)
+          .then(snk_B1_Blocal_r2_r_props, wnumBlock)
+          .then(snk_B1_Blocal_r2_i_props, jSprime)
+          .then(snk_B1_Blocal_r2_r_update, x)
+          .then(snk_B1_Blocal_r2_i_update, n)
+          .then(flip_snk_B1_Blocal_r2_r_update, n)
+          .then(flip_snk_B1_Blocal_r2_i_update, n)
+          .then(snk_B2_Blocal_r1_r_init, y_in)
+          .then(snk_B2_Blocal_r1_i_init, jSprime)
+          .then(flip_snk_B2_Blocal_r1_r_init, jSprime)
+          .then(flip_snk_B2_Blocal_r1_i_init, jSprime)
+          .then(snk_B2_Blocal_r1_r_props_init, y_in)
+          .then(snk_B2_Blocal_r1_i_props_init, jSprime)
+          .then(snk_B2_Blocal_r1_r_diquark, x)
+          .then(snk_B2_Blocal_r1_i_diquark, wnumBlock)
+          .then(snk_B2_Blocal_r1_r_props, wnumBlock)
+          .then(snk_B2_Blocal_r1_i_props, jSprime)
+          .then(snk_B2_Blocal_r1_r_update, x)
+          .then(snk_B2_Blocal_r1_i_update, n)
+          .then(flip_snk_B2_Blocal_r1_r_update, n)
+          .then(flip_snk_B2_Blocal_r1_i_update, n)
+          .then(snk_B2_Blocal_r2_r_init, y_in)
+          .then(snk_B2_Blocal_r2_i_init, jSprime)
+          .then(flip_snk_B2_Blocal_r2_r_init, jSprime)
+          .then(flip_snk_B2_Blocal_r2_i_init, jSprime)
+          .then(snk_B2_Blocal_r2_r_props_init, y_in)
+          .then(snk_B2_Blocal_r2_i_props_init, jSprime)
+          .then(snk_B2_Blocal_r2_r_diquark, x)
+          .then(snk_B2_Blocal_r2_i_diquark, wnumBlock)
+          .then(snk_B2_Blocal_r2_r_props, wnumBlock)
+          .then(snk_B2_Blocal_r2_i_props, jSprime)
+          .then(snk_B2_Blocal_r2_r_update, x)
+          .then(flip_snk_B2_Blocal_r2_r_update, n)
+          .then(flip_snk_B2_Blocal_r2_i_update, n)
+          .then(snk_B2_Blocal_r2_i_update, n)
+          .then(C_H_BB_prop_init_r, y_in)
+          .then(C_H_BB_prop_init_i, r)
+          .then( *(H_BB_new_term_0_r1_b1.get_real()), r)
+          .then( *(H_BB_new_term_0_r1_b1.get_imag()), wnumHex)
+          .then( *(H_BB_new_term_0_r2_b1.get_real()), wnumHex)
+          .then( *(H_BB_new_term_0_r2_b1.get_imag()), wnumHex)
+          .then( *(H_BB_new_term_0_r1_b2.get_real()), wnumHex)
+          .then( *(H_BB_new_term_0_r1_b2.get_imag()), wnumHex)
+          .then( *(H_BB_new_term_0_r2_b2.get_real()), wnumHex)
+          .then( *(H_BB_new_term_0_r2_b2.get_imag()), wnumHex)
+          .then( *(flip_H_BB_new_term_0_r1_b1.get_real()), wnumHex)
+          .then( *(flip_H_BB_new_term_0_r1_b1.get_imag()), wnumHex)
+          .then( *(flip_H_BB_new_term_0_r2_b1.get_real()), wnumHex)
+          .then( *(flip_H_BB_new_term_0_r2_b1.get_imag()), wnumHex)
+          .then( *(flip_H_BB_new_term_0_r1_b2.get_real()), wnumHex)
+          .then( *(flip_H_BB_new_term_0_r1_b2.get_imag()), wnumHex)
+          .then( *(flip_H_BB_new_term_0_r2_b2.get_real()), wnumHex)
+          .then( *(flip_H_BB_new_term_0_r2_b2.get_imag()), wnumHex)
+          .then(C_H_BB_prop_update_r, wnumHex)
+          .then(C_H_BB_prop_update_i, wnumHex)
+          .then(C_H_BB_update_r, r)
+          .then(C_H_BB_update_i, mH)
+          );
+    }
 
     // H_H
     {
