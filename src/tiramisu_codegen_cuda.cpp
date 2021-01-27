@@ -316,7 +316,7 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
         }
 
 
-        m_scalar_data.erase(iterator_name);
+        // m_scalar_data.erase(iterator_name);
 
         iterator_lower_bound.pop_back();
         iterator_upper_bound.pop_back();
