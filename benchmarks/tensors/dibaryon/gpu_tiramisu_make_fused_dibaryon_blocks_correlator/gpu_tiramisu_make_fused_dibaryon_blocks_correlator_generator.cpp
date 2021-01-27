@@ -246,6 +246,9 @@ void generate_function(std::string name)
 
     complex_expr snk_psi(snk_psi_r(x_out*sites_per_rank+x_in, x2, ne), snk_psi_i(x_out*sites_per_rank+x_in, x2, ne));
 
+    computation C_init_r("C_init_r", {t, x_out, x_in, rp, mpmH, r, npnH}, expr((double) 0));
+    computation C_init_i("C_init_i", {t, x_out, x_in, rp, mpmH, r, npnH}, expr((double) 0));
+
 // BB_H
      // Computing src_B1_Blocal_r1
 
@@ -654,8 +657,6 @@ void generate_function(std::string name)
     C_r.store_in(&buf_C_r);
     C_i.store_in(&buf_C_i);
 // t, x_out, x_in, rp, Nsrc+mH, r, Nsnk+nH
-    computation C_init_r("C_init_r", {t, x_out, x_in, rp, mpmH, r, npnH}, expr((double) 0));
-    computation C_init_i("C_init_i", {t, x_out, x_in, rp, mpmH, r, npnH}, expr((double) 0));
 
     C_init_r.store_in(&buf_C_r, {t, x_out, x_in, rp, mpmH, r, npnH});
     C_init_i.store_in(&buf_C_i, {t, x_out, x_in, rp, mpmH, r, npnH});
