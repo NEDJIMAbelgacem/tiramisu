@@ -224,6 +224,29 @@ void generate_function(std::string name)
    buffer buf_hex_snk_spin_weights_cpu("buf_hex_snk_spin_weights_cpu", {B2Nrows, Nperms, Nw2Hex, Nq, 2}, p_int32, a_temporary);
    buffer buf_hex_snk_weights_cpu("buf_hex_snk_weights_cpu", {B2Nrows, Nw2Hex}, p_float64, a_temporary);
 
+    complex_computation B1_prop(&B1_prop_r, &B1_prop_i);
+    complex_computation B2_prop(&B2_prop_r, &B2_prop_i);
+
+    complex_expr src_psi_B1(src_psi_B1_r(y, m), src_psi_B1_i(y, m));
+    complex_expr src_psi_B2(src_psi_B2_r(y, m), src_psi_B2_i(y, m));
+
+    complex_expr snk_psi_B1(snk_psi_B1_r(x, n), snk_psi_B1_i(x, n));
+    complex_expr snk_psi_B2(snk_psi_B2_r(x, n), snk_psi_B2_i(x, n));
+    complex_expr snk_psi_B1_x2(snk_psi_B1_r(x2, n), snk_psi_B1_i(x2, n));
+    complex_expr snk_psi_B2_x2(snk_psi_B2_r(x2, n), snk_psi_B2_i(x2, n));
+
+    complex_expr snk_psi_B1_ue(snk_psi_B1_r(x_out*sites_per_rank+x_in, NEntangled+nue), snk_psi_B1_i(x_out*sites_per_rank+x_in, NEntangled+nue));
+    complex_expr snk_psi_B2_ue(snk_psi_B2_r(x_out*sites_per_rank+x_in, NEntangled+nue), snk_psi_B2_i(x_out*sites_per_rank+x_in, NEntangled+nue));
+    complex_expr snk_psi_B1_x2_ue(snk_psi_B1_r(x2, NEntangled+nue), snk_psi_B1_i(x2, NEntangled+nue));
+    complex_expr snk_psi_B2_x2_ue(snk_psi_B2_r(x2, NEntangled+nue), snk_psi_B2_i(x2, NEntangled+nue));
+
+    complex_expr hex_src_psi(hex_src_psi_r(y_out*src_sites_per_rank+y_in, mH), hex_src_psi_i(y_out*src_sites_per_rank+y_in, mH));
+    complex_expr hex_hex_src_psi(hex_src_psi_r(y, mH), hex_src_psi_i(y, mH));
+    complex_expr hex_snk_psi(hex_snk_psi_r(x_out*sites_per_rank+x_in, nH), hex_snk_psi_i(x_out*sites_per_rank+x_in, nH));
+
+    complex_expr snk_psi(snk_psi_r(x_out*sites_per_rank+x_in, x2, ne), snk_psi_i(x_out*sites_per_rank+x_in, x2, ne));
+
+
      // Computing snk_B1_Blocal_r1
 
     computation snk_B1_Blocal_r1_r_init("snk_B1_Blocal_r1_r_init", {t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, n}, expr((double) 0));
