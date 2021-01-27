@@ -794,17 +794,8 @@ void generate_function(std::string name)
     C_H_BB_update_i.store_in(&buf_C_i, {t, y_out, y_in, r, Nsrc+mH, rp, n});
 
 
-    // computation C_H_H_update_r("C_H_H_update_r", {t, x_out, x_in, rp, r, y, mH, nH}, C_init_r(t, x_out, x_in, rp, Nsrc+mH, r, Nsnk+nH) + H_H_term.get_real());
-    // computation C_H_H_update_i("C_H_H_update_i", {t, x_out, x_in, rp, r, y, mH, nH}, C_init_i(t, x_out, x_in, rp, Nsrc+mH, r, Nsnk+nH) + H_H_term.get_imag());
-
-    buffer buf_C_H_H_update_r("buf_C_H_BB_prop_r", {Lt, Vsnk/sites_per_rank, sites_per_rank, B2Nrows, B2Nrows, Vsrc, NsrcHex, NsnkHex}, p_float64, a_temporary);
-    buffer buf_C_H_H_update_i("buf_C_H_BB_prop_i", {Lt, Vsnk/sites_per_rank, sites_per_rank, B2Nrows, B2Nrows, Vsrc, NsrcHex, NsnkHex}, p_float64, a_temporary);
-    buf_C_H_H_update_r.tag_gpu_global();
-    buf_C_H_H_update_i.tag_gpu_global();
-// t, y_out, y_in, rp, n, s, r, nperm, wnumHex
-    C_H_H_update_r.store_in(&buf_C_H_H_update_r, {t, x_out, x_in, rp, r, y, mH, nH});
-    C_H_H_update_i.store_in(&buf_C_H_H_update_i, {t, x_out, x_in, rp, r, y, mH, nH});
-
+    C_H_H_update_r.get_buffer()->tag_gpu_globa();
+    C_H_H_update_i.get_buffer()->tag_gpu_globa();
 
 // tag
     // H_BB
