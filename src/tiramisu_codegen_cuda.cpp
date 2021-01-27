@@ -482,7 +482,7 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
                             auto stmt = parse_tiramisu(tiramisu_expr.get_operand(i));
                             if (stmt == nullptr)
                             {
-                                std::cout << __FILE__ << "::" << __LINE__ << " : " << "Error while parsing: " << tiramisu_expr.to_str() << "\n";
+                                std::cout << __FILE__ << "::" << __LINE__ << " : " << "Error while parsing: " << tiramisu_expr.get_operand(i) << "\n";
                                 return nullptr;
                             }
                             operands.push_back(stmt);
