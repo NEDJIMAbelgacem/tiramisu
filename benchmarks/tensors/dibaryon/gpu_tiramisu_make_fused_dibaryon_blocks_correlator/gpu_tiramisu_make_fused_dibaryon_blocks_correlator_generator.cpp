@@ -533,8 +533,8 @@ void generate_function(std::string name)
     
     computation copy_buf_C_r_device_to_host({}, memcpy(buf_C_r, buf_C_r_cpu));
     computation copy_buf_C_i_device_to_host({}, memcpy(buf_C_i, buf_C_i_cpu));
-    // computation copy_B1_prop_r_device_to_host({}, memcpy(*B1_prop_r.get_buffer(), buf_B1_prop_r_cpu));
-    // computation copy_B1_prop_i_device_to_host({}, memcpy(*B1_prop_i.get_buffer(), buf_B1_prop_i_cpu));
+    computation copy_B1_prop_r_device_to_host({}, memcpy(*B1_prop_r.get_buffer(), buf_B1_prop_r_cpu));
+    computation copy_B1_prop_i_device_to_host({}, memcpy(*B1_prop_i.get_buffer(), buf_B1_prop_i_cpu));
     // computation copy_B2_prop_r_device_to_host({}, memcpy(*B2_prop_r.get_buffer(), buf_B2_prop_r_cpu));
     // computation copy_B2_prop_i_device_to_host({}, memcpy(*B2_prop_i.get_buffer(), buf_B2_prop_i_cpu));
     // computation copy_src_psi_B1_r_device_to_host({}, memcpy(*src_psi_B1_r.get_buffer(), buf_src_psi_B1_r_cpu));
@@ -565,8 +565,8 @@ void generate_function(std::string name)
 
     computation copy_buf_C_r_host_to_device({}, memcpy(buf_C_r_cpu, buf_C_r));
     computation copy_buf_C_i_host_to_device({}, memcpy(buf_C_i_cpu, buf_C_i));
-    // computation copy_B1_prop_r_host_to_device({}, memcpy(buf_B1_prop_r_cpu, *B1_prop_r.get_buffer()));
-    // computation copy_B1_prop_i_host_to_device({}, memcpy(buf_B1_prop_i_cpu, *B1_prop_i.get_buffer()));
+    computation copy_B1_prop_r_host_to_device({}, memcpy(buf_B1_prop_r_cpu, *B1_prop_r.get_buffer()));
+    computation copy_B1_prop_i_host_to_device({}, memcpy(buf_B1_prop_i_cpu, *B1_prop_i.get_buffer()));
     // computation copy_B2_prop_r_host_to_device({}, memcpy(buf_B2_prop_r_cpu, *B2_prop_r.get_buffer()));
     // computation copy_B2_prop_i_host_to_device({}, memcpy(buf_B2_prop_i_cpu, *B2_prop_i.get_buffer()));
     // computation copy_src_psi_B1_r_host_to_device({}, memcpy(buf_src_psi_B1_r_cpu, *src_psi_B1_r.get_buffer()));
@@ -886,8 +886,8 @@ void generate_function(std::string name)
 
 
       computation* handle = &copy_buf_C_r_host_to_device.then(copy_buf_C_i_host_to_device, computation::root);
-    //   handle = &handle->then(copy_B1_prop_r_host_to_device, computation::root);
-    //   handle = &handle->then(copy_B1_prop_i_host_to_device, computation::root);
+      handle = &handle->then(copy_B1_prop_r_host_to_device, computation::root);
+      handle = &handle->then(copy_B1_prop_i_host_to_device, computation::root);
     //   handle = &handle->then(copy_B2_prop_r_host_to_device, computation::root);
     //   handle = &handle->then(copy_B2_prop_i_host_to_device, computation::root);
     //   handle = &handle->then(copy_src_psi_B1_r_host_to_device, computation::root);
@@ -1016,8 +1016,8 @@ void generate_function(std::string name)
     handle = &handle->then( copy_buf_C_r_device_to_host, computation::root );
     handle = &handle->then( copy_buf_C_i_device_to_host, computation::root );
 
-// handle = &handle->then(copy_B1_prop_r_device_to_host, computation::root);
-// handle = &handle->then(copy_B1_prop_i_device_to_host, computation::root);
+    handle = &handle->then(copy_B1_prop_r_device_to_host, computation::root);
+    handle = &handle->then(copy_B1_prop_i_device_to_host, computation::root);
 // handle = &handle->then(copy_B2_prop_r_device_to_host, computation::root);
 // handle = &handle->then(copy_B2_prop_i_device_to_host, computation::root);
 // handle = &handle->then(copy_src_psi_B1_r_device_to_host, computation::root);
