@@ -794,8 +794,8 @@ void generate_function(std::string name)
     C_H_BB_update_i.store_in(&buf_C_i, {t, y_out, y_in, r, Nsrc+mH, rp, n});
 
 
-    C_H_H_update_r.get_buffer()->tag_gpu_globa();
-    C_H_H_update_i.get_buffer()->tag_gpu_globa();
+    C_H_H_update_r.get_buffer()->tag_gpu_global();
+    C_H_H_update_i.get_buffer()->tag_gpu_global();
 
 // tag
     // H_BB
