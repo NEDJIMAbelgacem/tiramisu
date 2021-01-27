@@ -430,6 +430,7 @@ void generate_function(std::string name)
 
     C_r.store_in(&buf_C_r);
     C_i.store_in(&buf_C_i);
+// t, x_out, x_in, rp, Nsrc+mH, r, Nsnk+nH
     computation C_init_r("C_init_r", {t, x_out, x_in, rp, mpmH, r, npnH}, expr((double) 0));
     computation C_init_i("C_init_i", {t, x_out, x_in, rp, mpmH, r, npnH}, expr((double) 0));
 
@@ -479,8 +480,8 @@ void generate_function(std::string name)
 
     complex_expr H_BB_term = hex_src_psi * C_H_BB_prop_update(t, y_out, y_in, rp, n, r, 1, Nperms-1, Nw2Hex-1);
 
-    computation C_H_BB_update_r("C_H_BB_update_r", {t, y_out, y_in, rp, n, r, mH}, C_init_r(t, y_out, r, Nsrc+mH, rp, n) + H_BB_term.get_real());
-    computation C_H_BB_update_i("C_H_BB_update_i", {t, y_out, y_in, rp, n, r, mH}, C_init_i(t, y_out, r, Nsrc+mH, rp, n) + H_BB_term.get_imag());  
+    computation C_H_BB_update_r("C_H_BB_update_r", {t, y_out, y_in, rp, n, r, mH}, C_init_r(t, y_out, y_in, r, Nsrc+mH, rp, n) + H_BB_term.get_real());
+    computation C_H_BB_update_i("C_H_BB_update_i", {t, y_out, y_in, rp, n, r, mH}, C_init_i(t, y_out, y_in, r, Nsrc+mH, rp, n) + H_BB_term.get_imag());  
 
 // 
 
