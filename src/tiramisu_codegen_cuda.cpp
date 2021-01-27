@@ -792,7 +792,7 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
                                                 scalar_ptr{new scalar{stmt.second.get_data_type(), stmt.first,
                                                                       memory_location::reg, true}},
                                                 stmt2}}}});
-                        m_scalar_data.erase(stmt.first);
+                        // m_scalar_data.erase(stmt.first);
 
                     }
                     block_result->add_statement(asgmnt);
