@@ -557,11 +557,11 @@ void generate_function(std::string name)
     computation copy_snk_color_weights_device_to_host({}, memcpy(*snk_color_weights.get_buffer(), buf_snk_color_weights_cpu));
     computation copy_snk_spin_weights_device_to_host({}, memcpy(*snk_spin_weights.get_buffer(), buf_snk_spin_weights_cpu));
     computation copy_snk_weights_device_to_host({}, memcpy(*snk_weights.get_buffer(), buf_snk_weights_cpu));
-    // computation copy_hex_snk_color_weights_device_to_host({}, memcpy(*hex_snk_color_weights.get_buffer(), buf_hex_snk_color_weights_cpu));
-    // computation copy_hex_snk_spin_weights_device_to_host({}, memcpy(*hex_snk_spin_weights.get_buffer(), buf_hex_snk_spin_weights_cpu));
-    // computation copy_hex_snk_weights_device_to_host({}, memcpy(*hex_snk_weights.get_buffer(), buf_hex_snk_weights_cpu));
-    // computation copy_src_spin_block_weights_device_to_host({}, memcpy(*src_spin_block_weights.get_buffer(), buf_src_spin_block_weights_cpu));
-    // computation copy_snk_b_device_to_host({}, memcpy(*snk_b.get_buffer(), buf_snk_b_cpu));
+    computation copy_hex_snk_color_weights_device_to_host({}, memcpy(*hex_snk_color_weights.get_buffer(), buf_hex_snk_color_weights_cpu));
+    computation copy_hex_snk_spin_weights_device_to_host({}, memcpy(*hex_snk_spin_weights.get_buffer(), buf_hex_snk_spin_weights_cpu));
+    computation copy_hex_snk_weights_device_to_host({}, memcpy(*hex_snk_weights.get_buffer(), buf_hex_snk_weights_cpu));
+    computation copy_src_spin_block_weights_device_to_host({}, memcpy(*src_spin_block_weights.get_buffer(), buf_src_spin_block_weights_cpu));
+    computation copy_snk_b_device_to_host({}, memcpy(*snk_b.get_buffer(), buf_snk_b_cpu));
 
     computation copy_buf_C_r_host_to_device({}, memcpy(buf_C_r_cpu, buf_C_r));
     computation copy_buf_C_i_host_to_device({}, memcpy(buf_C_i_cpu, buf_C_i));
@@ -589,11 +589,11 @@ void generate_function(std::string name)
     computation copy_snk_color_weights_host_to_device({}, memcpy(buf_snk_color_weights_cpu, *snk_color_weights.get_buffer()));
     computation copy_snk_spin_weights_host_to_device({}, memcpy(buf_snk_spin_weights_cpu, *snk_spin_weights.get_buffer()));
     computation copy_snk_weights_host_to_device({}, memcpy(buf_snk_weights_cpu, *snk_weights.get_buffer()));
-    // computation copy_hex_snk_color_weights_host_to_device({}, memcpy(buf_hex_snk_color_weights_cpu, *hex_snk_color_weights.get_buffer()));
-    // computation copy_hex_snk_spin_weights_host_to_device({}, memcpy(buf_hex_snk_spin_weights_cpu, *hex_snk_spin_weights.get_buffer()));
-    // computation copy_hex_snk_weights_host_to_device({}, memcpy(buf_hex_snk_weights_cpu, *hex_snk_weights.get_buffer()));
-    // computation copy_src_spin_block_weights_host_to_device({}, memcpy(buf_src_spin_block_weights_cpu, *src_spin_block_weights.get_buffer()));
-    // computation copy_snk_b_host_to_device({}, memcpy(buf_snk_b_cpu, *snk_b.get_buffer()));
+    computation copy_hex_snk_color_weights_host_to_device({}, memcpy(buf_hex_snk_color_weights_cpu, *hex_snk_color_weights.get_buffer()));
+    computation copy_hex_snk_spin_weights_host_to_device({}, memcpy(buf_hex_snk_spin_weights_cpu, *hex_snk_spin_weights.get_buffer()));
+    computation copy_hex_snk_weights_host_to_device({}, memcpy(buf_hex_snk_weights_cpu, *hex_snk_weights.get_buffer()));
+    computation copy_src_spin_block_weights_host_to_device({}, memcpy(buf_src_spin_block_weights_cpu, *src_spin_block_weights.get_buffer()));
+    computation copy_snk_b_host_to_device({}, memcpy(buf_snk_b_cpu, *snk_b.get_buffer()));
 
 
 
@@ -910,11 +910,11 @@ void generate_function(std::string name)
       handle = &handle->then(copy_snk_color_weights_host_to_device, computation::root);
       handle = &handle->then(copy_snk_spin_weights_host_to_device, computation::root);
       handle = &handle->then(copy_snk_weights_host_to_device, computation::root);
-    //   handle = &handle->then(copy_hex_snk_color_weights_host_to_device, computation::root);
-    //   handle = &handle->then(copy_hex_snk_spin_weights_host_to_device, computation::root);
-    //   handle = &handle->then(copy_hex_snk_weights_host_to_device, computation::root);
-    //   handle = &handle->then(copy_src_spin_block_weights_host_to_device, computation::root);
-    //   handle = &handle->then(copy_snk_b_host_to_device, computation::root);
+      handle = &handle->then(copy_hex_snk_color_weights_host_to_device, computation::root);
+      handle = &handle->then(copy_hex_snk_spin_weights_host_to_device, computation::root);
+      handle = &handle->then(copy_hex_snk_weights_host_to_device, computation::root);
+      handle = &handle->then(copy_src_spin_block_weights_host_to_device, computation::root);
+      handle = &handle->then(copy_snk_b_host_to_device, computation::root);
 
     // computation *handle = &C_init_r.then( C_init_i, npnH );
     handle = &(handle->then(C_init_r, computation::root).then(C_init_i, npnH));
@@ -1040,11 +1040,11 @@ void generate_function(std::string name)
     handle = &handle->then(copy_snk_color_weights_device_to_host, computation::root);
     handle = &handle->then(copy_snk_spin_weights_device_to_host, computation::root);
     handle = &handle->then(copy_snk_weights_device_to_host, computation::root);
-// handle = &handle->then(copy_hex_snk_color_weights_device_to_host, computation::root);
-// handle = &handle->then(copy_hex_snk_spin_weights_device_to_host, computation::root);
-// handle = &handle->then(copy_hex_snk_weights_device_to_host, computation::root);
-// handle = &handle->then(copy_src_spin_block_weights_device_to_host, computation::root);
-// handle = &handle->then(copy_snk_b_device_to_host, computation::root);
+    handle = &handle->then(copy_hex_snk_color_weights_device_to_host, computation::root);
+    handle = &handle->then(copy_hex_snk_spin_weights_device_to_host, computation::root);
+    handle = &handle->then(copy_hex_snk_weights_device_to_host, computation::root);
+    handle = &handle->then(copy_src_spin_block_weights_device_to_host, computation::root);
+    handle = &handle->then(copy_snk_b_device_to_host, computation::root);
 
 #if VECTORIZED
 
