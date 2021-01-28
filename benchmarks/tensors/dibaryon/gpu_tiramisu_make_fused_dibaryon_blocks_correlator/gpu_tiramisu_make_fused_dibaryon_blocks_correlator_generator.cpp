@@ -49,7 +49,8 @@ void generate_function(std::string name)
         jSprime("jSprime", 0, Ns),
         kCprime("kCprime", 0, Nc),
         kSprime("kSprime", 0, Ns);
-
+// {t, x_out, x_in, rp, m, s, r, nperm, wnumHex}
+// {Lt, Vsnk/sites_per_rank, sites_per_rank, B2Nrows, Nsrc, 2, B2Nrows, Nperms, Nw2Hex}
    input C_r("C_r",      {t, x_out, x_in, rp, mpmH, r, npnH}, p_float64);
    input C_i("C_i",      {t, x_out, x_in, rp, mpmH, r, npnH}, p_float64);
    buffer buf_C_r_cpu("buf_C_r_cpu", {Lt, Vsnk/sites_per_rank, sites_per_rank, B2Nrows, NsrcTot, B2Nrows, NsnkTot}, p_float64, a_temporary);
@@ -431,19 +432,27 @@ void generate_function(std::string name)
     complex_computation BB_H_new_term_0_r2_b1("BB_H_new_term_0_r2_b1", {t, x_out, x_in, rp, m, s, r, nperm, wnumHex}, src_B1_Blocal_r2_init(t, x_out, x_in, hex_snk_color_weights(r, nperm, wnumHex, 0, 0), hex_snk_spin_weights(r, nperm, wnumHex, 0, 0), hex_snk_color_weights(r, nperm, wnumHex, 2, 0), hex_snk_spin_weights(r, nperm, wnumHex, 2, 0), hex_snk_color_weights(r, nperm, wnumHex, 1, 0), hex_snk_spin_weights(r, nperm, wnumHex, 1, 0), m));
     // BB_H_new_term_0_r1_b1.add_predicate((src_spins(rp, s, 0) == 1));
     // BB_H_new_term_0_r2_b1.add_predicate((src_spins(rp, s, 0) == 2));
-    BB_H_new_term_0_r1_b1.get_imag()->get_buffer()->tag_gpu_global();
-    BB_H_new_term_0_r1_b1.get_real()->get_buffer()->tag_gpu_global();
-    BB_H_new_term_0_r2_b1.get_imag()->get_buffer()->tag_gpu_global();
-    BB_H_new_term_0_r2_b1.get_real()->get_buffer()->tag_gpu_global();
+    buffer BB_H_new_term_0_r1_b1_r_buff( "BB_H_new_term_0_r1_b1_r_buff", {Lt, Vsnk/sites_per_rank, sites_per_rank, B2Nrows, Nsrc, 2, B2Nrows, Nperms, Nw2Hex}, p_float64. a_temporary );
+    buffer BB_H_new_term_0_r1_b1_i_buff( "BB_H_new_term_0_r1_b1_i_buff", {Lt, Vsnk/sites_per_rank, sites_per_rank, B2Nrows, Nsrc, 2, B2Nrows, Nperms, Nw2Hex}, p_float64. a_temporary );
+    buffer BB_H_new_term_0_r2_b1_r_buff( "BB_H_new_term_0_r2_b1_r_buff", {Lt, Vsnk/sites_per_rank, sites_per_rank, B2Nrows, Nsrc, 2, B2Nrows, Nperms, Nw2Hex}, p_float64. a_temporary );
+    buffer BB_H_new_term_0_r2_b1_i_buff( "BB_H_new_term_0_r2_b1_i_buff", {Lt, Vsnk/sites_per_rank, sites_per_rank, B2Nrows, Nsrc, 2, B2Nrows, Nperms, Nw2Hex}, p_float64. a_temporary );
+    BB_H_new_term_0_r1_b1.get_imag()->store_in( BB_H_new_term_0_r1_b1_i_buff, {t, x_out, x_in, rp, m, s, r, nperm, wnumHex} );
+    BB_H_new_term_0_r1_b1.get_real()->store_in( BB_H_new_term_0_r1_b1_r_buff, {t, x_out, x_in, rp, m, s, r, nperm, wnumHex} );
+    BB_H_new_term_0_r2_b1.get_imag()->store_in( BB_H_new_term_0_r2_b1_i_buff, {t, x_out, x_in, rp, m, s, r, nperm, wnumHex} );
+    BB_H_new_term_0_r2_b1.get_real()->store_in( BB_H_new_term_0_r2_b1_r_buff, {t, x_out, x_in, rp, m, s, r, nperm, wnumHex} );
 
     complex_computation BB_H_new_term_0_r1_b2("BB_H_new_term_0_r1_b2", {t, x_out, x_in, rp, m, s, r, nperm, wnumHex}, src_B2_Blocal_r1_init(t, x_out, x_in, hex_snk_color_weights(r, nperm, wnumHex, 0, 1), hex_snk_spin_weights(r, nperm, wnumHex, 0, 1), hex_snk_color_weights(r, nperm, wnumHex, 2, 1), hex_snk_spin_weights(r, nperm, wnumHex, 2, 1), hex_snk_color_weights(r, nperm, wnumHex, 1, 1), hex_snk_spin_weights(r, nperm, wnumHex, 1, 1), m));
     complex_computation BB_H_new_term_0_r2_b2("BB_H_new_term_0_r2_b2", {t, x_out, x_in, rp, m, s, r, nperm, wnumHex}, src_B2_Blocal_r2_init(t, x_out, x_in, hex_snk_color_weights(r, nperm, wnumHex, 0, 1), hex_snk_spin_weights(r, nperm, wnumHex, 0, 1), hex_snk_color_weights(r, nperm, wnumHex, 2, 1), hex_snk_spin_weights(r, nperm, wnumHex, 2, 1), hex_snk_color_weights(r, nperm, wnumHex, 1, 1), hex_snk_spin_weights(r, nperm, wnumHex, 1, 1), m));
     // BB_H_new_term_0_r1_b2.add_predicate((src_spins(rp, s, 1) == 1));
     // BB_H_new_term_0_r2_b2.add_predicate((src_spins(rp, s, 1) == 2));
-    BB_H_new_term_0_r1_b2.get_imag()->get_buffer()->tag_gpu_global();
-    BB_H_new_term_0_r1_b2.get_real()->get_buffer()->tag_gpu_global();
-    BB_H_new_term_0_r2_b2.get_imag()->get_buffer()->tag_gpu_global();
-    BB_H_new_term_0_r2_b2.get_real()->get_buffer()->tag_gpu_global();
+    buffer BB_H_new_term_0_r1_b2_r_buff( "BB_H_new_term_0_r1_b2_r_buff", {Lt, Vsnk/sites_per_rank, sites_per_rank, B2Nrows, Nsrc, 2, B2Nrows, Nperms, Nw2Hex}, p_float64. a_temporary );
+    buffer BB_H_new_term_0_r1_b2_i_buff( "BB_H_new_term_0_r1_b2_i_buff", {Lt, Vsnk/sites_per_rank, sites_per_rank, B2Nrows, Nsrc, 2, B2Nrows, Nperms, Nw2Hex}, p_float64. a_temporary );
+    buffer BB_H_new_term_0_r2_b2_r_buff( "BB_H_new_term_0_r2_b2_r_buff", {Lt, Vsnk/sites_per_rank, sites_per_rank, B2Nrows, Nsrc, 2, B2Nrows, Nperms, Nw2Hex}, p_float64. a_temporary );
+    buffer BB_H_new_term_0_r2_b2_i_buff( "BB_H_new_term_0_r2_b2_i_buff", {Lt, Vsnk/sites_per_rank, sites_per_rank, B2Nrows, Nsrc, 2, B2Nrows, Nperms, Nw2Hex}, p_float64. a_temporary );
+    BB_H_new_term_0_r1_b2.get_imag()->store_in( BB_H_new_term_0_r1_b2_i_buff, {t, x_out, x_in, rp, m, s, r, nperm, wnumHex} );
+    BB_H_new_term_0_r1_b2.get_real()->store_in( BB_H_new_term_0_r1_b2_r_buff, {t, x_out, x_in, rp, m, s, r, nperm, wnumHex} );
+    BB_H_new_term_0_r2_b2.get_imag()->store_in( BB_H_new_term_0_r2_b2_i_buff, {t, x_out, x_in, rp, m, s, r, nperm, wnumHex} );
+    BB_H_new_term_0_r2_b2.get_real()->store_in( BB_H_new_term_0_r2_b2_r_buff, {t, x_out, x_in, rp, m, s, r, nperm, wnumHex} );
 
     complex_expr BB_H_term_res_b1 = BB_H_new_term_0_r1_b1(t, x_out, x_in, rp, m, s, r, nperm, wnumHex);
     complex_expr BB_H_term_res_b2 = BB_H_new_term_0_r1_b2(t, x_out, x_in, rp, m, s, r, nperm, wnumHex);
@@ -456,19 +465,28 @@ void generate_function(std::string name)
     complex_computation flip_BB_H_new_term_0_r2_b1("flip_BB_H_new_term_0_r2_b1", {t, x_out, x_in, rp, m, s, r, nperm, wnumHex}, flip_src_B1_Blocal_r2_init(t, x_out, x_in, hex_snk_color_weights(r, nperm, wnumHex, 0, 0), hex_snk_spin_weights(r, nperm, wnumHex, 0, 0), hex_snk_color_weights(r, nperm, wnumHex, 2, 0), hex_snk_spin_weights(r, nperm, wnumHex, 2, 0), hex_snk_color_weights(r, nperm, wnumHex, 1, 0), hex_snk_spin_weights(r, nperm, wnumHex, 1, 0), m));
     // flip_BB_H_new_term_0_r1_b1.add_predicate((src_spins(rp, s, 0) == 1));
     // flip_BB_H_new_term_0_r2_b1.add_predicate((src_spins(rp, s, 0) == 2));
-    flip_BB_H_new_term_0_r1_b1.get_imag()->get_buffer()->tag_gpu_global();
-    flip_BB_H_new_term_0_r1_b1.get_real()->get_buffer()->tag_gpu_global();
-    flip_BB_H_new_term_0_r2_b1.get_imag()->get_buffer()->tag_gpu_global();
-    flip_BB_H_new_term_0_r2_b1.get_real()->get_buffer()->tag_gpu_global();
+    buffer flip_BB_H_new_term_0_r1_b1_r_buff( "flip_BB_H_new_term_0_r1_b1_r_buff", {Lt, Vsnk/sites_per_rank, sites_per_rank, B2Nrows, Nsrc, 2, B2Nrows, Nperms, Nw2Hex}, p_float64. a_temporary );
+    buffer flip_BB_H_new_term_0_r1_b1_i_buff( "flip_BB_H_new_term_0_r1_b1_i_buff", {Lt, Vsnk/sites_per_rank, sites_per_rank, B2Nrows, Nsrc, 2, B2Nrows, Nperms, Nw2Hex}, p_float64. a_temporary );
+    buffer flip_BB_H_new_term_0_r2_b1_r_buff( "flip_BB_H_new_term_0_r2_b1_r_buff", {Lt, Vsnk/sites_per_rank, sites_per_rank, B2Nrows, Nsrc, 2, B2Nrows, Nperms, Nw2Hex}, p_float64. a_temporary );
+    buffer flip_BB_H_new_term_0_r2_b1_i_buff( "flip_BB_H_new_term_0_r2_b1_i_buff", {Lt, Vsnk/sites_per_rank, sites_per_rank, B2Nrows, Nsrc, 2, B2Nrows, Nperms, Nw2Hex}, p_float64. a_temporary );
+    flip_BB_H_new_term_0_r1_b1.get_imag()->store_in( flip_BB_H_new_term_0_r1_b1_i_buff, {t, x_out, x_in, rp, m, s, r, nperm, wnumHex} );
+    flip_BB_H_new_term_0_r1_b1.get_real()->store_in( flip_BB_H_new_term_0_r1_b1_r_buff, {t, x_out, x_in, rp, m, s, r, nperm, wnumHex} );
+    flip_BB_H_new_term_0_r2_b1.get_imag()->store_in( flip_BB_H_new_term_0_r2_b1_i_buff, {t, x_out, x_in, rp, m, s, r, nperm, wnumHex} );
+    flip_BB_H_new_term_0_r2_b1.get_real()->store_in( flip_BB_H_new_term_0_r2_b1_r_buff, {t, x_out, x_in, rp, m, s, r, nperm, wnumHex} );
+
 
     complex_computation flip_BB_H_new_term_0_r1_b2("flip_BB_H_new_term_0_r1_b2", {t, x_out, x_in, rp, m, s, r, nperm, wnumHex}, flip_src_B2_Blocal_r1_init(t, x_out, x_in, hex_snk_color_weights(r, nperm, wnumHex, 0, 1), hex_snk_spin_weights(r, nperm, wnumHex, 0, 1), hex_snk_color_weights(r, nperm, wnumHex, 2, 1), hex_snk_spin_weights(r, nperm, wnumHex, 2, 1), hex_snk_color_weights(r, nperm, wnumHex, 1, 1), hex_snk_spin_weights(r, nperm, wnumHex, 1, 1), m));
     complex_computation flip_BB_H_new_term_0_r2_b2("flip_BB_H_new_term_0_r2_b2", {t, x_out, x_in, rp, m, s, r, nperm, wnumHex}, flip_src_B2_Blocal_r2_init(t, x_out, x_in, hex_snk_color_weights(r, nperm, wnumHex, 0, 1), hex_snk_spin_weights(r, nperm, wnumHex, 0, 1), hex_snk_color_weights(r, nperm, wnumHex, 2, 1), hex_snk_spin_weights(r, nperm, wnumHex, 2, 1), hex_snk_color_weights(r, nperm, wnumHex, 1, 1), hex_snk_spin_weights(r, nperm, wnumHex, 1, 1), m));
     // flip_BB_H_new_term_0_r1_b2.add_predicate((src_spins(rp, s, 1) == 1));
     // flip_BB_H_new_term_0_r2_b2.add_predicate((src_spins(rp, s, 1) == 2));
-    flip_BB_H_new_term_0_r1_b2.get_imag()->get_buffer()->tag_gpu_global();
-    flip_BB_H_new_term_0_r1_b2.get_real()->get_buffer()->tag_gpu_global();
-    flip_BB_H_new_term_0_r2_b2.get_imag()->get_buffer()->tag_gpu_global();
-    flip_BB_H_new_term_0_r2_b2.get_real()->get_buffer()->tag_gpu_global();
+    buffer flip_BB_H_new_term_0_r1_b2_r_buff( "flip_BB_H_new_term_0_r1_b2_r_buff", {Lt, Vsnk/sites_per_rank, sites_per_rank, B2Nrows, Nsrc, 2, B2Nrows, Nperms, Nw2Hex}, p_float64. a_temporary );
+    buffer flip_BB_H_new_term_0_r1_b2_i_buff( "flip_BB_H_new_term_0_r1_b2_i_buff", {Lt, Vsnk/sites_per_rank, sites_per_rank, B2Nrows, Nsrc, 2, B2Nrows, Nperms, Nw2Hex}, p_float64. a_temporary );
+    buffer flip_BB_H_new_term_0_r2_b2_r_buff( "flip_BB_H_new_term_0_r2_b2_r_buff", {Lt, Vsnk/sites_per_rank, sites_per_rank, B2Nrows, Nsrc, 2, B2Nrows, Nperms, Nw2Hex}, p_float64. a_temporary );
+    buffer flip_BB_H_new_term_0_r2_b2_i_buff( "flip_BB_H_new_term_0_r2_b2_i_buff", {Lt, Vsnk/sites_per_rank, sites_per_rank, B2Nrows, Nsrc, 2, B2Nrows, Nperms, Nw2Hex}, p_float64. a_temporary );
+    flip_BB_H_new_term_0_r1_b2.get_imag()->store_in( flip_BB_H_new_term_0_r1_b2_i_buff, {t, x_out, x_in, rp, m, s, r, nperm, wnumHex} );
+    flip_BB_H_new_term_0_r1_b2.get_real()->store_in( flip_BB_H_new_term_0_r1_b2_r_buff, {t, x_out, x_in, rp, m, s, r, nperm, wnumHex} );
+    flip_BB_H_new_term_0_r2_b2.get_imag()->store_in( flip_BB_H_new_term_0_r2_b2_i_buff, {t, x_out, x_in, rp, m, s, r, nperm, wnumHex} );
+    flip_BB_H_new_term_0_r2_b2.get_real()->store_in( flip_BB_H_new_term_0_r2_b2_r_buff, {t, x_out, x_in, rp, m, s, r, nperm, wnumHex} );
 
     
 
