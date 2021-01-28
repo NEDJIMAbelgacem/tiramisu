@@ -2275,7 +2275,7 @@ void generate_function(std::string name)
     snk_B2_Blocal_r2_i_props_init.store_in(&buf_snk_B2_Blocal_props_r2_i, {jCprime, jSprime});
     snk_B2_Blocal_r2_r_props.store_in(&buf_snk_B2_Blocal_props_r2_r, {jCprime, jSprime});
     snk_B2_Blocal_r2_i_props.store_in(&buf_snk_B2_Blocal_props_r2_i, {jCprime, jSprime});
-
+// 1755 - 2278
 
     /* Correlator */
 

@@ -427,6 +427,8 @@ void generate_function(std::string name)
     
     computation C_BB_H_prop_init_r("C_BB_H_prop_init_r", {t, x_out, x_in, rp, m, s, r, nperm, wnumHex}, expr((double) 0));
     computation C_BB_H_prop_init_i("C_BB_H_prop_init_i", {t, x_out, x_in, rp, m, s, r, nperm, wnumHex}, expr((double) 0));
+    C_BB_H_prop_init_r.get_buffer()->tag_gpu_global();
+    C_BB_H_prop_init_i.get_buffer()->tag_gpu_global();
 
     complex_computation BB_H_new_term_0_r1_b1("BB_H_new_term_0_r1_b1", {t, x_out, x_in, rp, m, s, r, nperm, wnumHex}, src_B1_Blocal_r1_init(t, x_out, x_in, hex_snk_color_weights(r, nperm, wnumHex, 0, 0), hex_snk_spin_weights(r, nperm, wnumHex, 0, 0), hex_snk_color_weights(r, nperm, wnumHex, 2, 0), hex_snk_spin_weights(r, nperm, wnumHex, 2, 0), hex_snk_color_weights(r, nperm, wnumHex, 1, 0), hex_snk_spin_weights(r, nperm, wnumHex, 1, 0), m));
     complex_computation BB_H_new_term_0_r2_b1("BB_H_new_term_0_r2_b1", {t, x_out, x_in, rp, m, s, r, nperm, wnumHex}, src_B1_Blocal_r2_init(t, x_out, x_in, hex_snk_color_weights(r, nperm, wnumHex, 0, 0), hex_snk_spin_weights(r, nperm, wnumHex, 0, 0), hex_snk_color_weights(r, nperm, wnumHex, 2, 0), hex_snk_spin_weights(r, nperm, wnumHex, 2, 0), hex_snk_color_weights(r, nperm, wnumHex, 1, 0), hex_snk_spin_weights(r, nperm, wnumHex, 1, 0), m));
@@ -1190,9 +1192,8 @@ void generate_function(std::string name)
     C_H_H_prop_update_r.store_in(&buf_C_H_H_prop_r, {t, x_out, x_in, 0});
     C_H_H_prop_update_i.store_in(&buf_C_H_H_prop_i, {t, x_out, x_in, 0});
 
-    C_H_H_update_r.get_buffer()->tag_gpu_global();
-    C_H_H_update_i.get_buffer()->tag_gpu_global();
-
+    C_H_H_update_r.store_in(&buf_C_r, {t, x_out, rp, Nsrc+mH, r, Nsnk+nH});
+    C_H_H_update_i.store_in(&buf_C_i, {t, x_out, rp, Nsrc+mH, r, Nsnk+nH});  
 // tag
 
 // BB_H
