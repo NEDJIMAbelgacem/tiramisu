@@ -1557,9 +1557,6 @@ void generate_function(std::string name)
 
 
 
-
-
-
       computation* handle = &copy_buf_C_r_host_to_device.then(copy_buf_C_i_host_to_device, computation::root);
       handle = &handle->then(copy_B1_prop_r_host_to_device, computation::root);
       handle = &handle->then(copy_B1_prop_i_host_to_device, computation::root);
@@ -1853,12 +1850,12 @@ void generate_function(std::string name)
 	     &buf_hex_snk_spin_weights_cpu,
 	     &buf_hex_snk_weights_cpu
         },
-        "generated_tiramisu_make_fused_dibaryon_blocks_correlator.o", true);
+        "generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o", true);
 }
 
 int main(int argc, char **argv)
 {
-	generate_function("tiramisu_make_fused_dibaryon_blocks_correlator");
+	generate_function("gpu_tiramisu_make_fused_dibaryon_blocks_correlator");
 
     return 0;
 }
