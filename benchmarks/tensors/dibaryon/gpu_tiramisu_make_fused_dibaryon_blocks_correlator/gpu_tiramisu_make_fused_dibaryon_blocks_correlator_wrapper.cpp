@@ -353,7 +353,7 @@ void tiramisu_make_two_nucleon_2pt(double* C_re,
    printf("weights snk %4.1f \n", b_snk_weights(0,0));
    printf("sigs %d \n", b_sigs(0));
    }
-   tiramisu_gpu_make_fused_dibaryon_blocks_correlator(
+   gpu_tiramisu_make_fused_dibaryon_blocks_correlator(
 				    b_C_r.raw_buffer(),
 				    b_C_i.raw_buffer(),
 				    b_B1_prop_r.raw_buffer(),
