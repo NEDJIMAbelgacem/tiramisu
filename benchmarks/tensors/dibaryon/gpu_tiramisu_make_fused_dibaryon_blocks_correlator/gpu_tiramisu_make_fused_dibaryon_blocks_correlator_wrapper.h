@@ -38,7 +38,7 @@
 extern "C" {
 #endif
 
-int tiramisu_make_fused_dibaryon_blocks_correlator(
+int tiramisu_gpu_make_fused_dibaryon_blocks_correlator(
 			    halide_buffer_t *,
 			    halide_buffer_t *,
 			    halide_buffer_t *,
