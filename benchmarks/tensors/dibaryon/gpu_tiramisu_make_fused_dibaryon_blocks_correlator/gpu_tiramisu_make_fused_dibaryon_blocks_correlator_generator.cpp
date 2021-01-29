@@ -432,40 +432,13 @@ void generate_function(std::string name)
 
     complex_computation BB_H_new_term_0_r1_b1("BB_H_new_term_0_r1_b1", {t, x_out, x_in, rp, m, s, r, nperm, wnumHex}, src_B1_Blocal_r1_init(t, x_out, x_in, hex_snk_color_weights(r, nperm, wnumHex, 0, 0), hex_snk_spin_weights(r, nperm, wnumHex, 0, 0), hex_snk_color_weights(r, nperm, wnumHex, 2, 0), hex_snk_spin_weights(r, nperm, wnumHex, 2, 0), hex_snk_color_weights(r, nperm, wnumHex, 1, 0), hex_snk_spin_weights(r, nperm, wnumHex, 1, 0), m));
     complex_computation BB_H_new_term_0_r2_b1("BB_H_new_term_0_r2_b1", {t, x_out, x_in, rp, m, s, r, nperm, wnumHex}, src_B1_Blocal_r2_init(t, x_out, x_in, hex_snk_color_weights(r, nperm, wnumHex, 0, 0), hex_snk_spin_weights(r, nperm, wnumHex, 0, 0), hex_snk_color_weights(r, nperm, wnumHex, 2, 0), hex_snk_spin_weights(r, nperm, wnumHex, 2, 0), hex_snk_color_weights(r, nperm, wnumHex, 1, 0), hex_snk_spin_weights(r, nperm, wnumHex, 1, 0), m));
-    // BB_H_new_term_0_r1_b1.add_predicate((src_spins(rp, s, 0) == 1));
-    // BB_H_new_term_0_r2_b1.add_predicate((src_spins(rp, s, 0) == 2));
-    // {Lt, Vsnk/sites_per_rank, sites_per_rank, B2Nrows, Nsrc, 2, B2Nrows, Nperms, Nw2Hex}
-    buffer BB_H_new_term_0_r1_b1_r_buff( "BB_H_new_term_0_r1_b1_r_buff", {Lt, Vsnk/sites_per_rank, sites_per_rank, B2Nrows, Nsrc, 2, B2Nrows, Nperms, Nw2Hex}, p_float64, a_temporary );
-    buffer BB_H_new_term_0_r1_b1_i_buff( "BB_H_new_term_0_r1_b1_i_buff", {Lt, Vsnk/sites_per_rank, sites_per_rank, B2Nrows, Nsrc, 2, B2Nrows, Nperms, Nw2Hex}, p_float64, a_temporary );
-    buffer BB_H_new_term_0_r2_b1_r_buff( "BB_H_new_term_0_r2_b1_r_buff", {Lt, Vsnk/sites_per_rank, sites_per_rank, B2Nrows, Nsrc, 2, B2Nrows, Nperms, Nw2Hex}, p_float64, a_temporary );
-    buffer BB_H_new_term_0_r2_b1_i_buff( "BB_H_new_term_0_r2_b1_i_buff", {Lt, Vsnk/sites_per_rank, sites_per_rank, B2Nrows, Nsrc, 2, B2Nrows, Nperms, Nw2Hex}, p_float64, a_temporary );
-    BB_H_new_term_0_r1_b1_r_buff.tag_gpu_global();
-    BB_H_new_term_0_r1_b1_i_buff.tag_gpu_global();
-    BB_H_new_term_0_r2_b1_r_buff.tag_gpu_global();
-    BB_H_new_term_0_r2_b1_i_buff.tag_gpu_global();
+    BB_H_new_term_0_r1_b1.add_predicate((src_spins(rp, s, 0) == 1));
+    BB_H_new_term_0_r2_b1.add_predicate((src_spins(rp, s, 0) == 2));
     
-    BB_H_new_term_0_r1_b1.get_imag()->store_in( &BB_H_new_term_0_r1_b1_i_buff, {t, x_out, x_in, rp, m, s, r, nperm, wnumHex} );
-    BB_H_new_term_0_r1_b1.get_real()->store_in( &BB_H_new_term_0_r1_b1_r_buff, {t, x_out, x_in, rp, m, s, r, nperm, wnumHex} );
-    BB_H_new_term_0_r2_b1.get_imag()->store_in( &BB_H_new_term_0_r2_b1_i_buff, {t, x_out, x_in, rp, m, s, r, nperm, wnumHex} );
-    BB_H_new_term_0_r2_b1.get_real()->store_in( &BB_H_new_term_0_r2_b1_r_buff, {t, x_out, x_in, rp, m, s, r, nperm, wnumHex} );
-
     complex_computation BB_H_new_term_0_r1_b2("BB_H_new_term_0_r1_b2", {t, x_out, x_in, rp, m, s, r, nperm, wnumHex}, src_B2_Blocal_r1_init(t, x_out, x_in, hex_snk_color_weights(r, nperm, wnumHex, 0, 1), hex_snk_spin_weights(r, nperm, wnumHex, 0, 1), hex_snk_color_weights(r, nperm, wnumHex, 2, 1), hex_snk_spin_weights(r, nperm, wnumHex, 2, 1), hex_snk_color_weights(r, nperm, wnumHex, 1, 1), hex_snk_spin_weights(r, nperm, wnumHex, 1, 1), m));
     complex_computation BB_H_new_term_0_r2_b2("BB_H_new_term_0_r2_b2", {t, x_out, x_in, rp, m, s, r, nperm, wnumHex}, src_B2_Blocal_r2_init(t, x_out, x_in, hex_snk_color_weights(r, nperm, wnumHex, 0, 1), hex_snk_spin_weights(r, nperm, wnumHex, 0, 1), hex_snk_color_weights(r, nperm, wnumHex, 2, 1), hex_snk_spin_weights(r, nperm, wnumHex, 2, 1), hex_snk_color_weights(r, nperm, wnumHex, 1, 1), hex_snk_spin_weights(r, nperm, wnumHex, 1, 1), m));
-    // BB_H_new_term_0_r1_b2.add_predicate((src_spins(rp, s, 1) == 1));
-    // BB_H_new_term_0_r2_b2.add_predicate((src_spins(rp, s, 1) == 2));
-    buffer BB_H_new_term_0_r1_b2_r_buff( "BB_H_new_term_0_r1_b2_r_buff", {Lt, Vsnk/sites_per_rank, sites_per_rank, B2Nrows, Nsrc, 2, B2Nrows, Nperms, Nw2Hex}, p_float64, a_temporary );
-    buffer BB_H_new_term_0_r1_b2_i_buff( "BB_H_new_term_0_r1_b2_i_buff", {Lt, Vsnk/sites_per_rank, sites_per_rank, B2Nrows, Nsrc, 2, B2Nrows, Nperms, Nw2Hex}, p_float64, a_temporary );
-    buffer BB_H_new_term_0_r2_b2_r_buff( "BB_H_new_term_0_r2_b2_r_buff", {Lt, Vsnk/sites_per_rank, sites_per_rank, B2Nrows, Nsrc, 2, B2Nrows, Nperms, Nw2Hex}, p_float64, a_temporary );
-    buffer BB_H_new_term_0_r2_b2_i_buff( "BB_H_new_term_0_r2_b2_i_buff", {Lt, Vsnk/sites_per_rank, sites_per_rank, B2Nrows, Nsrc, 2, B2Nrows, Nperms, Nw2Hex}, p_float64, a_temporary );
-    BB_H_new_term_0_r1_b2_r_buff.tag_gpu_global();
-    BB_H_new_term_0_r1_b2_i_buff.tag_gpu_global();
-    BB_H_new_term_0_r2_b2_r_buff.tag_gpu_global();
-    BB_H_new_term_0_r2_b2_i_buff.tag_gpu_global();
-    BB_H_new_term_0_r1_b2.get_imag()->store_in( &BB_H_new_term_0_r1_b2_i_buff, {t, x_out, x_in, rp, m, s, r, nperm, wnumHex} );
-    BB_H_new_term_0_r1_b2.get_real()->store_in( &BB_H_new_term_0_r1_b2_r_buff, {t, x_out, x_in, rp, m, s, r, nperm, wnumHex} );
-    BB_H_new_term_0_r2_b2.get_imag()->store_in( &BB_H_new_term_0_r2_b2_i_buff, {t, x_out, x_in, rp, m, s, r, nperm, wnumHex} );
-    BB_H_new_term_0_r2_b2.get_real()->store_in( &BB_H_new_term_0_r2_b2_r_buff, {t, x_out, x_in, rp, m, s, r, nperm, wnumHex} );
-
+    BB_H_new_term_0_r1_b2.add_predicate((src_spins(rp, s, 1) == 1));
+    BB_H_new_term_0_r2_b2.add_predicate((src_spins(rp, s, 1) == 2));
     complex_expr BB_H_term_res_b1 = BB_H_new_term_0_r1_b1(t, x_out, x_in, rp, m, s, r, nperm, wnumHex);
     complex_expr BB_H_term_res_b2 = BB_H_new_term_0_r1_b2(t, x_out, x_in, rp, m, s, r, nperm, wnumHex);
 
@@ -475,39 +448,13 @@ void generate_function(std::string name)
 
     complex_computation flip_BB_H_new_term_0_r1_b1("flip_BB_H_new_term_0_r1_b1", {t, x_out, x_in, rp, m, s, r, nperm, wnumHex}, flip_src_B1_Blocal_r1_init(t, x_out, x_in, hex_snk_color_weights(r, nperm, wnumHex, 0, 0), hex_snk_spin_weights(r, nperm, wnumHex, 0, 0), hex_snk_color_weights(r, nperm, wnumHex, 2, 0), hex_snk_spin_weights(r, nperm, wnumHex, 2, 0), hex_snk_color_weights(r, nperm, wnumHex, 1, 0), hex_snk_spin_weights(r, nperm, wnumHex, 1, 0), m));
     complex_computation flip_BB_H_new_term_0_r2_b1("flip_BB_H_new_term_0_r2_b1", {t, x_out, x_in, rp, m, s, r, nperm, wnumHex}, flip_src_B1_Blocal_r2_init(t, x_out, x_in, hex_snk_color_weights(r, nperm, wnumHex, 0, 0), hex_snk_spin_weights(r, nperm, wnumHex, 0, 0), hex_snk_color_weights(r, nperm, wnumHex, 2, 0), hex_snk_spin_weights(r, nperm, wnumHex, 2, 0), hex_snk_color_weights(r, nperm, wnumHex, 1, 0), hex_snk_spin_weights(r, nperm, wnumHex, 1, 0), m));
-    // flip_BB_H_new_term_0_r1_b1.add_predicate((src_spins(rp, s, 0) == 1));
-    // flip_BB_H_new_term_0_r2_b1.add_predicate((src_spins(rp, s, 0) == 2));
-    buffer flip_BB_H_new_term_0_r1_b1_r_buff( "flip_BB_H_new_term_0_r1_b1_r_buff", {Lt, Vsnk/sites_per_rank, sites_per_rank, B2Nrows, Nsrc, 2, B2Nrows, Nperms, Nw2Hex}, p_float64, a_temporary );
-    buffer flip_BB_H_new_term_0_r1_b1_i_buff( "flip_BB_H_new_term_0_r1_b1_i_buff", {Lt, Vsnk/sites_per_rank, sites_per_rank, B2Nrows, Nsrc, 2, B2Nrows, Nperms, Nw2Hex}, p_float64, a_temporary );
-    buffer flip_BB_H_new_term_0_r2_b1_r_buff( "flip_BB_H_new_term_0_r2_b1_r_buff", {Lt, Vsnk/sites_per_rank, sites_per_rank, B2Nrows, Nsrc, 2, B2Nrows, Nperms, Nw2Hex}, p_float64, a_temporary );
-    buffer flip_BB_H_new_term_0_r2_b1_i_buff( "flip_BB_H_new_term_0_r2_b1_i_buff", {Lt, Vsnk/sites_per_rank, sites_per_rank, B2Nrows, Nsrc, 2, B2Nrows, Nperms, Nw2Hex}, p_float64, a_temporary );
-    flip_BB_H_new_term_0_r1_b1_r_buff.tag_gpu_global();
-    flip_BB_H_new_term_0_r1_b1_i_buff.tag_gpu_global();
-    flip_BB_H_new_term_0_r2_b1_r_buff.tag_gpu_global();
-    flip_BB_H_new_term_0_r2_b1_i_buff.tag_gpu_global();
-    flip_BB_H_new_term_0_r1_b1.get_imag()->store_in( &flip_BB_H_new_term_0_r1_b1_i_buff, {t, x_out, x_in, rp, m, s, r, nperm, wnumHex} );
-    flip_BB_H_new_term_0_r1_b1.get_real()->store_in( &flip_BB_H_new_term_0_r1_b1_r_buff, {t, x_out, x_in, rp, m, s, r, nperm, wnumHex} );
-    flip_BB_H_new_term_0_r2_b1.get_imag()->store_in( &flip_BB_H_new_term_0_r2_b1_i_buff, {t, x_out, x_in, rp, m, s, r, nperm, wnumHex} );
-    flip_BB_H_new_term_0_r2_b1.get_real()->store_in( &flip_BB_H_new_term_0_r2_b1_r_buff, {t, x_out, x_in, rp, m, s, r, nperm, wnumHex} );
-
+    flip_BB_H_new_term_0_r1_b1.add_predicate((src_spins(rp, s, 0) == 1));
+    flip_BB_H_new_term_0_r2_b1.add_predicate((src_spins(rp, s, 0) == 2));
 
     complex_computation flip_BB_H_new_term_0_r1_b2("flip_BB_H_new_term_0_r1_b2", {t, x_out, x_in, rp, m, s, r, nperm, wnumHex}, flip_src_B2_Blocal_r1_init(t, x_out, x_in, hex_snk_color_weights(r, nperm, wnumHex, 0, 1), hex_snk_spin_weights(r, nperm, wnumHex, 0, 1), hex_snk_color_weights(r, nperm, wnumHex, 2, 1), hex_snk_spin_weights(r, nperm, wnumHex, 2, 1), hex_snk_color_weights(r, nperm, wnumHex, 1, 1), hex_snk_spin_weights(r, nperm, wnumHex, 1, 1), m));
     complex_computation flip_BB_H_new_term_0_r2_b2("flip_BB_H_new_term_0_r2_b2", {t, x_out, x_in, rp, m, s, r, nperm, wnumHex}, flip_src_B2_Blocal_r2_init(t, x_out, x_in, hex_snk_color_weights(r, nperm, wnumHex, 0, 1), hex_snk_spin_weights(r, nperm, wnumHex, 0, 1), hex_snk_color_weights(r, nperm, wnumHex, 2, 1), hex_snk_spin_weights(r, nperm, wnumHex, 2, 1), hex_snk_color_weights(r, nperm, wnumHex, 1, 1), hex_snk_spin_weights(r, nperm, wnumHex, 1, 1), m));
-    // flip_BB_H_new_term_0_r1_b2.add_predicate((src_spins(rp, s, 1) == 1));
-    // flip_BB_H_new_term_0_r2_b2.add_predicate((src_spins(rp, s, 1) == 2));
-    buffer flip_BB_H_new_term_0_r1_b2_r_buff( "flip_BB_H_new_term_0_r1_b2_r_buff", {Lt, Vsnk/sites_per_rank, sites_per_rank, B2Nrows, Nsrc, 2, B2Nrows, Nperms, Nw2Hex}, p_float64, a_temporary );
-    buffer flip_BB_H_new_term_0_r1_b2_i_buff( "flip_BB_H_new_term_0_r1_b2_i_buff", {Lt, Vsnk/sites_per_rank, sites_per_rank, B2Nrows, Nsrc, 2, B2Nrows, Nperms, Nw2Hex}, p_float64, a_temporary );
-    buffer flip_BB_H_new_term_0_r2_b2_r_buff( "flip_BB_H_new_term_0_r2_b2_r_buff", {Lt, Vsnk/sites_per_rank, sites_per_rank, B2Nrows, Nsrc, 2, B2Nrows, Nperms, Nw2Hex}, p_float64, a_temporary );
-    buffer flip_BB_H_new_term_0_r2_b2_i_buff( "flip_BB_H_new_term_0_r2_b2_i_buff", {Lt, Vsnk/sites_per_rank, sites_per_rank, B2Nrows, Nsrc, 2, B2Nrows, Nperms, Nw2Hex}, p_float64, a_temporary );
-    flip_BB_H_new_term_0_r1_b2_r_buff.tag_gpu_global();
-    flip_BB_H_new_term_0_r1_b2_i_buff.tag_gpu_global();
-    flip_BB_H_new_term_0_r2_b2_r_buff.tag_gpu_global();
-    flip_BB_H_new_term_0_r2_b2_i_buff.tag_gpu_global();
-    flip_BB_H_new_term_0_r1_b2.get_imag()->store_in( &flip_BB_H_new_term_0_r1_b2_i_buff, {t, x_out, x_in, rp, m, s, r, nperm, wnumHex} );
-    flip_BB_H_new_term_0_r1_b2.get_real()->store_in( &flip_BB_H_new_term_0_r1_b2_r_buff, {t, x_out, x_in, rp, m, s, r, nperm, wnumHex} );
-    flip_BB_H_new_term_0_r2_b2.get_imag()->store_in( &flip_BB_H_new_term_0_r2_b2_i_buff, {t, x_out, x_in, rp, m, s, r, nperm, wnumHex} );
-    flip_BB_H_new_term_0_r2_b2.get_real()->store_in( &flip_BB_H_new_term_0_r2_b2_r_buff, {t, x_out, x_in, rp, m, s, r, nperm, wnumHex} );
-
+    flip_BB_H_new_term_0_r1_b2.add_predicate((src_spins(rp, s, 1) == 1));
+    flip_BB_H_new_term_0_r2_b2.add_predicate((src_spins(rp, s, 1) == 2));
     
 
     complex_expr flip_BB_H_term_res_b1 = flip_BB_H_new_term_0_r1_b1(t, x_out, x_in, rp, m, s, r, nperm, wnumHex);
@@ -766,12 +713,12 @@ void generate_function(std::string name)
     flip_src_B1_Blocal_r1_i_init.store_in(&buf_flip_src_B1_Blocal_r1_i, {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m});
     flip_src_B1_Blocal_r1_r_update.store_in(&buf_flip_src_B1_Blocal_r1_r, {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m});
     flip_src_B1_Blocal_r1_i_update.store_in(&buf_flip_src_B1_Blocal_r1_i, {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m});
-    buffer buf_src_B1_Blocal_diquark_r1_r("buf_src_B1_Blocal_diquark_r1_r",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1}, p_float64, a_temporary);
-    buffer buf_src_B1_Blocal_diquark_r1_i("buf_src_B1_Blocal_diquark_r1_i",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1}, p_float64, a_temporary);
+    buffer buf_src_B1_Blocal_diquark_r1_r("buf_src_B1_Blocal_diquark_r1_r",   {Lt, Vsnk/sites_per_rank, sites_per_rank}, p_float64, a_temporary);
+    buffer buf_src_B1_Blocal_diquark_r1_i("buf_src_B1_Blocal_diquark_r1_i",   {Lt, Vsnk/sites_per_rank, sites_per_rank}, p_float64, a_temporary);
     buf_src_B1_Blocal_diquark_r1_r.tag_gpu_global();
     buf_src_B1_Blocal_diquark_r1_i.tag_gpu_global();
-    src_B1_Blocal_r1_r_diquark.store_in(&buf_src_B1_Blocal_diquark_r1_r, {t, x_out, x_in, 0});
-    src_B1_Blocal_r1_i_diquark.store_in(&buf_src_B1_Blocal_diquark_r1_i, {t, x_out, x_in, 0});
+    src_B1_Blocal_r1_r_diquark.store_in(&buf_src_B1_Blocal_diquark_r1_r, {t, x_out, x_in});
+    src_B1_Blocal_r1_i_diquark.store_in(&buf_src_B1_Blocal_diquark_r1_i, {t, x_out, x_in});
     buffer buf_src_B1_Blocal_props_r1_r("buf_src_B1_Blocal_props_r1_r",   {Lt, Vsnk/sites_per_rank, sites_per_rank, Nc, Ns}, p_float64, a_temporary);
     buffer buf_src_B1_Blocal_props_r1_i("buf_src_B1_Blocal_props_r1_i",   {Lt, Vsnk/sites_per_rank, sites_per_rank, Nc, Ns}, p_float64, a_temporary);
     buf_src_B1_Blocal_props_r1_r.tag_gpu_global();
@@ -797,12 +744,12 @@ void generate_function(std::string name)
     flip_src_B1_Blocal_r2_i_init.store_in(&buf_flip_src_B1_Blocal_r2_i, {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m});
     flip_src_B1_Blocal_r2_r_update.store_in(&buf_flip_src_B1_Blocal_r2_r, {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m});
     flip_src_B1_Blocal_r2_i_update.store_in(&buf_flip_src_B1_Blocal_r2_i, {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m});
-    buffer buf_src_B1_Blocal_diquark_r2_r("buf_src_B1_Blocal_diquark_r2_r",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1}, p_float64, a_temporary);
-    buffer buf_src_B1_Blocal_diquark_r2_i("buf_src_B1_Blocal_diquark_r2_i",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1}, p_float64, a_temporary);
+    buffer buf_src_B1_Blocal_diquark_r2_r("buf_src_B1_Blocal_diquark_r2_r",   {Lt, Vsnk/sites_per_rank, sites_per_rank}, p_float64, a_temporary);
+    buffer buf_src_B1_Blocal_diquark_r2_i("buf_src_B1_Blocal_diquark_r2_i",   {Lt, Vsnk/sites_per_rank, sites_per_rank}, p_float64, a_temporary);
     buf_src_B1_Blocal_diquark_r2_r.tag_gpu_global();
     buf_src_B1_Blocal_diquark_r2_i.tag_gpu_global();
-    src_B1_Blocal_r2_r_diquark.store_in(&buf_src_B1_Blocal_diquark_r2_r, {t, x_out, x_in, 0});
-    src_B1_Blocal_r2_i_diquark.store_in(&buf_src_B1_Blocal_diquark_r2_i, {t, x_out, x_in, 0});
+    src_B1_Blocal_r2_r_diquark.store_in(&buf_src_B1_Blocal_diquark_r2_r, {t, x_out, x_in});
+    src_B1_Blocal_r2_i_diquark.store_in(&buf_src_B1_Blocal_diquark_r2_i, {t, x_out, x_in});
     buffer buf_src_B1_Blocal_props_r2_r("buf_src_B1_Blocal_props_r2_r",   {Lt, Vsnk/sites_per_rank, sites_per_rank, Nc, Ns}, p_float64, a_temporary);
     buffer buf_src_B1_Blocal_props_r2_i("buf_src_B1_Blocal_props_r2_i",   {Lt, Vsnk/sites_per_rank, sites_per_rank, Nc, Ns}, p_float64, a_temporary);
     buf_src_B1_Blocal_props_r2_r.tag_gpu_global();
@@ -828,12 +775,12 @@ void generate_function(std::string name)
     flip_src_B2_Blocal_r1_i_init.store_in(&buf_flip_src_B2_Blocal_r1_i, {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m});
     flip_src_B2_Blocal_r1_r_update.store_in(&buf_flip_src_B2_Blocal_r1_r, {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m});
     flip_src_B2_Blocal_r1_i_update.store_in(&buf_flip_src_B2_Blocal_r1_i, {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m});
-    buffer buf_src_B2_Blocal_diquark_r1_r("buf_src_B2_Blocal_diquark_r1_r",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1}, p_float64, a_temporary);
-    buffer buf_src_B2_Blocal_diquark_r1_i("buf_src_B2_Blocal_diquark_r1_i",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1}, p_float64, a_temporary);
+    buffer buf_src_B2_Blocal_diquark_r1_r("buf_src_B2_Blocal_diquark_r1_r",   {Lt, Vsnk/sites_per_rank, sites_per_rank}, p_float64, a_temporary);
+    buffer buf_src_B2_Blocal_diquark_r1_i("buf_src_B2_Blocal_diquark_r1_i",   {Lt, Vsnk/sites_per_rank, sites_per_rank}, p_float64, a_temporary);
     buf_src_B2_Blocal_diquark_r1_r.tag_gpu_global();
     buf_src_B2_Blocal_diquark_r1_i.tag_gpu_global();
-    src_B2_Blocal_r1_r_diquark.store_in(&buf_src_B2_Blocal_diquark_r1_r, {t, x_out, x_in, 0});
-    src_B2_Blocal_r1_i_diquark.store_in(&buf_src_B2_Blocal_diquark_r1_i, {t, x_out, x_in, 0});
+    src_B2_Blocal_r1_r_diquark.store_in(&buf_src_B2_Blocal_diquark_r1_r, {t, x_out, x_in});
+    src_B2_Blocal_r1_i_diquark.store_in(&buf_src_B2_Blocal_diquark_r1_i, {t, x_out, x_in});
     buffer buf_src_B2_Blocal_props_r1_r("buf_src_B2_Blocal_props_r1_r",   {Lt, Vsnk/sites_per_rank, sites_per_rank, Nc, Ns}, p_float64, a_temporary);
     buffer buf_src_B2_Blocal_props_r1_i("buf_src_B2_Blocal_props_r1_i",   {Lt, Vsnk/sites_per_rank, sites_per_rank, Nc, Ns}, p_float64, a_temporary);
     buf_src_B2_Blocal_props_r1_r.tag_gpu_global();
@@ -859,12 +806,12 @@ void generate_function(std::string name)
     flip_src_B2_Blocal_r2_i_init.store_in(&buf_flip_src_B2_Blocal_r2_i, {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m});
     flip_src_B2_Blocal_r2_r_update.store_in(&buf_flip_src_B2_Blocal_r2_r, {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m});
     flip_src_B2_Blocal_r2_i_update.store_in(&buf_flip_src_B2_Blocal_r2_i, {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m});
-    buffer buf_src_B2_Blocal_diquark_r2_r("buf_src_B2_Blocal_diquark_r2_r",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1}, p_float64, a_temporary);
-    buffer buf_src_B2_Blocal_diquark_r2_i("buf_src_B2_Blocal_diquark_r2_i",   {Lt, Vsnk/sites_per_rank, sites_per_rank, 1}, p_float64, a_temporary);
+    buffer buf_src_B2_Blocal_diquark_r2_r("buf_src_B2_Blocal_diquark_r2_r",   {Lt, Vsnk/sites_per_rank, sites_per_rank}, p_float64, a_temporary);
+    buffer buf_src_B2_Blocal_diquark_r2_i("buf_src_B2_Blocal_diquark_r2_i",   {Lt, Vsnk/sites_per_rank, sites_per_rank}, p_float64, a_temporary);
     buf_src_B2_Blocal_diquark_r2_r.tag_gpu_global();
     buf_src_B2_Blocal_diquark_r2_i.tag_gpu_global();
-    src_B2_Blocal_r2_r_diquark.store_in(&buf_src_B2_Blocal_diquark_r2_r, {t, x_out, x_in, 0});
-    src_B2_Blocal_r2_i_diquark.store_in(&buf_src_B2_Blocal_diquark_r2_i, {t, x_out, x_in, 0});
+    src_B2_Blocal_r2_r_diquark.store_in(&buf_src_B2_Blocal_diquark_r2_r, {t, x_out, x_in});
+    src_B2_Blocal_r2_i_diquark.store_in(&buf_src_B2_Blocal_diquark_r2_i, {t, x_out, x_in});
     buffer buf_src_B2_Blocal_props_r2_r("buf_src_B2_Blocal_props_r2_r",   {Lt, Vsnk/sites_per_rank, sites_per_rank, Nc, Ns}, p_float64, a_temporary);
     buffer buf_src_B2_Blocal_props_r2_i("buf_src_B2_Blocal_props_r2_i",   {Lt, Vsnk/sites_per_rank, sites_per_rank, Nc, Ns}, p_float64, a_temporary);
     buf_src_B2_Blocal_props_r2_r.tag_gpu_global();
@@ -1188,55 +1135,55 @@ void generate_function(std::string name)
 
     buffer* buf_BB_H_new_term_r_b1;
     buffer* buf_BB_H_new_term_i_b1;
-    allocate_complex_buffers(buf_BB_H_new_term_r_b1, buf_BB_H_new_term_i_b1, {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, 1, 1, 1, 1, 1}, "buf_BB_H_new_term_b1", true);
+    allocate_complex_buffers(buf_BB_H_new_term_r_b1, buf_BB_H_new_term_i_b1, {Lt, Vsnk/sites_per_rank, sites_per_rank}, "buf_BB_H_new_term_b1", true);
 // {t, x_out, x_in, rp, m, r, s, nperm, wnumHex}
-    BB_H_new_term_0_r1_b1.get_real()->store_in(buf_BB_H_new_term_r_b1, {t, x_out, x_in, 0, 0, 0, 0, 0, 0});
-    BB_H_new_term_0_r1_b1.get_imag()->store_in(buf_BB_H_new_term_i_b1, {t, x_out, x_in, 0, 0, 0, 0, 0, 0});
+    BB_H_new_term_0_r1_b1.get_real()->store_in(buf_BB_H_new_term_r_b1, {t, x_out, x_in});
+    BB_H_new_term_0_r1_b1.get_imag()->store_in(buf_BB_H_new_term_i_b1, {t, x_out, x_in});
 // {t, x_out, x_in, rp, m, r, s, nperm, wnumHex}
-    BB_H_new_term_0_r2_b1.get_real()->store_in(buf_BB_H_new_term_r_b1, {t, x_out, x_in, 0, 0, 0, 0, 0, 0});
-    BB_H_new_term_0_r2_b1.get_imag()->store_in(buf_BB_H_new_term_i_b1, {t, x_out, x_in, 0, 0, 0, 0, 0, 0});
+    BB_H_new_term_0_r2_b1.get_real()->store_in(buf_BB_H_new_term_r_b1, {t, x_out, x_in});
+    BB_H_new_term_0_r2_b1.get_imag()->store_in(buf_BB_H_new_term_i_b1, {t, x_out, x_in});
 
     buffer* buf_BB_H_new_term_r_b2;
     buffer* buf_BB_H_new_term_i_b2;
-    allocate_complex_buffers(buf_BB_H_new_term_r_b2, buf_BB_H_new_term_i_b2, {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, 1, 1, 1, 1, 1}, "buf_BB_H_new_term_b2", true);
+    allocate_complex_buffers(buf_BB_H_new_term_r_b2, buf_BB_H_new_term_i_b2, {Lt, Vsnk/sites_per_rank, sites_per_rank}, "buf_BB_H_new_term_b2", true);
 // {t, x_out, x_in, rp, m, r, s, nperm, wnumHex}
-    BB_H_new_term_0_r1_b2.get_real()->store_in(buf_BB_H_new_term_r_b2, {t, x_out, x_in, 0, 0, 0, 0, 0, 0});
-    BB_H_new_term_0_r1_b2.get_imag()->store_in(buf_BB_H_new_term_i_b2, {t, x_out, x_in, 0, 0, 0, 0, 0, 0});
+    BB_H_new_term_0_r1_b2.get_real()->store_in(buf_BB_H_new_term_r_b2, {t, x_out, x_in});
+    BB_H_new_term_0_r1_b2.get_imag()->store_in(buf_BB_H_new_term_i_b2, {t, x_out, x_in});
 // {t, x_out, x_in, rp, m, r, s, nperm, wnumHex}
-    BB_H_new_term_0_r2_b2.get_real()->store_in(buf_BB_H_new_term_r_b2, {t, x_out, x_in, 0, 0, 0, 0, 0, 0});
-    BB_H_new_term_0_r2_b2.get_imag()->store_in(buf_BB_H_new_term_i_b2, {t, x_out, x_in, 0, 0, 0, 0, 0, 0});
+    BB_H_new_term_0_r2_b2.get_real()->store_in(buf_BB_H_new_term_r_b2, {t, x_out, x_in});
+    BB_H_new_term_0_r2_b2.get_imag()->store_in(buf_BB_H_new_term_i_b2, {t, x_out, x_in});
 
     buffer* buf_flip_BB_H_new_term_r_b1;
     buffer* buf_flip_BB_H_new_term_i_b1;
-    allocate_complex_buffers(buf_flip_BB_H_new_term_r_b1, buf_flip_BB_H_new_term_i_b1, {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, 1, 1, 1, 1, 1}, "buf_flip_BB_H_new_term_b1", true);
+    allocate_complex_buffers(buf_flip_BB_H_new_term_r_b1, buf_flip_BB_H_new_term_i_b1, {Lt, Vsnk/sites_per_rank, sites_per_rank}, "buf_flip_BB_H_new_term_b1", true);
 // {t, x_out, x_in, rp, m, r, s, nperm, wnumHex}
-    flip_BB_H_new_term_0_r1_b1.get_real()->store_in(buf_flip_BB_H_new_term_r_b1, {t, x_out, x_in, 0, 0, 0, 0, 0, 0});
-    flip_BB_H_new_term_0_r1_b1.get_imag()->store_in(buf_flip_BB_H_new_term_i_b1, {t, x_out, x_in, 0, 0, 0, 0, 0, 0});
+    flip_BB_H_new_term_0_r1_b1.get_real()->store_in(buf_flip_BB_H_new_term_r_b1, {t, x_out, x_in});
+    flip_BB_H_new_term_0_r1_b1.get_imag()->store_in(buf_flip_BB_H_new_term_i_b1, {t, x_out, x_in});
 // {t, x_out, x_in, rp, m, r, s, nperm, wnumHex}
-    flip_BB_H_new_term_0_r2_b1.get_real()->store_in(buf_flip_BB_H_new_term_r_b1, {t, x_out, x_in, 0, 0, 0, 0, 0, 0});
-    flip_BB_H_new_term_0_r2_b1.get_imag()->store_in(buf_flip_BB_H_new_term_i_b1, {t, x_out, x_in, 0, 0, 0, 0, 0, 0});
+    flip_BB_H_new_term_0_r2_b1.get_real()->store_in(buf_flip_BB_H_new_term_r_b1, {t, x_out, x_in});
+    flip_BB_H_new_term_0_r2_b1.get_imag()->store_in(buf_flip_BB_H_new_term_i_b1, {t, x_out, x_in});
 
     buffer* buf_flip_BB_H_new_term_r_b2;
     buffer* buf_flip_BB_H_new_term_i_b2;
-    allocate_complex_buffers(buf_flip_BB_H_new_term_r_b2, buf_flip_BB_H_new_term_i_b2, {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, 1, 1, 1, 1, 1}, "buf_flip_BB_H_new_term_b2", true);
+    allocate_complex_buffers(buf_flip_BB_H_new_term_r_b2, buf_flip_BB_H_new_term_i_b2, {Lt, Vsnk/sites_per_rank, sites_per_rank}, "buf_flip_BB_H_new_term_b2", true);
 // {t, x_out, x_in, rp, m, r, s, nperm, wnumHex}
-    flip_BB_H_new_term_0_r1_b2.get_real()->store_in(buf_flip_BB_H_new_term_r_b2, {t, x_out, x_in, 0, 0, 0, 0, 0, 0});
-    flip_BB_H_new_term_0_r1_b2.get_imag()->store_in(buf_flip_BB_H_new_term_i_b2, {t, x_out, x_in, 0, 0, 0, 0, 0, 0});
+    flip_BB_H_new_term_0_r1_b2.get_real()->store_in(buf_flip_BB_H_new_term_r_b2, {t, x_out, x_in});
+    flip_BB_H_new_term_0_r1_b2.get_imag()->store_in(buf_flip_BB_H_new_term_i_b2, {t, x_out, x_in});
 // {t, x_out, x_in, rp, m, r, s, nperm, wnumHex}
-    flip_BB_H_new_term_0_r2_b2.get_real()->store_in(buf_flip_BB_H_new_term_r_b2, {t, x_out, x_in, 0, 0, 0, 0, 0, 0});
-    flip_BB_H_new_term_0_r2_b2.get_imag()->store_in(buf_flip_BB_H_new_term_i_b2, {t, x_out, x_in, 0, 0, 0, 0, 0, 0});
+    flip_BB_H_new_term_0_r2_b2.get_real()->store_in(buf_flip_BB_H_new_term_r_b2, {t, x_out, x_in});
+    flip_BB_H_new_term_0_r2_b2.get_imag()->store_in(buf_flip_BB_H_new_term_i_b2, {t, x_out, x_in});
 
 
-    buffer buf_C_BB_H_prop_r("buf_C_BB_H_prop_r", {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, 1, 1, 1, 1, 1}, p_float64, a_temporary);
+    buffer buf_C_BB_H_prop_r("buf_C_BB_H_prop_r", {Lt, Vsnk/sites_per_rank, sites_per_rank}, p_float64, a_temporary);
+    buffer buf_C_BB_H_prop_i("buf_C_BB_H_prop_i", {Lt, Vsnk/sites_per_rank, sites_per_rank}, p_float64, a_temporary);
     buf_C_BB_H_prop_r.tag_gpu_global();
-    buffer buf_C_BB_H_prop_i("buf_C_BB_H_prop_i", {Lt, Vsnk/sites_per_rank, sites_per_rank, 1, 1, 1, 1, 1, 1}, p_float64, a_temporary);
     buf_C_BB_H_prop_i.tag_gpu_global();
 // {t, x_out, x_in, rp, m, r, s, nperm, wnumHex}
-    C_BB_H_prop_init_r.store_in(&buf_C_BB_H_prop_r, {t, x_out, x_in, 0, 0, 0, 0, 0, 0});
-    C_BB_H_prop_init_i.store_in(&buf_C_BB_H_prop_i, {t, x_out, x_in, 0, 0, 0, 0, 0, 0});
+    C_BB_H_prop_init_r.store_in(&buf_C_BB_H_prop_r, {t, x_out, x_in});
+    C_BB_H_prop_init_i.store_in(&buf_C_BB_H_prop_i, {t, x_out, x_in});
 // {t, x_out, x_in, rp, m, r, s, nperm, wnumHex}
-    C_BB_H_prop_update_r.store_in(&buf_C_BB_H_prop_r, {t, x_out, x_in, 0, 0, 0, 0, 0, 0});
-    C_BB_H_prop_update_i.store_in(&buf_C_BB_H_prop_i, {t, x_out, x_in, 0, 0, 0, 0, 0, 0});
+    C_BB_H_prop_update_r.store_in(&buf_C_BB_H_prop_r, {t, x_out, x_in});
+    C_BB_H_prop_update_i.store_in(&buf_C_BB_H_prop_i, {t, x_out, x_in});
 // {t, x_out, x_in, rp, m, r, nH}
     C_BB_H_update_r.store_in(&buf_C_r, {t, x_out, x_in, rp, m, r, Nsnk+nH});
     C_BB_H_update_i.store_in(&buf_C_i, {t, x_out, x_in, rp, m, r, Nsnk+nH});
