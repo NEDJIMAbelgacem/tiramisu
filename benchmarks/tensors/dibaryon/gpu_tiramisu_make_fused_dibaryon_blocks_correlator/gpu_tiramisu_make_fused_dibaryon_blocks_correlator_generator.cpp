@@ -1192,8 +1192,8 @@ void generate_function(std::string name)
     C_H_H_prop_update_r.store_in(&buf_C_H_H_prop_r, {t, x_out, x_in, 0});
     C_H_H_prop_update_i.store_in(&buf_C_H_H_prop_i, {t, x_out, x_in, 0});
 
-    C_H_H_update_r.store_in(&buf_C_r, {t, x_out, rp, Nsrc+mH, r, Nsnk+nH});
-    C_H_H_update_i.store_in(&buf_C_i, {t, x_out, rp, Nsrc+mH, r, Nsnk+nH});  
+    C_H_H_update_r.store_in(&buf_C_r, {t, x_out, x_in, rp, Nsrc+mH, r, Nsnk+nH});
+    C_H_H_update_i.store_in(&buf_C_i, {t, x_out, x_in, rp, Nsrc+mH, r, Nsnk+nH});  
 // tag
 
 // BB_H

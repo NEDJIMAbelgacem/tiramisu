@@ -2058,7 +2058,7 @@ void generate_function(std::string name)
     snk_B2_Blocal_r2_i_props_init.store_in(&buf_snk_B2_Blocal_props_r2_i, {t, y_out, y_in, jCprime, jSprime});
     snk_B2_Blocal_r2_r_props.store_in(&buf_snk_B2_Blocal_props_r2_r, {t, y_out, y_in, jCprime, jSprime});
     snk_B2_Blocal_r2_i_props.store_in(&buf_snk_B2_Blocal_props_r2_i, {t, y_out, y_in, jCprime, jSprime});
-
+// 1335 -   2061
     /* Correlator */
 
     buffer buf_C_r("buf_C_r", {Lt, Vsnk/sites_per_rank, sites_per_rank, B2Nrows, NsrcTot, B2Nrows, NsnkTot}, p_float64, a_temporary);
