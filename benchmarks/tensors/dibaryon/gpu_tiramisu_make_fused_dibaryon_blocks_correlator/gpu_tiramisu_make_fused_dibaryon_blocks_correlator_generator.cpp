@@ -1539,7 +1539,7 @@ void generate_function(std::string name)
     handle = &(handle->then(C_init_r, computation::root).then(C_init_i, npnH));
 
     // BB_H
-    {
+    // {
     // handle = &(handle
     //       ->then(src_B1_Blocal_r1_r_init, t)
     //       .then(src_B1_Blocal_r1_i_init, jSprime)
