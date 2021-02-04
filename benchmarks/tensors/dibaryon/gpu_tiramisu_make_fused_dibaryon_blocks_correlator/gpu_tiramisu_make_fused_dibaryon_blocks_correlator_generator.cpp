@@ -1499,7 +1499,7 @@ void generate_function(std::string name)
     // computation copy_src_spin_block_weights_device_to_host({}, memcpy(*src_spin_block_weights.get_buffer(), buf_src_spin_block_weights_cpu));
     // computation copy_snk_b_device_to_host({}, memcpy(*snk_b.get_buffer(), buf_snk_b_cpu));
 
-    computation handle = &C_init_r.then(C_init_i, computation::root);
+    computation* handle = &C_init_r.then(C_init_i, computation::root);
     //   computation* handle = &copy_buf_C_r_host_to_device.then(copy_buf_C_i_host_to_device, computation::root);
     //   handle = &handle->then(copy_B1_prop_r_host_to_device, computation::root);
     //   handle = &handle->then(copy_B1_prop_i_host_to_device, computation::root);
