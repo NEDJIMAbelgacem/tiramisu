@@ -1712,8 +1712,8 @@ void generate_function(std::string name)
           );
     }
     
-    // handle = &handle->then( copy_buf_C_r_device_to_host, computation::root );
-    // handle = &handle->then( copy_buf_C_i_device_to_host, computation::root );
+    handle = &handle->then( copy_buf_C_r_device_to_host, computation::root );
+    handle = &handle->then( copy_buf_C_i_device_to_host, computation::root );
 
     // handle = &handle->then(copy_B1_prop_r_device_to_host, computation::root);
     // handle = &handle->then(copy_B1_prop_i_device_to_host, computation::root);
