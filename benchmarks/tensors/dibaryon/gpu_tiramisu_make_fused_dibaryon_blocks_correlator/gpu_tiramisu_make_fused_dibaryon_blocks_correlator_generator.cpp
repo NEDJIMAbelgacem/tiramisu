@@ -1470,8 +1470,8 @@ void generate_function(std::string name)
     // computation copy_snk_b_host_to_device({}, memcpy(buf_snk_b_cpu, *snk_b.get_buffer()));
 
     
-    computation copy_buf_C_r_device_to_host({t, x_out, x_in, rp, mpmH, r, npnH}, memcpy(buf_C_r, buf_C_r_cpu));
-    computation copy_buf_C_i_device_to_host({t, x_out, x_in, rp, mpmH, r, npnH}, memcpy(buf_C_i, buf_C_i_cpu));
+    // computation copy_buf_C_r_device_to_host({t, x_out, x_in, rp, mpmH, r, npnH}, memcpy(buf_C_r, buf_C_r_cpu));
+    // computation copy_buf_C_i_device_to_host({t, x_out, x_in, rp, mpmH, r, npnH}, memcpy(buf_C_i, buf_C_i_cpu));
     // computation copy_B1_prop_r_device_to_host({}, memcpy(*B1_prop_r.get_buffer(), buf_B1_prop_r_cpu));
     // computation copy_B1_prop_i_device_to_host({}, memcpy(*B1_prop_i.get_buffer(), buf_B1_prop_i_cpu));
     // computation copy_B2_prop_r_device_to_host({}, memcpy(*B2_prop_r.get_buffer(), buf_B2_prop_r_cpu));
@@ -1715,8 +1715,8 @@ void generate_function(std::string name)
           );
     }
     
-    handle = &handle->then( copy_buf_C_r_device_to_host, computation::root );
-    handle = &handle->then( copy_buf_C_i_device_to_host, computation::root );
+    // handle = &handle->then( copy_buf_C_r_device_to_host, computation::root );
+    // handle = &handle->then( copy_buf_C_i_device_to_host, computation::root );
 
     // handle = &handle->then(copy_B1_prop_r_device_to_host, computation::root);
     // handle = &handle->then(copy_B1_prop_i_device_to_host, computation::root);
