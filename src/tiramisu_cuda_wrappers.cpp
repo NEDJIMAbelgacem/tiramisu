@@ -63,7 +63,7 @@ void * tiramisu_cuda_malloc(uint64_t size)
 extern "C"
 int tiramisu_cuda_free(void * ptr)
 {
-    handle_cuda_error(cudaFree(ptr), __FUNCTION__);
+    // handle_cuda_error(cudaFree(ptr), __FUNCTION__);
     return 0;
 }
 
