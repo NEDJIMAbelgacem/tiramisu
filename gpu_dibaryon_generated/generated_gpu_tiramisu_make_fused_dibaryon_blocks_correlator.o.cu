@@ -27,7 +27,7 @@ extern "C" int32_t* _kernel_0_wrapper(int32_t c1, double *buf_C_i, double *buf_C
 	};
 	return 0;
 };
-static __global__ void _kernel_1(int32_t c1, double *B1_prop_i, double *B1_prop_r, double *B2_prop_i, double *B2_prop_r, double *buf_C_H_H_prop_i, double *buf_C_H_H_prop_r, double *buf_C_i, double *buf_C_r, int32_t *hex_snk_color_weights, double *hex_snk_psi_i, double *hex_snk_psi_r, int32_t *hex_snk_spin_weights, double *hex_snk_weights, double *hex_src_psi_i, double *hex_src_psi_r, int32_t *sigs)
+static __global__ void _kernel_1(int32_t c1, double *B1_prop_i, double *B1_prop_r, double *B2_prop_i, double *B2_prop_r, double *buf_C_H_H_prop_i, double *buf_C_H_H_prop_r, double *buf_C_i, double *buf_C_r, int32_t *0;//, double *hex_snk_psi_i, double *hex_snk_psi_r, int32_t *0;//, double *hex_snk_weights, double *hex_src_psi_i, double *hex_src_psi_r, int32_t *sigs)
 {
 	const int32_t __bx__ = (blockIdx.x + 0);
 	const int32_t __tx__ = (threadIdx.x + 0);
@@ -45,15 +45,15 @@ static __global__ void _kernel_1(int32_t c1, double *B1_prop_i, double *B1_prop_
 					{
 						for (int32_t c17 = 0; (c17 <= 31); (c17 += 1))
 						{
-							x = _hex_snk_color_weights[(((((0 + (((((1 * 2) * 3) * 32) * 36) * c7)) + ((((1 * 2) * 3) * 32) * 0)) + (((1 * 2) * 3) * c17)) + ((1 * 2) * 0)) + (1 * 0))];
-							const int32_t t181 = hex_snk_color_weights[(((((0 + (((((1 * 2) * 3) * 32) * 36) * c9)) + ((((1 * 2) * 3) * 32) * c13)) + (((1 * 2) * 3) * c15)) + ((1 * 2) * 0)) + (1 * 0))];
-							const int32_t t182 = hex_snk_spin_weights[(((((0 + (((((1 * 2) * 3) * 32) * 36) * c9)) + ((((1 * 2) * 3) * 32) * c13)) + (((1 * 2) * 3) * c15)) + ((1 * 2) * 0)) + (1 * 0))];
-							const int32_t t183 = hex_snk_color_weights[(((((0 + (((((1 * 2) * 3) * 32) * 36) * c7)) + ((((1 * 2) * 3) * 32) * 0)) + (((1 * 2) * 3) * c17)) + ((1 * 2) * 0)) + (1 * 0))];
-							const int32_t t184 = hex_snk_spin_weights[(((((0 + (((((1 * 2) * 3) * 32) * 36) * c7)) + ((((1 * 2) * 3) * 32) * 0)) + (((1 * 2) * 3) * c17)) + ((1 * 2) * 0)) + (1 * 0))];
-							const int32_t t185 = hex_snk_color_weights[(((((0 + (((((1 * 2) * 3) * 32) * 36) * c9)) + ((((1 * 2) * 3) * 32) * c13)) + (((1 * 2) * 3) * c15)) + ((1 * 2) * 2)) + (1 * 0))];
-							const int32_t t186 = hex_snk_spin_weights[(((((0 + (((((1 * 2) * 3) * 32) * 36) * c9)) + ((((1 * 2) * 3) * 32) * c13)) + (((1 * 2) * 3) * c15)) + ((1 * 2) * 2)) + (1 * 0))];
-							const int32_t t187 = hex_snk_spin_weights[(((((0 + (((((1 * 2) * 3) * 32) * 36) * c9)) + ((((1 * 2) * 3) * 32) * c13)) + (((1 * 2) * 3) * c15)) + ((1 * 2) * 2)) + (1 * 0))];
-							const int32_t t188 = hex_snk_spin_weights[(((((0 + (((((1 * 2) * 3) * 32) * 36) * c7)) + ((((1 * 2) * 3) * 32) * 0)) + (((1 * 2) * 3) * c17)) + ((1 * 2) * 2)) + (1 * 0))];
+							x = _0;//[(((((0 + (((((1 * 2) * 3) * 32) * 36) * c7)) + ((((1 * 2) * 3) * 32) * 0)) + (((1 * 2) * 3) * c17)) + ((1 * 2) * 0)) + (1 * 0))];
+							const int32_t t181 = 0;//[(((((0 + (((((1 * 2) * 3) * 32) * 36) * c9)) + ((((1 * 2) * 3) * 32) * c13)) + (((1 * 2) * 3) * c15)) + ((1 * 2) * 0)) + (1 * 0))];
+							const int32_t t182 = 0;//[(((((0 + (((((1 * 2) * 3) * 32) * 36) * c9)) + ((((1 * 2) * 3) * 32) * c13)) + (((1 * 2) * 3) * c15)) + ((1 * 2) * 0)) + (1 * 0))];
+							const int32_t t183 = 0;//[(((((0 + (((((1 * 2) * 3) * 32) * 36) * c7)) + ((((1 * 2) * 3) * 32) * 0)) + (((1 * 2) * 3) * c17)) + ((1 * 2) * 0)) + (1 * 0))];
+							const int32_t t184 = 0;//[(((((0 + (((((1 * 2) * 3) * 32) * 36) * c7)) + ((((1 * 2) * 3) * 32) * 0)) + (((1 * 2) * 3) * c17)) + ((1 * 2) * 0)) + (1 * 0))];
+							const int32_t t185 = 0;//[(((((0 + (((((1 * 2) * 3) * 32) * 36) * c9)) + ((((1 * 2) * 3) * 32) * c13)) + (((1 * 2) * 3) * c15)) + ((1 * 2) * 2)) + (1 * 0))];
+							const int32_t t186 = 0;//[(((((0 + (((((1 * 2) * 3) * 32) * 36) * c9)) + ((((1 * 2) * 3) * 32) * c13)) + (((1 * 2) * 3) * c15)) + ((1 * 2) * 2)) + (1 * 0))];
+							const int32_t t187 = 0;//[(((((0 + (((((1 * 2) * 3) * 32) * 36) * c9)) + ((((1 * 2) * 3) * 32) * c13)) + (((1 * 2) * 3) * c15)) + ((1 * 2) * 2)) + (1 * 0))];
+							const int32_t t188 = 0;//[(((((0 + (((((1 * 2) * 3) * 32) * 36) * c7)) + ((((1 * 2) * 3) * 32) * 0)) + (((1 * 2) * 3) * c17)) + ((1 * 2) * 2)) + (1 * 0))];
 							const int32_t t189 = t181;
 							const int32_t t190 = t182;
 							const int32_t t191 = t183;
@@ -62,10 +62,10 @@ static __global__ void _kernel_1(int32_t c1, double *B1_prop_i, double *B1_prop_
 							const int32_t t194 = t186;
 							const int32_t t195 = t187;
 							const int32_t t196 = t188;
-							const int32_t t197 = hex_snk_color_weights[(((((0 + (((((1 * 2) * 3) * 32) * 36) * c9)) + ((((1 * 2) * 3) * 32) * c13)) + (((1 * 2) * 3) * c15)) + ((1 * 2) * 1)) + (1 * 0))];
-							const int32_t t198 = hex_snk_spin_weights[(((((0 + (((((1 * 2) * 3) * 32) * 36) * c9)) + ((((1 * 2) * 3) * 32) * c13)) + (((1 * 2) * 3) * c15)) + ((1 * 2) * 1)) + (1 * 0))];
-							const int32_t t199 = hex_snk_color_weights[(((((0 + (((((1 * 2) * 3) * 32) * 36) * c7)) + ((((1 * 2) * 3) * 32) * 0)) + (((1 * 2) * 3) * c17)) + ((1 * 2) * 1)) + (1 * 0))];
-							const int32_t t200 = hex_snk_spin_weights[(((((0 + (((((1 * 2) * 3) * 32) * 36) * c7)) + ((((1 * 2) * 3) * 32) * 0)) + (((1 * 2) * 3) * c17)) + ((1 * 2) * 1)) + (1 * 0))];
+							const int32_t t197 = 0;//0;//[(((((0 + (((((1 * 2) * 3) * 32) * 36) * c9)) + ((((1 * 2) * 3) * 32) * c13)) + (((1 * 2) * 3) * c15)) + ((1 * 2) * 1)) + (1 * 0))];
+							const int32_t t198 = 0;//[(((((0 + (((((1 * 2) * 3) * 32) * 36) * c9)) + ((((1 * 2) * 3) * 32) * c13)) + (((1 * 2) * 3) * c15)) + ((1 * 2) * 1)) + (1 * 0))];
+							const int32_t t199 = 0;//[(((((0 + (((((1 * 2) * 3) * 32) * 36) * c7)) + ((((1 * 2) * 3) * 32) * 0)) + (((1 * 2) * 3) * c17)) + ((1 * 2) * 1)) + (1 * 0))];
+							const int32_t t200 = 0;//[(((((0 + (((((1 * 2) * 3) * 32) * 36) * c7)) + ((((1 * 2) * 3) * 32) * 0)) + (((1 * 2) * 3) * c17)) + ((1 * 2) * 1)) + (1 * 0))];
 							const int32_t t201 = t181;
 							const int32_t t202 = t182;
 							const int32_t t203 = t183;
@@ -126,14 +126,14 @@ static __global__ void _kernel_1(int32_t c1, double *B1_prop_i, double *B1_prop_
 							const int32_t t258 = t198;
 							const int32_t t259 = t199;
 							const int32_t t260 = t200;
-							const int32_t t261 = hex_snk_color_weights[(((((0 + (((((1 * 2) * 3) * 32) * 36) * c9)) + ((((1 * 2) * 3) * 32) * c13)) + (((1 * 2) * 3) * c15)) + ((1 * 2) * 0)) + (1 * 1))];;
-							const int32_t t262 = hex_snk_spin_weights[(((((0 + (((((1 * 2) * 3) * 32) * 36) * c9)) + ((((1 * 2) * 3) * 32) * c13)) + (((1 * 2) * 3) * c15)) + ((1 * 2) * 0)) + (1 * 1))];;
-							const int32_t t263 = hex_snk_color_weights[(((((0 + (((((1 * 2) * 3) * 32) * 36) * c7)) + ((((1 * 2) * 3) * 32) * 0)) + (((1 * 2) * 3) * c17)) + ((1 * 2) * 0)) + (1 * 1))];
-							const int32_t t264 = hex_snk_spin_weights[(((((0 + (((((1 * 2) * 3) * 32) * 36) * c7)) + ((((1 * 2) * 3) * 32) * 0)) + (((1 * 2) * 3) * c17)) + ((1 * 2) * 0)) + (1 * 1))];
-							const int32_t t265 = hex_snk_color_weights[(((((0 + (((((1 * 2) * 3) * 32) * 36) * c9)) + ((((1 * 2) * 3) * 32) * c13)) + (((1 * 2) * 3) * c15)) + ((1 * 2) * 2)) + (1 * 1))];
-							const int32_t t266 = hex_snk_spin_weights[(((((0 + (((((1 * 2) * 3) * 32) * 36) * c9)) + ((((1 * 2) * 3) * 32) * c13)) + (((1 * 2) * 3) * c15)) + ((1 * 2) * 2)) + (1 * 1))];
-							const int32_t t267 = hex_snk_color_weights[(((((0 + (((((1 * 2) * 3) * 32) * 36) * c7)) + ((((1 * 2) * 3) * 32) * 0)) + (((1 * 2) * 3) * c17)) + ((1 * 2) * 2)) + (1 * 1))];
-							const int32_t t268 = hex_snk_spin_weights[(((((0 + (((((1 * 2) * 3) * 32) * 36) * c7)) + ((((1 * 2) * 3) * 32) * 0)) + (((1 * 2) * 3) * c17)) + ((1 * 2) * 2)) + (1 * 1))];
+							const int32_t t261 = 0;//[(((((0 + (((((1 * 2) * 3) * 32) * 36) * c9)) + ((((1 * 2) * 3) * 32) * c13)) + (((1 * 2) * 3) * c15)) + ((1 * 2) * 0)) + (1 * 1))];;
+							const int32_t t262 = 0;//[(((((0 + (((((1 * 2) * 3) * 32) * 36) * c9)) + ((((1 * 2) * 3) * 32) * c13)) + (((1 * 2) * 3) * c15)) + ((1 * 2) * 0)) + (1 * 1))];;
+							const int32_t t263 = 0;//[(((((0 + (((((1 * 2) * 3) * 32) * 36) * c7)) + ((((1 * 2) * 3) * 32) * 0)) + (((1 * 2) * 3) * c17)) + ((1 * 2) * 0)) + (1 * 1))];
+							const int32_t t264 = 0;//[(((((0 + (((((1 * 2) * 3) * 32) * 36) * c7)) + ((((1 * 2) * 3) * 32) * 0)) + (((1 * 2) * 3) * c17)) + ((1 * 2) * 0)) + (1 * 1))];
+							const int32_t t265 = 0;//[(((((0 + (((((1 * 2) * 3) * 32) * 36) * c9)) + ((((1 * 2) * 3) * 32) * c13)) + (((1 * 2) * 3) * c15)) + ((1 * 2) * 2)) + (1 * 1))];
+							const int32_t t266 = 0;//[(((((0 + (((((1 * 2) * 3) * 32) * 36) * c9)) + ((((1 * 2) * 3) * 32) * c13)) + (((1 * 2) * 3) * c15)) + ((1 * 2) * 2)) + (1 * 1))];
+							const int32_t t267 = 0;//[(((((0 + (((((1 * 2) * 3) * 32) * 36) * c7)) + ((((1 * 2) * 3) * 32) * 0)) + (((1 * 2) * 3) * c17)) + ((1 * 2) * 2)) + (1 * 1))];
+							const int32_t t268 = 0;//[(((((0 + (((((1 * 2) * 3) * 32) * 36) * c7)) + ((((1 * 2) * 3) * 32) * 0)) + (((1 * 2) * 3) * c17)) + ((1 * 2) * 2)) + (1 * 1))];
 							const int32_t t269 = t261;
 							const int32_t t270 = t262;
 							const int32_t t271 = t263;
@@ -142,10 +142,10 @@ static __global__ void _kernel_1(int32_t c1, double *B1_prop_i, double *B1_prop_
 							const int32_t t274 = t266;
 							const int32_t t275 = t267;
 							const int32_t t276 = t268;
-							const int32_t t277 = hex_snk_color_weights[(((((0 + (((((1 * 2) * 3) * 32) * 36) * c9)) + ((((1 * 2) * 3) * 32) * c13)) + (((1 * 2) * 3) * c15)) + ((1 * 2) * 1)) + (1 * 1))];
-							const int32_t t278 = hex_snk_spin_weights[(((((0 + (((((1 * 2) * 3) * 32) * 36) * c9)) + ((((1 * 2) * 3) * 32) * c13)) + (((1 * 2) * 3) * c15)) + ((1 * 2) * 1)) + (1 * 1))];
-							const int32_t t279 = hex_snk_color_weights[(((((0 + (((((1 * 2) * 3) * 32) * 36) * c7)) + ((((1 * 2) * 3) * 32) * 0)) + (((1 * 2) * 3) * c17)) + ((1 * 2) * 1)) + (1 * 1))];
-							const int32_t t280 = hex_snk_spin_weights[(((((0 + (((((1 * 2) * 3) * 32) * 36) * c7)) + ((((1 * 2) * 3) * 32) * 0)) + (((1 * 2) * 3) * c17)) + ((1 * 2) * 1)) + (1 * 1))];
+							const int32_t t277 = 0;//[(((((0 + (((((1 * 2) * 3) * 32) * 36) * c9)) + ((((1 * 2) * 3) * 32) * c13)) + (((1 * 2) * 3) * c15)) + ((1 * 2) * 1)) + (1 * 1))];
+							const int32_t t278 = 0;//[(((((0 + (((((1 * 2) * 3) * 32) * 36) * c9)) + ((((1 * 2) * 3) * 32) * c13)) + (((1 * 2) * 3) * c15)) + ((1 * 2) * 1)) + (1 * 1))];
+							const int32_t t279 = 0;//[(((((0 + (((((1 * 2) * 3) * 32) * 36) * c7)) + ((((1 * 2) * 3) * 32) * 0)) + (((1 * 2) * 3) * c17)) + ((1 * 2) * 1)) + (1 * 1))];
+							const int32_t t280 = 0;//[(((((0 + (((((1 * 2) * 3) * 32) * 36) * c7)) + ((((1 * 2) * 3) * 32) * 0)) + (((1 * 2) * 3) * c17)) + ((1 * 2) * 1)) + (1 * 1))];
 							const int32_t t281 = t261;
 							const int32_t t282 = t262;
 							const int32_t t283 = t263;
@@ -543,12 +543,12 @@ static __global__ void _kernel_1(int32_t c1, double *B1_prop_i, double *B1_prop_
 		};
 	};
 };
-extern "C" int32_t* _kernel_1_wrapper(int32_t c1, double *B1_prop_i, double *B1_prop_r, double *B2_prop_i, double *B2_prop_r, double *buf_C_H_H_prop_i, double *buf_C_H_H_prop_r, double *buf_C_i, double *buf_C_r, int32_t *hex_snk_color_weights, double *hex_snk_psi_i, double *hex_snk_psi_r, int32_t *hex_snk_spin_weights, double *hex_snk_weights, double *hex_src_psi_i, double *hex_src_psi_r, int32_t *sigs)
+extern "C" int32_t* _kernel_1_wrapper(int32_t c1, double *B1_prop_i, double *B1_prop_r, double *B2_prop_i, double *B2_prop_r, double *buf_C_H_H_prop_i, double *buf_C_H_H_prop_r, double *buf_C_i, double *buf_C_r, int32_t *0;//, double *hex_snk_psi_i, double *hex_snk_psi_r, int32_t *0;//, double *hex_snk_weights, double *hex_src_psi_i, double *hex_src_psi_r, int32_t *sigs)
 {
 	{
 		dim3 blocks((1 + 1), 1, 1);
 		dim3 threads((1 + 1), 1, 1);
-		_kernel_1<<<blocks, threads>>>(c1, B1_prop_i, B1_prop_r, B2_prop_i, B2_prop_r, buf_C_H_H_prop_i, buf_C_H_H_prop_r, buf_C_i, buf_C_r, hex_snk_color_weights, hex_snk_psi_i, hex_snk_psi_r, hex_snk_spin_weights, hex_snk_weights, hex_src_psi_i, hex_src_psi_r, sigs);
+		_kernel_1<<<blocks, threads>>>(c1, B1_prop_i, B1_prop_r, B2_prop_i, B2_prop_r, buf_C_H_H_prop_i, buf_C_H_H_prop_r, buf_C_i, buf_C_r, 0;//, hex_snk_psi_i, hex_snk_psi_r, 0;//, hex_snk_weights, hex_src_psi_i, hex_src_psi_r, sigs);
 	};
 	return 0;
 }
