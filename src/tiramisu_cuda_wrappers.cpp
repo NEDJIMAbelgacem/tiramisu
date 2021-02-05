@@ -63,7 +63,13 @@ void * tiramisu_cuda_malloc(uint64_t size)
 extern "C"
 int tiramisu_cuda_free(void * ptr)
 {
-    // handle_cuda_error(cudaFree(ptr), __FUNCTION__);
+    static bool already_called = false;
+    if ( !already_called )
+    {
+        already_called = true;
+        andle_cuda_error(cudaDeviceSynchronize(), __FUNCTION__);
+    }
+    handle_cuda_error(cudaFree(ptr), __FUNCTION__);
     return 0;
 }
 
