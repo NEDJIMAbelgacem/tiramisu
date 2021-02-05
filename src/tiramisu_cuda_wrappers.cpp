@@ -67,7 +67,7 @@ int tiramisu_cuda_free(void * ptr)
     if ( !already_called )
     {
         already_called = true;
-        andle_cuda_error(cudaDeviceSynchronize(), __FUNCTION__);
+        handle_cuda_error(cudaDeviceSynchronize(), __FUNCTION__);
     }
     handle_cuda_error(cudaFree(ptr), __FUNCTION__);
     return 0;
