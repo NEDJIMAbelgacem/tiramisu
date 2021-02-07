@@ -1434,8 +1434,8 @@ void generate_function(std::string name)
 
 
 
-    // computation copy_buf_C_r_host_to_device({}, memcpy(buf_C_r_cpu, buf_C_r));
-    // computation copy_buf_C_i_host_to_device({}, memcpy(buf_C_i_cpu, buf_C_i));
+    computation copy_buf_C_r_host_to_device({}, memcpy(buf_C_r_cpu, buf_C_r));
+    computation copy_buf_C_i_host_to_device({}, memcpy(buf_C_i_cpu, buf_C_i));
     // computation copy_B1_prop_r_host_to_device({}, memcpy(buf_B1_prop_r_cpu, *B1_prop_r.get_buffer()));
     // computation copy_B1_prop_i_host_to_device({}, memcpy(buf_B1_prop_i_cpu, *B1_prop_i.get_buffer()));
     // computation copy_B2_prop_r_host_to_device({}, memcpy(buf_B2_prop_r_cpu, *B2_prop_r.get_buffer()));
@@ -1467,8 +1467,8 @@ void generate_function(std::string name)
     // computation copy_snk_b_host_to_device({}, memcpy(buf_snk_b_cpu, *snk_b.get_buffer()));
 
     
-    // computation copy_buf_C_r_device_to_host({}, memcpy(buf_C_r, buf_C_r_cpu));
-    // computation copy_buf_C_i_device_to_host({}, memcpy(buf_C_i, buf_C_i_cpu));
+    computation copy_buf_C_r_device_to_host({}, memcpy(buf_C_r, buf_C_r_cpu));
+    computation copy_buf_C_i_device_to_host({}, memcpy(buf_C_i, buf_C_i_cpu));
     // computation copy_B1_prop_r_device_to_host({}, memcpy(*B1_prop_r.get_buffer(), buf_B1_prop_r_cpu));
     // computation copy_B1_prop_i_device_to_host({}, memcpy(*B1_prop_i.get_buffer(), buf_B1_prop_i_cpu));
     // computation copy_B2_prop_r_device_to_host({}, memcpy(*B2_prop_r.get_buffer(), buf_B2_prop_r_cpu));
