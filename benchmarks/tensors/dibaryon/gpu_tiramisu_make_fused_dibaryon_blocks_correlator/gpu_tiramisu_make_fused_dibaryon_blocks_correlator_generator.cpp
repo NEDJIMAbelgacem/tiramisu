@@ -1432,7 +1432,7 @@ void generate_function(std::string name)
           C_H_H_prop_update_r.tag_gpu_level(t, x_out, x_in, rp, r, y);
           C_H_H_prop_update_i.tag_gpu_level(t, x_out, x_in, rp, r, y);
           // {t, x_out, x_in, rp, r, y, mH, nH}
-          C_H_H_update_r.t, x_out, x_in, rp, r, y(t, x_out, x_in, rp, r, y);
+          C_H_H_update_r.tag_gpu_level(t, x_out, x_in, rp, r, y);
           C_H_H_update_i.tag_gpu_level(t, x_out, x_in, rp, r, y);
 
 
