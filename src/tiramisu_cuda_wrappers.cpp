@@ -168,3 +168,45 @@ int32_t tiramisu_cuda_stream_synchronize(int32_t dummy)
     return 0;
 }
 
+#ifdef WITH_REDUCTIONS
+
+#include <cub/util_allocator.cuh>
+#include <cub/device/device_reduce.cuh>
+
+using namespace cub;
+
+CachingDeviceAllocator  g_allocator(true);  // Caching allocator for device memory
+
+extern "C"
+int tiramisu_reduce_add( double *A, double *B, int nA )
+{
+    int *d_in = NULL;
+    CubDebugExit(g_allocator.DeviceAllocate((void**)&d_in, sizeof(int) * num_items));
+
+    // Initialize device input
+    CubDebugExit(cudaMemcpy(d_in, A, sizeof(double) * nA, cudaMemcpyHostToDevice));
+
+    // Allocate device output array
+    int *d_out = NULL;
+    CubDebugExit(g_allocator.DeviceAllocate((void**)&d_out, sizeof(double) * 1));
+
+    // Request and allocate temporary storage
+    void            *d_temp_storage = NULL;
+    size_t          temp_storage_bytes = 0;
+    CubDebugExit(DeviceReduce::Sum(d_temp_storage, temp_storage_bytes, d_in, d_out, num_items));
+    CubDebugExit(g_allocator.DeviceAllocate(&d_temp_storage, temp_storage_bytes));
+
+    // Run
+    CubDebugExit(DeviceReduce::Sum(d_temp_storage, temp_storage_bytes, d_in, d_out, num_items));
+
+    // Cleanup
+    if (d_in) CubDebugExit(g_allocator.DeviceFree(d_in));
+    if (d_out) CubDebugExit(g_allocator.DeviceFree(d_out));
+    if (d_temp_storage) CubDebugExit(g_allocator.DeviceFree(d_temp_storage));
+
+    B[0] = d_out[0];
+
+    return 0;
+}
+
+#endif
