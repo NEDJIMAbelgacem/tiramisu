@@ -128,11 +128,12 @@ int main(int argc, char** argv)
     // Run
     CubDebugExit(DeviceReduce::Sum(d_temp_storage, temp_storage_bytes, d_in, d_out, num_items));
 
+    std::cerr << "3\n";
+
     // Check for correctness (and display results, if specified)
     int compare = (*d_out) == (num_items + 1) * num_items / 2;
     printf("\t%s", compare ? "FAIL" : "PASS");
     AssertEquals(1, compare);
-    std::cerr << "3\n";
 
     // Cleanup
     if (h_in) delete[] h_in;
