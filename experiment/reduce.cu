@@ -41,6 +41,7 @@
 
 #include <stdio.h>
 #include <cub/cub.cuh>
+#include "./test_util.h"
 
 // #include <cub/util_allocator.cuh>
 // #include <cub/device/device_reduce.cuh>
