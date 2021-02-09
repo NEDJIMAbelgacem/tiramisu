@@ -80,7 +80,7 @@ void Initialize(
  */
 int main(int argc, char** argv)
 {
-    int num_items = 150;
+    int num_items = 2000;
     // Initialize command line
     CommandLineArgs args(argc, argv);
     args.GetCmdLineArgument("n", num_items);
