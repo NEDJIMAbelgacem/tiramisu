@@ -40,9 +40,10 @@
 #define CUB_STDERR
 
 #include <stdio.h>
+#include <cub/cub.cuh>
 
-#include <cub/util_allocator.cuh>
-#include <cub/device/device_reduce.cuh>
+// #include <cub/util_allocator.cuh>
+// #include <cub/device/device_reduce.cuh>
 
 using namespace cub;
 
