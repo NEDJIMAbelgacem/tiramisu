@@ -44,8 +44,6 @@
 #include <cub/util_allocator.cuh>
 #include <cub/device/device_reduce.cuh>
 
-#include "../../test/test_util.h"
-
 using namespace cub;
 
 
@@ -53,7 +51,6 @@ using namespace cub;
 // Globals, constants and typedefs
 //---------------------------------------------------------------------
 
-bool                    g_verbose = false;  // Whether to display input/output to console
 CachingDeviceAllocator  g_allocator(true);  // Caching allocator for device memory
 
 
@@ -70,33 +67,7 @@ void Initialize(
 {
     for (int i = 0; i < num_items; ++i)
         h_in[i] = i;
-
-    if (g_verbose)
-    {
-        printf("Input:\n");
-        DisplayResults(h_in, num_items);
-        printf("\n\n");
-    }
 }
-
-
-/**
- * Compute solution
- */
-void Solve(
-    int           *h_in,
-    int           &h_reference,
-    int             num_items)
-{
-    for (int i = 0; i < num_items; ++i)
-    {
-        if (i == 0)
-            h_reference = h_in[0];
-        else
-            h_reference += h_in[i];
-    }
-}
-
 
 //---------------------------------------------------------------------
 // Main
@@ -109,28 +80,8 @@ int main(int argc, char** argv)
 {
     int num_items = 150;
 
-    // Initialize command line
-    CommandLineArgs args(argc, argv);
-    g_verbose = args.CheckCmdLineFlag("v");
-    args.GetCmdLineArgument("n", num_items);
-
-    // Print usage
-    if (args.CheckCmdLineFlag("help"))
-    {
-        printf("%s "
-            "[--n=<input items> "
-            "[--device=<device-id>] "
-            "[--v] "
-            "\n", argv[0]);
-        exit(0);
-    }
-
     // Initialize device
     CubDebugExit(args.DeviceInit());
-
-    printf("cub::DeviceReduce::Sum() %d items (%d-byte elements)\n",
-        num_items, (int) sizeof(int));
-    fflush(stdout);
 
     // Allocate host arrays
     int* h_in = new int[num_items];
@@ -138,7 +89,6 @@ int main(int argc, char** argv)
 
     // Initialize problem and solution
     Initialize(h_in, num_items);
-    Solve(h_in, h_reference, num_items);
 
     // Allocate problem device arrays
     int *d_in = NULL;
@@ -161,7 +111,7 @@ int main(int argc, char** argv)
     CubDebugExit(DeviceReduce::Sum(d_temp_storage, temp_storage_bytes, d_in, d_out, num_items));
 
     // Check for correctness (and display results, if specified)
-    int compare = CompareDeviceResults(&h_reference, d_out, 1, g_verbose, g_verbose);
+    int compare = d_out == (num_items + 1) * num_items / 2;
     printf("\t%s", compare ? "FAIL" : "PASS");
     AssertEquals(0, compare);
 
