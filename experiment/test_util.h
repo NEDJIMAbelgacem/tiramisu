@@ -90,10 +90,6 @@ struct CommandLineArgs
     {
         using namespace std;
 
-        // Initialize mersenne generator
-        unsigned int mersenne_init[4]=  {0x123, 0x234, 0x345, 0x456};
-        mersenne::init_by_array(mersenne_init, 4);
-
         for (int i = 1; i < argc; i++)
         {
             string arg = argv[i];

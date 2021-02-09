@@ -127,7 +127,7 @@ int main(int argc, char** argv)
     CubDebugExit(DeviceReduce::Sum(d_temp_storage, temp_storage_bytes, d_in, d_out, num_items));
 
     // Check for correctness (and display results, if specified)
-    int compare = d_out == (num_items + 1) * num_items / 2;
+    int compare = (*d_out) == (num_items + 1) * num_items / 2;
     printf("\t%s", compare ? "FAIL" : "PASS");
     AssertEquals(0, compare);
 
