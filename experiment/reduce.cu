@@ -80,6 +80,20 @@ void Initialize(
 int main(int argc, char** argv)
 {
     int num_items = 150;
+    // Initialize command line
+    CommandLineArgs args(argc, argv);
+    args.GetCmdLineArgument("n", num_items);
+
+    // Print usage
+    if (args.CheckCmdLineFlag("help"))
+    {
+        printf("%s "
+            "[--n=<input items> "
+            "[--device=<device-id>] "
+            "[--v] "
+            "\n", argv[0]);
+        exit(0);
+    }
 
     // Initialize device
     CubDebugExit(args.DeviceInit());
