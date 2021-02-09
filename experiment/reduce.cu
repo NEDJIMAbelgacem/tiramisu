@@ -116,22 +116,21 @@ int main(int argc, char** argv)
     // Allocate device output array
     int *d_out = NULL;
     CubDebugExit(g_allocator.DeviceAllocate((void**)&d_out, sizeof(int) * 1));
-    std::cerr << "1\n";
 
     // Request and allocate temporary storage
     void            *d_temp_storage = NULL;
     size_t          temp_storage_bytes = 0;
     CubDebugExit(DeviceReduce::Sum(d_temp_storage, temp_storage_bytes, d_in, d_out, num_items));
     CubDebugExit(g_allocator.DeviceAllocate(&d_temp_storage, temp_storage_bytes));
-    std::cerr << "2\n";
 
     // Run
     CubDebugExit(DeviceReduce::Sum(d_temp_storage, temp_storage_bytes, d_in, d_out, num_items));
 
-    std::cerr << "3\n";
+    int *h_out = new int[1];
+    CubDebugExit(cudaMemcpy(h_in, d_in, sizeof(int) * 1, cudaMemcpyDeviceToHost));
 
     // Check for correctness (and display results, if specified)
-    int compare = (*d_out) == (num_items + 1) * num_items / 2;
+    int compare = (*h_out) == (num_items + 1) * num_items / 2;
     printf("\t%s", compare ? "FAIL" : "PASS");
     AssertEquals(1, compare);
 
