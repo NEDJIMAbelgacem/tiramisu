@@ -180,6 +180,7 @@ CachingDeviceAllocator  g_allocator(true);  // Caching allocator for device memo
 extern "C"
 int tiramisu_reduce_add( double *A, double *B, int nA )
 {
+    int &num_items = nA;
     // init
     int *d_in = NULL;
     CubDebugExit(g_allocator.DeviceAllocate((void**)&d_in, sizeof(int) * num_items));
