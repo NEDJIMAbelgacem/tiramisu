@@ -57,7 +57,7 @@ if (${USE_GPU})
         set(CUDNN_INCLUDE_DIRECTORY ${CUDNN_LOCATION}/include)
     endif()
     if (${USE_CUB})
-        target_include_directories(cuda_wrapper PUBLIC ${PROJECT_DIR}/3rdParty/cub/)
+        target_include_directories(cuda_wrapper PUBLIC ${CUDA_INCLUDE_DIRS} ${PROJECT_DIR}/3rdParty/cub/)
     endif()
 endif()
 
