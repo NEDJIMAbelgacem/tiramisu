@@ -45,6 +45,7 @@ if (${USE_AUTO_SCHEDULER})
 endif()
 
 ### CMAKE FILE INTERNALS ###
+ 
 if (${USE_GPU})
     find_package(CUDA REQUIRED)
     add_definitions(-DNVCC_PATH="${CUDA_TOOLKIT_ROOT_DIR}/bin/nvcc")
@@ -54,6 +55,9 @@ if (${USE_GPU})
     if (${USE_CUDNN})
         find_library(CUDNN_LIBRARIES cudnn PATHS ${CUDNN_LOCATION}/lib64 NO_DEFAULT_PATH)
         set(CUDNN_INCLUDE_DIRECTORY ${CUDNN_LOCATION}/include)
+    endif()
+    if (${USE_CUB})
+        target_include_directories(cuda_wrapper PUBLIC ${PROJECT_DIR}/3rdParty/cub/)
     endif()
 endif()
 
