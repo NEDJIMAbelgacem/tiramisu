@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.5)
-project(tiramisu)
+project(tiramisu LANGUAGES CUDA CXX)
 
 enable_testing()
 
