@@ -6,6 +6,8 @@ enable_testing()
 set(PROJECT_DIR ${CMAKE_SOURCE_DIR})
 set(CMAKE_VERBOSE_MAKEFILE "ON")
 set(CMAKE_EXPORT_COMPILE_COMMANDS "ON")
+SET(CMAKE_CUDA_COMPILER /usr/local/cuda/bin/nvcc)
+
 
 include(configure.cmake)
 
