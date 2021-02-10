@@ -168,7 +168,7 @@ int32_t tiramisu_cuda_stream_synchronize(int32_t dummy)
     return 0;
 }
 
-#ifndef WITH_CUB
+// -----------------------------------------------------
 
 #include <cub/util_allocator.cuh>
 #include <cub/device/device_reduce.cuh>
@@ -209,5 +209,3 @@ int tiramisu_reduce_add( double *A, double *B, int nA )
 
     return 0;
 }
-
-#endif
