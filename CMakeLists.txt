@@ -8,7 +8,6 @@ set(CMAKE_VERBOSE_MAKEFILE "ON")
 set(CMAKE_EXPORT_COMPILE_COMMANDS "ON")
 SET(CMAKE_CUDA_COMPILER /usr/local/cuda/bin/nvcc)
 
-
 include(configure.cmake)
 
 # Add CMake header files
