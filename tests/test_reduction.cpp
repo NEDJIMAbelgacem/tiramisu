@@ -5,7 +5,7 @@ using namespace tiramisu;
 
 int main(int argc, char **argv)
 {
-    tiramisu::init("test_162");
+    tiramisu::init("test_reduction");
 
     input sizes("sizes", {"s_i"}, {3}, p_int32);
     input params("params", {"p_i"}, {2}, p_float32);
@@ -42,7 +42,7 @@ int main(int argc, char **argv)
 
     tiramisu::codegen({sizes.get_buffer(), params.get_buffer(),
                        A.get_buffer(), B.get_buffer(), C.get_buffer()},
-                      "build/generated_fct_test_162.o", true);
+                      "build/generated_fct_test_reduction.o", true);
 
     return 0;
 }

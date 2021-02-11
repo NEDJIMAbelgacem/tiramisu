@@ -34,18 +34,18 @@ void test_gemm(const std::string &name, int M, int N, int K, float alpha, float 
         }
     }
 
-    test_162(sizes.raw_buffer(), params.raw_buffer(),
+    test_reduction(sizes.raw_buffer(), params.raw_buffer(),
              A.raw_buffer(), B.raw_buffer(), C.raw_buffer());
     compare_buffers(name, C, C_ref);
 }
 
 int main(int, char **)
 {
-    test_gemm("test_162_1", 100, 50, 32, 3, 4);
-    test_gemm("test_162_2", 1, 2, 3, 4, 7);
-    test_gemm("test_162_3", 128, 128, 128, 3, -1);
-    test_gemm("test_162_4", 100, 100, 100, 1, 0);
-    test_gemm("test_162_5", 100, 100, 100, 0, 1);
+    test_gemm("test_reduction_1", 100, 50, 32, 3, 4);
+    test_gemm("test_reduction_2", 1, 2, 3, 4, 7);
+    test_gemm("test_reduction_3", 128, 128, 128, 3, -1);
+    test_gemm("test_reduction_4", 100, 100, 100, 1, 0);
+    test_gemm("test_reduction_5", 100, 100, 100, 0, 1);
 
     return 0;
 }
