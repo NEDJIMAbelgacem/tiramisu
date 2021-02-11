@@ -288,7 +288,7 @@ function(build_w name objs wrapper header)
     target_link_libraries(${name} tiramisu ${HalideLib} ${ISLLib})
     target_link_libraries(${name} ${LINK_FLAGS})
     target_link_libraries(${name} cuda_wrapper)
-    link_tags(${name})
+    # link_tags(${name})
 endfunction()
 
 macro(set_obj inp_obj)
