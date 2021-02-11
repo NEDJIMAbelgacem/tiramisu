@@ -264,7 +264,7 @@ endfunction()
 
 function(build_g name generator result)
     add_executable(${name} ${generator} ${HEADER_FILES})
-    target_link_libraries(${name} tiramisu ${HalideLib} ${ISLLib})
+    target_link_libraries(${name} tiramisu cuda_wrapper ${HalideLib} ${ISLLib})
     target_link_libraries(${name} ${LINK_FLAGS})
     link_tags(${name})
     if (NOT result STREQUAL "")
