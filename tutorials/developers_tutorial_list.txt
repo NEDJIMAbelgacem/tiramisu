@@ -12,3 +12,4 @@
 10
 11[mpi,10]
 12[mpi,10]
+reduction
