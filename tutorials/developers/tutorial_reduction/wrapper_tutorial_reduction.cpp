@@ -3,49 +3,23 @@
 
 #include <tiramisu/utils.h>
 
-void test_gemm(const std::string &name, int M, int N, int K, float alpha, float beta)
+void test_reduction(const std::string &name)
 {
-    Halide::Buffer<int32_t> sizes(3);
-    Halide::Buffer<float> params(3);
-    Halide::Buffer<float> A(K, M);
-    Halide::Buffer<float> B(N, K);
-    Halide::Buffer<float> C(N, M);
-    Halide::Buffer<float> C_ref(N, M);
-    sizes(0) = M;
-    sizes(1) = N;
-    sizes(2) = K;
-    params(0) = alpha;
-    params(1) = beta;
-    for (int i = 0; i < K; i++)
-        for (int j = 0; j < M; j++)
-            A(i, j) = std::rand() % 10 - 5;
-    for (int i = 0; i < N; i++)
-        for (int j = 0; j < K; j++)
-            B(i, j) = std::rand() % 10 - 5;
-    for (int i = 0; i < N; i++)
-        for (int j = 0; j < M; j++)
-            C(i, j) = std::rand() % 10 - 5;
-    for (int i = 0; i < N; i++) {
-        for (int j = 0; j < M; j++) {
-            C_ref(i, j) = beta * C(i, j);
-            for (int k = 0; k < K; k++) {
-                C_ref(i, j) += alpha * A(k, j) * B(i, k);
-            }
-        }
-    }
+    Halide::Buffer<double> A(100);
+    Halide::Buffer<double> B(1);
+    for (int i = 0; i < 100; ++i)
+        A(i) = rand() % 100; 
 
-    tutorial_reduction(sizes.raw_buffer(), params.raw_buffer(),
-             A.raw_buffer(), B.raw_buffer(), C.raw_buffer());
-    compare_buffers(name, C, C_ref);
+    double sum = 0.0;
+    for (int i = 0; i < 100; ++i) sum += A(i);
+    tutorial_reduction( A.raw_buffer(), B.raw_buffer() );
+    std::cout << "Sum: " << sum << "\n";
+    std::cout << "Reduction result: " << B(0) << "\n";
 }
 
 int main(int, char **)
 {
-    test_gemm("test_reduction_1", 100, 50, 32, 3, 4);
-    test_gemm("test_reduction_2", 1, 2, 3, 4, 7);
-    test_gemm("test_reduction_3", 128, 128, 128, 3, -1);
-    test_gemm("test_reduction_4", 100, 100, 100, 1, 0);
-    test_gemm("test_reduction_5", 100, 100, 100, 0, 1);
+    test_reduction("test_reduction_1");
 
     return 0;
 }

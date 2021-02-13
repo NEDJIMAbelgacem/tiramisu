@@ -5,8 +5,7 @@
 extern "C" {
 #endif
 
-int tutorial_reduction(halide_buffer_t *b1, halide_buffer_t *b2, halide_buffer_t *b3,
-             halide_buffer_t *b4, halide_buffer_t *b5);
+int tutorial_reduction(halide_buffer_t *b1, halide_buffer_t *b2);
 
 #ifdef __cplusplus
 }  // extern "C"
