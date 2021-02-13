@@ -24,7 +24,7 @@ int main(int argc, char **argv)
     computation copy_A_to_host({}, memcpy(A_gpu, *A.get_buffer()));
     computation copy_B_to_host({}, memcpy(B_gpu, *B.get_buffer()));
 
-    computation reduce({ var("dummy", 0, 1) }, cub_sum_reduce(*A.get_buffer(), *B.get_buffer() ));
+    computation reduce({ var("dummy", 0, 1) }, cub_sum_reduce( A_gpu, B_gpu ));
 
     copy_A_to_device
         .then( copy_B_to_device, computation::root )
