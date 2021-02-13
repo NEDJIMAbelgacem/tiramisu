@@ -2053,6 +2053,7 @@ expr spmv(expr transposeA,
  */
 expr cuda_stream_synchronize();
 
+
 /**
   FlexNLP Functions
  */
@@ -2089,7 +2090,7 @@ expr flexnlp_initialize(expr number_of_devices = 1);
 */
 expr flexnlp_finalize();
 
-expr cub_sum_reduce(const buffer &A, const buffer &B, int nA);
+expr cub_sum_reduce(const buffer &A, const buffer &B, expr nA);
 
 }
 
