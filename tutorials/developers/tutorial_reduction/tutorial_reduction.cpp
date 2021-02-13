@@ -11,7 +11,7 @@ int main(int argc, char **argv)
     input A("A", { a_i }, p_float64);
     input B("B", { b_i }, p_float64);
 
-    computation reduce({}, cub_sum_reduce(*A.get_buffer(), *B.get_buffer(), expr( 100 ) ));
+    computation reduce({a_i}, cub_sum_reduce(*A.get_buffer(), *B.get_buffer(), expr( 100 ) ));
 
     tiramisu::codegen({A.get_buffer(), B.get_buffer()},
                       "build/generated_fct_developers_tutorial_reduction.o");
