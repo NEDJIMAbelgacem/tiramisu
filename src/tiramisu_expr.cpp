@@ -600,7 +600,7 @@ expr flexnlp_finalize()
             tiramisu::p_int32);
 }
 
-expr cub_sum_reduce(const buffer &A, const buffer &B, int nA)
+expr cub_sum_reduce(const buffer &A, const buffer &B, expr nA)
 {
     std::string fname = "tiramisu_reduce_add";
     return expr(o_call, fname,
