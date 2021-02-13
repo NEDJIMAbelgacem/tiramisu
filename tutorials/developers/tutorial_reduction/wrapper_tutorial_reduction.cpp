@@ -18,13 +18,13 @@ void test_reduction(const std::string &name)
         auto start = std::chrono::steady_clock::now();
         for (int i = 0; i < 100; ++i) sum += A(i);
         auto end = std::chrono::steady_clock::now();
-        seq_time = (end - start).count()
+        seq_time = (end - start).count();
     }
     {
         auto start = std::chrono::steady_clock::now();
         tutorial_reduction( A.raw_buffer(), B.raw_buffer() );
         auto end = std::chrono::steady_clock::now();
-        reduce_time = (end - start).count()
+        reduce_time = (end - start).count();
     }
     
     std::cout << "Sequential sum: " << sum << ", done in " << seq_time << "\n";
