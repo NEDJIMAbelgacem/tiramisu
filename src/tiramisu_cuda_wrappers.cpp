@@ -178,10 +178,8 @@ using namespace cub;
 CachingDeviceAllocator  g_allocator(true);  // Caching allocator for device memory
 
 extern "C"
-uint tiramisu_reduce_add( double *A, double *B )
+uint tiramisu_reduce_add( double *A, double *B, int num_items )
 {
-    int num_items = 10000;
-
     // Request and allocate temporary storage
     void            *d_temp_storage = NULL;
     size_t          temp_storage_bytes = 0;
