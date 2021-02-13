@@ -244,7 +244,7 @@ endif()
 
 if (${USE_GPU})
     find_package(CUDA REQUIRED)
-    set_source_files_properties(src/tiramisu_cuda_wrappers.cpp PROPERTIES LANGUAGE CUDA)
+    # set_source_files_properties(src/tiramisu_cuda_wrappers.cpp PROPERTIES LANGUAGE CUDA)
     add_definitions(-DNVCC_PATH="${CUDA_TOOLKIT_ROOT_DIR}/bin/nvcc")
     add_library(cuda_wrapper SHARED "src/tiramisu_cuda_wrappers.cpp")
     target_link_libraries(cuda_wrapper ${CUDA_LIBRARIES} ${CUDA_CUBLAS_LIBRARIES})
