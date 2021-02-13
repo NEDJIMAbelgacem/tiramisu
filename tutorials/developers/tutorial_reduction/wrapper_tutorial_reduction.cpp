@@ -29,13 +29,13 @@ void test_reduction(const std::string &name, int array_size)
         reduce_time = elapsed_seconds.count();
     }
     
-    std::cout << "Sequential sum: " << sum << ", done in " << seq_time << "\n";
-    std::cout << "Reduction result: " << B(0) << ", done in " << reduce_time << "\n";
+    std::cout << "Sequential sum: " << sum << ", done in " << seq_time << "s\n";
+    std::cout << "Reduction result: " << B(0) << ", done in " << reduce_time << "s\n";
 }
 
 int main(int, char **)
 {
-    test_reduction("test_reduction_1", 100000000);
+    test_reduction("test_reduction_1", 1000000000);
 
     return 0;
 }
