@@ -11,10 +11,26 @@ int main(int argc, char **argv)
     input A("A", { a_i }, p_float64);
     input B("B", { b_i }, p_float64);
 
+    buffer A_gpu( "A_gpu", { a_i }, p_float64 );
+    buffer B_gpu( "B_gpu", { b_i }, p_float64 );
+
+    computation copy_A_to_device({}, memcpy(*A.get_buffer(), A_gpu));
+    computation copy_B_to_device({}, memcpy(*B.get_buffer(), B_gpu));
+
+    computation copy_A_to_host({}, memcpy(A_gpu, *A.get_buffer()));
+    computation copy_B_to_host({}, memcpy(B_gpu, *B.get_buffer()));
+
     computation reduce({var("dummy", 0, 1)}, cub_sum_reduce(*A.get_buffer(), *B.get_buffer() ));
 
+    copy_A_to_device
+        .then( copy_B_to_device, computation::root )
+        .then( reduce, computation::root )
+        .then( copy_B_to_host, computation::root )
+        .then( copy_A_to_host, computation::root );
+
+
     tiramisu::codegen({A.get_buffer(), B.get_buffer()},
-                      "build/generated_fct_developers_tutorial_reduction.o");
+                      "build/generated_fct_developers_tutorial_reduction.o", true);
 
     return 0;
 }
