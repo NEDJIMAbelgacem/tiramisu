@@ -12,8 +12,8 @@ int main(int argc, char **argv)
     input B("B", { b_i }, p_float64);
     buffer buf_A("buf_A",   { a_i }, p_float64, a_temporary);
     buffer buf_B("buf_B",   { b_i }, p_float64, a_temporary);
-    A.store_in( buf_A );
-    B.store_in( buf_B );
+    A.store_in( &buf_A );
+    B.store_in( &buf_B );
 
     computation reduce({var("dummy", 0, 1)}, cub_sum_reduce(*A.get_buffer(), *B.get_buffer(), expr( 100 ) ));
 
