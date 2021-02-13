@@ -178,9 +178,9 @@ using namespace cub;
 CachingDeviceAllocator  g_allocator(true);  // Caching allocator for device memory
 
 extern "C"
-int tiramisu_reduce_add( double *A, double *B, int nA )
+void tiramisu_reduce_add( double *A, double *B )
 {
-    int &num_items = nA;
+    int num_items = 100;
     // init
     int *d_in = NULL;
     CubDebugExit(g_allocator.DeviceAllocate((void**)&d_in, sizeof(int) * num_items));

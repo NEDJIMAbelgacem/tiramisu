@@ -2090,7 +2090,7 @@ expr flexnlp_initialize(expr number_of_devices = 1);
 */
 expr flexnlp_finalize();
 
-expr cub_sum_reduce(const buffer &A, const buffer &B, expr nA);
+expr cub_sum_reduce(const buffer &A, const buffer &B);
 
 }
 
