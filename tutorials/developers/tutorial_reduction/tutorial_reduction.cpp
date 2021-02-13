@@ -11,8 +11,8 @@ int main(int argc, char **argv)
     input A("A", { a_i }, p_float64);
     input B("B", { b_i }, p_float64);
 
-    buffer A_gpu( "A_gpu", { a_i }, p_float64 );
-    buffer B_gpu( "B_gpu", { b_i }, p_float64 );
+    buffer A_gpu( "A_gpu", { a_i }, p_float64, a_temporary );
+    buffer B_gpu( "B_gpu", { b_i }, p_float64, a_temporary );
 
     computation copy_A_to_device({}, memcpy(*A.get_buffer(), A_gpu));
     computation copy_B_to_device({}, memcpy(*B.get_buffer(), B_gpu));
