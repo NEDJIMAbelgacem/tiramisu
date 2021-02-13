@@ -178,7 +178,7 @@ using namespace cub;
 CachingDeviceAllocator  g_allocator(true);  // Caching allocator for device memory
 
 extern "C"
-int32_t tiramisu_reduce_add( double *A, double *B )
+uint tiramisu_reduce_add( double *A, double *B )
 {
     int num_items = 100;
     // init
@@ -186,7 +186,7 @@ int32_t tiramisu_reduce_add( double *A, double *B )
     CubDebugExit(g_allocator.DeviceAllocate((void**)&d_in, sizeof(int) * num_items));
 
     // Initialize device input
-    CubDebugExit(cudaMemcpy(d_in, A, sizeof(double) * nA, cudaMemcpyHostToDevice));
+    CubDebugExit(cudaMemcpy(d_in, A, sizeof(double) * num_items, cudaMemcpyHostToDevice));
 
     // Allocate device output array
     int *d_out = NULL;
