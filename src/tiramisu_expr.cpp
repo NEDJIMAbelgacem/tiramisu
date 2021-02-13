@@ -607,7 +607,7 @@ expr cub_sum_reduce(const buffer &A, const buffer &B, int nA)
             {
                 var(p_void_ptr, A.get_name()),
                 var(p_void_ptr, B.get_name()),
-                nA
+                cast(p_int32, nA)
             },
             tiramisu::p_uint8);
 }
