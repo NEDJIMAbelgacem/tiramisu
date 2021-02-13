@@ -33,7 +33,7 @@ void test_reduction(const std::string &name, int array_size)
 
 int main(int, char **)
 {
-    test_reduction("test_reduction_1", 1000000);
+    test_reduction("test_reduction_1", 100000000);
 
     return 0;
 }
