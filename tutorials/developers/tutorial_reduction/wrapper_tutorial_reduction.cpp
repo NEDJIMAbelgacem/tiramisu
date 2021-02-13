@@ -4,19 +4,19 @@
 #include <tiramisu/utils.h>
 #include <chrono>
 
-void test_reduction(const std::string &name)
+void test_reduction(const std::string &name, int array_size)
 {
-    Halide::Buffer<double> A(100);
+    Halide::Buffer<double> A(array_size);
     Halide::Buffer<double> B(1);
-    for (int i = 0; i < 10000; ++i)
-        A(i) = rand() % 10000; 
+    for (int i = 0; i < array_size; ++i)
+        A(i) = rand() % array_size; 
 
     double sum = 0.0;
     double seq_time = 0.0;
     double reduce_time = 0.0;
     {
         auto start = std::chrono::steady_clock::now();
-        for (int i = 0; i < 100; ++i) sum += A(i);
+        for (int i = 0; i < array_size; ++i) sum += A(i);
         auto end = std::chrono::steady_clock::now();
         seq_time = (end - start).count();
     }
@@ -33,7 +33,7 @@ void test_reduction(const std::string &name)
 
 int main(int, char **)
 {
-    test_reduction("test_reduction_1");
+    test_reduction("test_reduction_1", 10000);
 
     return 0;
 }
