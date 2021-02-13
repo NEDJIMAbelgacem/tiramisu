@@ -251,7 +251,7 @@ if (${USE_GPU})
     target_link_libraries(cuda_wrapper ${CUDA_LIBRARIES} ${CUDA_CUBLAS_LIBRARIES})
     target_link_libraries(cuda_wrapper ${LINK_FLAGS})
 
-    set_property(TARGET cuda_wrapper PROPERTY CUDA_ARCHITECTURES 35 50 72)
+    set_property(TARGET cuda_wrapper PROPERTY CUDA_ARCHITECTURES 35 50)
     target_include_directories(cuda_wrapper PUBLIC ${CUDA_INCLUDE_DIRS} ${PROJECT_DIR}/3rdParty/cub/)
     if (${USE_CUDNN})
         find_library(CUDNN_LIBRARIES cudnn PATHS ${CUDNN_LOCATION}/lib64 NO_DEFAULT_PATH)
