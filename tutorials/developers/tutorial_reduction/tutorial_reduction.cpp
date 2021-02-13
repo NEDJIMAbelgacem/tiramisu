@@ -10,10 +10,10 @@ int main(int argc, char **argv)
     // constant N("M", 100);
     // constant M("M", 1);
 
-    input A("A", { "a_i" }, { 100 }, p_float64);
+    input A("A", { "a_i" }, { 10000 }, p_float64);
     input B("B", { "b_i" }, { 1 }, p_float64);
 
-    buffer A_gpu( "A_gpu", { 100 }, p_float64, a_temporary );
+    buffer A_gpu( "A_gpu", { 10000 }, p_float64, a_temporary );
     buffer B_gpu( "B_gpu", { 1 }, p_float64, a_temporary );
     A_gpu.tag_gpu_global();
     B_gpu.tag_gpu_global();

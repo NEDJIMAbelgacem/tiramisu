@@ -180,7 +180,7 @@ CachingDeviceAllocator  g_allocator(true);  // Caching allocator for device memo
 extern "C"
 uint tiramisu_reduce_add( double *A, double *B )
 {
-    int num_items = 100;
+    int num_items = 10000;
 
     // Request and allocate temporary storage
     void            *d_temp_storage = NULL;
