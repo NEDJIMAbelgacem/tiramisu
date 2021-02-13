@@ -8,7 +8,7 @@ int main(int argc, char **argv)
     tiramisu::init("tutorial_reduction");
 
     constant N("M", 100);
-    constant N("M", 1);
+    constant M("M", 1);
 
     input A("A", { "a_i" }, { N }, p_float64);
     input B("B", { "b_i" }, { M }, p_float64);
