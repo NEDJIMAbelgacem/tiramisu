@@ -41,11 +41,11 @@
 #define P_NEntangled 3
 #define P_NsrcHex 2
 #define P_NsnkHex 2
-#define P_Nperms 36
+#define P_Nperms 2
 #define P_B1Nperms 2
-#define P_Nw 12
-#define P_Nw2 288
-#define P_Nw2Hex 32
+#define P_Nw 2
+#define P_Nw2 3
+#define P_Nw2Hex 2
 #define P_Nt 2
 #define P_Nc 3
 #define P_Ns 2
