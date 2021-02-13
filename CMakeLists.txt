@@ -21,6 +21,8 @@ set(HEADER_FILES
         include/tiramisu/expr.h
         include/tiramisu/mpi_comm.h
         include/tiramisu/externs.h
+	    include/tiramisu/computation_graph.h
+	    include/tiramisu/auto_scheduler.h
         )
         
 # Add autoscheduler headers if USE_AUTO_SCHEDULER is TRUE in configure.cmake
@@ -47,22 +49,6 @@ endif()
 
 ### CMAKE FILE INTERNALS ###
  
-if (${USE_GPU})
-    find_package(CUDA REQUIRED)
-    set_source_files_properties(src/tiramisu_cuda_wrappers.cpp PROPERTIES LANGUAGE CUDA)
-    add_definitions(-DNVCC_PATH="${CUDA_TOOLKIT_ROOT_DIR}/bin/nvcc")
-    add_library(cuda_wrapper STATIC SHARED "src/tiramisu_cuda_wrappers.cpp")
-    target_link_libraries(cuda_wrapper PUBLIC ${CUDA_LIBRARIES} ${CUDA_CUBLAS_LIBRARIES})
-    set_property(TARGET cuda_wrapper PROPERTY CUDA_ARCHITECTURES 35 50 72)
-    target_include_directories(cuda_wrapper PUBLIC ${CUDA_INCLUDE_DIRS} ${PROJECT_DIR}/3rdParty/cub/)
-    if (${USE_CUDNN})
-        find_library(CUDNN_LIBRARIES cudnn PATHS ${CUDNN_LOCATION}/lib64 NO_DEFAULT_PATH)
-        set(CUDNN_INCLUDE_DIRECTORY ${CUDNN_LOCATION}/include)
-    endif()
-    # if (${USE_CUB})
-    #     target_include_directories(cuda_wrapper PUBLIC ${CUDA_INCLUDE_DIRS} ${PROJECT_DIR}/3rdParty/cub/)
-    # endif()
-endif()
 
 if (${USE_MKL_WRAPPERS})
     add_library(mkl_wrapper STATIC "src/tiramisu_mkl_wrappers.cpp")
@@ -255,6 +241,26 @@ if (${USE_AUTO_SCHEDULER})
     target_link_libraries(tiramisu_auto_scheduler ${LINK_FLAGS})
 endif()
 
+
+if (${USE_GPU})
+    find_package(CUDA REQUIRED)
+    set_source_files_properties(src/tiramisu_cuda_wrappers.cpp PROPERTIES LANGUAGE CUDA)
+    add_definitions(-DNVCC_PATH="${CUDA_TOOLKIT_ROOT_DIR}/bin/nvcc")
+    add_library(cuda_wrapper SHARED "src/tiramisu_cuda_wrappers.cpp")
+    target_link_libraries(cuda_wrapper ${CUDA_LIBRARIES} ${CUDA_CUBLAS_LIBRARIES})
+    target_link_libraries(cuda_wrapper ${LINK_FLAGS})
+
+    set_property(TARGET cuda_wrapper PROPERTY CUDA_ARCHITECTURES 35 50 72)
+    target_include_directories(cuda_wrapper PUBLIC ${CUDA_INCLUDE_DIRS} ${PROJECT_DIR}/3rdParty/cub/)
+    if (${USE_CUDNN})
+        find_library(CUDNN_LIBRARIES cudnn PATHS ${CUDNN_LOCATION}/lib64 NO_DEFAULT_PATH)
+        set(CUDNN_INCLUDE_DIRECTORY ${CUDNN_LOCATION}/include)
+    endif()
+    # if (${USE_CUB})
+    #     target_include_directories(cuda_wrapper PUBLIC ${CUDA_INCLUDE_DIRS} ${PROJECT_DIR}/3rdParty/cub/)
+    # endif()
+endif()
+
 function(link_tags name)
     if (${is_gpu})
         if (${USE_GPU})
@@ -286,9 +292,8 @@ endfunction()
 
 function(build_w name objs wrapper header)
     add_executable(${name} ${wrapper} ${objs} ${header})
-    target_link_libraries(${name} tiramisu ${HalideLib} ${ISLLib})
+    target_link_libraries(${name} tiramisu cuda_wrapper ${HalideLib} ${ISLLib})
     target_link_libraries(${name} ${LINK_FLAGS})
-    target_link_libraries(${name} cuda_wrapper)
     # link_tags(${name})
 endfunction()
 
