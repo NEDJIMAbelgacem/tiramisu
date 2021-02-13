@@ -13,6 +13,8 @@ int main(int argc, char **argv)
 
     buffer A_gpu( "A_gpu", { a_i }, p_float64, a_temporary );
     buffer B_gpu( "B_gpu", { b_i }, p_float64, a_temporary );
+    A_gpu.tag_gpu_global();
+    B_gpu.tag_gpu_global();
 
     computation copy_A_to_device({}, memcpy(*A.get_buffer(), A_gpu));
     computation copy_B_to_device({}, memcpy(*B.get_buffer(), B_gpu));
