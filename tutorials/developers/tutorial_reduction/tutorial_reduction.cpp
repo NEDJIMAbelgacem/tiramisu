@@ -22,7 +22,11 @@ int main(int argc, char **argv)
     computation copy_A_to_host({}, memcpy(A_gpu, *A.get_buffer()));
     computation copy_B_to_host({}, memcpy(B_gpu, *B.get_buffer()));
 
-    computation reduce({var("dummy", 0, 1)}, cub_sum_reduce(*A.get_buffer(), *B.get_buffer() ));
+    var l1("dummy", 0, 2);
+    var l2("dummy", 0, 2);
+    computation reduce({l1, l2}, cub_sum_reduce(*A.get_buffer(), *B.get_buffer() ));
+
+    reduce.tag_gpu_level( l1, l2 )
 
     copy_A_to_device
         .then( copy_B_to_device, computation::root )
