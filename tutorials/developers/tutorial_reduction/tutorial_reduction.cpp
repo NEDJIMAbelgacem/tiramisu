@@ -6,13 +6,15 @@ using namespace tiramisu;
 int main(int argc, char **argv)
 {
     tiramisu::init("tutorial_reduction");
-    var a_i("a_i", 0, 100);
-    var b_i("b_i", 0, 1);
-    input A("A", { a_i }, p_float64);
-    input B("B", { b_i }, p_float64);
 
-    buffer A_gpu( "A_gpu", { a_i }, p_float64, a_temporary );
-    buffer B_gpu( "B_gpu", { b_i }, p_float64, a_temporary );
+    constant N("M", 100);
+    constant N("M", 1);
+
+    input A("A", { "a_i" }, { N }, p_float64);
+    input B("B", { "b_i" }, { M }, p_float64);
+
+    buffer A_gpu( "A_gpu", { N }, p_float64, a_temporary );
+    buffer B_gpu( "B_gpu", { M }, p_float64, a_temporary );
     A_gpu.tag_gpu_global();
     B_gpu.tag_gpu_global();
 
@@ -22,11 +24,7 @@ int main(int argc, char **argv)
     computation copy_A_to_host({}, memcpy(A_gpu, *A.get_buffer()));
     computation copy_B_to_host({}, memcpy(B_gpu, *B.get_buffer()));
 
-    var l1("dummy", 0, 2);
-    var l2("dummy", 0, 2);
-    computation reduce({l1, l2}, cub_sum_reduce(*A.get_buffer(), *B.get_buffer() ));
-
-    reduce.tag_gpu_level( l1, l2 )
+    computation reduce({ var("dummy", 0, 1) }, cub_sum_reduce(*A.get_buffer(), *B.get_buffer() ));
 
     copy_A_to_device
         .then( copy_B_to_device, computation::root )
