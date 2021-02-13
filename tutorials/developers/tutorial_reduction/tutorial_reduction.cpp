@@ -6,8 +6,10 @@ using namespace tiramisu;
 int main(int argc, char **argv)
 {
     tiramisu::init("tutorial_reduction");
-    input A("A", {"a_i"}, {100}, p_float64);
-    input B("B", {"b_i"}, {1}, p_float64);
+    var a_i("a_i", 0, 100);
+    var b_i("b_i", 0, 1);
+    input A("A", { a_i }, {100}, p_float64);
+    input B("B", { b_i }, {1}, p_float64);
 
     computation reduce({}, cub_sum_reduce(*A.get_buffer(), *B.get_buffer(), 100));
 
