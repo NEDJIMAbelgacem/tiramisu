@@ -3501,17 +3501,17 @@ void generate_function(std::string name)
          &buf_snk_psi_r_cpu, &buf_snk_psi_i_cpu, 
 	     &buf_src_spins_cpu, 
 	     &buf_src_spin_block_weights_cpu, 
-         buf_sigs_cpu,
-	     buf_src_color_weights_cpu,
-	     buf_src_spin_weights_cpu,
-	     buf_src_weights_cpu,
-	     buf_snk_b_cpu,
-	     buf_snk_color_weights_cpu,
-	     buf_snk_spin_weights_cpu,
-	     buf_snk_weights_cpu,
-	     buf_hex_snk_color_weights_cpu,
-	     buf_hex_snk_spin_weights_cpu,
-	     buf_hex_snk_weights_cpu
+         &buf_sigs_cpu,
+	     &buf_src_color_weights_cpu,
+	     &buf_src_spin_weights_cpu,
+	     &buf_src_weights_cpu,
+	     &buf_snk_b_cpu,
+	     &buf_snk_color_weights_cpu,
+	     &buf_snk_spin_weights_cpu,
+	     &buf_snk_weights_cpu,
+	     &buf_hex_snk_color_weights_cpu,
+	     &buf_hex_snk_spin_weights_cpu,
+	     &buf_hex_snk_weights_cpu
         }, 
         "generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o", true);
 }
