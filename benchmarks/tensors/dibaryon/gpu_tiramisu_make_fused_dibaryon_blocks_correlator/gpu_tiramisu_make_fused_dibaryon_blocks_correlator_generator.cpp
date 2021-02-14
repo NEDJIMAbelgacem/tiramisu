@@ -2144,10 +2144,10 @@ void generate_function(std::string name)
     C_BB_BB_prop_update_r.store_in(&buf_C_BB_BB_prop_r, {0});
     C_BB_BB_prop_update_i.store_in(&buf_C_BB_BB_prop_i, {0});
 
-    C_BB_BB_update_b_r.store_in(&buf_C_r, {t, x_out, rp, m, r, ne});
-    C_BB_BB_update_b_i.store_in(&buf_C_i, {t, x_out, rp, m, r, ne});
-    C_BB_BB_update_s_r.store_in(&buf_C_r, {t, x_out, rp, m, r, NEntangled+nue});
-    C_BB_BB_update_s_i.store_in(&buf_C_i, {t, x_out, rp, m, r, NEntangled+nue});
+    C_BB_BB_update_b_r.store_in(&buf_C_r, {t, x_out, x_in, rp, m, r, ne});
+    C_BB_BB_update_b_i.store_in(&buf_C_i, {t, x_out, x_in, rp, m, r, ne});
+    C_BB_BB_update_s_r.store_in(&buf_C_r, {t, x_out, x_in, rp, m, r, NEntangled+nue});
+    C_BB_BB_update_s_i.store_in(&buf_C_i, {t, x_out, x_in, rp, m, r, NEntangled+nue});
 
     // BB_H
 
@@ -2257,8 +2257,8 @@ void generate_function(std::string name)
     C_H_BB_prop_update_r.store_in(&buf_C_H_BB_prop_r, {0});
     C_H_BB_prop_update_i.store_in(&buf_C_H_BB_prop_i, {0});
 
-    C_H_BB_update_r.store_in(&buf_C_r, {t, y_out, r, Nsrc+mH, rp, n});
-    C_H_BB_update_i.store_in(&buf_C_i, {t, y_out, r, Nsrc+mH, rp, n});
+    C_H_BB_update_r.store_in(&buf_C_r, {t, y_out, y_in, r, Nsrc+mH, rp, n});
+    C_H_BB_update_i.store_in(&buf_C_i, {t, y_out, y_in, r, Nsrc+mH, rp, n});
 
     // H_H
 
