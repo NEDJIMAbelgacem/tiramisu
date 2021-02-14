@@ -96,20 +96,20 @@ void generate_function(std::string name)
     hex_snk_psi_i.get_buffer()->tag_gpu_global();
     snk_psi_r.get_buffer()->tag_gpu_global();
     snk_psi_i.get_buffer()->tag_gpu_global();
-   buffer buf_src_psi_B1_r_cpu("src_psi_B1_r",   {Vsrc, Nsrc}, p_float64, a_temporary);
-   buffer buf_src_psi_B1_i_cpu("src_psi_B1_i",   {Vsrc, Nsrc}, p_float64, a_temporary);
-   buffer buf_src_psi_B2_r_cpu("src_psi_B2_r",   {Vsrc, Nsrc}, p_float64, a_temporary);
-   buffer buf_src_psi_B2_i_cpu("src_psi_B2_i",   {Vsrc, Nsrc}, p_float64, a_temporary);
-   buffer buf_snk_psi_B1_r_cpu("snk_psi_B1_r",   {Vsnk, Nsnk}, p_float64, a_temporary);
-   buffer buf_snk_psi_B1_i_cpu("snk_psi_B1_i",   {Vsnk, Nsnk}, p_float64, a_temporary);
-   buffer buf_snk_psi_B2_r_cpu("snk_psi_B2_r",   {Vsnk, Nsnk}, p_float64, a_temporary);
-   buffer buf_snk_psi_B2_i_cpu("snk_psi_B2_i",   {Vsnk, Nsnk}, p_float64, a_temporary);
-   buffer buf_hex_src_psi_r_cpu("hex_src_psi_r",   {Vsrc, NsrcHex}, p_float64, a_temporary);
-   buffer buf_hex_src_psi_i_cpu("hex_src_psi_i",   {Vsrc, NsrcHex}, p_float64, a_temporary);
-   buffer buf_hex_snk_psi_r_cpu("hex_snk_psi_r",   {Vsnk, NsnkHex}, p_float64, a_temporary);
-   buffer buf_hex_snk_psi_i_cpu("hex_snk_psi_i",   {Vsnk, NsnkHex}, p_float64, a_temporary);
-   buffer buf_snk_psi_r_cpu("snk_psi_r",   {Vsnk, Vsnk, NEntangled}, p_float64, a_temporary);
-   buffer buf_snk_psi_i_cpu("snk_psi_i",   {Vsnk, Vsnk, NEntangled}, p_float64, a_temporary);
+   buffer buf_src_psi_B1_r_cpu("buf_src_psi_B1_r_cpu",   {Vsrc, Nsrc}, p_float64, a_temporary);
+   buffer buf_src_psi_B1_i_cpu("buf_src_psi_B1_i_cpu",   {Vsrc, Nsrc}, p_float64, a_temporary);
+   buffer buf_src_psi_B2_r_cpu("buf_src_psi_B2_r_cpu",   {Vsrc, Nsrc}, p_float64, a_temporary);
+   buffer buf_src_psi_B2_i_cpu("buf_src_psi_B2_i_cpu",   {Vsrc, Nsrc}, p_float64, a_temporary);
+   buffer buf_snk_psi_B1_r_cpu("buf_snk_psi_B1_r_cpu",   {Vsnk, Nsnk}, p_float64, a_temporary);
+   buffer buf_snk_psi_B1_i_cpu("buf_snk_psi_B1_i_cpu",   {Vsnk, Nsnk}, p_float64, a_temporary);
+   buffer buf_snk_psi_B2_r_cpu("buf_snk_psi_B2_r_cpu",   {Vsnk, Nsnk}, p_float64, a_temporary);
+   buffer buf_snk_psi_B2_i_cpu("buf_snk_psi_B2_i_cpu",   {Vsnk, Nsnk}, p_float64, a_temporary);
+   buffer buf_hex_src_psi_r_cpu("buf_hex_src_psi_r_cpu",   {Vsrc, NsrcHex}, p_float64, a_temporary);
+   buffer buf_hex_src_psi_i_cpu("buf_hex_src_psi_i_cpu",   {Vsrc, NsrcHex}, p_float64, a_temporary);
+   buffer buf_hex_snk_psi_r_cpu("buf_hex_snk_psi_r_cpu",   {Vsnk, NsnkHex}, p_float64, a_temporary);
+   buffer buf_hex_snk_psi_i_cpu("buf_hex_snk_psi_i_cpu",   {Vsnk, NsnkHex}, p_float64, a_temporary);
+   buffer buf_snk_psi_r_cpu("buf_snk_psi_r_cpu",   {Vsnk, Vsnk, NEntangled}, p_float64, a_temporary);
+   buffer buf_snk_psi_i_cpu("buf_snk_psi_i_cpu",   {Vsnk, Vsnk, NEntangled}, p_float64, a_temporary);
 
    input src_spins("src_spins", {rp, s, to}, p_int32);
    input src_spin_block_weights("src_spin_block_weights", {rp, s}, p_float64);
@@ -139,20 +139,19 @@ void generate_function(std::string name)
     hex_snk_spin_weights.get_buffer()->tag_gpu_global();
     hex_snk_weights.get_buffer()->tag_gpu_global();
 
-   buffer buf_src_spins_cpu("src_spins",   {B2Nrows, 2, 2}, p_int32, a_temporary);
-   buffer buf_src_spin_block_weights_cpu("src_spin_block_weights",   {B2Nrows, 2}, p_float64, a_temporary);
-   buffer buf_sigs_cpu("sigs",   {Nperms}, p_int32, a_temporary);
-   buffer buf_snk_b_cpu("snk_b",   {Nperms, Nq, 2}, p_int32, a_temporary);
-   buffer buf_src_color_weights_cpu("src_color_weights",   {B2Nrows, Nw, Nq}, p_int32, a_temporary);
-   buffer buf_src_spin_weights_cpu("src_spin_weights",   {B2Nrows, Nw, Nq}, p_int32, a_temporary);
-   buffer buf_src_weights_cpu("src_weights",   {B2Nrows, Nw}, p_float64, a_temporary);
-   buffer buf_snk_color_weights_cpu("snk_color_weights",   {B2Nrows, Nperms, Nw2, Nq, 2}, p_int32, a_temporary);
-   buffer buf_snk_spin_weights_cpu("snk_spin_weights",   {B2Nrows, Nperms, Nw2, Nq, 2}, p_int32, a_temporary);
-   buffer buf_snk_weights_cpu("snk_weights",   {B2Nrows, Nw2}, p_float64, a_temporary);
-   buffer buf_hex_snk_color_weights_cpu("hex_snk_color_weights", {B2Nrows, Nperms, Nw2Hex, Nq, 2}, p_int32, a_temporary);
-   buffer buf_hex_snk_spin_weights_cpu("hex_snk_spin_weights", {B2Nrows, Nperms, Nw2Hex, Nq, 2}, p_int32, a_temporary);
-   buffer buf_hex_snk_weights_cpu("hex_snk_weights", {B2Nrows, Nw2Hex}, p_float64, a_temporary);
-
+   buffer buf_src_spins_cpu("buf_src_spins_cpu",   {B2Nrows, 2, 2}, p_int32, a_temporary);
+   buffer buf_src_spin_block_weights_cpu("buf_src_spin_block_weights_cpu",   {B2Nrows, 2}, p_float64, a_temporary);
+   buffer buf_sigs_cpu("buf_sigs_cpu",   {Nperms}, p_int32, a_temporary);
+   buffer buf_snk_b_cpu("buf_snk_b_cpu",   {Nperms, Nq, 2}, p_int32, a_temporary);
+   buffer buf_src_color_weights_cpu("buf_src_color_weights_cpu",   {B2Nrows, Nw, Nq}, p_int32, a_temporary);
+   buffer buf_src_spin_weights_cpu("buf_src_spin_weights_cpu",   {B2Nrows, Nw, Nq}, p_int32, a_temporary);
+   buffer buf_src_weights_cpu("buf_src_weights_cpu",   {B2Nrows, Nw}, p_float64, a_temporary);
+   buffer buf_snk_color_weights_cpu("buf_snk_color_weights_cpu",   {B2Nrows, Nperms, Nw2, Nq, 2}, p_int32, a_temporary);
+   buffer buf_snk_spin_weights_cpu("buf_snk_spin_weights_cpu",   {B2Nrows, Nperms, Nw2, Nq, 2}, p_int32, a_temporary);
+   buffer buf_snk_weights_cpu("buf_snk_weights_cpu",   {B2Nrows, Nw2}, p_float64, a_temporary);
+   buffer buf_hex_snk_color_weights_cpu("buf_hex_snk_color_weights_cpu", {B2Nrows, Nperms, Nw2Hex, Nq, 2}, p_int32, a_temporary);
+   buffer buf_hex_snk_spin_weights_cpu("buf_hex_snk_spin_weights_cpu", {B2Nrows, Nperms, Nw2Hex, Nq, 2}, p_int32, a_temporary);
+   buffer buf_hex_snk_weights_cpu("buf_hex_snk_weights_cpu", {B2Nrows, Nw2Hex}, p_float64, a_temporary);
 
     complex_computation B1_prop(&B1_prop_r, &B1_prop_i);
     complex_computation B2_prop(&B2_prop_r, &B2_prop_i);
