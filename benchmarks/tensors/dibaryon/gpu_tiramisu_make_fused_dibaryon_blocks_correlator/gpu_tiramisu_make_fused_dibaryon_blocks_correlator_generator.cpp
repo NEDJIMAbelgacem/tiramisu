@@ -3513,7 +3513,7 @@ void generate_function(std::string name)
 	     hex_snk_spin_weights.get_buffer(),
 	     hex_snk_weights.get_buffer()
         }, 
-        "generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o");
+        "generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o", true);
 }
 
 int main(int argc, char **argv)
