@@ -1,6 +1,6 @@
 #include <tiramisu/tiramisu.h>
 #include <string.h>
-#include "tiramisu_make_fused_dibaryon_blocks_correlator_wrapper.h"
+#include "gpu_tiramisu_make_fused_dibaryon_blocks_correlator_wrapper.h"
 #include "../../utils/complex_util.h"
 #include "../../utils/util.h"
 
@@ -124,6 +124,35 @@ void generate_function(std::string name)
    input hex_snk_color_weights("hex_snk_color_weights", {r, nperm, wnumHex, q, to}, p_int32);
    input hex_snk_spin_weights("hex_snk_spin_weights", {r, nperm, wnumHex, q, to}, p_int32);
    input hex_snk_weights("hex_snk_weights", {r, wnumHex}, p_float64);
+
+    src_spins.get_buffer()->tag_gpu_global();
+    src_spin_block_weights.get_buffer()->tag_gpu_global();
+    sigs.get_buffer()->tag_gpu_global();
+    snk_b.get_buffer()->tag_gpu_global();
+    src_color_weights.get_buffer()->tag_gpu_global();
+    src_spin_weights.get_buffer()->tag_gpu_global();
+    src_weights.get_buffer()->tag_gpu_global();
+    snk_color_weights.get_buffer()->tag_gpu_global();
+    snk_spin_weights.get_buffer()->tag_gpu_global();
+    snk_weights.get_buffer()->tag_gpu_global();
+    hex_snk_color_weights.get_buffer()->tag_gpu_global();
+    hex_snk_spin_weights.get_buffer()->tag_gpu_global();
+    hex_snk_weights.get_buffer()->tag_gpu_global();
+
+   buffer buf_src_spins("src_spins",   {B2Nrows, 2, 2}, p_int32, a_temporary);
+   buffer buf_src_spin_block_weights("src_spin_block_weights",   {B2Nrows, 2}, p_float64, a_temporary);
+   buffer buf_sigs("sigs",   {Nperms}, p_int32, a_temporary);
+   buffer buf_snk_b("snk_b",   {Nperms, Nq, 2}, p_int32, a_temporary);
+   buffer buf_src_color_weights("src_color_weights",   {B2Nrows, Nw, Nq}, p_int32, a_temporary);
+   buffer buf_src_spin_weights("src_spin_weights",   {B2Nrows, Nw, Nq}, p_int32, a_temporary);
+   buffer buf_src_weights("src_weights",   {B2Nrows, Nw}, p_float64, a_temporary);
+   buffer buf_snk_color_weights("snk_color_weights",   {B2Nrows, Nperms, Nw2, Nq, 2}, p_int32, a_temporary);
+   buffer buf_snk_spin_weights("snk_spin_weights",   {B2Nrows, Nperms, Nw2, Nq, 2}, p_int32, a_temporary);
+   buffer buf_snk_weights("snk_weights",   {B2Nrows, Nw2}, p_float64, a_temporary);
+   buffer buf_hex_snk_color_weights("hex_snk_color_weights", {B2Nrows, Nperms, Nw2Hex, Nq, 2}, p_int32, a_temporary);
+   buffer buf_hex_snk_spin_weights("hex_snk_spin_weights", {B2Nrows, Nperms, Nw2Hex, Nq, 2}, p_int32, a_temporary);
+   buffer buf_hex_snk_weights("hex_snk_weights", {B2Nrows, Nw2Hex}, p_float64, a_temporary);
+
 
     complex_computation B1_prop(&B1_prop_r, &B1_prop_i);
     complex_computation B2_prop(&B2_prop_r, &B2_prop_i);
