@@ -21,8 +21,8 @@ set(HEADER_FILES
         include/tiramisu/expr.h
         include/tiramisu/mpi_comm.h
         include/tiramisu/externs.h
-	    include/tiramisu/computation_graph.h
-	    include/tiramisu/auto_scheduler.h
+	    # include/tiramisu/computation_graph.h
+	    # include/tiramisu/auto_scheduler.h
         )
         
 # Add autoscheduler headers if USE_AUTO_SCHEDULER is TRUE in configure.cmake
@@ -273,7 +273,7 @@ endfunction()
 
 function(build_g name generator result)
     add_executable(${name} ${generator} ${HEADER_FILES})
-    target_link_libraries(${name} tiramisu ${HalideLib} ${ISLLib})
+    target_link_libraries(${name} tiramisu cuda_wrapper ${HalideLib} ${ISLLib})
     target_link_libraries(${name} ${LINK_FLAGS})
     link_tags(${name})
     if (NOT result STREQUAL "")

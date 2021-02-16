@@ -30,7 +30,7 @@
 //////////////////////////////////////////////////////////////////////////
 
 // Define these values for each new test
-#define TEST_NAME_STR       "tiramisu_make_fused_baryon_blocks_correaltor"
+#define TEST_NAME_STR       "gpu_tiramisu_make_fused_baryon_blocks_correaltor_reduce"
 
 #include <tiramisu/utils.h>
 
