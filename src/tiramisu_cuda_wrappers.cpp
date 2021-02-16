@@ -168,3 +168,29 @@ int32_t tiramisu_cuda_stream_synchronize(int32_t dummy)
     return 0;
 }
 
+// -----------------------------------------------------
+
+#include <cub/util_allocator.cuh>
+#include <cub/device/device_reduce.cuh>
+
+using namespace cub;
+
+CachingDeviceAllocator  g_allocator(true);  // Caching allocator for device memory
+
+extern "C"
+uint tiramisu_reduce_add( double *A, double *B, int num_items )
+{
+    // Request and allocate temporary storage
+    void            *d_temp_storage = NULL;
+    size_t          temp_storage_bytes = 0;
+    CubDebugExit(DeviceReduce::Sum(d_temp_storage, temp_storage_bytes, A, B, num_items));
+    CubDebugExit(g_allocator.DeviceAllocate(&d_temp_storage, temp_storage_bytes));
+
+    // Run
+    CubDebugExit(DeviceReduce::Sum(d_temp_storage, temp_storage_bytes, A, B, num_items));
+
+    // Cleanup
+    if (d_temp_storage) CubDebugExit(g_allocator.DeviceFree(d_temp_storage));
+
+    return 0;
+}

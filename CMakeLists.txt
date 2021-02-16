@@ -1,4 +1,5 @@
 cmake_minimum_required(VERSION 3.5)
+# project(tiramisu LANGUAGE CXX CUDA)
 project(tiramisu)
 
 enable_testing()
@@ -7,6 +8,7 @@ set(PROJECT_DIR ${CMAKE_SOURCE_DIR})
 set(CMAKE_VERBOSE_MAKEFILE "ON")
 set(CMAKE_EXPORT_COMPILE_COMMANDS "ON")
 
+include(configure.cmake)
 
 # Add CMake header files
 set(HEADER_FILES
@@ -19,34 +21,46 @@ set(HEADER_FILES
         include/tiramisu/expr.h
         include/tiramisu/mpi_comm.h
         include/tiramisu/externs.h
-	include/tiramisu/computation_graph.h
-	include/tiramisu/auto_scheduler.h
+	    # include/tiramisu/computation_graph.h
+	    # include/tiramisu/auto_scheduler.h
         )
+        
+# Add autoscheduler headers if USE_AUTO_SCHEDULER is TRUE in configure.cmake
+if (${USE_AUTO_SCHEDULER})
+    set(HEADER_FILES ${HEADER_FILES}
+        include/tiramisu/auto_scheduler/auto_scheduler.h
+        include/tiramisu/auto_scheduler/utils.h
+        include/tiramisu/auto_scheduler/optimization_info.h
+        include/tiramisu/auto_scheduler/dnn_accesses.h
+        include/tiramisu/auto_scheduler/ast.h
+        include/tiramisu/auto_scheduler/evaluator.h
+        include/tiramisu/auto_scheduler/schedules_generator.h
+        include/tiramisu/auto_scheduler/search_method.h
+        )
+endif()
 
 # Add CMake cpp files
-set(OBJS auto_scheduler expr block core codegen_halide codegen_c computation_graph debug function utils codegen_halide_lowering codegen_from_halide mpi codegen_cuda externs)
+set(OBJS expr block core codegen_halide codegen_c debug function utils codegen_halide_lowering codegen_from_halide mpi codegen_cuda externs)
 
+# Add autoscheduler cpp files if USE_AUTO_SCHEDULER is TRUE in configure.cmake
+if (${USE_AUTO_SCHEDULER})
+    set(OBJS_AUTO_SCHEDULER auto_scheduler optimization_info dnn_accesses ast evaluator schedules_generator search_method)
+endif()
 
 ### CMAKE FILE INTERNALS ###
-
-include(configure.cmake)
-
-if (${USE_GPU})
-    find_package(CUDA REQUIRED)
-    add_definitions(-DNVCC_PATH="${CUDA_TOOLKIT_ROOT_DIR}/bin/nvcc")
-    add_library(cuda_wrapper STATIC "src/tiramisu_cuda_wrappers.cpp")
-    target_link_libraries(cuda_wrapper ${CUDA_LIBRARIES} ${CUDA_CUBLAS_LIBRARIES})
-    target_include_directories(cuda_wrapper PUBLIC ${CUDA_INCLUDE_DIRS})
-    if (${USE_CUDNN})
-        find_library(CUDNN_LIBRARIES cudnn PATHS ${CUDNN_LOCATION}/lib64 NO_DEFAULT_PATH)
-        set(CUDNN_INCLUDE_DIRECTORY ${CUDNN_LOCATION}/include)
-    endif()
-endif()
+ 
 
 if (${USE_MKL_WRAPPERS})
     add_library(mkl_wrapper STATIC "src/tiramisu_mkl_wrappers.cpp")
     target_include_directories(mkl_wrapper PUBLIC ${MKL_PREFIX}/include)
 endif()
+
+# Need to define FLEXNLP_LIBRARIES and FLEXNLP_INCLUDE_DIRS
+#if (${USE_FLEXNLP})
+    add_library(flexnlp_wrapper STATIC "src/tiramisu_flexnlp_wrappers.cpp")
+    target_link_libraries(flexnlp_wrapper ${FLEXNLP_LIBRARIES})
+    target_include_directories(flexnlp_wrapper PUBLIC ${FLEXNLP_INCLUDE_DIRS})
+#endif()
 
 FILE(STRINGS tests/test_list.txt TIRAMISU_TESTS_RAW)
 FILE(STRINGS benchmarks/benchmark_list.txt TIRAMISU_BENCHMARKS_RAW)
@@ -212,8 +226,42 @@ foreach (obj ${OBJS})
 endforeach ()
 
 add_library(tiramisu SHARED ${T_CODE})
+
 target_link_libraries(tiramisu ${HalideLib} ${ISLLib})
 target_link_libraries(tiramisu ${LINK_FLAGS})
+
+if (${USE_AUTO_SCHEDULER})
+    set(AUTO_SCHEDULER_CODE "")
+    foreach(obj ${OBJS_AUTO_SCHEDULER})
+        set(AUTO_SCHEDULER_CODE ${AUTO_SCHEDULER_CODE} src/auto_scheduler/tiramisu_${obj}.cpp)
+    endforeach()
+    
+    add_library(tiramisu_auto_scheduler SHARED ${AUTO_SCHEDULER_CODE})
+    target_link_libraries(tiramisu_auto_scheduler tiramisu ${HalideLib} ${ISLLib})
+    target_link_libraries(tiramisu_auto_scheduler ${LINK_FLAGS})
+endif()
+
+
+if (${USE_GPU})
+    find_package(CUDA REQUIRED)
+    enable_language(CUDA)
+    set_source_files_properties(src/tiramisu_cuda_wrappers.cpp PROPERTIES LANGUAGE CUDA)
+    add_definitions(-DNVCC_PATH="${CUDA_TOOLKIT_ROOT_DIR}/bin/nvcc")
+    add_library(cuda_wrapper SHARED "src/tiramisu_cuda_wrappers.cpp")
+    set_property(TARGET cuda_wrapper PROPERTY CXX_STANDARD 14)
+    target_link_libraries(cuda_wrapper ${CUDA_LIBRARIES} ${CUDA_CUBLAS_LIBRARIES})
+    target_link_libraries(cuda_wrapper ${LINK_FLAGS})
+
+    set_property(TARGET cuda_wrapper PROPERTY CUDA_ARCHITECTURES 35 50)
+    target_include_directories(cuda_wrapper PUBLIC ${CUDA_INCLUDE_DIRS} ${PROJECT_DIR}/3rdParty/cub/)
+    if (${USE_CUDNN})
+        find_library(CUDNN_LIBRARIES cudnn PATHS ${CUDNN_LOCATION}/lib64 NO_DEFAULT_PATH)
+        set(CUDNN_INCLUDE_DIRECTORY ${CUDNN_LOCATION}/include)
+    endif()
+    # if (${USE_CUB})
+    #     target_include_directories(cuda_wrapper PUBLIC ${CUDA_INCLUDE_DIRS} ${PROJECT_DIR}/3rdParty/cub/)
+    # endif()
+endif()
 
 function(link_tags name)
     if (${is_gpu})
@@ -225,7 +273,7 @@ endfunction()
 
 function(build_g name generator result)
     add_executable(${name} ${generator} ${HEADER_FILES})
-    target_link_libraries(${name} tiramisu ${HalideLib} ${ISLLib})
+    target_link_libraries(${name} tiramisu cuda_wrapper ${HalideLib} ${ISLLib})
     target_link_libraries(${name} ${LINK_FLAGS})
     link_tags(${name})
     if (NOT result STREQUAL "")
@@ -246,9 +294,9 @@ endfunction()
 
 function(build_w name objs wrapper header)
     add_executable(${name} ${wrapper} ${objs} ${header})
-    target_link_libraries(${name} tiramisu ${HalideLib} ${ISLLib})
+    target_link_libraries(${name} tiramisu cuda_wrapper ${HalideLib} ${ISLLib})
     target_link_libraries(${name} ${LINK_FLAGS})
-    link_tags(${name})
+    # link_tags(${name})
 endfunction()
 
 macro(set_obj inp_obj)
