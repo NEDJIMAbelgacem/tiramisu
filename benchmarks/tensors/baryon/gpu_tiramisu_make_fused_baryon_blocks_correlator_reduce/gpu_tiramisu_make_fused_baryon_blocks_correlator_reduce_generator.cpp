@@ -557,7 +557,7 @@ void generate_function(std::string name)
         &snk_weights_cpu,
         &sigs_cpu,
         }, 
-        "generated_gpu_tiramisu_make_fused_baryon_blocks_reduce_correlator.o", true);
+        "generated_gpu_tiramisu_make_fused_baryon_blocks_correlator_reduce.o", true);
 }
 
 int main(int argc, char **argv)
