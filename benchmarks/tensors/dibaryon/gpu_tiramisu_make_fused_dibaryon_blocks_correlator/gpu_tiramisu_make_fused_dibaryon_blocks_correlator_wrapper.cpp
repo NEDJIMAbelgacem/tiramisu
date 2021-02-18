@@ -92,22 +92,22 @@ void tiramisu_make_two_nucleon_2pt(double* C_re,
    }
 // Lt, Vsnk/sites_per_rank, sites_per_rank, B2Nrows, NsrcTot, B2Nrows, NsnkTot
    // Halide buffers
-   Halide::Buffer<double> b_C_r(Nsnk+NsnkHex, B2Nrows, Nsrc+NsrcHex, B2Nrows, sites_per_rank, Vsnk/sites_per_rank, Lt, "C_r");
-   Halide::Buffer<double> b_C_i(Nsnk+NsnkHex, B2Nrows, Nsrc+NsrcHex, B2Nrows, sites_per_rank, Vsnk/sites_per_rank, Lt, "C_i");
+   Halide::Buffer<double> b_C_r(Nsnk+NsnkHex, B2Nrows, Nsrc+NsrcHex, B2Nrows, sites_per_rank, Vsnk/sites_per_rank, Lt);
+   Halide::Buffer<double> b_C_i(Nsnk+NsnkHex, B2Nrows, Nsrc+NsrcHex, B2Nrows, sites_per_rank, Vsnk/sites_per_rank, Lt);
 
-   Halide::Buffer<int> b_src_color_weights(Nq, Nw, B2Nrows, "src_color_weights");
-   Halide::Buffer<int> b_src_spin_weights(Nq, Nw, B2Nrows, "src_spin_weights");
-   Halide::Buffer<double> b_src_weights(Nw, B2Nrows, "src_weights");
+   Halide::Buffer<int> b_src_color_weights(Nq, Nw, B2Nrows);
+   Halide::Buffer<int> b_src_spin_weights(Nq, Nw, B2Nrows);
+   Halide::Buffer<double> b_src_weights(Nw, B2Nrows);
 
-   Halide::Buffer<int> b_src_spins(2, 2, B2Nrows, "src_spins");
-   Halide::Buffer<double> b_src_spin_block_weights(2, B2Nrows, "src_spin_block_weights");
-   Halide::Buffer<int> b_snk_b(2, Nq, Nperms, "snk_b");
-   Halide::Buffer<int> b_snk_color_weights(2, Nq, Nw2, Nperms, B2Nrows, "snk_color_weights");
-   Halide::Buffer<int> b_snk_spin_weights(2, Nq, Nw2, Nperms, B2Nrows, "snk_spin_weights");
-   Halide::Buffer<double> b_snk_weights(Nw2, B2Nrows, "snk_weights");
-   Halide::Buffer<int> b_hex_snk_color_weights(2, Nq, Nw2Hex, Nperms, B2Nrows, "hex_snk_color_weights");
-   Halide::Buffer<int> b_hex_snk_spin_weights(2, Nq, Nw2Hex, Nperms, B2Nrows, "hex_snk_spin_weights");
-   Halide::Buffer<double> b_hex_snk_weights(Nw2Hex, B2Nrows, "hex_snk_weights");
+   Halide::Buffer<int> b_src_spins(2, 2, B2Nrows);
+   Halide::Buffer<double> b_src_spin_block_weights(2, B2Nrows);
+   Halide::Buffer<int> b_snk_b(2, Nq, Nperms);
+   Halide::Buffer<int> b_snk_color_weights(2, Nq, Nw2, Nperms, B2Nrows);
+   Halide::Buffer<int> b_snk_spin_weights(2, Nq, Nw2, Nperms, B2Nrows);
+   Halide::Buffer<double> b_snk_weights(Nw2, B2Nrows);
+   Halide::Buffer<int> b_hex_snk_color_weights(2, Nq, Nw2Hex, Nperms, B2Nrows);
+   Halide::Buffer<int> b_hex_snk_spin_weights(2, Nq, Nw2Hex, Nperms, B2Nrows);
+   Halide::Buffer<double> b_hex_snk_weights(Nw2Hex, B2Nrows);
 
     // prop
     Halide::Buffer<double> b_B1_prop_r((double *)B1_prop_re, {Vsrc, Vsnk, Ns, Nc, Ns, Nc, Lt, Nq});
