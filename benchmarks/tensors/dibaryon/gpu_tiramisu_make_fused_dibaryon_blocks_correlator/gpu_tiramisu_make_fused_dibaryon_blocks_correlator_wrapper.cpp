@@ -101,7 +101,8 @@ void tiramisu_make_two_nucleon_2pt(double* C_re,
 
    Halide::Buffer<int> b_src_spins(2, 2, B2Nrows);
    Halide::Buffer<double> b_src_spin_block_weights(2, B2Nrows);
-   Halide::Buffer<int> b_snk_b(2, Nq, Nperms);
+   int* snk = (int *) malloc(2 * Nq * Nperms * sizeof (int));
+   Halide::Buffer<int> b_snk_b(snk, {2, Nq, Nperms});
    Halide::Buffer<int> b_snk_color_weights(2, Nq, Nw2, Nperms, B2Nrows);
    Halide::Buffer<int> b_snk_spin_weights(2, Nq, Nw2, Nperms, B2Nrows);
    Halide::Buffer<double> b_snk_weights(Nw2, B2Nrows);
@@ -355,39 +356,40 @@ void tiramisu_make_two_nucleon_2pt(double* C_re,
    printf("sigs %d \n", b_sigs(0));
    }
    gpu_tiramisu_make_fused_dibaryon_blocks_correlator(
-				    b_C_r.raw_buffer(),
-				    b_C_i.raw_buffer(),
-				    b_B1_prop_r.raw_buffer(),
-				    b_B1_prop_i.raw_buffer(),
-				    b_B2_prop_r.raw_buffer(),
-				    b_B2_prop_i.raw_buffer(),
-                b_B1_src_psi_r.raw_buffer(),
-                b_B1_src_psi_i.raw_buffer(),
-                b_B2_src_psi_r.raw_buffer(),
-                b_B2_src_psi_i.raw_buffer(),
-                b_B1_snk_psi_r.raw_buffer(),
-                b_B1_snk_psi_i.raw_buffer(),
-                b_B2_snk_psi_r.raw_buffer(),
-                b_B2_snk_psi_i.raw_buffer(),
-                b_hex_src_psi_r.raw_buffer(),
-                b_hex_src_psi_i.raw_buffer(),
-                b_hex_snk_psi_r.raw_buffer(),
-                b_hex_snk_psi_i.raw_buffer(),
-		b_snk_psi_r.raw_buffer(),
-		b_snk_psi_i.raw_buffer(),
-				    b_src_spins.raw_buffer(),
-				    b_src_spin_block_weights.raw_buffer(),
-				    b_sigs.raw_buffer(),
-				 b_src_color_weights.raw_buffer(),
-				 b_src_spin_weights.raw_buffer(),
-				 b_src_weights.raw_buffer(),
-				    b_snk_b.raw_buffer(),
-				    b_snk_color_weights.raw_buffer(),
-				    b_snk_spin_weights.raw_buffer(),
-				    b_snk_weights.raw_buffer(),
-				    b_hex_snk_color_weights.raw_buffer(),
-				    b_hex_snk_spin_weights.raw_buffer(),
-				    b_hex_snk_weights.raw_buffer());
+      b_C_r.raw_buffer(),
+      b_C_i.raw_buffer(),
+      b_B1_prop_r.raw_buffer(),
+      b_B1_prop_i.raw_buffer(),
+      b_B2_prop_r.raw_buffer(),
+      b_B2_prop_i.raw_buffer(),
+      b_B1_src_psi_r.raw_buffer(),
+      b_B1_src_psi_i.raw_buffer(),
+      b_B2_src_psi_r.raw_buffer(),
+      b_B2_src_psi_i.raw_buffer(),
+      b_B1_snk_psi_r.raw_buffer(),
+      b_B1_snk_psi_i.raw_buffer(),
+      b_B2_snk_psi_r.raw_buffer(),
+      b_B2_snk_psi_i.raw_buffer(),
+      b_hex_src_psi_r.raw_buffer(),
+      b_hex_src_psi_i.raw_buffer(),
+      b_hex_snk_psi_r.raw_buffer(),
+      b_hex_snk_psi_i.raw_buffer(),
+      b_snk_psi_r.raw_buffer(),
+      b_snk_psi_i.raw_buffer(),
+      b_src_spins.raw_buffer(),
+      b_src_spin_block_weights.raw_buffer(),
+      b_sigs.raw_buffer(),
+      b_src_color_weights.raw_buffer(),
+      b_src_spin_weights.raw_buffer(),
+      b_src_weights.raw_buffer(),
+      b_snk_b.raw_buffer(),
+      b_snk_color_weights.raw_buffer(),
+      b_snk_spin_weights.raw_buffer(),
+      b_snk_weights.raw_buffer(),
+      b_hex_snk_color_weights.raw_buffer(),
+      b_hex_snk_spin_weights.raw_buffer(),
+      b_hex_snk_weights.raw_buffer()
+   );
 
    printf("done \n");
 
