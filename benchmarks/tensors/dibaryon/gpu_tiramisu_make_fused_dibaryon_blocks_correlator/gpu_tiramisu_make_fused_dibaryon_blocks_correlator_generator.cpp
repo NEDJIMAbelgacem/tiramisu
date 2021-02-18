@@ -63,10 +63,10 @@ void generate_function(std::string name)
    buffer buf_B1_prop_i_gpu("buf_B1_prop_i_gpu",   {Nq, Lt, Nc, Ns, Nc, Ns, Vsnk, Vsrc}, p_float64, a_temporary);
    buffer buf_B2_prop_r_gpu("buf_B2_prop_r_gpu",   {Nq, Lt, Nc, Ns, Nc, Ns, Vsnk, Vsrc}, p_float64, a_temporary);
    buffer buf_B2_prop_i_gpu("buf_B2_prop_i_gpu",   {Nq, Lt, Nc, Ns, Nc, Ns, Vsnk, Vsrc}, p_float64, a_temporary);
-   buf_B1_prop_r_gpu->tag_gpu_global();
-   buf_B1_prop_i_gpu->tag_gpu_global();
-   buf_B2_prop_r_gpu->tag_gpu_global();
-   buf_B2_prop_i_gpu->tag_gpu_global();
+   buf_B1_prop_r_gpu.tag_gpu_global();
+   buf_B1_prop_i_gpu.tag_gpu_global();
+   buf_B2_prop_r_gpu.tag_gpu_global();
+   buf_B2_prop_i_gpu.tag_gpu_global();
    B1_prop_r.store_in( buf_B1_prop_r_gpu );
    B1_prop_i.store_in( buf_B1_prop_i_gpu );
    B2_prop_r.store_in( buf_B2_prop_r_gpu );
