@@ -2966,8 +2966,7 @@ void generate_function(std::string name)
         .then(copy_snk_b_host_to_device, computation::root)
         );
 
-    handle = &handle->then( C_init_r, computation::root );
-    handle = &handle->then( C_init_i, npnH );
+    handle = &(handle->then( C_init_r, computation::root ).then( C_init_i, npnH ));
 
     // BB_BB
     handle = &(handle
@@ -3499,38 +3498,38 @@ void generate_function(std::string name)
           .then(C_H_H_update_i, nH) 
           ); 
 
-    handle = &handle->then(copy_buf_C_r_device_to_host, computation::root);
-    handle = &handle->then(copy_buf_C_i_device_to_host, computation::root);
-    handle = &handle->then(copy_B1_prop_r_device_to_host, computation::root);
-    handle = &handle->then(copy_B1_prop_i_device_to_host, computation::root);
-    handle = &handle->then(copy_B2_prop_r_device_to_host, computation::root);
-    handle = &handle->then(copy_B2_prop_i_device_to_host, computation::root);
-    handle = &handle->then(copy_src_psi_B1_r_device_to_host, computation::root);
-    handle = &handle->then(copy_src_psi_B1_i_device_to_host, computation::root);
-    handle = &handle->then(copy_src_psi_B2_r_device_to_host, computation::root);
-    handle = &handle->then(copy_src_psi_B2_i_device_to_host, computation::root);
-    handle = &handle->then(copy_snk_psi_B1_r_device_to_host, computation::root);
-    handle = &handle->then(copy_snk_psi_B1_i_device_to_host, computation::root);
-    handle = &handle->then(copy_snk_psi_B2_r_device_to_host, computation::root);
-    handle = &handle->then(copy_snk_psi_B2_i_device_to_host, computation::root);
-    handle = &handle->then(copy_src_spins_device_to_host, computation::root);
-    handle = &handle->then(copy_sigs_device_to_host, computation::root);
-    handle = &handle->then(copy_snk_psi_r_device_to_host, computation::root);
-    handle = &handle->then(copy_snk_psi_i_device_to_host, computation::root);
-    handle = &handle->then(copy_hex_snk_psi_r_device_to_host, computation::root);
-    handle = &handle->then(copy_hex_snk_psi_i_device_to_host, computation::root);
-    handle = &handle->then(copy_src_color_weights_device_to_host, computation::root);
-    handle = &handle->then(copy_src_spin_weights_device_to_host, computation::root);
-    handle = &handle->then(copy_src_weights_device_to_host, computation::root);
-    handle = &handle->then(copy_snk_color_weights_device_to_host, computation::root);
-    handle = &handle->then(copy_snk_spin_weights_device_to_host, computation::root);
-    handle = &handle->then(copy_snk_weights_device_to_host, computation::root);
-    handle = &handle->then(copy_hex_snk_color_weights_device_to_host, computation::root);
-    handle = &handle->then(copy_hex_snk_spin_weights_device_to_host, computation::root);
-    handle = &handle->then(copy_hex_snk_weights_device_to_host, computation::root);
-    handle = &handle->then(copy_src_spin_block_weights_device_to_host, computation::root);
-    handle = &handle->then(copy_snk_b_device_to_host, computation::root);
-
+    handle = &(handle->then(copy_buf_C_r_device_to_host, computation::root)
+    .>then(copy_buf_C_i_device_to_host, computation::root)
+    .>then(copy_B1_prop_r_device_to_host, computation::root)
+    .>then(copy_B1_prop_i_device_to_host, computation::root)
+    .>then(copy_B2_prop_r_device_to_host, computation::root)
+    .>then(copy_B2_prop_i_device_to_host, computation::root)
+    .>then(copy_src_psi_B1_r_device_to_host, computation::root)
+    .>then(copy_src_psi_B1_i_device_to_host, computation::root)
+    .>then(copy_src_psi_B2_r_device_to_host, computation::root)
+    .>then(copy_src_psi_B2_i_device_to_host, computation::root)
+    .>then(copy_snk_psi_B1_r_device_to_host, computation::root)
+    .>then(copy_snk_psi_B1_i_device_to_host, computation::root)
+    .>then(copy_snk_psi_B2_r_device_to_host, computation::root)
+    .>then(copy_snk_psi_B2_i_device_to_host, computation::root)
+    .>then(copy_src_spins_device_to_host, computation::root)
+    .>then(copy_sigs_device_to_host, computation::root)
+    .>then(copy_snk_psi_r_device_to_host, computation::root)
+    .>then(copy_snk_psi_i_device_to_host, computation::root)
+    .>then(copy_hex_snk_psi_r_device_to_host, computation::root)
+    .>then(copy_hex_snk_psi_i_device_to_host, computation::root)
+    .>then(copy_src_color_weights_device_to_host, computation::root)
+    .>then(copy_src_spin_weights_device_to_host, computation::root)
+    .>then(copy_src_weights_device_to_host, computation::root)
+    .>then(copy_snk_color_weights_device_to_host, computation::root)
+    .>then(copy_snk_spin_weights_device_to_host, computation::root)
+    .>then(copy_snk_weights_device_to_host, computation::root)
+    .>then(copy_hex_snk_color_weights_device_to_host, computation::root)
+    .>then(copy_hex_snk_spin_weights_device_to_host, computation::root)
+    .>then(copy_hex_snk_weights_device_to_host, computation::root)
+    .>then(copy_src_spin_block_weights_device_to_host, computation::root)
+    .>then(copy_snk_b_device_to_host, computation::root
+    );
 
 #if VECTORIZED
 
