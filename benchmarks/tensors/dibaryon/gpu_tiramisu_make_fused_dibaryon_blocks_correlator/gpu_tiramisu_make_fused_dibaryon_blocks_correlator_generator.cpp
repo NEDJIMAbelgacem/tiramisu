@@ -3528,7 +3528,7 @@ void generate_function(std::string name)
     .then(copy_hex_snk_spin_weights_device_to_host, computation::root)
     .then(copy_hex_snk_weights_device_to_host, computation::root)
     .then(copy_src_spin_block_weights_device_to_host, computation::root)
-    .then(copy_snk_b_device_to_host, computation::root
+    .then(copy_snk_b_device_to_host, computation::root)
     );
 
 #if VECTORIZED
