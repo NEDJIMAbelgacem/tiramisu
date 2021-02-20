@@ -2970,7 +2970,7 @@ void generate_function(std::string name)
 
     // BB_BB
     handle = &(handle
-          ->then(B1_Blocal_r1_r_init, t)
+          ->then(B1_Blocal_r1_r_init, computation::root)
           .then(B1_Blocal_r1_i_init, m)
           .then(B1_Bfirst_r1_r_init, m)
           .then(B1_Bfirst_r1_i_init, m)
@@ -3326,7 +3326,7 @@ void generate_function(std::string name)
 
     // BB_H
     handle = &(handle
-          ->then(src_B1_Blocal_r1_r_init, t)
+          ->then(src_B1_Blocal_r1_r_init, computation::root)
           .then(src_B1_Blocal_r1_i_init, jSprime)
           .then(flip_src_B1_Blocal_r1_r_init, jSprime)
           .then(flip_src_B1_Blocal_r1_i_init, jSprime)
@@ -3408,7 +3408,7 @@ void generate_function(std::string name)
 
     // H_BB
     handle = &(handle
-          ->then( snk_B1_Blocal_r1_r_init, t)
+          ->then( snk_B1_Blocal_r1_r_init, computation::root)
           .then(snk_B1_Blocal_r1_i_init, jSprime)
           .then(flip_snk_B1_Blocal_r1_r_init, jSprime)
           .then(flip_snk_B1_Blocal_r1_i_init, jSprime)
@@ -3490,7 +3490,7 @@ void generate_function(std::string name)
 
     // H_H
     handle = &(handle
-          ->then(C_H_H_prop_init_r, t)
+          ->then(C_H_H_prop_init_r, computation::root)
           .then(C_H_H_prop_init_i, y)
           .then(C_H_H_prop_update_r, y) 
           .then(C_H_H_prop_update_i, wnumHexHex)
