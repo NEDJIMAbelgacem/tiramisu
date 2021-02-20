@@ -2204,6 +2204,9 @@ void generate_function(std::string name)
     buffer buf_C_BB_BB_prop_r("buf_C_BB_BB_prop_r", {1}, p_float64, a_temporary);
     buffer buf_C_BB_BB_prop_i("buf_C_BB_BB_prop_i", {1}, p_float64, a_temporary);
 
+    buf_C_BB_BB_prop_r.tag_gpu_global();
+    buf_C_BB_BB_prop_i.tag_gpu_global();
+
     C_BB_BB_prop_init_r.store_in(&buf_C_BB_BB_prop_r, {0});
     C_BB_BB_prop_init_i.store_in(&buf_C_BB_BB_prop_i, {0});
     C_BB_BB_prop_update_r.store_in(&buf_C_BB_BB_prop_r, {0});
