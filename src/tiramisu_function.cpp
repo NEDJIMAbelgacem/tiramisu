@@ -2284,17 +2284,17 @@ void tiramisu::function::gen_halide_bug_workaround_computations(){
 
 void tiramisu::function::codegen(const std::vector<tiramisu::buffer *> &arguments, const std::string obj_filename, const bool gen_cuda_stmt)
 {
-    if (gen_cuda_stmt)
-    {
-        if(!this->mapping.empty())
-        {
-            tiramisu::computation* c1 = this->get_first_cpt();
-            tiramisu::computation* c2 = this->get_last_cpt();
-            Automatic_communication(c1,c2);
-        }
-        else
-            DEBUG(3, tiramisu::str_dump("You must specify the corresponding CPU buffer to each GPU buffer else you should do the communication manually"));
-    }
+    // if (gen_cuda_stmt)
+    // {
+    //     if(!this->mapping.empty())
+    //     {
+    //         tiramisu::computation* c1 = this->get_first_cpt();
+    //         tiramisu::computation* c2 = this->get_last_cpt();
+    //         Automatic_communication(c1,c2);
+    //     }
+    //     else
+    //         DEBUG(3, tiramisu::str_dump("You must specify the corresponding CPU buffer to each GPU buffer else you should do the communication manually"));
+    // }
     this->set_arguments(arguments);
     this->lift_dist_comps();
     this->gen_time_space_domain();
