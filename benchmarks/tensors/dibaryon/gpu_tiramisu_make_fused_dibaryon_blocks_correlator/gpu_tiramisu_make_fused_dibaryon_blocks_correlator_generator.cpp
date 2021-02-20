@@ -163,7 +163,7 @@ void generate_function(std::string name)
    input hex_snk_spin_weights("hex_snk_spin_weights", {r, nperm, wnumHex, q, to}, p_int32);
    input hex_snk_weights("hex_snk_weights", {r, wnumHex}, p_float64);
 
-   buffer buf_src_spins_gpu("buf_src_spins_gpu",   {B2Nrows, 2, 2}, p_int32, a_temporary);
+   buffer buf_src_spins_gpu("src_spins",   {B2Nrows, 2, 2}, p_int32, a_temporary);
    buffer buf_src_spin_block_weights_gpu("buf_src_spin_block_weights_gpu",   {B2Nrows, 2}, p_float64, a_temporary);
    buffer buf_sigs_gpu("buf_sigs_gpu",   {Nperms}, p_int32, a_temporary);
    buffer buf_snk_b_gpu("snk_b",   {Nperms, Nq, 2}, p_int32, a_temporary);
@@ -205,7 +205,7 @@ void generate_function(std::string name)
       hex_snk_spin_weights.store_in( &buf_hex_snk_spin_weights_gpu );
       hex_snk_weights.store_in( &buf_hex_snk_weights_gpu );
 
-   buffer buf_src_spins_cpu("src_spins",   {B2Nrows, 2, 2}, p_int32, a_temporary);
+   buffer buf_src_spins_cpu("buf_src_spins",   {B2Nrows, 2, 2}, p_int32, a_temporary);
    buffer buf_src_spin_block_weights_cpu("src_spin_block_weights",   {B2Nrows, 2}, p_float64, a_temporary);
    buffer buf_sigs_cpu("sigs",   {Nperms}, p_int32, a_temporary);
    buffer buf_snk_b_cpu("buf_snk_b",   {Nperms, Nq, 2}, p_int32, a_temporary);
