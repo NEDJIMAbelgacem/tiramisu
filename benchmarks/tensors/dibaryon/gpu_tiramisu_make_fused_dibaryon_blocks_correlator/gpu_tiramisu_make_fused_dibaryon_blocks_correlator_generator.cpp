@@ -2889,7 +2889,7 @@ void generate_function(std::string name)
     // computation copy_snk_psi_B1_i_host_to_device({}, memcpy(buf_snk_psi_B1_i_cpu, buf_snk_psi_B1_i_gpu));
     // computation copy_snk_psi_B2_r_host_to_device({}, memcpy(buf_snk_psi_B2_r_cpu, buf_snk_psi_B2_r_gpu));
     // computation copy_snk_psi_B2_i_host_to_device({}, memcpy(buf_snk_psi_B2_i_cpu, buf_snk_psi_B2_i_gpu));
-    computation copy_src_spins_host_to_device(t}, memcpy(buf_src_spins_cpu, buf_src_spins_gpu));
+    computation copy_src_spins_host_to_device({t}, memcpy(buf_src_spins_cpu, buf_src_spins_gpu));
     // computation copy_sigs_host_to_device({}, memcpy(buf_sigs_cpu, buf_sigs_gpu));
     // computation copy_snk_psi_r_host_to_device({}, memcpy(buf_snk_psi_r_cpu, buf_snk_psi_r_gpu));
     // computation copy_snk_psi_i_host_to_device({}, memcpy(buf_snk_psi_i_cpu, buf_snk_psi_i_gpu));
