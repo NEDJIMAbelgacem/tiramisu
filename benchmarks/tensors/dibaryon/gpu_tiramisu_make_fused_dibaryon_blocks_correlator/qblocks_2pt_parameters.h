@@ -33,7 +33,7 @@
 // #define P_sites_per_rank 128
 // #define P_src_sites_per_rank 4
 
-#define P_size 4
+#define P_size 512
 #define P_Vsrc P_size
 #define P_Vsnk P_size
 #define P_Nsrc 2
@@ -58,8 +58,8 @@
 #define P_B0Nrows 2
 #define P_Mw 12
 #define P_NsFull 4
-#define P_sites_per_rank 2 // threads per block
-#define P_src_sites_per_rank (P_Vsrc / P_sites_per_rank) // blocks count
+#define P_sites_per_rank 64 // threads per block
+#define P_src_sites_per_rank 8 // blocks count
 
 #elif DATA_SET_2
 
