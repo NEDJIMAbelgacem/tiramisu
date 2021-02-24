@@ -35,6 +35,7 @@ extern "C"
 int tiramisu_cuda_memcpy_to_device(void * to, void * from, uint64_t size)
 {
    handle_cuda_error(cudaMemcpy(to, from, size, cudaMemcpyKind::cudaMemcpyHostToDevice), __FUNCTION__);
+   handle_cuda_error(cudaDeviceSynchronize(), __FUNCTION__);
    return 0;
 }
 
@@ -42,6 +43,7 @@ extern "C"
 int tiramisu_cuda_memcpy_to_host(void * to, void * from, uint64_t size)
 {
     handle_cuda_error(cudaMemcpy(to, from, size, cudaMemcpyKind::cudaMemcpyDeviceToHost), __FUNCTION__);
+    handle_cuda_error(cudaDeviceSynchronize(), __FUNCTION__);
     return 0;
 }
 
