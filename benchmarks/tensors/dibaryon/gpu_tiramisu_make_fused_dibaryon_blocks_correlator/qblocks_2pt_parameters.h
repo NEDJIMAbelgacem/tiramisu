@@ -8,8 +8,8 @@
 
 #define P_Vsrc 4
 #define P_Vsnk 4
-#define P_Nsrc 2
-#define P_Nsnk 2
+#define P_Nsrc 4
+#define P_Nsnk 4
 #define P_NEntangled 3
 #define P_NsrcHex 1
 #define P_NsnkHex 1
