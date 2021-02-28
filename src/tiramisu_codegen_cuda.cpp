@@ -935,6 +935,8 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
 
             std::shared_ptr<cuda_ast::block> wrapper_block{new cuda_ast::block};
             wrapper_block->add_statement(cuda_ast::statement_ptr{new cuda_ast::kernel_call{kernel}});
+            wrapper_block->add_statement(cuda_ast::statement_ptr{new cuda_ast::cuda_device_synchronize_call{});
+            
             wrapper_block->add_statement(cuda_ast::statement_ptr{
                     new cuda_ast::return_statement{
                             cuda_ast::statement_ptr{new cuda_ast::value(value_cast(cuda_ast::kernel::wrapper_return_type, 0))}
@@ -1398,6 +1400,11 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
             }
         }
         ss << ");\n" << base << "}";
+    }
+
+    cuda_ast::cuda_device_synchronize_call::cuda_device_synchronize_call() : statement(p_none) {}
+    void cuda_ast::cuda_device_synchronize_call::print(std::stringstream &ss, const std::string &base) {
+        ss << "cudaDeviceSynchronize();";
     }
 
     int cuda_ast::kernel::kernel_count = 0;
