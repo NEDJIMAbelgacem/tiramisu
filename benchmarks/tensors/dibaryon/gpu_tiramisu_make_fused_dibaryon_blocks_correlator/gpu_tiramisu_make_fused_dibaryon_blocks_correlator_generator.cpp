@@ -2852,7 +2852,7 @@ void generate_function(std::string name)
           snk_B2_Blocal_r2_i_update.tag_gpu_level(y_out, y_in); //
           flip_snk_B2_Blocal_r2_r_update.tag_gpu_level(y_out, y_in); //
           flip_snk_B2_Blocal_r2_i_update.tag_gpu_level(y_out, y_in); //
-          
+
           C_H_BB_prop_init_r.tag_gpu_level(y_out, y_in); //
           C_H_BB_prop_init_i.tag_gpu_level(y_out, y_in); //
           H_BB_new_term_0_r1_b1.get_real()->tag_gpu_level(y_out, y_in);
@@ -3353,7 +3353,7 @@ void generate_function(std::string name)
           .then(C_BB_BB_update_s_r, r) 
           .then(C_BB_BB_update_s_i, nue)
           );
- {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m}
+
     // BB_H
     handle = &(handle
           ->then(src_B1_Blocal_r1_r_init, t)
