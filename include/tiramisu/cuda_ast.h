@@ -618,7 +618,7 @@ class cuda_device_synchronize_call : public statement
 public:
     explicit cuda_device_synchronize_call();
     void print(std::stringstream &ss, const std::string &base) override;
-}
+};
 
 class kernel_definition : public statement
 {
