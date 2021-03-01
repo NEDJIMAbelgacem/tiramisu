@@ -617,8 +617,10 @@ private:
 class cuda_device_synchronize_call : public statement
 {
 public:
-    explicit cuda_device_synchronize_call();
+    explicit cuda_device_synchronize_call(kernel_ptr kernel);
     void print(std::stringstream &ss, const std::string &base) override;
+private:
+    kernel_ptr kernel;
 };
 
 class kernel_definition : public statement
