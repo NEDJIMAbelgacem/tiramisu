@@ -935,7 +935,7 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
 
             std::shared_ptr<cuda_ast::block> wrapper_block{new cuda_ast::block};
             wrapper_block->add_statement(cuda_ast::statement_ptr{new cuda_ast::kernel_call{kernel}});
-            wrapper_block->add_statement(cuda_ast::statement_ptr{new cuda_ast::cuda_device_synchronize_call{kernel});
+            wrapper_block->add_statement(cuda_ast::statement_ptr{new cuda_ast::cuda_device_synchronize_call{kernel}});
             
             wrapper_block->add_statement(cuda_ast::statement_ptr{
                     new cuda_ast::return_statement{
