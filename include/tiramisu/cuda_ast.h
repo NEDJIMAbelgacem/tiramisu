@@ -542,6 +542,7 @@ public:
 };
 
 class kernel_call;
+class cuda_device_synchronize_call;
 class kernel_definition;
 
 class return_statement : public statement
