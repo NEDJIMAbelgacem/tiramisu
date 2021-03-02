@@ -57,7 +57,7 @@ if [ $? -ne 0 ]; then
 fi
 
 # echo "Compiling ${KERNEL} wrapper"
-${CXX} ${LANKA_OPTIONS} $CXXFLAGS ${INCLUDES} ${DEFINED_SIZE} ${KERNEL}_wrapper.cpp   ${LIBRARIES_DIR} ${LIBRARIES} generated_${KERNEL}.o ${LIBRARIES} -o ${KERNEL}_wrapper
+${CXX} ${LANKA_OPTIONS} $CXXFLAGS ${INCLUDES} ${DEFINED_SIZE} ${KERNEL}_wrapper.cpp   ${LIBRARIES_DIR} ${LIBRARIES} generated_${KERNEL}.o ${LIBRARIES} -o ${KERNEL}_wrapper -lld
 echo "Running ${KERNEL} wrapper"
 # To enable profiling:
 ## Perf:
