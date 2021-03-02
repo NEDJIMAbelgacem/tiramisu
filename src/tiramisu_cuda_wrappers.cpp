@@ -178,6 +178,7 @@ int32_t tiramisu_cuda_stream_synchronize(int32_t dummy)
 
 #include <iostream>
 
+extern "C"
 void callCudaProfiler( std::string str )
 {
     std::cout << str << "\n";
