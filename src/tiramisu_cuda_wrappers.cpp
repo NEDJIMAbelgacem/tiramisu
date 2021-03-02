@@ -176,7 +176,7 @@ int32_t tiramisu_cuda_stream_synchronize(int32_t dummy)
     return 0;
 }
 
-#include <iostram>
+#include <iostream>
 
 void callCudaProfiler( std::string str )
 {
