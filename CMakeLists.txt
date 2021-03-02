@@ -1,4 +1,5 @@
 cmake_minimum_required(VERSION 3.5)
+# project(tiramisu LANGUAGE CXX CUDA)
 project(tiramisu)
 
 enable_testing()
@@ -19,13 +20,17 @@ set(HEADER_FILES
         include/tiramisu/expr.h
         include/tiramisu/mpi_comm.h
         include/tiramisu/externs.h
-	include/tiramisu/computation_graph.h
-	include/tiramisu/auto_scheduler.h
+	    # include/tiramisu/computation_graph.h
+	    # include/tiramisu/auto_scheduler.h
         )
 
 # Add CMake cpp files
 set(OBJS auto_scheduler expr block core codegen_halide codegen_c computation_graph debug function utils codegen_halide_lowering codegen_from_halide mpi codegen_cuda externs)
 
+# Add autoscheduler cpp files if USE_AUTO_SCHEDULER is TRUE in configure.cmake
+if (${USE_AUTO_SCHEDULER})
+    set(OBJS_AUTO_SCHEDULER auto_scheduler optimization_info dnn_accesses ast evaluator schedules_generator search_method)
+endif()
 
 ### CMAKE FILE INTERNALS ###
 
@@ -33,14 +38,23 @@ include(configure.cmake)
 
 if (${USE_GPU})
     find_package(CUDA REQUIRED)
+    enable_language(CUDA)
+    set_source_files_properties(src/tiramisu_cuda_wrappers.cpp PROPERTIES LANGUAGE CUDA)
     add_definitions(-DNVCC_PATH="${CUDA_TOOLKIT_ROOT_DIR}/bin/nvcc")
-    add_library(cuda_wrapper STATIC "src/tiramisu_cuda_wrappers.cpp")
+    add_library(cuda_wrapper SHARED "src/tiramisu_cuda_wrappers.cpp")
+    set_property(TARGET cuda_wrapper PROPERTY CXX_STANDARD 14)
     target_link_libraries(cuda_wrapper ${CUDA_LIBRARIES} ${CUDA_CUBLAS_LIBRARIES})
-    target_include_directories(cuda_wrapper PUBLIC ${CUDA_INCLUDE_DIRS})
+    target_link_libraries(cuda_wrapper ${LINK_FLAGS})
+
+    set_property(TARGET cuda_wrapper PROPERTY CUDA_ARCHITECTURES 35 50)
+    target_include_directories(cuda_wrapper PUBLIC ${CUDA_INCLUDE_DIRS} ${PROJECT_DIR}/3rdParty/cub/)
     if (${USE_CUDNN})
         find_library(CUDNN_LIBRARIES cudnn PATHS ${CUDNN_LOCATION}/lib64 NO_DEFAULT_PATH)
         set(CUDNN_INCLUDE_DIRECTORY ${CUDNN_LOCATION}/include)
     endif()
+    # if (${USE_CUB})
+    #     target_include_directories(cuda_wrapper PUBLIC ${CUDA_INCLUDE_DIRS} ${PROJECT_DIR}/3rdParty/cub/)
+    # endif()
 endif()
 
 if (${USE_MKL_WRAPPERS})
@@ -232,7 +246,7 @@ endfunction()
 
 function(build_g name generator result)
     add_executable(${name} ${generator} ${HEADER_FILES})
-    target_link_libraries(${name} tiramisu ${HalideLib} ${ISLLib})
+    target_link_libraries(${name} tiramisu cuda_wrapper ${HalideLib} ${ISLLib})
     target_link_libraries(${name} ${LINK_FLAGS})
     link_tags(${name})
     if (NOT result STREQUAL "")
@@ -253,9 +267,9 @@ endfunction()
 
 function(build_w name objs wrapper header)
     add_executable(${name} ${wrapper} ${objs} ${header})
-    target_link_libraries(${name} tiramisu ${HalideLib} ${ISLLib})
+    target_link_libraries(${name} tiramisu cuda_wrapper ${HalideLib} ${ISLLib})
     target_link_libraries(${name} ${LINK_FLAGS})
-    link_tags(${name})
+    # link_tags(${name})
 endfunction()
 
 macro(set_obj inp_obj)
