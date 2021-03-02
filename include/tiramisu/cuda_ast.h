@@ -543,6 +543,7 @@ public:
 
 class kernel_call;
 class cuda_device_synchronize_call;
+class cuda_call_profiler;
 class kernel_definition;
 
 class return_statement : public statement
@@ -631,6 +632,15 @@ public:
 
 private:
     kernel_ptr kernel;
+};
+
+class cuda_call_profiler : public statement
+{
+public:
+    explicit cuda_call_profiler(std::string message);
+    void print(std::stringstream &ss, const std::string &base) override;
+private:
+    std::string m_message;
 };
 
 class memcpy : public statement

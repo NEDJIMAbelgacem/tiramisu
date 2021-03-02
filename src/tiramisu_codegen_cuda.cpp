@@ -932,11 +932,12 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
 
         for (auto &kernel: generator.kernels) {
             resulting_file->add_statement(cuda_ast::statement_ptr{new cuda_ast::kernel_definition{kernel}});
-
+            
             std::shared_ptr<cuda_ast::block> wrapper_block{new cuda_ast::block};
             wrapper_block->add_statement(cuda_ast::statement_ptr{new cuda_ast::kernel_call{kernel}});
             wrapper_block->add_statement(cuda_ast::statement_ptr{new cuda_ast::cuda_device_synchronize_call{kernel}});
-            
+            wrapper_block->add_statement(cuda_ast::statement_ptr{new cuda_ast::cuda_call_profiler{ kernel->get_wrapper_name() + " wrapper about to finish" }});
+
             wrapper_block->add_statement(cuda_ast::statement_ptr{
                     new cuda_ast::return_statement{
                             cuda_ast::statement_ptr{new cuda_ast::value(value_cast(cuda_ast::kernel::wrapper_return_type, 0))}
@@ -1405,6 +1406,11 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
     cuda_ast::cuda_device_synchronize_call::cuda_device_synchronize_call( kernel_ptr kernel ) : statement(p_none), kernel(kernel) {}
     void cuda_ast::cuda_device_synchronize_call::print(std::stringstream &ss, const std::string &base) {
         ss << "cudaDeviceSynchronize();";
+    }
+
+    cuda_ast::cuda_call_profiler::cuda_call_profiler( std::string message ) : m_message( message ), statement( p_none ) { }
+    void cuda_ast::cuda_call_profiler::print( std::stringstream &ss, const std::string &base ) {
+        ss << "callCudaProfiler( \"" << m_message << "\")";
     }
 
     int cuda_ast::kernel::kernel_count = 0;
