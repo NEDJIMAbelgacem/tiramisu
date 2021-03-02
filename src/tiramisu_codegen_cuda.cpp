@@ -1415,7 +1415,7 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
         ss << "callCudaProfiler( \"" << m_message << "\")";
     }
 
-    cuda_ast::cuda_forward_function_declaration::cuda_forward_function_declaration( std::string std::string signature_str ) : statement( p_none ), m_signature_str( signature_str ) {  }
+    cuda_ast::cuda_forward_function_declaration::cuda_forward_function_declaration( std::string signature_str ) : statement( p_none ), m_signature_str( signature_str ) {  }
     void cuda_ast::cuda_forward_function_declaration( std::stringstream &ss, const std::string &base ) {
         ss << m_signature_str << "\n";
     }
