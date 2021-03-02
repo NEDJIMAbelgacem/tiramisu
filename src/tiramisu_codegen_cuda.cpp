@@ -929,6 +929,8 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
         for (auto &s: const_buffer_declaration)
             resulting_file->add_statement(s);
 
+        // forward function declarations
+        resulting_file->add_statement(cuda_ast::statement_ptr{new cuda_ast::cuda_forward_function_declaration{"#include <iostream>\n#include <string>\nvoid callCudaProfiler( std::string str );"}});
 
         for (auto &kernel: generator.kernels) {
             resulting_file->add_statement(cuda_ast::statement_ptr{new cuda_ast::kernel_definition{kernel}});
@@ -1408,9 +1410,14 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
         ss << "cudaDeviceSynchronize();";
     }
 
-    cuda_ast::cuda_call_profiler::cuda_call_profiler( std::string message ) : m_message( message ), statement( p_none ) { }
+    cuda_ast::cuda_call_profiler::cuda_call_profiler( std::string message ) : statement( p_none ), m_message( message ) { }
     void cuda_ast::cuda_call_profiler::print( std::stringstream &ss, const std::string &base ) {
         ss << "callCudaProfiler( \"" << m_message << "\")";
+    }
+
+    cuda_ast::cuda_forward_function_declaration::cuda_forward_function_declaration( std::string std::string signature_str ) : statement( p_none ), m_signature_str( signature_str ) {  }
+    void cuda_ast::cuda_forward_function_declaration( std::stringstream &ss, const std::string &base ) {
+        ss << m_signature_str << "\n";
     }
 
     int cuda_ast::kernel::kernel_count = 0;

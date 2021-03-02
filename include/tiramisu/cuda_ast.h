@@ -544,6 +544,7 @@ public:
 class kernel_call;
 class cuda_device_synchronize_call;
 class cuda_call_profiler;
+class cuda_forward_function_declaration;
 class kernel_definition;
 
 class return_statement : public statement
@@ -622,6 +623,15 @@ public:
     void print(std::stringstream &ss, const std::string &base) override;
 private:
     kernel_ptr kernel;
+};
+
+class cuda_forward_function_declaration : public statement
+{
+public:
+    explicit cuda_forward_function_declaration(std::string signature_str);
+    void print(std::stringstream &ss, const std::string &base) override;
+private:
+    std::string m_signature_str;
 };
 
 class kernel_definition : public statement
