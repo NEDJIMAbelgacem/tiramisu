@@ -269,7 +269,7 @@ function(build_w name objs wrapper header)
     add_executable(${name} ${wrapper} ${objs} ${header})
     target_link_libraries(${name} tiramisu cuda_wrapper ${HalideLib} ${ISLLib})
     target_link_libraries(${name} ${LINK_FLAGS})
-    # link_tags(${name})
+    link_tags(${name})
 endfunction()
 
 macro(set_obj inp_obj)
