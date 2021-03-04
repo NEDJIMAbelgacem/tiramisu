@@ -3278,8 +3278,10 @@ void generate_function(std::string name)
           .then(flip_B2_Bsecond_r2_i_update, m)
           .then(flip_B2_Bthird_r2_r_update, m)
           .then(flip_B2_Bthird_r2_i_update, m) 
-          .then(C_BB_BB_prop_init_r, x2)
+
+          .then(C_BB_BB_prop_init_r, t)
           .then(C_BB_BB_prop_init_i, r)
+
           .then( *(BB_BB_new_term_0_r1_b1.get_real()), r)
           .then( *(BB_BB_new_term_0_r1_b1.get_imag()), wnum)
           .then( *(BB_BB_new_term_1_r1_b1.get_real()), wnum)
