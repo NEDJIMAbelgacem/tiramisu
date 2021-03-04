@@ -31,7 +31,7 @@
 #define P_Mw 12
 #define P_NsFull 4
 #define P_sites_per_rank 2 // threads per block
-#define P_src_sites_per_rank 64 // blocks
+#define P_src_sites_per_rank 2 // blocks
 
 #elif DATA_SET_2
 
