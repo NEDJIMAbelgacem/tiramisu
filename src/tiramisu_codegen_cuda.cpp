@@ -1413,7 +1413,7 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
     cuda_ast::cuda_call_profiler::cuda_call_profiler( std::string message ) : statement( p_none ), m_message( message ) { }
     void cuda_ast::cuda_call_profiler::print( std::stringstream &ss, const std::string &base ) {
         // ss << "callCudaProfiler( \"" << m_message << "\")";
-        ss << "std::cout << \"" << m_message << "\" << \"\n\"; ";
+        ss << "std::cout << \"" << m_message << "\" << std::endl; ";
     }
 
     cuda_ast::cuda_forward_function_declaration::cuda_forward_function_declaration( std::string signature_str ) : statement( p_none ), m_signature_str( signature_str ) {  }
