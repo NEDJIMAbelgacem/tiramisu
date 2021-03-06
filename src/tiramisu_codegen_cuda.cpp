@@ -1436,7 +1436,15 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
             buffer_ptr buff = buff_pair.second;
 
             std::string buffer_type = tiramisu_type_to_cuda_type( buff->get_type() );
-            std::string size = buff->print_size(" * ");
+            std::string size;
+            {
+                std::stringstream ss;
+                buff->print_size(ss, base, " * ");
+                std::string line;
+                while ( std::get_line( ss, line ) )
+                    size = line + " ";
+            }
+            
             std::string file_path = "./" + buff_name + ".txt";
             if ( buff->get_location() != memory_location::global ) continue;
             
