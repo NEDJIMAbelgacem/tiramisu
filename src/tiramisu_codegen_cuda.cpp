@@ -1444,7 +1444,7 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
             std::string size;
             {
                 std::stringstream ss;
-                buff->print_size(ss, base, " * ");
+                buff->print_size(ss, "", " * ");
                 std::string line;
                 while ( std::getline( ss, line ) )
                     size = size + " " + line;

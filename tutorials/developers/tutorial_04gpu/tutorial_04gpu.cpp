@@ -10,7 +10,7 @@
 
 #include <tiramisu/tiramisu.h>
 
-#define SIZE0 100
+#define SIZE0 3
 
 using namespace tiramisu;
 
