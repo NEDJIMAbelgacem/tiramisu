@@ -1414,9 +1414,9 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
     void cuda_ast::cuda_call_profiler::print( std::stringstream &ss, const std::string &base ) {
         // ss << "callCudaProfiler( \"" << m_message << "\")";
         ss << "std::cout << \"" << m_message << "\" << std::endl; ";
-        for ( std::string buff_name : m_kernel->used_buffers )
+        for ( auto buff : m_kernel->used_buffers )
         {
-            ss << "std::cout << \"Used buffer :" << buff_name << "\" << std::endl; ";
+            ss << "std::cout << \"Used buffer :" << buff.first << "\" << std::endl; ";
         }
         ss << "std::cout << \"" << "--------------------------" << "\" << std::endl; ";
     }
