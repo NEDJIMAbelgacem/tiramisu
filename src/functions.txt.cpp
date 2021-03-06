@@ -1,4 +1,5 @@
 #include <fstream>
+#include <map>
 
 template<typename T>
 void print_global_buffer_to_file( T *device_data, int size, const std::string &file_path )
