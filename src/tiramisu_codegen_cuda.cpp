@@ -942,7 +942,7 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
             {
                 while ( std::getline( in, line ) )
                 {
-                    functions = line + "\n";
+                    functions = functions + line + "\n";
                 }
                 in.close();
             } else {
@@ -1447,7 +1447,7 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
                 buff->print_size(ss, base, " * ");
                 std::string line;
                 while ( std::getline( ss, line ) )
-                    size = line + " ";
+                    size = size + " " + line;
             }
             
             std::string file_path = "\"./" + buff_name + ".txt\"";
