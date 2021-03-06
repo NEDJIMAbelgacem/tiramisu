@@ -938,7 +938,7 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
             std::string line;
             if (in.is_open())
             {
-                while ( std::get_line( in, line ) )
+                while ( get_line( in, line ) )
                 {
                     functions = line + "\n";
                 }
@@ -1441,7 +1441,7 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
                 std::stringstream ss;
                 buff->print_size(ss, base, " * ");
                 std::string line;
-                while ( std::get_line( ss, line ) )
+                while ( get_line( ss, line ) )
                     size = line + " ";
             }
             
