@@ -6,6 +6,7 @@ void print_global_buffer_to_file( T *device_data, int size, const std::string &f
 {
     T *host_data = (T *) malloc( size );
     cudaError_t cudaStatus = cudaMemcpy(device_data, host_data, size * sizeof( T ), cudaMemcpyHostToDevice);
+    cudaDeviceSynchronize();
     std::ofstream output_file;
     output_file.open( file_path.c_str() );
     if ( output_file.is_open() )

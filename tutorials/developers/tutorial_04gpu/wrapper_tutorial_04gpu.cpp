@@ -14,7 +14,7 @@ int main(int, char **)
     for (int i = 0; i < NN; i++) {
         for (int j = 0; j < NN; j++) {
             A_buf(j, i) = i * NN + j;//(i + 3) * (j + 1);
-            B_buf(j, i) = 8 - i * NN + j;
+            B_buf(j, i) = j * NN + i;
         }
     }
 
