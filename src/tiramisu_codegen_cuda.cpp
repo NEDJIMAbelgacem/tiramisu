@@ -931,6 +931,21 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
 
         // forward function declarations
         resulting_file->add_statement(cuda_ast::statement_ptr{new cuda_ast::cuda_forward_function_declaration{"#include <iostream>\n#include <string>\nvoid callCudaProfiler( std::string str );"}});
+        
+        {
+            std::string functions;
+            std::ifstream in( "/data/scratch/belgacem_nedjima/tiramisu_fork/tiramisu/src/functions.txt.cpp" );
+            std::string line;
+            if (in.is_open())
+            {
+                while ( std::get_line( in, line ) )
+                {
+                    functions = line + "\n";
+                }
+                in.close();
+            }
+            resulting_file->add_statement( cuda_ast::statement_ptr{ new cuda_ast::cuda_forward_function_declaration( functions ) } );
+        }
 
         for (auto &kernel: generator.kernels) {
             resulting_file->add_statement(cuda_ast::statement_ptr{new cuda_ast::kernel_definition{kernel}});
@@ -1410,15 +1425,25 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
         ss << "cudaDeviceSynchronize();";
     }
 
+
     cuda_ast::cuda_call_profiler::cuda_call_profiler( kernel_ptr kernel, std::string message ) : statement( p_none ), m_kernel( kernel ), m_message( message ) { }
     void cuda_ast::cuda_call_profiler::print( std::stringstream &ss, const std::string &base ) {
         // ss << "callCudaProfiler( \"" << m_message << "\")";
         ss << "std::cout << \"" << m_message << "\" << std::endl; ";
-        for ( auto buff : m_kernel->used_buffers )
+        for ( auto buff_pair : m_kernel->used_buffers )
         {
-            ss << "std::cout << \"Used buffer :" << buff.first << "\" << std::endl; ";
+            std::string buff_name = buff_pair.first;
+            buffer_ptr buff = buff_pair.second;
+
+            std::string buffer_type = tiramisu_type_to_cuda_type( buff->get_type() );
+            std::string size = buff->print_size(" * ");
+            std::string file_path = "./" + buff_name + ".txt";
+            if ( buff->get_location() != memory_location::global ) continue;
+            
+            ss << "std::cout << \"Used GPU buffer :" << buff.first << "\" << std::endl; " << "\n";
+            ss << "print_global_buffer_to_file<" << buffer_type << ">( " << buff_name << ", " << size << ", " << file_path << " )" << "\n";
         }
-        ss << "std::cout << \"" << "--------------------------" << "\" << std::endl; ";
+        ss << "std::cout << \"" << "--------------------------" << "\" << std::endl; " << "\n";
     }
 
     cuda_ast::cuda_forward_function_declaration::cuda_forward_function_declaration( std::string signature_str ) : statement( p_none ), m_signature_str( signature_str ) {  }
