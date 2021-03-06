@@ -28,6 +28,7 @@
 
 #include <fstream>
 #include <memory>
+#include <iostream>
 
 #ifdef _WIN32
 #define popen _popen
