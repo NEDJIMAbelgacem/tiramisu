@@ -5,7 +5,7 @@ template<typename T>
 void print_global_buffer_to_file( T *device_data, int size, const std::string &file_path )
 {
     T *host_data = (T *) malloc( size * sizeof( T ) );
-    cudaError_t cudaStatus = cudaMemcpy(device_data, host_data, size * sizeof( T ), cudaMemcpyHostToDevice);
+    cudaError_t cudaStatus = cudaMemcpy( host_data, device_data, size * sizeof( T ), cudaMemcpyDeviceToHost );
     cudaDeviceSynchronize();
     std::ofstream output_file;
     output_file.open( file_path.c_str() );
