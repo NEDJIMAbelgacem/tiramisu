@@ -13,8 +13,8 @@ int main(int, char **)
     // Initialize matrices with pseudorandom values:
     for (int i = 0; i < NN; i++) {
         for (int j = 0; j < NN; j++) {
-            A_buf(j, i) = (i + 3) * (j + 1);
-            B_buf(j, i) = (i + 1) * j + 2;
+            A_buf(j, i) = i * NN + j;//(i + 3) * (j + 1);
+            B_buf(j, i) = 8 - i * NN + j;
         }
     }
 
