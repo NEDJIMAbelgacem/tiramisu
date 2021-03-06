@@ -12,7 +12,7 @@ void print_global_buffer_to_file( T *device_data, int size, const std::string &f
     if ( output_file.is_open() )
     {
       for (int i = 0; i < size; ++i)
-          output_file << host_data[i] << "\n";
+          output_file << (double)host_data[i] << "\n";
       output_file.close();
     } else {
       std::cout << "Couldn't open file: " << file_path << std::endl;
