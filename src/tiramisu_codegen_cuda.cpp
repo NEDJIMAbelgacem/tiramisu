@@ -938,7 +938,7 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
             std::shared_ptr<cuda_ast::block> wrapper_block{new cuda_ast::block};
             wrapper_block->add_statement(cuda_ast::statement_ptr{new cuda_ast::kernel_call{kernel}});
             wrapper_block->add_statement(cuda_ast::statement_ptr{new cuda_ast::cuda_device_synchronize_call{kernel}});
-            wrapper_block->add_statement(cuda_ast::statement_ptr{new cuda_ast::cuda_call_profiler{ kernel->get_wrapper_name() + " wrapper about to finish" }});
+            wrapper_block->add_statement(cuda_ast::statement_ptr{new cuda_ast::cuda_call_profiler{ kernel, kernel->get_wrapper_name() + " finished" }});
 
             wrapper_block->add_statement(cuda_ast::statement_ptr{
                     new cuda_ast::return_statement{
@@ -1410,7 +1410,7 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
         ss << "cudaDeviceSynchronize();";
     }
 
-    cuda_ast::cuda_call_profiler::cuda_call_profiler( std::string message ) : statement( p_none ), m_message( message ) { }
+    cuda_ast::cuda_call_profiler::cuda_call_profiler( kernel_ptr kernel, std::string message ) : statement( p_none ), m_kernel( kernel ), m_message( message ) { }
     void cuda_ast::cuda_call_profiler::print( std::stringstream &ss, const std::string &base ) {
         // ss << "callCudaProfiler( \"" << m_message << "\")";
         ss << "std::cout << \"" << m_message << "\" << std::endl; ";

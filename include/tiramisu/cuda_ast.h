@@ -574,7 +574,7 @@ class kernel
 {
     friend class kernel_call;
     friend class kernel_definition;
-private:
+public:
     struct dim3d_t
     {
         statement_ptr x, y, z;
@@ -647,9 +647,10 @@ private:
 class cuda_call_profiler : public statement
 {
 public:
-    explicit cuda_call_profiler(std::string message);
+    explicit cuda_call_profiler( kernel_ptr kernel, std::string message);
     void print(std::stringstream &ss, const std::string &base) override;
 private:
+    kernel_ptr m_kernel;
     std::string m_message;
 };
 
