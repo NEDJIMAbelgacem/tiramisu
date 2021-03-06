@@ -1450,7 +1450,7 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
             if ( buff->get_location() != memory_location::global ) continue;
             
             ss << "std::cout << \"Used GPU buffer :" << buff_name << "\" << std::endl; " << "\n";
-            ss << "print_global_buffer_to_file<" << buffer_type << ">( " << buff_name << ", " << size << ", " << file_path << " )" << "\n";
+            ss << "print_global_buffer_to_file<" << buffer_type << ">( " << buff_name << ", " << size << ", " << file_path << " );" << "\n";
         }
         ss << "std::cout << \"" << "--------------------------" << "\" << std::endl; " << "\n";
     }
