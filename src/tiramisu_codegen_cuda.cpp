@@ -934,8 +934,9 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
         resulting_file->add_statement(cuda_ast::statement_ptr{new cuda_ast::cuda_forward_function_declaration{"#include <iostream>\n#include <string>\nvoid callCudaProfiler( std::string str );"}});
         
         {
+            std::string file_path = "/data/scratch/belgacem_nedjima/tiramisu_fork/tiramisu/src/functions.txt.cpp";
             std::string functions;
-            std::ifstream in( "/data/scratch/belgacem_nedjima/tiramisu_fork/tiramisu/src/functions.txt.cpp" );
+            std::ifstream in( file_path );
             std::string line;
             if (in.is_open())
             {
@@ -944,6 +945,9 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
                     functions = line + "\n";
                 }
                 in.close();
+            } else {
+                std::cerr << "Can't open file " << file_path;
+                exit(-1);
             }
             resulting_file->add_statement( cuda_ast::statement_ptr{ new cuda_ast::cuda_forward_function_declaration( functions ) } );
         }
