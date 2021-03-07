@@ -847,7 +847,7 @@ int main(int, char **)
          {
             for ( r = 0; r < B2Nrows; r++)
             {
-               for ( t = 0; t < Lt; t++ ) {
+               for ( t = 0; t < Lt; t++ )
                {
                   t_C_re[index_5d(rp,m,0,n,t, Nsrc+NsrcHex,B2Nrows,Nsnk+NsnkHex,Lt)] += t_C_re[index_5d(rp,m,r,n,t, Nsrc+NsrcHex,B2Nrows,Nsnk+NsnkHex,Lt)];
                }
