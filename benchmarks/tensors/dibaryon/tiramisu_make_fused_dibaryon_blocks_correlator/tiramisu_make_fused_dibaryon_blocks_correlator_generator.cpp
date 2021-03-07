@@ -1739,11 +1739,15 @@ void generate_function(std::string name)
 #endif
 
 #if PARALLEL
+    B1_Blocal_r1_r_init.tag_parallel_level( t );
+    src_B1_Blocal_r1_r_init.tag_parallel_level( t );
+    snk_B1_Blocal_r1_r_init.tag_parallel_level( t );
+    C_H_H_prop_init_r.tag_parallel_level( t );
 
-    B1_Blocal_r1_r_init.tag_distribute_level(t);
-    src_B1_Blocal_r1_r_init.tag_distribute_level(t);
-    snk_B1_Blocal_r1_r_init.tag_distribute_level(t);
-    C_H_H_prop_init_r.tag_distribute_level(t);
+    // B1_Blocal_r1_r_init.tag_distribute_level(t);
+    // src_B1_Blocal_r1_r_init.tag_distribute_level(t);
+    // snk_B1_Blocal_r1_r_init.tag_distribute_level(t);
+    // C_H_H_prop_init_r.tag_distribute_level(t);
 
 
 #endif
