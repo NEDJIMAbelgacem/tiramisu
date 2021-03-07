@@ -6,8 +6,8 @@
 
 using namespace tiramisu;
 
-#define VECTORIZED 0
-#define PARALLEL 0
+#define VECTORIZED 1
+#define PARALLEL 1
 
 void generate_function(std::string name)
 {
