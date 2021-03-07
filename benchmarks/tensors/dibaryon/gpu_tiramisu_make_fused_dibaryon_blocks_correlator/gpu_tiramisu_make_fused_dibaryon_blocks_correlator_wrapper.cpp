@@ -813,9 +813,8 @@ int main(int, char **)
 	   auto start2 = std::chrono::high_resolution_clock::now();
 
       make_two_nucleon_2pt(C_re, C_im, B1_prop_re, B1_prop_im, B2_prop_re, B2_prop_im, src_color_weights_r1, src_spin_weights_r1, src_weights_r1, src_color_weights_r2, src_spin_weights_r2, src_weights_r2, snk_color_weights_A1, snk_spin_weights_A1, snk_weights_A1, snk_color_weights_T1_r1, snk_spin_weights_T1_r1, snk_weights_T1_r1, snk_color_weights_T1_r2, snk_spin_weights_T1_r2, snk_weights_T1_r2, snk_color_weights_T1_r3, snk_spin_weights_T1_r3, snk_weights_T1_r3, perms, sigs, src_psi_B1_re, src_psi_B1_im, src_psi_B2_re, src_psi_B2_im, all_snk_psi_re, all_snk_psi_im, snk_psi_B1_re, snk_psi_B1_im, snk_psi_B2_re, snk_psi_B2_im, hex_src_psi_re, hex_src_psi_im, hex_snk_psi_re, hex_snk_psi_im, space_symmetric, snk_entangled, Nc, Ns, Vsrc, Vsnk, Lt, Nw, Nw2Hex, Nq, Nsrc, Nsnk, NsrcHex, NsnkHex, Nperms);
-           
 
-      // make_two_nucleon_2pt(C_re, C_im, B1_prop_re, B1_prop_im, B2_prop_re, B2_prop_im, src_color_weights_r1, src_spin_weights_r1, src_weights_r1, src_color_weights_r2, src_spin_weights_r2, src_weights_r2, snk_color_weights_A1, snk_spin_weights_A1, snk_weights_A1, snk_color_weights_T1_r1, snk_spin_weights_T1_r1, snk_weights_T1_r1, snk_color_weights_T1_r2, snk_spin_weights_T1_r2, snk_weights_T1_r2, snk_color_weights_T1_r3, snk_spin_weights_T1_r3, snk_weights_T1_r3, perms, sigs, src_psi_B2_re, src_psi_B2_im, src_psi_B1_re, src_psi_B1_im, all_snk_psi_re, all_snk_psi_im, snk_psi_B2_re, snk_psi_B2_im, snk_psi_B1_re, snk_psi_B1_im, hex_src_psi_re, hex_src_psi_im, hex_snk_psi_re, hex_snk_psi_im, space_symmetric, snk_entangled, Nc, Ns, Vsrc, Vsnk, Lt, Nw, Nw2Hex, Nq, Nsrc, Nsnk, NsrcHex, NsnkHex, Nperms);
+      make_two_nucleon_2pt(C_re, C_im, B1_prop_re, B1_prop_im, B2_prop_re, B2_prop_im, src_color_weights_r1, src_spin_weights_r1, src_weights_r1, src_color_weights_r2, src_spin_weights_r2, src_weights_r2, snk_color_weights_A1, snk_spin_weights_A1, snk_weights_A1, snk_color_weights_T1_r1, snk_spin_weights_T1_r1, snk_weights_T1_r1, snk_color_weights_T1_r2, snk_spin_weights_T1_r2, snk_weights_T1_r2, snk_color_weights_T1_r3, snk_spin_weights_T1_r3, snk_weights_T1_r3, perms, sigs, src_psi_B2_re, src_psi_B2_im, src_psi_B1_re, src_psi_B1_im, all_snk_psi_re, all_snk_psi_im, snk_psi_B2_re, snk_psi_B2_im, snk_psi_B1_re, snk_psi_B1_im, hex_src_psi_re, hex_src_psi_im, hex_snk_psi_re, hex_snk_psi_im, space_symmetric, snk_entangled, Nc, Ns, Vsrc, Vsnk, Lt, Nw, Nw2Hex, Nq, Nsrc, Nsnk, NsrcHex, NsnkHex, Nperms);
 
    for (rp=0; rp<B2Nrows; rp++) {
       printf("\n");
@@ -840,14 +839,31 @@ int main(int, char **)
     print_time("performance_CPU.csv", "dibaryon", {"Ref", "Tiramisu"}, {median(duration_vector_2)/1000., median(duration_vector_1)/1000.});
     std::cout << "\nSpeedup = " << median(duration_vector_2)/median(duration_vector_1) << std::endl;
     
+   for ( rp = 0; rp < B2Nrows; rp++ )
+   {
+      for ( m = 0; m < Nsrc + NsrcHex; m++ )
+      {
+         for ( n = 0; n < Nsnk + NsnkHex; n++ )
+         {
+            for ( r = 0; r < B2Nrows; r++)
+            {
+               for ( t = 0; t < Lt; t++ ) {
+               {
+                  t_C_re[index_5d(rp,m,0,n,t, Nsrc+NsrcHex,B2Nrows,Nsnk+NsnkHex,Lt)] += t_C_re[index_5d(rp,m,r,n,t, Nsrc+NsrcHex,B2Nrows,Nsnk+NsnkHex,Lt)];
+               }
+            }
+         }
+      }
+   }
+
    for (rp=0; rp<B2Nrows; rp++) {
       printf("\n");
       for (m=0; m<Nsrc+NsrcHex; m++)
          for (n=0; n<Nsnk+NsnkHex; n++)
 //            for (r=0; r<B2Nrows; r++)
               for (t=0; t<Lt; t++) {
-                 if ((std::abs(C_re[index_4d(rp,m,n,t, Nsrc+NsrcHex,Nsnk+NsnkHex,Lt)] - t_C_re[index_5d(rp,m,rp,n,t, Nsrc+NsrcHex,B2Nrows,Nsnk+NsnkHex,Lt)]) >= 0.01*Vsnk*Vsnk) ||
-	               (std::abs(C_im[index_4d(rp,m,n,t, Nsrc+NsrcHex,Nsnk+NsnkHex,Lt)] -  t_C_im[index_5d(rp,m,rp,n,t, Nsrc+NsrcHex,B2Nrows,Nsnk+NsnkHex,Lt)]) >= 0.01*Vsnk*Vsnk))
+                 if ((std::abs(C_re[index_4d(rp,m,n,t, Nsrc+NsrcHex,Nsnk+NsnkHex,Lt)] - t_C_re[index_5d(rp,m,0,n,t, Nsrc+NsrcHex,B2Nrows,Nsnk+NsnkHex,Lt)]) >= 0.01*Vsnk*Vsnk) ||
+	               (std::abs(C_im[index_4d(rp,m,n,t, Nsrc+NsrcHex,Nsnk+NsnkHex,Lt)] -  t_C_im[index_5d(rp,m,0,n,t, Nsrc+NsrcHex,B2Nrows,Nsnk+NsnkHex,Lt)]) >= 0.01*Vsnk*Vsnk))
 	            {
                   printf("rp=%d, m=%d, n=%d, t=%d: %4.1f + I (%4.1f) vs %4.1f + I (%4.1f) \n", rp, m, n, t, C_re[index_4d(rp,m,n,t, Nsrc+NsrcHex,Nsnk+NsnkHex,Lt)], C_im[index_4d(rp,m,n,t, Nsrc+NsrcHex,Nsnk+NsnkHex,Lt)],  t_C_re[index_5d(rp,m,rp,n,t, Nsrc+NsrcHex,B2Nrows,Nsnk+NsnkHex,Lt)],  t_C_im[index_5d(rp,m,rp,n,t, Nsrc+NsrcHex,B2Nrows,Nsnk+NsnkHex,Lt)]);
 		            std::cout << "Error: different computed values for C_r or C_i!" << std::endl;
