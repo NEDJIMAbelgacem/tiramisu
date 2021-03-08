@@ -3,6 +3,7 @@
 #include <fstream>
 #include <string>
 #include <map>
+#include <iostream>
 // started as C code
 #include <stdio.h> 
 #include <stdlib.h>
@@ -33,8 +34,7 @@ int Blocal_index(int c1, int s1, int c2, int s2, int c3, int s3, int m, int Nc_f
    return m +Nsrc_f*( s3 +Ns_f*( c3 +Nc_f*( s2 +Ns_f*( c2 +Nc_f*( s1 +Ns_f*( c1 ))))));
 }
 
-template<typename T>
-void print_buffer_to_file( T *buff, int size, std::string file_path_base )
+void print_buffer_to_file( double *buff, int size, std::string file_path_base )
 {
    static std::map<std::string, int> file_count;
    if (file_count.find( file_path_base ) == file_count.end()) file_count[ file_path_base ] = 0;
@@ -1344,38 +1344,38 @@ void make_two_nucleon_2pt(double* C_re,
       double* B2_Bthird_r2_im = (double *) malloc(Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f * sizeof (double));
       auto print_local_buffs = [&]( int line )
       {
-         print_buffer_to_file<double>( B1_Blocal_r1_re, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B1_Blocal_r1_re_") + std::to_string( line ) );
-         print_buffer_to_file<double>( B1_Blocal_r1_im, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B1_Blocal_r1_im_") + std::to_string( line ) );
-         print_buffer_to_file<double>( B1_Blocal_r2_re, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B1_Blocal_r2_re_") + std::to_string( line ) );
-         print_buffer_to_file<double>( B1_Blocal_r2_im, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B1_Blocal_r2_im_") + std::to_string( line ) );
-         print_buffer_to_file<double>( B2_Blocal_r1_re, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B2_Blocal_r1_re_") + std::to_string( line ) );
-         print_buffer_to_file<double>( B2_Blocal_r1_im, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B2_Blocal_r1_im_") + std::to_string( line ) );
-         print_buffer_to_file<double>( B2_Blocal_r2_re, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B2_Blocal_r2_re_") + std::to_string( line ) );
-         print_buffer_to_file<double>( B2_Blocal_r2_im, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B2_Blocal_r2_im_") + std::to_string( line ) );
-         print_buffer_to_file<double>( B1_Bfirst_r1_re, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B1_Bfirst_r1_re_") + std::to_string( line ) );
-         print_buffer_to_file<double>( B1_Bfirst_r1_im, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B1_Bfirst_r1_im_") + std::to_string( line ) );
-         print_buffer_to_file<double>( B1_Bfirst_r2_re, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B1_Bfirst_r2_re_") + std::to_string( line ) );
-         print_buffer_to_file<double>( B1_Bfirst_r2_im, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B1_Bfirst_r2_im_") + std::to_string( line ) );
-         print_buffer_to_file<double>( B2_Bfirst_r1_re, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B2_Bfirst_r1_re_") + std::to_string( line ) );
-         print_buffer_to_file<double>( B2_Bfirst_r1_im, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B2_Bfirst_r1_im_") + std::to_string( line ) );
-         print_buffer_to_file<double>( B2_Bfirst_r2_re, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B2_Bfirst_r2_re_") + std::to_string( line ) );
-         print_buffer_to_file<double>( B2_Bfirst_r2_im, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B2_Bfirst_r2_im_") + std::to_string( line ) );
-         print_buffer_to_file<double>( B1_Bsecond_r1_re, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B1_Bsecond_r1_re_") + std::to_string( line ) );
-         print_buffer_to_file<double>( B1_Bsecond_r1_im, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B1_Bsecond_r1_im_") + std::to_string( line ) );
-         print_buffer_to_file<double>( B1_Bsecond_r2_re, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B1_Bsecond_r2_re_") + std::to_string( line ) );
-         print_buffer_to_file<double>( B1_Bsecond_r2_im, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B1_Bsecond_r2_im_") + std::to_string( line ) );
-         print_buffer_to_file<double>( B2_Bsecond_r1_re, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B2_Bsecond_r1_re_") + std::to_string( line ) );
-         print_buffer_to_file<double>( B2_Bsecond_r1_im, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B2_Bsecond_r1_im_") + std::to_string( line ) );
-         print_buffer_to_file<double>( B2_Bsecond_r2_re, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B2_Bsecond_r2_re_") + std::to_string( line ) );
-         print_buffer_to_file<double>( B2_Bsecond_r2_im, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B2_Bsecond_r2_im_") + std::to_string( line ) );
-         print_buffer_to_file<double>( B1_Bthird_r1_re, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B1_Bthird_r1_re_") + std::to_string( line ) );
-         print_buffer_to_file<double>( B1_Bthird_r1_im, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B1_Bthird_r1_im_") + std::to_string( line ) );
-         print_buffer_to_file<double>( B1_Bthird_r2_re, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B1_Bthird_r2_re_") + std::to_string( line ) );
-         print_buffer_to_file<double>( B1_Bthird_r2_im, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B1_Bthird_r2_im_") + std::to_string( line ) );
-         print_buffer_to_file<double>( B2_Bthird_r1_re, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B2_Bthird_r1_re_") + std::to_string( line ) );
-         print_buffer_to_file<double>( B2_Bthird_r1_im, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B2_Bthird_r1_im_") + std::to_string( line ) );
-         print_buffer_to_file<double>( B2_Bthird_r2_re, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B2_Bthird_r2_re_") + std::to_string( line ) );
-         print_buffer_to_file<double>( B2_Bthird_r2_im, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B2_Bthird_r2_im_") + std::to_string( line ) );
+         print_buffer_to_file( B1_Blocal_r1_re, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B1_Blocal_r1_re_") + std::to_string( line ) );
+         print_buffer_to_file( B1_Blocal_r1_im, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B1_Blocal_r1_im_") + std::to_string( line ) );
+         print_buffer_to_file( B1_Blocal_r2_re, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B1_Blocal_r2_re_") + std::to_string( line ) );
+         print_buffer_to_file( B1_Blocal_r2_im, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B1_Blocal_r2_im_") + std::to_string( line ) );
+         print_buffer_to_file( B2_Blocal_r1_re, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B2_Blocal_r1_re_") + std::to_string( line ) );
+         print_buffer_to_file( B2_Blocal_r1_im, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B2_Blocal_r1_im_") + std::to_string( line ) );
+         print_buffer_to_file( B2_Blocal_r2_re, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B2_Blocal_r2_re_") + std::to_string( line ) );
+         print_buffer_to_file( B2_Blocal_r2_im, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B2_Blocal_r2_im_") + std::to_string( line ) );
+         print_buffer_to_file( B1_Bfirst_r1_re, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B1_Bfirst_r1_re_") + std::to_string( line ) );
+         print_buffer_to_file( B1_Bfirst_r1_im, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B1_Bfirst_r1_im_") + std::to_string( line ) );
+         print_buffer_to_file( B1_Bfirst_r2_re, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B1_Bfirst_r2_re_") + std::to_string( line ) );
+         print_buffer_to_file( B1_Bfirst_r2_im, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B1_Bfirst_r2_im_") + std::to_string( line ) );
+         print_buffer_to_file( B2_Bfirst_r1_re, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B2_Bfirst_r1_re_") + std::to_string( line ) );
+         print_buffer_to_file( B2_Bfirst_r1_im, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B2_Bfirst_r1_im_") + std::to_string( line ) );
+         print_buffer_to_file( B2_Bfirst_r2_re, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B2_Bfirst_r2_re_") + std::to_string( line ) );
+         print_buffer_to_file( B2_Bfirst_r2_im, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B2_Bfirst_r2_im_") + std::to_string( line ) );
+         print_buffer_to_file( B1_Bsecond_r1_re, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B1_Bsecond_r1_re_") + std::to_string( line ) );
+         print_buffer_to_file( B1_Bsecond_r1_im, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B1_Bsecond_r1_im_") + std::to_string( line ) );
+         print_buffer_to_file( B1_Bsecond_r2_re, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B1_Bsecond_r2_re_") + std::to_string( line ) );
+         print_buffer_to_file( B1_Bsecond_r2_im, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B1_Bsecond_r2_im_") + std::to_string( line ) );
+         print_buffer_to_file( B2_Bsecond_r1_re, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B2_Bsecond_r1_re_") + std::to_string( line ) );
+         print_buffer_to_file( B2_Bsecond_r1_im, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B2_Bsecond_r1_im_") + std::to_string( line ) );
+         print_buffer_to_file( B2_Bsecond_r2_re, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B2_Bsecond_r2_re_") + std::to_string( line ) );
+         print_buffer_to_file( B2_Bsecond_r2_im, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B2_Bsecond_r2_im_") + std::to_string( line ) );
+         print_buffer_to_file( B1_Bthird_r1_re, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B1_Bthird_r1_re_") + std::to_string( line ) );
+         print_buffer_to_file( B1_Bthird_r1_im, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B1_Bthird_r1_im_") + std::to_string( line ) );
+         print_buffer_to_file( B1_Bthird_r2_re, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B1_Bthird_r2_re_") + std::to_string( line ) );
+         print_buffer_to_file( B1_Bthird_r2_im, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B1_Bthird_r2_im_") + std::to_string( line ) );
+         print_buffer_to_file( B2_Bthird_r1_re, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B2_Bthird_r1_re_") + std::to_string( line ) );
+         print_buffer_to_file( B2_Bthird_r1_im, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B2_Bthird_r1_im_") + std::to_string( line ) );
+         print_buffer_to_file( B2_Bthird_r2_re, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B2_Bthird_r2_re_") + std::to_string( line ) );
+         print_buffer_to_file( B2_Bthird_r2_im, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B2_Bthird_r2_im_") + std::to_string( line ) );
       };
       for (t=0; t<Nt_f; t++) {
          for (x1 =0; x1<Vsnk_f; x1++) {
