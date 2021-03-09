@@ -18,7 +18,25 @@ extern "C" {
 int nb_tests = 1;
 int randommode = 1;
 
+void print_buffer_to_file( double *buff, int size, std::string file_path_base )
+{
+   static std::map<std::string, int> file_count;
+   if (file_count.find( file_path_base ) == file_count.end()) file_count[ file_path_base ] = 0;
 
+   std::string file_path = file_path_base + std::string( "_" ) + std::to_string( file_count[ file_path_base ] ) + std::string( ".txt" );
+   file_count[ file_path_base ]++;
+
+   std::ofstream output_file;
+   output_file.open( file_path.c_str() );
+   if ( output_file.is_open() )
+   {
+      for (int i = 0; i < size; ++i)
+         output_file << (double)buff[i] << "\n";
+      output_file.close();
+   } else {
+      std::cout << "Couldn't open file: " << file_path << std::endl;
+   }
+}
 
 void tiramisu_make_two_nucleon_2pt(double* C_re,
     double* C_im,
@@ -834,6 +852,75 @@ int main(int, char **)
 #endif
 
     print_time("performance_CPU.csv", "dibaryon", {"Tiramisu"}, {median(duration_vector_1)/1000.});
+   
+   {
+      std::string file_path = "./C_r_reference_output.txt";
+      std::ofstream output_file;
+      output_file.open( file_path.c_str() );
+      if ( output_file.is_open() )
+      {
+         for (rp=0; rp<B2Nrows; rp++) {
+            for (m=0; m<Nsrc+NsrcHex; m++)
+               for (n=0; n<Nsnk+NsnkHex; n++)
+                  for (t=0; t<Lt; t++) 
+                  {
+                     output_file << "t=" << t << ", n=" << n << ", m=" << m << ", rp=" << rp << " ---------> " << C_re[index_4d(rp,m,n,t, Nsrc+NsrcHex,Nsnk+NsnkHex,Lt)] << "\n";
+                  }
+         }
+      }
+   }
+   {
+      std::string file_path = "./C_i_reference_output.txt";
+      std::ofstream output_file;
+      output_file.open( file_path.c_str() );
+      if ( output_file.is_open() )
+      {
+         for (rp=0; rp<B2Nrows; rp++) {
+            for (m=0; m<Nsrc+NsrcHex; m++)
+               for (n=0; n<Nsnk+NsnkHex; n++)
+                  for (t=0; t<Lt; t++) 
+                  {
+                     output_file << "t=" << t << ", n=" << n << ", m=" << m << ", rp=" << rp << " ---------> " << C_im[index_4d(rp,m,n,t, Nsrc+NsrcHex,Nsnk+NsnkHex,Lt)] << "\n";
+                  }
+         }
+      }
+   }
+
+
+   {
+      std::string file_path = "./C_r_tiramisu_output.txt";
+      std::ofstream output_file;
+      output_file.open( file_path.c_str() );
+      if ( output_file.is_open() )
+      {
+         for (rp=0; rp<B2Nrows; rp++) {
+            for (m=0; m<Nsrc+NsrcHex; m++)
+               for ( r = 0; r < B2Nrows; r++)
+               for (n=0; n<Nsnk+NsnkHex; n++)
+                  for (t=0; t<Lt; t++) 
+                  {
+                     output_file << "t=" << t << ", n=" << n << ", r=" << r << ", m=" << m << ", rp=" << rp << " ---------> " << t_C_re[index_5d(rp,m,rp,n,t, Nsrc+NsrcHex,B2Nrows,Nsnk+NsnkHex,Lt)] << "\n";
+                  }
+         }
+      }
+   }
+   {
+      std::string file_path = "./C_i_tiramisu_output.txt";
+      std::ofstream output_file;
+      output_file.open( file_path.c_str() );
+      if ( output_file.is_open() )
+      {
+         for (rp=0; rp<B2Nrows; rp++) {
+            for (m=0; m<Nsrc+NsrcHex; m++)
+               for ( r = 0; r < B2Nrows; r++)
+               for (n=0; n<Nsnk+NsnkHex; n++)
+                  for (t=0; t<Lt; t++) 
+                  {
+                     output_file << "t=" << t << ", n=" << n << ", r=" << r << ", m=" << m << ", rp=" << rp << " ---------> " << t_C_im[index_5d(rp,m,r,n,t, Nsrc+NsrcHex,B2Nrows,Nsnk+NsnkHex,Lt)] << "\n";
+                  }
+         }
+      }
+   }
 
 #if RUN_CHECK
     print_time("performance_CPU.csv", "dibaryon", {"Ref", "Tiramisu"}, {median(duration_vector_2)/1000., median(duration_vector_1)/1000.});
@@ -845,7 +932,7 @@ int main(int, char **)
       {
          for ( n = 0; n < Nsnk + NsnkHex; n++ )
          {
-            for ( r = 0; r < B2Nrows; r++)
+            for ( r = 1; r < B2Nrows; r++)
             {
                for ( t = 0; t < Lt; t++ )
                {
@@ -862,8 +949,8 @@ int main(int, char **)
          for (n=0; n<Nsnk+NsnkHex; n++)
 //            for (r=0; r<B2Nrows; r++)
               for (t=0; t<Lt; t++) {
-                 if ((std::abs(C_re[index_4d(rp,m,n,t, Nsrc+NsrcHex,Nsnk+NsnkHex,Lt)] - t_C_re[index_5d(rp,m,0,n,t, Nsrc+NsrcHex,B2Nrows,Nsnk+NsnkHex,Lt)]) >= 0.01*Vsnk*Vsnk) ||
-	               (std::abs(C_im[index_4d(rp,m,n,t, Nsrc+NsrcHex,Nsnk+NsnkHex,Lt)] -  t_C_im[index_5d(rp,m,0,n,t, Nsrc+NsrcHex,B2Nrows,Nsnk+NsnkHex,Lt)]) >= 0.01*Vsnk*Vsnk))
+                 if ((std::abs(C_re[index_4d(rp,m,n,t, Nsrc+NsrcHex,Nsnk+NsnkHex,Lt)] - t_C_re[index_5d(rp,m,rp,n,t, Nsrc+NsrcHex,B2Nrows,Nsnk+NsnkHex,Lt)]) >= 0.01*Vsnk*Vsnk) ||
+	               (std::abs(C_im[index_4d(rp,m,n,t, Nsrc+NsrcHex,Nsnk+NsnkHex,Lt)] -  t_C_im[index_5d(rp,m,rp,n,t, Nsrc+NsrcHex,B2Nrows,Nsnk+NsnkHex,Lt)]) >= 0.01*Vsnk*Vsnk))
 	            {
                   printf("rp=%d, m=%d, n=%d, t=%d: %4.1f + I (%4.1f) vs %4.1f + I (%4.1f) \n", rp, m, n, t, C_re[index_4d(rp,m,n,t, Nsrc+NsrcHex,Nsnk+NsnkHex,Lt)], C_im[index_4d(rp,m,n,t, Nsrc+NsrcHex,Nsnk+NsnkHex,Lt)],  t_C_re[index_5d(rp,m,rp,n,t, Nsrc+NsrcHex,B2Nrows,Nsnk+NsnkHex,Lt)],  t_C_im[index_5d(rp,m,rp,n,t, Nsrc+NsrcHex,B2Nrows,Nsnk+NsnkHex,Lt)]);
 		            std::cout << "Error: different computed values for C_r or C_i!" << std::endl;
