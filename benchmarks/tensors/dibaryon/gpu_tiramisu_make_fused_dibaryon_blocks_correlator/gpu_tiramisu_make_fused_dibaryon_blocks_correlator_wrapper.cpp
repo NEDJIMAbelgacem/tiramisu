@@ -18,26 +18,6 @@ extern "C" {
 int nb_tests = 1;
 int randommode = 1;
 
-void print_buffer_to_file( double *buff, int size, std::string file_path_base )
-{
-   static std::map<std::string, int> file_count;
-   if (file_count.find( file_path_base ) == file_count.end()) file_count[ file_path_base ] = 0;
-
-   std::string file_path = file_path_base + std::string( "_" ) + std::to_string( file_count[ file_path_base ] ) + std::string( ".txt" );
-   file_count[ file_path_base ]++;
-
-   std::ofstream output_file;
-   output_file.open( file_path.c_str() );
-   if ( output_file.is_open() )
-   {
-      for (int i = 0; i < size; ++i)
-         output_file << (double)buff[i] << "\n";
-      output_file.close();
-   } else {
-      std::cout << "Couldn't open file: " << file_path << std::endl;
-   }
-}
-
 void tiramisu_make_two_nucleon_2pt(double* C_re,
     double* C_im,
      double* B1_prop_re, 
