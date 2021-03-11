@@ -905,23 +905,6 @@ int main(int, char **)
 #if RUN_CHECK
     print_time("performance_CPU.csv", "dibaryon", {"Ref", "Tiramisu"}, {median(duration_vector_2)/1000., median(duration_vector_1)/1000.});
     std::cout << "\nSpeedup = " << median(duration_vector_2)/median(duration_vector_1) << std::endl;
-    
-   for ( rp = 0; rp < B2Nrows; rp++ )
-   {
-      for ( m = 0; m < Nsrc + NsrcHex; m++ )
-      {
-         for ( n = 0; n < Nsnk + NsnkHex; n++ )
-         {
-            for ( r = 1; r < B2Nrows; r++)
-            {
-               for ( t = 0; t < Lt; t++ )
-               {
-                  t_C_re[index_5d(rp,m,0,n,t, Nsrc+NsrcHex,B2Nrows,Nsnk+NsnkHex,Lt)] += t_C_re[index_5d(rp,m,r,n,t, Nsrc+NsrcHex,B2Nrows,Nsnk+NsnkHex,Lt)];
-               }
-            }
-         }
-      }
-   }
 
    for (rp=0; rp<B2Nrows; rp++) {
       printf("\n");
