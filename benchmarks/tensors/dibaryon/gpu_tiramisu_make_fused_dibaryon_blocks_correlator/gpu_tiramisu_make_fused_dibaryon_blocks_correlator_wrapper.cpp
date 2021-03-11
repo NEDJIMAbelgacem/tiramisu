@@ -879,7 +879,7 @@ int main(int, char **)
                for (n=0; n<Nsnk+NsnkHex; n++)
                   for (t=0; t<Lt; t++) 
                   {
-                     output_file << "t=" << t << ", n=" << n << ", r=" << r << ", m=" << m << ", rp=" << rp << " ---------> " << t_C_re[index_5d(rp,m,rp,n,t, Nsrc+NsrcHex,B2Nrows,Nsnk+NsnkHex,Lt)] << "\n";
+                     output_file << "t=" << t << ", n=" << n << ", r=" << r << ", m=" << m << ", rp=" << rp << " ---------> " << t_C_re[index_5d(rp,m,r,n,t, Nsrc+NsrcHex,B2Nrows,Nsnk+NsnkHex,Lt)] << "\n";
                   }
          }
       }
@@ -897,6 +897,41 @@ int main(int, char **)
                   for (t=0; t<Lt; t++) 
                   {
                      output_file << "t=" << t << ", n=" << n << ", r=" << r << ", m=" << m << ", rp=" << rp << " ---------> " << t_C_im[index_5d(rp,m,r,n,t, Nsrc+NsrcHex,B2Nrows,Nsnk+NsnkHex,Lt)] << "\n";
+                  }
+         }
+      }
+   }
+
+
+   {
+      std::string file_path = "./C_r_tiramisu_output_diagonal.txt";
+      std::ofstream output_file;
+      output_file.open( file_path.c_str() );
+      if ( output_file.is_open() )
+      {
+         for (rp=0; rp<B2Nrows; rp++) {
+            for (m=0; m<Nsrc+NsrcHex; m++)
+               for (n=0; n<Nsnk+NsnkHex; n++)
+                  for (t=0; t<Lt; t++) 
+                  {
+                     output_file << "t=" << t << ", n=" << n << ", m=" << m << ", rp=" << rp << " ---------> " << t_C_re[index_5d(rp,m,rp,n,t, Nsrc+NsrcHex,B2Nrows,Nsnk+NsnkHex,Lt)] << "\n";
+                  }
+         }
+      }
+   }
+   {
+      std::string file_path = "./C_i_tiramisu_output_diagonal.txt";
+      std::ofstream output_file;
+      output_file.open( file_path.c_str() );
+      if ( output_file.is_open() )
+      {
+         for (rp=0; rp<B2Nrows; rp++) {
+            for (m=0; m<Nsrc+NsrcHex; m++)
+               for ( r = 0; r < B2Nrows; r++)
+               for (n=0; n<Nsnk+NsnkHex; n++)
+                  for (t=0; t<Lt; t++) 
+                  {
+                     output_file << "t=" << t << ", n=" << n << ", m=" << m << ", rp=" << rp << " ---------> " << t_C_im[index_5d(rp,m,rp,n,t, Nsrc+NsrcHex,B2Nrows,Nsnk+NsnkHex,Lt)] << "\n";
                   }
          }
       }
