@@ -694,6 +694,7 @@ void generate_function(std::string name)
     complex_expr src_B1_r1_prop_1 = B1_prop(1, t, jCprime, jSprime, src_color_weights(0, wnumBlock, 1), src_spin_weights(0, wnumBlock, 1), x_out*sites_per_rank+x_in, y);
 
     complex_expr src_B1_r1_diquark = ( src_B1_r1_prop_0 * src_B1_r1_prop_2 ) *  src_weights(0, wnumBlock);
+
     computation src_B1_Blocal_r1_r_props_init("src_B1_Blocal_r1_r_props_init", {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime}, expr((double) 0));
     computation src_B1_Blocal_r1_i_props_init("src_B1_Blocal_r1_i_props_init", {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime}, expr((double) 0));
 
@@ -922,7 +923,7 @@ void generate_function(std::string name)
     complex_expr snk_B1_r2_props = snk_B1_r2_prop_1 * snk_B1_Blocal_r2_diquark(t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, x, wnumBlock);
 
     computation snk_B1_Blocal_r2_r_props("snk_B1_Blocal_r2_r_props", {t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, x, wnumBlock, jCprime, jSprime}, snk_B1_Blocal_r2_r_props_init(t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, x, jCprime, jSprime) + snk_B1_r2_props.get_real());
-    computation snk_B1_Blocal_r2_i_props("psnk_B1_Blocal_r2_i_props", {t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, x, wnumBlock, jCprime, jSprime}, snk_B1_Blocal_r2_i_props_init(t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, x, jCprime, jSprime) + snk_B1_r2_props.get_imag());
+    computation snk_B1_Blocal_r2_i_props("snk_B1_Blocal_r2_i_props", {t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, x, wnumBlock, jCprime, jSprime}, snk_B1_Blocal_r2_i_props_init(t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, x, jCprime, jSprime) + snk_B1_r2_props.get_imag());
 
     complex_computation snk_B1_Blocal_r2_props(&snk_B1_Blocal_r2_r_props, &snk_B1_Blocal_r2_i_props);
 
@@ -3421,11 +3422,11 @@ void generate_function(std::string name)
     // BB_H
     handle = &(handle
           ->then(src_B1_Blocal_r1_r_init, t)
-          .then(src_B1_Blocal_r1_i_init, kSprime)
-          .then(flip_src_B1_Blocal_r1_r_init, kSprime)
-          .then(flip_src_B1_Blocal_r1_i_init, kSprime)
-          .then(src_B1_Blocal_r1_r_props_init, kSprime)
-          .then(src_B1_Blocal_r1_i_props_init, kSprime)
+          .then(src_B1_Blocal_r1_i_init, jSprime)
+          .then(flip_src_B1_Blocal_r1_r_init, jSprime)
+          .then(flip_src_B1_Blocal_r1_i_init, jSprime)
+          .then(src_B1_Blocal_r1_r_props_init, x_in)
+          .then(src_B1_Blocal_r1_i_props_init, jSprime)
 
           .then(src_B1_Blocal_r1_r_diquark, y)
           .then(src_B1_Blocal_r1_i_diquark, wnumBlock)
@@ -3436,11 +3437,11 @@ void generate_function(std::string name)
           .then(flip_src_B1_Blocal_r1_r_update, m)
           .then(flip_src_B1_Blocal_r1_i_update, m)
 
-          .then(src_B1_Blocal_r2_r_init, x_in) // {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m}
+          .then(src_B1_Blocal_r2_r_init, x_in)
           .then(src_B1_Blocal_r2_i_init, jSprime)
           .then(flip_src_B1_Blocal_r2_r_init, jSprime)
           .then(flip_src_B1_Blocal_r2_i_init, jSprime)
-          .then(src_B1_Blocal_r2_r_props_init, x_in) // {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime}
+          .then(src_B1_Blocal_r2_r_props_init, x_in)
           .then(src_B1_Blocal_r2_i_props_init, jSprime)
 
           .then(src_B1_Blocal_r2_r_diquark, y)
@@ -3452,11 +3453,11 @@ void generate_function(std::string name)
           .then(flip_src_B1_Blocal_r2_r_update, m)
           .then(flip_src_B1_Blocal_r2_i_update, m)
 
-          .then(src_B2_Blocal_r1_r_init, x_in) // {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m}
+          .then(src_B2_Blocal_r1_r_init, x_in)
           .then(src_B2_Blocal_r1_i_init, jSprime)
-          .then(flip_src_B2_Blocal_r1_r_init, jSprime) 
+          .then(flip_src_B2_Blocal_r1_r_init, jSprime)
           .then(flip_src_B2_Blocal_r1_i_init, jSprime)
-          .then(src_B2_Blocal_r1_r_props_init, x_in) // {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime}
+          .then(src_B2_Blocal_r1_r_props_init, x_in)
           .then(src_B2_Blocal_r1_i_props_init, jSprime)
 
           .then(src_B2_Blocal_r1_r_diquark, y)
@@ -3469,11 +3470,11 @@ void generate_function(std::string name)
           .then(flip_src_B2_Blocal_r1_i_update, m)
 
           .then(src_B2_Blocal_r2_r_init, x_in)
-          .then(src_B2_Blocal_r2_i_init, kSprime)
-          .then(flip_src_B2_Blocal_r2_r_init, kSprime)
-          .then(flip_src_B2_Blocal_r2_i_init, kSprime)
+          .then(src_B2_Blocal_r2_i_init, jSprime)
+          .then(flip_src_B2_Blocal_r2_r_init, jSprime)
+          .then(flip_src_B2_Blocal_r2_i_init, jSprime)
           .then(src_B2_Blocal_r2_r_props_init, x_in)
-          .then(src_B2_Blocal_r2_i_props_init, kSprime)
+          .then(src_B2_Blocal_r2_i_props_init, jSprime)
 
           .then(src_B2_Blocal_r2_r_diquark, y)
           .then(src_B2_Blocal_r2_i_diquark, wnumBlock)
@@ -3516,7 +3517,7 @@ void generate_function(std::string name)
           .then(snk_B1_Blocal_r1_r_props_init, y_in)
           .then(snk_B1_Blocal_r1_i_props_init, jSprime)
 
-          .then(snk_B1_Blocal_r1_r_diquark, t)
+          .then(snk_B1_Blocal_r1_r_diquark, x)
           .then(snk_B1_Blocal_r1_i_diquark, wnumBlock)
           .then(snk_B1_Blocal_r1_r_props, wnumBlock)
           .then(snk_B1_Blocal_r1_i_props, jSprime)
@@ -3558,11 +3559,11 @@ void generate_function(std::string name)
           .then(flip_snk_B2_Blocal_r1_i_update, n)
 
           .then(snk_B2_Blocal_r2_r_init, y_in)
-          .then(snk_B2_Blocal_r2_i_init, kSprime)
-          .then(flip_snk_B2_Blocal_r2_r_init, kSprime)
-          .then(flip_snk_B2_Blocal_r2_i_init, kSprime)
-          .then(snk_B2_Blocal_r2_r_props_init, kSprime)
-          .then(snk_B2_Blocal_r2_i_props_init, kSprime)
+          .then(snk_B2_Blocal_r2_i_init, jSprime)
+          .then(flip_snk_B2_Blocal_r2_r_init, jSprime)
+          .then(flip_snk_B2_Blocal_r2_i_init, jSprime)
+          .then(snk_B2_Blocal_r2_r_props_init, y_in)
+          .then(snk_B2_Blocal_r2_i_props_init, jSprime)
 
           .then(snk_B2_Blocal_r2_r_diquark, x)
           .then(snk_B2_Blocal_r2_i_diquark, wnumBlock)
