@@ -3607,7 +3607,7 @@ void generate_function(std::string name)
           .then(C_H_H_update_i, nH) 
           ); 
 
-    handle = &(handle->then(copy_buf_C_r_device_to_host, t)
+    handle = &(handle->then(copy_buf_C_r_device_to_host, computation::root)
     .then(copy_buf_C_i_device_to_host, t)
     .then(copy_B1_prop_r_device_to_host, t)
     .then(copy_B1_prop_i_device_to_host, t)
