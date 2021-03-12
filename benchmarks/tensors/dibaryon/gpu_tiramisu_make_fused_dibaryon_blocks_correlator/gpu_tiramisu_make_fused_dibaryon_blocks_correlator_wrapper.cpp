@@ -90,23 +90,22 @@ void tiramisu_make_two_nucleon_2pt(double* C_re,
    }
 // Lt, Vsnk/sites_per_rank, sites_per_rank, B2Nrows, NsrcTot, B2Nrows, NsnkTot
    // Halide buffers
-   Halide::Buffer<double> b_C_r(Nsnk+NsnkHex, B2Nrows, Nsrc+NsrcHex, B2Nrows, sites_per_rank, Vsnk/sites_per_rank, Lt);
-   Halide::Buffer<double> b_C_i(Nsnk+NsnkHex, B2Nrows, Nsrc+NsrcHex, B2Nrows, sites_per_rank, Vsnk/sites_per_rank, Lt);
+   Halide::Buffer<double> b_C_r(Nsnk+NsnkHex, B2Nrows, Nsrc+NsrcHex, B2Nrows, sites_per_rank, Vsnk/sites_per_rank, Lt, "C_r");
+   Halide::Buffer<double> b_C_i(Nsnk+NsnkHex, B2Nrows, Nsrc+NsrcHex, B2Nrows, sites_per_rank, Vsnk/sites_per_rank, Lt, "C_i");
 
-   Halide::Buffer<int> b_src_color_weights(Nq, Nw, B2Nrows);
-   Halide::Buffer<int> b_src_spin_weights(Nq, Nw, B2Nrows);
-   Halide::Buffer<double> b_src_weights(Nw, B2Nrows);
+   Halide::Buffer<int> b_src_color_weights(Nq, Nw, B2Nrows, "src_color_weights");
+   Halide::Buffer<int> b_src_spin_weights(Nq, Nw, B2Nrows, "src_spin_weights");
+   Halide::Buffer<double> b_src_weights(Nw, B2Nrows, "src_weights");
 
-   Halide::Buffer<int> b_src_spins(2, 2, B2Nrows);
-   Halide::Buffer<double> b_src_spin_block_weights(2, B2Nrows);
-   int* snk = (int *) malloc(2 * Nq * Nperms * sizeof (int));
-   Halide::Buffer<int> b_snk_b(snk, {2, Nq, Nperms});
-   Halide::Buffer<int> b_snk_color_weights(2, Nq, Nw2, Nperms, B2Nrows);
-   Halide::Buffer<int> b_snk_spin_weights(2, Nq, Nw2, Nperms, B2Nrows);
-   Halide::Buffer<double> b_snk_weights(Nw2, B2Nrows);
-   Halide::Buffer<int> b_hex_snk_color_weights(2, Nq, Nw2Hex, Nperms, B2Nrows);
-   Halide::Buffer<int> b_hex_snk_spin_weights(2, Nq, Nw2Hex, Nperms, B2Nrows);
-   Halide::Buffer<double> b_hex_snk_weights(Nw2Hex, B2Nrows);
+   Halide::Buffer<int> b_src_spins(2, 2, B2Nrows, "src_spins");
+   Halide::Buffer<double> b_src_spin_block_weights(2, B2Nrows, "src_spin_block_weights");
+   Halide::Buffer<int> b_snk_b(2, Nq, Nperms, "snk_b");
+   Halide::Buffer<int> b_snk_color_weights(2, Nq, Nw2, Nperms, B2Nrows, "snk_color_weights");
+   Halide::Buffer<int> b_snk_spin_weights(2, Nq, Nw2, Nperms, B2Nrows, "snk_spin_weights");
+   Halide::Buffer<double> b_snk_weights(Nw2, B2Nrows, "snk_weights");
+   Halide::Buffer<int> b_hex_snk_color_weights(2, Nq, Nw2Hex, Nperms, B2Nrows, "hex_snk_color_weights");
+   Halide::Buffer<int> b_hex_snk_spin_weights(2, Nq, Nw2Hex, Nperms, B2Nrows, "hex_snk_spin_weights");
+   Halide::Buffer<double> b_hex_snk_weights(Nw2Hex, B2Nrows, "hex_snk_weights");
 
     // prop
     Halide::Buffer<double> b_B1_prop_r((double *)B1_prop_re, {Vsrc, Vsnk, Ns, Nc, Ns, Nc, Lt, Nq});
@@ -393,24 +392,24 @@ void tiramisu_make_two_nucleon_2pt(double* C_re,
 
 
    if (rank == 0) {
-   printf("BB-BB non-zero? %4.9e + I %4.9e \n", b_C_r(0,1,0,0,0,0,0), b_C_i(0,1,0,0,0,0,0) );
-   printf("BB-BB non-zero? %4.9e + I %4.9e \n", b_C_r(0,0,0,0,0,0,0), b_C_i(0,0,0,0,0,0,0) );
-   printf("BB-BB non-zero? %4.9e + I %4.9e \n", b_C_r(0,2,0,0,0,0,0), b_C_i(0,2,0,0,0,0,0) );
-   printf("BB-BB non-zero? %4.9e + I %4.9e \n", b_C_r(0,3,0,0,0,0,0), b_C_i(0,3,0,0,0,0,0) );
-   printf("BB-BB non-zero? %4.9e + I %4.9e \n", b_C_r(0,4,0,0,0,0,0), b_C_i(0,4,0,0,0,0,0) );
-   printf("BB-BB non-zero? %4.9e + I %4.9e \n", b_C_r(0,5,0,0,0,0,0), b_C_i(0,5,0,0,0,0,0) );
-   printf("H-BB non-zero? %4.9e + I %4.9e \n", b_C_r(0,0,Nsrc,0,0,0,0), b_C_i(0,0,Nsrc,0,0,0,0) );
-   printf("H-BB non-zero? %4.9e + I %4.9e \n", b_C_r(0,1,Nsrc,0,0,0,0), b_C_i(0,1,Nsrc,0,0,0,0) );
-   printf("H-BB non-zero? %4.9e + I %4.9e \n", b_C_r(0,2,Nsrc,0,0,0,0), b_C_i(0,2,Nsrc,0,0,0,0) );
-   printf("H-BB non-zero? %4.9e + I %4.9e \n", b_C_r(0,3,Nsrc,0,0,0,0), b_C_i(0,3,Nsrc,0,0,0,0) );
-   printf("H-BB non-zero? %4.9e + I %4.9e \n", b_C_r(0,4,Nsrc,0,0,0,0), b_C_i(0,4,Nsrc,0,0,0,0) );
-   printf("H-BB non-zero? %4.9e + I %4.9e \n", b_C_r(0,5,Nsrc,0,0,0,0), b_C_i(0,5,Nsrc,0,0,0,0) );
-   printf("H-H non-zero? %4.9e + I %4.9e \n", b_C_r(Nsnk,0,Nsrc,0,0,0,0), b_C_i(Nsnk,0,Nsrc,0,0,0,0) );
-   printf("H-H non-zero? %4.9e + I %4.9e \n", b_C_r(Nsnk,1,Nsrc,0,0,0,0), b_C_i(Nsnk,1,Nsrc,0,0,0,0) );
-   printf("H-H non-zero? %4.9e + I %4.9e \n", b_C_r(Nsnk,2,Nsrc,0,0,0,0), b_C_i(Nsnk,2,Nsrc,0,0,0,0) );
-   printf("H-H non-zero? %4.9e + I %4.9e \n", b_C_r(Nsnk,3,Nsrc,0,0,0,0), b_C_i(Nsnk,3,Nsrc,0,0,0,0) );
-   printf("H-H non-zero? %4.9e + I %4.9e \n", b_C_r(Nsnk,4,Nsrc,0,0,0,0), b_C_i(Nsnk,4,Nsrc,0,0,0,0) );
-   printf("H-H non-zero? %4.9e + I %4.9e \n", b_C_r(Nsnk,5,Nsrc,0,0,0,0), b_C_i(Nsnk,5,Nsrc,0,0,0,0) ); 
+   printf("BB-BB non-zero? %4.9e + I %4.9e \n", b_C_r(0,0,0,0,0,0), b_C_i(0,0,0,0,0,0) );
+   printf("BB-BB non-zero? %4.9e + I %4.9e \n", b_C_r(0,1,0,0,0,0), b_C_i(0,1,0,0,0,0) );
+   printf("BB-BB non-zero? %4.9e + I %4.9e \n", b_C_r(0,2,0,0,0,0), b_C_i(0,2,0,0,0,0) );
+   printf("BB-BB non-zero? %4.9e + I %4.9e \n", b_C_r(0,3,0,0,0,0), b_C_i(0,3,0,0,0,0) );
+   printf("BB-BB non-zero? %4.9e + I %4.9e \n", b_C_r(0,4,0,0,0,0), b_C_i(0,4,0,0,0,0) );
+   printf("BB-BB non-zero? %4.9e + I %4.9e \n", b_C_r(0,5,0,0,0,0), b_C_i(0,5,0,0,0,0) );
+   printf("H-BB non-zero? %4.9e + I %4.9e \n", b_C_r(0,0,Nsrc,0,0,0), b_C_i(0,0,Nsrc,0,0,0) );
+   printf("H-BB non-zero? %4.9e + I %4.9e \n", b_C_r(0,1,Nsrc,0,0,0), b_C_i(0,1,Nsrc,0,0,0) );
+   printf("H-BB non-zero? %4.9e + I %4.9e \n", b_C_r(0,2,Nsrc,0,0,0), b_C_i(0,2,Nsrc,0,0,0) );
+   printf("H-BB non-zero? %4.9e + I %4.9e \n", b_C_r(0,3,Nsrc,0,0,0), b_C_i(0,3,Nsrc,0,0,0) );
+   printf("H-BB non-zero? %4.9e + I %4.9e \n", b_C_r(0,4,Nsrc,0,0,0), b_C_i(0,4,Nsrc,0,0,0) );
+   printf("H-BB non-zero? %4.9e + I %4.9e \n", b_C_r(0,5,Nsrc,0,0,0), b_C_i(0,5,Nsrc,0,0,0) );
+   printf("H-H non-zero? %4.9e + I %4.9e \n", b_C_r(Nsnk,0,Nsrc,0,0,0), b_C_i(Nsnk,0,Nsrc,0,0,0) );
+   printf("H-H non-zero? %4.9e + I %4.9e \n", b_C_r(Nsnk,1,Nsrc,0,0,0), b_C_i(Nsnk,1,Nsrc,0,0,0) );
+   printf("H-H non-zero? %4.9e + I %4.9e \n", b_C_r(Nsnk,2,Nsrc,0,0,0), b_C_i(Nsnk,2,Nsrc,0,0,0) );
+   printf("H-H non-zero? %4.9e + I %4.9e \n", b_C_r(Nsnk,3,Nsrc,0,0,0), b_C_i(Nsnk,3,Nsrc,0,0,0) );
+   printf("H-H non-zero? %4.9e + I %4.9e \n", b_C_r(Nsnk,4,Nsrc,0,0,0), b_C_i(Nsnk,4,Nsrc,0,0,0) );
+   printf("H-H non-zero? %4.9e + I %4.9e \n", b_C_r(Nsnk,5,Nsrc,0,0,0), b_C_i(Nsnk,5,Nsrc,0,0,0) ); 
    }
 
     // symmetrize and such
@@ -811,6 +810,7 @@ int main(int, char **)
 	   auto start2 = std::chrono::high_resolution_clock::now();
 
       make_two_nucleon_2pt(C_re, C_im, B1_prop_re, B1_prop_im, B2_prop_re, B2_prop_im, src_color_weights_r1, src_spin_weights_r1, src_weights_r1, src_color_weights_r2, src_spin_weights_r2, src_weights_r2, snk_color_weights_A1, snk_spin_weights_A1, snk_weights_A1, snk_color_weights_T1_r1, snk_spin_weights_T1_r1, snk_weights_T1_r1, snk_color_weights_T1_r2, snk_spin_weights_T1_r2, snk_weights_T1_r2, snk_color_weights_T1_r3, snk_spin_weights_T1_r3, snk_weights_T1_r3, perms, sigs, src_psi_B1_re, src_psi_B1_im, src_psi_B2_re, src_psi_B2_im, all_snk_psi_re, all_snk_psi_im, snk_psi_B1_re, snk_psi_B1_im, snk_psi_B2_re, snk_psi_B2_im, hex_src_psi_re, hex_src_psi_im, hex_snk_psi_re, hex_snk_psi_im, space_symmetric, snk_entangled, Nc, Ns, Vsrc, Vsnk, Lt, Nw, Nw2Hex, Nq, Nsrc, Nsnk, NsrcHex, NsnkHex, Nperms);
+           
 
       make_two_nucleon_2pt(C_re, C_im, B1_prop_re, B1_prop_im, B2_prop_re, B2_prop_im, src_color_weights_r1, src_spin_weights_r1, src_weights_r1, src_color_weights_r2, src_spin_weights_r2, src_weights_r2, snk_color_weights_A1, snk_spin_weights_A1, snk_weights_A1, snk_color_weights_T1_r1, snk_spin_weights_T1_r1, snk_weights_T1_r1, snk_color_weights_T1_r2, snk_spin_weights_T1_r2, snk_weights_T1_r2, snk_color_weights_T1_r3, snk_spin_weights_T1_r3, snk_weights_T1_r3, perms, sigs, src_psi_B2_re, src_psi_B2_im, src_psi_B1_re, src_psi_B1_im, all_snk_psi_re, all_snk_psi_im, snk_psi_B2_re, snk_psi_B2_im, snk_psi_B1_re, snk_psi_B1_im, hex_src_psi_re, hex_src_psi_im, hex_snk_psi_re, hex_snk_psi_im, space_symmetric, snk_entangled, Nc, Ns, Vsrc, Vsnk, Lt, Nw, Nw2Hex, Nq, Nsrc, Nsnk, NsrcHex, NsnkHex, Nperms);
 
@@ -940,7 +940,7 @@ int main(int, char **)
 #if RUN_CHECK
     print_time("performance_CPU.csv", "dibaryon", {"Ref", "Tiramisu"}, {median(duration_vector_2)/1000., median(duration_vector_1)/1000.});
     std::cout << "\nSpeedup = " << median(duration_vector_2)/median(duration_vector_1) << std::endl;
-
+    
    for (rp=0; rp<B2Nrows; rp++) {
       printf("\n");
       for (m=0; m<Nsrc+NsrcHex; m++)

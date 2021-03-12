@@ -10,8 +10,6 @@
 #include <math.h>
 #include <time.h>
 
-
-
 int index_2d(int a, int b, int length2) {
    return b +length2*( a );
 }
@@ -34,25 +32,25 @@ int Blocal_index(int c1, int s1, int c2, int s2, int c3, int s3, int m, int Nc_f
    return m +Nsrc_f*( s3 +Ns_f*( c3 +Nc_f*( s2 +Ns_f*( c2 +Nc_f*( s1 +Ns_f*( c1 ))))));
 }
 
-void print_buffer_to_file( double *buff, int size, std::string file_path_base )
-{
-   static std::map<std::string, int> file_count;
-   if (file_count.find( file_path_base ) == file_count.end()) file_count[ file_path_base ] = 0;
+// void print_buffer_to_file( double *buff, int size, std::string file_path_base )
+// {
+//    static std::map<std::string, int> file_count;
+//    if (file_count.find( file_path_base ) == file_count.end()) file_count[ file_path_base ] = 0;
 
-   std::string file_path = file_path_base + std::string( "_" ) + std::to_string( file_count[ file_path_base ] ) + std::string( ".txt" );
-   file_count[ file_path_base ]++;
+//    std::string file_path = file_path_base + std::string( "_" ) + std::to_string( file_count[ file_path_base ] ) + std::string( ".txt" );
+//    file_count[ file_path_base ]++;
 
-   std::ofstream output_file;
-   output_file.open( file_path.c_str() );
-   if ( output_file.is_open() )
-   {
-      for (int i = 0; i < size; ++i)
-         output_file << (double)buff[i] << "\n";
-      output_file.close();
-   } else {
-      std::cout << "Couldn't open file: " << file_path << std::endl;
-   }
-}
+//    std::ofstream output_file;
+//    output_file.open( file_path.c_str() );
+//    if ( output_file.is_open() )
+//    {
+//       for (int i = 0; i < size; ++i)
+//          output_file << (double)buff[i] << "\n";
+//       output_file.close();
+//    } else {
+//       std::cout << "Couldn't open file: " << file_path << std::endl;
+//    }
+// }
 
 void make_local_block(double* Blocal_re, 
     double* Blocal_im, 
@@ -1342,104 +1340,104 @@ void make_two_nucleon_2pt(double* C_re,
       double* B2_Bthird_r1_im = (double *) malloc(Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f * sizeof (double));
       double* B2_Bthird_r2_re = (double *) malloc(Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f * sizeof (double));
       double* B2_Bthird_r2_im = (double *) malloc(Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f * sizeof (double));
-      auto print_local_buffs = [&]( int line )
-      {
-         print_buffer_to_file( B1_Blocal_r1_re, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B1_Blocal_r1_re_") + std::to_string( line ) );
-         print_buffer_to_file( B1_Blocal_r1_im, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B1_Blocal_r1_im_") + std::to_string( line ) );
-         print_buffer_to_file( B1_Blocal_r2_re, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B1_Blocal_r2_re_") + std::to_string( line ) );
-         print_buffer_to_file( B1_Blocal_r2_im, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B1_Blocal_r2_im_") + std::to_string( line ) );
-         print_buffer_to_file( B2_Blocal_r1_re, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B2_Blocal_r1_re_") + std::to_string( line ) );
-         print_buffer_to_file( B2_Blocal_r1_im, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B2_Blocal_r1_im_") + std::to_string( line ) );
-         print_buffer_to_file( B2_Blocal_r2_re, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B2_Blocal_r2_re_") + std::to_string( line ) );
-         print_buffer_to_file( B2_Blocal_r2_im, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B2_Blocal_r2_im_") + std::to_string( line ) );
-         print_buffer_to_file( B1_Bfirst_r1_re, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B1_Bfirst_r1_re_") + std::to_string( line ) );
-         print_buffer_to_file( B1_Bfirst_r1_im, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B1_Bfirst_r1_im_") + std::to_string( line ) );
-         print_buffer_to_file( B1_Bfirst_r2_re, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B1_Bfirst_r2_re_") + std::to_string( line ) );
-         print_buffer_to_file( B1_Bfirst_r2_im, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B1_Bfirst_r2_im_") + std::to_string( line ) );
-         print_buffer_to_file( B2_Bfirst_r1_re, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B2_Bfirst_r1_re_") + std::to_string( line ) );
-         print_buffer_to_file( B2_Bfirst_r1_im, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B2_Bfirst_r1_im_") + std::to_string( line ) );
-         print_buffer_to_file( B2_Bfirst_r2_re, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B2_Bfirst_r2_re_") + std::to_string( line ) );
-         print_buffer_to_file( B2_Bfirst_r2_im, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B2_Bfirst_r2_im_") + std::to_string( line ) );
-         print_buffer_to_file( B1_Bsecond_r1_re, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B1_Bsecond_r1_re_") + std::to_string( line ) );
-         print_buffer_to_file( B1_Bsecond_r1_im, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B1_Bsecond_r1_im_") + std::to_string( line ) );
-         print_buffer_to_file( B1_Bsecond_r2_re, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B1_Bsecond_r2_re_") + std::to_string( line ) );
-         print_buffer_to_file( B1_Bsecond_r2_im, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B1_Bsecond_r2_im_") + std::to_string( line ) );
-         print_buffer_to_file( B2_Bsecond_r1_re, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B2_Bsecond_r1_re_") + std::to_string( line ) );
-         print_buffer_to_file( B2_Bsecond_r1_im, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B2_Bsecond_r1_im_") + std::to_string( line ) );
-         print_buffer_to_file( B2_Bsecond_r2_re, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B2_Bsecond_r2_re_") + std::to_string( line ) );
-         print_buffer_to_file( B2_Bsecond_r2_im, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B2_Bsecond_r2_im_") + std::to_string( line ) );
-         print_buffer_to_file( B1_Bthird_r1_re, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B1_Bthird_r1_re_") + std::to_string( line ) );
-         print_buffer_to_file( B1_Bthird_r1_im, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B1_Bthird_r1_im_") + std::to_string( line ) );
-         print_buffer_to_file( B1_Bthird_r2_re, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B1_Bthird_r2_re_") + std::to_string( line ) );
-         print_buffer_to_file( B1_Bthird_r2_im, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B1_Bthird_r2_im_") + std::to_string( line ) );
-         print_buffer_to_file( B2_Bthird_r1_re, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B2_Bthird_r1_re_") + std::to_string( line ) );
-         print_buffer_to_file( B2_Bthird_r1_im, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B2_Bthird_r1_im_") + std::to_string( line ) );
-         print_buffer_to_file( B2_Bthird_r2_re, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B2_Bthird_r2_re_") + std::to_string( line ) );
-         print_buffer_to_file( B2_Bthird_r2_im, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B2_Bthird_r2_im_") + std::to_string( line ) );
-      };
+      // auto print_local_buffs = [&]( int line )
+      // {
+      //    print_buffer_to_file( B1_Blocal_r1_re, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B1_Blocal_r1_re_") + std::to_string( line ) );
+      //    print_buffer_to_file( B1_Blocal_r1_im, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B1_Blocal_r1_im_") + std::to_string( line ) );
+      //    print_buffer_to_file( B1_Blocal_r2_re, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B1_Blocal_r2_re_") + std::to_string( line ) );
+      //    print_buffer_to_file( B1_Blocal_r2_im, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B1_Blocal_r2_im_") + std::to_string( line ) );
+      //    print_buffer_to_file( B2_Blocal_r1_re, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B2_Blocal_r1_re_") + std::to_string( line ) );
+      //    print_buffer_to_file( B2_Blocal_r1_im, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B2_Blocal_r1_im_") + std::to_string( line ) );
+      //    print_buffer_to_file( B2_Blocal_r2_re, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B2_Blocal_r2_re_") + std::to_string( line ) );
+      //    print_buffer_to_file( B2_Blocal_r2_im, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B2_Blocal_r2_im_") + std::to_string( line ) );
+      //    print_buffer_to_file( B1_Bfirst_r1_re, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B1_Bfirst_r1_re_") + std::to_string( line ) );
+      //    print_buffer_to_file( B1_Bfirst_r1_im, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B1_Bfirst_r1_im_") + std::to_string( line ) );
+      //    print_buffer_to_file( B1_Bfirst_r2_re, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B1_Bfirst_r2_re_") + std::to_string( line ) );
+      //    print_buffer_to_file( B1_Bfirst_r2_im, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B1_Bfirst_r2_im_") + std::to_string( line ) );
+      //    print_buffer_to_file( B2_Bfirst_r1_re, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B2_Bfirst_r1_re_") + std::to_string( line ) );
+      //    print_buffer_to_file( B2_Bfirst_r1_im, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B2_Bfirst_r1_im_") + std::to_string( line ) );
+      //    print_buffer_to_file( B2_Bfirst_r2_re, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B2_Bfirst_r2_re_") + std::to_string( line ) );
+      //    print_buffer_to_file( B2_Bfirst_r2_im, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B2_Bfirst_r2_im_") + std::to_string( line ) );
+      //    print_buffer_to_file( B1_Bsecond_r1_re, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B1_Bsecond_r1_re_") + std::to_string( line ) );
+      //    print_buffer_to_file( B1_Bsecond_r1_im, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B1_Bsecond_r1_im_") + std::to_string( line ) );
+      //    print_buffer_to_file( B1_Bsecond_r2_re, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B1_Bsecond_r2_re_") + std::to_string( line ) );
+      //    print_buffer_to_file( B1_Bsecond_r2_im, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B1_Bsecond_r2_im_") + std::to_string( line ) );
+      //    print_buffer_to_file( B2_Bsecond_r1_re, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B2_Bsecond_r1_re_") + std::to_string( line ) );
+      //    print_buffer_to_file( B2_Bsecond_r1_im, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B2_Bsecond_r1_im_") + std::to_string( line ) );
+      //    print_buffer_to_file( B2_Bsecond_r2_re, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B2_Bsecond_r2_re_") + std::to_string( line ) );
+      //    print_buffer_to_file( B2_Bsecond_r2_im, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B2_Bsecond_r2_im_") + std::to_string( line ) );
+      //    print_buffer_to_file( B1_Bthird_r1_re, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B1_Bthird_r1_re_") + std::to_string( line ) );
+      //    print_buffer_to_file( B1_Bthird_r1_im, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B1_Bthird_r1_im_") + std::to_string( line ) );
+      //    print_buffer_to_file( B1_Bthird_r2_re, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B1_Bthird_r2_re_") + std::to_string( line ) );
+      //    print_buffer_to_file( B1_Bthird_r2_im, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B1_Bthird_r2_im_") + std::to_string( line ) );
+      //    print_buffer_to_file( B2_Bthird_r1_re, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B2_Bthird_r1_re_") + std::to_string( line ) );
+      //    print_buffer_to_file( B2_Bthird_r1_im, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B2_Bthird_r1_im_") + std::to_string( line ) );
+      //    print_buffer_to_file( B2_Bthird_r2_re, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B2_Bthird_r2_re_") + std::to_string( line ) );
+      //    print_buffer_to_file( B2_Bthird_r2_im, Nc_f * Ns_f * Nc_f * Ns_f * Nc_f * Ns_f * Nsrc_f, std::string( "./B2_Bthird_r2_im_") + std::to_string( line ) );
+      // };
       for (t=0; t<Nt_f; t++) {
          for (x1 =0; x1<Vsnk_f; x1++) {
             for (x2 =0; x2<Vsnk_f; x2++) {
                // create blocks
-               print_local_buffs( __LINE__ );
+               // print_local_buffs( __LINE__ );
                make_first_block(B1_Bfirst_r1_re, B1_Bfirst_r1_im, B1_prop_re, B1_prop_im, src_color_weights_r1, src_spin_weights_r1, src_weights_r1, src_psi_B1_re, src_psi_B1_im, t, x1, x2, Nc_f,Ns_f,Vsrc_f,Vsnk_f,Nt_f,Nw_f,Nq_f,Nsrc_f);
-               print_local_buffs( __LINE__ );
+               // print_local_buffs( __LINE__ );
                make_first_block(B1_Bfirst_r2_re, B1_Bfirst_r2_im, B1_prop_re, B1_prop_im, src_color_weights_r2, src_spin_weights_r2, src_weights_r2, src_psi_B1_re, src_psi_B1_im, t, x1, x2, Nc_f,Ns_f,Vsrc_f,Vsnk_f,Nt_f,Nw_f,Nq_f,Nsrc_f);
-               print_local_buffs( __LINE__ );
+               // print_local_buffs( __LINE__ );
                make_second_block(B1_Bsecond_r1_re, B1_Bsecond_r1_im, B1_Blocal_r1_re, B1_Blocal_r1_im, B1_prop_re, B1_prop_im, src_color_weights_r1, src_spin_weights_r1, src_weights_r1, src_psi_B1_re, src_psi_B1_im, t, x1, x2, Nc_f,Ns_f,Vsrc_f,Vsnk_f,Nt_f,Nw_f,Nq_f,Nsrc_f);
-               print_local_buffs( __LINE__ );
+               // print_local_buffs( __LINE__ );
                make_second_block(B1_Bsecond_r2_re, B1_Bsecond_r2_im, B1_Blocal_r2_re, B1_Blocal_r2_im, B1_prop_re, B1_prop_im, src_color_weights_r2, src_spin_weights_r2, src_weights_r2, src_psi_B1_re, src_psi_B1_im, t, x1, x2, Nc_f,Ns_f,Vsrc_f,Vsnk_f,Nt_f,Nw_f,Nq_f,Nsrc_f);
-               print_local_buffs( __LINE__ );
+               // print_local_buffs( __LINE__ );
                make_third_block(B1_Bthird_r1_re, B1_Bthird_r1_im, B1_prop_re, B1_prop_im, src_color_weights_r1, src_spin_weights_r1, src_weights_r1, src_psi_B1_re, src_psi_B1_im, t, x1, x2, Nc_f,Ns_f,Vsrc_f,Vsnk_f,Nt_f,Nw_f,Nq_f,Nsrc_f);
-               print_local_buffs( __LINE__ );
+               // print_local_buffs( __LINE__ );
                make_third_block(B1_Bthird_r2_re, B1_Bthird_r2_im, B1_prop_re, B1_prop_im, src_color_weights_r2, src_spin_weights_r2, src_weights_r2, src_psi_B1_re, src_psi_B1_im, t, x1, x2, Nc_f,Ns_f,Vsrc_f,Vsnk_f,Nt_f,Nw_f,Nq_f,Nsrc_f);
-               print_local_buffs( __LINE__ );
+               // print_local_buffs( __LINE__ );
                make_first_block(B2_Bfirst_r1_re, B2_Bfirst_r1_im, B2_prop_re, B2_prop_im, src_color_weights_r1, src_spin_weights_r1, src_weights_r1, src_psi_B2_re, src_psi_B2_im, t, x2, x1, Nc_f,Ns_f,Vsrc_f,Vsnk_f,Nt_f,Nw_f,Nq_f,Nsrc_f);
-               print_local_buffs( __LINE__ );
+               // print_local_buffs( __LINE__ );
                make_first_block(B2_Bfirst_r2_re, B2_Bfirst_r2_im, B2_prop_re, B2_prop_im, src_color_weights_r2, src_spin_weights_r2, src_weights_r2, src_psi_B2_re, src_psi_B2_im, t, x2, x1, Nc_f,Ns_f,Vsrc_f,Vsnk_f,Nt_f,Nw_f,Nq_f,Nsrc_f);
-               print_local_buffs( __LINE__ );
+               // print_local_buffs( __LINE__ );
                make_second_block(B2_Bsecond_r1_re, B2_Bsecond_r1_im, B2_Blocal_r1_re, B2_Blocal_r1_im, B2_prop_re, B2_prop_im, src_color_weights_r1, src_spin_weights_r1, src_weights_r1, src_psi_B2_re, src_psi_B2_im, t, x2, x1, Nc_f,Ns_f,Vsrc_f,Vsnk_f,Nt_f,Nw_f,Nq_f,Nsrc_f);
-               print_local_buffs( __LINE__ );
+               // print_local_buffs( __LINE__ );
                make_second_block(B2_Bsecond_r2_re, B2_Bsecond_r2_im, B2_Blocal_r2_re, B2_Blocal_r2_im, B2_prop_re, B2_prop_im, src_color_weights_r2, src_spin_weights_r2, src_weights_r2, src_psi_B2_re, src_psi_B2_im, t, x2, x1, Nc_f,Ns_f,Vsrc_f,Vsnk_f,Nt_f,Nw_f,Nq_f,Nsrc_f);
-               print_local_buffs( __LINE__ );
+               // print_local_buffs( __LINE__ );
                make_third_block(B2_Bthird_r1_re, B2_Bthird_r1_im, B2_prop_re, B2_prop_im, src_color_weights_r1, src_spin_weights_r1, src_weights_r1, src_psi_B2_re, src_psi_B2_im, t, x2, x1, Nc_f,Ns_f,Vsrc_f,Vsnk_f,Nt_f,Nw_f,Nq_f,Nsrc_f);
-               print_local_buffs( __LINE__ );
+               // print_local_buffs( __LINE__ );
                make_third_block(B2_Bthird_r2_re, B2_Bthird_r2_im, B2_prop_re, B2_prop_im, src_color_weights_r2, src_spin_weights_r2, src_weights_r2, src_psi_B2_re, src_psi_B2_im, t, x2, x1, Nc_f,Ns_f,Vsrc_f,Vsnk_f,Nt_f,Nw_f,Nq_f,Nsrc_f);
-               print_local_buffs( __LINE__ );
+               // print_local_buffs( __LINE__ );
                /* compute two nucleon correlators from blocks */
                int* src_spins = (int *) malloc(2 * sizeof (int));
                src_spins[0] = 1;
                src_spins[1] = 2;
                make_dibaryon_correlator(BB_0_re, BB_0_im, B1_Blocal_r1_re, B1_Blocal_r1_im, B1_Bfirst_r1_re, B1_Bfirst_r1_im, B1_Bsecond_r1_re, B1_Bsecond_r1_im, B1_Bthird_r1_re, B1_Bthird_r1_im, B2_Blocal_r1_re, B2_Blocal_r1_im, B2_Bfirst_r1_re, B2_Bfirst_r1_im, B2_Bsecond_r1_re, B2_Bsecond_r1_im, B2_Bthird_r1_re, B2_Bthird_r1_im, B1_Blocal_r2_re, B1_Blocal_r2_im, B1_Bfirst_r2_re, B1_Bfirst_r2_im, B1_Bsecond_r2_re, B1_Bsecond_r2_im, B1_Bthird_r2_re, B1_Bthird_r2_im, B2_Blocal_r2_re, B2_Blocal_r2_im, B2_Bfirst_r2_re, B2_Bfirst_r2_im, B2_Bsecond_r2_re, B2_Bsecond_r2_im, B2_Bthird_r2_re, B2_Bthird_r2_im, src_spins, perms, sigs, overall_weight/sqrt(2.0), snk_color_weights_1, snk_spin_weights_1, snk_weights_1, snk_psi_re, snk_psi_im, t, x1, x2, Nc_f,Ns_f,Vsrc_f,Vsnk_f,Nt_f,Nw_f,Nq_f,Nsrc_f,Nsnk_f,Nperms_f);
-               print_local_buffs( __LINE__ );
+               // print_local_buffs( __LINE__ );
                make_dibaryon_correlator(BB_0_re, BB_0_im, B1_Blocal_r1_re, B1_Blocal_r1_im, B1_Bfirst_r1_re, B1_Bfirst_r1_im, B1_Bsecond_r1_re, B1_Bsecond_r1_im, B1_Bthird_r1_re, B1_Bthird_r1_im, B2_Blocal_r1_re, B2_Blocal_r1_im, B2_Bfirst_r1_re, B2_Bfirst_r1_im, B2_Bsecond_r1_re, B2_Bsecond_r1_im, B2_Bthird_r1_re, B2_Bthird_r1_im, B1_Blocal_r2_re, B1_Blocal_r2_im, B1_Bfirst_r2_re, B1_Bfirst_r2_im, B1_Bsecond_r2_re, B1_Bsecond_r2_im, B1_Bthird_r2_re, B1_Bthird_r2_im, B2_Blocal_r2_re, B2_Blocal_r2_im, B2_Bfirst_r2_re, B2_Bfirst_r2_im, B2_Bsecond_r2_re, B2_Bsecond_r2_im, B2_Bthird_r2_re, B2_Bthird_r2_im, src_spins, perms, sigs, overall_weight/sqrt(2.0), snk_color_weights_2, snk_spin_weights_2, snk_weights_2, snk_psi_re, snk_psi_im, t, x1, x2, Nc_f,Ns_f,Vsrc_f,Vsnk_f,Nt_f,Nw_f,Nq_f,Nsrc_f,Nsnk_f,Nperms_f);
-               print_local_buffs( __LINE__ );
+               // print_local_buffs( __LINE__ );
                src_spins[0] = 2;
                src_spins[1] = 1;
                make_dibaryon_correlator(BB_0_re, BB_0_im, B1_Blocal_r1_re, B1_Blocal_r1_im, B1_Bfirst_r1_re, B1_Bfirst_r1_im, B1_Bsecond_r1_re, B1_Bsecond_r1_im, B1_Bthird_r1_re, B1_Bthird_r1_im, B2_Blocal_r1_re, B2_Blocal_r1_im, B2_Bfirst_r1_re, B2_Bfirst_r1_im, B2_Bsecond_r1_re, B2_Bsecond_r1_im, B2_Bthird_r1_re, B2_Bthird_r1_im, B1_Blocal_r2_re, B1_Blocal_r2_im, B1_Bfirst_r2_re, B1_Bfirst_r2_im, B1_Bsecond_r2_re, B1_Bsecond_r2_im, B1_Bthird_r2_re, B1_Bthird_r2_im, B2_Blocal_r2_re, B2_Blocal_r2_im, B2_Bfirst_r2_re, B2_Bfirst_r2_im, B2_Bsecond_r2_re, B2_Bsecond_r2_im, B2_Bthird_r2_re, B2_Bthird_r2_im, src_spins, perms, sigs, -1.0*overall_weight/sqrt(2.0), snk_color_weights_1, snk_spin_weights_1, snk_weights_1, snk_psi_re, snk_psi_im, t, x1, x2, Nc_f,Ns_f,Vsrc_f,Vsnk_f,Nt_f,Nw_f,Nq_f,Nsrc_f,Nsnk_f,Nperms_f);
-               print_local_buffs( __LINE__ );
+               // print_local_buffs( __LINE__ );
                make_dibaryon_correlator(BB_0_re, BB_0_im, B1_Blocal_r1_re, B1_Blocal_r1_im, B1_Bfirst_r1_re, B1_Bfirst_r1_im, B1_Bsecond_r1_re, B1_Bsecond_r1_im, B1_Bthird_r1_re, B1_Bthird_r1_im, B2_Blocal_r1_re, B2_Blocal_r1_im, B2_Bfirst_r1_re, B2_Bfirst_r1_im, B2_Bsecond_r1_re, B2_Bsecond_r1_im, B2_Bthird_r1_re, B2_Bthird_r1_im, B1_Blocal_r2_re, B1_Blocal_r2_im, B1_Bfirst_r2_re, B1_Bfirst_r2_im, B1_Bsecond_r2_re, B1_Bsecond_r2_im, B1_Bthird_r2_re, B1_Bthird_r2_im, B2_Blocal_r2_re, B2_Blocal_r2_im, B2_Bfirst_r2_re, B2_Bfirst_r2_im, B2_Bsecond_r2_re, B2_Bsecond_r2_im, B2_Bthird_r2_re, B2_Bthird_r2_im, src_spins, perms, sigs, -1.0*overall_weight/sqrt(2.0), snk_color_weights_2, snk_spin_weights_2, snk_weights_2, snk_psi_re, snk_psi_im, t, x1, x2, Nc_f,Ns_f,Vsrc_f,Vsnk_f,Nt_f,Nw_f,Nq_f,Nsrc_f,Nsnk_f,Nperms_f);
-               print_local_buffs( __LINE__ );
+               // print_local_buffs( __LINE__ );
                src_spins[0] = 1;
                src_spins[1] = 1;
                make_dibaryon_correlator(BB_r1_re, BB_r1_im, B1_Blocal_r1_re, B1_Blocal_r1_im, B1_Bfirst_r1_re, B1_Bfirst_r1_im, B1_Bsecond_r1_re, B1_Bsecond_r1_im, B1_Bthird_r1_re, B1_Bthird_r1_im, B2_Blocal_r1_re, B2_Blocal_r1_im, B2_Bfirst_r1_re, B2_Bfirst_r1_im, B2_Bsecond_r1_re, B2_Bsecond_r1_im, B2_Bthird_r1_re, B2_Bthird_r1_im, B1_Blocal_r2_re, B1_Blocal_r2_im, B1_Bfirst_r2_re, B1_Bfirst_r2_im, B1_Bsecond_r2_re, B1_Bsecond_r2_im, B1_Bthird_r2_re, B1_Bthird_r2_im, B2_Blocal_r2_re, B2_Blocal_r2_im, B2_Bfirst_r2_re, B2_Bfirst_r2_im, B2_Bsecond_r2_re, B2_Bsecond_r2_im, B2_Bthird_r2_re, B2_Bthird_r2_im, src_spins, perms, sigs, overall_weight, snk_color_weights_r1, snk_spin_weights_r1, snk_weights_r1, snk_psi_re, snk_psi_im, t, x1, x2, Nc_f,Ns_f,Vsrc_f,Vsnk_f,Nt_f,Nw_f,Nq_f,Nsrc_f,Nsnk_f,Nperms_f);
-               print_local_buffs( __LINE__ );
+               // print_local_buffs( __LINE__ );
                src_spins[0] = 1;
                src_spins[1] = 2;
                make_dibaryon_correlator(BB_r2_re, BB_r2_im, B1_Blocal_r1_re, B1_Blocal_r1_im, B1_Bfirst_r1_re, B1_Bfirst_r1_im, B1_Bsecond_r1_re, B1_Bsecond_r1_im, B1_Bthird_r1_re, B1_Bthird_r1_im, B2_Blocal_r1_re, B2_Blocal_r1_im, B2_Bfirst_r1_re, B2_Bfirst_r1_im, B2_Bsecond_r1_re, B2_Bsecond_r1_im, B2_Bthird_r1_re, B2_Bthird_r1_im, B1_Blocal_r2_re, B1_Blocal_r2_im, B1_Bfirst_r2_re, B1_Bfirst_r2_im, B1_Bsecond_r2_re, B1_Bsecond_r2_im, B1_Bthird_r2_re, B1_Bthird_r2_im, B2_Blocal_r2_re, B2_Blocal_r2_im, B2_Bfirst_r2_re, B2_Bfirst_r2_im, B2_Bsecond_r2_re, B2_Bsecond_r2_im, B2_Bthird_r2_re, B2_Bthird_r2_im, src_spins, perms, sigs, overall_weight/sqrt(2.0), snk_color_weights_r2_1, snk_spin_weights_r2_1, snk_weights_r2_1, snk_psi_re, snk_psi_im, t, x1, x2,  Nc_f,Ns_f,Vsrc_f,Vsnk_f,Nt_f,Nw_f,Nq_f,Nsrc_f,Nsnk_f,Nperms_f);
-               print_local_buffs( __LINE__ );
+               // print_local_buffs( __LINE__ );
                make_dibaryon_correlator(BB_r2_re, BB_r2_im, B1_Blocal_r1_re, B1_Blocal_r1_im, B1_Bfirst_r1_re, B1_Bfirst_r1_im, B1_Bsecond_r1_re, B1_Bsecond_r1_im, B1_Bthird_r1_re, B1_Bthird_r1_im, B2_Blocal_r1_re, B2_Blocal_r1_im, B2_Bfirst_r1_re, B2_Bfirst_r1_im, B2_Bsecond_r1_re, B2_Bsecond_r1_im, B2_Bthird_r1_re, B2_Bthird_r1_im, B1_Blocal_r2_re, B1_Blocal_r2_im, B1_Bfirst_r2_re, B1_Bfirst_r2_im, B1_Bsecond_r2_re, B1_Bsecond_r2_im, B1_Bthird_r2_re, B1_Bthird_r2_im, B2_Blocal_r2_re, B2_Blocal_r2_im, B2_Bfirst_r2_re, B2_Bfirst_r2_im, B2_Bsecond_r2_re, B2_Bsecond_r2_im, B2_Bthird_r2_re, B2_Bthird_r2_im, src_spins, perms, sigs, overall_weight/sqrt(2.0), snk_color_weights_r2_2, snk_spin_weights_r2_2, snk_weights_r2_2, snk_psi_re, snk_psi_im, t, x1, x2, Nc_f,Ns_f,Vsrc_f,Vsnk_f,Nt_f,Nw_f,Nq_f,Nsrc_f,Nsnk_f,Nperms_f);
-               print_local_buffs( __LINE__ );
+               // print_local_buffs( __LINE__ );
                src_spins[0] = 2;
                src_spins[1] = 1;
                make_dibaryon_correlator(BB_r2_re, BB_r2_im, B1_Blocal_r1_re, B1_Blocal_r1_im, B1_Bfirst_r1_re, B1_Bfirst_r1_im, B1_Bsecond_r1_re, B1_Bsecond_r1_im, B1_Bthird_r1_re, B1_Bthird_r1_im, B2_Blocal_r1_re, B2_Blocal_r1_im, B2_Bfirst_r1_re, B2_Bfirst_r1_im, B2_Bsecond_r1_re, B2_Bsecond_r1_im, B2_Bthird_r1_re, B2_Bthird_r1_im, B1_Blocal_r2_re, B1_Blocal_r2_im, B1_Bfirst_r2_re, B1_Bfirst_r2_im, B1_Bsecond_r2_re, B1_Bsecond_r2_im, B1_Bthird_r2_re, B1_Bthird_r2_im, B2_Blocal_r2_re, B2_Blocal_r2_im, B2_Bfirst_r2_re, B2_Bfirst_r2_im, B2_Bsecond_r2_re, B2_Bsecond_r2_im, B2_Bthird_r2_re, B2_Bthird_r2_im, src_spins, perms, sigs, overall_weight/sqrt(2.0), snk_color_weights_r2_1, snk_spin_weights_r2_1, snk_weights_r2_1, snk_psi_re, snk_psi_im, t, x1, x2, Nc_f,Ns_f,Vsrc_f,Vsnk_f,Nt_f,Nw_f,Nq_f,Nsrc_f,Nsnk_f,Nperms_f);
-               print_local_buffs( __LINE__ );
+               // print_local_buffs( __LINE__ );
                make_dibaryon_correlator(BB_r2_re, BB_r2_im, B1_Blocal_r1_re, B1_Blocal_r1_im, B1_Bfirst_r1_re, B1_Bfirst_r1_im, B1_Bsecond_r1_re, B1_Bsecond_r1_im, B1_Bthird_r1_re, B1_Bthird_r1_im, B2_Blocal_r1_re, B2_Blocal_r1_im, B2_Bfirst_r1_re, B2_Bfirst_r1_im, B2_Bsecond_r1_re, B2_Bsecond_r1_im, B2_Bthird_r1_re, B2_Bthird_r1_im, B1_Blocal_r2_re, B1_Blocal_r2_im, B1_Bfirst_r2_re, B1_Bfirst_r2_im, B1_Bsecond_r2_re, B1_Bsecond_r2_im, B1_Bthird_r2_re, B1_Bthird_r2_im, B2_Blocal_r2_re, B2_Blocal_r2_im, B2_Bfirst_r2_re, B2_Bfirst_r2_im, B2_Bsecond_r2_re, B2_Bsecond_r2_im, B2_Bthird_r2_re, B2_Bthird_r2_im, src_spins, perms, sigs, overall_weight/sqrt(2.0), snk_color_weights_r2_2, snk_spin_weights_r2_2, snk_weights_r2_2, snk_psi_re, snk_psi_im, t, x1, x2, Nc_f,Ns_f,Vsrc_f,Vsnk_f,Nt_f,Nw_f,Nq_f,Nsrc_f,Nsnk_f,Nperms_f);
-               print_local_buffs( __LINE__ );
+               // print_local_buffs( __LINE__ );
                src_spins[0] = 2;
                src_spins[1] = 2;
                make_dibaryon_correlator(BB_r3_re, BB_r3_im, B1_Blocal_r1_re, B1_Blocal_r1_im, B1_Bfirst_r1_re, B1_Bfirst_r1_im, B1_Bsecond_r1_re, B1_Bsecond_r1_im, B1_Bthird_r1_re, B1_Bthird_r1_im, B2_Blocal_r1_re, B2_Blocal_r1_im, B2_Bfirst_r1_re, B2_Bfirst_r1_im, B2_Bsecond_r1_re, B2_Bsecond_r1_im, B2_Bthird_r1_re, B2_Bthird_r1_im, B1_Blocal_r2_re, B1_Blocal_r2_im, B1_Bfirst_r2_re, B1_Bfirst_r2_im, B1_Bsecond_r2_re, B1_Bsecond_r2_im, B1_Bthird_r2_re, B1_Bthird_r2_im, B2_Blocal_r2_re, B2_Blocal_r2_im, B2_Bfirst_r2_re, B2_Bfirst_r2_im, B2_Bsecond_r2_re, B2_Bsecond_r2_im, B2_Bthird_r2_re, B2_Bthird_r2_im, src_spins, perms, sigs, overall_weight, snk_color_weights_r3, snk_spin_weights_r3, snk_weights_r3, snk_psi_re, snk_psi_im, t, x1, x2, Nc_f,Ns_f,Vsrc_f,Vsnk_f,Nt_f,Nw_f,Nq_f,Nsrc_f,Nsnk_f,Nperms_f);
-               print_local_buffs( __LINE__ );
+               // print_local_buffs( __LINE__ );
             }
          }
          for (m=0; m<Nsrc_f; m++) {
