@@ -12,8 +12,8 @@
 #define P_Nsrc 44
 #define P_Nsnk 44
 #define P_NEntangled 3
-#define P_NsrcHex 1
-#define P_NsnkHex 1
+#define P_NsrcHex 2
+#define P_NsnkHex 2
 #define P_Nperms 36
 #define P_B1Nperms 2
 #define P_Nw 12
@@ -28,7 +28,7 @@
 #define P_Nb 2
 #define P_mq 1.0
 #define P_Mq 2
-#define P_B0Nrows 1
+#define P_B0Nrows 2
 #define P_Mw 12
 #define P_NsFull 4
 #define P_sites_per_rank 2 // threads per block
