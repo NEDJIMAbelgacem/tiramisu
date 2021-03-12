@@ -2501,38 +2501,32 @@ static __global__ void _kernel_2(int32_t c1, double *buf_B1_prop_i_gpu, double *
 							{
 								buf_src_B1_Blocal_r1_r[((((((((((0 + (c19 * 1)) + (c17 * (1 * 44))) + (c15 * ((1 * 44) * 2))) + (c13 * (((1 * 44) * 2) * 3))) + (c11 * ((((1 * 44) * 2) * 3) * 2))) + (c9 * (((((1 * 44) * 2) * 3) * 2) * 3))) + (c7 * ((((((1 * 44) * 2) * 3) * 2) * 3) * 2))) + (__tx__ * (((((((1 * 44) * 2) * 3) * 2) * 3) * 2) * 3))) + (__bx__ * ((((((((1 * 44) * 2) * 3) * 2) * 3) * 2) * 3) * 2))) + (c1 * (((((((((1 * 44) * 2) * 3) * 2) * 3) * 2) * 3) * 2) * 2)))] = 0;
 							};
-						};
-					};
-					for (int32_t c15 = 0; (c15 <= 2); (c15 += 1))
-					{
-						for (int32_t c17 = 0; (c17 <= 1); (c17 += 1))
-						{
 							for (int32_t c19 = 0; (c19 <= 43); (c19 += 1))
 							{
 								buf_src_B1_Blocal_r1_i[((((((((((0 + (c19 * 1)) + (c17 * (1 * 44))) + (c15 * ((1 * 44) * 2))) + (c13 * (((1 * 44) * 2) * 3))) + (c11 * ((((1 * 44) * 2) * 3) * 2))) + (c9 * (((((1 * 44) * 2) * 3) * 2) * 3))) + (c7 * ((((((1 * 44) * 2) * 3) * 2) * 3) * 2))) + (__tx__ * (((((((1 * 44) * 2) * 3) * 2) * 3) * 2) * 3))) + (__bx__ * ((((((((1 * 44) * 2) * 3) * 2) * 3) * 2) * 3) * 2))) + (c1 * (((((((((1 * 44) * 2) * 3) * 2) * 3) * 2) * 3) * 2) * 2)))] = 0;
 							};
-						};
-					};
-					for (int32_t c15 = 0; (c15 <= 2); (c15 += 1))
-					{
-						for (int32_t c17 = 0; (c17 <= 1); (c17 += 1))
-						{
 							for (int32_t c19 = 0; (c19 <= 43); (c19 += 1))
 							{
 								buf_flip_src_B1_Blocal_r1_r[((((((((((0 + (c19 * 1)) + (c17 * (1 * 44))) + (c15 * ((1 * 44) * 2))) + (c13 * (((1 * 44) * 2) * 3))) + (c11 * ((((1 * 44) * 2) * 3) * 2))) + (c9 * (((((1 * 44) * 2) * 3) * 2) * 3))) + (c7 * ((((((1 * 44) * 2) * 3) * 2) * 3) * 2))) + (__tx__ * (((((((1 * 44) * 2) * 3) * 2) * 3) * 2) * 3))) + (__bx__ * ((((((((1 * 44) * 2) * 3) * 2) * 3) * 2) * 3) * 2))) + (c1 * (((((((((1 * 44) * 2) * 3) * 2) * 3) * 2) * 3) * 2) * 2)))] = 0;
 							};
-						};
-					};
-					for (int32_t c15 = 0; (c15 <= 2); (c15 += 1))
-					{
-						for (int32_t c17 = 0; (c17 <= 1); (c17 += 1))
-						{
 							for (int32_t c19 = 0; (c19 <= 43); (c19 += 1))
 							{
 								buf_flip_src_B1_Blocal_r1_i[((((((((((0 + (c19 * 1)) + (c17 * (1 * 44))) + (c15 * ((1 * 44) * 2))) + (c13 * (((1 * 44) * 2) * 3))) + (c11 * ((((1 * 44) * 2) * 3) * 2))) + (c9 * (((((1 * 44) * 2) * 3) * 2) * 3))) + (c7 * ((((((1 * 44) * 2) * 3) * 2) * 3) * 2))) + (__tx__ * (((((((1 * 44) * 2) * 3) * 2) * 3) * 2) * 3))) + (__bx__ * ((((((((1 * 44) * 2) * 3) * 2) * 3) * 2) * 3) * 2))) + (c1 * (((((((((1 * 44) * 2) * 3) * 2) * 3) * 2) * 3) * 2) * 2)))] = 0;
 							};
 						};
 					};
+				};
+			};
+		};
+	};
+	for (int32_t c7 = 0; (c7 <= 2); (c7 += 1))
+	{
+		for (int32_t c9 = 0; (c9 <= 1); (c9 += 1))
+		{
+			for (int32_t c11 = 0; (c11 <= 2); (c11 += 1))
+			{
+				for (int32_t c13 = 0; (c13 <= 1); (c13 += 1))
+				{
 					for (int32_t c15 = 0; (c15 <= 3); (c15 += 1))
 					{
 						for (int32_t c17 = 0; (c17 <= 2); (c17 += 1))
@@ -2540,15 +2534,6 @@ static __global__ void _kernel_2(int32_t c1, double *buf_B1_prop_i_gpu, double *
 							for (int32_t c19 = 0; (c19 <= 1); (c19 += 1))
 							{
 								buf_src_B1_Blocal_props_r1_r[(((((0 + (c19 * 1)) + (c17 * (1 * 2))) + (__tx__ * ((1 * 2) * 3))) + (__bx__ * (((1 * 2) * 3) * 2))) + (c1 * ((((1 * 2) * 3) * 2) * 2)))] = 0;
-							};
-						};
-					};
-					for (int32_t c15 = 0; (c15 <= 3); (c15 += 1))
-					{
-						for (int32_t c17 = 0; (c17 <= 2); (c17 += 1))
-						{
-							for (int32_t c19 = 0; (c19 <= 1); (c19 += 1))
-							{
 								buf_src_B1_Blocal_props_r1_i[(((((0 + (c19 * 1)) + (c17 * (1 * 2))) + (__tx__ * ((1 * 2) * 3))) + (__bx__ * (((1 * 2) * 3) * 2))) + (c1 * ((((1 * 2) * 3) * 2) * 2)))] = 0;
 							};
 						};
@@ -2837,32 +2822,14 @@ static __global__ void _kernel_2(int32_t c1, double *buf_B1_prop_i_gpu, double *
 							{
 								buf_src_B2_Blocal_r2_r[((((((((((0 + (c19 * 1)) + (c17 * (1 * 44))) + (c15 * ((1 * 44) * 2))) + (c13 * (((1 * 44) * 2) * 3))) + (c11 * ((((1 * 44) * 2) * 3) * 2))) + (c9 * (((((1 * 44) * 2) * 3) * 2) * 3))) + (c7 * ((((((1 * 44) * 2) * 3) * 2) * 3) * 2))) + (__tx__ * (((((((1 * 44) * 2) * 3) * 2) * 3) * 2) * 3))) + (__bx__ * ((((((((1 * 44) * 2) * 3) * 2) * 3) * 2) * 3) * 2))) + (c1 * (((((((((1 * 44) * 2) * 3) * 2) * 3) * 2) * 3) * 2) * 2)))] = 0;
 							};
-						};
-					};
-					for (int32_t c15 = 0; (c15 <= 2); (c15 += 1))
-					{
-						for (int32_t c17 = 0; (c17 <= 1); (c17 += 1))
-						{
 							for (int32_t c19 = 0; (c19 <= 43); (c19 += 1))
 							{
 								buf_src_B2_Blocal_r2_i[((((((((((0 + (c19 * 1)) + (c17 * (1 * 44))) + (c15 * ((1 * 44) * 2))) + (c13 * (((1 * 44) * 2) * 3))) + (c11 * ((((1 * 44) * 2) * 3) * 2))) + (c9 * (((((1 * 44) * 2) * 3) * 2) * 3))) + (c7 * ((((((1 * 44) * 2) * 3) * 2) * 3) * 2))) + (__tx__ * (((((((1 * 44) * 2) * 3) * 2) * 3) * 2) * 3))) + (__bx__ * ((((((((1 * 44) * 2) * 3) * 2) * 3) * 2) * 3) * 2))) + (c1 * (((((((((1 * 44) * 2) * 3) * 2) * 3) * 2) * 3) * 2) * 2)))] = 0;
 							};
-						};
-					};
-					for (int32_t c15 = 0; (c15 <= 2); (c15 += 1))
-					{
-						for (int32_t c17 = 0; (c17 <= 1); (c17 += 1))
-						{
 							for (int32_t c19 = 0; (c19 <= 43); (c19 += 1))
 							{
 								buf_flip_src_B2_Blocal_r2_r[((((((((((0 + (c19 * 1)) + (c17 * (1 * 44))) + (c15 * ((1 * 44) * 2))) + (c13 * (((1 * 44) * 2) * 3))) + (c11 * ((((1 * 44) * 2) * 3) * 2))) + (c9 * (((((1 * 44) * 2) * 3) * 2) * 3))) + (c7 * ((((((1 * 44) * 2) * 3) * 2) * 3) * 2))) + (__tx__ * (((((((1 * 44) * 2) * 3) * 2) * 3) * 2) * 3))) + (__bx__ * ((((((((1 * 44) * 2) * 3) * 2) * 3) * 2) * 3) * 2))) + (c1 * (((((((((1 * 44) * 2) * 3) * 2) * 3) * 2) * 3) * 2) * 2)))] = 0;
 							};
-						};
-					};
-					for (int32_t c15 = 0; (c15 <= 2); (c15 += 1))
-					{
-						for (int32_t c17 = 0; (c17 <= 1); (c17 += 1))
-						{
 							for (int32_t c19 = 0; (c19 <= 43); (c19 += 1))
 							{
 								buf_flip_src_B2_Blocal_r2_i[((((((((((0 + (c19 * 1)) + (c17 * (1 * 44))) + (c15 * ((1 * 44) * 2))) + (c13 * (((1 * 44) * 2) * 3))) + (c11 * ((((1 * 44) * 2) * 3) * 2))) + (c9 * (((((1 * 44) * 2) * 3) * 2) * 3))) + (c7 * ((((((1 * 44) * 2) * 3) * 2) * 3) * 2))) + (__tx__ * (((((((1 * 44) * 2) * 3) * 2) * 3) * 2) * 3))) + (__bx__ * ((((((((1 * 44) * 2) * 3) * 2) * 3) * 2) * 3) * 2))) + (c1 * (((((((((1 * 44) * 2) * 3) * 2) * 3) * 2) * 3) * 2) * 2)))] = 0;
@@ -2888,15 +2855,6 @@ static __global__ void _kernel_2(int32_t c1, double *buf_B1_prop_i_gpu, double *
 							for (int32_t c19 = 0; (c19 <= 1); (c19 += 1))
 							{
 								buf_src_B2_Blocal_props_r2_r[(((((0 + (c19 * 1)) + (c17 * (1 * 2))) + (__tx__ * ((1 * 2) * 3))) + (__bx__ * (((1 * 2) * 3) * 2))) + (c1 * ((((1 * 2) * 3) * 2) * 2)))] = 0;
-							};
-						};
-					};
-					for (int32_t c15 = 0; (c15 <= 3); (c15 += 1))
-					{
-						for (int32_t c17 = 0; (c17 <= 2); (c17 += 1))
-						{
-							for (int32_t c19 = 0; (c19 <= 1); (c19 += 1))
-							{
 								buf_src_B2_Blocal_props_r2_i[(((((0 + (c19 * 1)) + (c17 * (1 * 2))) + (__tx__ * ((1 * 2) * 3))) + (__bx__ * (((1 * 2) * 3) * 2))) + (c1 * ((((1 * 2) * 3) * 2) * 2)))] = 0;
 							};
 						};
@@ -3278,7 +3236,7 @@ std::cout << "--------------------------" << std::endl;
 ;
 	return 0;
 };
-static __global__ void _kernel_3(int32_t c1, double *buf_flip_snk_B1_Blocal_r1_i, double *buf_flip_snk_B1_Blocal_r1_r, double *buf_snk_B1_Blocal_props_r1_i, double *buf_snk_B1_Blocal_props_r1_r, double *buf_snk_B1_Blocal_r1_i, double *buf_snk_B1_Blocal_r1_r)
+static __global__ void _kernel_3(int32_t c1, double *buf_B1_prop_i_gpu, double *buf_B1_prop_r_gpu, double *buf_B2_prop_i_gpu, double *buf_B2_prop_r_gpu, double *buf_C_H_BB_prop_i, double *buf_C_H_BB_prop_r, double *buf_C_i, double *buf_C_r, double *buf_H_BB_new_term_b1_i, double *buf_H_BB_new_term_b1_r, double *buf_H_BB_new_term_b2_i, double *buf_H_BB_new_term_b2_r, double *buf_flip_H_BB_new_term_b1_i, double *buf_flip_H_BB_new_term_b1_r, double *buf_flip_H_BB_new_term_b2_i, double *buf_flip_H_BB_new_term_b2_r, double *buf_flip_snk_B1_Blocal_r1_i, double *buf_flip_snk_B1_Blocal_r1_r, double *buf_flip_snk_B1_Blocal_r2_i, double *buf_flip_snk_B1_Blocal_r2_r, double *buf_flip_snk_B2_Blocal_r1_i, double *buf_flip_snk_B2_Blocal_r1_r, double *buf_flip_snk_B2_Blocal_r2_i, double *buf_flip_snk_B2_Blocal_r2_r, int32_t *buf_hex_snk_color_weights_gpu, int32_t *buf_hex_snk_spin_weights_gpu, double *buf_hex_snk_weights_gpu, double *buf_hex_src_psi_i_gpu, double *buf_hex_src_psi_r_gpu, int32_t *buf_sigs_gpu, double *buf_snk_B1_Blocal_diquark_r1_i, double *buf_snk_B1_Blocal_diquark_r1_r, double *buf_snk_B1_Blocal_diquark_r2_i, double *buf_snk_B1_Blocal_diquark_r2_r, double *buf_snk_B1_Blocal_props_r1_i, double *buf_snk_B1_Blocal_props_r1_r, double *buf_snk_B1_Blocal_props_r2_i, double *buf_snk_B1_Blocal_props_r2_r, double *buf_snk_B1_Blocal_r1_i, double *buf_snk_B1_Blocal_r1_r, double *buf_snk_B1_Blocal_r2_i, double *buf_snk_B1_Blocal_r2_r, double *buf_snk_B2_Blocal_diquark_r1_i, double *buf_snk_B2_Blocal_diquark_r1_r, double *buf_snk_B2_Blocal_diquark_r2_i, double *buf_snk_B2_Blocal_diquark_r2_r, double *buf_snk_B2_Blocal_props_r1_i, double *buf_snk_B2_Blocal_props_r1_r, double *buf_snk_B2_Blocal_props_r2_i, double *buf_snk_B2_Blocal_props_r2_r, double *buf_snk_B2_Blocal_r1_i, double *buf_snk_B2_Blocal_r1_r, double *buf_snk_B2_Blocal_r2_i, double *buf_snk_B2_Blocal_r2_r, double *buf_snk_psi_B1_i_gpu, double *buf_snk_psi_B1_r_gpu, double *buf_snk_psi_B2_i_gpu, double *buf_snk_psi_B2_r_gpu, int32_t *buf_src_color_weights_gpu, double *buf_src_spin_block_weights_gpu, int32_t *buf_src_spin_weights_gpu, double *buf_src_weights_gpu, int32_t *src_spins)
 {
 	const int32_t __bx__ = (blockIdx.x + 0);
 	const int32_t __tx__ = (threadIdx.x + 0);
@@ -3334,50 +3292,6 @@ static __global__ void _kernel_3(int32_t c1, double *buf_flip_snk_B1_Blocal_r1_i
 								buf_snk_B1_Blocal_props_r1_i[(((((0 + (c19 * 1)) + (c17 * (1 * 2))) + (__tx__ * ((1 * 2) * 3))) + (__bx__ * (((1 * 2) * 3) * 2))) + (c1 * ((((1 * 2) * 3) * 2) * 2)))] = 0;
 							};
 						};
-					};
-				};
-			};
-		};
-	};
-};
-extern "C" int32_t _kernel_3_wrapper(int32_t c1, double *buf_flip_snk_B1_Blocal_r1_i, double *buf_flip_snk_B1_Blocal_r1_r, double *buf_snk_B1_Blocal_props_r1_i, double *buf_snk_B1_Blocal_props_r1_r, double *buf_snk_B1_Blocal_r1_i, double *buf_snk_B1_Blocal_r1_r)
-{
-	{
-		dim3 blocks((1 + 1), 1, 1);
-		dim3 threads((1 + 1), 1, 1);
-		_kernel_3<<<blocks, threads>>>(c1, buf_flip_snk_B1_Blocal_r1_i, buf_flip_snk_B1_Blocal_r1_r, buf_snk_B1_Blocal_props_r1_i, buf_snk_B1_Blocal_props_r1_r, buf_snk_B1_Blocal_r1_i, buf_snk_B1_Blocal_r1_r);
-	};
-	cudaDeviceSynchronize();;
-	std::cout << "_kernel_3_wrapper finished" << std::endl; std::cout << "Used GPU buffer :buf_flip_snk_B1_Blocal_r1_i" << std::endl; 
-print_global_buffer_to_file<double>( buf_flip_snk_B1_Blocal_r1_i,  2 * 2 * 2 * 3 * 2 * 3 * 2 * 3 * 2 * 44, "./_kernel_3_wrapper___buf_flip_snk_B1_Blocal_r1_i.txt" );
-std::cout << "Used GPU buffer :buf_flip_snk_B1_Blocal_r1_r" << std::endl; 
-print_global_buffer_to_file<double>( buf_flip_snk_B1_Blocal_r1_r,  2 * 2 * 2 * 3 * 2 * 3 * 2 * 3 * 2 * 44, "./_kernel_3_wrapper___buf_flip_snk_B1_Blocal_r1_r.txt" );
-std::cout << "Used GPU buffer :buf_snk_B1_Blocal_props_r1_i" << std::endl; 
-print_global_buffer_to_file<double>( buf_snk_B1_Blocal_props_r1_i,  2 * 2 * 2 * 3 * 2, "./_kernel_3_wrapper___buf_snk_B1_Blocal_props_r1_i.txt" );
-std::cout << "Used GPU buffer :buf_snk_B1_Blocal_props_r1_r" << std::endl; 
-print_global_buffer_to_file<double>( buf_snk_B1_Blocal_props_r1_r,  2 * 2 * 2 * 3 * 2, "./_kernel_3_wrapper___buf_snk_B1_Blocal_props_r1_r.txt" );
-std::cout << "Used GPU buffer :buf_snk_B1_Blocal_r1_i" << std::endl; 
-print_global_buffer_to_file<double>( buf_snk_B1_Blocal_r1_i,  2 * 2 * 2 * 3 * 2 * 3 * 2 * 3 * 2 * 44, "./_kernel_3_wrapper___buf_snk_B1_Blocal_r1_i.txt" );
-std::cout << "Used GPU buffer :buf_snk_B1_Blocal_r1_r" << std::endl; 
-print_global_buffer_to_file<double>( buf_snk_B1_Blocal_r1_r,  2 * 2 * 2 * 3 * 2 * 3 * 2 * 3 * 2 * 44, "./_kernel_3_wrapper___buf_snk_B1_Blocal_r1_r.txt" );
-std::cout << "--------------------------" << std::endl; 
-;
-	return 0;
-};
-static __global__ void _kernel_4(int32_t c1, double *buf_B1_prop_i_gpu, double *buf_B1_prop_r_gpu, double *buf_B2_prop_i_gpu, double *buf_B2_prop_r_gpu, double *buf_C_H_BB_prop_i, double *buf_C_H_BB_prop_r, double *buf_C_i, double *buf_C_r, double *buf_H_BB_new_term_b1_i, double *buf_H_BB_new_term_b1_r, double *buf_H_BB_new_term_b2_i, double *buf_H_BB_new_term_b2_r, double *buf_flip_H_BB_new_term_b1_i, double *buf_flip_H_BB_new_term_b1_r, double *buf_flip_H_BB_new_term_b2_i, double *buf_flip_H_BB_new_term_b2_r, double *buf_flip_snk_B1_Blocal_r1_i, double *buf_flip_snk_B1_Blocal_r1_r, double *buf_flip_snk_B1_Blocal_r2_i, double *buf_flip_snk_B1_Blocal_r2_r, double *buf_flip_snk_B2_Blocal_r1_i, double *buf_flip_snk_B2_Blocal_r1_r, double *buf_flip_snk_B2_Blocal_r2_i, double *buf_flip_snk_B2_Blocal_r2_r, int32_t *buf_hex_snk_color_weights_gpu, int32_t *buf_hex_snk_spin_weights_gpu, double *buf_hex_snk_weights_gpu, double *buf_hex_src_psi_i_gpu, double *buf_hex_src_psi_r_gpu, int32_t *buf_sigs_gpu, double *buf_snk_B1_Blocal_diquark_r1_i, double *buf_snk_B1_Blocal_diquark_r1_r, double *buf_snk_B1_Blocal_diquark_r2_i, double *buf_snk_B1_Blocal_diquark_r2_r, double *buf_snk_B1_Blocal_props_r1_i, double *buf_snk_B1_Blocal_props_r1_r, double *buf_snk_B1_Blocal_props_r2_i, double *buf_snk_B1_Blocal_props_r2_r, double *buf_snk_B1_Blocal_r1_i, double *buf_snk_B1_Blocal_r1_r, double *buf_snk_B1_Blocal_r2_i, double *buf_snk_B1_Blocal_r2_r, double *buf_snk_B2_Blocal_diquark_r1_i, double *buf_snk_B2_Blocal_diquark_r1_r, double *buf_snk_B2_Blocal_diquark_r2_i, double *buf_snk_B2_Blocal_diquark_r2_r, double *buf_snk_B2_Blocal_props_r1_i, double *buf_snk_B2_Blocal_props_r1_r, double *buf_snk_B2_Blocal_props_r2_i, double *buf_snk_B2_Blocal_props_r2_r, double *buf_snk_B2_Blocal_r1_i, double *buf_snk_B2_Blocal_r1_r, double *buf_snk_B2_Blocal_r2_i, double *buf_snk_B2_Blocal_r2_r, double *buf_snk_psi_B1_i_gpu, double *buf_snk_psi_B1_r_gpu, double *buf_snk_psi_B2_i_gpu, double *buf_snk_psi_B2_r_gpu, int32_t *buf_src_color_weights_gpu, double *buf_src_spin_block_weights_gpu, int32_t *buf_src_spin_weights_gpu, double *buf_src_weights_gpu, int32_t *src_spins)
-{
-	const int32_t __bx__ = (blockIdx.x + 0);
-	const int32_t __tx__ = (threadIdx.x + 0);
-	for (int32_t c7 = 0; (c7 <= 2); (c7 += 1))
-	{
-		for (int32_t c9 = 0; (c9 <= 1); (c9 += 1))
-		{
-			for (int32_t c11 = 0; (c11 <= 2); (c11 += 1))
-			{
-				for (int32_t c13 = 0; (c13 <= 1); (c13 += 1))
-				{
-					for (int32_t c15 = 0; (c15 <= 3); (c15 += 1))
-					{
 						for (int32_t c17 = 0; (c17 <= 11); (c17 += 1))
 						{
 							const int32_t t3929 = buf_src_color_weights_gpu[(((0 + (((1 * 3) * 12) * 0)) + ((1 * 3) * c17)) + (1 * 0))];
@@ -3663,38 +3577,32 @@ static __global__ void _kernel_4(int32_t c1, double *buf_B1_prop_i_gpu, double *
 							{
 								buf_snk_B2_Blocal_r2_r[((((((((((0 + (c19 * 1)) + (c17 * (1 * 44))) + (c15 * ((1 * 44) * 2))) + (c13 * (((1 * 44) * 2) * 3))) + (c11 * ((((1 * 44) * 2) * 3) * 2))) + (c9 * (((((1 * 44) * 2) * 3) * 2) * 3))) + (c7 * ((((((1 * 44) * 2) * 3) * 2) * 3) * 2))) + (__tx__ * (((((((1 * 44) * 2) * 3) * 2) * 3) * 2) * 3))) + (__bx__ * ((((((((1 * 44) * 2) * 3) * 2) * 3) * 2) * 3) * 2))) + (c1 * (((((((((1 * 44) * 2) * 3) * 2) * 3) * 2) * 3) * 2) * 2)))] = 0;
 							};
-						};
-					};
-					for (int32_t c15 = 0; (c15 <= 2); (c15 += 1))
-					{
-						for (int32_t c17 = 0; (c17 <= 1); (c17 += 1))
-						{
 							for (int32_t c19 = 0; (c19 <= 43); (c19 += 1))
 							{
 								buf_snk_B2_Blocal_r2_i[((((((((((0 + (c19 * 1)) + (c17 * (1 * 44))) + (c15 * ((1 * 44) * 2))) + (c13 * (((1 * 44) * 2) * 3))) + (c11 * ((((1 * 44) * 2) * 3) * 2))) + (c9 * (((((1 * 44) * 2) * 3) * 2) * 3))) + (c7 * ((((((1 * 44) * 2) * 3) * 2) * 3) * 2))) + (__tx__ * (((((((1 * 44) * 2) * 3) * 2) * 3) * 2) * 3))) + (__bx__ * ((((((((1 * 44) * 2) * 3) * 2) * 3) * 2) * 3) * 2))) + (c1 * (((((((((1 * 44) * 2) * 3) * 2) * 3) * 2) * 3) * 2) * 2)))] = 0;
 							};
-						};
-					};
-					for (int32_t c15 = 0; (c15 <= 2); (c15 += 1))
-					{
-						for (int32_t c17 = 0; (c17 <= 1); (c17 += 1))
-						{
 							for (int32_t c19 = 0; (c19 <= 43); (c19 += 1))
 							{
 								buf_flip_snk_B2_Blocal_r2_r[((((((((((0 + (c19 * 1)) + (c17 * (1 * 44))) + (c15 * ((1 * 44) * 2))) + (c13 * (((1 * 44) * 2) * 3))) + (c11 * ((((1 * 44) * 2) * 3) * 2))) + (c9 * (((((1 * 44) * 2) * 3) * 2) * 3))) + (c7 * ((((((1 * 44) * 2) * 3) * 2) * 3) * 2))) + (__tx__ * (((((((1 * 44) * 2) * 3) * 2) * 3) * 2) * 3))) + (__bx__ * ((((((((1 * 44) * 2) * 3) * 2) * 3) * 2) * 3) * 2))) + (c1 * (((((((((1 * 44) * 2) * 3) * 2) * 3) * 2) * 3) * 2) * 2)))] = 0;
 							};
-						};
-					};
-					for (int32_t c15 = 0; (c15 <= 2); (c15 += 1))
-					{
-						for (int32_t c17 = 0; (c17 <= 1); (c17 += 1))
-						{
 							for (int32_t c19 = 0; (c19 <= 43); (c19 += 1))
 							{
 								buf_flip_snk_B2_Blocal_r2_i[((((((((((0 + (c19 * 1)) + (c17 * (1 * 44))) + (c15 * ((1 * 44) * 2))) + (c13 * (((1 * 44) * 2) * 3))) + (c11 * ((((1 * 44) * 2) * 3) * 2))) + (c9 * (((((1 * 44) * 2) * 3) * 2) * 3))) + (c7 * ((((((1 * 44) * 2) * 3) * 2) * 3) * 2))) + (__tx__ * (((((((1 * 44) * 2) * 3) * 2) * 3) * 2) * 3))) + (__bx__ * ((((((((1 * 44) * 2) * 3) * 2) * 3) * 2) * 3) * 2))) + (c1 * (((((((((1 * 44) * 2) * 3) * 2) * 3) * 2) * 3) * 2) * 2)))] = 0;
 							};
 						};
 					};
+				};
+			};
+		};
+	};
+	for (int32_t c7 = 0; (c7 <= 2); (c7 += 1))
+	{
+		for (int32_t c9 = 0; (c9 <= 1); (c9 += 1))
+		{
+			for (int32_t c11 = 0; (c11 <= 2); (c11 += 1))
+			{
+				for (int32_t c13 = 0; (c13 <= 1); (c13 += 1))
+				{
 					for (int32_t c15 = 0; (c15 <= 3); (c15 += 1))
 					{
 						for (int32_t c17 = 0; (c17 <= 2); (c17 += 1))
@@ -3702,15 +3610,6 @@ static __global__ void _kernel_4(int32_t c1, double *buf_B1_prop_i_gpu, double *
 							for (int32_t c19 = 0; (c19 <= 1); (c19 += 1))
 							{
 								buf_snk_B2_Blocal_props_r2_r[(((((0 + (c19 * 1)) + (c17 * (1 * 2))) + (__tx__ * ((1 * 2) * 3))) + (__bx__ * (((1 * 2) * 3) * 2))) + (c1 * ((((1 * 2) * 3) * 2) * 2)))] = 0;
-							};
-						};
-					};
-					for (int32_t c15 = 0; (c15 <= 3); (c15 += 1))
-					{
-						for (int32_t c17 = 0; (c17 <= 2); (c17 += 1))
-						{
-							for (int32_t c19 = 0; (c19 <= 1); (c19 += 1))
-							{
 								buf_snk_B2_Blocal_props_r2_i[(((((0 + (c19 * 1)) + (c17 * (1 * 2))) + (__tx__ * ((1 * 2) * 3))) + (__bx__ * (((1 * 2) * 3) * 2))) + (c1 * ((((1 * 2) * 3) * 2) * 2)))] = 0;
 							};
 						};
@@ -3954,145 +3853,145 @@ static __global__ void _kernel_4(int32_t c1, double *buf_B1_prop_i_gpu, double *
 		};
 	};
 };
-extern "C" int32_t* _kernel_4_wrapper(int32_t c1, double *buf_B1_prop_i_gpu, double *buf_B1_prop_r_gpu, double *buf_B2_prop_i_gpu, double *buf_B2_prop_r_gpu, double *buf_C_H_BB_prop_i, double *buf_C_H_BB_prop_r, double *buf_C_i, double *buf_C_r, double *buf_H_BB_new_term_b1_i, double *buf_H_BB_new_term_b1_r, double *buf_H_BB_new_term_b2_i, double *buf_H_BB_new_term_b2_r, double *buf_flip_H_BB_new_term_b1_i, double *buf_flip_H_BB_new_term_b1_r, double *buf_flip_H_BB_new_term_b2_i, double *buf_flip_H_BB_new_term_b2_r, double *buf_flip_snk_B1_Blocal_r1_i, double *buf_flip_snk_B1_Blocal_r1_r, double *buf_flip_snk_B1_Blocal_r2_i, double *buf_flip_snk_B1_Blocal_r2_r, double *buf_flip_snk_B2_Blocal_r1_i, double *buf_flip_snk_B2_Blocal_r1_r, double *buf_flip_snk_B2_Blocal_r2_i, double *buf_flip_snk_B2_Blocal_r2_r, int32_t *buf_hex_snk_color_weights_gpu, int32_t *buf_hex_snk_spin_weights_gpu, double *buf_hex_snk_weights_gpu, double *buf_hex_src_psi_i_gpu, double *buf_hex_src_psi_r_gpu, int32_t *buf_sigs_gpu, double *buf_snk_B1_Blocal_diquark_r1_i, double *buf_snk_B1_Blocal_diquark_r1_r, double *buf_snk_B1_Blocal_diquark_r2_i, double *buf_snk_B1_Blocal_diquark_r2_r, double *buf_snk_B1_Blocal_props_r1_i, double *buf_snk_B1_Blocal_props_r1_r, double *buf_snk_B1_Blocal_props_r2_i, double *buf_snk_B1_Blocal_props_r2_r, double *buf_snk_B1_Blocal_r1_i, double *buf_snk_B1_Blocal_r1_r, double *buf_snk_B1_Blocal_r2_i, double *buf_snk_B1_Blocal_r2_r, double *buf_snk_B2_Blocal_diquark_r1_i, double *buf_snk_B2_Blocal_diquark_r1_r, double *buf_snk_B2_Blocal_diquark_r2_i, double *buf_snk_B2_Blocal_diquark_r2_r, double *buf_snk_B2_Blocal_props_r1_i, double *buf_snk_B2_Blocal_props_r1_r, double *buf_snk_B2_Blocal_props_r2_i, double *buf_snk_B2_Blocal_props_r2_r, double *buf_snk_B2_Blocal_r1_i, double *buf_snk_B2_Blocal_r1_r, double *buf_snk_B2_Blocal_r2_i, double *buf_snk_B2_Blocal_r2_r, double *buf_snk_psi_B1_i_gpu, double *buf_snk_psi_B1_r_gpu, double *buf_snk_psi_B2_i_gpu, double *buf_snk_psi_B2_r_gpu, int32_t *buf_src_color_weights_gpu, double *buf_src_spin_block_weights_gpu, int32_t *buf_src_spin_weights_gpu, double *buf_src_weights_gpu, int32_t *src_spins)
+extern "C" int32_t* _kernel_3_wrapper(int32_t c1, double *buf_B1_prop_i_gpu, double *buf_B1_prop_r_gpu, double *buf_B2_prop_i_gpu, double *buf_B2_prop_r_gpu, double *buf_C_H_BB_prop_i, double *buf_C_H_BB_prop_r, double *buf_C_i, double *buf_C_r, double *buf_H_BB_new_term_b1_i, double *buf_H_BB_new_term_b1_r, double *buf_H_BB_new_term_b2_i, double *buf_H_BB_new_term_b2_r, double *buf_flip_H_BB_new_term_b1_i, double *buf_flip_H_BB_new_term_b1_r, double *buf_flip_H_BB_new_term_b2_i, double *buf_flip_H_BB_new_term_b2_r, double *buf_flip_snk_B1_Blocal_r1_i, double *buf_flip_snk_B1_Blocal_r1_r, double *buf_flip_snk_B1_Blocal_r2_i, double *buf_flip_snk_B1_Blocal_r2_r, double *buf_flip_snk_B2_Blocal_r1_i, double *buf_flip_snk_B2_Blocal_r1_r, double *buf_flip_snk_B2_Blocal_r2_i, double *buf_flip_snk_B2_Blocal_r2_r, int32_t *buf_hex_snk_color_weights_gpu, int32_t *buf_hex_snk_spin_weights_gpu, double *buf_hex_snk_weights_gpu, double *buf_hex_src_psi_i_gpu, double *buf_hex_src_psi_r_gpu, int32_t *buf_sigs_gpu, double *buf_snk_B1_Blocal_diquark_r1_i, double *buf_snk_B1_Blocal_diquark_r1_r, double *buf_snk_B1_Blocal_diquark_r2_i, double *buf_snk_B1_Blocal_diquark_r2_r, double *buf_snk_B1_Blocal_props_r1_i, double *buf_snk_B1_Blocal_props_r1_r, double *buf_snk_B1_Blocal_props_r2_i, double *buf_snk_B1_Blocal_props_r2_r, double *buf_snk_B1_Blocal_r1_i, double *buf_snk_B1_Blocal_r1_r, double *buf_snk_B1_Blocal_r2_i, double *buf_snk_B1_Blocal_r2_r, double *buf_snk_B2_Blocal_diquark_r1_i, double *buf_snk_B2_Blocal_diquark_r1_r, double *buf_snk_B2_Blocal_diquark_r2_i, double *buf_snk_B2_Blocal_diquark_r2_r, double *buf_snk_B2_Blocal_props_r1_i, double *buf_snk_B2_Blocal_props_r1_r, double *buf_snk_B2_Blocal_props_r2_i, double *buf_snk_B2_Blocal_props_r2_r, double *buf_snk_B2_Blocal_r1_i, double *buf_snk_B2_Blocal_r1_r, double *buf_snk_B2_Blocal_r2_i, double *buf_snk_B2_Blocal_r2_r, double *buf_snk_psi_B1_i_gpu, double *buf_snk_psi_B1_r_gpu, double *buf_snk_psi_B2_i_gpu, double *buf_snk_psi_B2_r_gpu, int32_t *buf_src_color_weights_gpu, double *buf_src_spin_block_weights_gpu, int32_t *buf_src_spin_weights_gpu, double *buf_src_weights_gpu, int32_t *src_spins)
 {
 	{
 		dim3 blocks((1 + 1), 1, 1);
 		dim3 threads((1 + 1), 1, 1);
-		_kernel_4<<<blocks, threads>>>(c1, buf_B1_prop_i_gpu, buf_B1_prop_r_gpu, buf_B2_prop_i_gpu, buf_B2_prop_r_gpu, buf_C_H_BB_prop_i, buf_C_H_BB_prop_r, buf_C_i, buf_C_r, buf_H_BB_new_term_b1_i, buf_H_BB_new_term_b1_r, buf_H_BB_new_term_b2_i, buf_H_BB_new_term_b2_r, buf_flip_H_BB_new_term_b1_i, buf_flip_H_BB_new_term_b1_r, buf_flip_H_BB_new_term_b2_i, buf_flip_H_BB_new_term_b2_r, buf_flip_snk_B1_Blocal_r1_i, buf_flip_snk_B1_Blocal_r1_r, buf_flip_snk_B1_Blocal_r2_i, buf_flip_snk_B1_Blocal_r2_r, buf_flip_snk_B2_Blocal_r1_i, buf_flip_snk_B2_Blocal_r1_r, buf_flip_snk_B2_Blocal_r2_i, buf_flip_snk_B2_Blocal_r2_r, buf_hex_snk_color_weights_gpu, buf_hex_snk_spin_weights_gpu, buf_hex_snk_weights_gpu, buf_hex_src_psi_i_gpu, buf_hex_src_psi_r_gpu, buf_sigs_gpu, buf_snk_B1_Blocal_diquark_r1_i, buf_snk_B1_Blocal_diquark_r1_r, buf_snk_B1_Blocal_diquark_r2_i, buf_snk_B1_Blocal_diquark_r2_r, buf_snk_B1_Blocal_props_r1_i, buf_snk_B1_Blocal_props_r1_r, buf_snk_B1_Blocal_props_r2_i, buf_snk_B1_Blocal_props_r2_r, buf_snk_B1_Blocal_r1_i, buf_snk_B1_Blocal_r1_r, buf_snk_B1_Blocal_r2_i, buf_snk_B1_Blocal_r2_r, buf_snk_B2_Blocal_diquark_r1_i, buf_snk_B2_Blocal_diquark_r1_r, buf_snk_B2_Blocal_diquark_r2_i, buf_snk_B2_Blocal_diquark_r2_r, buf_snk_B2_Blocal_props_r1_i, buf_snk_B2_Blocal_props_r1_r, buf_snk_B2_Blocal_props_r2_i, buf_snk_B2_Blocal_props_r2_r, buf_snk_B2_Blocal_r1_i, buf_snk_B2_Blocal_r1_r, buf_snk_B2_Blocal_r2_i, buf_snk_B2_Blocal_r2_r, buf_snk_psi_B1_i_gpu, buf_snk_psi_B1_r_gpu, buf_snk_psi_B2_i_gpu, buf_snk_psi_B2_r_gpu, buf_src_color_weights_gpu, buf_src_spin_block_weights_gpu, buf_src_spin_weights_gpu, buf_src_weights_gpu, src_spins);
+		_kernel_3<<<blocks, threads>>>(c1, buf_B1_prop_i_gpu, buf_B1_prop_r_gpu, buf_B2_prop_i_gpu, buf_B2_prop_r_gpu, buf_C_H_BB_prop_i, buf_C_H_BB_prop_r, buf_C_i, buf_C_r, buf_H_BB_new_term_b1_i, buf_H_BB_new_term_b1_r, buf_H_BB_new_term_b2_i, buf_H_BB_new_term_b2_r, buf_flip_H_BB_new_term_b1_i, buf_flip_H_BB_new_term_b1_r, buf_flip_H_BB_new_term_b2_i, buf_flip_H_BB_new_term_b2_r, buf_flip_snk_B1_Blocal_r1_i, buf_flip_snk_B1_Blocal_r1_r, buf_flip_snk_B1_Blocal_r2_i, buf_flip_snk_B1_Blocal_r2_r, buf_flip_snk_B2_Blocal_r1_i, buf_flip_snk_B2_Blocal_r1_r, buf_flip_snk_B2_Blocal_r2_i, buf_flip_snk_B2_Blocal_r2_r, buf_hex_snk_color_weights_gpu, buf_hex_snk_spin_weights_gpu, buf_hex_snk_weights_gpu, buf_hex_src_psi_i_gpu, buf_hex_src_psi_r_gpu, buf_sigs_gpu, buf_snk_B1_Blocal_diquark_r1_i, buf_snk_B1_Blocal_diquark_r1_r, buf_snk_B1_Blocal_diquark_r2_i, buf_snk_B1_Blocal_diquark_r2_r, buf_snk_B1_Blocal_props_r1_i, buf_snk_B1_Blocal_props_r1_r, buf_snk_B1_Blocal_props_r2_i, buf_snk_B1_Blocal_props_r2_r, buf_snk_B1_Blocal_r1_i, buf_snk_B1_Blocal_r1_r, buf_snk_B1_Blocal_r2_i, buf_snk_B1_Blocal_r2_r, buf_snk_B2_Blocal_diquark_r1_i, buf_snk_B2_Blocal_diquark_r1_r, buf_snk_B2_Blocal_diquark_r2_i, buf_snk_B2_Blocal_diquark_r2_r, buf_snk_B2_Blocal_props_r1_i, buf_snk_B2_Blocal_props_r1_r, buf_snk_B2_Blocal_props_r2_i, buf_snk_B2_Blocal_props_r2_r, buf_snk_B2_Blocal_r1_i, buf_snk_B2_Blocal_r1_r, buf_snk_B2_Blocal_r2_i, buf_snk_B2_Blocal_r2_r, buf_snk_psi_B1_i_gpu, buf_snk_psi_B1_r_gpu, buf_snk_psi_B2_i_gpu, buf_snk_psi_B2_r_gpu, buf_src_color_weights_gpu, buf_src_spin_block_weights_gpu, buf_src_spin_weights_gpu, buf_src_weights_gpu, src_spins);
 	};
 	cudaDeviceSynchronize();;
-	std::cout << "_kernel_4_wrapper finished" << std::endl; std::cout << "Used GPU buffer :buf_B1_prop_i_gpu" << std::endl; 
-print_global_buffer_to_file<double>( buf_B1_prop_i_gpu,  3 * 2 * 3 * 2 * 3 * 2 * 4 * 4, "./_kernel_4_wrapper___buf_B1_prop_i_gpu.txt" );
+	std::cout << "_kernel_3_wrapper finished" << std::endl; std::cout << "Used GPU buffer :buf_B1_prop_i_gpu" << std::endl; 
+print_global_buffer_to_file<double>( buf_B1_prop_i_gpu,  3 * 2 * 3 * 2 * 3 * 2 * 4 * 4, "./_kernel_3_wrapper___buf_B1_prop_i_gpu.txt" );
 std::cout << "Used GPU buffer :buf_B1_prop_r_gpu" << std::endl; 
-print_global_buffer_to_file<double>( buf_B1_prop_r_gpu,  3 * 2 * 3 * 2 * 3 * 2 * 4 * 4, "./_kernel_4_wrapper___buf_B1_prop_r_gpu.txt" );
+print_global_buffer_to_file<double>( buf_B1_prop_r_gpu,  3 * 2 * 3 * 2 * 3 * 2 * 4 * 4, "./_kernel_3_wrapper___buf_B1_prop_r_gpu.txt" );
 std::cout << "Used GPU buffer :buf_B2_prop_i_gpu" << std::endl; 
-print_global_buffer_to_file<double>( buf_B2_prop_i_gpu,  3 * 2 * 3 * 2 * 3 * 2 * 4 * 4, "./_kernel_4_wrapper___buf_B2_prop_i_gpu.txt" );
+print_global_buffer_to_file<double>( buf_B2_prop_i_gpu,  3 * 2 * 3 * 2 * 3 * 2 * 4 * 4, "./_kernel_3_wrapper___buf_B2_prop_i_gpu.txt" );
 std::cout << "Used GPU buffer :buf_B2_prop_r_gpu" << std::endl; 
-print_global_buffer_to_file<double>( buf_B2_prop_r_gpu,  3 * 2 * 3 * 2 * 3 * 2 * 4 * 4, "./_kernel_4_wrapper___buf_B2_prop_r_gpu.txt" );
+print_global_buffer_to_file<double>( buf_B2_prop_r_gpu,  3 * 2 * 3 * 2 * 3 * 2 * 4 * 4, "./_kernel_3_wrapper___buf_B2_prop_r_gpu.txt" );
 std::cout << "Used GPU buffer :buf_C_H_BB_prop_i" << std::endl; 
-print_global_buffer_to_file<double>( buf_C_H_BB_prop_i,  2 * 2 * 2 * 1, "./_kernel_4_wrapper___buf_C_H_BB_prop_i.txt" );
+print_global_buffer_to_file<double>( buf_C_H_BB_prop_i,  2 * 2 * 2 * 1, "./_kernel_3_wrapper___buf_C_H_BB_prop_i.txt" );
 std::cout << "Used GPU buffer :buf_C_H_BB_prop_r" << std::endl; 
-print_global_buffer_to_file<double>( buf_C_H_BB_prop_r,  2 * 2 * 2 * 1, "./_kernel_4_wrapper___buf_C_H_BB_prop_r.txt" );
+print_global_buffer_to_file<double>( buf_C_H_BB_prop_r,  2 * 2 * 2 * 1, "./_kernel_3_wrapper___buf_C_H_BB_prop_r.txt" );
 std::cout << "Used GPU buffer :buf_C_i" << std::endl; 
-print_global_buffer_to_file<double>( buf_C_i,  2 * 2 * 2 * 4 * 45 * 4 * 45, "./_kernel_4_wrapper___buf_C_i.txt" );
+print_global_buffer_to_file<double>( buf_C_i,  2 * 2 * 2 * 4 * 45 * 4 * 45, "./_kernel_3_wrapper___buf_C_i.txt" );
 std::cout << "Used GPU buffer :buf_C_r" << std::endl; 
-print_global_buffer_to_file<double>( buf_C_r,  2 * 2 * 2 * 4 * 45 * 4 * 45, "./_kernel_4_wrapper___buf_C_r.txt" );
+print_global_buffer_to_file<double>( buf_C_r,  2 * 2 * 2 * 4 * 45 * 4 * 45, "./_kernel_3_wrapper___buf_C_r.txt" );
 std::cout << "Used GPU buffer :buf_H_BB_new_term_b1_i" << std::endl; 
-print_global_buffer_to_file<double>( buf_H_BB_new_term_b1_i,  2 * 2 * 2 * 1, "./_kernel_4_wrapper___buf_H_BB_new_term_b1_i.txt" );
+print_global_buffer_to_file<double>( buf_H_BB_new_term_b1_i,  2 * 2 * 2 * 1, "./_kernel_3_wrapper___buf_H_BB_new_term_b1_i.txt" );
 std::cout << "Used GPU buffer :buf_H_BB_new_term_b1_r" << std::endl; 
-print_global_buffer_to_file<double>( buf_H_BB_new_term_b1_r,  2 * 2 * 2 * 1, "./_kernel_4_wrapper___buf_H_BB_new_term_b1_r.txt" );
+print_global_buffer_to_file<double>( buf_H_BB_new_term_b1_r,  2 * 2 * 2 * 1, "./_kernel_3_wrapper___buf_H_BB_new_term_b1_r.txt" );
 std::cout << "Used GPU buffer :buf_H_BB_new_term_b2_i" << std::endl; 
-print_global_buffer_to_file<double>( buf_H_BB_new_term_b2_i,  2 * 2 * 2 * 1, "./_kernel_4_wrapper___buf_H_BB_new_term_b2_i.txt" );
+print_global_buffer_to_file<double>( buf_H_BB_new_term_b2_i,  2 * 2 * 2 * 1, "./_kernel_3_wrapper___buf_H_BB_new_term_b2_i.txt" );
 std::cout << "Used GPU buffer :buf_H_BB_new_term_b2_r" << std::endl; 
-print_global_buffer_to_file<double>( buf_H_BB_new_term_b2_r,  2 * 2 * 2 * 1, "./_kernel_4_wrapper___buf_H_BB_new_term_b2_r.txt" );
+print_global_buffer_to_file<double>( buf_H_BB_new_term_b2_r,  2 * 2 * 2 * 1, "./_kernel_3_wrapper___buf_H_BB_new_term_b2_r.txt" );
 std::cout << "Used GPU buffer :buf_flip_H_BB_new_term_b1_i" << std::endl; 
-print_global_buffer_to_file<double>( buf_flip_H_BB_new_term_b1_i,  2 * 2 * 2 * 1, "./_kernel_4_wrapper___buf_flip_H_BB_new_term_b1_i.txt" );
+print_global_buffer_to_file<double>( buf_flip_H_BB_new_term_b1_i,  2 * 2 * 2 * 1, "./_kernel_3_wrapper___buf_flip_H_BB_new_term_b1_i.txt" );
 std::cout << "Used GPU buffer :buf_flip_H_BB_new_term_b1_r" << std::endl; 
-print_global_buffer_to_file<double>( buf_flip_H_BB_new_term_b1_r,  2 * 2 * 2 * 1, "./_kernel_4_wrapper___buf_flip_H_BB_new_term_b1_r.txt" );
+print_global_buffer_to_file<double>( buf_flip_H_BB_new_term_b1_r,  2 * 2 * 2 * 1, "./_kernel_3_wrapper___buf_flip_H_BB_new_term_b1_r.txt" );
 std::cout << "Used GPU buffer :buf_flip_H_BB_new_term_b2_i" << std::endl; 
-print_global_buffer_to_file<double>( buf_flip_H_BB_new_term_b2_i,  2 * 2 * 2 * 1, "./_kernel_4_wrapper___buf_flip_H_BB_new_term_b2_i.txt" );
+print_global_buffer_to_file<double>( buf_flip_H_BB_new_term_b2_i,  2 * 2 * 2 * 1, "./_kernel_3_wrapper___buf_flip_H_BB_new_term_b2_i.txt" );
 std::cout << "Used GPU buffer :buf_flip_H_BB_new_term_b2_r" << std::endl; 
-print_global_buffer_to_file<double>( buf_flip_H_BB_new_term_b2_r,  2 * 2 * 2 * 1, "./_kernel_4_wrapper___buf_flip_H_BB_new_term_b2_r.txt" );
+print_global_buffer_to_file<double>( buf_flip_H_BB_new_term_b2_r,  2 * 2 * 2 * 1, "./_kernel_3_wrapper___buf_flip_H_BB_new_term_b2_r.txt" );
 std::cout << "Used GPU buffer :buf_flip_snk_B1_Blocal_r1_i" << std::endl; 
-print_global_buffer_to_file<double>( buf_flip_snk_B1_Blocal_r1_i,  2 * 2 * 2 * 3 * 2 * 3 * 2 * 3 * 2 * 44, "./_kernel_4_wrapper___buf_flip_snk_B1_Blocal_r1_i.txt" );
+print_global_buffer_to_file<double>( buf_flip_snk_B1_Blocal_r1_i,  2 * 2 * 2 * 3 * 2 * 3 * 2 * 3 * 2 * 44, "./_kernel_3_wrapper___buf_flip_snk_B1_Blocal_r1_i.txt" );
 std::cout << "Used GPU buffer :buf_flip_snk_B1_Blocal_r1_r" << std::endl; 
-print_global_buffer_to_file<double>( buf_flip_snk_B1_Blocal_r1_r,  2 * 2 * 2 * 3 * 2 * 3 * 2 * 3 * 2 * 44, "./_kernel_4_wrapper___buf_flip_snk_B1_Blocal_r1_r.txt" );
+print_global_buffer_to_file<double>( buf_flip_snk_B1_Blocal_r1_r,  2 * 2 * 2 * 3 * 2 * 3 * 2 * 3 * 2 * 44, "./_kernel_3_wrapper___buf_flip_snk_B1_Blocal_r1_r.txt" );
 std::cout << "Used GPU buffer :buf_flip_snk_B1_Blocal_r2_i" << std::endl; 
-print_global_buffer_to_file<double>( buf_flip_snk_B1_Blocal_r2_i,  2 * 2 * 2 * 3 * 2 * 3 * 2 * 3 * 2 * 44, "./_kernel_4_wrapper___buf_flip_snk_B1_Blocal_r2_i.txt" );
+print_global_buffer_to_file<double>( buf_flip_snk_B1_Blocal_r2_i,  2 * 2 * 2 * 3 * 2 * 3 * 2 * 3 * 2 * 44, "./_kernel_3_wrapper___buf_flip_snk_B1_Blocal_r2_i.txt" );
 std::cout << "Used GPU buffer :buf_flip_snk_B1_Blocal_r2_r" << std::endl; 
-print_global_buffer_to_file<double>( buf_flip_snk_B1_Blocal_r2_r,  2 * 2 * 2 * 3 * 2 * 3 * 2 * 3 * 2 * 44, "./_kernel_4_wrapper___buf_flip_snk_B1_Blocal_r2_r.txt" );
+print_global_buffer_to_file<double>( buf_flip_snk_B1_Blocal_r2_r,  2 * 2 * 2 * 3 * 2 * 3 * 2 * 3 * 2 * 44, "./_kernel_3_wrapper___buf_flip_snk_B1_Blocal_r2_r.txt" );
 std::cout << "Used GPU buffer :buf_flip_snk_B2_Blocal_r1_i" << std::endl; 
-print_global_buffer_to_file<double>( buf_flip_snk_B2_Blocal_r1_i,  2 * 2 * 2 * 3 * 2 * 3 * 2 * 3 * 2 * 44, "./_kernel_4_wrapper___buf_flip_snk_B2_Blocal_r1_i.txt" );
+print_global_buffer_to_file<double>( buf_flip_snk_B2_Blocal_r1_i,  2 * 2 * 2 * 3 * 2 * 3 * 2 * 3 * 2 * 44, "./_kernel_3_wrapper___buf_flip_snk_B2_Blocal_r1_i.txt" );
 std::cout << "Used GPU buffer :buf_flip_snk_B2_Blocal_r1_r" << std::endl; 
-print_global_buffer_to_file<double>( buf_flip_snk_B2_Blocal_r1_r,  2 * 2 * 2 * 3 * 2 * 3 * 2 * 3 * 2 * 44, "./_kernel_4_wrapper___buf_flip_snk_B2_Blocal_r1_r.txt" );
+print_global_buffer_to_file<double>( buf_flip_snk_B2_Blocal_r1_r,  2 * 2 * 2 * 3 * 2 * 3 * 2 * 3 * 2 * 44, "./_kernel_3_wrapper___buf_flip_snk_B2_Blocal_r1_r.txt" );
 std::cout << "Used GPU buffer :buf_flip_snk_B2_Blocal_r2_i" << std::endl; 
-print_global_buffer_to_file<double>( buf_flip_snk_B2_Blocal_r2_i,  2 * 2 * 2 * 3 * 2 * 3 * 2 * 3 * 2 * 44, "./_kernel_4_wrapper___buf_flip_snk_B2_Blocal_r2_i.txt" );
+print_global_buffer_to_file<double>( buf_flip_snk_B2_Blocal_r2_i,  2 * 2 * 2 * 3 * 2 * 3 * 2 * 3 * 2 * 44, "./_kernel_3_wrapper___buf_flip_snk_B2_Blocal_r2_i.txt" );
 std::cout << "Used GPU buffer :buf_flip_snk_B2_Blocal_r2_r" << std::endl; 
-print_global_buffer_to_file<double>( buf_flip_snk_B2_Blocal_r2_r,  2 * 2 * 2 * 3 * 2 * 3 * 2 * 3 * 2 * 44, "./_kernel_4_wrapper___buf_flip_snk_B2_Blocal_r2_r.txt" );
+print_global_buffer_to_file<double>( buf_flip_snk_B2_Blocal_r2_r,  2 * 2 * 2 * 3 * 2 * 3 * 2 * 3 * 2 * 44, "./_kernel_3_wrapper___buf_flip_snk_B2_Blocal_r2_r.txt" );
 std::cout << "Used GPU buffer :buf_hex_snk_color_weights_gpu" << std::endl; 
-print_global_buffer_to_file<int32_t>( buf_hex_snk_color_weights_gpu,  4 * 36 * 32 * 3 * 2, "./_kernel_4_wrapper___buf_hex_snk_color_weights_gpu.txt" );
+print_global_buffer_to_file<int32_t>( buf_hex_snk_color_weights_gpu,  4 * 36 * 32 * 3 * 2, "./_kernel_3_wrapper___buf_hex_snk_color_weights_gpu.txt" );
 std::cout << "Used GPU buffer :buf_hex_snk_spin_weights_gpu" << std::endl; 
-print_global_buffer_to_file<int32_t>( buf_hex_snk_spin_weights_gpu,  4 * 36 * 32 * 3 * 2, "./_kernel_4_wrapper___buf_hex_snk_spin_weights_gpu.txt" );
+print_global_buffer_to_file<int32_t>( buf_hex_snk_spin_weights_gpu,  4 * 36 * 32 * 3 * 2, "./_kernel_3_wrapper___buf_hex_snk_spin_weights_gpu.txt" );
 std::cout << "Used GPU buffer :buf_hex_snk_weights_gpu" << std::endl; 
-print_global_buffer_to_file<double>( buf_hex_snk_weights_gpu,  4 * 32, "./_kernel_4_wrapper___buf_hex_snk_weights_gpu.txt" );
+print_global_buffer_to_file<double>( buf_hex_snk_weights_gpu,  4 * 32, "./_kernel_3_wrapper___buf_hex_snk_weights_gpu.txt" );
 std::cout << "Used GPU buffer :buf_hex_src_psi_i_gpu" << std::endl; 
-print_global_buffer_to_file<double>( buf_hex_src_psi_i_gpu,  4 * 1, "./_kernel_4_wrapper___buf_hex_src_psi_i_gpu.txt" );
+print_global_buffer_to_file<double>( buf_hex_src_psi_i_gpu,  4 * 1, "./_kernel_3_wrapper___buf_hex_src_psi_i_gpu.txt" );
 std::cout << "Used GPU buffer :buf_hex_src_psi_r_gpu" << std::endl; 
-print_global_buffer_to_file<double>( buf_hex_src_psi_r_gpu,  4 * 1, "./_kernel_4_wrapper___buf_hex_src_psi_r_gpu.txt" );
+print_global_buffer_to_file<double>( buf_hex_src_psi_r_gpu,  4 * 1, "./_kernel_3_wrapper___buf_hex_src_psi_r_gpu.txt" );
 std::cout << "Used GPU buffer :buf_sigs_gpu" << std::endl; 
-print_global_buffer_to_file<int32_t>( buf_sigs_gpu,  36, "./_kernel_4_wrapper___buf_sigs_gpu.txt" );
+print_global_buffer_to_file<int32_t>( buf_sigs_gpu,  36, "./_kernel_3_wrapper___buf_sigs_gpu.txt" );
 std::cout << "Used GPU buffer :buf_snk_B1_Blocal_diquark_r1_i" << std::endl; 
-print_global_buffer_to_file<double>( buf_snk_B1_Blocal_diquark_r1_i,  2 * 2 * 2 * 1, "./_kernel_4_wrapper___buf_snk_B1_Blocal_diquark_r1_i.txt" );
+print_global_buffer_to_file<double>( buf_snk_B1_Blocal_diquark_r1_i,  2 * 2 * 2 * 1, "./_kernel_3_wrapper___buf_snk_B1_Blocal_diquark_r1_i.txt" );
 std::cout << "Used GPU buffer :buf_snk_B1_Blocal_diquark_r1_r" << std::endl; 
-print_global_buffer_to_file<double>( buf_snk_B1_Blocal_diquark_r1_r,  2 * 2 * 2 * 1, "./_kernel_4_wrapper___buf_snk_B1_Blocal_diquark_r1_r.txt" );
+print_global_buffer_to_file<double>( buf_snk_B1_Blocal_diquark_r1_r,  2 * 2 * 2 * 1, "./_kernel_3_wrapper___buf_snk_B1_Blocal_diquark_r1_r.txt" );
 std::cout << "Used GPU buffer :buf_snk_B1_Blocal_diquark_r2_i" << std::endl; 
-print_global_buffer_to_file<double>( buf_snk_B1_Blocal_diquark_r2_i,  2 * 2 * 2 * 1, "./_kernel_4_wrapper___buf_snk_B1_Blocal_diquark_r2_i.txt" );
+print_global_buffer_to_file<double>( buf_snk_B1_Blocal_diquark_r2_i,  2 * 2 * 2 * 1, "./_kernel_3_wrapper___buf_snk_B1_Blocal_diquark_r2_i.txt" );
 std::cout << "Used GPU buffer :buf_snk_B1_Blocal_diquark_r2_r" << std::endl; 
-print_global_buffer_to_file<double>( buf_snk_B1_Blocal_diquark_r2_r,  2 * 2 * 2 * 1, "./_kernel_4_wrapper___buf_snk_B1_Blocal_diquark_r2_r.txt" );
+print_global_buffer_to_file<double>( buf_snk_B1_Blocal_diquark_r2_r,  2 * 2 * 2 * 1, "./_kernel_3_wrapper___buf_snk_B1_Blocal_diquark_r2_r.txt" );
 std::cout << "Used GPU buffer :buf_snk_B1_Blocal_props_r1_i" << std::endl; 
-print_global_buffer_to_file<double>( buf_snk_B1_Blocal_props_r1_i,  2 * 2 * 2 * 3 * 2, "./_kernel_4_wrapper___buf_snk_B1_Blocal_props_r1_i.txt" );
+print_global_buffer_to_file<double>( buf_snk_B1_Blocal_props_r1_i,  2 * 2 * 2 * 3 * 2, "./_kernel_3_wrapper___buf_snk_B1_Blocal_props_r1_i.txt" );
 std::cout << "Used GPU buffer :buf_snk_B1_Blocal_props_r1_r" << std::endl; 
-print_global_buffer_to_file<double>( buf_snk_B1_Blocal_props_r1_r,  2 * 2 * 2 * 3 * 2, "./_kernel_4_wrapper___buf_snk_B1_Blocal_props_r1_r.txt" );
+print_global_buffer_to_file<double>( buf_snk_B1_Blocal_props_r1_r,  2 * 2 * 2 * 3 * 2, "./_kernel_3_wrapper___buf_snk_B1_Blocal_props_r1_r.txt" );
 std::cout << "Used GPU buffer :buf_snk_B1_Blocal_props_r2_i" << std::endl; 
-print_global_buffer_to_file<double>( buf_snk_B1_Blocal_props_r2_i,  2 * 2 * 2 * 3 * 2, "./_kernel_4_wrapper___buf_snk_B1_Blocal_props_r2_i.txt" );
+print_global_buffer_to_file<double>( buf_snk_B1_Blocal_props_r2_i,  2 * 2 * 2 * 3 * 2, "./_kernel_3_wrapper___buf_snk_B1_Blocal_props_r2_i.txt" );
 std::cout << "Used GPU buffer :buf_snk_B1_Blocal_props_r2_r" << std::endl; 
-print_global_buffer_to_file<double>( buf_snk_B1_Blocal_props_r2_r,  2 * 2 * 2 * 3 * 2, "./_kernel_4_wrapper___buf_snk_B1_Blocal_props_r2_r.txt" );
+print_global_buffer_to_file<double>( buf_snk_B1_Blocal_props_r2_r,  2 * 2 * 2 * 3 * 2, "./_kernel_3_wrapper___buf_snk_B1_Blocal_props_r2_r.txt" );
 std::cout << "Used GPU buffer :buf_snk_B1_Blocal_r1_i" << std::endl; 
-print_global_buffer_to_file<double>( buf_snk_B1_Blocal_r1_i,  2 * 2 * 2 * 3 * 2 * 3 * 2 * 3 * 2 * 44, "./_kernel_4_wrapper___buf_snk_B1_Blocal_r1_i.txt" );
+print_global_buffer_to_file<double>( buf_snk_B1_Blocal_r1_i,  2 * 2 * 2 * 3 * 2 * 3 * 2 * 3 * 2 * 44, "./_kernel_3_wrapper___buf_snk_B1_Blocal_r1_i.txt" );
 std::cout << "Used GPU buffer :buf_snk_B1_Blocal_r1_r" << std::endl; 
-print_global_buffer_to_file<double>( buf_snk_B1_Blocal_r1_r,  2 * 2 * 2 * 3 * 2 * 3 * 2 * 3 * 2 * 44, "./_kernel_4_wrapper___buf_snk_B1_Blocal_r1_r.txt" );
+print_global_buffer_to_file<double>( buf_snk_B1_Blocal_r1_r,  2 * 2 * 2 * 3 * 2 * 3 * 2 * 3 * 2 * 44, "./_kernel_3_wrapper___buf_snk_B1_Blocal_r1_r.txt" );
 std::cout << "Used GPU buffer :buf_snk_B1_Blocal_r2_i" << std::endl; 
-print_global_buffer_to_file<double>( buf_snk_B1_Blocal_r2_i,  2 * 2 * 2 * 3 * 2 * 3 * 2 * 3 * 2 * 44, "./_kernel_4_wrapper___buf_snk_B1_Blocal_r2_i.txt" );
+print_global_buffer_to_file<double>( buf_snk_B1_Blocal_r2_i,  2 * 2 * 2 * 3 * 2 * 3 * 2 * 3 * 2 * 44, "./_kernel_3_wrapper___buf_snk_B1_Blocal_r2_i.txt" );
 std::cout << "Used GPU buffer :buf_snk_B1_Blocal_r2_r" << std::endl; 
-print_global_buffer_to_file<double>( buf_snk_B1_Blocal_r2_r,  2 * 2 * 2 * 3 * 2 * 3 * 2 * 3 * 2 * 44, "./_kernel_4_wrapper___buf_snk_B1_Blocal_r2_r.txt" );
+print_global_buffer_to_file<double>( buf_snk_B1_Blocal_r2_r,  2 * 2 * 2 * 3 * 2 * 3 * 2 * 3 * 2 * 44, "./_kernel_3_wrapper___buf_snk_B1_Blocal_r2_r.txt" );
 std::cout << "Used GPU buffer :buf_snk_B2_Blocal_diquark_r1_i" << std::endl; 
-print_global_buffer_to_file<double>( buf_snk_B2_Blocal_diquark_r1_i,  2 * 2 * 2 * 1, "./_kernel_4_wrapper___buf_snk_B2_Blocal_diquark_r1_i.txt" );
+print_global_buffer_to_file<double>( buf_snk_B2_Blocal_diquark_r1_i,  2 * 2 * 2 * 1, "./_kernel_3_wrapper___buf_snk_B2_Blocal_diquark_r1_i.txt" );
 std::cout << "Used GPU buffer :buf_snk_B2_Blocal_diquark_r1_r" << std::endl; 
-print_global_buffer_to_file<double>( buf_snk_B2_Blocal_diquark_r1_r,  2 * 2 * 2 * 1, "./_kernel_4_wrapper___buf_snk_B2_Blocal_diquark_r1_r.txt" );
+print_global_buffer_to_file<double>( buf_snk_B2_Blocal_diquark_r1_r,  2 * 2 * 2 * 1, "./_kernel_3_wrapper___buf_snk_B2_Blocal_diquark_r1_r.txt" );
 std::cout << "Used GPU buffer :buf_snk_B2_Blocal_diquark_r2_i" << std::endl; 
-print_global_buffer_to_file<double>( buf_snk_B2_Blocal_diquark_r2_i,  2 * 2 * 2 * 1, "./_kernel_4_wrapper___buf_snk_B2_Blocal_diquark_r2_i.txt" );
+print_global_buffer_to_file<double>( buf_snk_B2_Blocal_diquark_r2_i,  2 * 2 * 2 * 1, "./_kernel_3_wrapper___buf_snk_B2_Blocal_diquark_r2_i.txt" );
 std::cout << "Used GPU buffer :buf_snk_B2_Blocal_diquark_r2_r" << std::endl; 
-print_global_buffer_to_file<double>( buf_snk_B2_Blocal_diquark_r2_r,  2 * 2 * 2 * 1, "./_kernel_4_wrapper___buf_snk_B2_Blocal_diquark_r2_r.txt" );
+print_global_buffer_to_file<double>( buf_snk_B2_Blocal_diquark_r2_r,  2 * 2 * 2 * 1, "./_kernel_3_wrapper___buf_snk_B2_Blocal_diquark_r2_r.txt" );
 std::cout << "Used GPU buffer :buf_snk_B2_Blocal_props_r1_i" << std::endl; 
-print_global_buffer_to_file<double>( buf_snk_B2_Blocal_props_r1_i,  2 * 2 * 2 * 3 * 2, "./_kernel_4_wrapper___buf_snk_B2_Blocal_props_r1_i.txt" );
+print_global_buffer_to_file<double>( buf_snk_B2_Blocal_props_r1_i,  2 * 2 * 2 * 3 * 2, "./_kernel_3_wrapper___buf_snk_B2_Blocal_props_r1_i.txt" );
 std::cout << "Used GPU buffer :buf_snk_B2_Blocal_props_r1_r" << std::endl; 
-print_global_buffer_to_file<double>( buf_snk_B2_Blocal_props_r1_r,  2 * 2 * 2 * 3 * 2, "./_kernel_4_wrapper___buf_snk_B2_Blocal_props_r1_r.txt" );
+print_global_buffer_to_file<double>( buf_snk_B2_Blocal_props_r1_r,  2 * 2 * 2 * 3 * 2, "./_kernel_3_wrapper___buf_snk_B2_Blocal_props_r1_r.txt" );
 std::cout << "Used GPU buffer :buf_snk_B2_Blocal_props_r2_i" << std::endl; 
-print_global_buffer_to_file<double>( buf_snk_B2_Blocal_props_r2_i,  2 * 2 * 2 * 3 * 2, "./_kernel_4_wrapper___buf_snk_B2_Blocal_props_r2_i.txt" );
+print_global_buffer_to_file<double>( buf_snk_B2_Blocal_props_r2_i,  2 * 2 * 2 * 3 * 2, "./_kernel_3_wrapper___buf_snk_B2_Blocal_props_r2_i.txt" );
 std::cout << "Used GPU buffer :buf_snk_B2_Blocal_props_r2_r" << std::endl; 
-print_global_buffer_to_file<double>( buf_snk_B2_Blocal_props_r2_r,  2 * 2 * 2 * 3 * 2, "./_kernel_4_wrapper___buf_snk_B2_Blocal_props_r2_r.txt" );
+print_global_buffer_to_file<double>( buf_snk_B2_Blocal_props_r2_r,  2 * 2 * 2 * 3 * 2, "./_kernel_3_wrapper___buf_snk_B2_Blocal_props_r2_r.txt" );
 std::cout << "Used GPU buffer :buf_snk_B2_Blocal_r1_i" << std::endl; 
-print_global_buffer_to_file<double>( buf_snk_B2_Blocal_r1_i,  2 * 2 * 2 * 3 * 2 * 3 * 2 * 3 * 2 * 44, "./_kernel_4_wrapper___buf_snk_B2_Blocal_r1_i.txt" );
+print_global_buffer_to_file<double>( buf_snk_B2_Blocal_r1_i,  2 * 2 * 2 * 3 * 2 * 3 * 2 * 3 * 2 * 44, "./_kernel_3_wrapper___buf_snk_B2_Blocal_r1_i.txt" );
 std::cout << "Used GPU buffer :buf_snk_B2_Blocal_r1_r" << std::endl; 
-print_global_buffer_to_file<double>( buf_snk_B2_Blocal_r1_r,  2 * 2 * 2 * 3 * 2 * 3 * 2 * 3 * 2 * 44, "./_kernel_4_wrapper___buf_snk_B2_Blocal_r1_r.txt" );
+print_global_buffer_to_file<double>( buf_snk_B2_Blocal_r1_r,  2 * 2 * 2 * 3 * 2 * 3 * 2 * 3 * 2 * 44, "./_kernel_3_wrapper___buf_snk_B2_Blocal_r1_r.txt" );
 std::cout << "Used GPU buffer :buf_snk_B2_Blocal_r2_i" << std::endl; 
-print_global_buffer_to_file<double>( buf_snk_B2_Blocal_r2_i,  2 * 2 * 2 * 3 * 2 * 3 * 2 * 3 * 2 * 44, "./_kernel_4_wrapper___buf_snk_B2_Blocal_r2_i.txt" );
+print_global_buffer_to_file<double>( buf_snk_B2_Blocal_r2_i,  2 * 2 * 2 * 3 * 2 * 3 * 2 * 3 * 2 * 44, "./_kernel_3_wrapper___buf_snk_B2_Blocal_r2_i.txt" );
 std::cout << "Used GPU buffer :buf_snk_B2_Blocal_r2_r" << std::endl; 
-print_global_buffer_to_file<double>( buf_snk_B2_Blocal_r2_r,  2 * 2 * 2 * 3 * 2 * 3 * 2 * 3 * 2 * 44, "./_kernel_4_wrapper___buf_snk_B2_Blocal_r2_r.txt" );
+print_global_buffer_to_file<double>( buf_snk_B2_Blocal_r2_r,  2 * 2 * 2 * 3 * 2 * 3 * 2 * 3 * 2 * 44, "./_kernel_3_wrapper___buf_snk_B2_Blocal_r2_r.txt" );
 std::cout << "Used GPU buffer :buf_snk_psi_B1_i_gpu" << std::endl; 
-print_global_buffer_to_file<double>( buf_snk_psi_B1_i_gpu,  4 * 44, "./_kernel_4_wrapper___buf_snk_psi_B1_i_gpu.txt" );
+print_global_buffer_to_file<double>( buf_snk_psi_B1_i_gpu,  4 * 44, "./_kernel_3_wrapper___buf_snk_psi_B1_i_gpu.txt" );
 std::cout << "Used GPU buffer :buf_snk_psi_B1_r_gpu" << std::endl; 
-print_global_buffer_to_file<double>( buf_snk_psi_B1_r_gpu,  4 * 44, "./_kernel_4_wrapper___buf_snk_psi_B1_r_gpu.txt" );
+print_global_buffer_to_file<double>( buf_snk_psi_B1_r_gpu,  4 * 44, "./_kernel_3_wrapper___buf_snk_psi_B1_r_gpu.txt" );
 std::cout << "Used GPU buffer :buf_snk_psi_B2_i_gpu" << std::endl; 
-print_global_buffer_to_file<double>( buf_snk_psi_B2_i_gpu,  4 * 44, "./_kernel_4_wrapper___buf_snk_psi_B2_i_gpu.txt" );
+print_global_buffer_to_file<double>( buf_snk_psi_B2_i_gpu,  4 * 44, "./_kernel_3_wrapper___buf_snk_psi_B2_i_gpu.txt" );
 std::cout << "Used GPU buffer :buf_snk_psi_B2_r_gpu" << std::endl; 
-print_global_buffer_to_file<double>( buf_snk_psi_B2_r_gpu,  4 * 44, "./_kernel_4_wrapper___buf_snk_psi_B2_r_gpu.txt" );
+print_global_buffer_to_file<double>( buf_snk_psi_B2_r_gpu,  4 * 44, "./_kernel_3_wrapper___buf_snk_psi_B2_r_gpu.txt" );
 std::cout << "Used GPU buffer :buf_src_color_weights_gpu" << std::endl; 
-print_global_buffer_to_file<int32_t>( buf_src_color_weights_gpu,  4 * 12 * 3, "./_kernel_4_wrapper___buf_src_color_weights_gpu.txt" );
+print_global_buffer_to_file<int32_t>( buf_src_color_weights_gpu,  4 * 12 * 3, "./_kernel_3_wrapper___buf_src_color_weights_gpu.txt" );
 std::cout << "Used GPU buffer :buf_src_spin_block_weights_gpu" << std::endl; 
-print_global_buffer_to_file<double>( buf_src_spin_block_weights_gpu,  4 * 2, "./_kernel_4_wrapper___buf_src_spin_block_weights_gpu.txt" );
+print_global_buffer_to_file<double>( buf_src_spin_block_weights_gpu,  4 * 2, "./_kernel_3_wrapper___buf_src_spin_block_weights_gpu.txt" );
 std::cout << "Used GPU buffer :buf_src_spin_weights_gpu" << std::endl; 
-print_global_buffer_to_file<int32_t>( buf_src_spin_weights_gpu,  4 * 12 * 3, "./_kernel_4_wrapper___buf_src_spin_weights_gpu.txt" );
+print_global_buffer_to_file<int32_t>( buf_src_spin_weights_gpu,  4 * 12 * 3, "./_kernel_3_wrapper___buf_src_spin_weights_gpu.txt" );
 std::cout << "Used GPU buffer :buf_src_weights_gpu" << std::endl; 
-print_global_buffer_to_file<double>( buf_src_weights_gpu,  4 * 12, "./_kernel_4_wrapper___buf_src_weights_gpu.txt" );
+print_global_buffer_to_file<double>( buf_src_weights_gpu,  4 * 12, "./_kernel_3_wrapper___buf_src_weights_gpu.txt" );
 std::cout << "Used GPU buffer :src_spins" << std::endl; 
-print_global_buffer_to_file<int32_t>( src_spins,  4 * 2 * 2, "./_kernel_4_wrapper___src_spins.txt" );
+print_global_buffer_to_file<int32_t>( src_spins,  4 * 2 * 2, "./_kernel_3_wrapper___src_spins.txt" );
 std::cout << "--------------------------" << std::endl; 
 ;
 	return 0;
 };
-static __global__ void _kernel_5(int32_t c1, double *buf_B1_prop_i_gpu, double *buf_B1_prop_r_gpu, double *buf_B2_prop_i_gpu, double *buf_B2_prop_r_gpu, double *buf_C_H_H_prop_i, double *buf_C_H_H_prop_r, double *buf_C_i, double *buf_C_r, int32_t *buf_hex_snk_color_weights_gpu, double *buf_hex_snk_psi_i_gpu, double *buf_hex_snk_psi_r_gpu, int32_t *buf_hex_snk_spin_weights_gpu, double *buf_hex_snk_weights_gpu, double *buf_hex_src_psi_i_gpu, double *buf_hex_src_psi_r_gpu, int32_t *buf_sigs_gpu)
+static __global__ void _kernel_4(int32_t c1, double *buf_B1_prop_i_gpu, double *buf_B1_prop_r_gpu, double *buf_B2_prop_i_gpu, double *buf_B2_prop_r_gpu, double *buf_C_H_H_prop_i, double *buf_C_H_H_prop_r, double *buf_C_i, double *buf_C_r, int32_t *buf_hex_snk_color_weights_gpu, double *buf_hex_snk_psi_i_gpu, double *buf_hex_snk_psi_r_gpu, int32_t *buf_hex_snk_spin_weights_gpu, double *buf_hex_snk_weights_gpu, double *buf_hex_src_psi_i_gpu, double *buf_hex_src_psi_r_gpu, int32_t *buf_sigs_gpu)
 {
 	const int32_t __bx__ = (blockIdx.x + 0);
 	const int32_t __tx__ = (threadIdx.x + 0);
@@ -4601,46 +4500,46 @@ static __global__ void _kernel_5(int32_t c1, double *buf_B1_prop_i_gpu, double *
 		};
 	};
 };
-extern "C" int32_t _kernel_5_wrapper(int32_t c1, double *buf_B1_prop_i_gpu, double *buf_B1_prop_r_gpu, double *buf_B2_prop_i_gpu, double *buf_B2_prop_r_gpu, double *buf_C_H_H_prop_i, double *buf_C_H_H_prop_r, double *buf_C_i, double *buf_C_r, int32_t *buf_hex_snk_color_weights_gpu, double *buf_hex_snk_psi_i_gpu, double *buf_hex_snk_psi_r_gpu, int32_t *buf_hex_snk_spin_weights_gpu, double *buf_hex_snk_weights_gpu, double *buf_hex_src_psi_i_gpu, double *buf_hex_src_psi_r_gpu, int32_t *buf_sigs_gpu)
+extern "C" int32_t _kernel_4_wrapper(int32_t c1, double *buf_B1_prop_i_gpu, double *buf_B1_prop_r_gpu, double *buf_B2_prop_i_gpu, double *buf_B2_prop_r_gpu, double *buf_C_H_H_prop_i, double *buf_C_H_H_prop_r, double *buf_C_i, double *buf_C_r, int32_t *buf_hex_snk_color_weights_gpu, double *buf_hex_snk_psi_i_gpu, double *buf_hex_snk_psi_r_gpu, int32_t *buf_hex_snk_spin_weights_gpu, double *buf_hex_snk_weights_gpu, double *buf_hex_src_psi_i_gpu, double *buf_hex_src_psi_r_gpu, int32_t *buf_sigs_gpu)
 {
 	{
 		dim3 blocks((1 + 1), 1, 1);
 		dim3 threads((1 + 1), 1, 1);
-		_kernel_5<<<blocks, threads>>>(c1, buf_B1_prop_i_gpu, buf_B1_prop_r_gpu, buf_B2_prop_i_gpu, buf_B2_prop_r_gpu, buf_C_H_H_prop_i, buf_C_H_H_prop_r, buf_C_i, buf_C_r, buf_hex_snk_color_weights_gpu, buf_hex_snk_psi_i_gpu, buf_hex_snk_psi_r_gpu, buf_hex_snk_spin_weights_gpu, buf_hex_snk_weights_gpu, buf_hex_src_psi_i_gpu, buf_hex_src_psi_r_gpu, buf_sigs_gpu);
+		_kernel_4<<<blocks, threads>>>(c1, buf_B1_prop_i_gpu, buf_B1_prop_r_gpu, buf_B2_prop_i_gpu, buf_B2_prop_r_gpu, buf_C_H_H_prop_i, buf_C_H_H_prop_r, buf_C_i, buf_C_r, buf_hex_snk_color_weights_gpu, buf_hex_snk_psi_i_gpu, buf_hex_snk_psi_r_gpu, buf_hex_snk_spin_weights_gpu, buf_hex_snk_weights_gpu, buf_hex_src_psi_i_gpu, buf_hex_src_psi_r_gpu, buf_sigs_gpu);
 	};
 	cudaDeviceSynchronize();;
-	std::cout << "_kernel_5_wrapper finished" << std::endl; std::cout << "Used GPU buffer :buf_B1_prop_i_gpu" << std::endl; 
-print_global_buffer_to_file<double>( buf_B1_prop_i_gpu,  3 * 2 * 3 * 2 * 3 * 2 * 4 * 4, "./_kernel_5_wrapper___buf_B1_prop_i_gpu.txt" );
+	std::cout << "_kernel_4_wrapper finished" << std::endl; std::cout << "Used GPU buffer :buf_B1_prop_i_gpu" << std::endl; 
+print_global_buffer_to_file<double>( buf_B1_prop_i_gpu,  3 * 2 * 3 * 2 * 3 * 2 * 4 * 4, "./_kernel_4_wrapper___buf_B1_prop_i_gpu.txt" );
 std::cout << "Used GPU buffer :buf_B1_prop_r_gpu" << std::endl; 
-print_global_buffer_to_file<double>( buf_B1_prop_r_gpu,  3 * 2 * 3 * 2 * 3 * 2 * 4 * 4, "./_kernel_5_wrapper___buf_B1_prop_r_gpu.txt" );
+print_global_buffer_to_file<double>( buf_B1_prop_r_gpu,  3 * 2 * 3 * 2 * 3 * 2 * 4 * 4, "./_kernel_4_wrapper___buf_B1_prop_r_gpu.txt" );
 std::cout << "Used GPU buffer :buf_B2_prop_i_gpu" << std::endl; 
-print_global_buffer_to_file<double>( buf_B2_prop_i_gpu,  3 * 2 * 3 * 2 * 3 * 2 * 4 * 4, "./_kernel_5_wrapper___buf_B2_prop_i_gpu.txt" );
+print_global_buffer_to_file<double>( buf_B2_prop_i_gpu,  3 * 2 * 3 * 2 * 3 * 2 * 4 * 4, "./_kernel_4_wrapper___buf_B2_prop_i_gpu.txt" );
 std::cout << "Used GPU buffer :buf_B2_prop_r_gpu" << std::endl; 
-print_global_buffer_to_file<double>( buf_B2_prop_r_gpu,  3 * 2 * 3 * 2 * 3 * 2 * 4 * 4, "./_kernel_5_wrapper___buf_B2_prop_r_gpu.txt" );
+print_global_buffer_to_file<double>( buf_B2_prop_r_gpu,  3 * 2 * 3 * 2 * 3 * 2 * 4 * 4, "./_kernel_4_wrapper___buf_B2_prop_r_gpu.txt" );
 std::cout << "Used GPU buffer :buf_C_H_H_prop_i" << std::endl; 
-print_global_buffer_to_file<double>( buf_C_H_H_prop_i,  2 * 2 * 2 * 1, "./_kernel_5_wrapper___buf_C_H_H_prop_i.txt" );
+print_global_buffer_to_file<double>( buf_C_H_H_prop_i,  2 * 2 * 2 * 1, "./_kernel_4_wrapper___buf_C_H_H_prop_i.txt" );
 std::cout << "Used GPU buffer :buf_C_H_H_prop_r" << std::endl; 
-print_global_buffer_to_file<double>( buf_C_H_H_prop_r,  2 * 2 * 2 * 1, "./_kernel_5_wrapper___buf_C_H_H_prop_r.txt" );
+print_global_buffer_to_file<double>( buf_C_H_H_prop_r,  2 * 2 * 2 * 1, "./_kernel_4_wrapper___buf_C_H_H_prop_r.txt" );
 std::cout << "Used GPU buffer :buf_C_i" << std::endl; 
-print_global_buffer_to_file<double>( buf_C_i,  2 * 2 * 2 * 4 * 45 * 4 * 45, "./_kernel_5_wrapper___buf_C_i.txt" );
+print_global_buffer_to_file<double>( buf_C_i,  2 * 2 * 2 * 4 * 45 * 4 * 45, "./_kernel_4_wrapper___buf_C_i.txt" );
 std::cout << "Used GPU buffer :buf_C_r" << std::endl; 
-print_global_buffer_to_file<double>( buf_C_r,  2 * 2 * 2 * 4 * 45 * 4 * 45, "./_kernel_5_wrapper___buf_C_r.txt" );
+print_global_buffer_to_file<double>( buf_C_r,  2 * 2 * 2 * 4 * 45 * 4 * 45, "./_kernel_4_wrapper___buf_C_r.txt" );
 std::cout << "Used GPU buffer :buf_hex_snk_color_weights_gpu" << std::endl; 
-print_global_buffer_to_file<int32_t>( buf_hex_snk_color_weights_gpu,  4 * 36 * 32 * 3 * 2, "./_kernel_5_wrapper___buf_hex_snk_color_weights_gpu.txt" );
+print_global_buffer_to_file<int32_t>( buf_hex_snk_color_weights_gpu,  4 * 36 * 32 * 3 * 2, "./_kernel_4_wrapper___buf_hex_snk_color_weights_gpu.txt" );
 std::cout << "Used GPU buffer :buf_hex_snk_psi_i_gpu" << std::endl; 
-print_global_buffer_to_file<double>( buf_hex_snk_psi_i_gpu,  4 * 1, "./_kernel_5_wrapper___buf_hex_snk_psi_i_gpu.txt" );
+print_global_buffer_to_file<double>( buf_hex_snk_psi_i_gpu,  4 * 1, "./_kernel_4_wrapper___buf_hex_snk_psi_i_gpu.txt" );
 std::cout << "Used GPU buffer :buf_hex_snk_psi_r_gpu" << std::endl; 
-print_global_buffer_to_file<double>( buf_hex_snk_psi_r_gpu,  4 * 1, "./_kernel_5_wrapper___buf_hex_snk_psi_r_gpu.txt" );
+print_global_buffer_to_file<double>( buf_hex_snk_psi_r_gpu,  4 * 1, "./_kernel_4_wrapper___buf_hex_snk_psi_r_gpu.txt" );
 std::cout << "Used GPU buffer :buf_hex_snk_spin_weights_gpu" << std::endl; 
-print_global_buffer_to_file<int32_t>( buf_hex_snk_spin_weights_gpu,  4 * 36 * 32 * 3 * 2, "./_kernel_5_wrapper___buf_hex_snk_spin_weights_gpu.txt" );
+print_global_buffer_to_file<int32_t>( buf_hex_snk_spin_weights_gpu,  4 * 36 * 32 * 3 * 2, "./_kernel_4_wrapper___buf_hex_snk_spin_weights_gpu.txt" );
 std::cout << "Used GPU buffer :buf_hex_snk_weights_gpu" << std::endl; 
-print_global_buffer_to_file<double>( buf_hex_snk_weights_gpu,  4 * 32, "./_kernel_5_wrapper___buf_hex_snk_weights_gpu.txt" );
+print_global_buffer_to_file<double>( buf_hex_snk_weights_gpu,  4 * 32, "./_kernel_4_wrapper___buf_hex_snk_weights_gpu.txt" );
 std::cout << "Used GPU buffer :buf_hex_src_psi_i_gpu" << std::endl; 
-print_global_buffer_to_file<double>( buf_hex_src_psi_i_gpu,  4 * 1, "./_kernel_5_wrapper___buf_hex_src_psi_i_gpu.txt" );
+print_global_buffer_to_file<double>( buf_hex_src_psi_i_gpu,  4 * 1, "./_kernel_4_wrapper___buf_hex_src_psi_i_gpu.txt" );
 std::cout << "Used GPU buffer :buf_hex_src_psi_r_gpu" << std::endl; 
-print_global_buffer_to_file<double>( buf_hex_src_psi_r_gpu,  4 * 1, "./_kernel_5_wrapper___buf_hex_src_psi_r_gpu.txt" );
+print_global_buffer_to_file<double>( buf_hex_src_psi_r_gpu,  4 * 1, "./_kernel_4_wrapper___buf_hex_src_psi_r_gpu.txt" );
 std::cout << "Used GPU buffer :buf_sigs_gpu" << std::endl; 
-print_global_buffer_to_file<int32_t>( buf_sigs_gpu,  36, "./_kernel_5_wrapper___buf_sigs_gpu.txt" );
+print_global_buffer_to_file<int32_t>( buf_sigs_gpu,  36, "./_kernel_4_wrapper___buf_sigs_gpu.txt" );
 std::cout << "--------------------------" << std::endl; 
 ;
 	return 0;
