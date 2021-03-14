@@ -47,15 +47,11 @@ int main(int argc, char **argv)
     // Declare a computation to initialize the reduction.
     computation C_init("C_init", {i, j, k}, expr((uint8_t) 0));
 
-    C_init.store_in( &b_C_gpu, {0, j, k} );
-
     // Declare the reduction operation.
     computation C("C", {i,j,k}, p_int32);
     // Note that the previous computation has an empty expression,
     // because we can only use C in an expression after its declaration.
     C.set_expression(C(i, j, k - 1) + A(i, k) * B(k, j));
-
-    C_init.store_in( &b_C_gpu, {0, i, j} );
 
     C.add_predicate( A(i, k) == 0 );
 
@@ -69,8 +65,8 @@ int main(int argc, char **argv)
     // -------------------------------------------------------
 
     // A simple tiling.
-    C_init.gpu_tile(i, j, 16, 16);
-    C.gpu_tile(i, j, 16, 16);
+    // C_init.gpu_tile(i, j, 16, 16);
+    // C.gpu_tile(i, j, 16, 16);
 
     // Scheduling commands
     copy_A_to_device.then(copy_B_to_device, computation::root)
@@ -87,9 +83,9 @@ int main(int argc, char **argv)
     B.store_in(&b_B_gpu);
 
     // Store C_init[i,j] in b_C[i,j]
-    C_init.store_in(&b_C_gpu);
+    C_init.store_in( &b_C_gpu, {0, i, j} );
     // Store C[i,j,k] in b_C[i,j]
-    C.store_in(&b_C_gpu, {i,j});
+    C.store_in(&b_C_gpu, {0, i,j});
     // Note that both of the computations C_init and C store their
     // results in the buffer b_C.
 
