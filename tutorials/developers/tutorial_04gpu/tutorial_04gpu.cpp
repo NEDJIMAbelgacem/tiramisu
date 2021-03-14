@@ -55,7 +55,7 @@ int main(int argc, char **argv)
     // because we can only use C in an expression after its declaration.
     C.set_expression(C(i, j, k - 1) + A(i, k) * B(k, j));
 
-    C_init.store_in( b_C_gpu, {0, i, j} );
+    C_init.store_in( &b_C_gpu, {0, i, j} );
 
     C.add_predicate( A(i, k) == 0 );
 
