@@ -30,11 +30,11 @@ int main(int argc, char **argv)
     // Declare cpu buffers.
     buffer b_A("b_A", {expr(SIZE0), expr(SIZE0)}, p_int32, a_input);
     buffer b_B("b_B", {expr(SIZE0), expr(SIZE0)}, p_int32, a_input);
-    buffer b_C("b_C", {expr(SIZE0), expr(SIZE0)}, p_int32, a_output);
+    buffer b_C("b_C", {1, expr(SIZE0), expr(SIZE0)}, p_int32, a_output);
     // Declare gpu buffers.
     buffer b_A_gpu("b_A_gpu", {expr(SIZE0), expr(SIZE0)}, p_int32, a_temporary);
     buffer b_B_gpu("b_B_gpu", {expr(SIZE0), expr(SIZE0)}, p_int32, a_temporary);
-    buffer b_C_gpu("b_C_gpu", {expr(SIZE0), expr(SIZE0)}, p_int32, a_temporary);
+    buffer b_C_gpu("b_C_gpu", {1, expr(SIZE0), expr(SIZE0)}, p_int32, a_temporary);
     // Tag the GPU buffers to be stored in global memory.
     b_A_gpu.tag_gpu_global();
     b_B_gpu.tag_gpu_global();
@@ -47,11 +47,15 @@ int main(int argc, char **argv)
     // Declare a computation to initialize the reduction.
     computation C_init("C_init", {i, j, k}, expr((uint8_t) 0));
 
+    C_init.store_in( b_C_gpu, {0, j, k} );
+
     // Declare the reduction operation.
     computation C("C", {i,j,k}, p_int32);
     // Note that the previous computation has an empty expression,
     // because we can only use C in an expression after its declaration.
     C.set_expression(C(i, j, k - 1) + A(i, k) * B(k, j));
+
+    C_init.store_in( b_C_gpu, {0, i, j} );
 
     C.add_predicate( A(i, k) == 0 );
 
