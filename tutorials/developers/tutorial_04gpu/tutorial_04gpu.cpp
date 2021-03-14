@@ -45,7 +45,7 @@ int main(int argc, char **argv)
     input B("B", {k, j}, p_int32);
 
     // Declare a computation to initialize the reduction.
-    computation C_init("C_init", {i, j, k}, expr((uint8_t) 0));
+    computation C_init("C_init", {i, j, k}, expr((int32_t) 0));
 
     // Declare the reduction operation.
     computation C("C", {i,j,k}, p_int32);
