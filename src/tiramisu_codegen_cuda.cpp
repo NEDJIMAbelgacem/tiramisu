@@ -464,12 +464,11 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
                 assert(false);
             break;
             case e_op: {
-                std::cout << "Parsing expression of type: e_op\n";
-
-                std::cout << "Operation type: " << op_t_str[ tiramisu_expr.get_op_type() ] << "\n";
+                std::cout << tabs << "Operation type: " << op_t_str[ tiramisu_expr.get_op_type() ] << "\n";
                 switch (tiramisu_expr.get_op_type()) {
                     case o_access: {
                         buffer_ptr b = this->get_buffer(tiramisu_expr.get_name());
+                        std::cout << tabs << "Accessed buffer " << b->get_name() << "\n";
                         if (b == nullptr)
                         {
                             std::cout << __FILE__ << "::" << __LINE__ << " : " << "Error while getting the buffer of  " << tiramisu_expr.get_name() << "\n";
