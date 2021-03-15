@@ -52,7 +52,7 @@ int main(int argc, char **argv)
     input B("B", {k, j}, p_int32);
 
     input P( "P", {a, b, c, d}, p_int32 );
-    P.store_in( &b_P_gpu )
+    P.store_in( &b_P_gpu );
 
     // Declare a computation to initialize the reduction.
     computation C_init("C_init", {i, j, k}, expr((int32_t) 0));
