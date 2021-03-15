@@ -40,7 +40,7 @@ int main(int argc, char **argv)
     buffer b_B_gpu("b_B_gpu", {expr(SIZE0), expr(SIZE0)}, p_int32, a_temporary);
     buffer b_C_gpu("b_C_gpu", {2, expr(SIZE0), expr(SIZE0)}, p_int32, a_temporary);
 
-    buffer b_P_gpu("b_C_gpu", {2, 4, expr(SIZE0), expr(SIZE0)}, p_int32, a_temporary);
+    buffer b_P_gpu("b_P_gpu", {2, 4, expr(SIZE0), expr(SIZE0)}, p_int32, a_temporary);
     // Tag the GPU buffers to be stored in global memory.
     b_A_gpu.tag_gpu_global();
     b_B_gpu.tag_gpu_global();
