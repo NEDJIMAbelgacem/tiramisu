@@ -527,6 +527,12 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
         if (it != m_buffers.end()) {
             buffer = it->second;
         } else {
+            std::cout << "Available buffers: ";
+            for ( auto p : this->m_fct.get_buffers() )
+            {
+                std::cout << p.first << " | ";
+            };
+            std::cout << "\n";
             auto tiramisu_buffer = this->m_fct.get_buffers().at(name);
             std::vector<cuda_ast::statement_ptr> sizes;
             for (auto &dim : tiramisu_buffer->get_dim_sizes()) {
@@ -765,6 +771,7 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
                     tiramisu::expr tiramisu_predicate = replace_original_indices_with_transformed_indices(
                             comp->get_predicate(),
                             comp->get_iterators_map());
+                    std::cout << "Parsing predicate"
                     auto stmt = parse_tiramisu(tiramisu_predicate);
                     if (stmt == nullptr)
                     {
