@@ -1042,18 +1042,14 @@ void generate_function(std::string name)
     complex_computation BB_BB_new_term_5_r1_b1("BB_BB_new_term_5_r1_b1", {t, x_out, x_in, x2, rp, m, r, s, nperm, wnum}, B2_Bsecond_r1_init(t, x_out, x_in, x2, snk_color_weights(r, nperm, wnum, 0, 0), snk_spin_weights(r, nperm, wnum, 0, 0), snk_color_weights(r, nperm, wnum, 2, 0), snk_spin_weights(r, nperm, wnum, 2, 0), snk_color_weights(r, nperm, wnum, 1, 0), snk_spin_weights(r, nperm, wnum, 1, 0), m));
     complex_computation BB_BB_new_term_6_r1_b1("BB_BB_new_term_6_r1_b1", {t, x_out, x_in, x2, rp, m, r, s, nperm, wnum}, B1_Bthird_r1_init(t, x_out, x_in, x2, snk_color_weights(r, nperm, wnum, 0, 0), snk_spin_weights(r, nperm, wnum, 0, 0), snk_color_weights(r, nperm, wnum, 2, 0), snk_spin_weights(r, nperm, wnum, 2, 0), snk_color_weights(r, nperm, wnum, 1, 0), snk_spin_weights(r, nperm, wnum, 1, 0), m));
     complex_computation BB_BB_new_term_7_r1_b1("BB_BB_new_term_7_r1_b1", {t, x_out, x_in, x2, rp, m, r, s, nperm, wnum}, B2_Bthird_r1_init(t, x_out, x_in, x2, snk_color_weights(r, nperm, wnum, 0, 0), snk_spin_weights(r, nperm, wnum, 0, 0), snk_color_weights(r, nperm, wnum, 2, 0), snk_spin_weights(r, nperm, wnum, 2, 0), snk_color_weights(r, nperm, wnum, 1, 0), snk_spin_weights(r, nperm, wnum, 1, 0), m));
-    computation src_spins_rp_s_0( "src_spins_rp_s_0", {rp, s}, src_spins(rp, s, 0) );
-    computation snk_b_nperm_0_0("snk_b_nperm_0_0", {nperm}, snk_b(nperm, 0, b) );
-    computation snk_b_nperm_1_0("snk_b_nperm_1_0", {nperm}, snk_b(nperm, 1, b) );
-    computation snk_b_nperm_2_0("snk_b_nperm_2_0", {nperm}, snk_b(nperm, 2, b) );
-    BB_BB_new_term_0_r1_b1.add_predicate((src_spins_rp_s_0(rp, s) == 1) && ((snk_b_nperm_0_0(nperm) == 0) && (snk_b_nperm_1_0(nperm) == 0) && (snk_b_nperm_2_0(nperm) == 0)));
-    BB_BB_new_term_1_r1_b1.add_predicate((src_spins_rp_s_0(rp, s) == 1) && ((snk_b_nperm_0_0(nperm) == 1) && (snk_b_nperm_1_0(nperm) == 1) && (snk_b_nperm_2_0(nperm) == 1)));
-    BB_BB_new_term_2_r1_b1.add_predicate((src_spins_rp_s_0(rp, s) == 1) && ((snk_b_nperm_0_0(nperm) == 1) && (snk_b_nperm_1_0(nperm) == 0) && (snk_b_nperm_2_0(nperm) == 0)));
-    BB_BB_new_term_3_r1_b1.add_predicate((src_spins_rp_s_0(rp, s) == 1) && ((snk_b_nperm_0_0(nperm) == 0) && (snk_b_nperm_1_0(nperm) == 1) && (snk_b_nperm_2_0(nperm) == 1)));
-    BB_BB_new_term_4_r1_b1.add_predicate((src_spins_rp_s_0(rp, s) == 1) && ((snk_b_nperm_0_0(nperm) == 0) && (snk_b_nperm_1_0(nperm) == 1) && (snk_b_nperm_2_0(nperm) == 0)));
-    BB_BB_new_term_5_r1_b1.add_predicate((src_spins_rp_s_0(rp, s) == 1) && ((snk_b_nperm_0_0(nperm) == 1) && (snk_b_nperm_1_0(nperm) == 0) && (snk_b_nperm_2_0(nperm) == 1)));
-    BB_BB_new_term_6_r1_b1.add_predicate((src_spins_rp_s_0(rp, s) == 1) && ((snk_b_nperm_0_0(nperm) == 0) && (snk_b_nperm_1_0(nperm) == 0) && (snk_b_nperm_2_0(nperm) == 1)));
-    BB_BB_new_term_7_r1_b1.add_predicate((src_spins_rp_s_0(rp, s) == 1) && ((snk_b_nperm_0_0(nperm) == 1) && (snk_b_nperm_1_0(nperm) == 1) && (snk_b_nperm_2_0(nperm) == 0)));
+    BB_BB_new_term_0_r1_b1.add_predicate((src_spins(rp, s, 0) == 1) && (snk_b(nperm, 0, b) == 0 && snk_b(nperm, 1, b) == 0 && snk_b(nperm, 2, b) == 0));
+    BB_BB_new_term_1_r1_b1.add_predicate((src_spins(rp, s, 0) == 1) && (snk_b(nperm, 0, b) == 1 && snk_b(nperm, 1, b) == 1 && snk_b(nperm, 2, b) == 1));
+    BB_BB_new_term_2_r1_b1.add_predicate((src_spins(rp, s, 0) == 1) && (snk_b(nperm, 0, b) == 1 && snk_b(nperm, 1, b) == 0 && snk_b(nperm, 2, b) == 0));
+    BB_BB_new_term_3_r1_b1.add_predicate((src_spins(rp, s, 0) == 1) && (snk_b(nperm, 0, b) == 0 && snk_b(nperm, 1, b) == 1 && snk_b(nperm, 2, b) == 1));
+    BB_BB_new_term_4_r1_b1.add_predicate((src_spins(rp, s, 0) == 1) && (snk_b(nperm, 0, b) == 0 && snk_b(nperm, 1, b) == 1 && snk_b(nperm, 2, b) == 0));
+    BB_BB_new_term_5_r1_b1.add_predicate((src_spins(rp, s, 0) == 1) && (snk_b(nperm, 0, b) == 1 && snk_b(nperm, 1, b) == 0 && snk_b(nperm, 2, b) == 1));
+    BB_BB_new_term_6_r1_b1.add_predicate((src_spins(rp, s, 0) == 1) && (snk_b(nperm, 0, b) == 0 && snk_b(nperm, 1, b) == 0 && snk_b(nperm, 2, b) == 1));
+    BB_BB_new_term_7_r1_b1.add_predicate((src_spins(rp, s, 0) == 1) &&  (snk_b(nperm, 0, b) == 1 && snk_b(nperm, 1, b) == 1 && snk_b(nperm, 2, b) == 0));
     // r2, b = 0 
     complex_computation BB_BB_new_term_0_r2_b1("BB_BB_new_term_0_r2_b1", {t, x_out, x_in, x2, rp, m, r, s, nperm, wnum}, B1_Blocal_r2_init(t, x_out, x_in, x2, snk_color_weights(r, nperm, wnum, 0, 0), snk_spin_weights(r, nperm, wnum, 0, 0), snk_color_weights(r, nperm, wnum, 2, 0), snk_spin_weights(r, nperm, wnum, 2, 0), snk_color_weights(r, nperm, wnum, 1, 0), snk_spin_weights(r, nperm, wnum, 1, 0), m));
     complex_computation BB_BB_new_term_1_r2_b1("BB_BB_new_term_1_r2_b1", {t, x_out, x_in, x2, rp, m, r, s, nperm, wnum}, B2_Blocal_r2_init(t, x_out, x_in, x2, snk_color_weights(r, nperm, wnum, 0, 0), snk_spin_weights(r, nperm, wnum, 0, 0), snk_color_weights(r, nperm, wnum, 2, 0), snk_spin_weights(r, nperm, wnum, 2, 0), snk_color_weights(r, nperm, wnum, 1, 0), snk_spin_weights(r, nperm, wnum, 1, 0), m));
@@ -1063,20 +1059,16 @@ void generate_function(std::string name)
     complex_computation BB_BB_new_term_5_r2_b1("BB_BB_new_term_5_r2_b1", {t, x_out, x_in, x2, rp, m, r, s, nperm, wnum}, B2_Bsecond_r2_init(t, x_out, x_in, x2, snk_color_weights(r, nperm, wnum, 0, 0), snk_spin_weights(r, nperm, wnum, 0, 0), snk_color_weights(r, nperm, wnum, 2, 0), snk_spin_weights(r, nperm, wnum, 2, 0), snk_color_weights(r, nperm, wnum, 1, 0), snk_spin_weights(r, nperm, wnum, 1, 0), m));
     complex_computation BB_BB_new_term_6_r2_b1("BB_BB_new_term_6_r2_b1", {t, x_out, x_in, x2, rp, m, r, s, nperm, wnum}, B1_Bthird_r2_init(t, x_out, x_in, x2, snk_color_weights(r, nperm, wnum, 0, 0), snk_spin_weights(r, nperm, wnum, 0, 0), snk_color_weights(r, nperm, wnum, 2, 0), snk_spin_weights(r, nperm, wnum, 2, 0), snk_color_weights(r, nperm, wnum, 1, 0), snk_spin_weights(r, nperm, wnum, 1, 0), m));
     complex_computation BB_BB_new_term_7_r2_b1("BB_BB_new_term_7_r2_b1", {t, x_out, x_in, x2, rp, m, r, s, nperm, wnum}, B2_Bthird_r2_init(t, x_out, x_in, x2, snk_color_weights(r, nperm, wnum, 0, 0), snk_spin_weights(r, nperm, wnum, 0, 0), snk_color_weights(r, nperm, wnum, 2, 0), snk_spin_weights(r, nperm, wnum, 2, 0), snk_color_weights(r, nperm, wnum, 1, 0), snk_spin_weights(r, nperm, wnum, 1, 0), m));
-    BB_BB_new_term_0_r2_b1.add_predicate((src_spins_rp_s_0(rp, s) == 2) && ((snk_b_nperm_0_0(nperm) == 0) && (snk_b_nperm_1_0(nperm) == 0) && (snk_b_nperm_2_0(nperm) == 0)));
-    BB_BB_new_term_1_r2_b1.add_predicate((src_spins_rp_s_0(rp, s) == 2) && ((snk_b_nperm_0_0(nperm) == 1) && (snk_b_nperm_1_0(nperm) == 1) && (snk_b_nperm_2_0(nperm) == 1)));
-    BB_BB_new_term_2_r2_b1.add_predicate((src_spins_rp_s_0(rp, s) == 2) && ((snk_b_nperm_0_0(nperm) == 1) && (snk_b_nperm_1_0(nperm) == 0) && (snk_b_nperm_2_0(nperm) == 0)));
-    BB_BB_new_term_3_r2_b1.add_predicate((src_spins_rp_s_0(rp, s) == 2) && ((snk_b_nperm_0_0(nperm) == 0) && (snk_b_nperm_1_0(nperm) == 1) && (snk_b_nperm_2_0(nperm) == 1)));
-    BB_BB_new_term_4_r2_b1.add_predicate((src_spins_rp_s_0(rp, s) == 2) && ((snk_b_nperm_0_0(nperm) == 0) && (snk_b_nperm_1_0(nperm) == 1) && (snk_b_nperm_2_0(nperm) == 0)));
-    BB_BB_new_term_5_r2_b1.add_predicate((src_spins_rp_s_0(rp, s) == 2) && ((snk_b_nperm_0_0(nperm) == 1) && (snk_b_nperm_1_0(nperm) == 0) && (snk_b_nperm_2_0(nperm) == 1)));
-    BB_BB_new_term_6_r2_b1.add_predicate((src_spins_rp_s_0(rp, s) == 2) && ((snk_b_nperm_0_0(nperm) == 0) && (snk_b_nperm_1_0(nperm) == 0) && (snk_b_nperm_2_0(nperm) == 1)));
-    BB_BB_new_term_7_r2_b1.add_predicate((src_spins_rp_s_0(rp, s) == 2) && ((snk_b_nperm_0_0(nperm) == 1) && (snk_b_nperm_1_0(nperm) == 1) && (snk_b_nperm_2_0(nperm) == 0)));
+    BB_BB_new_term_0_r2_b1.add_predicate((src_spins(rp, s, 0) == 2) && (snk_b(nperm, 0, b) == 0 && snk_b(nperm, 1, b) == 0 && snk_b(nperm, 2, b) == 0));
+    BB_BB_new_term_1_r2_b1.add_predicate((src_spins(rp, s, 0) == 2) && (snk_b(nperm, 0, b) == 1 && snk_b(nperm, 1, b) == 1 && snk_b(nperm, 2, b) == 1));
+    BB_BB_new_term_2_r2_b1.add_predicate((src_spins(rp, s, 0) == 2) && (snk_b(nperm, 0, b) == 1 && snk_b(nperm, 1, b) == 0 && snk_b(nperm, 2, b) == 0));
+    BB_BB_new_term_3_r2_b1.add_predicate((src_spins(rp, s, 0) == 2) && (snk_b(nperm, 0, b) == 0 && snk_b(nperm, 1, b) == 1 && snk_b(nperm, 2, b) == 1));
+    BB_BB_new_term_4_r2_b1.add_predicate((src_spins(rp, s, 0) == 2) && (snk_b(nperm, 0, b) == 0 && snk_b(nperm, 1, b) == 1 && snk_b(nperm, 2, b) == 0));
+    BB_BB_new_term_5_r2_b1.add_predicate((src_spins(rp, s, 0) == 2) && (snk_b(nperm, 0, b) == 1 && snk_b(nperm, 1, b) == 0 && snk_b(nperm, 2, b) == 1));
+    BB_BB_new_term_6_r2_b1.add_predicate((src_spins(rp, s, 0) == 2) && (snk_b(nperm, 0, b) == 0 && snk_b(nperm, 1, b) == 0 && snk_b(nperm, 2, b) == 1));
+    BB_BB_new_term_7_r2_b1.add_predicate((src_spins(rp, s, 0) == 2) && (snk_b(nperm, 0, b) == 1 && snk_b(nperm, 1, b) == 1 && snk_b(nperm, 2, b) == 0));
     b=1;
     // r1, b = 1 
-    computation src_spins_rp_s_1( "src_spins_rp_s_1", {rp, s}, src_spins(rp, s, 1) );
-    computation snk_b_nperm_0_1("snk_b_nperm_0_1", {nperm}, snk_b(nperm, 0, 1) );
-    computation snk_b_nperm_1_1("snk_b_nperm_1_1", {nperm}, snk_b(nperm, 1, 1) );
-    computation snk_b_nperm_2_1("snk_b_nperm_2_1", {nperm}, snk_b(nperm, 2, 1) );
     complex_computation BB_BB_new_term_0_r1_b2("BB_BB_new_term_0_r1_b2", {t, x_out, x_in, x2, rp, m, r, s, nperm, wnum}, B1_Blocal_r1_init(t, x_out, x_in, x2, snk_color_weights(r, nperm, wnum, 0, 1), snk_spin_weights(r, nperm, wnum, 0, 1), snk_color_weights(r, nperm, wnum, 2, 1), snk_spin_weights(r, nperm, wnum, 2, 1), snk_color_weights(r, nperm, wnum, 1, 1), snk_spin_weights(r, nperm, wnum, 1, 1), m));
     complex_computation BB_BB_new_term_1_r1_b2("BB_BB_new_term_1_r1_b2", {t, x_out, x_in, x2, rp, m, r, s, nperm, wnum}, B2_Blocal_r1_init(t, x_out, x_in, x2, snk_color_weights(r, nperm, wnum, 0, 1), snk_spin_weights(r, nperm, wnum, 0, 1), snk_color_weights(r, nperm, wnum, 2, 1), snk_spin_weights(r, nperm, wnum, 2, 1), snk_color_weights(r, nperm, wnum, 1, 1), snk_spin_weights(r, nperm, wnum, 1, 1), m));
     complex_computation BB_BB_new_term_2_r1_b2("BB_BB_new_term_2_r1_b2", {t, x_out, x_in, x2, rp, m, r, s, nperm, wnum}, B1_Bfirst_r1_init(t, x_out, x_in, x2, snk_color_weights(r, nperm, wnum, 0, 1), snk_spin_weights(r, nperm, wnum, 0, 1), snk_color_weights(r, nperm, wnum, 2, 1), snk_spin_weights(r, nperm, wnum, 2, 1), snk_color_weights(r, nperm, wnum, 1, 1), snk_spin_weights(r, nperm, wnum, 1, 1), m));
@@ -1085,14 +1077,14 @@ void generate_function(std::string name)
     complex_computation BB_BB_new_term_5_r1_b2("BB_BB_new_term_5_r1_b2", {t, x_out, x_in, x2, rp, m, r, s, nperm, wnum}, B2_Bsecond_r1_init(t, x_out, x_in, x2, snk_color_weights(r, nperm, wnum, 0, 1), snk_spin_weights(r, nperm, wnum, 0, 1), snk_color_weights(r, nperm, wnum, 2, 1), snk_spin_weights(r, nperm, wnum, 2, 1), snk_color_weights(r, nperm, wnum, 1, 1), snk_spin_weights(r, nperm, wnum, 1, 1), m));
     complex_computation BB_BB_new_term_6_r1_b2("BB_BB_new_term_6_r1_b2", {t, x_out, x_in, x2, rp, m, r, s, nperm, wnum}, B1_Bthird_r1_init(t, x_out, x_in, x2, snk_color_weights(r, nperm, wnum, 0, 1), snk_spin_weights(r, nperm, wnum, 0, 1), snk_color_weights(r, nperm, wnum, 2, 1), snk_spin_weights(r, nperm, wnum, 2, 1), snk_color_weights(r, nperm, wnum, 1, 1), snk_spin_weights(r, nperm, wnum, 1, 1), m));
     complex_computation BB_BB_new_term_7_r1_b2("BB_BB_new_term_7_r1_b2", {t, x_out, x_in, x2, rp, m, r, s, nperm, wnum}, B2_Bthird_r1_init(t, x_out, x_in, x2, snk_color_weights(r, nperm, wnum, 0, 1), snk_spin_weights(r, nperm, wnum, 0, 1), snk_color_weights(r, nperm, wnum, 2, 1), snk_spin_weights(r, nperm, wnum, 2, 1), snk_color_weights(r, nperm, wnum, 1, 1), snk_spin_weights(r, nperm, wnum, 1, 1), m));
-    BB_BB_new_term_0_r1_b2.add_predicate((src_spins_rp_s_1(rp, s) == 1) && ((snk_b_nperm_0_1(nperm) == 0) && (snk_b_nperm_1_1(nperm) == 0) && (snk_b_nperm_2_1(nperm) == 0)));
-    BB_BB_new_term_1_r1_b2.add_predicate((src_spins_rp_s_1(rp, s) == 1) && ((snk_b_nperm_0_1(nperm) == 1) && (snk_b_nperm_1_1(nperm) == 1) && (snk_b_nperm_2_1(nperm) == 1)));
-    BB_BB_new_term_2_r1_b2.add_predicate((src_spins_rp_s_1(rp, s) == 1) && ((snk_b_nperm_0_1(nperm) == 1) && (snk_b_nperm_1_1(nperm) == 0) && (snk_b_nperm_2_1(nperm) == 0)));
-    BB_BB_new_term_3_r1_b2.add_predicate((src_spins_rp_s_1(rp, s) == 1) && ((snk_b_nperm_0_1(nperm) == 0) && (snk_b_nperm_1_1(nperm) == 1) && (snk_b_nperm_2_1(nperm) == 1)));
-    BB_BB_new_term_4_r1_b2.add_predicate((src_spins_rp_s_1(rp, s) == 1) && ((snk_b_nperm_0_1(nperm) == 0) && (snk_b_nperm_1_1(nperm) == 1) && (snk_b_nperm_2_1(nperm) == 0)));
-    BB_BB_new_term_5_r1_b2.add_predicate((src_spins_rp_s_1(rp, s) == 1) && ((snk_b_nperm_0_1(nperm) == 1) && (snk_b_nperm_1_1(nperm) == 0) && (snk_b_nperm_2_1(nperm) == 1)));
-    BB_BB_new_term_6_r1_b2.add_predicate((src_spins_rp_s_1(rp, s) == 1) && ((snk_b_nperm_0_1(nperm) == 0) && (snk_b_nperm_1_1(nperm) == 0) && (snk_b_nperm_2_1(nperm) == 1)));
-    BB_BB_new_term_7_r1_b2.add_predicate((src_spins_rp_s_1(rp, s) == 1) && ((snk_b_nperm_0_1(nperm) == 1) && (snk_b_nperm_1_1(nperm) == 1) && (snk_b_nperm_2_1(nperm) == 0)));
+    BB_BB_new_term_0_r1_b2.add_predicate((src_spins(rp, s, 1) == 1) && (snk_b(nperm, 0, b) == 0 && snk_b(nperm, 1, b) == 0 && snk_b(nperm, 2, b) == 0));
+    BB_BB_new_term_1_r1_b2.add_predicate((src_spins(rp, s, 1) == 1) && (snk_b(nperm, 0, b) == 1 && snk_b(nperm, 1, b) == 1 && snk_b(nperm, 2, b) == 1));
+    BB_BB_new_term_2_r1_b2.add_predicate((src_spins(rp, s, 1) == 1) && (snk_b(nperm, 0, b) == 1 && snk_b(nperm, 1, b) == 0 && snk_b(nperm, 2, b) == 0));
+    BB_BB_new_term_3_r1_b2.add_predicate((src_spins(rp, s, 1) == 1) && (snk_b(nperm, 0, b) == 0 && snk_b(nperm, 1, b) == 1 && snk_b(nperm, 2, b) == 1));
+    BB_BB_new_term_4_r1_b2.add_predicate((src_spins(rp, s, 1) == 1) && (snk_b(nperm, 0, b) == 0 && snk_b(nperm, 1, b) == 1 && snk_b(nperm, 2, b) == 0));
+    BB_BB_new_term_5_r1_b2.add_predicate((src_spins(rp, s, 1) == 1) && (snk_b(nperm, 0, b) == 1 && snk_b(nperm, 1, b) == 0 && snk_b(nperm, 2, b) == 1));
+    BB_BB_new_term_6_r1_b2.add_predicate((src_spins(rp, s, 1) == 1) && (snk_b(nperm, 0, b) == 0 && snk_b(nperm, 1, b) == 0 && snk_b(nperm, 2, b) == 1));
+    BB_BB_new_term_7_r1_b2.add_predicate((src_spins(rp, s, 1) == 1) && (snk_b(nperm, 0, b) == 1 && snk_b(nperm, 1, b) == 1 && snk_b(nperm, 2, b) == 0));
     // r2, b = 1
     complex_computation BB_BB_new_term_0_r2_b2("BB_BB_new_term_0_r2_b2", {t, x_out, x_in, x2, rp, m, r, s, nperm, wnum}, B1_Blocal_r2_init(t, x_out, x_in, x2, snk_color_weights(r, nperm, wnum, 0, 1), snk_spin_weights(r, nperm, wnum, 0, 1), snk_color_weights(r, nperm, wnum, 2, 1), snk_spin_weights(r, nperm, wnum, 2, 1), snk_color_weights(r, nperm, wnum, 1, 1), snk_spin_weights(r, nperm, wnum, 1, 1), m));
     complex_computation BB_BB_new_term_1_r2_b2("BB_BB_new_term_1_r2_b2", {t, x_out, x_in, x2, rp, m, r, s, nperm, wnum}, B2_Blocal_r2_init(t, x_out, x_in, x2, snk_color_weights(r, nperm, wnum, 0, 1), snk_spin_weights(r, nperm, wnum, 0, 1), snk_color_weights(r, nperm, wnum, 2, 1), snk_spin_weights(r, nperm, wnum, 2, 1), snk_color_weights(r, nperm, wnum, 1, 1), snk_spin_weights(r, nperm, wnum, 1, 1), m));
@@ -1102,14 +1094,14 @@ void generate_function(std::string name)
     complex_computation BB_BB_new_term_5_r2_b2("BB_BB_new_term_5_r2_b2", {t, x_out, x_in, x2, rp, m, r, s, nperm, wnum}, B2_Bsecond_r2_init(t, x_out, x_in, x2, snk_color_weights(r, nperm, wnum, 0, 1), snk_spin_weights(r, nperm, wnum, 0, 1), snk_color_weights(r, nperm, wnum, 2, 1), snk_spin_weights(r, nperm, wnum, 2, 1), snk_color_weights(r, nperm, wnum, 1, 1), snk_spin_weights(r, nperm, wnum, 1, 1), m));
     complex_computation BB_BB_new_term_6_r2_b2("BB_BB_new_term_6_r2_b2", {t, x_out, x_in, x2, rp, m, r, s, nperm, wnum}, B1_Bthird_r2_init(t, x_out, x_in, x2, snk_color_weights(r, nperm, wnum, 0, 1), snk_spin_weights(r, nperm, wnum, 0, 1), snk_color_weights(r, nperm, wnum, 2, 1), snk_spin_weights(r, nperm, wnum, 2, 1), snk_color_weights(r, nperm, wnum, 1, 1), snk_spin_weights(r, nperm, wnum, 1, 1), m));
     complex_computation BB_BB_new_term_7_r2_b2("BB_BB_new_term_7_r2_b2", {t, x_out, x_in, x2, rp, m, r, s, nperm, wnum}, B2_Bthird_r2_init(t, x_out, x_in, x2, snk_color_weights(r, nperm, wnum, 0, 1), snk_spin_weights(r, nperm, wnum, 0, 1), snk_color_weights(r, nperm, wnum, 2, 1), snk_spin_weights(r, nperm, wnum, 2, 1), snk_color_weights(r, nperm, wnum, 1, 1), snk_spin_weights(r, nperm, wnum, 1, 1), m));
-    BB_BB_new_term_0_r2_b2.add_predicate((src_spins_rp_s_1(rp, s) == 2) && ((snk_b_nperm_0_1(nperm) == 0) && (snk_b_nperm_1_1(nperm) == 0) && (snk_b_nperm_2_1(nperm) == 0)));
-    BB_BB_new_term_1_r2_b2.add_predicate((src_spins_rp_s_1(rp, s) == 2) && ((snk_b_nperm_0_1(nperm) == 1) && (snk_b_nperm_1_1(nperm) == 1) && (snk_b_nperm_2_1(nperm) == 1)));
-    BB_BB_new_term_2_r2_b2.add_predicate((src_spins_rp_s_1(rp, s) == 2) && ((snk_b_nperm_0_1(nperm) == 1) && (snk_b_nperm_1_1(nperm) == 0) && (snk_b_nperm_2_1(nperm) == 0)));
-    BB_BB_new_term_3_r2_b2.add_predicate((src_spins_rp_s_1(rp, s) == 2) && ((snk_b_nperm_0_1(nperm) == 0) && (snk_b_nperm_1_1(nperm) == 1) && (snk_b_nperm_2_1(nperm) == 1)));
-    BB_BB_new_term_4_r2_b2.add_predicate((src_spins_rp_s_1(rp, s) == 2) && ((snk_b_nperm_0_1(nperm) == 0) && (snk_b_nperm_1_1(nperm) == 1) && (snk_b_nperm_2_1(nperm) == 0)));
-    BB_BB_new_term_5_r2_b2.add_predicate((src_spins_rp_s_1(rp, s) == 2) && ((snk_b_nperm_0_1(nperm) == 1) && (snk_b_nperm_1_1(nperm) == 0) && (snk_b_nperm_2_1(nperm) == 1)));
-    BB_BB_new_term_6_r2_b2.add_predicate((src_spins_rp_s_1(rp, s) == 2) && ((snk_b_nperm_0_1(nperm) == 0) && (snk_b_nperm_1_1(nperm) == 0) && (snk_b_nperm_2_1(nperm) == 1)));
-    BB_BB_new_term_7_r2_b2.add_predicate((src_spins_rp_s_1(rp, s) == 2) && ((snk_b_nperm_0_1(nperm) == 1) && (snk_b_nperm_1_1(nperm) == 1) && (snk_b_nperm_2_1(nperm) == 0)));
+    BB_BB_new_term_0_r2_b2.add_predicate((src_spins(rp, s, 1) == 2) && (snk_b(nperm, 0, b) == 0 && snk_b(nperm, 1, b) == 0 && snk_b(nperm, 2, b) == 0));
+    BB_BB_new_term_1_r2_b2.add_predicate((src_spins(rp, s, 1) == 2) && (snk_b(nperm, 0, b) == 1 && snk_b(nperm, 1, b) == 1 && snk_b(nperm, 2, b) == 1));
+    BB_BB_new_term_2_r2_b2.add_predicate((src_spins(rp, s, 1) == 2) && (snk_b(nperm, 0, b) == 1 && snk_b(nperm, 1, b) == 0 && snk_b(nperm, 2, b) == 0));
+    BB_BB_new_term_3_r2_b2.add_predicate((src_spins(rp, s, 1) == 2) && (snk_b(nperm, 0, b) == 0 && snk_b(nperm, 1, b) == 1 && snk_b(nperm, 2, b) == 1));
+    BB_BB_new_term_4_r2_b2.add_predicate((src_spins(rp, s, 1) == 2) && (snk_b(nperm, 0, b) == 0 && snk_b(nperm, 1, b) == 1 && snk_b(nperm, 2, b) == 0));
+    BB_BB_new_term_5_r2_b2.add_predicate((src_spins(rp, s, 1) == 2) && (snk_b(nperm, 0, b) == 1 && snk_b(nperm, 1, b) == 0 && snk_b(nperm, 2, b) == 1));
+    BB_BB_new_term_6_r2_b2.add_predicate((src_spins(rp, s, 1) == 2) && (snk_b(nperm, 0, b) == 0 && snk_b(nperm, 1, b) == 0 && snk_b(nperm, 2, b) == 1));
+    BB_BB_new_term_7_r2_b2.add_predicate((src_spins(rp, s, 1) == 2) && (snk_b(nperm, 0, b) == 1 && snk_b(nperm, 1, b) == 1 && snk_b(nperm, 2, b) == 0));
 
     complex_expr prefactor(cast(p_float64, sigs(nperm)) * snk_weights(r, wnum) * src_spin_block_weights(rp, s), 0.0);
 
@@ -1128,14 +1120,14 @@ void generate_function(std::string name)
     complex_computation flip_BB_BB_new_term_5_r1_b1("flip_BB_BB_new_term_5_r1_b1", {t, x_out, x_in, x2, rp, m, r, s, nperm, wnum}, flip_B2_Bsecond_r1_init(t, x_out, x_in, x2, snk_color_weights(r, nperm, wnum, 0, 0), snk_spin_weights(r, nperm, wnum, 0, 0), snk_color_weights(r, nperm, wnum, 2, 0), snk_spin_weights(r, nperm, wnum, 2, 0), snk_color_weights(r, nperm, wnum, 1, 0), snk_spin_weights(r, nperm, wnum, 1, 0), m));
     complex_computation flip_BB_BB_new_term_6_r1_b1("flip_BB_BB_new_term_6_r1_b1", {t, x_out, x_in, x2, rp, m, r, s, nperm, wnum}, flip_B1_Bthird_r1_init(t, x_out, x_in, x2, snk_color_weights(r, nperm, wnum, 0, 0), snk_spin_weights(r, nperm, wnum, 0, 0), snk_color_weights(r, nperm, wnum, 2, 0), snk_spin_weights(r, nperm, wnum, 2, 0), snk_color_weights(r, nperm, wnum, 1, 0), snk_spin_weights(r, nperm, wnum, 1, 0), m));
     complex_computation flip_BB_BB_new_term_7_r1_b1("flip_BB_BB_new_term_7_r1_b1", {t, x_out, x_in, x2, rp, m, r, s, nperm, wnum}, flip_B2_Bthird_r1_init(t, x_out, x_in, x2, snk_color_weights(r, nperm, wnum, 0, 0), snk_spin_weights(r, nperm, wnum, 0, 0), snk_color_weights(r, nperm, wnum, 2, 0), snk_spin_weights(r, nperm, wnum, 2, 0), snk_color_weights(r, nperm, wnum, 1, 0), snk_spin_weights(r, nperm, wnum, 1, 0), m));
-    flip_BB_BB_new_term_0_r1_b1.add_predicate((src_spins_rp_s_0(rp, s) == 1) && ((snk_b_nperm_0_0(nperm) == 0) && (snk_b_nperm_1_0(nperm) == 0) && (snk_b_nperm_2_0(nperm) == 0)));
-    flip_BB_BB_new_term_1_r1_b1.add_predicate((src_spins_rp_s_0(rp, s) == 1) && ((snk_b_nperm_0_0(nperm) == 1) && (snk_b_nperm_1_0(nperm) == 1) && (snk_b_nperm_2_0(nperm) == 1)));
-    flip_BB_BB_new_term_2_r1_b1.add_predicate((src_spins_rp_s_0(rp, s) == 1) && ((snk_b_nperm_0_0(nperm) == 1) && (snk_b_nperm_1_0(nperm) == 0) && (snk_b_nperm_2_0(nperm) == 0)));
-    flip_BB_BB_new_term_3_r1_b1.add_predicate((src_spins_rp_s_0(rp, s) == 1) && ((snk_b_nperm_0_0(nperm) == 0) && (snk_b_nperm_1_0(nperm) == 1) && (snk_b_nperm_2_0(nperm) == 1)));
-    flip_BB_BB_new_term_4_r1_b1.add_predicate((src_spins_rp_s_0(rp, s) == 1) && ((snk_b_nperm_0_0(nperm) == 0) && (snk_b_nperm_1_0(nperm) == 1) && (snk_b_nperm_2_0(nperm) == 0)));
-    flip_BB_BB_new_term_5_r1_b1.add_predicate((src_spins_rp_s_0(rp, s) == 1) && ((snk_b_nperm_0_0(nperm) == 1) && (snk_b_nperm_1_0(nperm) == 0) && (snk_b_nperm_2_0(nperm) == 1)));
-    flip_BB_BB_new_term_6_r1_b1.add_predicate((src_spins_rp_s_0(rp, s) == 1) && ((snk_b_nperm_0_0(nperm) == 0) && (snk_b_nperm_1_0(nperm) == 0) && (snk_b_nperm_2_0(nperm) == 1)));
-    flip_BB_BB_new_term_7_r1_b1.add_predicate((src_spins_rp_s_0(rp, s) == 1) && ((snk_b_nperm_0_0(nperm) == 1) && (snk_b_nperm_1_0(nperm) == 1) && (snk_b_nperm_2_0(nperm) == 0)));
+    flip_BB_BB_new_term_0_r1_b1.add_predicate((src_spins(rp, s, 0) == 1) && (snk_b(nperm, 0, b) == 0 && snk_b(nperm, 1, b) == 0 && snk_b(nperm, 2, b) == 0));
+    flip_BB_BB_new_term_1_r1_b1.add_predicate((src_spins(rp, s, 0) == 1) && (snk_b(nperm, 0, b) == 1 && snk_b(nperm, 1, b) == 1 && snk_b(nperm, 2, b) == 1));
+    flip_BB_BB_new_term_2_r1_b1.add_predicate((src_spins(rp, s, 0) == 1) && (snk_b(nperm, 0, b) == 1 && snk_b(nperm, 1, b) == 0 && snk_b(nperm, 2, b) == 0));
+    flip_BB_BB_new_term_3_r1_b1.add_predicate((src_spins(rp, s, 0) == 1) && (snk_b(nperm, 0, b) == 0 && snk_b(nperm, 1, b) == 1 && snk_b(nperm, 2, b) == 1));
+    flip_BB_BB_new_term_4_r1_b1.add_predicate((src_spins(rp, s, 0) == 1) && (snk_b(nperm, 0, b) == 0 && snk_b(nperm, 1, b) == 1 && snk_b(nperm, 2, b) == 0));
+    flip_BB_BB_new_term_5_r1_b1.add_predicate((src_spins(rp, s, 0) == 1) && (snk_b(nperm, 0, b) == 1 && snk_b(nperm, 1, b) == 0 && snk_b(nperm, 2, b) == 1));
+    flip_BB_BB_new_term_6_r1_b1.add_predicate((src_spins(rp, s, 0) == 1) && (snk_b(nperm, 0, b) == 0 && snk_b(nperm, 1, b) == 0 && snk_b(nperm, 2, b) == 1));
+    flip_BB_BB_new_term_7_r1_b1.add_predicate((src_spins(rp, s, 0) == 1) && (snk_b(nperm, 0, b) == 1 && snk_b(nperm, 1, b) == 1 && snk_b(nperm, 2, b) == 0));
     // r2, b = 0 
     complex_computation flip_BB_BB_new_term_0_r2_b1("flip_BB_BB_new_term_0_r2_b1", {t, x_out, x_in, x2, rp, m, r, s, nperm, wnum}, flip_B1_Blocal_r2_init(t, x_out, x_in, x2, snk_color_weights(r, nperm, wnum, 0, 0), snk_spin_weights(r, nperm, wnum, 0, 0), snk_color_weights(r, nperm, wnum, 2, 0), snk_spin_weights(r, nperm, wnum, 2, 0), snk_color_weights(r, nperm, wnum, 1, 0), snk_spin_weights(r, nperm, wnum, 1, 0), m));
     complex_computation flip_BB_BB_new_term_1_r2_b1("flip_BB_BB_new_term_1_r2_b1", {t, x_out, x_in, x2, rp, m, r, s, nperm, wnum}, flip_B2_Blocal_r2_init(t, x_out, x_in, x2, snk_color_weights(r, nperm, wnum, 0, 0), snk_spin_weights(r, nperm, wnum, 0, 0), snk_color_weights(r, nperm, wnum, 2, 0), snk_spin_weights(r, nperm, wnum, 2, 0), snk_color_weights(r, nperm, wnum, 1, 0), snk_spin_weights(r, nperm, wnum, 1, 0), m));
@@ -1145,14 +1137,14 @@ void generate_function(std::string name)
     complex_computation flip_BB_BB_new_term_5_r2_b1("flip_BB_BB_new_term_5_r2_b1", {t, x_out, x_in, x2, rp, m, r, s, nperm, wnum}, flip_B2_Bsecond_r2_init(t, x_out, x_in, x2, snk_color_weights(r, nperm, wnum, 0, 0), snk_spin_weights(r, nperm, wnum, 0, 0), snk_color_weights(r, nperm, wnum, 2, 0), snk_spin_weights(r, nperm, wnum, 2, 0), snk_color_weights(r, nperm, wnum, 1, 0), snk_spin_weights(r, nperm, wnum, 1, 0), m));
     complex_computation flip_BB_BB_new_term_6_r2_b1("flip_BB_BB_new_term_6_r2_b1", {t, x_out, x_in, x2, rp, m, r, s, nperm, wnum}, flip_B1_Bthird_r2_init(t, x_out, x_in, x2, snk_color_weights(r, nperm, wnum, 0, 0), snk_spin_weights(r, nperm, wnum, 0, 0), snk_color_weights(r, nperm, wnum, 2, 0), snk_spin_weights(r, nperm, wnum, 2, 0), snk_color_weights(r, nperm, wnum, 1, 0), snk_spin_weights(r, nperm, wnum, 1, 0), m));
     complex_computation flip_BB_BB_new_term_7_r2_b1("flip_BB_BB_new_term_7_r2_b1", {t, x_out, x_in, x2, rp, m, r, s, nperm, wnum}, flip_B2_Bthird_r2_init(t, x_out, x_in, x2, snk_color_weights(r, nperm, wnum, 0, 0), snk_spin_weights(r, nperm, wnum, 0, 0), snk_color_weights(r, nperm, wnum, 2, 0), snk_spin_weights(r, nperm, wnum, 2, 0), snk_color_weights(r, nperm, wnum, 1, 0), snk_spin_weights(r, nperm, wnum, 1, 0), m));
-    flip_BB_BB_new_term_0_r2_b1.add_predicate((src_spins_rp_s_0(rp, s) == 2) && ((snk_b_nperm_0_0(nperm) == 0) && (snk_b_nperm_1_0(nperm) == 0) && (snk_b_nperm_2_0(nperm) == 0)));
-    flip_BB_BB_new_term_1_r2_b1.add_predicate((src_spins_rp_s_0(rp, s) == 2) && ((snk_b_nperm_0_0(nperm) == 1) && (snk_b_nperm_1_0(nperm) == 1) && (snk_b_nperm_2_0(nperm) == 1)));
-    flip_BB_BB_new_term_2_r2_b1.add_predicate((src_spins_rp_s_0(rp, s) == 2) && ((snk_b_nperm_0_0(nperm) == 1) && (snk_b_nperm_1_0(nperm) == 0) && (snk_b_nperm_2_0(nperm) == 0)));
-    flip_BB_BB_new_term_3_r2_b1.add_predicate((src_spins_rp_s_0(rp, s) == 2) && ((snk_b_nperm_0_0(nperm) == 0) && (snk_b_nperm_1_0(nperm) == 1) && (snk_b_nperm_2_0(nperm) == 1)));
-    flip_BB_BB_new_term_4_r2_b1.add_predicate((src_spins_rp_s_0(rp, s) == 2) && ((snk_b_nperm_0_0(nperm) == 0) && (snk_b_nperm_1_0(nperm) == 1) && (snk_b_nperm_2_0(nperm) == 0)));
-    flip_BB_BB_new_term_5_r2_b1.add_predicate((src_spins_rp_s_0(rp, s) == 2) && ((snk_b_nperm_0_0(nperm) == 1) && (snk_b_nperm_1_0(nperm) == 0) && (snk_b_nperm_2_0(nperm) == 1)));
-    flip_BB_BB_new_term_6_r2_b1.add_predicate((src_spins_rp_s_0(rp, s) == 2) && ((snk_b_nperm_0_0(nperm) == 0) && (snk_b_nperm_1_0(nperm) == 0) && (snk_b_nperm_2_0(nperm) == 1)));
-    flip_BB_BB_new_term_7_r2_b1.add_predicate((src_spins_rp_s_0(rp, s) == 2) && ((snk_b_nperm_0_0(nperm) == 1) && (snk_b_nperm_1_0(nperm) == 1) && (snk_b_nperm_2_0(nperm) == 0)));
+    flip_BB_BB_new_term_0_r2_b1.add_predicate((src_spins(rp, s, 0) == 2) && (snk_b(nperm, 0, b) == 0 && snk_b(nperm, 1, b) == 0 && snk_b(nperm, 2, b) == 0));
+    flip_BB_BB_new_term_1_r2_b1.add_predicate((src_spins(rp, s, 0) == 2) && (snk_b(nperm, 0, b) == 1 && snk_b(nperm, 1, b) == 1 && snk_b(nperm, 2, b) == 1));
+    flip_BB_BB_new_term_2_r2_b1.add_predicate((src_spins(rp, s, 0) == 2) && (snk_b(nperm, 0, b) == 1 && snk_b(nperm, 1, b) == 0 && snk_b(nperm, 2, b) == 0));
+    flip_BB_BB_new_term_3_r2_b1.add_predicate((src_spins(rp, s, 0) == 2) && (snk_b(nperm, 0, b) == 0 && snk_b(nperm, 1, b) == 1 && snk_b(nperm, 2, b) == 1));
+    flip_BB_BB_new_term_4_r2_b1.add_predicate((src_spins(rp, s, 0) == 2) && (snk_b(nperm, 0, b) == 0 && snk_b(nperm, 1, b) == 1 && snk_b(nperm, 2, b) == 0));
+    flip_BB_BB_new_term_5_r2_b1.add_predicate((src_spins(rp, s, 0) == 2) && (snk_b(nperm, 0, b) == 1 && snk_b(nperm, 1, b) == 0 && snk_b(nperm, 2, b) == 1));
+    flip_BB_BB_new_term_6_r2_b1.add_predicate((src_spins(rp, s, 0) == 2) && (snk_b(nperm, 0, b) == 0 && snk_b(nperm, 1, b) == 0 && snk_b(nperm, 2, b) == 1));
+    flip_BB_BB_new_term_7_r2_b1.add_predicate((src_spins(rp, s, 0) == 2) && (snk_b(nperm, 0, b) == 1 && snk_b(nperm, 1, b) == 1 && snk_b(nperm, 2, b) == 0));
     b=1;
     // r1, b = 1 
     complex_computation flip_BB_BB_new_term_0_r1_b2("flip_BB_BB_new_term_0_r1_b2", {t, x_out, x_in, x2, rp, m, r, s, nperm, wnum}, flip_B1_Blocal_r1_init(t, x_out, x_in, x2, snk_color_weights(r, nperm, wnum, 0, 1), snk_spin_weights(r, nperm, wnum, 0, 1), snk_color_weights(r, nperm, wnum, 2, 1), snk_spin_weights(r, nperm, wnum, 2, 1), snk_color_weights(r, nperm, wnum, 1, 1), snk_spin_weights(r, nperm, wnum, 1, 1), m));
@@ -1163,14 +1155,14 @@ void generate_function(std::string name)
     complex_computation flip_BB_BB_new_term_5_r1_b2("flip_BB_BB_new_term_5_r1_b2", {t, x_out, x_in, x2, rp, m, r, s, nperm, wnum}, flip_B2_Bsecond_r1_init(t, x_out, x_in, x2, snk_color_weights(r, nperm, wnum, 0, 1), snk_spin_weights(r, nperm, wnum, 0, 1), snk_color_weights(r, nperm, wnum, 2, 1), snk_spin_weights(r, nperm, wnum, 2, 1), snk_color_weights(r, nperm, wnum, 1, 1), snk_spin_weights(r, nperm, wnum, 1, 1), m));
     complex_computation flip_BB_BB_new_term_6_r1_b2("flip_BB_BB_new_term_6_r1_b2", {t, x_out, x_in, x2, rp, m, r, s, nperm, wnum}, flip_B1_Bthird_r1_init(t, x_out, x_in, x2, snk_color_weights(r, nperm, wnum, 0, 1), snk_spin_weights(r, nperm, wnum, 0, 1), snk_color_weights(r, nperm, wnum, 2, 1), snk_spin_weights(r, nperm, wnum, 2, 1), snk_color_weights(r, nperm, wnum, 1, 1), snk_spin_weights(r, nperm, wnum, 1, 1), m));
     complex_computation flip_BB_BB_new_term_7_r1_b2("flip_BB_BB_new_term_7_r1_b2", {t, x_out, x_in, x2, rp, m, r, s, nperm, wnum}, flip_B2_Bthird_r1_init(t, x_out, x_in, x2, snk_color_weights(r, nperm, wnum, 0, 1), snk_spin_weights(r, nperm, wnum, 0, 1), snk_color_weights(r, nperm, wnum, 2, 1), snk_spin_weights(r, nperm, wnum, 2, 1), snk_color_weights(r, nperm, wnum, 1, 1), snk_spin_weights(r, nperm, wnum, 1, 1), m));
-    flip_BB_BB_new_term_0_r1_b2.add_predicate((src_spins_rp_s_1(rp, s) == 1) && ((snk_b_nperm_0_1(nperm) == 0) && (snk_b_nperm_1_1(nperm) == 0) && (snk_b_nperm_2_1(nperm) == 0)));
-    flip_BB_BB_new_term_1_r1_b2.add_predicate((src_spins_rp_s_1(rp, s) == 1) && ((snk_b_nperm_0_1(nperm) == 1) && (snk_b_nperm_1_1(nperm) == 1) && (snk_b_nperm_2_1(nperm) == 1)));
-    flip_BB_BB_new_term_2_r1_b2.add_predicate((src_spins_rp_s_1(rp, s) == 1) && ((snk_b_nperm_0_1(nperm) == 1) && (snk_b_nperm_1_1(nperm) == 0) && (snk_b_nperm_2_1(nperm) == 0)));
-    flip_BB_BB_new_term_3_r1_b2.add_predicate((src_spins_rp_s_1(rp, s) == 1) && ((snk_b_nperm_0_1(nperm) == 0) && (snk_b_nperm_1_1(nperm) == 1) && (snk_b_nperm_2_1(nperm) == 1)));
-    flip_BB_BB_new_term_4_r1_b2.add_predicate((src_spins_rp_s_1(rp, s) == 1) && ((snk_b_nperm_0_1(nperm) == 0) && (snk_b_nperm_1_1(nperm) == 1) && (snk_b_nperm_2_1(nperm) == 0)));
-    flip_BB_BB_new_term_5_r1_b2.add_predicate((src_spins_rp_s_1(rp, s) == 1) && ((snk_b_nperm_0_1(nperm) == 1) && (snk_b_nperm_1_1(nperm) == 0) && (snk_b_nperm_2_1(nperm) == 1)));
-    flip_BB_BB_new_term_6_r1_b2.add_predicate((src_spins_rp_s_1(rp, s) == 1) && ((snk_b_nperm_0_1(nperm) == 0) && (snk_b_nperm_1_1(nperm) == 0) && (snk_b_nperm_2_1(nperm) == 1)));
-    flip_BB_BB_new_term_7_r1_b2.add_predicate((src_spins_rp_s_1(rp, s) == 1) && ((snk_b_nperm_0_1(nperm) == 1) && (snk_b_nperm_1_1(nperm) == 1) && (snk_b_nperm_2_1(nperm) == 0)));
+    flip_BB_BB_new_term_0_r1_b2.add_predicate((src_spins(rp, s, 1) == 1) && (snk_b(nperm, 0, b) == 0 && snk_b(nperm, 1, b) == 0 && snk_b(nperm, 2, b) == 0));
+    flip_BB_BB_new_term_1_r1_b2.add_predicate((src_spins(rp, s, 1) == 1) && (snk_b(nperm, 0, b) == 1 && snk_b(nperm, 1, b) == 1 && snk_b(nperm, 2, b) == 1));
+    flip_BB_BB_new_term_2_r1_b2.add_predicate((src_spins(rp, s, 1) == 1) && (snk_b(nperm, 0, b) == 1 && snk_b(nperm, 1, b) == 0 && snk_b(nperm, 2, b) == 0));
+    flip_BB_BB_new_term_3_r1_b2.add_predicate((src_spins(rp, s, 1) == 1) && (snk_b(nperm, 0, b) == 0 && snk_b(nperm, 1, b) == 1 && snk_b(nperm, 2, b) == 1));
+    flip_BB_BB_new_term_4_r1_b2.add_predicate((src_spins(rp, s, 1) == 1) && (snk_b(nperm, 0, b) == 0 && snk_b(nperm, 1, b) == 1 && snk_b(nperm, 2, b) == 0));
+    flip_BB_BB_new_term_5_r1_b2.add_predicate((src_spins(rp, s, 1) == 1) && (snk_b(nperm, 0, b) == 1 && snk_b(nperm, 1, b) == 0 && snk_b(nperm, 2, b) == 1));
+    flip_BB_BB_new_term_6_r1_b2.add_predicate((src_spins(rp, s, 1) == 1) && (snk_b(nperm, 0, b) == 0 && snk_b(nperm, 1, b) == 0 && snk_b(nperm, 2, b) == 1));
+    flip_BB_BB_new_term_7_r1_b2.add_predicate((src_spins(rp, s, 1) == 1) && (snk_b(nperm, 0, b) == 1 && snk_b(nperm, 1, b) == 1 && snk_b(nperm, 2, b) == 0));
     // r2, b = 1 
     complex_computation flip_BB_BB_new_term_0_r2_b2("flip_BB_BB_new_term_0_r2_b2", {t, x_out, x_in, x2, rp, m, r, s, nperm, wnum}, flip_B1_Blocal_r2_init(t, x_out, x_in, x2, snk_color_weights(r, nperm, wnum, 0, 1), snk_spin_weights(r, nperm, wnum, 0, 1), snk_color_weights(r, nperm, wnum, 2, 1), snk_spin_weights(r, nperm, wnum, 2, 1), snk_color_weights(r, nperm, wnum, 1, 1), snk_spin_weights(r, nperm, wnum, 1, 1), m));
     complex_computation flip_BB_BB_new_term_1_r2_b2("flip_BB_BB_new_term_1_r2_b2", {t, x_out, x_in, x2, rp, m, r, s, nperm, wnum}, flip_B2_Blocal_r2_init(t, x_out, x_in, x2, snk_color_weights(r, nperm, wnum, 0, 1), snk_spin_weights(r, nperm, wnum, 0, 1), snk_color_weights(r, nperm, wnum, 2, 1), snk_spin_weights(r, nperm, wnum, 2, 1), snk_color_weights(r, nperm, wnum, 1, 1), snk_spin_weights(r, nperm, wnum, 1, 1), m));
@@ -1180,14 +1172,14 @@ void generate_function(std::string name)
     complex_computation flip_BB_BB_new_term_5_r2_b2("flip_BB_BB_new_term_5_r2_b2", {t, x_out, x_in, x2, rp, m, r, s, nperm, wnum}, flip_B2_Bsecond_r2_init(t, x_out, x_in, x2, snk_color_weights(r, nperm, wnum, 0, 1), snk_spin_weights(r, nperm, wnum, 0, 1), snk_color_weights(r, nperm, wnum, 2, 1), snk_spin_weights(r, nperm, wnum, 2, 1), snk_color_weights(r, nperm, wnum, 1, 1), snk_spin_weights(r, nperm, wnum, 1, 1), m));
     complex_computation flip_BB_BB_new_term_6_r2_b2("flip_BB_BB_new_term_6_r2_b2", {t, x_out, x_in, x2, rp, m, r, s, nperm, wnum}, flip_B1_Bthird_r2_init(t, x_out, x_in, x2, snk_color_weights(r, nperm, wnum, 0, 1), snk_spin_weights(r, nperm, wnum, 0, 1), snk_color_weights(r, nperm, wnum, 2, 1), snk_spin_weights(r, nperm, wnum, 2, 1), snk_color_weights(r, nperm, wnum, 1, 1), snk_spin_weights(r, nperm, wnum, 1, 1), m));
     complex_computation flip_BB_BB_new_term_7_r2_b2("flip_BB_BB_new_term_7_r2_b2", {t, x_out, x_in, x2, rp, m, r, s, nperm, wnum}, flip_B2_Bthird_r2_init(t, x_out, x_in, x2, snk_color_weights(r, nperm, wnum, 0, 1), snk_spin_weights(r, nperm, wnum, 0, 1), snk_color_weights(r, nperm, wnum, 2, 1), snk_spin_weights(r, nperm, wnum, 2, 1), snk_color_weights(r, nperm, wnum, 1, 1), snk_spin_weights(r, nperm, wnum, 1, 1), m));
-    flip_BB_BB_new_term_0_r2_b2.add_predicate((src_spins_rp_s_1(rp, s) == 2) && ((snk_b_nperm_0_1(nperm) == 0) && (snk_b_nperm_1_1(nperm) == 0) && (snk_b_nperm_2_1(nperm) == 0)));
-    flip_BB_BB_new_term_1_r2_b2.add_predicate((src_spins_rp_s_1(rp, s) == 2) && ((snk_b_nperm_0_1(nperm) == 1) && (snk_b_nperm_1_1(nperm) == 1) && (snk_b_nperm_2_1(nperm) == 1)));
-    flip_BB_BB_new_term_2_r2_b2.add_predicate((src_spins_rp_s_1(rp, s) == 2) && ((snk_b_nperm_0_1(nperm) == 1) && (snk_b_nperm_1_1(nperm) == 0) && (snk_b_nperm_2_1(nperm) == 0)));
-    flip_BB_BB_new_term_3_r2_b2.add_predicate((src_spins_rp_s_1(rp, s) == 2) && ((snk_b_nperm_0_1(nperm) == 0) && (snk_b_nperm_1_1(nperm) == 1) && (snk_b_nperm_2_1(nperm) == 1)));
-    flip_BB_BB_new_term_4_r2_b2.add_predicate((src_spins_rp_s_1(rp, s) == 2) && ((snk_b_nperm_0_1(nperm) == 0) && (snk_b_nperm_1_1(nperm) == 1) && (snk_b_nperm_2_1(nperm) == 0)));
-    flip_BB_BB_new_term_5_r2_b2.add_predicate((src_spins_rp_s_1(rp, s) == 2) && ((snk_b_nperm_0_1(nperm) == 1) && (snk_b_nperm_1_1(nperm) == 0) && (snk_b_nperm_2_1(nperm) == 1)));
-    flip_BB_BB_new_term_6_r2_b2.add_predicate((src_spins_rp_s_1(rp, s) == 2) && ((snk_b_nperm_0_1(nperm) == 0) && (snk_b_nperm_1_1(nperm) == 0) && (snk_b_nperm_2_1(nperm) == 1)));
-    flip_BB_BB_new_term_7_r2_b2.add_predicate((src_spins_rp_s_1(rp, s) == 2) && ((snk_b_nperm_0_1(nperm) == 1) && (snk_b_nperm_1_1(nperm) == 1) && (snk_b_nperm_2_1(nperm) == 0)));
+    flip_BB_BB_new_term_0_r2_b2.add_predicate((src_spins(rp, s, 1) == 2) && (snk_b(nperm, 0, b) == 0 && snk_b(nperm, 1, b) == 0 && snk_b(nperm, 2, b) == 0));
+    flip_BB_BB_new_term_1_r2_b2.add_predicate((src_spins(rp, s, 1) == 2) && (snk_b(nperm, 0, b) == 1 && snk_b(nperm, 1, b) == 1 && snk_b(nperm, 2, b) == 1));
+    flip_BB_BB_new_term_2_r2_b2.add_predicate((src_spins(rp, s, 1) == 2) && (snk_b(nperm, 0, b) == 1 && snk_b(nperm, 1, b) == 0 && snk_b(nperm, 2, b) == 0));
+    flip_BB_BB_new_term_3_r2_b2.add_predicate((src_spins(rp, s, 1) == 2) && (snk_b(nperm, 0, b) == 0 && snk_b(nperm, 1, b) == 1 && snk_b(nperm, 2, b) == 1));
+    flip_BB_BB_new_term_4_r2_b2.add_predicate((src_spins(rp, s, 1) == 2) && (snk_b(nperm, 0, b) == 0 && snk_b(nperm, 1, b) == 1 && snk_b(nperm, 2, b) == 0));
+    flip_BB_BB_new_term_5_r2_b2.add_predicate((src_spins(rp, s, 1) == 2) && (snk_b(nperm, 0, b) == 1 && snk_b(nperm, 1, b) == 0 && snk_b(nperm, 2, b) == 1));
+    flip_BB_BB_new_term_6_r2_b2.add_predicate((src_spins(rp, s, 1) == 2) && (snk_b(nperm, 0, b) == 0 && snk_b(nperm, 1, b) == 0 && snk_b(nperm, 2, b) == 1));
+    flip_BB_BB_new_term_7_r2_b2.add_predicate((src_spins(rp, s, 1) == 2) && (snk_b(nperm, 0, b) == 1 && snk_b(nperm, 1, b) == 1 && snk_b(nperm, 2, b) == 0));
 
     complex_expr flip_BB_BB_term_res_b1 = flip_BB_BB_new_term_0_r1_b1(t, x_out, x_in, x2, rp, m, r, s, nperm, wnum);
     complex_expr flip_BB_BB_term_res_b2 = flip_BB_BB_new_term_0_r1_b2(t, x_out, x_in, x2, rp, m, r, s, nperm, wnum);
@@ -1215,13 +1207,13 @@ void generate_function(std::string name)
     
     complex_computation BB_H_new_term_0_r1_b1("BB_H_new_term_0_r1_b1", {t, x_out, x_in, rp, m, r, s, nperm, wnumHex}, src_B1_Blocal_r1_init(t, x_out, x_in, hex_snk_color_weights(r, nperm, wnumHex, 0, 0), hex_snk_spin_weights(r, nperm, wnumHex, 0, 0), hex_snk_color_weights(r, nperm, wnumHex, 2, 0), hex_snk_spin_weights(r, nperm, wnumHex, 2, 0), hex_snk_color_weights(r, nperm, wnumHex, 1, 0), hex_snk_spin_weights(r, nperm, wnumHex, 1, 0), m));
     complex_computation BB_H_new_term_0_r2_b1("BB_H_new_term_0_r2_b1", {t, x_out, x_in, rp, m, r, s, nperm, wnumHex}, src_B1_Blocal_r2_init(t, x_out, x_in, hex_snk_color_weights(r, nperm, wnumHex, 0, 0), hex_snk_spin_weights(r, nperm, wnumHex, 0, 0), hex_snk_color_weights(r, nperm, wnumHex, 2, 0), hex_snk_spin_weights(r, nperm, wnumHex, 2, 0), hex_snk_color_weights(r, nperm, wnumHex, 1, 0), hex_snk_spin_weights(r, nperm, wnumHex, 1, 0), m));
-    BB_H_new_term_0_r1_b1.add_predicate((src_spins_rp_s_0(rp, s) == 1));
-    BB_H_new_term_0_r2_b1.add_predicate((src_spins_rp_s_0(rp, s) == 2));
+    BB_H_new_term_0_r1_b1.add_predicate((src_spins(rp, s, 0) == 1));
+    BB_H_new_term_0_r2_b1.add_predicate((src_spins(rp, s, 0) == 2));
 
     complex_computation BB_H_new_term_0_r1_b2("BB_H_new_term_0_r1_b2", {t, x_out, x_in, rp, m, r, s, nperm, wnumHex}, src_B2_Blocal_r1_init(t, x_out, x_in, hex_snk_color_weights(r, nperm, wnumHex, 0, 1), hex_snk_spin_weights(r, nperm, wnumHex, 0, 1), hex_snk_color_weights(r, nperm, wnumHex, 2, 1), hex_snk_spin_weights(r, nperm, wnumHex, 2, 1), hex_snk_color_weights(r, nperm, wnumHex, 1, 1), hex_snk_spin_weights(r, nperm, wnumHex, 1, 1), m));
     complex_computation BB_H_new_term_0_r2_b2("BB_H_new_term_0_r2_b2", {t, x_out, x_in, rp, m, r, s, nperm, wnumHex}, src_B2_Blocal_r2_init(t, x_out, x_in, hex_snk_color_weights(r, nperm, wnumHex, 0, 1), hex_snk_spin_weights(r, nperm, wnumHex, 0, 1), hex_snk_color_weights(r, nperm, wnumHex, 2, 1), hex_snk_spin_weights(r, nperm, wnumHex, 2, 1), hex_snk_color_weights(r, nperm, wnumHex, 1, 1), hex_snk_spin_weights(r, nperm, wnumHex, 1, 1), m));
-    BB_H_new_term_0_r1_b2.add_predicate((src_spins_rp_s_1(rp, s) == 1));
-    BB_H_new_term_0_r2_b2.add_predicate((src_spins_rp_s_1(rp, s) == 2));
+    BB_H_new_term_0_r1_b2.add_predicate((src_spins(rp, s, 1) == 1));
+    BB_H_new_term_0_r2_b2.add_predicate((src_spins(rp, s, 1) == 2));
 
     complex_expr BB_H_term_res_b1 = BB_H_new_term_0_r1_b1(t, x_out, x_in, rp, m, r, s, nperm, wnumHex);
     complex_expr BB_H_term_res_b2 = BB_H_new_term_0_r1_b2(t, x_out, x_in, rp, m, r, s, nperm, wnumHex);
@@ -1232,13 +1224,13 @@ void generate_function(std::string name)
     
     complex_computation flip_BB_H_new_term_0_r1_b1("flip_BB_H_new_term_0_r1_b1", {t, x_out, x_in, rp, m, r, s, nperm, wnumHex}, flip_src_B1_Blocal_r1_init(t, x_out, x_in, hex_snk_color_weights(r, nperm, wnumHex, 0, 0), hex_snk_spin_weights(r, nperm, wnumHex, 0, 0), hex_snk_color_weights(r, nperm, wnumHex, 2, 0), hex_snk_spin_weights(r, nperm, wnumHex, 2, 0), hex_snk_color_weights(r, nperm, wnumHex, 1, 0), hex_snk_spin_weights(r, nperm, wnumHex, 1, 0), m));
     complex_computation flip_BB_H_new_term_0_r2_b1("flip_BB_H_new_term_0_r2_b1", {t, x_out, x_in, rp, m, r, s, nperm, wnumHex}, flip_src_B1_Blocal_r2_init(t, x_out, x_in, hex_snk_color_weights(r, nperm, wnumHex, 0, 0), hex_snk_spin_weights(r, nperm, wnumHex, 0, 0), hex_snk_color_weights(r, nperm, wnumHex, 2, 0), hex_snk_spin_weights(r, nperm, wnumHex, 2, 0), hex_snk_color_weights(r, nperm, wnumHex, 1, 0), hex_snk_spin_weights(r, nperm, wnumHex, 1, 0), m));
-    flip_BB_H_new_term_0_r1_b1.add_predicate((src_spins_rp_s_0(rp, s) == 1));
-    flip_BB_H_new_term_0_r2_b1.add_predicate((src_spins_rp_s_0(rp, s) == 2));
+    flip_BB_H_new_term_0_r1_b1.add_predicate((src_spins(rp, s, 0) == 1));
+    flip_BB_H_new_term_0_r2_b1.add_predicate((src_spins(rp, s, 0) == 2));
 
     complex_computation flip_BB_H_new_term_0_r1_b2("flip_BB_H_new_term_0_r1_b2", {t, x_out, x_in, rp, m, r, s, nperm, wnumHex}, flip_src_B2_Blocal_r1_init(t, x_out, x_in, hex_snk_color_weights(r, nperm, wnumHex, 0, 1), hex_snk_spin_weights(r, nperm, wnumHex, 0, 1), hex_snk_color_weights(r, nperm, wnumHex, 2, 1), hex_snk_spin_weights(r, nperm, wnumHex, 2, 1), hex_snk_color_weights(r, nperm, wnumHex, 1, 1), hex_snk_spin_weights(r, nperm, wnumHex, 1, 1), m));
     complex_computation flip_BB_H_new_term_0_r2_b2("flip_BB_H_new_term_0_r2_b2", {t, x_out, x_in, rp, m, r, s, nperm, wnumHex}, flip_src_B2_Blocal_r2_init(t, x_out, x_in, hex_snk_color_weights(r, nperm, wnumHex, 0, 1), hex_snk_spin_weights(r, nperm, wnumHex, 0, 1), hex_snk_color_weights(r, nperm, wnumHex, 2, 1), hex_snk_spin_weights(r, nperm, wnumHex, 2, 1), hex_snk_color_weights(r, nperm, wnumHex, 1, 1), hex_snk_spin_weights(r, nperm, wnumHex, 1, 1), m));
-    flip_BB_H_new_term_0_r1_b2.add_predicate((src_spins_rp_s_1(rp, s) == 1));
-    flip_BB_H_new_term_0_r2_b2.add_predicate((src_spins_rp_s_1(rp, s) == 2));
+    flip_BB_H_new_term_0_r1_b2.add_predicate((src_spins(rp, s, 1) == 1));
+    flip_BB_H_new_term_0_r2_b2.add_predicate((src_spins(rp, s, 1) == 2));
 
     complex_expr flip_BB_H_term_res_b1 = flip_BB_H_new_term_0_r1_b1(t, x_out, x_in, rp, m, r, s, nperm, wnumHex);
     complex_expr flip_BB_H_term_res_b2 = flip_BB_H_new_term_0_r1_b2(t, x_out, x_in, rp, m, r, s, nperm, wnumHex);
@@ -1261,13 +1253,13 @@ void generate_function(std::string name)
     
     complex_computation H_BB_new_term_0_r1_b1("H_BB_new_term_0_r1_b1", {t, y_out, y_in, rp, n, r, s, nperm, wnumHex}, snk_B1_Blocal_r1_init(t, y_out, y_in, hex_snk_color_weights(r, nperm, wnumHex, 0, 0), hex_snk_spin_weights(r, nperm, wnumHex, 0, 0), hex_snk_color_weights(r, nperm, wnumHex, 2, 0), hex_snk_spin_weights(r, nperm, wnumHex, 2, 0), hex_snk_color_weights(r, nperm, wnumHex, 1, 0), hex_snk_spin_weights(r, nperm, wnumHex, 1, 0), n));
     complex_computation H_BB_new_term_0_r2_b1("H_BB_new_term_0_r2_b1", {t, y_out, y_in, rp, n, r, s, nperm, wnumHex}, snk_B1_Blocal_r2_init(t, y_out, y_in, hex_snk_color_weights(r, nperm, wnumHex, 0, 0), hex_snk_spin_weights(r, nperm, wnumHex, 0, 0), hex_snk_color_weights(r, nperm, wnumHex, 2, 0), hex_snk_spin_weights(r, nperm, wnumHex, 2, 0), hex_snk_color_weights(r, nperm, wnumHex, 1, 0), hex_snk_spin_weights(r, nperm, wnumHex, 1, 0), n));
-    H_BB_new_term_0_r1_b1.add_predicate((src_spins_rp_s_0(rp, s) == 1));
-    H_BB_new_term_0_r2_b1.add_predicate((src_spins_rp_s_0(rp, s) == 2));
+    H_BB_new_term_0_r1_b1.add_predicate((src_spins(rp, s, 0) == 1));
+    H_BB_new_term_0_r2_b1.add_predicate((src_spins(rp, s, 0) == 2));
 
     complex_computation H_BB_new_term_0_r1_b2("H_BB_new_term_0_r1_b2", {t, y_out, y_in, rp, n, r, s, nperm, wnumHex}, snk_B2_Blocal_r1_init(t, y_out, y_in, hex_snk_color_weights(r, nperm, wnumHex, 0, 1), hex_snk_spin_weights(r, nperm, wnumHex, 0, 1), hex_snk_color_weights(r, nperm, wnumHex, 2, 1), hex_snk_spin_weights(r, nperm, wnumHex, 2, 1), hex_snk_color_weights(r, nperm, wnumHex, 1, 1), hex_snk_spin_weights(r, nperm, wnumHex, 1, 1), n));
     complex_computation H_BB_new_term_0_r2_b2("H_BB_new_term_0_r2_b2", {t, y_out, y_in, rp, n, r, s, nperm, wnumHex}, snk_B2_Blocal_r2_init(t, y_out, y_in, hex_snk_color_weights(r, nperm, wnumHex, 0, 1), hex_snk_spin_weights(r, nperm, wnumHex, 0, 1), hex_snk_color_weights(r, nperm, wnumHex, 2, 1), hex_snk_spin_weights(r, nperm, wnumHex, 2, 1), hex_snk_color_weights(r, nperm, wnumHex, 1, 1), hex_snk_spin_weights(r, nperm, wnumHex, 1, 1), n));
-    H_BB_new_term_0_r1_b2.add_predicate((src_spins_rp_s_1(rp, s) == 1));
-    H_BB_new_term_0_r2_b2.add_predicate((src_spins_rp_s_1(rp, s) == 2));
+    H_BB_new_term_0_r1_b2.add_predicate((src_spins(rp, s, 1) == 1));
+    H_BB_new_term_0_r2_b2.add_predicate((src_spins(rp, s, 1) == 2));
 
     complex_expr H_BB_term_res_b1 = H_BB_new_term_0_r1_b1(t, y_out, y_in, rp, n, r, s, nperm, wnumHex);
     complex_expr H_BB_term_res_b2 = H_BB_new_term_0_r1_b2(t, y_out, y_in, rp, n, r, s, nperm, wnumHex);
@@ -1278,13 +1270,13 @@ void generate_function(std::string name)
 
     complex_computation flip_H_BB_new_term_0_r1_b1("flip_H_BB_new_term_0_r1_b1", {t, y_out, y_in, rp, n, r, s, nperm, wnumHex}, flip_snk_B1_Blocal_r1_init(t, y_out, y_in, hex_snk_color_weights(r, nperm, wnumHex, 0, 0), hex_snk_spin_weights(r, nperm, wnumHex, 0, 0), hex_snk_color_weights(r, nperm, wnumHex, 2, 0), hex_snk_spin_weights(r, nperm, wnumHex, 2, 0), hex_snk_color_weights(r, nperm, wnumHex, 1, 0), hex_snk_spin_weights(r, nperm, wnumHex, 1, 0), n));
     complex_computation flip_H_BB_new_term_0_r2_b1("flip_H_BB_new_term_0_r2_b1", {t, y_out, y_in, rp, n, r, s, nperm, wnumHex}, flip_snk_B1_Blocal_r2_init(t, y_out, y_in, hex_snk_color_weights(r, nperm, wnumHex, 0, 0), hex_snk_spin_weights(r, nperm, wnumHex, 0, 0), hex_snk_color_weights(r, nperm, wnumHex, 2, 0), hex_snk_spin_weights(r, nperm, wnumHex, 2, 0), hex_snk_color_weights(r, nperm, wnumHex, 1, 0), hex_snk_spin_weights(r, nperm, wnumHex, 1, 0), n));
-    flip_H_BB_new_term_0_r1_b1.add_predicate((src_spins_rp_s_0(rp, s) == 1));
-    flip_H_BB_new_term_0_r2_b1.add_predicate((src_spins_rp_s_0(rp, s) == 2));
+    flip_H_BB_new_term_0_r1_b1.add_predicate((src_spins(rp, s, 0) == 1));
+    flip_H_BB_new_term_0_r2_b1.add_predicate((src_spins(rp, s, 0) == 2));
 
     complex_computation flip_H_BB_new_term_0_r1_b2("flip_H_BB_new_term_0_r1_b2", {t, y_out, y_in, rp, n, r, s, nperm, wnumHex}, flip_snk_B2_Blocal_r1_init(t, y_out, y_in, hex_snk_color_weights(r, nperm, wnumHex, 0, 1), hex_snk_spin_weights(r, nperm, wnumHex, 0, 1), hex_snk_color_weights(r, nperm, wnumHex, 2, 1), hex_snk_spin_weights(r, nperm, wnumHex, 2, 1), hex_snk_color_weights(r, nperm, wnumHex, 1, 1), hex_snk_spin_weights(r, nperm, wnumHex, 1, 1), n));
     complex_computation flip_H_BB_new_term_0_r2_b2("flip_H_BB_new_term_0_r2_b2", {t, y_out, y_in, rp, n, r, s, nperm, wnumHex}, flip_snk_B2_Blocal_r2_init(t, y_out, y_in, hex_snk_color_weights(r, nperm, wnumHex, 0, 1), hex_snk_spin_weights(r, nperm, wnumHex, 0, 1), hex_snk_color_weights(r, nperm, wnumHex, 2, 1), hex_snk_spin_weights(r, nperm, wnumHex, 2, 1), hex_snk_color_weights(r, nperm, wnumHex, 1, 1), hex_snk_spin_weights(r, nperm, wnumHex, 1, 1), n));
-    flip_H_BB_new_term_0_r1_b2.add_predicate((src_spins_rp_s_1(rp, s) == 1));
-    flip_H_BB_new_term_0_r2_b2.add_predicate((src_spins_rp_s_1(rp, s) == 2));
+    flip_H_BB_new_term_0_r1_b2.add_predicate((src_spins(rp, s, 1) == 1));
+    flip_H_BB_new_term_0_r2_b2.add_predicate((src_spins(rp, s, 1) == 2));
 
     complex_expr flip_H_BB_term_res_b1 = flip_H_BB_new_term_0_r1_b1(t, y_out, y_in, rp, n, r, s, nperm, wnumHex);
     complex_expr flip_H_BB_term_res_b2 = flip_H_BB_new_term_0_r1_b2(t, y_out, y_in, rp, n, r, s, nperm, wnumHex);
