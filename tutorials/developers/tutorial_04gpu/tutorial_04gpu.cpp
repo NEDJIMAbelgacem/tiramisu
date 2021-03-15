@@ -22,8 +22,6 @@ int main(int argc, char **argv)
     // Layer I
     // -------------------------------------------------------
 
-    // constant N("N", SIZE0);
-
     // Declare loop iterators
     var i("i", 0, SIZE0), j("j", 0, SIZE0), k("k", 0, SIZE0);
     var a("a", 0, 2);
@@ -63,6 +61,8 @@ int main(int argc, char **argv)
     // because we can only use C in an expression after its declaration.
     // C.set_expression(C(i, j, k - 1) + A(i, k) * B(k, j));
     C_init.add_predicate( P(1, 2, i, j) == 0 );
+
+    C_init.tag_gpu_level(i, j);
 
     // Declare host-gpu transfer computations.
     computation copy_A_to_device({}, memcpy(b_A, b_A_gpu));
