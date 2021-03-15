@@ -16,7 +16,7 @@ extern "C" {
 #define RUN_REFERENCE 1
 #define RUN_CHECK 1
 int nb_tests = 1;
-int randommode = 1;
+int randommode = 0;
 
 void tiramisu_make_two_nucleon_2pt(double* C_re,
     double* C_im,
