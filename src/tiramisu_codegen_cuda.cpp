@@ -852,7 +852,11 @@ std::string expr_type_str[] =
                     std::cout << "Predicate type: " << expr_type_str[tiramisu_predicate.get_expr_type()] << "\n";
                     auto stmt = parse_tiramisu(tiramisu_predicate);
                     std::cout << "parse_tiramisu finished returing: ";
-                    stmt->print_body( std::cout, "" );
+                    {
+                        std::stringstream ss;
+                        stmt->print_body( ss, "" );
+                        std::cout << ss.str() << "\n";
+                    }
                     std::cout << "\n";
                     if (stmt == nullptr)
                     {
