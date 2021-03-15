@@ -387,6 +387,67 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
             case e_none:
                 assert(false);
             case e_op: {
+                std::cout << "Parsing expression of type: e_op\n";
+std::string op_t_str[] =
+{
+    "o_minus",
+    "o_floor",
+    "o_sin",
+    "o_cos",
+    "o_tan",
+    "o_asin",
+    "o_acos",
+    "o_atan",
+    "o_sinh",
+    "o_cosh",
+    "o_tanh",
+    "o_asinh",
+    "o_acosh",
+    "o_atanh",
+    "o_abs",
+    "o_sqrt",
+    "o_expo", // exponential
+    "o_log",
+    "o_ceil",
+    "o_round",
+    "o_trunc",
+    "o_allocate",
+    "o_free",
+    "o_cast", // The argument is an expression and a type.
+    "o_address", // The argument is a tiramisu::var() that represents a buffer.
+    "o_add",
+    "o_sub",
+    "o_mul",
+    "o_div",
+    "o_mod",
+    "o_logical_and",
+    "o_logical_or",
+    "o_logical_not",
+    "o_eq",
+    "o_ne",
+    "o_le",
+    "o_lt",
+    "o_ge",
+    "o_gt",
+    "o_max",
+    "o_min",
+    "o_right_shift",
+    "o_left_shift",
+    "o_memcpy",
+    "o_select",
+    "o_cond",
+    "o_lerp",
+    "o_call",
+    "o_access",
+    "o_address_of",
+    "o_lin_index",
+    "o_type",
+    "o_dummy",
+    "o_buffer",
+    "o_none",
+};
+
+                std::cout << "Operation type: " << op_t_str[ tiramisu_expr.get_op_type() ] << "\n";
                 switch (tiramisu_expr.get_op_type()) {
                     case o_access: {
                         buffer_ptr b = this->get_buffer(tiramisu_expr.get_name());
@@ -788,7 +849,7 @@ std::string expr_type_str[] =
                             comp->get_predicate(),
                             comp->get_iterators_map());
                     std::cout << "After replace_original_indices_with_transformed_indices: " << tiramisu_predicate.to_str() << "\n";
-                    std::cout << "Predicate type: " << expr_type_str[tiramisu_predicate.get_expr_type()];
+                    std::cout << "Predicate type: " << expr_type_str[tiramisu_predicate.get_expr_type()] << "\n";
                     auto stmt = parse_tiramisu(tiramisu_predicate);
                     if (stmt == nullptr)
                     {
