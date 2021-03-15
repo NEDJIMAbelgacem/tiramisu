@@ -690,7 +690,7 @@ private:
     const tiramisu::function &m_fct;
     scalar_data_t m_scalar_data;
     std::unordered_map<std::string, cuda_ast::buffer_ptr> m_buffers;
-    cuda_ast::buffer_ptr get_buffer(std::string & name);
+    cuda_ast::buffer_ptr get_buffer(const std::string & name);
     cuda_ast::statement_ptr parse_tiramisu(const tiramisu::expr & tiramisu_expr);
     int loop_level = 0;
     kernel_ptr current_kernel;

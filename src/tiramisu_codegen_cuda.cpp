@@ -521,8 +521,8 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
         }
     }
 
-    cuda_ast::buffer_ptr cuda_ast::generator::get_buffer(std::string &name) {
-        if (name == "A") name = "_A_b0";
+    cuda_ast::buffer_ptr cuda_ast::generator::get_buffer(const std::string &name) {
+        if (name == "A") const_cast<std::string&>( name ) = "_A_b0";
         auto it = m_buffers.find(name);
         cuda_ast::buffer_ptr buffer;
         if (it != m_buffers.end()) {
