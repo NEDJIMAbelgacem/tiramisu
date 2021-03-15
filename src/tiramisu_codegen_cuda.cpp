@@ -768,7 +768,14 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
                     asgmnt = statement_ptr{new buffer_assignment{b, lhs, rhs}};
                 }
                 if (comp->get_predicate().is_defined()) {
-
+std::string expr_type_str[] = 
+{
+    "e_val",          // literal value, like 1, 2.4, 10, ...
+    "e_var",          // a variable of a primitive type (i.e., an identifier holding one value),
+    "e_sync",         // syncs parallel computations. Currently used in the context of GPUs.
+    "e_op",           // an operation: add, mul, div, ...
+    "e_none"          // undefined expression. The existence of an expression of e_none type means an error.
+};
                     std::vector<isl_ast_expr *> ie = {}; // Dummy variable.
                     std::cout << "Before replace_original_indices_with_transformed_indices: " << comp->get_predicate().to_str() << "\n";
                     std::cout << "comp->get_iterators_map(): ";
@@ -781,6 +788,7 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
                             comp->get_predicate(),
                             comp->get_iterators_map());
                     std::cout << "After replace_original_indices_with_transformed_indices: " << tiramisu_predicate.to_str() << "\n";
+                    std::cout << "Predicate type: " << expr_type_str[tiramisu_predicate.get_expr_type()];
                     auto stmt = parse_tiramisu(tiramisu_predicate);
                     if (stmt == nullptr)
                     {
