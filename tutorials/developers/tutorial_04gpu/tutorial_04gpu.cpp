@@ -26,6 +26,10 @@ int main(int argc, char **argv)
 
     // Declare loop iterators
     var i("i", 0, SIZE0), j("j", 0, SIZE0), k("k", 0, SIZE0);
+    var a("a", 0, 2);
+    var b("b", 0, 4);
+    var c("c", 0, SIZE0);
+    var d("d", 0, SIZE0);
 
     // Declare cpu buffers.
     buffer b_A("b_A", {expr(SIZE0), expr(SIZE0)}, p_int32, a_input);
@@ -35,14 +39,20 @@ int main(int argc, char **argv)
     buffer b_A_gpu("b_A_gpu", {expr(SIZE0), expr(SIZE0)}, p_int32, a_temporary);
     buffer b_B_gpu("b_B_gpu", {expr(SIZE0), expr(SIZE0)}, p_int32, a_temporary);
     buffer b_C_gpu("b_C_gpu", {2, expr(SIZE0), expr(SIZE0)}, p_int32, a_temporary);
+
+    buffer b_P_gpu("b_C_gpu", {2, 4, expr(SIZE0), expr(SIZE0)}, p_int32, a_temporary);
     // Tag the GPU buffers to be stored in global memory.
     b_A_gpu.tag_gpu_global();
     b_B_gpu.tag_gpu_global();
     b_C_gpu.tag_gpu_global();
+    b_P_gpu.tag_gpu_global();
 
     // Declare inputs.
     input A("A", {i, k}, p_int32);
     input B("B", {k, j}, p_int32);
+
+    input P( "P", {a, b, c, d}, p_int32 );
+    P.store_in( &b_P_gpu )
 
     // Declare a computation to initialize the reduction.
     computation C_init("C_init", {i, j, k}, expr((int32_t) 0));
@@ -52,7 +62,7 @@ int main(int argc, char **argv)
     // Note that the previous computation has an empty expression,
     // because we can only use C in an expression after its declaration.
     // C.set_expression(C(i, j, k - 1) + A(i, k) * B(k, j));
-    C_init.add_predicate( A(1, j) == 0 );
+    C_init.add_predicate( P(1, 2, i, j) == 0 );
 
     // Declare host-gpu transfer computations.
     computation copy_A_to_device({}, memcpy(b_A, b_A_gpu));
