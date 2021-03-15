@@ -458,7 +458,7 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
                     if (ptr == nullptr)
                         std::cout << __FILE__ << "::" << __LINE__ << " : " << "Error while parsing: " << tiramisu_expr.to_str() << "\n";
                     ret = ptr;
-                }
+                }   
             break;
             case e_none:
                 assert(false);
@@ -595,15 +595,18 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
                                         ret = statement_ptr {
                                                 new cuda_ast::unary{tiramisu_expr.get_data_type(), operands[0],
                                                                     std::string{op_data.symbol}}};
+                                    break;
                                     case 2:
                                         ret = statement_ptr {
                                                 new cuda_ast::binary{tiramisu_expr.get_data_type(), operands[0],
                                                                     operands[1], std::string{op_data.symbol}}};
+                                    break;
                                     case 3:
                                         ret = statement_ptr {
                                                 new cuda_ast::ternary{tiramisu_expr.get_data_type(), operands[0],
                                                                     operands[1], operands[2], std::string{op_data.symbol},
                                                                     std::string{op_data.next_symbol}}};
+                                    break;
                                     default:
                                         assert(false && "Infix operators are either unary, binary, or tertiary.");
                                 }
