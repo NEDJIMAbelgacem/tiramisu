@@ -481,22 +481,28 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
                             tiramisu::expr linear_access = 0;
                             tiramisu::expr multiplier = 1;
                             auto accesses = tiramisu_expr.get_access();
-                            std::vector<statement_ptr> buffer_size = b->size;
+                            std::vector<tiramisu::expr> buffer_size = b->sizes_expr;
                             for (int i = accesses.size() - 1; i >= 0; --i)
                             {
-                                
+                                linear_access = linear_access + multiplier * accesses[i];
+                                multiplier = multiplier * buffer_size[i];
                             }
-                            for (auto &access: tiramisu_expr.get_access()) {
-                                auto stmt = this->parse_tiramisu(access);
-                                if (stmt == nullptr)
-                                {
-                                    std::cout << __FILE__ << "::" << __LINE__ << " : " << "Error while parsing: " << access.to_str() << "\n";
-                                    ret = nullptr;
-                                    failed = true;
-                                    break;
-                                }
+                            auto stmt = this->parse_tiramisu(linear_access);
+                            if ( stmt != nullptr )
                                 indices.push_back( stmt );
-                            }
+                            else 
+                                failed = true;
+                            // for (auto &access: tiramisu_expr.get_access()) {
+                            //     auto stmt = this->parse_tiramisu(access);
+                            //     if (stmt == nullptr)
+                            //     {
+                            //         std::cout << __FILE__ << "::" << __LINE__ << " : " << "Error while parsing: " << access.to_str() << "\n";
+                            //         ret = nullptr;
+                            //         failed = true;
+                            //         break;
+                            //     }
+                            //     indices.push_back( stmt );
+                            // }
                             std::cout << tabs << "Accessed indices: ";
                             for (statement_ptr ptr : indices)
                             {
