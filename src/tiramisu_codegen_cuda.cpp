@@ -1169,7 +1169,7 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
     cuda_ast::buffer::buffer(primitive_t type, const std::string &name, cuda_ast::memory_location location,
                              const std::vector<cuda_ast::statement_ptr> &size, const std::vector<tiramisu::expr>& _sizes_expr) : abstract_identifier(type, name,
                                                                                                      location),
-                                                                                 size(size), sizes_expr( _sizes_expr ) { std::cout << "old buffer alloc\n"; }
+                                                                                 size(size), sizes_expr( _sizes_expr ) { std::cout << "new buffer alloc\n"; }
 
     cuda_ast::scalar::scalar(primitive_t type, const std::string &name, cuda_ast::memory_location location)
             : abstract_identifier(type, name, location), is_const(false) {}
