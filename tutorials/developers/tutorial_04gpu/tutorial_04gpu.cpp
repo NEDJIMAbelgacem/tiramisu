@@ -30,11 +30,11 @@ int main(int argc, char **argv)
     // Declare cpu buffers.
     buffer b_A("b_A", {expr(SIZE0), expr(SIZE0)}, p_int32, a_input);
     buffer b_B("b_B", {expr(SIZE0), expr(SIZE0)}, p_int32, a_input);
-    buffer b_C("b_C", {expr(SIZE0), expr(SIZE0)}, p_int32, a_output);
+    buffer b_C("b_C", {1, expr(SIZE0), expr(SIZE0)}, p_int32, a_output);
     // Declare gpu buffers.
     buffer b_A_gpu("b_A_gpu", {expr(SIZE0), expr(SIZE0)}, p_int32, a_temporary);
     buffer b_B_gpu("b_B_gpu", {expr(SIZE0), expr(SIZE0)}, p_int32, a_temporary);
-    buffer b_C_gpu("b_C_gpu", {expr(SIZE0), expr(SIZE0)}, p_int32, a_temporary);
+    buffer b_C_gpu("b_C_gpu", {1, expr(SIZE0), expr(SIZE0)}, p_int32, a_temporary);
     // Tag the GPU buffers to be stored in global memory.
     b_A_gpu.tag_gpu_global();
     b_B_gpu.tag_gpu_global();
