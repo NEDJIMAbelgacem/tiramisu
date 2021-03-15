@@ -46,7 +46,7 @@ int main(int argc, char **argv)
 
     // Declare a computation to initialize the reduction.
     computation C_init("C_init", {i, j, k}, expr((int32_t) 0));
-
+    C_init.store_in( &b_C_gpu );
     // Declare the reduction operation.
     // computation C("C", {i,j,k}, p_int32);
     // Note that the previous computation has an empty expression,
@@ -82,8 +82,7 @@ int main(int argc, char **argv)
     A.store_in(&b_A_gpu);
     B.store_in(&b_B_gpu);
 
-    // Store C_init[i,j] in b_C[i,j]
-    C_init.store_in( &b_C_gpu );
+    // Store C_init[i,j] in b_C[i,j];
     // Store C[i,j,k] in b_C[i,j]
     // C.store_in(&b_C_gpu, {0, i,j});
     // Note that both of the computations C_init and C store their
