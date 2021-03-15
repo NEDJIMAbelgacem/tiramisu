@@ -433,7 +433,7 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
         static std::string tabs = "";
         tabs += "\t";
         std::cout << tabs << "Parsing: " << tiramisu_expr.to_str() << "\n";
-        std::cout << tabs << "tiramisu_expr.get_expr_type()" << expr_type_str[ tiramisu_expr.get_expr_type()] << "\n";
+        std::cout << tabs << "tiramisu_expr.get_expr_type(): " << expr_type_str[ tiramisu_expr.get_expr_type()] << "\n";
         switch (tiramisu_expr.get_expr_type()) {
             case e_val:
                 ret = statement_ptr{new cuda_ast::value{tiramisu_expr}};
@@ -488,6 +488,14 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
                                 }
                                 indices.push_back( stmt );
                             }
+                            std::cout << tabs << "Accessed indices: ";
+                            for (statement_ptr ptr : indices)
+                            {
+                                std::stringstream ss;
+                                ptr->print_body( ss, "" );
+                                std::cout << ss.str() << " | ";
+                            }
+                            std::cout << "\n";
                             if (!failed) 
                                 ret = statement_ptr{new buffer_access{b, indices}};
                         }
