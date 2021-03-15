@@ -38,6 +38,75 @@
 #define getcwd _getcwd
 #endif
 
+std::string expr_type_str[] = 
+{
+    "e_val",          // literal value, like 1, 2.4, 10, ...
+    "e_var",          // a variable of a primitive type (i.e., an identifier holding one value),
+    "e_sync",         // syncs parallel computations. Currently used in the context of GPUs.
+    "e_op",           // an operation: add, mul, div, ...
+    "e_none"          // undefined expression. The existence of an expression of e_none type means an error.
+};
+
+
+std::string op_t_str[] =
+{
+    "o_minus",
+    "o_floor",
+    "o_sin",
+    "o_cos",
+    "o_tan",
+    "o_asin",
+    "o_acos",
+    "o_atan",
+    "o_sinh",
+    "o_cosh",
+    "o_tanh",
+    "o_asinh",
+    "o_acosh",
+    "o_atanh",
+    "o_abs",
+    "o_sqrt",
+    "o_expo", // exponential
+    "o_log",
+    "o_ceil",
+    "o_round",
+    "o_trunc",
+    "o_allocate",
+    "o_free",
+    "o_cast", // The argument is an expression and a type.
+    "o_address", // The argument is a tiramisu::var() that represents a buffer.
+    "o_add",
+    "o_sub",
+    "o_mul",
+    "o_div",
+    "o_mod",
+    "o_logical_and",
+    "o_logical_or",
+    "o_logical_not",
+    "o_eq",
+    "o_ne",
+    "o_le",
+    "o_lt",
+    "o_ge",
+    "o_gt",
+    "o_max",
+    "o_min",
+    "o_right_shift",
+    "o_left_shift",
+    "o_memcpy",
+    "o_select",
+    "o_cond",
+    "o_lerp",
+    "o_call",
+    "o_access",
+    "o_address_of",
+    "o_lin_index",
+    "o_type",
+    "o_dummy",
+    "o_buffer",
+    "o_none",
+};
+
 namespace tiramisu {
 
 tiramisu::expr replace_original_indices_with_transformed_indices(tiramisu::expr exp,
@@ -360,9 +429,15 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
     }
 
     cuda_ast::statement_ptr cuda_ast::generator::parse_tiramisu(const tiramisu::expr &tiramisu_expr) {
+        cuda_ast::statement_ptr ret = nullptr;
+        static string tabs = "";
+        tabs += "\t";
+        std::cout << tabs << "Parsing: " << tiramisu_expr.to_str() << "\n";
+        std::cout << tabs << "tiramisu_expr.get_expr_type()" << tiramisu_expr.get_expr_type() << "\n";
         switch (tiramisu_expr.get_expr_type()) {
             case e_val:
-                return statement_ptr{new cuda_ast::value{tiramisu_expr}};
+                ret = statement_ptr{new cuda_ast::value{tiramisu_expr}};
+                break;
             case e_var:
                 // o_call might get buffer as input parameter, in which case the
                 // buffer is interpreted as a var. If so, create scalar_ptr for
@@ -372,80 +447,24 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
                     if (b == nullptr)
                     {
                         std::cout << __FILE__ << "::" << __LINE__ << " : " << "Error while getting the buffer of  " << tiramisu_expr.get_name() << "\n";
-                        return nullptr;
-                    }
-                    return scalar_ptr{new cuda_ast::scalar{b->get_type(), b->get_name(), b->get_location()}};
-                }
+                        ret = nullptr;
+                    } else 
+                        ret = scalar_ptr{new cuda_ast::scalar{b->get_type(), b->get_name(), b->get_location()}};
+                } else
                 // Otherwise expr must be a scalar.
                 {
                     cuda_ast::statement_ptr ptr = nullptr;
                     ptr = get_scalar_from_name(tiramisu_expr.get_name());
                     if (ptr == nullptr)
                         std::cout << __FILE__ << "::" << __LINE__ << " : " << "Error while parsing: " << tiramisu_expr.to_str() << "\n";
-                    return ptr;
+                    ret = ptr;
                 }
+                break;
             case e_none:
                 assert(false);
+                break;
             case e_op: {
                 std::cout << "Parsing expression of type: e_op\n";
-std::string op_t_str[] =
-{
-    "o_minus",
-    "o_floor",
-    "o_sin",
-    "o_cos",
-    "o_tan",
-    "o_asin",
-    "o_acos",
-    "o_atan",
-    "o_sinh",
-    "o_cosh",
-    "o_tanh",
-    "o_asinh",
-    "o_acosh",
-    "o_atanh",
-    "o_abs",
-    "o_sqrt",
-    "o_expo", // exponential
-    "o_log",
-    "o_ceil",
-    "o_round",
-    "o_trunc",
-    "o_allocate",
-    "o_free",
-    "o_cast", // The argument is an expression and a type.
-    "o_address", // The argument is a tiramisu::var() that represents a buffer.
-    "o_add",
-    "o_sub",
-    "o_mul",
-    "o_div",
-    "o_mod",
-    "o_logical_and",
-    "o_logical_or",
-    "o_logical_not",
-    "o_eq",
-    "o_ne",
-    "o_le",
-    "o_lt",
-    "o_ge",
-    "o_gt",
-    "o_max",
-    "o_min",
-    "o_right_shift",
-    "o_left_shift",
-    "o_memcpy",
-    "o_select",
-    "o_cond",
-    "o_lerp",
-    "o_call",
-    "o_access",
-    "o_address_of",
-    "o_lin_index",
-    "o_type",
-    "o_dummy",
-    "o_buffer",
-    "o_none",
-};
 
                 std::cout << "Operation type: " << op_t_str[ tiramisu_expr.get_op_type() ] << "\n";
                 switch (tiramisu_expr.get_op_type()) {
@@ -454,39 +473,51 @@ std::string op_t_str[] =
                         if (b == nullptr)
                         {
                             std::cout << __FILE__ << "::" << __LINE__ << " : " << "Error while getting the buffer of  " << tiramisu_expr.get_name() << "\n";
-                            return nullptr;
-                        }
-                        std::vector<statement_ptr> indices;
-                        for (auto &access: tiramisu_expr.get_access()) {
-                            auto stmt = this->parse_tiramisu(access);
-                            if (stmt == nullptr)
-                            {
-                                std::cout << __FILE__ << "::" << __LINE__ << " : " << "Error while parsing: " << access.to_str() << "\n";
-                                return nullptr;
+                            ret = nullptr;
+                        } else 
+                        {
+                            std::vector<statement_ptr> indices;
+                            bool failed = false;
+                            for (auto &access: tiramisu_expr.get_access()) {
+                                auto stmt = this->parse_tiramisu(access);
+                                if (stmt == nullptr)
+                                {
+                                    std::cout << __FILE__ << "::" << __LINE__ << " : " << "Error while parsing: " << access.to_str() << "\n";
+                                    ret = nullptr;
+                                    failed = true;
+                                    break;
+                                }
+                                indices.push_back( stmt );
                             }
-                            indices.push_back( stmt );
+                            if (!failed) 
+                                ret = statement_ptr{new buffer_access{b, indices}};
                         }
-                        return statement_ptr{new buffer_access{b, indices}};
                     }
+                    break;
                     case o_call: {
                         std::vector<statement_ptr> operands;
                         operands.reserve(static_cast<size_t>(tiramisu_expr.get_n_arg()));
                         // std::transform(tiramisu_expr.get_arguments().begin(), tiramisu_expr.get_arguments().end(),
                         //                operands.begin(),
                         //                std::bind(&generator::parse_tiramisu, this, std::placeholders::_1));
+                        bool failed = false;
                         for (auto arg : tiramisu_expr.get_arguments())
                         {
                             auto stmt = parse_tiramisu( arg );
                             if (stmt == nullptr)
                             {
                                 std::cout << __FILE__ << "::" << __LINE__ << " : " << "Error while parsing: " << tiramisu_expr.to_str() << "\n";
-                                return nullptr;
+                                ret = nullptr;
+                                failed = true;
+                                break;
                             }
-                            operands.push_back( stmt );
+                            else
+                                operands.push_back( stmt );
                         }
-                        return statement_ptr{
-                                new function_call{tiramisu_expr.get_data_type(), tiramisu_expr.get_name(), operands}};
+                        if (!failed)
+                            return statement_ptr{ new function_call{tiramisu_expr.get_data_type(), tiramisu_expr.get_name(), operands}};
                     }
+                    break;
                     case o_cast: {
                         // Add a cast statement only if necessary
                         if (tiramisu_expr.get_data_type() != tiramisu_expr.get_operand(0).get_data_type()) {
@@ -494,92 +525,103 @@ std::string op_t_str[] =
                             if (stmt == nullptr)
                             {
                                 std::cout << __FILE__ << "::" << __LINE__ << " : " << "Error while parsing: " << tiramisu_expr.get_operand(0).to_str() << "\n";
-                                return nullptr;
-                            }
-                            return statement_ptr{new cuda_ast::cast{tiramisu_expr.get_data_type(), stmt}};
+                                ret = nullptr;
+                            } else
+                                ret = statement_ptr{new cuda_ast::cast{tiramisu_expr.get_data_type(), stmt}};
                         } else {
                             auto stmt = parse_tiramisu(tiramisu_expr.get_operand(0));
                             if (stmt == nullptr)
                             {
                                 std::cout << __FILE__ << "::" << __LINE__ << " : " << "Error while parsing: " << tiramisu_expr.to_str() << "\n";
-                                return nullptr;
-                            }
-                            return stmt;
+                                ret nullptr;
+                            } else 
+                                ret stmt;
                         }
                     }
+                    break;
                     case o_allocate: {
                         auto buffer = get_buffer(tiramisu_expr.get_name());
                         if (buffer == nullptr)
                         {
                             std::cout << __FILE__ << "::" << __LINE__ << " : " << "Error while getting the buffer of  " << tiramisu_expr.get_name() << "\n";
-                            return nullptr;
-                        }
-                        if (buffer->get_location() == memory_location::shared
+                            ret = nullptr;
+                        } else if (buffer->get_location() == memory_location::shared
                                 || buffer->get_location() == memory_location::local
                                 || buffer->get_location() == memory_location::reg)
-                            return statement_ptr {new cuda_ast::declaration{buffer}};
+                            ret = statement_ptr {new cuda_ast::declaration{buffer}};
                         else
-                            return statement_ptr {new cuda_ast::allocate{buffer}};
+                            ret = statement_ptr {new cuda_ast::allocate{buffer}};
                     }
+                    break;
                     case o_free:
+                    {
+                        auto buff = get_buffer(tiramisu_expr.get_name());
+                        if (buff == nullptr)
                         {
-                            auto buff = get_buffer(tiramisu_expr.get_name());
-                            if (buff == nullptr)
-                            {
-                                std::cout << __FILE__ << "::" << __LINE__ << " : " << "Error while getting the buffer of  " << tiramisu_expr.get_name() << "\n";
-                                return nullptr;
-                            }
-                            return statement_ptr {new cuda_ast::free{ buff }};
-                        }
-
+                            std::cout << __FILE__ << "::" << __LINE__ << " : " << "Error while getting the buffer of  " << tiramisu_expr.get_name() << "\n";
+                            ret = nullptr;
+                        } else
+                            ret = statement_ptr {new cuda_ast::free{ buff }};
+                    }
+                    break;
                     case o_memcpy:
                         assert(tiramisu_expr.get_operand(0).get_expr_type() == e_var && tiramisu_expr.get_operand(1).get_expr_type() == e_var && "Can only transfer from buffers to buffers");
-                        return statement_ptr {new cuda_ast::memcpy{this->get_buffer(tiramisu_expr.get_operand(0).get_name()), this->get_buffer(tiramisu_expr.get_operand(1).get_name())}};
+                        ret = statement_ptr {new cuda_ast::memcpy{this->get_buffer(tiramisu_expr.get_operand(0).get_name()), this->get_buffer(tiramisu_expr.get_operand(1).get_name())}};
+                    break;
                     default: {
 //                        auto it = cuda_ast::tiramisu_operation_description(tiramisu_expr.get_op_type());
 //                        assert(it != cuda_ast::tiramisu_operation_description.cend());
                         const op_data_t &op_data = cuda_ast::tiramisu_operation_description(tiramisu_expr.get_op_type());//it->second;
                         std::vector<statement_ptr> operands;
+                        bool failed = false;
                         for (int i = 0; i < op_data.arity; i++) {
                             auto stmt = parse_tiramisu(tiramisu_expr.get_operand(i));
                             if (stmt == nullptr)
                             {
                                 std::cout << __FILE__ << "::" << __LINE__ << " : " << "Error while parsing: " << tiramisu_expr.get_operand(i).to_str() << "\n";
-                                return nullptr;
+                                ret = nullptr;
+                                failed = true;
+                                break;
                             }
                             operands.push_back(stmt);
                         }
-                        if (op_data.infix) {
-                            assert(op_data.arity > 0 && op_data.arity < 4 &&
-                                   "Infix operators are either unary, binary, or tertiary.");
-                            switch (op_data.arity) {
-                                case 1:
-                                    return statement_ptr {
-                                            new cuda_ast::unary{tiramisu_expr.get_data_type(), operands[0],
-                                                                std::string{op_data.symbol}}};
-                                case 2:
-                                    return statement_ptr {
-                                            new cuda_ast::binary{tiramisu_expr.get_data_type(), operands[0],
-                                                                 operands[1], std::string{op_data.symbol}}};
-                                case 3:
-                                    return statement_ptr {
-                                            new cuda_ast::ternary{tiramisu_expr.get_data_type(), operands[0],
-                                                                  operands[1], operands[2], std::string{op_data.symbol},
-                                                                  std::string{op_data.next_symbol}}};
-                                default:
-                                    assert(false && "Infix operators are either unary, binary, or tertiary.");
+                        if (!failed)
+                        {
+                            if (op_data.infix) {
+                                assert(op_data.arity > 0 && op_data.arity < 4 &&
+                                    "Infix operators are either unary, binary, or tertiary.");
+                                switch (op_data.arity) {
+                                    case 1:
+                                        ret = statement_ptr {
+                                                new cuda_ast::unary{tiramisu_expr.get_data_type(), operands[0],
+                                                                    std::string{op_data.symbol}}};
+                                    case 2:
+                                        ret = statement_ptr {
+                                                new cuda_ast::binary{tiramisu_expr.get_data_type(), operands[0],
+                                                                    operands[1], std::string{op_data.symbol}}};
+                                    case 3:
+                                        ret = statement_ptr {
+                                                new cuda_ast::ternary{tiramisu_expr.get_data_type(), operands[0],
+                                                                    operands[1], operands[2], std::string{op_data.symbol},
+                                                                    std::string{op_data.next_symbol}}};
+                                    default:
+                                        assert(false && "Infix operators are either unary, binary, or tertiary.");
+                                }
+                            } else {
+                                ret = statement_ptr{
+                                        new cuda_ast::function_call{tiramisu_expr.get_data_type(), op_data.symbol,
+                                                                    operands}};
                             }
-                        } else {
-                            return statement_ptr{
-                                    new cuda_ast::function_call{tiramisu_expr.get_data_type(), op_data.symbol,
-                                                                operands}};
                         }
                     }
+                    break;
                 }
             }
             default:
                 assert(false);
         }
+        tabs.pop_back();
+        return ret;
     }
 
     cuda_ast::buffer_ptr cuda_ast::generator::get_buffer(const std::string &name) {
@@ -829,14 +871,7 @@ std::string op_t_str[] =
                     asgmnt = statement_ptr{new buffer_assignment{b, lhs, rhs}};
                 }
                 if (comp->get_predicate().is_defined()) {
-std::string expr_type_str[] = 
-{
-    "e_val",          // literal value, like 1, 2.4, 10, ...
-    "e_var",          // a variable of a primitive type (i.e., an identifier holding one value),
-    "e_sync",         // syncs parallel computations. Currently used in the context of GPUs.
-    "e_op",           // an operation: add, mul, div, ...
-    "e_none"          // undefined expression. The existence of an expression of e_none type means an error.
-};
+
                     std::vector<isl_ast_expr *> ie = {}; // Dummy variable.
                     std::cout << "Before replace_original_indices_with_transformed_indices: " << comp->get_predicate().to_str() << "\n";
                     std::cout << "comp->get_iterators_map(): ";
