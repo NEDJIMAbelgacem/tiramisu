@@ -34,7 +34,7 @@ int main(int argc, char **argv)
     // Declare gpu buffers.
     buffer b_A_gpu("b_A_gpu", {expr(SIZE0), expr(SIZE0)}, p_int32, a_temporary);
     buffer b_B_gpu("b_B_gpu", {expr(SIZE0), expr(SIZE0)}, p_int32, a_temporary);
-    buffer b_C_gpu("b_C_gpu", {1, expr(SIZE0), expr(SIZE0)}, p_int32, a_temporary);
+    buffer b_C_gpu("b_C_gpu", {2, expr(SIZE0), expr(SIZE0)}, p_int32, a_temporary);
     // Tag the GPU buffers to be stored in global memory.
     b_A_gpu.tag_gpu_global();
     b_B_gpu.tag_gpu_global();
@@ -52,7 +52,7 @@ int main(int argc, char **argv)
     // Note that the previous computation has an empty expression,
     // because we can only use C in an expression after its declaration.
     // C.set_expression(C(i, j, k - 1) + A(i, k) * B(k, j));
-    C_init.add_predicate( A(i, j) == 0 );
+    C_init.add_predicate( C(1, i, j) == 0 );
 
     // Declare host-gpu transfer computations.
     computation copy_A_to_device({}, memcpy(b_A, b_A_gpu));
