@@ -25,7 +25,7 @@ int main(int argc, char **argv)
     constant N("N", SIZE0);
 
     // Declare loop iterators
-    var i("i", 0, N), j("j", 0, N), k("k", 0, N);
+    var i("i", 0, SIZE0), j("j", 0, SIZE0), k("k", 0, SIZE0);
 
     // Declare cpu buffers.
     buffer b_A("b_A", {expr(SIZE0), expr(SIZE0)}, p_int32, a_input);
