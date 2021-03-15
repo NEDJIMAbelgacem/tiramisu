@@ -83,7 +83,7 @@ int main(int argc, char **argv)
     B.store_in(&b_B_gpu);
 
     // Store C_init[i,j] in b_C[i,j]
-    C_init.store_in( &b_C_gpu, {0, i, j} );
+    C_init.store_in( &b_C_gpu );
     // Store C[i,j,k] in b_C[i,j]
     // C.store_in(&b_C_gpu, {0, i,j});
     // Note that both of the computations C_init and C store their
