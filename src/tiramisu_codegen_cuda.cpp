@@ -430,7 +430,7 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
 
     cuda_ast::statement_ptr cuda_ast::generator::parse_tiramisu(const tiramisu::expr &tiramisu_expr) {
         cuda_ast::statement_ptr ret = nullptr;
-        static string tabs = "";
+        static std::string tabs = "";
         tabs += "\t";
         std::cout << tabs << "Parsing: " << tiramisu_expr.to_str() << "\n";
         std::cout << tabs << "tiramisu_expr.get_expr_type()" << tiramisu_expr.get_expr_type() << "\n";
@@ -533,9 +533,9 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
                             if (stmt == nullptr)
                             {
                                 std::cout << __FILE__ << "::" << __LINE__ << " : " << "Error while parsing: " << tiramisu_expr.to_str() << "\n";
-                                ret nullptr;
+                                ret = nullptr;
                             } else 
-                                ret stmt;
+                                ret = stmt;
                         }
                     }
                     break;
