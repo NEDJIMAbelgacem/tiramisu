@@ -269,14 +269,16 @@ class buffer : public abstract_identifier
 {
 public:
     buffer(primitive_t type, const std::string &name, memory_location location, const std::vector<statement_ptr> &size);
+    buffer(primitive_t type, const std::string &name, memory_location location, const std::vector<statement_ptr> &size, const std::vector<tiramisu::expr>& sizes_expr);
     void print(std::stringstream &ss, const std::string &base) override;
     void print_declaration(std::stringstream &ss, const std::string &base) override;
     void print_size(std::stringstream &ss, const std::string &base, const std::string &seperator);
     bool is_buffer() const override;
 
 
-private:
+public:
     std::vector<statement_ptr> size;
+    std::vector<tiramisu::expr> sizes_expr;
 };
     typedef std::shared_ptr<buffer> buffer_ptr;
 

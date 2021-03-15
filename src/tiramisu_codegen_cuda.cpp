@@ -476,7 +476,16 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
                         } else 
                         {
                             std::vector<statement_ptr> indices;
+
                             bool failed = false;
+                            tiramisu::expr linear_access = 0;
+                            tiramisu::expr multiplier = 1;
+                            auto accesses = tiramisu_expr.get_access();
+                            std::vector<statement_ptr> buffer_size = b->size;
+                            for (int i = accesses.size() - 1; i >= 0; --i)
+                            {
+                                
+                            }
                             for (auto &access: tiramisu_expr.get_access()) {
                                 auto stmt = this->parse_tiramisu(access);
                                 if (stmt == nullptr)
@@ -498,6 +507,7 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
                             std::cout << "\n";
                             if (!failed) 
                             {
+                                
                                 buffer_access *access = new buffer_access{b, indices};
                                 // access->replace_iterators( this->gpu_iterators );
                                 ret = statement_ptr{access};
@@ -665,7 +675,7 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
                 sizes.push_back(stmt);
             }
             buffer = buffer_ptr{new cuda_ast::buffer{tiramisu_buffer->get_elements_type(), tiramisu_buffer->get_name(),
-                                                     tiramisu_buffer->location, sizes}};
+                                                     tiramisu_buffer->location, sizes, tiramisu_buffer->get_dim_sizes()}};
             m_buffers[name] = buffer;
         }
         if (in_kernel && gpu_local.find(name) == gpu_local.end()) {
@@ -1154,7 +1164,12 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
     cuda_ast::buffer::buffer(primitive_t type, const std::string &name, cuda_ast::memory_location location,
                              const std::vector<cuda_ast::statement_ptr> &size) : abstract_identifier(type, name,
                                                                                                      location),
-                                                                                 size(size) {}
+                                                                                 size(size) { std::cout << "old buffer alloc\n"; }
+
+    cuda_ast::buffer::buffer(primitive_t type, const std::string &name, cuda_ast::memory_location location,
+                             const std::vector<cuda_ast::statement_ptr> &size, const std::vector<tiramisu::expr>& _sizes_expr) : abstract_identifier(type, name,
+                                                                                                     location),
+                                                                                 size(size), sizes_expr( _sizes_expr ) { std::cout << "old buffer alloc\n"; }
 
     cuda_ast::scalar::scalar(primitive_t type, const std::string &name, cuda_ast::memory_location location)
             : abstract_identifier(type, name, location), is_const(false) {}
