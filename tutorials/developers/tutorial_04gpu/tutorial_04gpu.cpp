@@ -52,7 +52,7 @@ int main(int argc, char **argv)
     // Note that the previous computation has an empty expression,
     // because we can only use C in an expression after its declaration.
     // C.set_expression(C(i, j, k - 1) + A(i, k) * B(k, j));
-    C_init.add_predicate( C(1, i, j) == 0 );
+    C_init.add_predicate( A(1, j) == 0 );
 
     // Declare host-gpu transfer computations.
     computation copy_A_to_device({}, memcpy(b_A, b_A_gpu));
