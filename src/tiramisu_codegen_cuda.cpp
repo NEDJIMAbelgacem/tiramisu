@@ -851,6 +851,9 @@ std::string expr_type_str[] =
                     std::cout << "After replace_original_indices_with_transformed_indices: " << tiramisu_predicate.to_str() << "\n";
                     std::cout << "Predicate type: " << expr_type_str[tiramisu_predicate.get_expr_type()] << "\n";
                     auto stmt = parse_tiramisu(tiramisu_predicate);
+                    std::cout << "parse_tiramisu finished returing: ";
+                    stmt->print_body( std::cout, "" );
+                    std::cout << "\n";
                     if (stmt == nullptr)
                     {
                         std::cout << __FILE__ << "::" << __LINE__ << " : " << "Error while parsing: " << tiramisu_predicate.to_str() << "\n";
