@@ -533,6 +533,7 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
                 std::cout << p.first << " | ";
             };
             std::cout << "\n";
+            std::cout << "Looking for: " << name << "\n";
             auto tiramisu_buffer = this->m_fct.get_buffers().at(name);
             std::vector<cuda_ast::statement_ptr> sizes;
             for (auto &dim : tiramisu_buffer->get_dim_sizes()) {
