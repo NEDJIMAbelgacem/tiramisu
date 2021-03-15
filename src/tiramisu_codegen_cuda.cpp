@@ -433,7 +433,7 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
         static std::string tabs = "";
         tabs += "\t";
         std::cout << tabs << "Parsing: " << tiramisu_expr.to_str() << "\n";
-        std::cout << tabs << "tiramisu_expr.get_expr_type()" << tiramisu_expr.get_expr_type() << "\n";
+        std::cout << tabs << "tiramisu_expr.get_expr_type()" << expr_type_str[ tiramisu_expr.get_expr_type()] << "\n";
         switch (tiramisu_expr.get_expr_type()) {
             case e_val:
                 ret = statement_ptr{new cuda_ast::value{tiramisu_expr}};
@@ -515,7 +515,7 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
                                 operands.push_back( stmt );
                         }
                         if (!failed)
-                            return statement_ptr{ new function_call{tiramisu_expr.get_data_type(), tiramisu_expr.get_name(), operands}};
+                            ret = statement_ptr{ new function_call{tiramisu_expr.get_data_type(), tiramisu_expr.get_name(), operands}};
                     }
                     break;
                     case o_cast: {
