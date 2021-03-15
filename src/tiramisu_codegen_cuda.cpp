@@ -770,9 +770,17 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
                 if (comp->get_predicate().is_defined()) {
 
                     std::vector<isl_ast_expr *> ie = {}; // Dummy variable.
+                    std::cout << "Before replace_original_indices_with_transformed_indices: " << comp->get_predicate().to_str() << "\n";
+                    std::cout << "comp->get_iterators_map(): ";
+                    for (auto p : comp->get_iterators_map())
+                    {
+                        std::cout << p.first << " ";
+                    }
+                    std::cout << "\n";
                     tiramisu::expr tiramisu_predicate = replace_original_indices_with_transformed_indices(
                             comp->get_predicate(),
                             comp->get_iterators_map());
+                    std::cout << "After replace_original_indices_with_transformed_indices: " << tiramisu_predicate.to_str() << "\n";
                     auto stmt = parse_tiramisu(tiramisu_predicate);
                     if (stmt == nullptr)
                     {
