@@ -499,7 +499,7 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
                             if (!failed) 
                             {
                                 buffer_access *access = new buffer_access{b, indices};
-                                access->replace_iterators( this->gpu_iterators )
+                                access->replace_iterators( this->gpu_iterators );
                                 ret = statement_ptr{access};
                             }
                         }
