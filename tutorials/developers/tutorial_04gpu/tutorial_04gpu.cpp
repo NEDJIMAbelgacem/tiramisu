@@ -22,7 +22,7 @@ int main(int argc, char **argv)
     // Layer I
     // -------------------------------------------------------
 
-    constant N("N", SIZE0);
+    // constant N("N", SIZE0);
 
     // Declare loop iterators
     var i("i", 0, SIZE0), j("j", 0, SIZE0), k("k", 0, SIZE0);
