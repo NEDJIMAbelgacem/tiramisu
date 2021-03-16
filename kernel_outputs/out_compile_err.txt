@@ -1,0 +1,2207 @@
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(20): error: identifier "c3" is undefined
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(20): error: identifier "c5" is undefined
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(22): error: identifier "C_i" is undefined
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(458): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(458): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(468): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(468): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(478): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(478): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(488): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(488): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(498): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(498): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(508): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(508): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(518): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(518): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(528): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(528): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(538): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(538): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(548): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(548): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(558): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(558): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(568): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(568): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(578): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(578): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(588): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(588): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(598): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(598): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(608): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(608): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(650): error: identifier "c3" is undefined
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(650): error: identifier "c5" is undefined
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(652): error: identifier "B1_prop_r" is undefined
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(1088): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(1088): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(1098): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(1098): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(1108): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(1108): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(1118): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(1118): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(1128): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(1128): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(1138): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(1138): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(1148): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(1148): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(1158): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(1158): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(1168): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(1168): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(1178): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(1178): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(1188): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(1188): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(1198): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(1198): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(1208): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(1208): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(1218): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(1218): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(1228): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(1228): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(1238): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(1238): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(1272): error: identifier "c3" is undefined
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(1272): error: identifier "c5" is undefined
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(1274): error: identifier "B1_prop_i" is undefined
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(1796): error: identifier "c3" is undefined
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(1796): error: identifier "c5" is undefined
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(1798): error: identifier "C_r" is undefined
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(1836): error: identifier "c3" is undefined
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(1836): error: identifier "c5" is undefined
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(1838): error: identifier "C_i" is undefined
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2622): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2622): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2622): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2622): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2622): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2622): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2622): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2622): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2632): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2632): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2632): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2632): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2632): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2632): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2632): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2632): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2642): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2642): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2642): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2642): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2642): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2642): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2642): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2642): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2652): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2652): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2652): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2652): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2652): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2652): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2652): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2652): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2662): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2662): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2662): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2662): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2662): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2662): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2662): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2662): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2672): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2672): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2672): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2672): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2672): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2672): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2672): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2672): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2682): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2682): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2682): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2682): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2682): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2682): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2682): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2682): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2692): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2692): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2692): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2692): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2692): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2692): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2692): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2692): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2702): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2702): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2702): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2702): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2702): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2702): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2702): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2702): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2712): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2712): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2712): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2712): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2712): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2712): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2712): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2712): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2722): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2722): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2722): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2722): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2722): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2722): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2722): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2722): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2732): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2732): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2732): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2732): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2732): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2732): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2732): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2732): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2742): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2742): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2742): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2742): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2742): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2742): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2742): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2742): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2752): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2752): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2752): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2752): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2752): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2752): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2752): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2752): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2762): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2762): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2762): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2762): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2762): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2762): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2762): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2762): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2772): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2772): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2772): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2772): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2772): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2772): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2772): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2772): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2782): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2782): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2782): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2782): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2782): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2782): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2782): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2782): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2792): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2792): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2792): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2792): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2792): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2792): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2792): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2792): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2802): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2802): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2802): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2802): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2802): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2802): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2802): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2802): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2812): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2812): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2812): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2812): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2812): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2812): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2812): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2812): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2822): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2822): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2822): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2822): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2822): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2822): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2822): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2822): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2832): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2832): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2832): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2832): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2832): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2832): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2832): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2832): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2842): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2842): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2842): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2842): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2842): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2842): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2842): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2842): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2852): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2852): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2852): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2852): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2852): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2852): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2852): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2852): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2862): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2862): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2862): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2862): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2862): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2862): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2862): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2862): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2872): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2872): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2872): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2872): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2872): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2872): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2872): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2872): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2882): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2882): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2882): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2882): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2882): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2882): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2882): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2882): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2892): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2892): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2892): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2892): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2892): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2892): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2892): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2892): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2902): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2902): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2902): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2902): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2902): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2902): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2902): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2902): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2912): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2912): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2912): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2912): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2912): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2912): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2912): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2912): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2922): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2922): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2922): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2922): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2922): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2922): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2922): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2922): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2932): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2932): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2932): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2932): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2932): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2932): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2932): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2932): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2942): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2942): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2942): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2942): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2942): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2942): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2942): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2942): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2952): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2952): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2952): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2952): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2952): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2952): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2952): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2952): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2962): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2962): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2962): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2962): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2962): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2962): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2962): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2962): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2972): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2972): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2972): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2972): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2972): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2972): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2972): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2972): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2982): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2982): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2982): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2982): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2982): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2982): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2982): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2982): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2992): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2992): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2992): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2992): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2992): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2992): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2992): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(2992): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3002): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3002): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3002): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3002): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3002): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3002): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3002): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3002): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3012): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3012): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3012): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3012): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3012): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3012): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3012): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3012): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3022): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3022): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3022): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3022): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3022): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3022): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3022): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3022): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3032): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3032): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3032): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3032): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3032): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3032): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3032): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3032): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3042): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3042): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3042): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3042): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3042): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3042): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3042): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3042): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3052): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3052): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3052): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3052): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3052): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3052): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3052): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3052): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3062): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3062): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3062): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3062): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3062): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3062): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3062): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3062): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3072): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3072): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3072): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3072): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3072): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3072): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3072): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3072): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3082): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3082): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3082): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3082): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3082): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3082): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3082): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3082): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3092): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3092): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3092): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3092): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3092): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3092): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3092): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3092): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3102): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3102): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3102): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3102): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3102): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3102): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3102): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3102): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3112): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3112): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3112): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3112): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3112): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3112): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3112): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3112): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3122): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3122): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3122): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3122): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3122): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3122): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3122): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3122): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3132): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3132): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3132): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3132): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3132): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3132): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3132): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3132): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3142): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3142): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3142): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3142): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3142): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3142): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3142): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3142): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3152): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3152): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3152): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3152): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3152): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3152): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3152): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3152): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3162): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3162): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3162): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3162): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3162): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3162): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3162): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3162): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3172): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3172): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3172): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3172): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3172): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3172): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3172): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3172): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3182): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3182): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3182): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3182): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3182): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3182): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3182): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3182): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3192): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3192): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3192): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3192): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3192): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3192): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3192): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3192): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3202): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3202): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3202): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3202): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3202): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3202): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3202): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3202): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3212): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3212): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3212): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3212): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3212): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3212): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3212): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3212): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3222): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3222): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3222): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3222): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3222): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3222): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3222): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3222): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3232): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3232): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3232): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3232): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3232): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3232): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3232): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3232): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3242): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3242): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3242): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3242): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3242): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3242): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3242): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3242): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3252): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3252): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3252): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3252): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3252): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3252): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3252): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3252): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3262): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3262): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3262): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3262): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3262): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3262): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3262): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3262): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3272): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3272): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3272): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3272): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3272): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3272): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3272): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3272): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3282): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3282): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3282): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3282): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3282): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3282): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3282): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3282): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3292): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3292): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3292): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3292): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3292): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3292): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3292): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3292): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3302): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3302): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3302): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3302): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3302): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3302): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3302): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3302): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3312): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3312): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3312): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3312): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3312): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3312): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3312): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3312): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3322): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3322): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3322): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3322): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3322): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3322): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3322): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3322): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3332): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3332): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3332): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3332): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3332): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3332): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3332): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3332): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3342): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3342): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3342): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3342): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3342): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3342): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3342): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3342): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3352): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3352): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3352): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3352): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3352): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3352): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3352): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3352): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3362): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3362): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3362): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3362): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3362): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3362): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3362): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3362): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3372): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3372): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3372): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3372): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3372): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3372): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3372): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3372): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3382): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3382): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3382): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3382): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3382): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3382): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3382): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3382): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3392): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3392): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3392): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3392): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3392): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3392): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3392): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3392): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3402): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3402): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3402): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3402): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3402): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3402): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3402): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3402): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3412): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3412): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3412): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3412): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3412): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3412): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3412): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3412): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3422): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3422): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3422): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3422): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3422): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3422): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3422): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3422): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3432): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3432): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3432): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3432): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3432): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3432): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3432): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3432): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3442): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3442): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3442): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3442): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3442): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3442): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3442): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3442): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3452): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3452): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3452): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3452): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3452): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3452): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3452): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3452): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3462): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3462): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3462): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3462): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3462): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3462): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3462): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3462): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3472): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3472): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3472): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3472): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3472): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3472): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3472): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3472): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3482): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3482): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3482): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3482): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3482): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3482): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3482): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3482): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3492): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3492): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3492): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3492): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3492): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3492): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3492): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3492): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3502): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3502): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3502): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3502): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3502): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3502): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3502): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3502): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3512): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3512): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3512): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3512): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3512): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3512): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3512): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3512): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3522): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3522): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3522): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3522): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3522): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3522): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3522): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3522): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3532): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3532): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3532): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3532): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3532): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3532): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3532): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3532): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3542): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3542): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3542): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3542): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3542): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3542): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3542): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3542): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3552): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3552): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3552): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3552): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3552): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3552): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3552): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3552): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3562): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3562): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3562): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3562): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3562): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3562): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3562): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3562): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3572): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3572): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3572): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3572): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3572): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3572): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3572): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3572): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3582): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3582): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3582): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3582): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3582): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3582): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3582): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3582): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3592): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3592): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3592): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3592): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3592): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3592): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3592): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3592): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3602): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3602): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3602): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3602): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3602): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3602): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3602): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3602): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3612): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3612): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3612): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3612): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3612): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3612): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3612): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3612): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3622): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3622): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3622): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3622): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3622): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3622): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3622): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3622): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3632): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3632): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3632): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3632): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3632): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3632): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3632): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3632): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3642): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3642): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3642): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3642): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3642): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3642): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3642): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3642): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3652): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3652): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3652): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3652): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3652): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3652): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3652): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3652): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3662): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3662): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3662): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3662): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3662): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3662): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3662): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3662): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3672): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3672): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3672): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3672): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3672): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3672): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3672): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3672): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3682): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3682): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3682): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3682): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3682): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3682): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3682): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3682): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3692): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3692): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3692): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3692): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3692): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3692): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3692): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3692): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3702): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3702): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3702): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3702): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3702): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3702): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3702): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3702): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3712): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3712): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3712): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3712): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3712): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3712): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3712): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3712): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3722): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3722): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3722): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3722): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3722): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3722): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3722): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3722): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3732): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3732): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3732): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3732): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3732): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3732): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3732): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3732): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3742): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3742): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3742): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3742): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3742): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3742): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3742): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3742): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3752): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3752): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3752): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3752): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3752): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3752): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3752): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3752): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3762): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3762): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3762): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3762): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3762): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3762): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3762): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3762): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3772): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3772): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3772): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3772): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3772): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3772): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3772): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3772): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3782): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3782): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3782): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3782): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3782): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3782): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3782): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3782): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3792): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3792): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3792): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3792): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3792): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3792): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3792): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3792): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3802): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3802): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3802): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3802): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3802): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3802): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3802): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3802): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3812): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3812): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3812): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3812): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3812): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3812): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3812): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3812): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3822): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3822): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3822): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3822): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3822): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3822): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3822): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3822): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3832): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3832): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3832): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3832): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3832): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3832): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3832): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3832): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3842): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3842): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3842): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3842): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3842): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3842): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3842): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3842): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3852): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3852): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3852): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3852): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3852): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3852): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3852): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3852): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3862): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3862): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3862): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3862): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3862): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3862): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3862): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3862): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3872): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3872): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3872): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3872): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3872): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3872): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3872): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3872): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3882): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3882): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3882): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3882): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3882): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3882): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3882): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3882): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3892): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3892): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3892): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3892): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3892): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3892): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3892): warning: expression has no effect
+
+generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cu(3892): warning: expression has no effect
+
+15 errors detected in the compilation of "/tmp/tmpxft_00005583_00000000-6_generated_gpu_tiramisu_make_fused_dibaryon_blocks_correlator.o.cpp1.ii".
