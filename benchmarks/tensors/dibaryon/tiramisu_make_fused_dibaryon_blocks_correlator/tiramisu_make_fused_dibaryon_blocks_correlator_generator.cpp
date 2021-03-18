@@ -1201,7 +1201,7 @@ void generate_function(std::string name)
 
     // BB_BB
     handle = &(handle
-          ->then(B1_Blocal_r1_r_init, computation::root)
+          ->then(B1_Blocal_r1_r_init, t)
           .then(B1_Blocal_r1_i_init, m)
           .then(B1_Bfirst_r1_r_init, m)
           .then(B1_Bfirst_r1_i_init, m)
