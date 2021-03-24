@@ -2481,7 +2481,7 @@ std::cout << "--------------------------" << std::endl;
 ;
 	return 0;
 };
-static __global__ void _kernel_2(int32_t c1, double *buf_B1_prop_i_gpu, double *buf_B1_prop_r_gpu, double *buf_B2_prop_i_gpu, double *buf_B2_prop_r_gpu, double *buf_BB_H_new_term_b1_i, double *buf_BB_H_new_term_b1_r, double *buf_BB_H_new_term_b2_i, double *buf_BB_H_new_term_b2_r, double *buf_C_BB_H_prop_i, double *buf_C_BB_H_prop_r, double *buf_C_i, double *buf_C_r, double *buf_flip_BB_H_new_term_b1_i, double *buf_flip_BB_H_new_term_b1_r, double *buf_flip_BB_H_new_term_b2_i, double *buf_flip_BB_H_new_term_b2_r, double *buf_flip_src_B1_Blocal_r1_i, double *buf_flip_src_B1_Blocal_r1_r, double *buf_flip_src_B1_Blocal_r2_i, double *buf_flip_src_B1_Blocal_r2_r, double *buf_flip_src_B2_Blocal_r1_i, double *buf_flip_src_B2_Blocal_r1_r, double *buf_flip_src_B2_Blocal_r2_i, double *buf_flip_src_B2_Blocal_r2_r, int32_t *buf_hex_snk_color_weights_gpu, double *buf_hex_snk_psi_i_gpu, double *buf_hex_snk_psi_r_gpu, int32_t *buf_hex_snk_spin_weights_gpu, double *buf_hex_snk_weights_gpu, int32_t *buf_sigs_gpu, double *buf_src_B1_Blocal_diquark_r1_i, double *buf_src_B1_Blocal_diquark_r1_r, double *buf_src_B1_Blocal_diquark_r2_i, double *buf_src_B1_Blocal_diquark_r2_r, double *buf_src_B1_Blocal_props_r1_i, double *buf_src_B1_Blocal_props_r1_r, double *buf_src_B1_Blocal_props_r2_i, double *buf_src_B1_Blocal_props_r2_r, double *buf_src_B1_Blocal_r1_i, double *buf_src_B1_Blocal_r1_r, double *buf_src_B1_Blocal_r2_i, double *buf_src_B1_Blocal_r2_r, double *buf_src_B2_Blocal_diquark_r1_i, double *buf_src_B2_Blocal_diquark_r1_r, double *buf_src_B2_Blocal_diquark_r2_i, double *buf_src_B2_Blocal_diquark_r2_r, double *buf_src_B2_Blocal_props_r1_i, double *buf_src_B2_Blocal_props_r1_r, double *buf_src_B2_Blocal_props_r2_i, double *buf_src_B2_Blocal_props_r2_r, double *buf_src_B2_Blocal_r1_i, double *buf_src_B2_Blocal_r1_r, double *buf_src_B2_Blocal_r2_i, double *buf_src_B2_Blocal_r2_r, int32_t *buf_src_color_weights_gpu, double *buf_src_psi_B1_i_gpu, double *buf_src_psi_B1_r_gpu, double *buf_src_psi_B2_i_gpu, double *buf_src_psi_B2_r_gpu, double *buf_src_spin_block_weights_gpu, int32_t *buf_src_spin_weights_gpu, double *buf_src_weights_gpu, int32_t *src_spins)
+static __global__ void _kernel_2(int32_t c1, double *buf_B1_prop_i_gpu, double *buf_B1_prop_r_gpu, double *buf_B2_prop_i_gpu, double *buf_B2_prop_r_gpu, double *buf_BB_H_new_term_b1_i, double *buf_BB_H_new_term_b1_r, double *buf_BB_H_new_term_b2_i, double *buf_BB_H_new_term_b2_r, double *buf_C_BB_H_prop_i, double *buf_C_BB_H_prop_r, double *buf_C_i, double *buf_C_r, double *buf_flip_BB_H_new_term_b1_i, double *buf_flip_BB_H_new_term_b1_r, double *buf_flip_BB_H_new_term_b2_i, double *buf_flip_BB_H_new_term_b2_r, double *buf_flip_src_B1_Blocal_r1_i, double *buf_flip_src_B1_Blocal_r1_r, double *buf_flip_src_B1_Blocal_r2_i, double *buf_flip_src_B1_Blocal_r2_r, double *buf_flip_src_B2_Blocal_r1_i, double *buf_flip_src_B2_Blocal_r1_r, double *buf_flip_src_B2_Blocal_r2_i, double *buf_flip_src_B2_Blocal_r2_r, int32_t *buf_hex_snk_color_weights_gpu, double *buf_hex_snk_psi_i_gpu, double *buf_hex_snk_psi_r_gpu, int32_t *buf_hex_snk_spin_weights_gpu, double *buf_hex_snk_weights_gpu, int32_t *buf_sigs_gpu, double *buf_src_B1_Blocal_diquark_r1_i, double *buf_src_B1_Blocal_diquark_r1_r, double *buf_src_B1_Blocal_diquark_r2_i, double *buf_src_B1_Blocal_diquark_r2_r, double *buf_src_B1_Blocal_props_r1_i, double *buf_src_B1_Blocal_props_r1_r, double *buf_src_B1_Blocal_props_r2_i, double *buf_src_B1_Blocal_props_r2_r, double *buf_src_B1_Blocal_r1_i, double *buf_src_B1_Blocal_r1_r, double *buf_src_B1_Blocal_r2_i, double *buf_src_B1_Blocal_r2_r, double *buf_src_B2_Blocal_diquark_r1_i, double *buf_src_B2_Blocal_diquark_r1_r, double *buf_src_B2_Blocal_diquark_r2_i, double *buf_src_B2_Blocal_diquark_r2_r, double *buf_src_B2_Blocal_props_r1_i, double *buf_src_B2_Blocal_props_r1_r, double *buf_src_B2_Blocal_props_r2_i, double *buf_src_B2_Blocal_props_r2_r, double *buf_src_B2_Blocal_r1_i, double *buf_src_B2_Blocal_r1_r, double *buf_src_B2_Blocal_r2_i, double *buf_src_B2_Blocal_r2_r, int32_t *buf_src_color_weights_gpu, double *buf_src_psi_B1_i_gpu, double *buf_src_psi_B1_r_gpu, double *buf_src_psi_B2_i_gpu, double *buf_src_psi_B2_r_gpu, double *buf_src_spin_block_weights_gpu, int32_t *buf_src_spin_weights_gpu, double *buf_src_weights_gpu, int32_t *src_spins_)
 {
 	const int32_t __bx__ = (blockIdx.x + 0);
 	const int32_t __tx__ = (threadIdx.x + 0);
@@ -2913,6 +2913,23 @@ static __global__ void _kernel_2(int32_t c1, double *buf_B1_prop_i_gpu, double *
 			};
 		};
 	};
+	int src_spins[2 * 2 * 4];
+	src_spins[0 + 0 * 2 + 0 * 4] = 1;
+	src_spins[1 + 0 * 2 + 0 * 4] = 2;
+	src_spins[0 + 1 * 2 + 0 * 4] = 2;
+	src_spins[1 + 1 * 2 + 0 * 4] = 1;
+	src_spins[0 + 0 * 2 + 1 * 4] = 1;
+	src_spins[1 + 0 * 2 + 1 * 4] = 1;
+	src_spins[0 + 1 * 2 + 1 * 4] = 1;
+	src_spins[1 + 1 * 2 + 1 * 4] = 1;
+	src_spins[0 + 0 * 2 + 2 * 4] = 1;
+	src_spins[1 + 0 * 2 + 2 * 4] = 2;
+	src_spins[0 + 1 * 2 + 2 * 4] = 2;
+	src_spins[1 + 1 * 2 + 2 * 4] = 1;
+	src_spins[0 + 0 * 2 + 3 * 4] = 2;
+	src_spins[1 + 0 * 2 + 3 * 4] = 2;
+	src_spins[0 + 1 * 2 + 3 * 4] = 2;
+	src_spins[1 + 1 * 2 + 3 * 4] = 2;
 	for (int32_t c7 = 0; (c7 <= 3); (c7 += 1))
 	{
 		for (int32_t c9 = 0; (c9 <= 43); (c9 += 1))
@@ -2921,6 +2938,7 @@ static __global__ void _kernel_2(int32_t c1, double *buf_B1_prop_i_gpu, double *
 			{
 				buf_C_BB_H_prop_r[((((0 + (0 * 1)) + (__tx__ * (1 * 1))) + (__bx__ * ((1 * 1) * 2))) + (c1 * (((1 * 1) * 2) * 2)))] = 0;
 				buf_C_BB_H_prop_i[((((0 + (0 * 1)) + (__tx__ * (1 * 1))) + (__bx__ * ((1 * 1) * 2))) + (c1 * (((1 * 1) * 2) * 2)))] = 0;
+
 				for (int32_t c13 = 0; (c13 <= 1); (c13 += 1))
 				{
 					for (int32_t c15 = 0; (c15 <= 35); (c15 += 1))
@@ -3092,7 +3110,7 @@ static __global__ void _kernel_2(int32_t c1, double *buf_B1_prop_i_gpu, double *
 						};
 					};
 				};
-				printf( "buf_C_r[%d]=%d\n", (((((((0 + (44 * 1)) + (c11 * (1 * 45))) + (c9 * ((1 * 45) * 4))) + (c7 * (((1 * 45) * 4) * 45))) + (__tx__ * ((((1 * 45) * 4) * 45) * 4))) + (__bx__ * (((((1 * 45) * 4) * 45) * 4) * 2))) + (c1 * ((((((1 * 45) * 4) * 45) * 4) * 2) * 2))), (buf_C_r[(0 + (1 * (((((((0 + (44 * 1)) + (c11 * (1 * 45))) + (c9 * ((1 * 45) * 4))) + (c7 * (((1 * 45) * 4) * 45))) + (__tx__ * ((((1 * 45) * 4) * 45) * 4))) + (__bx__ * (((((1 * 45) * 4) * 45) * 4) * 2))) + (c1 * ((((((1 * 45) * 4) * 45) * 4) * 2) * 2)))))] + ((buf_hex_snk_psi_r_gpu[(0 + (1 * ((0 + (0 * 1)) + (((2 * __bx__) + __tx__) * (1 * 1)))))] * buf_C_BB_H_prop_r[(0 + (1 * ((((0 + (0 * 1)) + (__tx__ * (1 * 1))) + (__bx__ * ((1 * 1) * 2))) + (c1 * (((1 * 1) * 2) * 2)))))]) - (buf_hex_snk_psi_i_gpu[(0 + (1 * ((0 + (0 * 1)) + (((2 * __bx__) + __tx__) * (1 * 1)))))] * buf_C_BB_H_prop_i[(0 + (1 * ((((0 + (0 * 1)) + (__tx__ * (1 * 1))) + (__bx__ * ((1 * 1) * 2))) + (c1 * (((1 * 1) * 2) * 2)))))]))) );
+				printf( "buf_C_r[%d]=%d\n", , (buf_C_r[(0 + (1 * (((((((0 + (44 * 1)) + (c11 * (1 * 45))) + (c9 * ((1 * 45) * 4))) + (c7 * (((1 * 45) * 4) * 45))) + (__tx__ * ((((1 * 45) * 4) * 45) * 4))) + (__bx__ * (((((1 * 45) * 4) * 45) * 4) * 2))) + (c1 * ((((((1 * 45) * 4) * 45) * 4) * 2) * 2)))))] + ((buf_hex_snk_psi_r_gpu[(0 + (1 * ((0 + (0 * 1)) + (((2 * __bx__) + __tx__) * (1 * 1)))))] * buf_C_BB_H_prop_r[(0 + (1 * ((((0 + (0 * 1)) + (__tx__ * (1 * 1))) + (__bx__ * ((1 * 1) * 2))) + (c1 * (((1 * 1) * 2) * 2)))))]) - (buf_hex_snk_psi_i_gpu[(0 + (1 * ((0 + (0 * 1)) + (((2 * __bx__) + __tx__) * (1 * 1)))))] * buf_C_BB_H_prop_i[(0 + (1 * ((((0 + (0 * 1)) + (__tx__ * (1 * 1))) + (__bx__ * ((1 * 1) * 2))) + (c1 * (((1 * 1) * 2) * 2)))))]))) );
 				buf_C_r[(((((((0 + (44 * 1)) + (c11 * (1 * 45))) + (c9 * ((1 * 45) * 4))) + (c7 * (((1 * 45) * 4) * 45))) + (__tx__ * ((((1 * 45) * 4) * 45) * 4))) + (__bx__ * (((((1 * 45) * 4) * 45) * 4) * 2))) + (c1 * ((((((1 * 45) * 4) * 45) * 4) * 2) * 2)))] = (buf_C_r[(0 + (1 * (((((((0 + (44 * 1)) + (c11 * (1 * 45))) + (c9 * ((1 * 45) * 4))) + (c7 * (((1 * 45) * 4) * 45))) + (__tx__ * ((((1 * 45) * 4) * 45) * 4))) + (__bx__ * (((((1 * 45) * 4) * 45) * 4) * 2))) + (c1 * ((((((1 * 45) * 4) * 45) * 4) * 2) * 2)))))] + ((buf_hex_snk_psi_r_gpu[(0 + (1 * ((0 + (0 * 1)) + (((2 * __bx__) + __tx__) * (1 * 1)))))] * buf_C_BB_H_prop_r[(0 + (1 * ((((0 + (0 * 1)) + (__tx__ * (1 * 1))) + (__bx__ * ((1 * 1) * 2))) + (c1 * (((1 * 1) * 2) * 2)))))]) - (buf_hex_snk_psi_i_gpu[(0 + (1 * ((0 + (0 * 1)) + (((2 * __bx__) + __tx__) * (1 * 1)))))] * buf_C_BB_H_prop_i[(0 + (1 * ((((0 + (0 * 1)) + (__tx__ * (1 * 1))) + (__bx__ * ((1 * 1) * 2))) + (c1 * (((1 * 1) * 2) * 2)))))])));
 				buf_C_i[(((((((0 + (44 * 1)) + (c11 * (1 * 45))) + (c9 * ((1 * 45) * 4))) + (c7 * (((1 * 45) * 4) * 45))) + (__tx__ * ((((1 * 45) * 4) * 45) * 4))) + (__bx__ * (((((1 * 45) * 4) * 45) * 4) * 2))) + (c1 * ((((((1 * 45) * 4) * 45) * 4) * 2) * 2)))] = (buf_C_i[(0 + (1 * (((((((0 + (44 * 1)) + (c11 * (1 * 45))) + (c9 * ((1 * 45) * 4))) + (c7 * (((1 * 45) * 4) * 45))) + (__tx__ * ((((1 * 45) * 4) * 45) * 4))) + (__bx__ * (((((1 * 45) * 4) * 45) * 4) * 2))) + (c1 * ((((((1 * 45) * 4) * 45) * 4) * 2) * 2)))))] + ((buf_hex_snk_psi_r_gpu[(0 + (1 * ((0 + (0 * 1)) + (((2 * __bx__) + __tx__) * (1 * 1)))))] * buf_C_BB_H_prop_i[(0 + (1 * ((((0 + (0 * 1)) + (__tx__ * (1 * 1))) + (__bx__ * ((1 * 1) * 2))) + (c1 * (((1 * 1) * 2) * 2)))))]) + (buf_hex_snk_psi_i_gpu[(0 + (1 * ((0 + (0 * 1)) + (((2 * __bx__) + __tx__) * (1 * 1)))))] * buf_C_BB_H_prop_r[(0 + (1 * ((((0 + (0 * 1)) + (__tx__ * (1 * 1))) + (__bx__ * ((1 * 1) * 2))) + (c1 * (((1 * 1) * 2) * 2)))))])));
 			};
