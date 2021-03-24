@@ -2914,22 +2914,22 @@ static __global__ void _kernel_2(int32_t c1, double *buf_B1_prop_i_gpu, double *
 		};
 	};
 	int src_spins[2 * 2 * 4];
-	src_spins[0 + 0 * 2 + 0 * 4] = 1;
-	src_spins[1 + 0 * 2 + 0 * 4] = 2;
-	src_spins[0 + 1 * 2 + 0 * 4] = 2;
-	src_spins[1 + 1 * 2 + 0 * 4] = 1;
-	src_spins[0 + 0 * 2 + 1 * 4] = 1;
-	src_spins[1 + 0 * 2 + 1 * 4] = 1;
-	src_spins[0 + 1 * 2 + 1 * 4] = 1;
-	src_spins[1 + 1 * 2 + 1 * 4] = 1;
-	src_spins[0 + 0 * 2 + 2 * 4] = 1;
-	src_spins[1 + 0 * 2 + 2 * 4] = 2;
-	src_spins[0 + 1 * 2 + 2 * 4] = 2;
-	src_spins[1 + 1 * 2 + 2 * 4] = 1;
-	src_spins[0 + 0 * 2 + 3 * 4] = 2;
-	src_spins[1 + 0 * 2 + 3 * 4] = 2;
-	src_spins[0 + 1 * 2 + 3 * 4] = 2;
-	src_spins[1 + 1 * 2 + 3 * 4] = 2;
+	src_spins[0 * 4 + 0 * 2 + 0] = 1;
+	src_spins[1 * 4 + 0 * 2 + 0] = 2;
+	src_spins[0 * 4 + 1 * 2 + 0] = 2;
+	src_spins[1 * 4 + 1 * 2 + 0] = 1;
+	src_spins[0 * 4 + 0 * 2 + 1] = 1;
+	src_spins[1 * 4 + 0 * 2 + 1] = 1;
+	src_spins[0 * 4 + 1 * 2 + 1] = 1;
+	src_spins[1 * 4 + 1 * 2 + 1] = 1;
+	src_spins[0 * 4 + 0 * 2 + 2] = 1;
+	src_spins[1 * 4 + 0 * 2 + 2] = 2;
+	src_spins[0 * 4 + 1 * 2 + 2] = 2;
+	src_spins[1 * 4 + 1 * 2 + 2] = 1;
+	src_spins[0 * 4 + 0 * 2 + 3] = 2;
+	src_spins[1 * 4 + 0 * 2 + 3] = 2;
+	src_spins[0 * 4 + 1 * 2 + 3] = 2;
+	src_spins[1 * 4 + 1 * 2 + 3] = 2;
 	for (int32_t c7 = 0; (c7 <= 3); (c7 += 1))
 	{
 		for (int32_t c9 = 0; (c9 <= 43); (c9 += 1))
