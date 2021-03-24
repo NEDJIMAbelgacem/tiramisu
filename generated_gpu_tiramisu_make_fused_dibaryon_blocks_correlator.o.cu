@@ -28,7 +28,6 @@ void print_global_buffer_to_file( T *device_data, int size, const std::string &f
 ;
 static __global__ void _kernel_0(int32_t c3, double *buf_C_i, double *buf_C_r)
 {
-	std::cout << __PRETTY_FUNCTION__ << std::endl;
 	const int32_t __bx__ = (blockIdx.x + 0);
 	const int32_t __tx__ = (threadIdx.x + 0);
 	for (int32_t c9 = 0; (c9 <= 44); (c9 += 1))
@@ -45,6 +44,7 @@ static __global__ void _kernel_0(int32_t c3, double *buf_C_i, double *buf_C_r)
 };
 extern "C" int32_t* _kernel_0_wrapper(int32_t c3, double *buf_C_i, double *buf_C_r)
 {
+	std::cout << __PRETTY_FUNCTION__ << std::endl;
 	{
 		dim3 blocks((1 + 1), 1, 1);
 		dim3 threads((3 + 1), 1, 1);
