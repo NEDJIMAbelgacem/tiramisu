@@ -163,7 +163,7 @@ void generate_function(std::string name)
    input hex_snk_spin_weights("hex_snk_spin_weights", {r, nperm, wnumHex, q, to}, p_int32);
    input hex_snk_weights("hex_snk_weights", {r, wnumHex}, p_float64);
 
-   buffer buf_src_spins_gpu("buf_src_spins_gpu",   {B2Nrows, 2, 2}, p_int32, a_temporary);
+   buffer buf_src_spins_gpu("src_spins",   {B2Nrows, 2, 2}, p_int32, a_temporary);
    buffer buf_src_spin_block_weights_gpu("buf_src_spin_block_weights_gpu",   {B2Nrows, 2}, p_float64, a_temporary);
    buffer buf_sigs_gpu("buf_sigs_gpu",   {Nperms}, p_int32, a_temporary);
    buffer buf_snk_b_gpu("snk_b",   {Nperms, Nq, 2}, p_int32, a_temporary);
@@ -191,7 +191,7 @@ void generate_function(std::string name)
       buf_hex_snk_spin_weights_gpu.tag_gpu_global();
       buf_hex_snk_weights_gpu.tag_gpu_global();
       
-      src_spins.store_in( &buf_src_spins_gpu, {rp, s, to} );
+      src_spins.store_in( &buf_src_spins_gpu );
       src_spin_block_weights.store_in( &buf_src_spin_block_weights_gpu );
       sigs.store_in( &buf_sigs_gpu );
       snk_b.store_in( &buf_snk_b_gpu );
@@ -3484,7 +3484,7 @@ void generate_function(std::string name)
           .then(src_B2_Blocal_r2_i_update, m)
           .then(flip_src_B2_Blocal_r2_r_update, m)
           .then(flip_src_B2_Blocal_r2_i_update, m) 
-          .then(C_BB_H_prop_init_r, x_in)
+         .then(C_BB_H_prop_init_r, x_in)
           .then(C_BB_H_prop_init_i, r) 
           .then( *(BB_H_new_term_0_r1_b1.get_real()), r)
           .then( *(BB_H_new_term_0_r1_b1.get_imag()), wnumHex)
