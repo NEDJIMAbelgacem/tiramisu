@@ -429,20 +429,22 @@ void tiramisu_make_two_nucleon_2pt(double* C_re,
                   C_im[index_5d(rp,m,r,n,t, Nsrc+NsrcHex,B2Nrows,Nsnk+NsnkHex,Lt)] += number0i;
             }
 #else
-   for (int rp=0; rp<B2Nrows; rp++)
-      for (int m=0; m<Nsrc+NsrcHex; m++)
-         for (int r=0; r<B2Nrows; r++)
-            for (int n=0; n<Nsnk+NsnkHex; n++)
-               for (int t=0; t<Lt; t++)
-                  for (int x_in=0; x_in<sites_per_rank; x_in++) {
-                     for (int x_out=0; x_out<Vsnk/sites_per_rank; x_out++)
+   for (int rp=0; rp < B2Nrows; rp++)
+      for (int m=0; m< Nsrc + NsrcHex; m++)
+         for (int r=0; r< B2Nrows; r++)
+            for (int n=0; n < Nsnk + NsnkHex; n++)
+               for (int x_in=0; x_in < sites_per_rank; x_in++) {
+                  for (int x_out=0; x_out < Vsnk/sites_per_rank; x_out++)
+                  {
+                     for (int t=0; t<Lt; t++)
                      {
-                        double number0r = b_C_r(n,r,m,rp,x_in,x_out,t);
-                        double number0i = b_C_i(n,r,m,rp,x_in,x_out,t);
+                        double number0r = b_C_r(n,rp,m,r,x_in,x_out,t);
+                        double number0i = b_C_i(n,rp,m,r,x_in,x_out,t);
                         C_re[index_5d(rp,m,r,n,t, Nsrc+NsrcHex,B2Nrows,Nsnk+NsnkHex,Lt)] += number0r;
                         C_im[index_5d(rp,m,r,n,t, Nsrc+NsrcHex,B2Nrows,Nsnk+NsnkHex,Lt)] += number0i;
                      }
                   }
+               }
 #endif
 
    if (rank == 0) {
@@ -927,7 +929,6 @@ int main(int, char **)
       {
          for (rp=0; rp<B2Nrows; rp++) {
             for (m=0; m<Nsrc+NsrcHex; m++)
-               for ( r = 0; r < B2Nrows; r++)
                for (n=0; n<Nsnk+NsnkHex; n++)
                   for (t=0; t<Lt; t++) 
                   {
