@@ -1290,8 +1290,8 @@ void generate_function(std::string name)
 
     complex_expr H_BB_term = hex_src_psi * C_H_BB_prop_update(t, y_out, y_in, rp, n, r, 1, Nperms-1, Nw2Hex-1);
 
-    computation C_H_BB_update_r("C_H_BB_update_r", {t, y_out, y_in, rp, n, r, mH}, C_init_r(t, y_out, y_in, r, Nsrc+mH, rp, n) + H_BB_term.get_real());
-    computation C_H_BB_update_i("C_H_BB_update_i", {t, y_out, y_in, rp, n, r, mH}, C_init_i(t, y_out, y_in, r, Nsrc+mH, rp, n) + H_BB_term.get_imag());  
+    computation C_H_BB_update_r("C_H_BB_update_r", {t, y_out, y_in, rp, n, r}, C_init_r(t, y_out, y_in, r, Nsrc, rp, n) + H_BB_term.get_real());
+    computation C_H_BB_update_i("C_H_BB_update_i", {t, y_out, y_in, rp, n, r}, C_init_i(t, y_out, y_in, r, Nsrc, rp, n) + H_BB_term.get_imag());  
 
 
     // H_H
@@ -1906,9 +1906,9 @@ void generate_function(std::string name)
     buffer buf_src_B2_Blocal_props_r2_i("buf_src_B2_Blocal_props_r2_i",   {Lt, Vsnk/sites_per_rank, sites_per_rank, Nc, Ns}, p_float64, a_temporary);
     buf_src_B2_Blocal_props_r2_r.tag_gpu_global();
     buf_src_B2_Blocal_props_r2_i.tag_gpu_global();
-    src_B2_Blocal_r2_r_props_init.store_in(&buf_src_B2_Blocal_props_r2_r, {t, x_out, x_in, jCprime, jSprime});
+    src_B2_Blocal_r2_r_props_init.store_in(&buf_src_B2_Blocal_props_r2_r, {t, x_out, x_in, jCprime, jSprime}); // {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime}
     src_B2_Blocal_r2_i_props_init.store_in(&buf_src_B2_Blocal_props_r2_i, {t, x_out, x_in, jCprime, jSprime});
-    src_B2_Blocal_r2_r_props.store_in(&buf_src_B2_Blocal_props_r2_r, {t, x_out, x_in, jCprime, jSprime});
+    src_B2_Blocal_r2_r_props.store_in(&buf_src_B2_Blocal_props_r2_r, {t, x_out, x_in, jCprime, jSprime}); // {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}
     src_B2_Blocal_r2_i_props.store_in(&buf_src_B2_Blocal_props_r2_i, {t, x_out, x_in, jCprime, jSprime}); 
 
     buffer buf_snk_B1_Blocal_r1_r("buf_snk_B1_Blocal_r1_r",   {Lt, Vsnk/sites_per_rank, sites_per_rank, Nc, Ns, Nc, Ns, Nc, Ns, Nsnk}, p_float64, a_temporary);
@@ -2325,8 +2325,8 @@ void generate_function(std::string name)
     C_H_BB_prop_update_r.store_in(&buf_C_H_BB_prop_r, {t, y_out, y_in, 0});
     C_H_BB_prop_update_i.store_in(&buf_C_H_BB_prop_i, {t, y_out, y_in, 0});
 
-    C_H_BB_update_r.store_in(&buf_C_r, {t, y_out, y_in, r, Nsrc+mH, rp, n});
-    C_H_BB_update_i.store_in(&buf_C_i, {t, y_out, y_in, r, Nsrc+mH, rp, n});
+    C_H_BB_update_r.store_in(&buf_C_r, {t, y_out, y_in, r, Nsrc/*+mH*/, rp, n});
+    C_H_BB_update_i.store_in(&buf_C_i, {t, y_out, y_in, r, Nsrc/*+mH*/, rp, n});
 
     // H_H
 
@@ -2756,8 +2756,9 @@ void generate_function(std::string name)
           flip_src_B2_Blocal_r2_r_init.tag_gpu_level(x_out, x_in);
           flip_src_B2_Blocal_r2_i_init.tag_gpu_level(x_out, x_in);
           src_B2_Blocal_r2_r_props_init.tag_gpu_level(x_out, x_in);
+        //   {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}
           src_B2_Blocal_r2_i_props_init.tag_gpu_level(x_out, x_in);
-          
+        //   {t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, wnumBlock}
           src_B2_Blocal_r2_r_diquark.tag_gpu_level(x_out, x_in);
           src_B2_Blocal_r2_i_diquark.tag_gpu_level(x_out, x_in);
           src_B2_Blocal_r2_r_props.tag_gpu_level(x_out, x_in);
@@ -3473,12 +3474,12 @@ void generate_function(std::string name)
           .then(src_B2_Blocal_r2_i_init, jSprime)
           .then(flip_src_B2_Blocal_r2_r_init, jSprime)
           .then(flip_src_B2_Blocal_r2_i_init, jSprime)
-          .then(src_B2_Blocal_r2_r_props_init, x_in)
+          .then(src_B2_Blocal_r2_r_props_init, x_in) // t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime
           .then(src_B2_Blocal_r2_i_props_init, jSprime)
 
-          .then(src_B2_Blocal_r2_r_diquark, y)
+          .then(src_B2_Blocal_r2_r_diquark, y) // t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, wnumBlock
           .then(src_B2_Blocal_r2_i_diquark, wnumBlock)
-          .then(src_B2_Blocal_r2_r_props, wnumBlock)
+          .then(src_B2_Blocal_r2_r_props, wnumBlock) // t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime
           .then(src_B2_Blocal_r2_i_props, jSprime)
           .then(src_B2_Blocal_r2_r_update, y)
           .then(src_B2_Blocal_r2_i_update, m)
@@ -3594,7 +3595,7 @@ void generate_function(std::string name)
           .then(C_H_BB_prop_update_r, wnumHex) 
           .then(C_H_BB_prop_update_i, wnumHex)
           .then(C_H_BB_update_r, r) 
-          .then(C_H_BB_update_i, mH) 
+          .then(C_H_BB_update_i, r) 
           ); 
 
     // H_H
