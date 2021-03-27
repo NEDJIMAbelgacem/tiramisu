@@ -92,8 +92,8 @@ void tiramisu_make_two_nucleon_2pt(double* C_re,
    }
 
    // Halide buffers
-   Halide::Buffer<double> b_C_r(Nsnk+NsnkHex, B2Nrows, Nsrc+NsrcHex, B2Nrows, Vsnk/sites_per_rank, Lt, "C_r");
-   Halide::Buffer<double> b_C_i(Nsnk+NsnkHex, B2Nrows, Nsrc+NsrcHex, B2Nrows, Vsnk/sites_per_rank, Lt, "C_i");
+   Halide::Buffer<double> b_C_r(Nsnk+NsnkHex, B2Nrows, Nsrc+NsrcHex, B2Nrows, sites_per_rank, Vsnk/sites_per_rank, Lt, "C_r");
+   Halide::Buffer<double> b_C_i(Nsnk+NsnkHex, B2Nrows, Nsrc+NsrcHex, B2Nrows, sites_per_rank, Vsnk/sites_per_rank, Lt, "C_i");
 
    Halide::Buffer<int> b_src_color_weights(Nq, Nw, B2Nrows, "src_color_weights");
    Halide::Buffer<int> b_src_spin_weights(Nq, Nw, B2Nrows, "src_spin_weights");
@@ -339,10 +339,11 @@ void tiramisu_make_two_nucleon_2pt(double* C_re,
          for (int r=0; r<B2Nrows; r++)
             for (int n=0; n<Nsnk+NsnkHex; n++)
                for (int t=0; t<Lt; t++) 
-                  for (int x=0; x<Vsnk/sites_per_rank; x++) {
-                     b_C_r(n,r,m,rp,x,t) = 0.0;
-                     b_C_i(n,r,m,rp,x,t) = 0.0;
-                 } 
+                  for ( int x_in = 0; x_in < sites_per_rank; x_in++)
+                     for (int x_out=0; x_out < Vsnk/sites_per_rank; x_out++) {
+                        b_C_r(n,r,m,rp,x_in,x_out,t) = 0.0;
+                        b_C_i(n,r,m,rp,x_in,x_out,t) = 0.0;
+                     } 
 
    if (rank == 0) {
    printf("prop 1 %4.9f + I %4.9f \n", b_B1_prop_r(0,0,0,0,0,0,0,0), b_B1_prop_i(0,0,0,0,0,0,0,0));
@@ -392,24 +393,24 @@ void tiramisu_make_two_nucleon_2pt(double* C_re,
 
 
    if (rank == 0) {
-   printf("BB-BB non-zero? %4.9e + I %4.9e \n", b_C_r(0,0,0,0,0,0), b_C_i(0,0,0,0,0,0) );
-   printf("BB-BB non-zero? %4.9e + I %4.9e \n", b_C_r(0,1,0,0,0,0), b_C_i(0,1,0,0,0,0) );
-   printf("BB-BB non-zero? %4.9e + I %4.9e \n", b_C_r(0,2,0,0,0,0), b_C_i(0,2,0,0,0,0) );
-   printf("BB-BB non-zero? %4.9e + I %4.9e \n", b_C_r(0,3,0,0,0,0), b_C_i(0,3,0,0,0,0) );
-   printf("BB-BB non-zero? %4.9e + I %4.9e \n", b_C_r(0,4,0,0,0,0), b_C_i(0,4,0,0,0,0) );
-   printf("BB-BB non-zero? %4.9e + I %4.9e \n", b_C_r(0,5,0,0,0,0), b_C_i(0,5,0,0,0,0) );
-   printf("H-BB non-zero? %4.9e + I %4.9e \n", b_C_r(0,0,Nsrc,0,0,0), b_C_i(0,0,Nsrc,0,0,0) );
-   printf("H-BB non-zero? %4.9e + I %4.9e \n", b_C_r(0,1,Nsrc,0,0,0), b_C_i(0,1,Nsrc,0,0,0) );
-   printf("H-BB non-zero? %4.9e + I %4.9e \n", b_C_r(0,2,Nsrc,0,0,0), b_C_i(0,2,Nsrc,0,0,0) );
-   printf("H-BB non-zero? %4.9e + I %4.9e \n", b_C_r(0,3,Nsrc,0,0,0), b_C_i(0,3,Nsrc,0,0,0) );
-   printf("H-BB non-zero? %4.9e + I %4.9e \n", b_C_r(0,4,Nsrc,0,0,0), b_C_i(0,4,Nsrc,0,0,0) );
-   printf("H-BB non-zero? %4.9e + I %4.9e \n", b_C_r(0,5,Nsrc,0,0,0), b_C_i(0,5,Nsrc,0,0,0) );
-   printf("H-H non-zero? %4.9e + I %4.9e \n", b_C_r(Nsnk,0,Nsrc,0,0,0), b_C_i(Nsnk,0,Nsrc,0,0,0) );
-   printf("H-H non-zero? %4.9e + I %4.9e \n", b_C_r(Nsnk,1,Nsrc,0,0,0), b_C_i(Nsnk,1,Nsrc,0,0,0) );
-   printf("H-H non-zero? %4.9e + I %4.9e \n", b_C_r(Nsnk,2,Nsrc,0,0,0), b_C_i(Nsnk,2,Nsrc,0,0,0) );
-   printf("H-H non-zero? %4.9e + I %4.9e \n", b_C_r(Nsnk,3,Nsrc,0,0,0), b_C_i(Nsnk,3,Nsrc,0,0,0) );
-   printf("H-H non-zero? %4.9e + I %4.9e \n", b_C_r(Nsnk,4,Nsrc,0,0,0), b_C_i(Nsnk,4,Nsrc,0,0,0) );
-   printf("H-H non-zero? %4.9e + I %4.9e \n", b_C_r(Nsnk,5,Nsrc,0,0,0), b_C_i(Nsnk,5,Nsrc,0,0,0) ); 
+   // printf("BB-BB non-zero? %4.9e + I %4.9e \n", b_C_r(0,0,0,0,0,0), b_C_i(0,0,0,0,0,0) );
+   // printf("BB-BB non-zero? %4.9e + I %4.9e \n", b_C_r(0,1,0,0,0,0), b_C_i(0,1,0,0,0,0) );
+   // printf("BB-BB non-zero? %4.9e + I %4.9e \n", b_C_r(0,2,0,0,0,0), b_C_i(0,2,0,0,0,0) );
+   // printf("BB-BB non-zero? %4.9e + I %4.9e \n", b_C_r(0,3,0,0,0,0), b_C_i(0,3,0,0,0,0) );
+   // printf("BB-BB non-zero? %4.9e + I %4.9e \n", b_C_r(0,4,0,0,0,0), b_C_i(0,4,0,0,0,0) );
+   // printf("BB-BB non-zero? %4.9e + I %4.9e \n", b_C_r(0,5,0,0,0,0), b_C_i(0,5,0,0,0,0) );
+   // printf("H-BB non-zero? %4.9e + I %4.9e \n", b_C_r(0,0,Nsrc,0,0,0), b_C_i(0,0,Nsrc,0,0,0) );
+   // printf("H-BB non-zero? %4.9e + I %4.9e \n", b_C_r(0,1,Nsrc,0,0,0), b_C_i(0,1,Nsrc,0,0,0) );
+   // printf("H-BB non-zero? %4.9e + I %4.9e \n", b_C_r(0,2,Nsrc,0,0,0), b_C_i(0,2,Nsrc,0,0,0) );
+   // printf("H-BB non-zero? %4.9e + I %4.9e \n", b_C_r(0,3,Nsrc,0,0,0), b_C_i(0,3,Nsrc,0,0,0) );
+   // printf("H-BB non-zero? %4.9e + I %4.9e \n", b_C_r(0,4,Nsrc,0,0,0), b_C_i(0,4,Nsrc,0,0,0) );
+   // printf("H-BB non-zero? %4.9e + I %4.9e \n", b_C_r(0,5,Nsrc,0,0,0), b_C_i(0,5,Nsrc,0,0,0) );
+   // printf("H-H non-zero? %4.9e + I %4.9e \n", b_C_r(Nsnk,0,Nsrc,0,0,0), b_C_i(Nsnk,0,Nsrc,0,0,0) );
+   // printf("H-H non-zero? %4.9e + I %4.9e \n", b_C_r(Nsnk,1,Nsrc,0,0,0), b_C_i(Nsnk,1,Nsrc,0,0,0) );
+   // printf("H-H non-zero? %4.9e + I %4.9e \n", b_C_r(Nsnk,2,Nsrc,0,0,0), b_C_i(Nsnk,2,Nsrc,0,0,0) );
+   // printf("H-H non-zero? %4.9e + I %4.9e \n", b_C_r(Nsnk,3,Nsrc,0,0,0), b_C_i(Nsnk,3,Nsrc,0,0,0) );
+   // printf("H-H non-zero? %4.9e + I %4.9e \n", b_C_r(Nsnk,4,Nsrc,0,0,0), b_C_i(Nsnk,4,Nsrc,0,0,0) );
+   // printf("H-H non-zero? %4.9e + I %4.9e \n", b_C_r(Nsnk,5,Nsrc,0,0,0), b_C_i(Nsnk,5,Nsrc,0,0,0) ); 
    }
 
     // symmetrize and such
@@ -434,12 +435,13 @@ void tiramisu_make_two_nucleon_2pt(double* C_re,
          for (int r=0; r<B2Nrows; r++)
             for (int n=0; n<Nsnk+NsnkHex; n++)
                for (int t=0; t<Lt; t++)
-                  for (int x=0; x<Vsnk/sites_per_rank; x++) {
-                     double number0r = b_C_r(n,r,m,rp,x,t);
-                     double number0i = b_C_i(n,r,m,rp,x,t);
-                     C_re[index_5d(rp,m,r,n,t, Nsrc+NsrcHex,B2Nrows,Nsnk+NsnkHex,Lt)] += number0r;
-                     C_im[index_5d(rp,m,r,n,t, Nsrc+NsrcHex,B2Nrows,Nsnk+NsnkHex,Lt)] += number0i;
-                  }
+                  for (int x_in=0; x_in < sites_per_rank; x_in++)
+                     for (int x_out=0; x_out<Vsnk/sites_per_rank; x_out++) {
+                        double number0r = b_C_r(n,r,m,rp,x_in,x_out,t);
+                        double number0i = b_C_i(n,r,m,rp,x_in,x_out,t);
+                        C_re[index_5d(rp,m,r,n,t, Nsrc+NsrcHex,B2Nrows,Nsnk+NsnkHex,Lt)] += number0r;
+                        C_im[index_5d(rp,m,r,n,t, Nsrc+NsrcHex,B2Nrows,Nsnk+NsnkHex,Lt)] += number0i;
+                     }
 #endif
 
    if (rank == 0) {

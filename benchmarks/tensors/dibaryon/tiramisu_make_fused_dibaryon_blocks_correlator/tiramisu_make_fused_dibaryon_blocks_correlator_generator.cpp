@@ -50,8 +50,8 @@ void generate_function(std::string name)
         kCprime("kCprime", 0, Nc),
         kSprime("kSprime", 0, Ns);
 
-   input C_r("C_r",      {t, x_out, rp, mpmH, r, npnH}, p_float64);
-   input C_i("C_i",      {t, x_out, rp, mpmH, r, npnH}, p_float64);
+   input C_r("C_r",      {t, x_out, x_in, rp, mpmH, r, npnH}, p_float64);
+   input C_i("C_i",      {t, x_out, x_in, rp, mpmH, r, npnH}, p_float64);
 
    input B1_prop_r("B1_prop_r",   {tri, t, iCprime, iSprime, jCprime, jSprime, x, y}, p_float64);
    input B1_prop_i("B1_prop_i",   {tri, t, iCprime, iSprime, jCprime, jSprime, x, y}, p_float64);
@@ -893,8 +893,8 @@ void generate_function(std::string name)
 
     /* Correlators */
 
-    computation C_init_r("C_init_r", {t, x_out, rp, mpmH, r, npnH}, expr((double) 0));
-    computation C_init_i("C_init_i", {t, x_out, rp, mpmH, r, npnH}, expr((double) 0));
+    computation C_init_r("C_init_r", {t, x_out, x_in, rp, mpmH, r, npnH}, expr((double) 0));
+    computation C_init_i("C_init_i", {t, x_out, x_in, rp, mpmH, r, npnH}, expr((double) 0));
 
     // BB_BB
     computation C_BB_BB_prop_init_r("C_BB_BB_prop_init_r", {t, x_out, x_in, x2, rp, m, r}, expr((double) 0));
@@ -1063,11 +1063,11 @@ void generate_function(std::string name)
     complex_expr BB_BB_term_s = (snk_psi_B1_ue * snk_psi_B2_x2_ue + snk_psi_B1_x2_ue * snk_psi_B2_ue) * C_BB_BB_prop_update(t, x_out, x_in, x2, rp, m, r, 1, Nperms-1, Nw2-1);
     complex_expr BB_BB_term_b = snk_psi * C_BB_BB_prop_update(t, x_out, x_in, x2, rp, m, r, 1, Nperms-1, Nw2-1);
 
-    computation C_BB_BB_update_s_r("C_BB_BB_update_s_r", {t, x_out, x_in, x2, rp, m, r, nue}, C_init_r(t, x_out, rp, m, r, NEntangled+nue) + BB_BB_term_s.get_real());
-    computation C_BB_BB_update_s_i("C_BB_BB_update_s_i", {t, x_out, x_in, x2, rp, m, r, nue}, C_init_i(t, x_out, rp, m, r, NEntangled+nue) + BB_BB_term_s.get_imag());
+    computation C_BB_BB_update_s_r("C_BB_BB_update_s_r", {t, x_out, x_in, x2, rp, m, r, nue}, C_init_r(t, x_out, x_in, rp, m, r, NEntangled+nue) + BB_BB_term_s.get_real());
+    computation C_BB_BB_update_s_i("C_BB_BB_update_s_i", {t, x_out, x_in, x2, rp, m, r, nue}, C_init_i(t, x_out, x_in, rp, m, r, NEntangled+nue) + BB_BB_term_s.get_imag());
 
-    computation C_BB_BB_update_b_r("C_BB_BB_update_b_r", {t, x_out, x_in, x2, rp, m, r, ne}, C_init_r(t, x_out, rp, m, r, ne) + BB_BB_term_b.get_real());
-    computation C_BB_BB_update_b_i("C_BB_BB_update_b_i", {t, x_out, x_in, x2, rp, m, r, ne}, C_init_i(t, x_out, rp, m, r, ne) + BB_BB_term_b.get_imag());
+    computation C_BB_BB_update_b_r("C_BB_BB_update_b_r", {t, x_out, x_in, x2, rp, m, r, ne}, C_init_r(t, x_out, x_in, rp, m, r, ne) + BB_BB_term_b.get_real());
+    computation C_BB_BB_update_b_i("C_BB_BB_update_b_i", {t, x_out, x_in, x2, rp, m, r, ne}, C_init_i(t, x_out, x_in, rp, m, r, ne) + BB_BB_term_b.get_imag());
 
     // BB_H
     computation C_BB_H_prop_init_r("C_BB_H_prop_init_r", {t, x_out, x_in, rp, m, r}, expr((double) 0));
@@ -1112,8 +1112,8 @@ void generate_function(std::string name)
 
     complex_expr BB_H_term = hex_snk_psi * C_BB_H_prop_update(t, x_out, x_in, rp, m, r, 1, Nperms-1, Nw2Hex-1);
 
-    computation C_BB_H_update_r("C_BB_H_update_r", {t, x_out, x_in, rp, m, r, nH}, C_init_r(t, x_out, rp, m, r, Nsnk+nH) + BB_H_term.get_real());
-    computation C_BB_H_update_i("C_BB_H_update_i", {t, x_out, x_in, rp, m, r, nH}, C_init_i(t, x_out, rp, m, r, Nsnk+nH) + BB_H_term.get_imag()); 
+    computation C_BB_H_update_r("C_BB_H_update_r", {t, x_out, x_in, rp, m, r, nH}, C_init_r(t, x_out, x_in, rp, m, r, Nsnk+nH) + BB_H_term.get_real());
+    computation C_BB_H_update_i("C_BB_H_update_i", {t, x_out, x_in, rp, m, r, nH}, C_init_i(t, x_out, x_in, rp, m, r, Nsnk+nH) + BB_H_term.get_imag()); 
 
     // H_BB
     computation C_H_BB_prop_init_r("C_H_BB_prop_init_r", {t, y_out, y_in, rp, n, r}, expr((double) 0));
@@ -1158,8 +1158,8 @@ void generate_function(std::string name)
 
     complex_expr H_BB_term = hex_src_psi * C_H_BB_prop_update(t, y_out, y_in, rp, n, r, 1, Nperms-1, Nw2Hex-1);
 
-    computation C_H_BB_update_r("C_H_BB_update_r", {t, y_out, y_in, rp, n, r, mH}, C_init_r(t, y_out, r, Nsrc+mH, rp, n) + H_BB_term.get_real());
-    computation C_H_BB_update_i("C_H_BB_update_i", {t, y_out, y_in, rp, n, r, mH}, C_init_i(t, y_out, r, Nsrc+mH, rp, n) + H_BB_term.get_imag());  
+    computation C_H_BB_update_r("C_H_BB_update_r", {t, y_out, y_in, rp, n, r, mH}, C_init_r(t, y_out, y_in, r, Nsrc+mH, rp, n) + H_BB_term.get_real());
+    computation C_H_BB_update_i("C_H_BB_update_i", {t, y_out, y_in, rp, n, r, mH}, C_init_i(t, y_out, y_in, r, Nsrc+mH, rp, n) + H_BB_term.get_imag());  
 
 
     // H_H
@@ -1188,8 +1188,8 @@ void generate_function(std::string name)
 
     complex_expr H_H_term = hex_hex_src_psi * hex_snk_psi * C_H_H_prop_update(t, x_out, x_in, rp, r, y, Nperms-1, Nw2Hex-1, Nw2Hex-1);
 
-    computation C_H_H_update_r("C_H_H_update_r", {t, x_out, x_in, rp, r, y, mH, nH}, C_init_r(t, x_out, rp, Nsrc+mH, r, Nsnk+nH) + H_H_term.get_real());
-    computation C_H_H_update_i("C_H_H_update_i", {t, x_out, x_in, rp, r, y, mH, nH}, C_init_i(t, x_out, rp, Nsrc+mH, r, Nsnk+nH) + H_H_term.get_imag());
+    computation C_H_H_update_r("C_H_H_update_r", {t, x_out, x_in, rp, r, y, mH, nH}, C_init_r(t, x_out, x_in, rp, Nsrc+mH, r, Nsnk+nH) + H_H_term.get_real());
+    computation C_H_H_update_i("C_H_H_update_i", {t, x_out, x_in, rp, r, y, mH, nH}, C_init_i(t, x_out, x_in, rp, Nsrc+mH, r, Nsnk+nH) + H_H_term.get_imag());
 
     // -------------------------------------------------------
     // Layer II
@@ -2310,14 +2310,14 @@ void generate_function(std::string name)
 
     /* Correlator */
 
-    buffer buf_C_r("buf_C_r", {Lt, Vsnk/sites_per_rank, B2Nrows, NsrcTot, B2Nrows, NsnkTot}, p_float64, a_input);
-    buffer buf_C_i("buf_C_i", {Lt, Vsnk/sites_per_rank, B2Nrows, NsrcTot, B2Nrows, NsnkTot}, p_float64, a_input);
+    buffer buf_C_r("buf_C_r", {Lt, Vsnk/sites_per_rank, sites_per_rank, B2Nrows, NsrcTot, B2Nrows, NsnkTot}, p_float64, a_input);
+    buffer buf_C_i("buf_C_i", {Lt, Vsnk/sites_per_rank, sites_per_rank, B2Nrows, NsrcTot, B2Nrows, NsnkTot}, p_float64, a_input);
 
     C_r.store_in(&buf_C_r);
     C_i.store_in(&buf_C_i);
 
-    C_init_r.store_in(&buf_C_r, {t, x_out, rp, mpmH, r, npnH});
-    C_init_i.store_in(&buf_C_i, {t, x_out, rp, mpmH, r, npnH});
+    C_init_r.store_in(&buf_C_r, {t, x_out, x_in, rp, mpmH, r, npnH});
+    C_init_i.store_in(&buf_C_i, {t, x_out, x_in, rp, mpmH, r, npnH});
 
     // BB_BB
 
@@ -2479,10 +2479,10 @@ void generate_function(std::string name)
     C_BB_BB_prop_update_r.store_in(&buf_C_BB_BB_prop_r, {0});
     C_BB_BB_prop_update_i.store_in(&buf_C_BB_BB_prop_i, {0});
 
-    C_BB_BB_update_b_r.store_in(&buf_C_r, {t, x_out, rp, m, r, ne});
-    C_BB_BB_update_b_i.store_in(&buf_C_i, {t, x_out, rp, m, r, ne});
-    C_BB_BB_update_s_r.store_in(&buf_C_r, {t, x_out, rp, m, r, NEntangled+nue});
-    C_BB_BB_update_s_i.store_in(&buf_C_i, {t, x_out, rp, m, r, NEntangled+nue});
+    C_BB_BB_update_b_r.store_in(&buf_C_r, {t, x_out, x_in, rp, m, r, ne});
+    C_BB_BB_update_b_i.store_in(&buf_C_i, {t, x_out, x_in, rp, m, r, ne});
+    C_BB_BB_update_s_r.store_in(&buf_C_r, {t, x_out, x_in, rp, m, r, NEntangled+nue});
+    C_BB_BB_update_s_i.store_in(&buf_C_i, {t, x_out, x_in, rp, m, r, NEntangled+nue});
 
     // BB_H
 
@@ -2535,8 +2535,8 @@ void generate_function(std::string name)
     C_BB_H_prop_update_r.store_in(&buf_C_BB_H_prop_r, {0});
     C_BB_H_prop_update_i.store_in(&buf_C_BB_H_prop_i, {0}); 
 
-    C_BB_H_update_r.store_in(&buf_C_r, {t, x_out, rp, m, r, Nsnk+nH});
-    C_BB_H_update_i.store_in(&buf_C_i, {t, x_out, rp, m, r, Nsnk+nH});
+    C_BB_H_update_r.store_in(&buf_C_r, {t, x_out, x_in, rp, m, r, Nsnk+nH});
+    C_BB_H_update_i.store_in(&buf_C_i, {t, x_out, x_in, rp, m, r, Nsnk+nH});
 
     // H_BB
 
@@ -2588,8 +2588,8 @@ void generate_function(std::string name)
     C_H_BB_prop_update_r.store_in(&buf_C_H_BB_prop_r, {0});
     C_H_BB_prop_update_i.store_in(&buf_C_H_BB_prop_i, {0});
 
-    C_H_BB_update_r.store_in(&buf_C_r, {t, y_out, r, Nsrc+mH, rp, n});
-    C_H_BB_update_i.store_in(&buf_C_i, {t, y_out, r, Nsrc+mH, rp, n});
+    C_H_BB_update_r.store_in(&buf_C_r, {t, y_out, y_in, r, Nsrc+mH, rp, n});
+    C_H_BB_update_i.store_in(&buf_C_i, {t, y_out, y_in, r, Nsrc+mH, rp, n});
 
     // H_H
 
@@ -2601,8 +2601,8 @@ void generate_function(std::string name)
     C_H_H_prop_update_r.store_in(&buf_C_H_H_prop_r, {0});
     C_H_H_prop_update_i.store_in(&buf_C_H_H_prop_i, {0});
 
-    C_H_H_update_r.store_in(&buf_C_r, {t, x_out, rp, Nsrc+mH, r, Nsnk+nH});
-    C_H_H_update_i.store_in(&buf_C_i, {t, x_out, rp, Nsrc+mH, r, Nsnk+nH});  
+    C_H_H_update_r.store_in(&buf_C_r, {t, x_out, x_in, rp, Nsrc+mH, r, Nsnk+nH});
+    C_H_H_update_i.store_in(&buf_C_i, {t, x_out, x_in, rp, Nsrc+mH, r, Nsnk+nH});  
 
     // -------------------------------------------------------
     // Code Generation
