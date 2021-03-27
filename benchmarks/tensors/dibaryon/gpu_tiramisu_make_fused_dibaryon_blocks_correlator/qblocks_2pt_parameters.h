@@ -48,7 +48,7 @@
 #define P_Nw 12
 #define P_Nw2 288
 #define P_Nw2Hex 32
-#define P_Nt 1
+#define P_Nt 2
 #define P_Nc 3
 #define P_Ns 2
 #define P_Nq 3

@@ -1,8 +1,8 @@
 #ifndef QBLOCKS_2PT_PARAMETERS_H
 #define QBLOCKS_2PT_PARAMETERS_H
 
-#define DATA_SET_1 0
-#define DATA_SET_2 1
+#define DATA_SET_1 1
+#define DATA_SET_2 0
 
 #if DATA_SET_1
 
@@ -11,14 +11,14 @@
 #define P_Nsrc 44
 #define P_Nsnk 44
 #define P_NEntangled 3
-#define P_NsrcHex 1
-#define P_NsnkHex 1
+#define P_NsrcHex 2
+#define P_NsnkHex 2
 #define P_Nperms 36
 #define P_B1Nperms 2
 #define P_Nw 12
 #define P_Nw2 288
 #define P_Nw2Hex 32
-#define P_Nt 1
+#define P_Nt 2
 #define P_Nc 3
 #define P_Ns 2
 #define P_Nq 3
@@ -47,7 +47,7 @@
 #define P_Nw 12
 #define P_Nw2 288
 #define P_Nw2Hex 32
-#define P_Nt 1
+#define P_Nt 2
 #define P_Nc 3
 #define P_Ns 2
 #define P_Nq 3
