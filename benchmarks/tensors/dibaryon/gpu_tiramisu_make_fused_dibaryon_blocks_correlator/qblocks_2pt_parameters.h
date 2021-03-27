@@ -12,8 +12,8 @@
 #define P_Nsrc 44
 #define P_Nsnk 44
 #define P_NEntangled 3
-#define P_NsrcHex 1
-#define P_NsnkHex 1
+#define P_NsrcHex 2
+#define P_NsnkHex 2
 #define P_Nperms 36
 #define P_B1Nperms 2
 #define P_Nw 12
