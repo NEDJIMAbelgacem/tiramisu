@@ -355,44 +355,45 @@ void tiramisu_make_two_nucleon_2pt(double* C_re,
    printf("sigs %d \n", b_sigs(0));
    }
    tiramisu_make_fused_dibaryon_blocks_correlator(
-				    b_C_r.raw_buffer(),
-				    b_C_i.raw_buffer(),
-				    b_B1_prop_r.raw_buffer(),
-				    b_B1_prop_i.raw_buffer(),
-				    b_B2_prop_r.raw_buffer(),
-				    b_B2_prop_i.raw_buffer(),
-                b_B1_src_psi_r.raw_buffer(),
-                b_B1_src_psi_i.raw_buffer(),
-                b_B2_src_psi_r.raw_buffer(),
-                b_B2_src_psi_i.raw_buffer(),
-                b_B1_snk_psi_r.raw_buffer(),
-                b_B1_snk_psi_i.raw_buffer(),
-                b_B2_snk_psi_r.raw_buffer(),
-                b_B2_snk_psi_i.raw_buffer(),
-                b_hex_src_psi_r.raw_buffer(),
-                b_hex_src_psi_i.raw_buffer(),
-                b_hex_snk_psi_r.raw_buffer(),
-                b_hex_snk_psi_i.raw_buffer(),
-		b_snk_psi_r.raw_buffer(),
-		b_snk_psi_i.raw_buffer(),
-				    b_src_spins.raw_buffer(),
-				    b_src_spin_block_weights.raw_buffer(),
-				    b_sigs.raw_buffer(),
-				 b_src_color_weights.raw_buffer(),
-				 b_src_spin_weights.raw_buffer(),
-				 b_src_weights.raw_buffer(),
-				    b_snk_b.raw_buffer(),
-				    b_snk_color_weights.raw_buffer(),
-				    b_snk_spin_weights.raw_buffer(),
-				    b_snk_weights.raw_buffer(),
-				    b_hex_snk_color_weights.raw_buffer(),
-				    b_hex_snk_spin_weights.raw_buffer(),
-				    b_hex_snk_weights.raw_buffer());
+      b_C_r.raw_buffer(),
+      b_C_i.raw_buffer(),
+      b_B1_prop_r.raw_buffer(),
+      b_B1_prop_i.raw_buffer(),
+      b_B2_prop_r.raw_buffer(),
+      b_B2_prop_i.raw_buffer(),
+      b_B1_src_psi_r.raw_buffer(),
+      b_B1_src_psi_i.raw_buffer(),
+      b_B2_src_psi_r.raw_buffer(),
+      b_B2_src_psi_i.raw_buffer(),
+      b_B1_snk_psi_r.raw_buffer(),
+      b_B1_snk_psi_i.raw_buffer(),
+      b_B2_snk_psi_r.raw_buffer(),
+      b_B2_snk_psi_i.raw_buffer(),
+      b_hex_src_psi_r.raw_buffer(),
+      b_hex_src_psi_i.raw_buffer(),
+      b_hex_snk_psi_r.raw_buffer(),
+      b_hex_snk_psi_i.raw_buffer(),
+      b_snk_psi_r.raw_buffer(),
+      b_snk_psi_i.raw_buffer(),
+      b_src_spins.raw_buffer(),
+      b_src_spin_block_weights.raw_buffer(),
+      b_sigs.raw_buffer(),
+      b_src_color_weights.raw_buffer(),
+      b_src_spin_weights.raw_buffer(),
+      b_src_weights.raw_buffer(),
+      b_snk_b.raw_buffer(),
+      b_snk_color_weights.raw_buffer(),
+      b_snk_spin_weights.raw_buffer(),
+      b_snk_weights.raw_buffer(),
+      b_hex_snk_color_weights.raw_buffer(),
+      b_hex_snk_spin_weights.raw_buffer(),
+      b_hex_snk_weights.raw_buffer()
+   );
 
    printf("done \n");
 
 
-   if (rank == 0) {
+   // if (rank == 0) {
    // printf("BB-BB non-zero? %4.9e + I %4.9e \n", b_C_r(0,0,0,0,0,0), b_C_i(0,0,0,0,0,0) );
    // printf("BB-BB non-zero? %4.9e + I %4.9e \n", b_C_r(0,1,0,0,0,0), b_C_i(0,1,0,0,0,0) );
    // printf("BB-BB non-zero? %4.9e + I %4.9e \n", b_C_r(0,2,0,0,0,0), b_C_i(0,2,0,0,0,0) );
@@ -411,7 +412,7 @@ void tiramisu_make_two_nucleon_2pt(double* C_re,
    // printf("H-H non-zero? %4.9e + I %4.9e \n", b_C_r(Nsnk,3,Nsrc,0,0,0), b_C_i(Nsnk,3,Nsrc,0,0,0) );
    // printf("H-H non-zero? %4.9e + I %4.9e \n", b_C_r(Nsnk,4,Nsrc,0,0,0), b_C_i(Nsnk,4,Nsrc,0,0,0) );
    // printf("H-H non-zero? %4.9e + I %4.9e \n", b_C_r(Nsnk,5,Nsrc,0,0,0), b_C_i(Nsnk,5,Nsrc,0,0,0) ); 
-   }
+   // }
 
     // symmetrize and such
 #ifdef WITH_MPI
@@ -831,7 +832,109 @@ int main(int, char **)
 #endif
 
     print_time("performance_CPU.csv", "dibaryon", {"Tiramisu"}, {median(duration_vector_1)/1000.});
+   
+   {
+      std::string file_path = "./C_r_reference_output_cpu.txt";
+      std::ofstream output_file;
+      output_file.open( file_path.c_str() );
+      if ( output_file.is_open() )
+      {
+         for (rp=0; rp<B2Nrows; rp++) {
+            for (m=0; m<Nsrc+NsrcHex; m++)
+               for (n=0; n<Nsnk+NsnkHex; n++)
+                  for (t=0; t<Lt; t++) 
+                  {
+                     output_file << "t=" << t << ", n=" << n << ", m=" << m << ", rp=" << rp << " ---------> " << C_re[index_4d(rp,m,n,t, Nsrc+NsrcHex,Nsnk+NsnkHex,Lt)] << "\n";
+                  }
+         }
+      }
+   }
+   {
+      std::string file_path = "./C_i_reference_output_cpu.txt";
+      std::ofstream output_file;
+      output_file.open( file_path.c_str() );
+      if ( output_file.is_open() )
+      {
+         for (rp=0; rp<B2Nrows; rp++) {
+            for (m=0; m<Nsrc+NsrcHex; m++)
+               for (n=0; n<Nsnk+NsnkHex; n++)
+                  for (t=0; t<Lt; t++) 
+                  {
+                     output_file << "t=" << t << ", n=" << n << ", m=" << m << ", rp=" << rp << " ---------> " << C_im[index_4d(rp,m,n,t, Nsrc+NsrcHex,Nsnk+NsnkHex,Lt)] << "\n";
+                  }
+         }
+      }
+   }
 
+
+   {
+      std::string file_path = "./C_r_tiramisu_output_cpu.txt";
+      std::ofstream output_file;
+      output_file.open( file_path.c_str() );
+      if ( output_file.is_open() )
+      {
+         for (rp=0; rp<B2Nrows; rp++) {
+            for (m=0; m<Nsrc+NsrcHex; m++)
+               for ( r = 0; r < B2Nrows; r++)
+               for (n=0; n<Nsnk+NsnkHex; n++)
+                  for (t=0; t<Lt; t++) 
+                  {
+                     output_file << "t=" << t << ", n=" << n << ", r=" << r << ", m=" << m << ", rp=" << rp << " ---------> " << t_C_re[index_5d(rp,m,r,n,t, Nsrc+NsrcHex,B2Nrows,Nsnk+NsnkHex,Lt)] << "\n";
+                  }
+         }
+      }
+   }
+   {
+      std::string file_path = "./C_i_tiramisu_output.txt";
+      std::ofstream output_file;
+      output_file.open( file_path.c_str() );
+      if ( output_file.is_open() )
+      {
+         for (rp=0; rp<B2Nrows; rp++) {
+            for (m=0; m<Nsrc+NsrcHex; m++)
+               for ( r = 0; r < B2Nrows; r++)
+               for (n=0; n<Nsnk+NsnkHex; n++)
+                  for (t=0; t<Lt; t++) 
+                  {
+                     output_file << "t=" << t << ", n=" << n << ", r=" << r << ", m=" << m << ", rp=" << rp << " ---------> " << t_C_im[index_5d(rp,m,r,n,t, Nsrc+NsrcHex,B2Nrows,Nsnk+NsnkHex,Lt)] << "\n";
+                  }
+         }
+      }
+   }
+
+
+   {
+      std::string file_path = "./C_r_tiramisu_output_diagonal_cpu.txt";
+      std::ofstream output_file;
+      output_file.open( file_path.c_str() );
+      if ( output_file.is_open() )
+      {
+         for (rp=0; rp<B2Nrows; rp++) {
+            for (m=0; m<Nsrc+NsrcHex; m++)
+               for (n=0; n<Nsnk+NsnkHex; n++)
+                  for (t=0; t<Lt; t++) 
+                  {
+                     output_file << "t=" << t << ", n=" << n << ", m=" << m << ", rp=" << rp << " ---------> " << t_C_re[index_5d(rp,m,rp,n,t, Nsrc+NsrcHex,B2Nrows,Nsnk+NsnkHex,Lt)] << "\n";
+                  }
+         }
+      }
+   }
+   {
+      std::string file_path = "./C_i_tiramisu_output_diagonal_cpu.txt";
+      std::ofstream output_file;
+      output_file.open( file_path.c_str() );
+      if ( output_file.is_open() )
+      {
+         for (rp=0; rp<B2Nrows; rp++) {
+            for (m=0; m<Nsrc+NsrcHex; m++)
+               for (n=0; n<Nsnk+NsnkHex; n++)
+                  for (t=0; t<Lt; t++) 
+                  {
+                     output_file << "t=" << t << ", n=" << n << ", m=" << m << ", rp=" << rp << " ---------> " << t_C_im[index_5d(rp,m,rp,n,t, Nsrc+NsrcHex,B2Nrows,Nsnk+NsnkHex,Lt)] << "\n";
+                  }
+         }
+      }
+   }
 #if RUN_CHECK
     print_time("performance_CPU.csv", "dibaryon", {"Ref", "Tiramisu"}, {median(duration_vector_2)/1000., median(duration_vector_1)/1000.});
     std::cout << "\nSpeedup = " << median(duration_vector_2)/median(duration_vector_1) << std::endl;

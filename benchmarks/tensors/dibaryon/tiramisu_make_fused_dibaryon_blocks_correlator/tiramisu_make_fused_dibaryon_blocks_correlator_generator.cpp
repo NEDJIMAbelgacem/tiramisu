@@ -12,7 +12,7 @@ using namespace tiramisu;
 void generate_function(std::string name)
 {
     tiramisu::init(name);
-
+    
    int b;
    int NsrcTot = Nsrc+NsrcHex;
    int NsnkTot = Nsnk+NsnkHex;
@@ -2402,7 +2402,7 @@ void generate_function(std::string name)
     buffer* buf_flip_BB_BB_new_term_r_b2;
     buffer* buf_flip_BB_BB_new_term_i_b2;
     allocate_complex_buffers(buf_flip_BB_BB_new_term_r_b2, buf_flip_BB_BB_new_term_i_b2, {1}, "buf_flip_BB_BB_new_term_b2"); 
-
+//
     flip_BB_BB_new_term_0_r1_b1.get_real()->store_in(buf_flip_BB_BB_new_term_r_b1, {0});
     flip_BB_BB_new_term_0_r1_b1.get_imag()->store_in(buf_flip_BB_BB_new_term_i_b1, {0});
     flip_BB_BB_new_term_1_r1_b1.get_real()->store_in(buf_flip_BB_BB_new_term_r_b1, {0});
@@ -2470,7 +2470,7 @@ void generate_function(std::string name)
     flip_BB_BB_new_term_6_r2_b2.get_imag()->store_in(buf_flip_BB_BB_new_term_i_b2, {0});
     flip_BB_BB_new_term_7_r2_b2.get_real()->store_in(buf_flip_BB_BB_new_term_r_b2, {0});
     flip_BB_BB_new_term_7_r2_b2.get_imag()->store_in(buf_flip_BB_BB_new_term_i_b2, {0}); 
-
+ //
     buffer buf_C_BB_BB_prop_r("buf_C_BB_BB_prop_r", {1}, p_float64, a_temporary);
     buffer buf_C_BB_BB_prop_i("buf_C_BB_BB_prop_i", {1}, p_float64, a_temporary);
 
