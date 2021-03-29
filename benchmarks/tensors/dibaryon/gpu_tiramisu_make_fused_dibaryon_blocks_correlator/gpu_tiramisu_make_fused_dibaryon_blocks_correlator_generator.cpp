@@ -1198,8 +1198,8 @@ void generate_function(std::string name)
     computation C_BB_BB_update_s_r("C_BB_BB_update_s_r", {t, x_out, x_in, x2, rp, m, r, nue}, C_init_r(t, x_out, x_in, rp, m, r, NEntangled+nue) + BB_BB_term_s.get_real());
     computation C_BB_BB_update_s_i("C_BB_BB_update_s_i", {t, x_out, x_in, x2, rp, m, r, nue}, C_init_i(t, x_out, x_in, rp, m, r, NEntangled+nue) + BB_BB_term_s.get_imag());
 
-    computation C_BB_BB_update_b_r("C_BB_BB_update_b_r", {t, x_out, x_in, x2, rp, m, r, ne}, 12345);//C_init_r(t, x_out, x_in, rp, m, r, ne) + BB_BB_term_b.get_real());
-    computation C_BB_BB_update_b_i("C_BB_BB_update_b_i", {t, x_out, x_in, x2, rp, m, r, ne}, 12345);//C_init_i(t, x_out, x_in, rp, m, r, ne) + BB_BB_term_b.get_imag());
+    computation C_BB_BB_update_b_r("C_BB_BB_update_b_r", {t, x_out, x_in, x2, rp, m, r, ne}, C_init_r(t, x_out, x_in, rp, m, r, ne) + BB_BB_term_b.get_real());
+    computation C_BB_BB_update_b_i("C_BB_BB_update_b_i", {t, x_out, x_in, x2, rp, m, r, ne}, C_init_i(t, x_out, x_in, rp, m, r, ne) + BB_BB_term_b.get_imag());
 
     // BB_H
     computation C_BB_H_prop_init_r("C_BB_H_prop_init_r", {t, x_out, x_in, rp, m, r}, expr((double) 0));
