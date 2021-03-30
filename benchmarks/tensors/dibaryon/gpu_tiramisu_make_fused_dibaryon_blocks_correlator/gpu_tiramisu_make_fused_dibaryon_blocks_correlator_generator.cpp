@@ -1195,11 +1195,11 @@ void generate_function(std::string name)
     complex_expr BB_BB_term_s = (snk_psi_B1_ue * snk_psi_B2_x2_ue + snk_psi_B1_x2_ue * snk_psi_B2_ue) * C_BB_BB_prop_update(t, x_out, x_in, x2, rp, m, r, 1, Nperms-1, Nw2-1);
     complex_expr BB_BB_term_b = snk_psi * C_BB_BB_prop_update(t, x_out, x_in, x2, rp, m, r, 1, Nperms-1, Nw2-1);
 
-    computation C_BB_BB_update_s_r("C_BB_BB_update_s_r", {t, x_out, x_in, x2, rp, m, r, nue}, C_init_r(t, x_out, x_in, rp, m, r, NEntangled+nue) + BB_BB_term_s.get_real());
-    computation C_BB_BB_update_s_i("C_BB_BB_update_s_i", {t, x_out, x_in, x2, rp, m, r, nue}, C_init_i(t, x_out, x_in, rp, m, r, NEntangled+nue) + BB_BB_term_s.get_imag());
+    computation C_BB_BB_update_s_r("C_BB_BB_update_s_r", {t, x_out, x_in, x2, rp, m, r, nue}, 12345);//C_init_r(t, x_out, x_in, rp, m, r, NEntangled+nue) + BB_BB_term_s.get_real());
+    computation C_BB_BB_update_s_i("C_BB_BB_update_s_i", {t, x_out, x_in, x2, rp, m, r, nue}, 12345);//C_init_i(t, x_out, x_in, rp, m, r, NEntangled+nue) + BB_BB_term_s.get_imag());
 
-    computation C_BB_BB_update_b_r("C_BB_BB_update_b_r", {t, x_out, x_in, x2, rp, m, r, ne}, C_init_r(t, x_out, x_in, rp, m, r, ne) + BB_BB_term_b.get_real());
-    computation C_BB_BB_update_b_i("C_BB_BB_update_b_i", {t, x_out, x_in, x2, rp, m, r, ne}, C_init_i(t, x_out, x_in, rp, m, r, ne) + BB_BB_term_b.get_imag());
+    computation C_BB_BB_update_b_r("C_BB_BB_update_b_r", {t, x_out, x_in, x2, rp, m, r, ne}, 12345);//C_init_r(t, x_out, x_in, rp, m, r, ne) + BB_BB_term_b.get_real());
+    computation C_BB_BB_update_b_i("C_BB_BB_update_b_i", {t, x_out, x_in, x2, rp, m, r, ne}, 12345);//C_init_i(t, x_out, x_in, rp, m, r, ne) + BB_BB_term_b.get_imag());
 
     // BB_H
     computation C_BB_H_prop_init_r("C_BB_H_prop_init_r", {t, x_out, x_in, rp, m, r}, expr((double) 0));
