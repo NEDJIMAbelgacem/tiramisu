@@ -3513,7 +3513,7 @@ void generate_function(std::string name)
 
     // H_BB
     handle = &(handle
-          ->then( snk_B1_Blocal_r1_r_init, t)
+          ->then( snk_B1_Blocal_r1_r_init, computation::root)
           .then(snk_B1_Blocal_r1_i_init, jSprime)
           .then(flip_snk_B1_Blocal_r1_r_init, jSprime)
           .then(flip_snk_B1_Blocal_r1_i_init, jSprime)
