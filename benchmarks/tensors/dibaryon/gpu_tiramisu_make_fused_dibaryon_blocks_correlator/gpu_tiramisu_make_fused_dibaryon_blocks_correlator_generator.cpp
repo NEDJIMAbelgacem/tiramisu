@@ -201,7 +201,7 @@ void generate_function(std::string name)
       snk_color_weights.store_in( &buf_snk_color_weights_gpu );
       snk_spin_weights.store_in( &buf_snk_spin_weights_gpu );
       snk_weights.store_in( &buf_snk_weights_gpu );
-      hex_snk_color_weights.store_in( &buf_hex_snk_color_weights_gpu );
+      hex_snk_color_weights.store_in( &buf_hex_snk_color_weights_gpu, {r, nperm, wnumHex, q, to} );
       hex_snk_spin_weights.store_in( &buf_hex_snk_spin_weights_gpu );
       hex_snk_weights.store_in( &buf_hex_snk_weights_gpu );
 
