@@ -1266,7 +1266,8 @@ void generate_function(std::string name)
 
     complex_expr snk_hex_prefactor(cast(p_float64, sigs(nperm)) * hex_snk_weights(r, wnumHex) * src_spin_block_weights(rp, s), 0.0);
 
-    complex_expr H_BB_term_res = snk_hex_prefactor * H_BB_term_res_b1 * H_BB_term_res_b2;
+    // complex_expr H_BB_term_res = snk_hex_prefactor * H_BB_term_res_b1 * H_BB_term_res_b2;
+    complex_expr H_BB_term_res( cast(p_float64, expr(1)), cast(p_float64, expr(1)) );
 
     complex_computation H_BB_term_res_comp( "H_BB_term_res_comp", { t, y_out, y_in, rp, n, r, s, nperm, wnumHex }, H_BB_term_res );
 
@@ -1283,8 +1284,7 @@ void generate_function(std::string name)
     complex_expr flip_H_BB_term_res_b1 = flip_H_BB_new_term_0_r1_b1(t, y_out, y_in, rp, n, r, s, nperm, wnumHex);
     complex_expr flip_H_BB_term_res_b2 = flip_H_BB_new_term_0_r1_b2(t, y_out, y_in, rp, n, r, s, nperm, wnumHex);
 
-    //complex_expr flip_H_BB_term_res = snk_hex_prefactor * flip_H_BB_term_res_b1 * flip_H_BB_term_res_b2;
-    complex_expr flip_H_BB_term_res( cast(p_float64, expr(1)), cast(p_float64, expr(1)) );
+    complex_expr flip_H_BB_term_res = snk_hex_prefactor * flip_H_BB_term_res_b1 * flip_H_BB_term_res_b2;
 
     computation C_H_BB_prop_update_r("C_H_BB_prop_update_r", {t, y_out, y_in, rp, n, r, s, nperm, wnumHex}, C_H_BB_prop_init_r(t, y_out, y_in, rp, n, r) + ((*H_BB_term_res_comp.get_real())(t, y_out, y_in, rp, n, r, s, nperm, wnumHex) + flip_H_BB_term_res.get_real())/2.0 );
     computation C_H_BB_prop_update_i("C_H_BB_prop_update_i", {t, y_out, y_in, rp, n, r, s, nperm, wnumHex}, C_H_BB_prop_init_i(t, y_out, y_in, rp, n, r) + ((*H_BB_term_res_comp.get_imag())(t, y_out, y_in, rp, n, r, s, nperm, wnumHex) + flip_H_BB_term_res.get_imag())/2.0 );
