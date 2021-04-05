@@ -1149,15 +1149,15 @@ void generate_function(std::string name)
     complex_expr flip_H_BB_term_res_b1 = flip_H_BB_new_term_0_r1_b1(t, y_out, y_in, rp, n, r, s, nperm, wnumHex);
     complex_expr flip_H_BB_term_res_b2 = flip_H_BB_new_term_0_r1_b2(t, y_out, y_in, rp, n, r, s, nperm, wnumHex);
 
-    complex_expr flip_H_BB_term_res = snk_hex_prefactor * flip_H_BB_term_res_b1 * flip_H_BB_term_res_b2;
+    // complex_expr flip_H_BB_term_res = snk_hex_prefactor * flip_H_BB_term_res_b1 * flip_H_BB_term_res_b2;
+    complex_expr flip_H_BB_term_res( cast(p_float64, expr(1)), cast(p_float64, expr(1)) );
 
     computation C_H_BB_prop_update_r("C_H_BB_prop_update_r", {t, y_out, y_in, rp, n, r, s, nperm, wnumHex}, C_H_BB_prop_init_r(t, y_out, y_in, rp, n, r) + (H_BB_term_res.get_real() + flip_H_BB_term_res.get_real())/2.0 );
     computation C_H_BB_prop_update_i("C_H_BB_prop_update_i", {t, y_out, y_in, rp, n, r, s, nperm, wnumHex}, C_H_BB_prop_init_i(t, y_out, y_in, rp, n, r) + (H_BB_term_res.get_imag() + flip_H_BB_term_res.get_imag())/2.0 );
 
     complex_computation C_H_BB_prop_update(&C_H_BB_prop_update_r, &C_H_BB_prop_update_i);
 
-    // complex_expr H_BB_term = hex_src_psi * C_H_BB_prop_update(t, y_out, y_in, rp, n, r, 1, Nperms-1, Nw2Hex-1);
-    complex_expr H_BB_term( cast( p_float64, expr( 1 ) ), cast( p_float64, expr( 1 ) ) );
+    complex_expr H_BB_term = hex_src_psi * C_H_BB_prop_update(t, y_out, y_in, rp, n, r, 1, Nperms-1, Nw2Hex-1);
 
     computation C_H_BB_update_r("C_H_BB_update_r", {t, y_out, y_in, rp, n, r, mH}, C_init_r(t, y_out, y_in, rp, Nsrc+mH, r, n) + H_BB_term.get_real());
     computation C_H_BB_update_i("C_H_BB_update_i", {t, y_out, y_in, rp, n, r, mH}, C_init_i(t, y_out, y_in, rp, Nsrc+mH, r, n) + H_BB_term.get_imag());  
