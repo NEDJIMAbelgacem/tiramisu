@@ -2334,7 +2334,7 @@ void generate_function(std::string name)
     buf_C_H_BB_prop_i.tag_gpu_global();
 
     H_BB_term_res_comp.get_imag()->store_in( buff_H_BB_term_res_comp_r, {t, y_out, y_in} );
-    H_BB_term_res_comp.get_real()->store_in( buff_H_BB_term_res_comp_i, {t, y_out, y_in} )
+    H_BB_term_res_comp.get_real()->store_in( buff_H_BB_term_res_comp_i, {t, y_out, y_in} );
 
     C_H_BB_update_r.store_in(&buf_C_r, {t, y_out, y_in, rp, Nsrc+mH, r, n});
     C_H_BB_update_i.store_in(&buf_C_i, {t, y_out, y_in, rp, Nsrc+mH, r, n});
