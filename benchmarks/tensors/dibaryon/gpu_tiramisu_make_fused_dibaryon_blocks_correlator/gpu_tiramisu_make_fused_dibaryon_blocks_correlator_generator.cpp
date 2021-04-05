@@ -2330,8 +2330,8 @@ void generate_function(std::string name)
 
     buffer buff_H_BB_term_res_comp_r("buff_H_BB_term_res_comp_r", {Lt, Vsnk/sites_per_rank, sites_per_rank, 1}, p_float64, a_temporary);
     buffer buff_H_BB_term_res_comp_i("buff_H_BB_term_res_comp_i", {Lt, Vsnk/sites_per_rank, sites_per_rank, 1}, p_float64, a_temporary);
-    buf_C_H_BB_prop_r.tag_gpu_global();
-    buf_C_H_BB_prop_i.tag_gpu_global();
+    buff_H_BB_term_res_comp_r.tag_gpu_global();
+    buff_H_BB_term_res_comp_i.tag_gpu_global();
 
     H_BB_term_res_comp.get_imag()->store_in( &buff_H_BB_term_res_comp_r, {t, y_out, y_in, 0 } );
     H_BB_term_res_comp.get_real()->store_in( &buff_H_BB_term_res_comp_i, {t, y_out, y_in, 0 } );
