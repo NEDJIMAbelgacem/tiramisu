@@ -9,7 +9,7 @@ add_custom_command(OUTPUT ${object_files} COMMAND ${generator_name} DEPENDS ${ge
 
 add_executable(${wrapper_name} ${benchmark_name}_wrapper.cpp ${object_files})
 # Override optimization flag to make correctness fast:
-set_target_properties(${wrapper_name} PROPERTIES COMPILE_FLAGS -O3)
+set_target_properties(${wrapper_name} PROPERTIES COMPILE_FLAGS -O1)
 target_link_libraries(${wrapper_name} tiramisu ${HalideLib} ${ISLLib} ${LINK_FLAGS} cuda_wrapper ${CUDA_LIBRARIES} ${CUDA_CUBLAS_LIBRARIES})
 
 add_custom_target(run_${benchmark_name} COMMAND ${wrapper_name} DEPENDS ${wrapper_name})
