@@ -3843,8 +3843,8 @@ static __global__ void _kernel_3(int32_t c1, double *buf_B1_prop_i_gpu, double *
 							};
 							int kk = __tx__ + __bx__ * 2 + c1 * 4;
 							double t12345 = ((((double) buf_sigs_gpu[(0 + (1 * (0 + (c15 * 1))))]) * buf_hex_snk_weights_gpu[(0 + (1 * ((0 + (c17 * 1)) + (c11 * (1 * 32)))))]) * buf_src_spin_block_weights_gpu[(0 + (1 * ((0 + (c13 * 1)) + (c7 * (1 * 2)))))]);
-							buf_C_H_BB_prop_r[kk] = (buf_C_H_BB_prop_r[kk]) + ( t12345 * buf_H_BB_new_term_b1_r[kk] * buf_H_BB_new_term_b2_r[kk] - t12345 * buf_H_BB_new_term_b1_i[kk] * buf_H_BB_new_term_b2_i[kk] + t12345 * buf_flip_H_BB_new_term_b1_r[kk] * buf_flip_H_BB_new_term_b2_r[kk] - t12345 * buf_flip_H_BB_new_term_b1_i[kk] * buf_flip_H_BB_new_term_b2_i[kk] ) / 2));
-							buf_C_H_BB_prop_i[kk] = (buf_C_H_BB_prop_i[kk]) + ( t12345 * buf_H_BB_new_term_b1_r[kk] * buf_H_BB_new_term_b2_i[kk] + t12345 * buf_H_BB_new_term_b1_i[kk] * buf_H_BB_new_term_b2_r[kk] + t12345 * buf_flip_H_BB_new_term_b1_r[kk] * buf_flip_H_BB_new_term_b2_i[kk] + t12345 * buf_flip_H_BB_new_term_b1_i[kk] * buf_flip_H_BB_new_term_b2_r[kk] ) / 2));
+							buf_C_H_BB_prop_r[kk] = (buf_C_H_BB_prop_r[kk]) + ( t12345 * buf_H_BB_new_term_b1_r[kk] * buf_H_BB_new_term_b2_r[kk] - t12345 * buf_H_BB_new_term_b1_i[kk] * buf_H_BB_new_term_b2_i[kk] + t12345 * buf_flip_H_BB_new_term_b1_r[kk] * buf_flip_H_BB_new_term_b2_r[kk] - t12345 * buf_flip_H_BB_new_term_b1_i[kk] * buf_flip_H_BB_new_term_b2_i[kk] ) * 0.5;
+							buf_C_H_BB_prop_i[kk] = (buf_C_H_BB_prop_i[kk]) + ( t12345 * buf_H_BB_new_term_b1_r[kk] * buf_H_BB_new_term_b2_i[kk] + t12345 * buf_H_BB_new_term_b1_i[kk] * buf_H_BB_new_term_b2_r[kk] + t12345 * buf_flip_H_BB_new_term_b1_r[kk] * buf_flip_H_BB_new_term_b2_i[kk] + t12345 * buf_flip_H_BB_new_term_b1_i[kk] * buf_flip_H_BB_new_term_b2_r[kk] ) * 0.5;
 						};
 					};
 				};
