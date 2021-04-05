@@ -2333,8 +2333,8 @@ void generate_function(std::string name)
     buf_C_H_BB_prop_r.tag_gpu_global();
     buf_C_H_BB_prop_i.tag_gpu_global();
 
-    H_BB_term_res_comp.get_imag()->store_in( &buff_H_BB_term_res_comp_r, {t, y_out, y_in} );
-    H_BB_term_res_comp.get_real()->store_in( &buff_H_BB_term_res_comp_i, {t, y_out, y_in} );
+    H_BB_term_res_comp.get_imag()->store_in( &buff_H_BB_term_res_comp_r, {t, y_out, y_in, 0 } );
+    H_BB_term_res_comp.get_real()->store_in( &buff_H_BB_term_res_comp_i, {t, y_out, y_in, 0 } );
 
     C_H_BB_update_r.store_in(&buf_C_r, {t, y_out, y_in, rp, Nsrc+mH, r, n});
     C_H_BB_update_i.store_in(&buf_C_i, {t, y_out, y_in, rp, Nsrc+mH, r, n});
@@ -2884,6 +2884,8 @@ void generate_function(std::string name)
           flip_H_BB_new_term_0_r1_b2.get_imag()->tag_gpu_level(y_out, y_in);
           flip_H_BB_new_term_0_r2_b2.get_real()->tag_gpu_level(y_out, y_in);
           flip_H_BB_new_term_0_r2_b2.get_imag()->tag_gpu_level(y_out, y_in);
+          H_BB_term_res_comp.get_real()->tag_gpu_level( y_out, y_in );
+          H_BB_term_res_comp.get_imag()->tag_gpu_level( y_out, y_in );
           C_H_BB_prop_update_r.tag_gpu_level(y_out, y_in);
           C_H_BB_prop_update_i.tag_gpu_level(y_out, y_in);
           C_H_BB_update_r.tag_gpu_level(y_out, y_in); 
@@ -3604,6 +3606,8 @@ void generate_function(std::string name)
           .then( *(flip_H_BB_new_term_0_r1_b2.get_imag()), wnumHex)
           .then( *(flip_H_BB_new_term_0_r2_b2.get_real()), wnumHex)
           .then( *(flip_H_BB_new_term_0_r2_b2.get_imag()), wnumHex)
+          .then( *(H_BB_term_res_comp.get_real()), wnumHex)
+          .then( *(H_BB_term_res_comp.get_imag()), wnumHex)
           .then(C_H_BB_prop_update_r, wnumHex) 
           .then(C_H_BB_prop_update_i, wnumHex)
           .then(C_H_BB_update_r, r) 
