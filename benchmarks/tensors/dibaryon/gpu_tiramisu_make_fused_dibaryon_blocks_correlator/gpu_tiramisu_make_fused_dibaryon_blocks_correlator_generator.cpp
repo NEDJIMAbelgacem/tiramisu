@@ -1266,8 +1266,7 @@ void generate_function(std::string name)
 
     complex_expr snk_hex_prefactor(cast(p_float64, sigs(nperm)) * hex_snk_weights(r, wnumHex) * src_spin_block_weights(rp, s), 0.0);
 
-    // complex_expr H_BB_term_res = snk_hex_prefactor * H_BB_term_res_b1 * H_BB_term_res_b2;
-    complex_expr H_BB_term_res( cast(p_float64, expr(1)), cast(p_float64, expr(1)) );
+    complex_expr H_BB_term_res = snk_hex_prefactor * H_BB_term_res_b1 * H_BB_term_res_b2;
 
     complex_computation H_BB_term_res_comp( "H_BB_term_res_comp", { t, y_out, y_in, rp, n, r, s, nperm, wnumHex }, H_BB_term_res );
 
