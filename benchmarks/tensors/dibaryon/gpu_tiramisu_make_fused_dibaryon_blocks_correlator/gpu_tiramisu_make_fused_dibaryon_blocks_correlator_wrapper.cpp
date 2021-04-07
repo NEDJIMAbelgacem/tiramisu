@@ -950,7 +950,7 @@ int main(int, char **)
    for (rp=0; rp<B2Nrows; rp++) {
       printf("\n");
       // for (m=0; m<Nsrc+NsrcHex; m++)
-      for (m = Nsrc; m < Nsrc + NsrcHex; m++)
+      for (m = 0; m < Nsrc + NsrcHex; m++)
          for (n=0; n<Nsnk+NsnkHex; n++)
 //            for (r=0; r<B2Nrows; r++)
               for (t=0; t<Lt; t++) {
