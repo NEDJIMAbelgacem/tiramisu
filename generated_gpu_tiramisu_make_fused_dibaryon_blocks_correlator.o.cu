@@ -3839,7 +3839,7 @@ static __global__ void _kernel_3(int32_t c1, double *buf_B1_prop_i_gpu, double *
 							};
 							buf_H_BB_new_term_b1_r[index] = -1;
 							buf_H_BB_new_term_b1_i[index] = -1;
-							buf_H_BB_new_term_b2_r[index] = -1
+							buf_H_BB_new_term_b2_r[index] = -1;
 							buf_H_BB_new_term_b2_i[index] = -1;
 							buf_flip_H_BB_new_term_b1_r[index] = -1;
 							buf_flip_H_BB_new_term_b1_i[index] = -1;
