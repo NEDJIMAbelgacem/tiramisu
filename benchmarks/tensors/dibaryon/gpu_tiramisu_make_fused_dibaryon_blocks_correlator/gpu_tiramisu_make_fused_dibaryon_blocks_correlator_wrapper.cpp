@@ -5,6 +5,7 @@
 #include <iostream>
 #include <complex>
 #include "benchmarks.h"
+#include <iomanip>
 
 #ifdef __cplusplus
 extern "C" {
