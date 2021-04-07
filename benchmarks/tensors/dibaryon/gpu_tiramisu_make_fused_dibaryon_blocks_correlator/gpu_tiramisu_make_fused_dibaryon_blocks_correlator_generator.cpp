@@ -127,6 +127,7 @@ void generate_function(std::string name)
     snk_psi_B1_i.store_in( &buf_snk_psi_B1_i_gpu );
     snk_psi_B2_r.store_in( &buf_snk_psi_B2_r_gpu );
     snk_psi_B2_i.store_in( &buf_snk_psi_B2_i_gpu );
+
     hex_src_psi_r.store_in( &buf_hex_src_psi_r_gpu );
     hex_src_psi_i.store_in( &buf_hex_src_psi_i_gpu );
     hex_snk_psi_r.store_in( &buf_hex_snk_psi_r_gpu );
@@ -2918,6 +2919,10 @@ void generate_function(std::string name)
     computation copy_snk_psi_B1_i_host_to_device({}, memcpy(buf_snk_psi_B1_i_cpu, buf_snk_psi_B1_i_gpu));
     computation copy_snk_psi_B2_r_host_to_device({}, memcpy(buf_snk_psi_B2_r_cpu, buf_snk_psi_B2_r_gpu));
     computation copy_snk_psi_B2_i_host_to_device({}, memcpy(buf_snk_psi_B2_i_cpu, buf_snk_psi_B2_i_gpu));
+    
+    computation copy_hex_src_psi_r_host_to_device( {}, memcpy( buf_hex_src_psi_r_cpu,  buf_hex_src_psi_r_gpu ) );
+    computation copy_hex_src_psi_i_host_to_device( {}, memcpy( buf_hex_src_psi_i_cpu,  buf_hex_src_psi_i_gpu ) );
+
     computation copy_src_spins_host_to_device({}, memcpy(buf_src_spins_cpu, buf_src_spins_gpu));
     computation copy_sigs_host_to_device({}, memcpy(buf_sigs_cpu, buf_sigs_gpu));
     computation copy_snk_psi_r_host_to_device({}, memcpy(buf_snk_psi_r_cpu, buf_snk_psi_r_gpu));
@@ -2935,37 +2940,6 @@ void generate_function(std::string name)
     computation copy_hex_snk_weights_host_to_device({}, memcpy(buf_hex_snk_weights_cpu, buf_hex_snk_weights_gpu));
     computation copy_src_spin_block_weights_host_to_device({}, memcpy(buf_src_spin_block_weights_cpu, buf_src_spin_block_weights_gpu));
     computation copy_snk_b_host_to_device({}, memcpy(buf_snk_b_cpu, buf_snk_b_gpu));
-    // copy_buf_C_r_host_to_device.add_predicate( t == 0 );
-    // copy_buf_C_i_host_to_device.add_predicate( t == 0 );
-    // copy_B1_prop_r_host_to_device.add_predicate( t == 0 );
-    // copy_B1_prop_i_host_to_device.add_predicate( t == 0 );
-    // copy_B2_prop_r_host_to_device.add_predicate( t == 0 );
-    // copy_B2_prop_i_host_to_device.add_predicate( t == 0 );
-    // copy_src_psi_B1_r_host_to_device.add_predicate( t == 0 );
-    // copy_src_psi_B1_i_host_to_device.add_predicate( t == 0 );
-    // copy_src_psi_B2_r_host_to_device.add_predicate( t == 0 );
-    // copy_src_psi_B2_i_host_to_device.add_predicate( t == 0 );
-    // copy_snk_psi_B1_r_host_to_device.add_predicate( t == 0 );
-    // copy_snk_psi_B1_i_host_to_device.add_predicate( t == 0 );
-    // copy_snk_psi_B2_r_host_to_device.add_predicate( t == 0 );
-    // copy_snk_psi_B2_i_host_to_device.add_predicate( t == 0 );
-    // copy_src_spins_host_to_device.add_predicate( t == 0 );
-    // copy_sigs_host_to_device.add_predicate( t == 0 );
-    // copy_snk_psi_r_host_to_device.add_predicate( t == 0 );
-    // copy_snk_psi_i_host_to_device.add_predicate( t == 0 );
-    // copy_hex_snk_psi_r_host_to_device.add_predicate( t == 0 );
-    // copy_hex_snk_psi_i_host_to_device.add_predicate( t == 0 );
-    // copy_src_color_weights_host_to_device.add_predicate( t == 0 );
-    // copy_src_spin_weights_host_to_device.add_predicate( t == 0 );
-    // copy_src_weights_host_to_device.add_predicate( t == 0 );
-    // copy_snk_color_weights_host_to_device.add_predicate( t == 0 );
-    // copy_snk_spin_weights_host_to_device.add_predicate( t == 0 );
-    // copy_snk_weights_host_to_device.add_predicate( t == 0 );
-    // copy_hex_snk_color_weights_host_to_device.add_predicate( t == 0 );
-    // copy_hex_snk_spin_weights_host_to_device.add_predicate( t == 0 );
-    // copy_hex_snk_weights_host_to_device.add_predicate( t == 0 );
-    // copy_src_spin_block_weights_host_to_device.add_predicate( t == 0 );
-    // copy_snk_b_host_to_device.add_predicate( t == 0 );
 
     computation copy_buf_C_r_device_to_host({}, memcpy(buf_C_r, buf_C_r_cpu));
     computation copy_buf_C_i_device_to_host({}, memcpy(buf_C_i, buf_C_i_cpu));
@@ -2981,6 +2955,10 @@ void generate_function(std::string name)
     computation copy_snk_psi_B1_i_device_to_host({}, memcpy(*snk_psi_B1_i.get_buffer(), buf_snk_psi_B1_i_cpu));
     computation copy_snk_psi_B2_r_device_to_host({}, memcpy(*snk_psi_B2_r.get_buffer(), buf_snk_psi_B2_r_cpu));
     computation copy_snk_psi_B2_i_device_to_host({}, memcpy(*snk_psi_B2_i.get_buffer(), buf_snk_psi_B2_i_cpu));
+    
+    computation copy_hex_src_psi_r_device_to_host( {}, memcpy( buf_hex_src_psi_r_gpu, buf_hex_src_psi_r_cpu ) );
+    computation copy_hex_src_psi_i_device_to_host( {}, memcpy( buf_hex_src_psi_i_gpu, buf_hex_src_psi_i_cpu ) );
+    
     computation copy_src_spins_device_to_host({}, memcpy(*src_spins.get_buffer(), buf_src_spins_cpu));
     computation copy_sigs_device_to_host({}, memcpy(*sigs.get_buffer(), buf_sigs_cpu));
     computation copy_snk_psi_r_device_to_host({}, memcpy(*snk_psi_r.get_buffer(), buf_snk_psi_r_cpu));
@@ -2998,38 +2976,7 @@ void generate_function(std::string name)
     computation copy_hex_snk_weights_device_to_host({}, memcpy(*hex_snk_weights.get_buffer(), buf_hex_snk_weights_cpu));
     computation copy_src_spin_block_weights_device_to_host({}, memcpy(*src_spin_block_weights.get_buffer(), buf_src_spin_block_weights_cpu));
     computation copy_snk_b_device_to_host({}, memcpy(*snk_b.get_buffer(), buf_snk_b_cpu));
-    // copy_buf_C_r_device_to_host.add_predicate( t == 1 );
-    // copy_buf_C_i_device_to_host.add_predicate( t == 1 );
-    // copy_B1_prop_r_device_to_host.add_predicate( t == 1 );
-    // copy_B1_prop_i_device_to_host.add_predicate( t == 1 );
-    // copy_B2_prop_r_device_to_host.add_predicate( t == 1 );
-    // copy_B2_prop_i_device_to_host.add_predicate( t == 1 );
-    // copy_src_psi_B1_r_device_to_host.add_predicate( t == 1 );
-    // copy_src_psi_B1_i_device_to_host.add_predicate( t == 1 );
-    // copy_src_psi_B2_r_device_to_host.add_predicate( t == 1 );
-    // copy_src_psi_B2_i_device_to_host.add_predicate( t == 1 );
-    // copy_snk_psi_B1_r_device_to_host.add_predicate( t == 1 );
-    // copy_snk_psi_B1_i_device_to_host.add_predicate( t == 1 );
-    // copy_snk_psi_B2_r_device_to_host.add_predicate( t == 1 );
-    // copy_snk_psi_B2_i_device_to_host.add_predicate( t == 1 );
-    // copy_src_spins_device_to_host.add_predicate( t == 1 );
-    // copy_sigs_device_to_host.add_predicate( t == 1 );
-    // copy_snk_psi_r_device_to_host.add_predicate( t == 1 );
-    // copy_snk_psi_i_device_to_host.add_predicate( t == 1 );
-    // copy_hex_snk_psi_r_device_to_host.add_predicate( t == 1 );
-    // copy_hex_snk_psi_i_device_to_host.add_predicate( t == 1 );
-    // copy_src_color_weights_device_to_host.add_predicate( t == 1 );
-    // copy_src_spin_weights_device_to_host.add_predicate( t == 1 );
-    // copy_src_weights_device_to_host.add_predicate( t == 1 );
-    // copy_snk_color_weights_device_to_host.add_predicate( t == 1 );
-    // copy_snk_spin_weights_device_to_host.add_predicate( t == 1 );
-    // copy_snk_weights_device_to_host.add_predicate( t == 1 );
-    // copy_hex_snk_color_weights_device_to_host.add_predicate( t == 1 );
-    // copy_hex_snk_spin_weights_device_to_host.add_predicate( t == 1 );
-    // copy_hex_snk_weights_device_to_host.add_predicate( t == 1 );
-    // copy_src_spin_block_weights_device_to_host.add_predicate( t == 1 );
-    // copy_snk_b_device_to_host.add_predicate( t == 1 );
-
+    
     computation* handle = &(copy_buf_C_r_host_to_device
         .then(copy_buf_C_i_host_to_device, computation::root)
         .then(copy_B1_prop_r_host_to_device, computation::root)
@@ -3044,6 +2991,8 @@ void generate_function(std::string name)
         .then(copy_snk_psi_B1_i_host_to_device, computation::root)
         .then(copy_snk_psi_B2_r_host_to_device, computation::root)
         .then(copy_snk_psi_B2_i_host_to_device, computation::root)
+        .thne(copy_hex_src_psi_r_host_to_device, computation::root)
+        .thne(copy_hex_src_psi_i_host_to_device, computation::root)
         .then(copy_src_spins_host_to_device, computation::root)
         .then(copy_sigs_host_to_device, computation::root)
         .then(copy_snk_psi_r_host_to_device, computation::root)
@@ -3639,6 +3588,8 @@ void generate_function(std::string name)
     .then(copy_snk_psi_B1_i_device_to_host, computation::root)
     .then(copy_snk_psi_B2_r_device_to_host, computation::root)
     .then(copy_snk_psi_B2_i_device_to_host, computation::root)
+    .thne(copy_hex_src_psi_r_device_to_host, computation::root)
+    .thne(copy_hex_src_psi_i_device_to_host, computation::root)
     .then(copy_src_spins_device_to_host, computation::root)
     .then(copy_sigs_device_to_host, computation::root)
     .then(copy_snk_psi_r_device_to_host, computation::root)
