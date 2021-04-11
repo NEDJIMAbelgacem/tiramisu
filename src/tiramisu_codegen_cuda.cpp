@@ -1089,26 +1089,26 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
             resulting_file->add_statement(s);
 
         // forward function declarations
-        resulting_file->add_statement(cuda_ast::statement_ptr{new cuda_ast::cuda_forward_function_declaration{"#include <iostream>\n#include <string>\nvoid callCudaProfiler( std::string str );"}});
+        // resulting_file->add_statement(cuda_ast::statement_ptr{new cuda_ast::cuda_forward_function_declaration{"#include <iostream>\n#include <string>\nvoid callCudaProfiler( std::string str );"}});
         
-        {
-            std::string file_path = "/data/scratch/belgacem_nedjima/tiramisu_fork/tiramisu/src/functions.txt.cpp";
-            std::string functions;
-            std::ifstream in( file_path );
-            std::string line;
-            if (in.is_open())
-            {
-                while ( std::getline( in, line ) )
-                {
-                    functions = functions + line + "\n";
-                }
-                in.close();
-            } else {
-                std::cerr << "Can't open file " << file_path;
-                exit(-1);
-            }
-            resulting_file->add_statement( cuda_ast::statement_ptr{ new cuda_ast::cuda_forward_function_declaration( functions ) } );
-        }
+        // {
+        //     std::string file_path = "/data/scratch/belgacem_nedjima/tiramisu_fork/tiramisu/src/functions.txt.cpp";
+        //     std::string functions;
+        //     std::ifstream in( file_path );
+        //     std::string line;
+        //     if (in.is_open())
+        //     {
+        //         while ( std::getline( in, line ) )
+        //         {
+        //             functions = functions + line + "\n";
+        //         }
+        //         in.close();
+        //     } else {
+        //         std::cerr << "Can't open file " << file_path;
+        //         exit(-1);
+        //     }
+        //     resulting_file->add_statement( cuda_ast::statement_ptr{ new cuda_ast::cuda_forward_function_declaration( functions ) } );
+        // }
 
         for (auto &kernel: generator.kernels) {
             resulting_file->add_statement(cuda_ast::statement_ptr{new cuda_ast::kernel_definition{kernel}});
@@ -1116,7 +1116,7 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
             std::shared_ptr<cuda_ast::block> wrapper_block{new cuda_ast::block};
             wrapper_block->add_statement(cuda_ast::statement_ptr{new cuda_ast::kernel_call{kernel}});
             wrapper_block->add_statement(cuda_ast::statement_ptr{new cuda_ast::cuda_device_synchronize_call{kernel}});
-            wrapper_block->add_statement(cuda_ast::statement_ptr{new cuda_ast::cuda_call_profiler{ kernel, kernel->get_wrapper_name() + " finished" }});
+            // wrapper_block->add_statement(cuda_ast::statement_ptr{new cuda_ast::cuda_call_profiler{ kernel, kernel->get_wrapper_name() + " finished" }});
 
             wrapper_block->add_statement(cuda_ast::statement_ptr{
                     new cuda_ast::return_statement{
