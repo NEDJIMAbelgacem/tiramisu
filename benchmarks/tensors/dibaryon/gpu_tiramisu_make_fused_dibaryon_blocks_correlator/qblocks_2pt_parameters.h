@@ -31,8 +31,8 @@
 #define P_B0Nrows 1
 #define P_Mw 12
 #define P_NsFull 4
-#define P_sites_per_rank 16
-#define P_src_sites_per_rank 16
+#define P_sites_per_rank 2
+#define P_src_sites_per_rank 2
 
 #elif DATA_SET_2
 
