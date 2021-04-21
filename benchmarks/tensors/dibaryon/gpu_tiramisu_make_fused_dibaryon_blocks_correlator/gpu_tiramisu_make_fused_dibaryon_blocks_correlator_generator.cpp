@@ -1202,10 +1202,12 @@ void generate_function(std::string name)
 
     buffer buf_C_BB_r("buf_C_BB_r", {Lt, Vsnk, Vsnk, B2Nrows, NsrcTot, B2Nrows, NsnkTot}, p_float64, a_temporary);
     buffer buf_C_BB_i("buf_C_BB_i", {Lt, Vsnk, Vsnk, B2Nrows, NsrcTot, B2Nrows, NsnkTot}, p_float64, a_temporary);
+    buffer buf_C_BB_r_cpu("buf_C_BB_r_cpu", {Lt, Vsnk, Vsnk, B2Nrows, NsrcTot, B2Nrows, NsnkTot}, p_float64, a_temporary);
+    buffer buf_C_BB_i_cpu("buf_C_BB_i_cpu", {Lt, Vsnk, Vsnk, B2Nrows, NsrcTot, B2Nrows, NsnkTot}, p_float64, a_temporary);
     buf_C_BB_r.tag_gpu_global();
     buf_C_BB_r.tag_gpu_global();
     C_BB_init_r.store_in(&buf_C_BB_r, {t, x1, x2, rp, mpmH, r, npnH});
-    C_BB_init_i.store_in(&buf_C_BB_r, {t, x1, x2, x_in, rp, mpmH, r, npnH});
+    C_BB_init_i.store_in(&buf_C_BB_r, {t, x1, x2, rp, mpmH, r, npnH});
 
     computation C_BB_BB_update_s_r("C_BB_BB_update_s_r", {t, x1, x2, rp, m, r, nue}, C_BB_init_r(t, x1, x2, rp, m, r, NEntangled+nue) + BB_BB_term_s.get_real());
     computation C_BB_BB_update_s_i("C_BB_BB_update_s_i", {t, x1, x2, rp, m, r, nue}, C_BB_init_i(t, x1, x2, rp, m, r, NEntangled+nue) + BB_BB_term_s.get_imag());
@@ -2989,6 +2991,9 @@ void generate_function(std::string name)
     computation copy_hex_snk_weights_device_to_host({}, memcpy(*hex_snk_weights.get_buffer(), buf_hex_snk_weights_cpu));
     computation copy_src_spin_block_weights_device_to_host({}, memcpy(*src_spin_block_weights.get_buffer(), buf_src_spin_block_weights_cpu));
     computation copy_snk_b_device_to_host({}, memcpy(*snk_b.get_buffer(), buf_snk_b_cpu));
+
+    computation copy_buf_C_BB_r_device_to_host({}, memcpy(buf_C_BB_r, buf_C_BB_r_cpu));
+    computation copy_buf_C_BB_i_device_to_host({}, memcpy(buf_C_BB_i, buf_C_BB_i_cpu));
     
     computation* handle = &(copy_buf_C_r_host_to_device
         .then(copy_buf_C_i_host_to_device, computation::root)
@@ -3631,6 +3636,8 @@ void generate_function(std::string name)
     .then(copy_hex_snk_weights_device_to_host, computation::root)
     .then(copy_src_spin_block_weights_device_to_host, computation::root)
     .then(copy_snk_b_device_to_host, computation::root)
+    .then(copy_buf_C_BB_r_device_to_host, computation::root)
+    .then(copy_buf_C_BB_i_device_to_host, computation::root)
     );
 
 #if VECTORIZED
