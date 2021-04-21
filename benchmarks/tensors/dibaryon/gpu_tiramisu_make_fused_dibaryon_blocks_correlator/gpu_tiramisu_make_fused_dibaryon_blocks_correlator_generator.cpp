@@ -3664,7 +3664,7 @@ void generate_function(std::string name)
     // -------------------------------------------------------
     tiramisu::codegen({
             &buf_C_r_cpu, &buf_C_i_cpu,
-            &buf_C_BB_r_cpu, &buf_C_BB_i_cpu
+            &buf_C_BB_r_cpu, &buf_C_BB_i_cpu,
             &buf_B1_prop_r_cpu, &buf_B1_prop_i_cpu,
             &buf_B2_prop_r_cpu, &buf_B2_prop_i_cpu,
             &buf_src_psi_B1_r_cpu, &buf_src_psi_B1_i_cpu, 
