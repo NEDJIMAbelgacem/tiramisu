@@ -96,6 +96,9 @@ void tiramisu_make_two_nucleon_2pt(double* C_re,
    Halide::Buffer<double> b_C_r(Nsnk+NsnkHex, B2Nrows, Nsrc+NsrcHex, B2Nrows, sites_per_rank, Vsnk/sites_per_rank, Lt, "C_r");
    Halide::Buffer<double> b_C_i(Nsnk+NsnkHex, B2Nrows, Nsrc+NsrcHex, B2Nrows, sites_per_rank, Vsnk/sites_per_rank, Lt, "C_i");
 
+   Halide::Buffer<double> b_C_BB_r(Nsnk+NsnkHex, B2Nrows, Nsrc+NsrcHex, B2Nrows, Vsnk, Vsnk, Lt, "b_C_BB_r");
+   Halide::Buffer<double> b_C_BB_i(Nsnk+NsnkHex, B2Nrows, Nsrc+NsrcHex, B2Nrows, Vsnk, Vsnk, Lt, "b_C_BB_i");
+
    Halide::Buffer<int> b_src_color_weights(Nq, Nw, B2Nrows, "src_color_weights");
    Halide::Buffer<int> b_src_spin_weights(Nq, Nw, B2Nrows, "src_spin_weights");
    Halide::Buffer<double> b_src_weights(Nw, B2Nrows, "src_weights");
@@ -344,6 +347,16 @@ void tiramisu_make_two_nucleon_2pt(double* C_re,
                      for (int x_out=0; x_out < Vsnk/sites_per_rank; x_out++) {
                         b_C_r(n,r,m,rp,x_in,x_out,t) = 0.0;
                         b_C_i(n,r,m,rp,x_in,x_out,t) = 0.0;
+                     }
+   for (int rp=0; rp<B2Nrows; rp++)
+      for (int m=0; m<Nsrc+NsrcHex; m++)
+         for (int r=0; r<B2Nrows; r++)
+            for (int n=0; n<Nsnk+NsnkHex; n++)
+               for (int t=0; t<Lt; t++) 
+                  for ( int x2 = 0; x2 < Vsnk; x2++)
+                     for (int x1 = 0; x1 < Vsnk; x1++) {
+                        b_C_BB_r(n,r,m,rp,x2,x1,t) = 0.0;
+                        b_C_BB_i(n,r,m,rp,x2,x1,t) = 0.0;
                      } 
 
    if (rank == 0) {
@@ -358,6 +371,8 @@ void tiramisu_make_two_nucleon_2pt(double* C_re,
    gpu_tiramisu_make_fused_dibaryon_blocks_correlator(
       b_C_r.raw_buffer(),
       b_C_i.raw_buffer(),
+      b_C_BB_r.raw_buffer(),
+      b_C_BB_r.raw_buffer(),
       b_B1_prop_r.raw_buffer(),
       b_B1_prop_i.raw_buffer(),
       b_B2_prop_r.raw_buffer(),
@@ -441,6 +456,18 @@ void tiramisu_make_two_nucleon_2pt(double* C_re,
                      for (int x_out=0; x_out<Vsnk/sites_per_rank; x_out++) {
                         double number0r = b_C_r(n,r,m,rp,x_in,x_out,t);
                         double number0i = b_C_i(n,r,m,rp,x_in,x_out,t);
+                        C_re[index_5d(rp,m,r,n,t, Nsrc+NsrcHex,B2Nrows,Nsnk+NsnkHex,Lt)] += number0r;
+                        C_im[index_5d(rp,m,r,n,t, Nsrc+NsrcHex,B2Nrows,Nsnk+NsnkHex,Lt)] += number0i;
+                     }
+   for (int rp=0; rp<B2Nrows; rp++)
+      for (int m=0; m<Nsrc+NsrcHex; m++)
+         for (int r=0; r<B2Nrows; r++)
+            for (int n=0; n<Nsnk+NsnkHex; n++)
+               for (int t=0; t<Lt; t++)
+                  for (int x1 = 0; x1 < Vsnk; x1++)
+                     for (int x2=0; x2 < Vsnk; x2++) {
+                        double number0r = b_C_BB_r(n,r,m,rp,x2,x1,t);
+                        double number0i = b_C_BB_i(n,r,m,rp,x2,x1,t);
                         C_re[index_5d(rp,m,r,n,t, Nsrc+NsrcHex,B2Nrows,Nsnk+NsnkHex,Lt)] += number0r;
                         C_im[index_5d(rp,m,r,n,t, Nsrc+NsrcHex,B2Nrows,Nsnk+NsnkHex,Lt)] += number0i;
                      }

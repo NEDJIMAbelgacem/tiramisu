@@ -41,6 +41,10 @@ extern "C" {
 int gpu_tiramisu_make_fused_dibaryon_blocks_correlator(
 			    halide_buffer_t *,
 			    halide_buffer_t *,
+
+			    halide_buffer_t * buf_C_BB_r_cpu,
+			    halide_buffer_t * buf_C_BB_i_cpu,
+
 			    halide_buffer_t *,
 			    halide_buffer_t *,
 			    halide_buffer_t *,
