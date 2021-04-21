@@ -1197,8 +1197,8 @@ void generate_function(std::string name)
     complex_expr BB_BB_term_s = (snk_psi_B1_ue * snk_psi_B2_x2_ue + snk_psi_B1_x2_ue * snk_psi_B2_ue) * C_BB_BB_prop_update(t, x1, x2, rp, m, r, 1, Nperms-1, Nw2-1);
     complex_expr BB_BB_term_b = snk_psi * C_BB_BB_prop_update(t, x1, x2, rp, m, r, 1, Nperms-1, Nw2-1);
 
-    computation C_BB_init_r("C_init_r", {t, x1, x2, rp, mpmH, r, npnH}, expr((double) 0));
-    computation C_BB_init_i("C_init_i", {t, x1, x2, rp, mpmH, r, npnH}, expr((double) 0));
+    computation C_BB_init_r("C_BB_init_r", {t, x1, x2, rp, mpmH, r, npnH}, expr((double) 0));
+    computation C_BB_init_i("C_BB_init_i", {t, x1, x2, rp, mpmH, r, npnH}, expr((double) 0));
 
     buffer buf_C_BB_r("buf_C_BB_r", {Lt, Vsnk, Vsnk, B2Nrows, NsrcTot, B2Nrows, NsnkTot}, p_float64, a_temporary);
     buffer buf_C_BB_i("buf_C_BB_i", {Lt, Vsnk, Vsnk, B2Nrows, NsrcTot, B2Nrows, NsnkTot}, p_float64, a_temporary);
@@ -3030,7 +3030,7 @@ void generate_function(std::string name)
     // BB_BB
     handle = &(handle
           ->then(C_BB_init_r, t)
-          .then(C_BB_init_r, x2)
+          .then(C_BB_init_i, x2)
           .then(B1_Blocal_r1_r_init, x2) // t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m
           .then(B1_Blocal_r1_i_init, m) 
           .then(B1_Bfirst_r1_r_init, m)
