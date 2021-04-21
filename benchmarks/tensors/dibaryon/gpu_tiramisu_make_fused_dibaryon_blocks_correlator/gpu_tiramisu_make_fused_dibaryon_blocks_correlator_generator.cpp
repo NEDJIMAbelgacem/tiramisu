@@ -1205,9 +1205,9 @@ void generate_function(std::string name)
     buffer buf_C_BB_r_cpu("buf_C_BB_r_cpu", {Lt, Vsnk, Vsnk, B2Nrows, NsrcTot, B2Nrows, NsnkTot}, p_float64, a_temporary);
     buffer buf_C_BB_i_cpu("buf_C_BB_i_cpu", {Lt, Vsnk, Vsnk, B2Nrows, NsrcTot, B2Nrows, NsnkTot}, p_float64, a_temporary);
     buf_C_BB_r.tag_gpu_global();
-    buf_C_BB_r.tag_gpu_global();
+    buf_C_BB_i.tag_gpu_global();
     C_BB_init_r.store_in(&buf_C_BB_r, {t, x1, x2, rp, mpmH, r, npnH});
-    C_BB_init_i.store_in(&buf_C_BB_r, {t, x1, x2, rp, mpmH, r, npnH});
+    C_BB_init_i.store_in(&buf_C_BB_i, {t, x1, x2, rp, mpmH, r, npnH});
 
     computation C_BB_BB_update_s_r("C_BB_BB_update_s_r", {t, x1, x2, rp, m, r, nue}, C_BB_init_r(t, x1, x2, rp, m, r, NEntangled+nue) + BB_BB_term_s.get_real());
     computation C_BB_BB_update_s_i("C_BB_BB_update_s_i", {t, x1, x2, rp, m, r, nue}, C_BB_init_i(t, x1, x2, rp, m, r, NEntangled+nue) + BB_BB_term_s.get_imag());
@@ -3035,7 +3035,7 @@ void generate_function(std::string name)
     // BB_BB
     handle = &(handle
           ->then(C_BB_init_r, t)
-          .then(C_BB_init_i, x2)
+          .then(C_BB_init_i, npnH)
           .then(B1_Blocal_r1_r_init, x2) // t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m
           .then(B1_Blocal_r1_i_init, m) 
           .then(B1_Bfirst_r1_r_init, m)
