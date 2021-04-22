@@ -1197,17 +1197,29 @@ void generate_function(std::string name)
     complex_expr BB_BB_term_s = (snk_psi_B1_ue * snk_psi_B2_x2_ue + snk_psi_B1_x2_ue * snk_psi_B2_ue) * C_BB_BB_prop_update(t, x1, x2, rp, m, r, 1, Nperms-1, Nw2-1);
     complex_expr BB_BB_term_b = snk_psi * C_BB_BB_prop_update(t, x1, x2, rp, m, r, 1, Nperms-1, Nw2-1);
 
-    computation C_BB_init_r("C_BB_init_r", {t, x1, x2, rp, mpmH, r, npnH}, expr((double) 0));
-    computation C_BB_init_i("C_BB_init_i", {t, x1, x2, rp, mpmH, r, npnH}, expr((double) 0));
+        // t, x1, x2, rp, m, r, nue}
+        // Lt, Vsnk, Vsnk, B2Nrows, Nsrc, B2Nrows, Nsnk
 
-    buffer buf_C_BB_r("buf_C_BB_r", {Lt, Vsnk, Vsnk, B2Nrows, NsrcTot, B2Nrows, NsnkTot}, p_float64, a_temporary);
-    buffer buf_C_BB_i("buf_C_BB_i", {Lt, Vsnk, Vsnk, B2Nrows, NsrcTot, B2Nrows, NsnkTot}, p_float64, a_temporary);
-    buffer buf_C_BB_r_cpu("buf_C_BB_r_cpu", {Lt, Vsnk, Vsnk, B2Nrows, NsrcTot, B2Nrows, NsnkTot}, p_float64, a_temporary);
-    buffer buf_C_BB_i_cpu("buf_C_BB_i_cpu", {Lt, Vsnk, Vsnk, B2Nrows, NsrcTot, B2Nrows, NsnkTot}, p_float64, a_temporary);
+    computation C_BB_init_r("C_BB_init_r", {t, x1, x2, rp, m, r, n}, expr((double) 0));
+    computation C_BB_init_i("C_BB_init_i", {t, x1, x2, rp, m, r, n}, expr((double) 0));
+
+    buffer buf_C_BB_r("buf_C_BB_r", {Lt, Vsnk, Vsnk, B2Nrows, Nsrc, B2Nrows, Nsnk}, p_float64, a_temporary);
+    buffer buf_C_BB_i("buf_C_BB_i", {Lt, Vsnk, Vsnk, B2Nrows, Nsrc, B2Nrows, Nsnk}, p_float64, a_temporary);
+    buffer buf_C_BB_r_cpu("buf_C_BB_r_cpu", {Lt, Vsnk, Vsnk, B2Nrows, Nsrc, B2Nrows, Nsnk}, p_float64, a_temporary);
+    buffer buf_C_BB_i_cpu("buf_C_BB_i_cpu", {Lt, Vsnk, Vsnk, B2Nrows, Nsrc, B2Nrows, Nsnk}, p_float64, a_temporary);
     buf_C_BB_r.tag_gpu_global();
     buf_C_BB_i.tag_gpu_global();
-    C_BB_init_r.store_in(&buf_C_BB_r, {t, x1, x2, rp, mpmH, r, npnH});
-    C_BB_init_i.store_in(&buf_C_BB_i, {t, x1, x2, rp, mpmH, r, npnH});
+    C_BB_init_r.store_in(&buf_C_BB_r, {t, x1, x2, rp, m, r, n});
+    C_BB_init_i.store_in(&buf_C_BB_i, {t, x1, x2, rp, m, r, n});
+
+    // original
+    // computation C_BB_BB_update_b_r("C_BB_BB_update_b_r", {t, x_out, x_in, x2, rp, m, r, ne}, C_init_r(t, x_out, x_in, rp, m, r, ne) + BB_BB_term_b.get_real());
+    // computation C_BB_BB_update_b_i("C_BB_BB_update_b_i", {t, x_out, x_in, x2, rp, m, r, ne}, C_init_i(t, x_out, x_in, rp, m, r, ne) + BB_BB_term_b.get_imag());
+
+    // 1
+    // computation C_BB_BB_update_b_r("C_BB_BB_update_b_r", {t, x1, x2, rp, m, r, ne}, C_init_r(t, x1, rp, m, r, ne) + BB_BB_term_b.get_real());
+    // computation C_BB_BB_update_b_i("C_BB_BB_update_b_i", {t, x1, x2, rp, m, r, ne}, C_init_i(t, x1, rp, m, r, ne) + BB_BB_term_b.get_imag());
+
 
     computation C_BB_BB_update_s_r("C_BB_BB_update_s_r", {t, x1, x2, rp, m, r, nue}, C_BB_init_r(t, x1, x2, rp, m, r, NEntangled+nue) + BB_BB_term_s.get_real());
     computation C_BB_BB_update_s_i("C_BB_BB_update_s_i", {t, x1, x2, rp, m, r, nue}, C_BB_init_i(t, x1, x2, rp, m, r, NEntangled+nue) + BB_BB_term_s.get_imag());
@@ -3036,7 +3048,7 @@ void generate_function(std::string name)
     handle = &(handle
           ->then(C_BB_init_r, t)
           .then(C_BB_init_i, npnH)
-          .then(B1_Blocal_r1_r_init, x2) // t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m
+          .then(B1_Blocal_r1_r_init, x2) // t, x1, x2, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m
           .then(B1_Blocal_r1_i_init, m) 
           .then(B1_Bfirst_r1_r_init, m)
           .then(B1_Bfirst_r1_i_init, m)
