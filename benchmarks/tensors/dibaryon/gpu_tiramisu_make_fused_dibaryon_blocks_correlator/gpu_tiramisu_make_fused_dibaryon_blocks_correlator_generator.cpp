@@ -2382,7 +2382,9 @@ void generate_function(std::string name)
     C_H_H_update_i.store_in(&buf_C_i, {t, x_out, x_in, rp, Nsrc+mH, r, Nsnk+nH});  
 
 // --------------------------------------
-
+    // {x1, x2} -> {x12_out, x12_in} // {block_count, threads_per_block}
+    // x1 = (x12_out * thread_per_block + x12_in) / Vsrc
+    // x2 = (x12_out * thread_per_block + x12_in) % Vsrc
 
     C_init_r.tag_gpu_level(x_out, x_in);
     C_init_i.tag_gpu_level(x_out, x_in);
@@ -3047,7 +3049,7 @@ void generate_function(std::string name)
     // BB_BB
     handle = &(handle
           ->then(C_BB_init_r, t)
-          .then(C_BB_init_i, npnH)
+          .then(C_BB_init_i, n)
           .then(B1_Blocal_r1_r_init, x2) // t, x1, x2, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m
           .then(B1_Blocal_r1_i_init, m) 
           .then(B1_Bfirst_r1_r_init, m)
