@@ -2243,9 +2243,9 @@ void generate_function(std::string name)
     C_BB_BB_prop_update_i.store_in(&buf_C_BB_BB_prop_i, {t, x1, x2, 0});
 
     C_BB_BB_update_b_r.store_in(&buf_C_BB_r, {t, x1, x2, rp, m, r, ne});
-    C_BB_BB_update_b_i.store_in(&buf_C_BB_r, {t, x1, x2, rp, m, r, ne});
+    C_BB_BB_update_b_i.store_in(&buf_C_BB_i, {t, x1, x2, rp, m, r, ne});
     C_BB_BB_update_s_r.store_in(&buf_C_BB_r, {t, x1, x2, rp, m, r, NEntangled+nue});
-    C_BB_BB_update_s_i.store_in(&buf_C_BB_r, {t, x1, x2, rp, m, r, NEntangled+nue});
+    C_BB_BB_update_s_i.store_in(&buf_C_BB_i, {t, x1, x2, rp, m, r, NEntangled+nue});
 
     // BB_H
 
