@@ -6,8 +6,8 @@
 
 #if DATA_SET_1
 
-#define P_Vsrc 16
-#define P_Vsnk 16
+#define P_Vsrc 32
+#define P_Vsnk 32
 #define P_Nsrc 44
 #define P_Nsnk 44
 #define P_NEntangled 3
