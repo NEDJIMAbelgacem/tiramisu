@@ -1996,9 +1996,7 @@ void generate_function(std::string name)
     buf_snk_B1_Blocal_props_r2_i.tag_gpu_global();
     snk_B1_Blocal_r2_r_props_init.store_in(&buf_snk_B1_Blocal_props_r2_r, {y_out, y_in, jCprime, jSprime});
     snk_B1_Blocal_r2_i_props_init.store_in(&buf_snk_B1_Blocal_props_r2_i, {y_out, y_in, jCprime, jSprime});
-    buffer buf_flip_snk_B1_Blocal_r1_r("buf_flip_snk_B1_Blocal_r1_r",   {Vsnk/sites_per_rank, sites_per_rank, Nc, Ns, Nc, Ns, Nc, Ns, Nsnk}, p_float64, a_temporary);
-    buffer buf_flip_snk_B1_Blocal_r1_i("buf_flip_snk_B1_Blocal_r1_i",   {Vsnk/sites_per_rank, sites_per_rank, Nc, Ns, Nc, Ns, Nc, Ns, Nsnk}, p_float64, a_temporary);
-    
+
     buffer buf_snk_B2_Blocal_r1_r("buf_snk_B2_Blocal_r1_r",   {Vsnk/sites_per_rank, sites_per_rank, Nc, Ns, Nc, Ns, Nc, Ns, Nsnk}, p_float64, a_temporary);
     buffer buf_snk_B2_Blocal_r1_i("buf_snk_B2_Blocal_r1_i",   {Vsnk/sites_per_rank, sites_per_rank, Nc, Ns, Nc, Ns, Nc, Ns, Nsnk}, p_float64, a_temporary);
     buf_snk_B2_Blocal_r1_r.tag_gpu_global();
