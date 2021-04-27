@@ -310,8 +310,8 @@ void generate_function(std::string name)
     buf_B1_Blocal_props_r2_r.tag_gpu_global();
     buf_B1_Blocal_props_r2_i.tag_gpu_global();
 
-    buf_B1_Blocal_props_r2_r.allocate_at( B1_Blocal_r1_r_init, t );
-    buf_B1_Blocal_props_r2_i.allocate_at( B1_Blocal_r1_i_init, t );
+    computation *allocate_buf_B1_Blocal_props_r2_r = buf_B1_Blocal_props_r2_r.allocate_at( C_init_r, t );
+    computation *allocate_buf_B1_Blocal_props_r2_i = buf_B1_Blocal_props_r2_i.allocate_at( C_init_r, t );
 
     // {t, x_out, x_in, rp, m, r, nperm, wnum}
     new_term_0_r1_b1.get_real()->store_in(&buf_new_term_r_b1, {t, x_out, x_in, rp, m, r, nperm, wnum});
@@ -468,6 +468,8 @@ void generate_function(std::string name)
             .then(copy_sigs_host_to_device, computation::root));
 
     handle = &(handle->then(C_init_r, computation::root).then(C_init_i, n));
+
+    handle = &(handle->then( allocate_buf_B1_Blocal_props_r2_r, t ).then( allocate_buf_B1_Blocal_props_r2_i, t ));
 
     // // first the x only arrays
     handle = &(handle
