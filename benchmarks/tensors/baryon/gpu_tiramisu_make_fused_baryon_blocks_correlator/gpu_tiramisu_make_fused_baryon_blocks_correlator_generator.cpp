@@ -469,7 +469,7 @@ void generate_function(std::string name)
 
     handle = &(handle->then(C_init_r, computation::root).then(C_init_i, n));
 
-    handle = &(handle->then( allocate_buf_B1_Blocal_props_r2_r, t ).then( allocate_buf_B1_Blocal_props_r2_i, t ));
+    handle = &(handle->then( *allocate_buf_B1_Blocal_props_r2_r, t ).then( *allocate_buf_B1_Blocal_props_r2_i, t ));
 
     // // first the x only arrays
     handle = &(handle

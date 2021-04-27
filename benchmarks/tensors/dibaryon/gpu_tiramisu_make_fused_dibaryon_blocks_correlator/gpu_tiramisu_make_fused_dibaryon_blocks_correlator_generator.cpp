@@ -1730,7 +1730,7 @@ void generate_function(std::string name)
     B2_Bsecond_r2_i_update.store_in(&buf_B2_Bsecond_r2_i, {x1, x2, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m});
     B2_Bthird_r2_r_update.store_in(&buf_B2_Bthird_r2_r, {x1, x2, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m});
     B2_Bthird_r2_i_update.store_in(&buf_B2_Bthird_r2_i, {x1, x2, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m});
-    buffer buf_flip_B2_Blocal_r2_r("buf_flip_B2_Blocal_r2_r",   {Vsnk, Vsnk, Nc, Ns, Nc, Ns, Nc, Ns, Nsrc}, p_float64, a_temporary);
+    buffer buf_flip_B2_Blocal_r2_r("buf_flip_B2_Blocal_r2_r",   {Vsnk, Vsnk, Nc, Ns, Nc, Ns, Nc, Ns, Nsrc}, p_float64, a_temporary); // ~1Gb of data
     buffer buf_flip_B2_Blocal_r2_i("buf_flip_B2_Blocal_r2_i",   {Vsnk, Vsnk, Nc, Ns, Nc, Ns, Nc, Ns, Nsrc}, p_float64, a_temporary);
     buffer buf_flip_B2_Bfirst_r2_r("buf_flip_B2_Bfirst_r2_r",   {Vsnk, Vsnk, Nc, Ns, Nc, Ns, Nc, Ns, Nsrc}, p_float64, a_temporary);
     buffer buf_flip_B2_Bfirst_r2_i("buf_flip_B2_Bfirst_r2_i",   {Vsnk, Vsnk, Nc, Ns, Nc, Ns, Nc, Ns, Nsrc}, p_float64, a_temporary);
