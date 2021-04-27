@@ -469,7 +469,7 @@ void generate_function(std::string name)
             .then(copy_snk_weights_host_to_device, computation::root)
             .then(copy_sigs_host_to_device, computation::root));
 
-    handle = &(handle->then( allocate_buf_B1_Blocal_props_r2_r, computation::root ).then( *allocate_buf_B1_Blocal_props_r2_i, computation::root ));
+    handle = &(handle->then( *allocate_buf_B1_Blocal_props_r2_r, computation::root ).then( *allocate_buf_B1_Blocal_props_r2_i, computation::root ));
 
     handle = &(handle->then(C_init_r, computation::root).then(C_init_i, n));
 
