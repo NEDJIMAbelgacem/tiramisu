@@ -114,10 +114,10 @@ void tiramisu_make_two_nucleon_2pt(double* C_re,
    Halide::Buffer<double> b_hex_snk_weights(Nw2Hex, B2Nrows, "hex_snk_weights");
 
     // prop
-    Halide::Buffer<double> b_B1_prop_r((double *)B1_prop_re, {Vsrc, Vsnk, Ns, Nc, Ns, Nc, Lt, Nq});
-    Halide::Buffer<double> b_B1_prop_i((double *)B1_prop_im, {Vsrc, Vsnk, Ns, Nc, Ns, Nc, Lt, Nq});
-    Halide::Buffer<double> b_B2_prop_r((double *)B2_prop_re, {Vsrc, Vsnk, Ns, Nc, Ns, Nc, Lt, Nq});
-    Halide::Buffer<double> b_B2_prop_i((double *)B2_prop_im, {Vsrc, Vsnk, Ns, Nc, Ns, Nc, Lt, Nq});
+    Halide::Buffer<double> b_B1_prop_r((double *)B1_prop_re, {Vsnk, Vsrc, Ns, Nc, Ns, Nc, Lt, Nq});
+    Halide::Buffer<double> b_B1_prop_i((double *)B1_prop_im, {Vsnk, Vsrc, Ns, Nc, Ns, Nc, Lt, Nq});
+    Halide::Buffer<double> b_B2_prop_r((double *)B2_prop_re, {Vsnk, Vsrc, Ns, Nc, Ns, Nc, Lt, Nq});
+    Halide::Buffer<double> b_B2_prop_i((double *)B2_prop_im, {Vsnk, Vsrc, Ns, Nc, Ns, Nc, Lt, Nq});
 
    if (rank == 0) {
    printf("prop elem %4.9f \n", b_B1_prop_r(0,0,0,0,0,0,0,0));
@@ -502,10 +502,10 @@ int main(int, char **)
 
    // Initialization
    // Props
-   double* B1_prop_re = (double *) malloc(Nq * Lt * Nc * Ns * Nc * Ns * Vsnk * Vsrc * sizeof (double));
-   double* B1_prop_im = (double *) malloc(Nq * Lt * Nc * Ns * Nc * Ns * Vsnk * Vsrc * sizeof (double));
-   double* B2_prop_re = (double *) malloc(Nq * Lt * Nc * Ns * Nc * Ns * Vsnk * Vsrc * sizeof (double));
-   double* B2_prop_im = (double *) malloc(Nq * Lt * Nc * Ns * Nc * Ns * Vsnk * Vsrc * sizeof (double));
+   double* B1_prop_re = (double *) malloc(Nq * Lt * Nc * Ns * Nc * Ns * Vsrc * Vsnk * sizeof (double));
+   double* B1_prop_im = (double *) malloc(Nq * Lt * Nc * Ns * Nc * Ns * Vsrc * Vsnk * sizeof (double));
+   double* B2_prop_re = (double *) malloc(Nq * Lt * Nc * Ns * Nc * Ns * Vsrc * Vsnk * sizeof (double));
+   double* B2_prop_im = (double *) malloc(Nq * Lt * Nc * Ns * Nc * Ns * Vsrc * Vsnk * sizeof (double));
    for (q = 0; q < Nq; q++) {
       for (t = 0; t < Lt; t++) {
          for (iC = 0; iC < Nc; iC++) {
@@ -519,23 +519,23 @@ int main(int, char **)
 	                        double v2 = rand()%10;
 	                        double v3 = rand()%10;
 	                        double v4 = rand()%10;
-                           B1_prop_re[prop_index(q,t,jC,jS,iC,iS,y,x ,Nc,Ns,Vsrc,Vsnk,Lt)] = v1;
-                           B2_prop_re[prop_index(q,t,jC,jS,iC,iS,y,x ,Nc,Ns,Vsrc,Vsnk,Lt)] = v2;
-                           B1_prop_im[prop_index(q,t,jC,jS,iC,iS,y,x ,Nc,Ns,Vsrc,Vsnk,Lt)] = v3;
-                           B2_prop_im[prop_index(q,t,jC,jS,iC,iS,y,x ,Nc,Ns,Vsrc,Vsnk,Lt)] = v4;
+                           B1_prop_re[prop_index(q,t,jC,jS,iC,iS,x,y ,Nc,Ns,Vsnk,Vsrc,Lt)] = v1;
+                           B2_prop_re[prop_index(q,t,jC,jS,iC,iS,x,y ,Nc,Ns,Vsnk,Vsrc,Lt)] = v2;
+                           B1_prop_im[prop_index(q,t,jC,jS,iC,iS,x,y ,Nc,Ns,Vsnk,Vsrc,Lt)] = v3;
+                           B2_prop_im[prop_index(q,t,jC,jS,iC,iS,x,y ,Nc,Ns,Vsnk,Vsrc,Lt)] = v4;
 			   }
 			   else {
                            if ((jC == iC) && (jS == iS)) {
-                              B1_prop_re[prop_index(q,t,jC,jS,iC,iS,y,x ,Nc,Ns,Vsrc,Vsnk,Lt)] = 1/mq*cos(2*M_PI/6);
-                              B2_prop_re[prop_index(q,t,jC,jS,iC,iS,y,x ,Nc,Ns,Vsrc,Vsnk,Lt)] = 1/mq*cos(2*M_PI/6);
-                              B1_prop_im[prop_index(q,t,jC,jS,iC,iS,y,x ,Nc,Ns,Vsrc,Vsnk,Lt)] = 1/mq*sin(2*M_PI/6);
-                              B2_prop_im[prop_index(q,t,jC,jS,iC,iS,y,x ,Nc,Ns,Vsrc,Vsnk,Lt)] = 1/mq*sin(2*M_PI/6); 
+                              B1_prop_re[prop_index(q,t,jC,jS,iC,iS,x,y ,Nc,Ns,Vsnk,Vsrc,Lt)] = 1/mq*cos(2*M_PI/6);
+                              B2_prop_re[prop_index(q,t,jC,jS,iC,iS,x,y ,Nc,Ns,Vsnk,Vsrc,Lt)] = 1/mq*cos(2*M_PI/6);
+                              B1_prop_im[prop_index(q,t,jC,jS,iC,iS,x,y ,Nc,Ns,Vsnk,Vsrc,Lt)] = 1/mq*sin(2*M_PI/6);
+                              B2_prop_im[prop_index(q,t,jC,jS,iC,iS,x,y ,Nc,Ns,Vsnk,Vsrc,Lt)] = 1/mq*sin(2*M_PI/6); 
                            }
                            else {
-                              B1_prop_re[prop_index(q,t,jC,jS,iC,iS,y,x ,Nc,Ns,Vsrc,Vsnk,Lt)] = 0;
-                              B2_prop_re[prop_index(q,t,jC,jS,iC,iS,y,x ,Nc,Ns,Vsrc,Vsnk,Lt)] = 0;
-                              B1_prop_im[prop_index(q,t,jC,jS,iC,iS,y,x ,Nc,Ns,Vsrc,Vsnk,Lt)] = 0;
-                              B2_prop_im[prop_index(q,t,jC,jS,iC,iS,y,x ,Nc,Ns,Vsrc,Vsnk,Lt)] = 0;
+                              B1_prop_re[prop_index(q,t,jC,jS,iC,iS,x,y ,Nc,Ns,Vsnk,Vsrc,Lt)] = 0;
+                              B2_prop_re[prop_index(q,t,jC,jS,iC,iS,x,y ,Nc,Ns,Vsnk,Vsrc,Lt)] = 0;
+                              B1_prop_im[prop_index(q,t,jC,jS,iC,iS,x,y ,Nc,Ns,Vsnk,Vsrc,Lt)] = 0;
+                              B2_prop_im[prop_index(q,t,jC,jS,iC,iS,x,y ,Nc,Ns,Vsnk,Vsrc,Lt)] = 0;
                            }
 			   }
                         }
