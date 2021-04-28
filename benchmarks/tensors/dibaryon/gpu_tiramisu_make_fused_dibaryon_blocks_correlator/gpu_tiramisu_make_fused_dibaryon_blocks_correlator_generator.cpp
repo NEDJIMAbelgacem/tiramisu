@@ -3062,7 +3062,7 @@ void generate_function(std::string name)
           .then(flip_B1_Bthird_r1_r_init, m)
           .then(flip_B1_Bthird_r1_i_init, m)
 
-          .then(B1_Blocal_r1_r_props_init, x2) // t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime
+          .then(B1_Blocal_r1_r_props_init, t) // t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime
           .then(B1_Blocal_r1_i_props_init, jSprime)
           .then(B1_Bfirst_r1_r_props_init, jSprime)
           .then(B1_Bfirst_r1_i_props_init, jSprime)
@@ -3071,7 +3071,7 @@ void generate_function(std::string name)
           .then(B1_Bthird_r1_r_props_init, jSprime)
           .then(B1_Bthird_r1_i_props_init, jSprime)
 
-          .then(B1_Blocal_r1_r_diquark, y) // {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock}
+          .then(B1_Blocal_r1_r_diquark, t) // {t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock}
           .then(B1_Blocal_r1_i_diquark, wnumBlock)
           .then(B1_Bfirst_r1_r_diquark, wnumBlock)
           .then(B1_Bfirst_r1_i_diquark, wnumBlock)
@@ -3104,7 +3104,7 @@ void generate_function(std::string name)
           .then(flip_B1_Bthird_r1_r_update, m)
           .then(flip_B1_Bthird_r1_i_update, m)
 
-          .then(B1_Blocal_r2_r_init, x2) // t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m
+          .then(B1_Blocal_r2_r_init, t) // t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m
           .then(B1_Blocal_r2_i_init, m)
           .then(B1_Bfirst_r2_r_init, m)
           .then(B1_Bfirst_r2_i_init, m)
@@ -3121,7 +3121,7 @@ void generate_function(std::string name)
           .then(flip_B1_Bthird_r2_r_init, m)
           .then(flip_B1_Bthird_r2_i_init, m)
 
-          .then(B1_Blocal_r2_r_props_init, x2) // t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime
+          .then(B1_Blocal_r2_r_props_init, t) // t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime
           .then(B1_Blocal_r2_i_props_init, jSprime)
           .then(B1_Bfirst_r2_r_props_init, jSprime)
           .then(B1_Bfirst_r2_i_props_init, jSprime)
@@ -3130,7 +3130,7 @@ void generate_function(std::string name)
           .then(B1_Bthird_r2_r_props_init, jSprime)
           .then(B1_Bthird_r2_i_props_init, jSprime)
 
-          .then(B1_Blocal_r2_r_diquark, y) // t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock
+          .then(B1_Blocal_r2_r_diquark, t) // t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock
           .then(B1_Blocal_r2_i_diquark, wnumBlock)
           .then(B1_Bfirst_r2_r_diquark, wnumBlock)
           .then(B1_Bfirst_r2_i_diquark, wnumBlock)
@@ -3163,7 +3163,7 @@ void generate_function(std::string name)
           .then(flip_B1_Bthird_r2_r_update, m)
           .then(flip_B1_Bthird_r2_i_update, m)
 
-          .then(B2_Blocal_r1_r_init, x2) // t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m
+          .then(B2_Blocal_r1_r_init, t) // t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m
           .then(B2_Blocal_r1_i_init, m)
           .then(B2_Bfirst_r1_r_init, m)
           .then(B2_Bfirst_r1_i_init, m)
@@ -3180,7 +3180,7 @@ void generate_function(std::string name)
           .then(flip_B2_Bthird_r1_r_init, m)
           .then(flip_B2_Bthird_r1_i_init, m)
 
-          .then(B2_Blocal_r1_r_props_init, x2) // t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime
+          .then(B2_Blocal_r1_r_props_init, t) // t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime
           .then(B2_Blocal_r1_i_props_init, jSprime)
           .then(B2_Bfirst_r1_r_props_init, jSprime)
           .then(B2_Bfirst_r1_i_props_init, jSprime)
@@ -3189,7 +3189,7 @@ void generate_function(std::string name)
           .then(B2_Bthird_r1_r_props_init, jSprime)
           .then(B2_Bthird_r1_i_props_init, jSprime)
 
-          .then(B2_Blocal_r1_r_diquark, y)  // t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock
+          .then(B2_Blocal_r1_r_diquark, t)  // t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock
           .then(B2_Blocal_r1_i_diquark, wnumBlock)
           .then(B2_Bfirst_r1_r_diquark, wnumBlock)
           .then(B2_Bfirst_r1_i_diquark, wnumBlock)
@@ -3222,7 +3222,7 @@ void generate_function(std::string name)
           .then(flip_B2_Bthird_r1_r_update, m)
           .then(flip_B2_Bthird_r1_i_update, m)
 
-          .then(B2_Blocal_r2_r_init, x2) // t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m
+          .then(B2_Blocal_r2_r_init, t) // t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m
           .then(B2_Blocal_r2_i_init, m)
           .then(B2_Bfirst_r2_r_init, m)
           .then(B2_Bfirst_r2_i_init, m)
@@ -3239,7 +3239,7 @@ void generate_function(std::string name)
           .then(flip_B2_Bthird_r2_r_init, m)
           .then(flip_B2_Bthird_r2_i_init, m)
 
-          .then(B2_Blocal_r2_r_props_init, x2) // t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime
+          .then(B2_Blocal_r2_r_props_init, t) // t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime
           .then(B2_Blocal_r2_i_props_init, jSprime)
           .then(B2_Bfirst_r2_r_props_init, jSprime)
           .then(B2_Bfirst_r2_i_props_init, jSprime)
@@ -3248,7 +3248,7 @@ void generate_function(std::string name)
           .then(B2_Bthird_r2_r_props_init, jSprime)
           .then(B2_Bthird_r2_i_props_init, jSprime)
 
-          .then(B2_Blocal_r2_r_diquark, y) // t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock
+          .then(B2_Blocal_r2_r_diquark, t) // t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock
           .then(B2_Blocal_r2_i_diquark, wnumBlock)
           .then(B2_Bfirst_r2_r_diquark, wnumBlock)
           .then(B2_Bfirst_r2_i_diquark, wnumBlock)
@@ -3281,10 +3281,10 @@ void generate_function(std::string name)
           .then(flip_B2_Bthird_r2_r_update, m)
           .then(flip_B2_Bthird_r2_i_update, m) 
 
-          .then(C_BB_BB_prop_init_r, x2) // t, x_out, x_in, x2, rp, m, r
+          .then(C_BB_BB_prop_init_r, t) // t, x_out, x_in, x2, rp, m, r
           .then(C_BB_BB_prop_init_i, r)
 
-          .then( *(BB_BB_new_term_0_r1_b1.get_real()), r) // t, x_out, x_in, x2, rp, m, r, s, nperm, wnum
+          .then( *(BB_BB_new_term_0_r1_b1.get_real()), t) // t, x_out, x_in, x2, rp, m, r, s, nperm, wnum
           .then( *(BB_BB_new_term_0_r1_b1.get_imag()), wnum)
           .then( *(BB_BB_new_term_1_r1_b1.get_real()), wnum)
           .then( *(BB_BB_new_term_1_r1_b1.get_imag()), wnum)
