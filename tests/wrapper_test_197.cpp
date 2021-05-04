@@ -3,49 +3,34 @@
 
 #include <tiramisu/utils.h>
 
-void test_gemm(const std::string &name, int M, int N, int K, float alpha, float beta)
+#define T 2
+#define A_size 256
+
+void test_allocation(const std::string &name)
 {
-    Halide::Buffer<int32_t> sizes(3);
-    Halide::Buffer<float> params(3);
-    Halide::Buffer<float> A(K, M);
-    Halide::Buffer<float> B(N, K);
-    Halide::Buffer<float> C(N, M);
-    Halide::Buffer<float> C_ref(N, M);
-    sizes(0) = M;
-    sizes(1) = N;
-    sizes(2) = K;
-    params(0) = alpha;
-    params(1) = beta;
-    for (int i = 0; i < K; i++)
-        for (int j = 0; j < M; j++)
-            A(i, j) = std::rand() % 10 - 5;
-    for (int i = 0; i < N; i++)
-        for (int j = 0; j < K; j++)
-            B(i, j) = std::rand() % 10 - 5;
-    for (int i = 0; i < N; i++)
-        for (int j = 0; j < M; j++)
-            C(i, j) = std::rand() % 10 - 5;
-    for (int i = 0; i < N; i++) {
-        for (int j = 0; j < M; j++) {
-            C_ref(i, j) = beta * C(i, j);
-            for (int k = 0; k < K; k++) {
-                C_ref(i, j) += alpha * A(k, j) * B(i, k);
+    Halide::Buffer<float> A(A_size, A_size, T);
+    Halide::Buffer<float> A_ref(A_size, A_size, T);
+    for (int i = 0; i < A_size; ++i)
+    {
+        for (int j = 0; j < A_size; ++j)
+        {
+            for (int k = 0; k < T; ++k)
+            {
+                A(i, j, k) = std::rand() % 10 - 5;
+                A_ref(i, j, k) = std::rand() % 10 - 5;
             }
         }
     }
 
-    test_197(sizes.raw_buffer(), params.raw_buffer(),
-             A.raw_buffer(), B.raw_buffer(), C.raw_buffer());
-    compare_buffers(name, C, C_ref);
+
+    test_197( A.raw_buffer() );
+    compare_buffers(name, A, A_ref);
 }
 
 int main(int, char **)
 {
-    test_gemm("test_197_1", 100, 50, 32, 3, 4);
-    test_gemm("test_197_2", 1, 2, 3, 4, 7);
-    test_gemm("test_197_3", 128, 128, 128, 3, -1);
-    test_gemm("test_197_4", 100, 100, 100, 1, 0);
-    test_gemm("test_197_5", 100, 100, 100, 0, 1);
+    test_allocation("test_197_1" );
+    test_allocation("test_197_2" );
 
     return 0;
 }
