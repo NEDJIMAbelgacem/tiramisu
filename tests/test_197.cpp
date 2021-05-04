@@ -40,7 +40,7 @@ int main(int argc, char **argv)
     init_A.tag_gpu_level( A_iter1, A_iter2 );
     // init_A2.tag_gpu_level( A_iter1, A_iter2 );
 
-    copy_A_buff.then( *allocate_A, computation::root ).then( init_A, t ).then( copy_A_device_to_host, computation::root );
+    copy_A_host_to_device.then( *allocate_A, computation::root ).then( init_A, t ).then( copy_A_device_to_host, computation::root );
     // init_A.then( init_A2, A_iter2 );
 
 
