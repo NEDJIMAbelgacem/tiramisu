@@ -34,6 +34,9 @@ int main(int argc, char **argv)
 
     tiramisu::computation * allocate_A = b_A_gpu.allocate_at( init_A, t );
 
+    init_A.tag_gpu_level( A_iter1, A_iter2 );
+    init_A2.tag_gpu_level( A_iter1, A_iter2 );
+
     allocate_A->then( init_A, t ).then( init_A2, t );
 
     tiramisu::codegen({ A.get_buffer() },
