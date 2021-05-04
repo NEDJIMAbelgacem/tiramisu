@@ -2323,8 +2323,8 @@ tiramisu::generator::halide_stmt_from_isl_node(const tiramisu::function &fct, is
                 {
                     size = size * halide_dim_sizes[i];
                 }
-                result = Halide::Internal::Call::make(Halide::type_of<void *>(), "tiramisu_cuda_malloc",
-                                             {Halide::cast(Halide::UInt(64), size * h_type.bytes())}, Halide::Internal::Call::Extern)
+                result = Halide::Internal::Evaluate::make( Halide::Internal::Call::make(Halide::type_of<void *>(), "tiramisu_cuda_malloc",
+                                             {Halide::cast(Halide::UInt(64), size * h_type.bytes())}, Halide::Internal::Call::Extern) );
 
                 buf->mark_as_allocated();
                 // allocate_stmts_vector.push_back( get_computation_annotated_in_a_node(node) );
