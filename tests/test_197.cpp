@@ -24,7 +24,7 @@ int main(int argc, char **argv)
     tiramisu::init("test_197");
     input A( "A", { t, A_iter1, A_iter2 }, p_float32 );
 
-    buffer b_A_gpu( "b_A_gpu", { t, A_iter1, A_iter2 }, { T, A_size, A_size }, p_float32 );
+    buffer b_A_gpu( "b_A_gpu", { T, A_size, A_size }, p_float32, a_temporary );
     b_A_gpu.tag_gpu_global();
 
     computation init_A( "init_A", { t, A_iter1, A_iter2 }, expr( (double) 0 ) );
