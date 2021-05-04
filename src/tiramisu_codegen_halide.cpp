@@ -2298,17 +2298,31 @@ tiramisu::generator::halide_stmt_from_isl_node(const tiramisu::function &fct, is
             ((get_computation_annotated_in_a_node(node)->get_expr().get_op_type() == tiramisu::o_allocate) ||
              (get_computation_annotated_in_a_node(node)->get_expr().get_op_type() == tiramisu::o_free)))
         {
-            // if (get_computation_annotated_in_a_node(node)->get_expr().get_op_type() == tiramisu::o_allocate)
-            // {
-            //     ERROR("Allocate node should not appear as a user ISL AST node. It should only appear with block construction (because of its scope).", true);
-            // }
-            // else
-            // {
+            if (get_computation_annotated_in_a_node(node)->get_expr().get_op_type() == tiramisu::o_allocate)
+            {
+                tiramisu::computation * alloc_at = get_computation_annotated_in_a_node(node);
+                tiramisu::expr allocate_expression =  alloc_at->get_expr();
+                string buffer_name = allocate_expression.get_name();
+                tiramisu::buffer *buf = comp->get_function()->get_buffers().find(buffer_name)->second;
+                std::vector<Halide::Expr> halide_dim_sizes;
+                // Create a vector indicating the size that should be allocated.
+                // Tiramisu buffer is defined from outermost to innermost, whereas Halide is from
+                // innermost to outermost; thus, we need to reverse the order.
+                for (int i = buf->get_dim_sizes().size() - 1; i >= 0; --i)
+                {
+                    const auto sz = buf->get_dim_sizes()[i];
+                    std::vector<isl_ast_expr *> ie = {};
+                    halide_dim_sizes.push_back(generator::halide_expr_from_tiramisu_expr(this, ie, sz));
+                }
+                result = generator::make_buffer_alloc(buf, halide_dim_sizes, result);
+                // ERROR("Allocate node should not appear as a user ISL AST node. It should only appear with block construction (because of its scope).", true);
+            }
+            else
+            {
                 tiramisu::computation *comp = get_computation_annotated_in_a_node(node);
-                std::cout << "\n" << comp->get_name() << "\n";
                 auto * buffer = (comp->get_access_relation() != nullptr) ? fct.get_buffers().at(get_buffer_name(comp)) : nullptr;
                 result = generator::make_buffer_free(buffer);
-            // }
+            }
         }
         else
         {
