@@ -37,7 +37,7 @@ int main(int argc, char **argv)
     init_A.tag_gpu_level( A_iter1, A_iter2 );
     init_A2.tag_gpu_level( A_iter1, A_iter2 );
 
-    allocate_A->then( init_A, t ).then( init_A2, t );
+    allocate_A->then( init_A, t ).then( init_A2, A_iter2 );
 
     tiramisu::codegen({ A.get_buffer() },
                       "build/generated_fct_test_197.o", true);
