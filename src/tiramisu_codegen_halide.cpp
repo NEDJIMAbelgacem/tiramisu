@@ -2298,16 +2298,16 @@ tiramisu::generator::halide_stmt_from_isl_node(const tiramisu::function &fct, is
             ((get_computation_annotated_in_a_node(node)->get_expr().get_op_type() == tiramisu::o_allocate) ||
              (get_computation_annotated_in_a_node(node)->get_expr().get_op_type() == tiramisu::o_free)))
         {
-            if (get_computation_annotated_in_a_node(node)->get_expr().get_op_type() == tiramisu::o_allocate)
-            {
-                ERROR("Allocate node should not appear as a user ISL AST node. It should only appear with block construction (because of its scope).", true);
-            }
-            else
-            {
+            // if (get_computation_annotated_in_a_node(node)->get_expr().get_op_type() == tiramisu::o_allocate)
+            // {
+            //     ERROR("Allocate node should not appear as a user ISL AST node. It should only appear with block construction (because of its scope).", true);
+            // }
+            // else
+            // {
                 tiramisu::computation *comp = get_computation_annotated_in_a_node(node);
                 auto * buffer = (comp->get_access_relation() != nullptr) ? fct.get_buffers().at(get_buffer_name(comp)) : nullptr;
                 result = generator::make_buffer_free(buffer);
-            }
+            // }
         }
         else
         {
