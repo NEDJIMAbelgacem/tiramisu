@@ -39,7 +39,7 @@ int main(int argc, char **argv)
     init_A.tag_gpu_level( A_iter1, A_iter2 );
     // init_A2.tag_gpu_level( A_iter1, A_iter2 );
 
-    copy_A_buff.then( *allocate_A, computation::root ).then( init_A2, t );
+    copy_A_buff.then( *allocate_A, computation::root ).then( init_A, t );
     // init_A.then( init_A2, A_iter2 );
 
     tiramisu::codegen({ A.get_buffer() },
