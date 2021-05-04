@@ -31,7 +31,7 @@ int main(int argc, char **argv)
     init_A.store_in( &b_A_gpu, { t, A_iter1, A_iter2 } );
 
     computation init_A2( "init_A2", { t, A_iter1, A_iter2 }, expr( (double) 1 ) );
-    init_A.store_in( &b_A_gpu, { t, A_iter1, A_iter2 } );
+    init_A2.store_in( &b_A_gpu, { t, A_iter1, A_iter2 } );
 
     tiramisu::computation * allocate_A = b_A_gpu.allocate_at( init_A, t );
 
