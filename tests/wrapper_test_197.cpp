@@ -23,7 +23,7 @@ void test_allocation(const std::string &name)
         }
     }
 
-    std::cout << "About to test "; << name << "\n";
+    std::cout << "About to test " << name << "\n";
     test_197( A.raw_buffer() );
     compare_buffers(name, A, A_ref);
 }
