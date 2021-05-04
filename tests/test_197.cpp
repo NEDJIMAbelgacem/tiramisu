@@ -9,6 +9,7 @@ using namespace tiramisu;
 
 int main(int argc, char **argv)
 {
+    tiramisu::init("test_197");
     // {
     //     for (int t = 0; t < N; ++t)
     //     {
@@ -21,7 +22,6 @@ int main(int argc, char **argv)
     var A_iter1( "A_iter1", 0, A_size );
     var A_iter2( "A_iter2", 0, A_size );
 
-    tiramisu::init("test_197");
     input A( "A", { t, A_iter1, A_iter2 }, p_float32 );
 
     buffer b_A_gpu( "b_A_gpu", { T, A_size, A_size }, p_float32, a_temporary );
@@ -30,7 +30,12 @@ int main(int argc, char **argv)
     computation init_A( "init_A", { t, A_iter1, A_iter2 }, expr( (double) 0 ) );
     init_A.store_in( &b_A_gpu, { t, A_iter1, A_iter2 } );
 
+    computation init_A2( "init_A2", { t, A_iter1, A_iter2 }, expr( (double) 1 ) );
+    init_A.store_in( &b_A_gpu, { t, A_iter1, A_iter2 } );
+
     b_A_gpu.allocate_at( init_A, t );
+
+    init_A.then( init_A2, t );
 
     tiramisu::codegen({ A.get_buffer() },
                       "build/generated_fct_test_197.o", true);
