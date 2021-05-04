@@ -33,9 +33,9 @@ int main(int argc, char **argv)
     computation init_A2( "init_A2", { t, A_iter1, A_iter2 }, expr( (double) 1 ) );
     init_A.store_in( &b_A_gpu, { t, A_iter1, A_iter2 } );
 
-    b_A_gpu.allocate_at( init_A, t );
+    tiramisu::computation * allocate_A = b_A_gpu.allocate_at( init_A, t );
 
-    init_A.then( init_A2, t );
+    allocate_A->then( init_A, t )->then( init_A2, t );
 
     tiramisu::codegen({ A.get_buffer() },
                       "build/generated_fct_test_197.o", true);
