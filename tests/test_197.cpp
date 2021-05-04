@@ -28,7 +28,7 @@ int main(int argc, char **argv)
     b_A_gpu.tag_gpu_global();
 
     computation init_A( "init_A", { t, A_iter1, A_iter2 }, expr( (double) 0 ) );
-    init_A.store_in( b_A_gpu, { t, A_iter1, A_iter2 } );
+    init_A.store_in( &b_A_gpu, { t, A_iter1, A_iter2 } );
 
     b_A_gpu.allocate_at( init_A, t );
 
