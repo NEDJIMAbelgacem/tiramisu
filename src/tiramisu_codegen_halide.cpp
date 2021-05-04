@@ -2305,6 +2305,7 @@ tiramisu::generator::halide_stmt_from_isl_node(const tiramisu::function &fct, is
             // else
             // {
                 tiramisu::computation *comp = get_computation_annotated_in_a_node(node);
+                std::cout << "\n" << comp->get_name() << "\n";
                 auto * buffer = (comp->get_access_relation() != nullptr) ? fct.get_buffers().at(get_buffer_name(comp)) : nullptr;
                 result = generator::make_buffer_free(buffer);
             // }
