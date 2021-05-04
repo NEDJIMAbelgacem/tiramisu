@@ -1046,12 +1046,12 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
                 body->add_statement(declaration);
 
                 if (buf->location != cuda_ast::memory_location::constant) {
-                    allocations.push_back(cuda_ast::statement_ptr{new cuda_ast::allocate(cuda_ast_buffer)});
+                    // allocations.push_back(cuda_ast::statement_ptr{new cuda_ast::allocate(cuda_ast_buffer)});
                     frees.push_back(cuda_ast::statement_ptr{new cuda_ast::free(cuda_ast_buffer)});
                 }
 
 
-                buf->mark_as_allocated();
+                // buf->mark_as_allocated();
 
                 if (buf->location == cuda_ast::memory_location::constant) {
                     const_buffer_declaration.push_back(declaration);
