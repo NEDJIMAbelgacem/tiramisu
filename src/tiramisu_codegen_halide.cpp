@@ -2315,6 +2315,7 @@ tiramisu::generator::halide_stmt_from_isl_node(const tiramisu::function &fct, is
                     halide_dim_sizes.push_back(generator::halide_expr_from_tiramisu_expr(alloc_at->get_function(), ie, sz));
                 }
                 std::cout << "\n Allocating " << buffer_name << "\n";
+                result = generator::make_buffer_free(buffer);
                 result = generator::make_buffer_alloc(buf, halide_dim_sizes, result);
                 // ERROR("Allocate node should not appear as a user ISL AST node. It should only appear with block construction (because of its scope).", true);
             }
