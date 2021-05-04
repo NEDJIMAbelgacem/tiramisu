@@ -5,7 +5,6 @@ using namespace tiramisu;
 
 #define T 2
 #define A_size 256
-#define B_Size 1
 
 int main(int argc, char **argv)
 {

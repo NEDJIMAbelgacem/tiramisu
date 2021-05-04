@@ -16,13 +16,14 @@ void test_allocation(const std::string &name)
         {
             for (int k = 0; k < T; ++k)
             {
-                A(i, j, k) = std::rand() % 10 - 5;
-                A_ref(i, j, k) = std::rand() % 10 - 5;
+                int val = std::rand() % 10 - 5;
+                A(i, j, k) = val;
+                A_ref(i, j, k) = val;
             }
         }
     }
 
-
+    std::cout << "About to test "; << name << "\n";
     test_197( A.raw_buffer() );
     compare_buffers(name, A, A_ref);
 }
