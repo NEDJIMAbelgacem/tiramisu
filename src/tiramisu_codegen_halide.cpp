@@ -2302,7 +2302,7 @@ tiramisu::generator::halide_stmt_from_isl_node(const tiramisu::function &fct, is
             {
                 tiramisu::computation * alloc_at = get_computation_annotated_in_a_node(node);
                 tiramisu::expr allocate_expression =  alloc_at->get_expr();
-                string buffer_name = allocate_expression.get_name();
+                std::string buffer_name = allocate_expression.get_name();
                 tiramisu::buffer *buf = alloc_at->get_function()->get_buffers().find(buffer_name)->second;
                 std::vector<Halide::Expr> halide_dim_sizes;
                 // Create a vector indicating the size that should be allocated.
