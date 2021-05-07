@@ -37,7 +37,7 @@ void test_allocation(const std::string &name)
                 B(i, j, t) = val;
                 // only the initialization part of the last iteration will persist
                 // and that's what we are looking for
-                if ( t == 0 )
+                if ( t == T_size - 1 )
                     B_ref(i, j, t) = 2;
                 else
                     B_ref(i, j, t) = val;
@@ -48,34 +48,6 @@ void test_allocation(const std::string &name)
 
 
     std::cout << A(0, 0, 0) << " | " << A_ref(0, 0, 0) << "\n";
-
-{
-    float sum_A = 0;
-    for (int i = 0; i < A_size; ++i)
-    {
-        for (int j = 0; j < A_size; ++j)
-        {
-            for (int t = 0; t < T_size; ++t)
-            {
-                sum_A += A(i, j, t);
-            }
-        }
-    }
-    float sum_B = 0;
-    for (int i = 0; i < A_size; ++i)
-    {
-        for (int j = 0; j < A_size; ++j)
-        {
-            for (int t = 0; t < T_size; ++t)
-            {
-                sum_B += B(i, j, t);
-            }
-        }
-    }
-    
-    std::cout << "sum_A: " << sum_A << "\n";
-    std::cout << "sum_B: " << sum_B << "\n";
-}
 
     test_197( A.raw_buffer(), B.raw_buffer() );
     float sum_A = 0;
@@ -89,20 +61,20 @@ void test_allocation(const std::string &name)
             }
         }
     }
-    float sum_B = 0;
+    float sum_A_ref = 0;
     for (int i = 0; i < A_size; ++i)
     {
         for (int j = 0; j < A_size; ++j)
         {
             for (int t = 0; t < T_size; ++t)
             {
-                sum_B += B(i, j, t);
+                sum_A_ref += A(i, j, t);
             }
         }
     }
     
     std::cout << "sum_A: " << sum_A << "\n";
-    std::cout << "sum_B: " << sum_B << "\n";
+    std::cout << "sum_A_ref: " << sum_A_ref << "\n";
 
     compare_buffers(name + "_B_check", B, B_ref);
     compare_buffers(name + "_A_check", A, A_ref);
