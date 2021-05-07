@@ -31,8 +31,8 @@ int main(int argc, char **argv)
     //         }
     //     }
     // }
-    var t1( "t1", 0, T );
-    var t2( "t2", 0, T );
+    var t1( "t1", 0, T_size );
+    var t2( "t2", 0, T_size );
     var A_iter1( "A_iter1", 0, A_size );
     var A_iter2( "A_iter2", 0, A_size );
 
@@ -42,10 +42,10 @@ int main(int argc, char **argv)
     input A( "A", { t1, t2, A_iter1, A_iter2 }, p_float32 );
     input B( "B", { t1, t2, B_iter1, B_iter2 }, p_float32 );
 
-    buffer b_A_gpu( "b_A_gpu", { T, T, A_size, A_size }, p_float32, a_temporary );
+    buffer b_A_gpu( "b_A_gpu", { T_size, T_size, A_size, A_size }, p_float32, a_temporary );
     b_A_gpu.tag_gpu_global();
 
-    buffer b_B_gpu( "b_B_gpu", { T, T, B_size, B_size }, p_float32, a_temporary );
+    buffer b_B_gpu( "b_B_gpu", { T_size, T_size, B_size, B_size }, p_float32, a_temporary );
     b_B_gpu.tag_gpu_global();
 
     computation init_A( "init_A", { t1, t2, A_iter1, A_iter2 }, expr( (double) 1 ) );
