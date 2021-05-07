@@ -57,7 +57,6 @@ int main(int argc, char **argv)
     init_B.tag_gpu_level( B_iter1, B_iter2 );
 
     computation copy_A_device_to_host( {t1, t2}, memcpy( b_A_gpu, *A.get_buffer() ) );
-
     computation copy_B_device_to_host( {t1, t2}, memcpy( b_B_gpu, *B.get_buffer() ) );
 
     tiramisu::computation *allocate_A = b_A_gpu.allocate_at( init_A, t2 );
