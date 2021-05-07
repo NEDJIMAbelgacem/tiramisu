@@ -15,7 +15,7 @@ void test_allocation(const std::string &name)
         {
             for (int t = 0; t < T_size; ++t)
             {
-                int val = std::rand() % 10 - 5;
+                int val = std::rand() % 10 - 20;
                 A(i, j, t) = val;
                 // only the initialization part of the last iteration will persist
                 // and that's what we are looking for
@@ -50,6 +50,21 @@ void test_allocation(const std::string &name)
     std::cout << A(0, 0, 0) << " | " << A_ref(0, 0, 0) << "\n";
 
     test_197( A.raw_buffer(), B.raw_buffer() );
+
+    for (int i = 0; i < B_size; ++i)
+    {
+        for (int j = 0; j < B_size; ++j)
+        {
+            for (int t = 0; t < T_size; ++t)
+            {
+                if ( B( i, j, t ) > 0 )
+                {
+                    std::cout << i << " " << j << " " << k << "\n";
+                }
+            }
+        }
+    }
+
     float sum_A = 0;
     for (int i = 0; i < A_size; ++i)
     {
