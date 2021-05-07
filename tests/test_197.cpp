@@ -53,10 +53,10 @@ int main(int argc, char **argv)
     computation copy_B_device_to_host( {t}, memcpy( b_B_gpu, *B.get_buffer() ) );
 
     tiramisu::computation *allocate_A = b_A_gpu.allocate_at( init_A, t );
-    tiramisu::computation *deallocate_A = b_A_gpu.deallocate_at( copy_A_device_to_host, t2 );
+    tiramisu::computation *deallocate_A = b_A_gpu.deallocate_at( copy_A_device_to_host, t );
 
     tiramisu::computation *allocate_B = b_B_gpu.allocate_at( init_B, t );
-    tiramisu::computation *deallocate_B = b_B_gpu.deallocate_at( copy_B_device_to_host, t2 );
+    tiramisu::computation *deallocate_B = b_B_gpu.deallocate_at( copy_B_device_to_host, t );
 
     allocate_A->then( init_A, t ).then( copy_A_device_to_host, t )
                                   .then( *deallocate_A, t )
