@@ -1767,7 +1767,7 @@ tiramisu::generator::halide_stmt_from_isl_node(const tiramisu::function &fct, is
                     DEBUG(10, tiramisu::str_dump("The computation of the node is free IR node."));
                     DEBUG(10, tiramisu::str_dump("The buffer that should be freed is " + buffer_name));
                     tiramisu::buffer *buf = comp->get_function()->get_buffers().find(buffer_name)->second;
-                    if ( buf->get_location() != cuda_ast::memory_location::host )
+                    if ( buf->get_location() == cuda_ast::memory_location::global )
                         result = make_buffer_free( buf );
                 }
                 else
