@@ -15,7 +15,7 @@ int main(int argc, char **argv)
     //         allocate A_gpu
     //         copy from A (host) to A_gpu (device)
     //         initialize A_gpu to 1
-    //         copy from A_gpu (device) to A (host)
+    //         if (t == T - 1) copy from A_gpu (device) to A (host)
     //         deallocate A_gpu
     //     }
     //     for (int t = 0; t < T; ++t)
@@ -23,7 +23,7 @@ int main(int argc, char **argv)
     //         allocate B_gpu
     //         copy from B (host) to B_gpu (device)
     //         initialize B_gpu to 2
-    //         copy from B_gpu (device) to B (host)
+    //         if (t == T - 1) copy from B_gpu (device) to B (host)
     //         deallocate B_gpu
     //     }
     // }
@@ -56,6 +56,8 @@ int main(int argc, char **argv)
 
     computation copy_A_device_to_host( {t}, memcpy( b_A_gpu, *A.get_buffer() ) );
     computation copy_B_device_to_host( {t}, memcpy( b_B_gpu, *B.get_buffer() ) );
+    copy_A_device_to_host.add_predicate( t == (T_size - 1) );
+    copy_B_device_to_host.add_predicate( t == (T_size - 1) );
 
     tiramisu::computation *allocate_A = b_A_gpu.allocate_at( copy_A_host_to_device, t );
     tiramisu::computation *deallocate_A = b_A_gpu.deallocate_at( copy_A_device_to_host, t );
