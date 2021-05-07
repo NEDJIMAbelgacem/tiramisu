@@ -71,7 +71,7 @@ int main(int argc, char **argv)
                                   .then( *allocate_B, computation::root )
                                   .then( init_B, t2 )
                                   .then( copy_B_device_to_host, t2 )
-                                  .then( *deallocate_B, t2 ));
+                                  .then( *deallocate_B, t2 );
 
     tiramisu::codegen({ A.get_buffer(), B.get_buffer() }, "build/generated_fct_test_197.o", true);
     return 0;
