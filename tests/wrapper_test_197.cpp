@@ -39,8 +39,8 @@ void test_allocation(const std::string &name)
     std::cout << A(0, 0, 0) << " | " << A_ref(0, 0, 0) << "\n";
 
     test_197( A.raw_buffer(), B.raw_buffer() );
-    compare_buffers(name, A, A_ref);
     compare_buffers(name, B, B_ref);
+    compare_buffers(name, A, A_ref);
 }
 
 int main(int, char **)
