@@ -41,7 +41,7 @@ int main(int argc, char **argv)
     buffer b_B_gpu( "b_B_gpu", { T_size, B_size, B_size }, p_float32, a_temporary );
     b_B_gpu.tag_gpu_global();
 
-    computation init_A( "init_A", { t, A_iter1, A_iter2 }, expr( (float) 999 ) );
+    computation init_A( "init_A", { t, A_iter1, A_iter2 }, expr( (float) 1 ) );
     init_A.store_in( &b_A_gpu, { t, A_iter1, A_iter2 } );
     init_A.tag_gpu_level( A_iter1, A_iter2 );
 
