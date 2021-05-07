@@ -59,7 +59,7 @@ void test_allocation(const std::string &name)
             {
                 if ( B( i, j, t ) > 0 )
                 {
-                    std::cout << i << " " << j << " " << k << "\n";
+                    std::cout << i << " " << j << " " << t << "\n";
                 }
             }
         }
