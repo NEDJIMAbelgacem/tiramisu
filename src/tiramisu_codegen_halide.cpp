@@ -1762,8 +1762,11 @@ tiramisu::generator::halide_stmt_from_isl_node(const tiramisu::function &fct, is
                 }
                 else if (op_type == tiramisu::o_free)
                 {
-                    auto * buffer = (comp->get_access_relation() != nullptr) ? fct.get_buffers().at(get_buffer_name(comp)) : nullptr;
-                    block = generator::make_buffer_free(buffer);
+                    std::string buffer_name = comp->get_expr().get_name();
+                    DEBUG(10, tiramisu::str_dump("The computation of the node is free IR node."));
+                    DEBUG(10, tiramisu::str_dump("The buffer that should be freed is " + buffer_name));
+                    tiramisu::buffer *buf = comp->get_function()->get_buffers().find(buffer_name)->second;
+                    result = make_buffer_free( buf );
                 }
                 else
                 {
@@ -2493,6 +2496,7 @@ void function::gen_halide_stmt()
             else
                 freestmts = free;
         }
+
     }
 
     if (freestmts.defined())
