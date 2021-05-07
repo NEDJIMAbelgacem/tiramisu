@@ -15,7 +15,7 @@ void test_allocation(const std::string &name)
         {
             for (int t = 0; t < T_size; ++t)
             {
-                int val = std::rand() % 10 - 5;
+                int val = 1;//std::rand() % 10 - 5;
                 A(i, j, t) = val;
                 A_ref(i, j, t) = 1;
             }
@@ -28,7 +28,7 @@ void test_allocation(const std::string &name)
         {
             for (int t = 0; t < T_size; ++t)
             {
-                int val = std::rand() % 10 - 5;
+                int val = 2;//std::rand() % 10 - 5;
                 B(i, j, t) = val;
                 B_ref(i, j, t) = 2;
             }
