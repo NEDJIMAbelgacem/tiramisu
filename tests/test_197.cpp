@@ -60,20 +60,20 @@ int main(int argc, char **argv)
     copy_B_device_to_host.add_predicate( t == (T_size - 1) );
 
     tiramisu::computation *allocate_A = b_A_gpu.allocate_at( copy_A_host_to_device, t );
-    tiramisu::computation *deallocate_A = b_A_gpu.deallocate_at( copy_A_device_to_host, t );
+    // tiramisu::computation *deallocate_A = b_A_gpu.deallocate_at( copy_A_device_to_host, t );
 
     tiramisu::computation *allocate_B = b_B_gpu.allocate_at( copy_B_host_to_device, t );
-    tiramisu::computation *deallocate_B = b_B_gpu.deallocate_at( copy_B_device_to_host, t );
+    // tiramisu::computation *deallocate_B = b_B_gpu.deallocate_at( copy_B_device_to_host, t );
 
     allocate_A->then( copy_A_host_to_device, t )
                 .then( init_A, t )
                 .then( copy_A_device_to_host, t )
-                .then( *deallocate_A, t )
+                // .then( *deallocate_A, t )
                 .then( *allocate_B, computation::root )
                 .then( copy_B_host_to_device, t )
                 .then( init_B, t )
                 .then( copy_B_device_to_host, t )
-                .then( *deallocate_B, t );
+                // .then( *deallocate_B, t );
 
     tiramisu::codegen({ A.get_buffer(), B.get_buffer() }, "build/generated_fct_test_197.o", true);
     return 0;
