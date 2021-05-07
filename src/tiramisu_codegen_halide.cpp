@@ -1755,12 +1755,13 @@ tiramisu::generator::halide_stmt_from_isl_node(const tiramisu::function &fct, is
                 (op_type == o_allocate || op_type == o_free || op_type == o_memcpy))
             {
                 tiramisu::computation *comp = get_computation_annotated_in_a_node(child);
+                std::string buffer_name = comp->get_expr().get_name();
                 if (op_type == tiramisu::o_allocate)
                 {
                     DEBUG(3, tiramisu::str_dump("Adding a computation to vector of allocate stmts (for later construction)"));
                     allocate_stmts_vector.push_back(comp);
                 }
-                else if (op_type == tiramisu::o_free)
+                else if (op_type == tiramisu::o_free && comp->get_function()->get_buffers().find(buffer_name)->second->get_location() != cuda_ast::memory_location::host)
                 {
                     std::string buffer_name = comp->get_expr().get_name();
                     DEBUG(10, tiramisu::str_dump("The computation of the node is free IR node."));
