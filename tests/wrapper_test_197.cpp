@@ -33,7 +33,7 @@ void test_allocation(const std::string &name)
         {
             for (int t = 0; t < T_size; ++t)
             {
-                int val = std::abs( std::rand() % 10 ) - 20;
+                int val = - 20;
                 B(i, j, t) = val;
                 // only the initialization part of the last iteration will persist
                 // and that's what we are looking for
@@ -59,7 +59,7 @@ void test_allocation(const std::string &name)
             {
                 if ( B( i, j, t ) > 0 )
                 {
-                    std::cout << i << " " << j << " " << t << "\n";
+                    std::cout << i << " " << j << " " << t << " | " << B( i, j, t ) << "\n";
                 }
             }
         }
