@@ -119,11 +119,11 @@ int main(int argc, char **argv)
 
     computation init_A( "init_A", { t, A_iter1, A_iter2 }, expr( 1 ) );
     init_A.store_in( &b_A_gpu, { t, A_iter1, A_iter2 } );
-    init_A.tag_gpu_level( A_iter1, A_iter2 );
+    // init_A.tag_gpu_level( A_iter1, A_iter2 );
 
     computation init_B( "init_B", { t, B_iter1, B_iter2 }, expr( 2 ) );
     init_B.store_in( &b_B_gpu, { t, B_iter1, B_iter2 } );
-    init_B.tag_gpu_level( B_iter1, B_iter2 );
+    // init_B.tag_gpu_level( B_iter1, B_iter2 );
 
     tiramisu::computation *allocate_A = b_A_gpu.allocate_at( init_A, t );
     tiramisu::computation *deallocate_A = b_A_gpu.deallocate_at( init_A, t );
@@ -132,11 +132,11 @@ int main(int argc, char **argv)
     tiramisu::computation *deallocate_B = b_B_gpu.deallocate_at( init_B, t );
 
     allocate_A->then( init_A, t )
-                .then( *deallocate_A, t )
+                .then( *deallb_A_gpuocate_A, t )
                 .then( *allocate_B, computation::root )
                 .then( init_B, t )
                 .then( *deallocate_B, t );
 
-    tiramisu::codegen({ A.get_buffer(), B.get_buffer() }, "build/generated_fct_test_197.o", true);
+    tiramisu::codegen({ A.get_buffer(), B.get_buffer() }, "build/generated_fct_test_197.o" );
     return 0;
 }
