@@ -1,8 +1,8 @@
 #include "Halide.h"
-#include "wrapper_test_197.h"
 #include "test_197_defs.h"
 
 #include <tiramisu/utils.h>
+#include "wrapper_test_197.h"
 
 void test_allocation(const std::string &name)
 {
