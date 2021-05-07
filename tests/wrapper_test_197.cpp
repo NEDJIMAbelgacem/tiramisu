@@ -6,10 +6,10 @@
 
 void test_allocation(const std::string &name)
 {
-    Halide::Buffer<float, 4> A( { A_size, A_size, T_size, T_size } );
-    Halide::Buffer<float, 4> A_ref( { A_size, A_size, T_size, T_size } );
-    Halide::Buffer<float, 4> B( { B_size, B_size, T_size, T_size } );
-    Halide::Buffer<float, 4> B_ref( { B_size, B_size, T_size, T_size } );
+    Halide::Buffer<float, 4> A( int[4]{ A_size, A_size, T_size, T_size } );
+    Halide::Buffer<float, 4> A_ref( int[4]{ A_size, A_size, T_size, T_size } );
+    Halide::Buffer<float, 4> B( int[4]{ B_size, B_size, T_size, T_size } );
+    Halide::Buffer<float, 4> B_ref( int[4]{ B_size, B_size, T_size, T_size } );
     for (int i = 0; i < A_size; ++i)
     {
         for (int j = 0; j < A_size; ++j)
