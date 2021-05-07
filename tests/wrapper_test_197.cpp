@@ -37,7 +37,7 @@ void test_allocation(const std::string &name)
                 B(i, j, t) = val;
                 // only the initialization part of the last iteration will persist
                 // and that's what we are looking for
-                if ( t == T_size - 1 )
+                if ( t == 0 )
                     B_ref(i, j, t) = 2;
                 else
                     B_ref(i, j, t) = val;
