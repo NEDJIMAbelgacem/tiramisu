@@ -33,7 +33,7 @@ void test_allocation(const std::string &name)
         {
             for (int t = 0; t < T_size; ++t)
             {
-                int val = std::rand() % 10 - 5;
+                int val = std::abs( std::rand() % 10 ) - 20;
                 B(i, j, t) = val;
                 // only the initialization part of the last iteration will persist
                 // and that's what we are looking for
