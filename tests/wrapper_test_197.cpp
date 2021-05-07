@@ -15,9 +15,14 @@ void test_allocation(const std::string &name)
         {
             for (int t = 0; t < T_size; ++t)
             {
-                int val = 1;//std::rand() % 10 - 5;
+                int val = std::rand() % 10 - 5;
                 A(i, j, t) = val;
-                A_ref(i, j, t) = 1;
+                // only the initialization part of the last iteration will persist
+                // and that's what we are looking for
+                if ( t == T_size - 1 )
+                    A_ref(i, j, 0) = 1;
+                else
+                    A_ref(i, j, t) = val;
             }
         }
     }
@@ -28,12 +33,19 @@ void test_allocation(const std::string &name)
         {
             for (int t = 0; t < T_size; ++t)
             {
-                int val = 2;//std::rand() % 10 - 5;
+                int val = std::rand() % 10 - 5;
                 B(i, j, t) = val;
-                B_ref(i, j, t) = 2;
+                // only the initialization part of the last iteration will persist
+                // and that's what we are looking for
+                if ( t == T_size - 1 )
+                    B_ref(i, j, 0) = 2;
+                else
+                    B_ref(i, j, t) = val;
             }
         }
     }
+
+
 
     std::cout << A(0, 0, 0) << " | " << A_ref(0, 0, 0) << "\n";
 

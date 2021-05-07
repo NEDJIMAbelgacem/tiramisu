@@ -49,6 +49,9 @@ int main(int argc, char **argv)
     init_B.store_in( &b_B_gpu, { t, B_iter1, B_iter2 } );
     init_B.tag_gpu_level( B_iter1, B_iter2 );
 
+    computation copy_A_host_to_device( {t}, memcpy( *A.get_buffer(), b_A_gpu ) );
+    computation copy_B_host_to_device( {t}, memcpy( *B.get_buffer(), b_B_gpu ) );
+
     computation copy_A_device_to_host( {t}, memcpy( b_A_gpu, *A.get_buffer() ) );
     computation copy_B_device_to_host( {t}, memcpy( b_B_gpu, *B.get_buffer() ) );
 
@@ -58,12 +61,14 @@ int main(int argc, char **argv)
     tiramisu::computation *allocate_B = b_B_gpu.allocate_at( init_B, t );
     tiramisu::computation *deallocate_B = b_B_gpu.deallocate_at( copy_B_device_to_host, t );
 
-    allocate_A->then( init_A, t ).then( copy_A_device_to_host, t )
-                                  .then( *deallocate_A, t )
-                                  .then( *allocate_B, computation::root )
-                                  .then( init_B, t )
-                                  .then( copy_B_device_to_host, t )
-                                  .then( *deallocate_B, t );
+    allocate_A->then(copy_A_host_to_device, t)
+                .then( init_A, t ).then( copy_A_device_to_host, t )
+                .then( *deallocate_A, t )
+                .then( *allocate_B, computation::root )
+                .then( copy_B_device_to_host, t )
+                .then( init_B, t )
+                .then( copy_B_device_to_host, t )
+                .then( *deallocate_B, t );
 
     tiramisu::codegen({ A.get_buffer(), B.get_buffer() }, "build/generated_fct_test_197.o", true);
     return 0;
