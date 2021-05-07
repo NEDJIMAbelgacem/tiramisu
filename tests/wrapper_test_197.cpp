@@ -37,6 +37,34 @@ void test_allocation(const std::string &name)
 
     std::cout << A(0, 0, 0) << " | " << A_ref(0, 0, 0) << "\n";
 
+{
+    float sum_A = 0;
+    for (int i = 0; i < A_size; ++i)
+    {
+        for (int j = 0; j < A_size; ++j)
+        {
+            for (int t = 0; t < T_size; ++t)
+            {
+                sum_A += A(i, j, t);
+            }
+        }
+    }
+    float sum_B = 0;
+    for (int i = 0; i < A_size; ++i)
+    {
+        for (int j = 0; j < A_size; ++j)
+        {
+            for (int t = 0; t < T_size; ++t)
+            {
+                sum_B += B(i, j, t);
+            }
+        }
+    }
+    
+    std::cout << "sum_A: " << sum_A << "\n";
+    std::cout << "sum_B: " << sum_B << "\n";
+}
+
     test_197( A.raw_buffer(), B.raw_buffer() );
     float sum_A = 0;
     for (int i = 0; i < A_size; ++i)
