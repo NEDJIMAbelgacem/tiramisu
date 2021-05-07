@@ -15,7 +15,7 @@ int main(int argc, char **argv)
     //         allocate A_gpu
     //         copy from A (host) to A_gpu (device)
     //         initialize A_gpu to 1
-    //         if (t == T - 1) copy from A_gpu (device) to A (host)
+    //         copy from A_gpu (device) to A (host)
     //         deallocate A_gpu
     //     }
     //     for (int t = 0; t < T; ++t)
@@ -23,7 +23,7 @@ int main(int argc, char **argv)
     //         allocate B_gpu
     //         copy from B (host) to B_gpu (device)
     //         initialize B_gpu to 2
-    //         if (t == T - 1) copy from B_gpu (device) to B (host)
+    //         copy from B_gpu (device) to B (host)
     //         deallocate B_gpu
     //     }
     // }
@@ -60,21 +60,20 @@ int main(int argc, char **argv)
     copy_B_device_to_host.add_predicate( t == (T_size - 1) );
 
     tiramisu::computation *allocate_A = b_A_gpu.allocate_at( copy_A_host_to_device, t );
-    // tiramisu::computation *deallocate_A = b_A_gpu.deallocate_at( copy_A_device_to_host, t );
+    tiramisu::computation *deallocate_A = b_A_gpu.deallocate_at( copy_A_device_to_host, t );
 
     tiramisu::computation *allocate_B = b_B_gpu.allocate_at( copy_B_host_to_device, t );
-    // tiramisu::computation *deallocate_B = b_B_gpu.deallocate_at( copy_B_device_to_host, t );
+    tiramisu::computation *deallocate_B = b_B_gpu.deallocate_at( copy_B_device_to_host, t );
 
     allocate_A->then( copy_A_host_to_device, t )
                 .then( init_A, t )
                 .then( copy_A_device_to_host, t )
-                // .then( *deallocate_A, t )
+                .then( *deallocate_A, t )
                 .then( *allocate_B, computation::root )
                 .then( copy_B_host_to_device, t )
                 .then( init_B, t )
                 .then( copy_B_device_to_host, t )
-                // .then( *deallocate_B, t )
-                ;
+                .then( *deallocate_B, t );
 
     tiramisu::codegen({ A.get_buffer(), B.get_buffer() }, "build/generated_fct_test_197.o", true);
     return 0;

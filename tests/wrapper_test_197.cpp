@@ -17,12 +17,7 @@ void test_allocation(const std::string &name)
             {
                 int val = std::rand() % 10 - 20;
                 A(i, j, t) = val;
-                // only the initialization part of the last iteration will persist
-                // and that's what we are looking for
-                if ( t == T_size - 1 )
-                    A_ref(i, j, t) = 1;
-                else
-                    A_ref(i, j, t) = val;
+                A_ref(i, j, t) = 1;
             }
         }
     }
@@ -35,17 +30,10 @@ void test_allocation(const std::string &name)
             {
                 int val = - 20;
                 B(i, j, t) = val;
-                // only the initialization part of the last iteration will persist
-                // and that's what we are looking for
-                if ( t == T_size - 1 )
-                    B_ref(i, j, t) = 2;
-                else
-                    B_ref(i, j, t) = val;
+                B_ref(i, j, t) = 2;
             }
         }
     }
-
-
 
     std::cout << A(0, 0, 0) << " | " << A_ref(0, 0, 0) << "\n";
 
