@@ -60,7 +60,7 @@ int main(int argc, char **argv)
     tiramisu::computation *allocate_A = b_A_gpu.allocate_at( copy_A_host_to_device, t );
     tiramisu::computation *deallocate_A = b_A_gpu.deallocate_at( copy_A_device_to_host, t );
 
-    tiramisu::computation *allocate_B = b_B_gpu.allocate_at( copy_B_device_to_host, t );
+    tiramisu::computation *allocate_B = b_B_gpu.allocate_at( copy_B_host_to_device, t );
     tiramisu::computation *deallocate_B = b_B_gpu.deallocate_at( copy_B_device_to_host, t );
 
     allocate_A->then( copy_A_host_to_device, t )
@@ -68,7 +68,7 @@ int main(int argc, char **argv)
                 .then( copy_A_device_to_host, t )
                 .then( *deallocate_A, t )
                 .then( *allocate_B, computation::root )
-                .then( copy_B_device_to_host, t )
+                .then( copy_B_host_to_device, t )
                 .then( init_B, t )
                 .then( copy_B_device_to_host, t )
                 .then( *deallocate_B, t );
