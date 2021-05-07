@@ -42,7 +42,7 @@ void test_allocation(const std::string &name)
         }
     }
 
-    std::cout << A(i, j, t2 * T_size + t1) << " | " << A_ref(i, j, t2 * T_size + t1) << "\n";
+    std::cout << A(0, 0, 0) << " | " << A_ref(0, 0, 0) << "\n";
 
     test_197( A.raw_buffer(), B.raw_buffer() );
     compare_buffers(name, A, A_ref);
