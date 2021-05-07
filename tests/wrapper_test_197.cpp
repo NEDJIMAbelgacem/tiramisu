@@ -5,10 +5,10 @@
 
 void test_allocation(const std::string &name)
 {
-    Halide::Buffer<float> A(  A_size, A_size, T_size, "buf_A" );
-    Halide::Buffer<float> A_ref( A_size, A_size, T_size, "buf_A_ref" );
-    Halide::Buffer<float> B( B_size, B_size, T_size, "buf_B" );
-    Halide::Buffer<float> B_ref( B_size, B_size, T_size, "buf_B_ref" );
+    Halide::Buffer<int32_t> A(  A_size, A_size, T_size, "buf_A" );
+    Halide::Buffer<int32_t> A_ref( A_size, A_size, T_size, "buf_A_ref" );
+    Halide::Buffer<int32_t> B( B_size, B_size, T_size, "buf_B" );
+    Halide::Buffer<int32_t> B_ref( B_size, B_size, T_size, "buf_B_ref" );
     for (int i = 0; i < A_size; ++i)
     {
         for (int j = 0; j < A_size; ++j)
