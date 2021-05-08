@@ -125,7 +125,7 @@ int main(int argc, char **argv)
 
     computation fill_A( "fill_A", { t, A_iter1, A_iter2 }, init_A( t, A_iter1, A_iter2 ) );
     fill_A.store_in( A.get_buffer() );
-    computation fill_B( "fill_A", { t, B_iter1, B_iter2 }, init_B( t, B_iter1, B_iter2 ) );
+    computation fill_B( "fill_B", { t, B_iter1, B_iter2 }, init_B( t, B_iter1, B_iter2 ) );
     fill_B.store_in( B.get_buffer() );
 
     tiramisu::computation *allocate_A = b_A_gpu.allocate_at( init_A, t );
