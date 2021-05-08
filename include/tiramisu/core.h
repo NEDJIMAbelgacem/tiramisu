@@ -1388,6 +1388,12 @@ private:
     bool auto_allocate;
 
     /**
+     * A boolean indicating whether the buffer should be allocated
+     * automatically by Tiramisu.
+     */
+    bool auto_deallocate;
+
+    /**
      * automatic_gpu_copy = true by default, is it set to false when the user wants
      * to do data transfert to gpu manually.
      */
@@ -1444,6 +1450,11 @@ protected:
       * Return whether the buffer should be allocated automatically.
       */
     bool get_auto_allocate();
+
+    /**
+      * Return whether the buffer should be allocated automatically.
+      */
+    bool get_auto_deallocate();
 
     /**
       * Return whether the copy should be done automatically to the gpu device.
@@ -1593,6 +1604,10 @@ public:
     //@{
     tiramisu::computation *allocate_at(tiramisu::computation &C, tiramisu::var level);
     tiramisu::computation *allocate_at(tiramisu::computation &C, int level);
+
+    tiramisu::computation *deallocate_at(tiramisu::computation &C, tiramisu::var level);
+    tiramisu::computation *deallocate_at(tiramisu::computation &C, int level);
+
     //@}
 
     /**
@@ -1647,6 +1662,11 @@ public:
       * Set whether the buffer should be allocated automatically.
       */
     void set_auto_allocate(bool auto_allocation);
+
+    /**
+    * Sets whether the buffer should be deallocated automatically.
+    */
+    void set_auto_deallocate(bool auto_deallocation);
 
     /**
       * Set whether the GPU copy should be done automatically.
@@ -5239,7 +5259,7 @@ protected:
     static Halide::Internal::Stmt halide_stmt_from_isl_node(const tiramisu::function &fct, isl_ast_node *node,
                                                             int level,
                                                             std::vector<std::pair<std::string, std::string>> &tagged_stmts,
-                                                            bool is_a_child_block);
+                                                            bool is_a_child_block, Halide::Internal::Stmt parent_block);
 
     // TODO doc
     static Halide::Internal::Stmt make_halide_block(const Halide::Internal::Stmt &first,
