@@ -135,11 +135,11 @@ int main(int argc, char **argv)
     tiramisu::computation *deallocate_B = b_B_gpu.deallocate_at( init_B, t );
 
     allocate_A->then( init_A, t )
-                .then( fill_A, computation::root )
+                .then( fill_A, t )
                 .then( *deallocate_A, t )
                 .then( *allocate_B, computation::root )
                 .then( init_B, t )
-                .then( fill_B, computation::root )
+                .then( fill_B, t )
                 .then( *deallocate_B, t )
                 ;
 
