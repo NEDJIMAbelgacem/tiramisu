@@ -1763,7 +1763,8 @@ tiramisu::generator::halide_stmt_from_isl_node(const tiramisu::function &fct, is
                 else if (op_type == tiramisu::o_free)
                 {
                     auto * buffer = (comp->get_access_relation() != nullptr) ? fct.get_buffers().at(get_buffer_name(comp)) : nullptr;
-                    block = generator::make_buffer_free(buffer);
+                    if ( buffer != nullptr )
+                        block = generator::make_buffer_free(buffer);
                 }
                 else
                 {
