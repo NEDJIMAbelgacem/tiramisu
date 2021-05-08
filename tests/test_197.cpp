@@ -123,6 +123,9 @@ int main(int argc, char **argv)
     computation init_B( "init_B", { t, B_iter1, B_iter2 }, expr( 2 ) );
     init_B.store_in( &b_B_gpu, { t, B_iter1, B_iter2 } );
 
+    computation fill_A( "fill_A", { t, A_iter1, A_iter2 }, init_A( t, A_iter1, A_iter2 ) );
+    computation fill_B( "fill_A", { t, B_iter1, B_iter2 }, init_B( t, B_iter1, B_iter2 ) );
+
     tiramisu::computation *allocate_A = b_A_gpu.allocate_at( init_A, t );
     tiramisu::computation *deallocate_A = b_A_gpu.deallocate_at( init_A, t );
 
@@ -133,7 +136,10 @@ int main(int argc, char **argv)
                 .then( *deallocate_A, t )
                 .then( *allocate_B, computation::root )
                 .then( init_B, t )
-                .then( *deallocate_B, t );
+                .then( *deallocate_B, t )
+                .then( fill_A, computation::root )
+                .then( fill_B, computation::root )
+                ;
 
     tiramisu::codegen({ A.get_buffer(), B.get_buffer() }, "build/generated_fct_test_197.o" );
     return 0;
