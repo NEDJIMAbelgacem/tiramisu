@@ -1755,7 +1755,6 @@ tiramisu::generator::halide_stmt_from_isl_node(const tiramisu::function &fct, is
                 (op_type == o_allocate || op_type == o_free || op_type == o_memcpy))
             {
                 tiramisu::computation *comp = get_computation_annotated_in_a_node(child);
-                std::string buffer_name = comp->get_expr().get_name();
                 if (op_type == tiramisu::o_allocate)
                 {
                     DEBUG(3, tiramisu::str_dump("Adding a computation to vector of allocate stmts (for later construction)"));
@@ -1767,8 +1766,9 @@ tiramisu::generator::halide_stmt_from_isl_node(const tiramisu::function &fct, is
                     DEBUG(10, tiramisu::str_dump("The computation of the node is free IR node."));
                     DEBUG(10, tiramisu::str_dump("The buffer that should be freed is " + buffer_name));
                     tiramisu::buffer *buf = comp->get_function()->get_buffers().find(buffer_name)->second;
-                    if ( buf->get_location() == cuda_ast::memory_location::global )
-                        result = make_buffer_free( buf );
+                    if ( buf->get_location() != cuda_ast::memory_location::global )
+                        buffer = (comp->get_access_relation() != nullptr) ? fct.get_buffers().at(get_buffer_name(comp)) : nullptr;
+                    block = make_buffer_free( buf );
                 }
                 else
                 {
@@ -2498,7 +2498,6 @@ void function::gen_halide_stmt()
             else
                 freestmts = free;
         }
-
     }
 
     if (freestmts.defined())
@@ -3334,6 +3333,7 @@ void computation::create_halide_assignment()
 
     DEBUG_INDENT(-4);
 }
+
 tiramisu::expr generator::replace_accesses(const tiramisu::function *fct, std::vector<isl_ast_expr *> &index_expr,
                                            const tiramisu::expr &tiramisu_expr){
     tiramisu::expr result;
