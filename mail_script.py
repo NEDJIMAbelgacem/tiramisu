@@ -1,19 +1,11 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 
-import smtplib
-
-sender = 'dgx1@mail.com'
-receivers = ['gb_nedjima@esi.dz']
-
-message = """From: From Person <dgx1@mail.com>
-To: To Person <gb_nedjima@esi.dz>
-Subject: Your script has finished
-"""
-
-try:
-   smtpObj = smtplib.SMTP('localhost')
-   smtpObj.sendmail(sender, receivers, message)         
-   print( "Successfully sent email" )
-except SMTPException:
-   print( "Error: unable to send email" )
-   print( SMTPException )
+import http.client, urllib
+conn = http.client.HTTPSConnection("api.pushover.net:443")
+conn.request("POST", "/1/messages.json",
+  urllib.parse.urlencode({
+    "token": "aza1kadmi41ep7tvv1wa76y3yk52ub",
+    "user": "uaq79gy4q83z9vuouj76mc3tgo81ij",
+    "message": "Dibaryon execution finished",
+  }), { "Content-type": "application/x-www-form-urlencoded" })
+conn.getresponse()
