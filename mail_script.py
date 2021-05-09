@@ -14,5 +14,6 @@ try:
    smtpObj = smtplib.SMTP('localhost')
    smtpObj.sendmail(sender, receivers, message)         
    print "Successfully sent email"
-except :
+except e:
    print "Error: unable to send email"
+   print e
