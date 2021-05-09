@@ -1198,8 +1198,8 @@ void generate_function(std::string name)
     computation C_BB_BB_prop_update_r("C_BB_BB_prop_update_r", {t, x1, x2, rp, m, r, s, nperm, wnum}, C_BB_BB_prop_init_r(t, x1, x2, rp, m, r) + tiramisu::expr( 0.5 ) * BB_BB_term_res.get_real() );
     computation C_BB_BB_prop_update_i("C_BB_BB_prop_update_i", {t, x1, x2, rp, m, r, s, nperm, wnum}, C_BB_BB_prop_init_i(t, x1, x2, rp, m, r) + tiramisu::expr( 0.5 ) * BB_BB_term_res.get_imag() );
 
-    computation C_BB_BB_prop_update_r_2("C_BB_BB_prop_update_r_2", {t, x1, x2, rp, m, r, s, nperm, wnum}, C_BB_BB_prop_init_r(t, x1, x2, rp, m, r) + 0.5 * flip_BB_BB_term_res.get_real() );
-    computation C_BB_BB_prop_update_i_2("C_BB_BB_prop_update_i_2", {t, x1, x2, rp, m, r, s, nperm, wnum}, C_BB_BB_prop_init_i(t, x1, x2, rp, m, r) + 0.5 * flip_BB_BB_term_res.get_imag() );
+    computation C_BB_BB_prop_update_r_2("C_BB_BB_prop_update_r_2", {t, x1, x2, rp, m, r, s, nperm, wnum}, C_BB_BB_prop_init_r(t, x1, x2, rp, m, r) + tiramisu::expr( 0.5 ) * flip_BB_BB_term_res.get_real() );
+    computation C_BB_BB_prop_update_i_2("C_BB_BB_prop_update_i_2", {t, x1, x2, rp, m, r, s, nperm, wnum}, C_BB_BB_prop_init_i(t, x1, x2, rp, m, r) + tiramisu::expr( 0.5 ) * flip_BB_BB_term_res.get_imag() );
 
 
     complex_computation C_BB_BB_prop_update(&C_BB_BB_prop_update_r, &C_BB_BB_prop_update_i);
