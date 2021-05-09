@@ -136,6 +136,48 @@ void init();
 void codegen(const std::vector<tiramisu::buffer *> &arguments, const std::string obj_filename, const bool gen_cuda_stmt = false);
 void codegen(const std::vector<tiramisu::buffer *> &arguments, const std::string obj_filename, const tiramisu::hardware_architecture_t gen_architecture_flag);
 
+/**
+ * Full check of schedule legality for this function using dependency analysis 
+ * must be used after invoking : performe_full_dependency_analysis()
+ */
+bool check_legality_of_function();
+
+
+/**
+ * Performe a full dependency analysis RAW/WAR/WAW. The result is stored in the function's attributes
+ * Before invoking this method, the user must call tiramisu::prepare_schedules_for_legality_checks() and must define the buffer associated with each computation.
+ */
+void performe_full_dependency_analysis();
+
+
+/**
+ * Prepare the schedules of the computations for legality checks for this implicit function by :
+ * Aligning the schedules dimensions and generating the order between them.
+ * If reset_static_dimesion is set to true then the computations static dimensions would be resetted to 0.
+ * The execution order and static dimensions would be redefined back from \p sched_graph. i.e. the static dimensions manually specified with the low level interface would be lost.
+ * Resetting static dimensions would allow to make changes to \p sched_graph using after or then, these changes would be correctly evaluated by the legality checks.
+ * 
+ */
+void prepare_schedules_for_legality_checks(bool reset_static_dimesion = false);
+
+ /**
+     * Checks if the given fuzed computations could legally have their loop level \p i as parallel using dependence analysis and legality check.
+     * It relies fully on the dependence analysis result, so the  method \p performe_full_dependency_analysis() must be invoked before.
+     * To correctly invoke this method : schedules must be aligned (same out dimension size) and ordered,
+     * so invoking \p prepare_schedules_for_legality_checks() method before is mandatory. 
+  */
+  bool loop_parallelization_is_legal(tiramisu::var i, std::vector<tiramisu::computation *> fuzed_computations);
+
+  /**
+  * Checks if the given fuzed computations could legally have their loop level \p i unrolled.
+  */
+  bool loop_unrolling_is_legal(tiramisu::var i, std::vector<tiramisu::computation *> fuzed_computations);
+
+  /**
+  * Checks if the given fuzed computations could legally have their loop level \p i vectorized.
+  */
+  bool loop_vectorization_is_legal(tiramisu::var i, std::vector<tiramisu::computation *> fuzed_computations);
+
 //*******************************************************
 
 /**
@@ -192,6 +234,53 @@ private:
       * An ISL context associate with the function.
       */
     isl_ctx *ctx;
+
+    /**
+      * isl_union_map that describes the true dependencies considering buffers access (the read after write dependencies),
+      * the relation describes for each read access the last previous write access that writes into the same buffer element
+      * all isl_maps in the union_isl_map are represented in the format:
+      * last_write -> [read_access -> used_buffer]
+      * Isl methods (isl_map_range_factor_domain and isl_map_range_factor_range) could be used to the extract a more simple relation.
+      * Useful to check correctness with legality checks.
+      */
+
+    isl_union_map * dep_read_after_write ;
+
+    /**
+      * isl_union_map that describes the false dependencies considering buffers access (the write after write dependencies),
+      * the relation describes for each write access the last previous write access that write into the same buffer element
+      * all isl_maps in the union_isl_map are represented in the format:
+      * last_write -> [write_access -> used_buffer]
+      * Isl methods (isl_map_range_factor_domain and isl_map_range_factor_range) could be used to the extract a more simple relation.
+      * Useful to check correctness with legality checks.
+      */
+
+    isl_union_map * dep_write_after_write ; 
+
+    
+    /**
+      * isl_union_map that describes the false dependencies considering buffers access (the write after read dependencies),
+      * the relation describes for each write access all the previous read access that used a the previous value [a buffer element] before current write 
+      * all isl_maps in the union_isl_map are represented in the format:
+      * read_access_with_the_previous_value-> [ write_access -> used_buffer]
+      * Isl methods (isl_map_range_factor_domain and isl_map_range_factor_range) could be used to the extract a more simple relation.
+      * Useful to check correctness with legality checks.
+      */
+
+    isl_union_map * dep_write_after_read ;
+
+    /**
+     *  A union map that describes the live-in access (e.g., compulation[i,j]-> buffer1[i,j]).
+     *  Read accesses that have no write before them (i.e., the value is external).
+    */
+    isl_union_map * live_in_access ;
+
+
+    /**
+    *  A union map that describes the live-out access (e.g., compulation[i,j]-> buffer1[i,j]).
+    *  Write access that do not have another write after them (i.e., last written value into the buffer).
+    */
+    isl_union_map * live_out_access ;
 
     /**
       * An ISL AST representation of the function.
@@ -421,6 +510,29 @@ private:
      *
      */
     void rename_computations();
+
+    /**
+     * This method solve the problem of finding the best skewing parameters for 2 dimensional case.
+     * It uses dependence analysis to create a skewing parameters (a,b) space for 5 main use cases,
+     * each use case with it's isl_basic_set. In total this method should return a vector of 5 elements:
+     * 
+     * First element [0] : set of (a,b) where a>0 and b>0 that weakly solves the dependencies.
+     * Second [1]: set of (a,b) where a>0 and b>0 that strongly solves the dependencies.
+     * Third [2]: set of (a,b) where a>0 and b<0 that weakly solves the dependencies.
+     * Forth [3]: set of (a,b) where a>0 and b<0 that strongly solves the dependencies.
+     * Fifth [4]: set of (a,b) where we could have parallelism on outermost loop level.
+     * 
+     * The inputs are a vector of fuzed computations that we want to apply skewing onto,
+     * and 2 consecutive loop variables (inner & outer).
+     * 
+     * It should return integer \p legal_process that describes the operation with 3 states depending on it's result:
+     *  1  : correct process with correctly involved dependencies.
+     *  0  : correct process while no dependencies were solved.
+     * -1  : illegal process (impossible to solve dependencies)
+     */
+    std::vector<isl_basic_set*> compute_legal_skewing(std::vector<tiramisu::computation *> fuzed_computations, tiramisu::var outer_variable, 
+                                              tiramisu::var inner_variable, int&  legal_process);
+
 
 
 protected:
@@ -1118,6 +1230,117 @@ public:
       * This function takes an ISL set as input.
       */
     void set_context_set(isl_set *context);
+
+    /**
+      * Computes flow and performe data analysis for this function with all it's computations.
+      * This includes Reads after write, Write after write, Write after read, live_out_access, and live_in_access.
+      * The moment of the call, the computations order and their buffers must be defined, the schedules must be the default ones with no optimizations applied. 
+      * So this method should be invoked directly after mapping computations to their buffers.
+      * Result is the stored in the attributes of the function "live_out_access, live_in_access, deps_read_after_write, deps_write_after_write ...".
+      * These attributes helps to check the legality of schedules using \p check_legality_for_function() method in the function class, 
+      * or \p involved_subset_of_dependencies_is_legal() method in the computation class.
+      * This method also computes live_out and live_in access for this function.
+      * After the call the user is free to change & optimize the schedules.
+      */
+    void performe_full_dependency_analysis();
+  
+    /**
+     *  Uses the dependency analysis to check if the current schedules of all computations are legal
+     *  must be invoked after the correct call to \p performe_full_dependency_analysis()
+    */
+    bool check_legality_for_function();
+
+    /**
+     * Calculate all the dependencies in the function RAW/WAW/WAR & store in the function's attributes
+     * All schedules must be ordered (after or then), and with same length using:
+     * 1-gen_ordering_schedules
+     * 2-align_schedules
+    */
+    void calculate_dep_flow() ;
+
+    /**
+     * Align schedules dimensions and adds the computation's order to them. 
+     * This is done to correctly invoke calculate_dep_flow() method that performs dependence analysis
+     * It calls gen_ordering_schedules() and align_schedules() function's methods internally.
+     * if \p reset_static_dimesion is true then it will also call function.reset_all_static_dims_to_zero() before ordering.
+    */
+    void prepare_schedules_for_legality_checks(bool reset_static_dimesion = false) ;
+
+
+    /**
+     * Checks if the given fuzed computations could legally have their loop level \p i as parallel using dependence analysis and legality check.
+     * It relies fully on the dependence analysis result, so the  method \p performe_full_dependency_analysis() must be invoked before.
+     * To correctly invoke this method : schedules must be aligned (same out dimension size) and ordered,
+     * so invoking \p prepare_schedules_for_legality_checks() method before is mandatory. 
+    */
+    // @{
+    bool loop_parallelization_is_legal(tiramisu::var i, std::vector<tiramisu::computation *> fuzed_computations);
+
+    bool loop_parallelization_is_legal(int parallel_dim, std::vector<tiramisu::computation *> fuzed_computations);
+    // @}
+
+    /**
+     * Checks if the given fuzed computations could legally have their loop level \p i unrolled.
+    */
+    bool loop_unrolling_is_legal(tiramisu::var i, std::vector<tiramisu::computation *> fuzed_computations);
+
+    /**
+     * Checks if the given fuzed computations could legally have their loop level \p i vectorized.
+    */
+    bool loop_vectorization_is_legal(tiramisu::var i, std::vector<tiramisu::computation *> fuzed_computations);
+
+    /**
+     * resets all the static beta dimensions in all the computations to Zero.
+     * This would allow the execution of fuction.generate_ordering many times without issues.
+     * Although, the static beta dimenesion and ordering that are not specified using the scheduling graph (after or then) would be lost.
+    */
+    void reset_all_static_dims_to_zero();
+
+    /**
+     * Automatically computes the shifting parameters for variables \p vars_subjected_to_shifting that would allow to legally fuse \p current computation,
+     * with the vector of computations \p previous_computations if it is possible.
+     * This method return a vector of tuples mapping each variable with the required shifting if the fusion is possible, and an empty vector otherwise(impossible fusion).
+     * Note: In case where the fusion is legal and doesn't require shifting, the vector of tuples would map the variable to 0.
+     * The method relies fully on the dependence analysis result, so the  method \p performe_full_dependency_analysis() must be invoked before.
+     * To correctly invoke this method : schedules must be aligned (same out dimension size) and ordered,
+     * so invoking \p prepare_schedules_for_legality_checks() method before is mandatory. 
+     * The shifting parameters given are always superior or equal to zero. This is an additional internal condition.
+    */
+    std::vector<std::tuple<tiramisu::var,int>> correcting_loop_fusion_with_shifting(std::vector<tiramisu::computation*> previous_computations, tiramisu::computation current, std::vector<tiramisu::var> vars_subjected_to_shifting);
+
+    /**
+     * Uses the dependency analysis to check if the specified schedules of computations are legal.
+     * This method only tests the dependencies between the computations specified in the input and ignore the rest.
+     * must be invoked after the correct call to \p performe_full_dependency_analysis()
+    */
+    bool check_partial_legality_in_function(std::vector<tiramisu::computation * > involved_computations);
+
+    /**
+     * Computes the best legal skewing parameters for 3 use cases (outer parallelism, locality and innermost parallelism).
+     * The method relies fully on the dependence analysis result, so the  method \p performe_full_dependency_analysis() must be invoked before.
+     * To correctly invoke this method : schedules must be aligned (same out dimension size) and ordered,
+     * so invoking \p prepare_schedules_for_legality_checks() method before is mandatory. 
+     * The output of this method is a tuple of vectors, each vector represent a usecase,
+     * the elements of the vector are the pair that should be given as an input for Computation.skew() method (skewing method).
+     * 
+     * First vector contains either 1 pairs of <int,int> that allows parallism on outer_variable, or an empty vector.
+     * Second vector contains a vector of pairs that enables parallism on inner_variable.
+     * Third vector contains a vector of parameters that should in theory improve locality (without any parallism).
+     * 
+     * nb_parallel is the number of solutions (pairs) inside the second vector (parallism on inner_variable),
+     * the second vector size's should be equal to twice the value of nb_parallel in the regular case.
+     * for nb_parallel=1 it only returns the smallest skewing (best) possible for this use case.
+     * 
+     * In case of a lack of dependencies within the scope of fuzed_computations, or in case of some dependencies impossible to solve, 
+     * the output should be 3 empty vectors.
+    */
+    std::tuple<
+      std::vector<std::pair<int,int>>,
+      std::vector<std::pair<int,int>>,
+      std::vector<std::pair<int,int>>> skewing_local_solver(std::vector<tiramisu::computation *> fuzed_computations,
+                                                            tiramisu::var outer_variable,tiramisu::var inner_variable, int nb_parallel);
+
+
 };
 
 
@@ -1163,6 +1386,12 @@ private:
      * automatically by Tiramisu.
      */
     bool auto_allocate;
+
+    /**
+     * A boolean indicating whether the buffer should be allocated
+     * automatically by Tiramisu.
+     */
+    bool auto_deallocate = true;
 
     /**
      * automatic_gpu_copy = true by default, is it set to false when the user wants
@@ -1221,6 +1450,11 @@ protected:
       * Return whether the buffer should be allocated automatically.
       */
     bool get_auto_allocate();
+
+    /**
+      * Return whether the buffer should be allocated automatically.
+      */
+    bool get_auto_deallocate();
 
     /**
       * Return whether the copy should be done automatically to the gpu device.
@@ -1373,6 +1607,71 @@ public:
     //@}
 
     /**
+     * \brief Indicate when to deallocate the buffer (i.e., the schedule).
+     *
+     * \details The buffer is deallocated in the same loop of the computation \p C
+     * at the loop level \p level (but the order between the two is not
+     * specified).
+     *
+     * For example, let's assume that buf0 is a buffer, and let's assume
+     * that we have three computations C1, C2 and C3 scheduled as follow
+     *
+     * \code
+     * for (i=0; i<N; i++)
+     *      for (j=0; j<N; j++)
+     *           for (k=0; k<N; k++)
+     *              C1;
+     *
+     * for (i=0; i<N; i++) // level 0
+     *      for (j=0; j<N; j++) // level 1
+     *           for (k=0; k<N; k++) // level 2
+     *           {
+     *              C2;
+     *              C3;
+     *           }
+     * \endcode
+     *
+     * The following Tiramisu code
+     *
+     * \code
+     * tiramisu::computation *C4 = buf0.allocate_at(C2, j);
+     * C4->before(C2, j);
+     * tiramisu::computation *C5 = buf0.deallocate_at(C3, j);
+     * C5->after(C3, j)
+     * \endcode
+     *
+     * would allocate buf0 in the loop surrounding C2 at the loop
+     * level 0. The allocation computation is called C4, where
+     * C4 is scheduled to execute before C2 at the loop level 1.
+     * And would also deallocate buf0 at the end of the loop level 1
+     * The generated code would look like the following code:
+     *
+     * \code
+     * for (i=0; i<N; i++)
+     *      for (j=0; j<N; j++)
+     *           for (k=0; k<N; k++)
+     *              C1;
+     *
+     * for (i=0; i<N; i++) // level 0
+     *      for (j=0; j<N; j++) // level 1
+     *      {
+     *           allocate(buf0, buffer_size, buffer_type);
+     *           for (k=0; k<N; k++) // level 2
+     *           {
+     *              C2;
+     *              C3;
+     *           }
+     *           deallocate(buf0);
+     *      }
+     * \endcode
+     *
+     */
+    //@{
+    tiramisu::computation *deallocate_at(tiramisu::computation &C, tiramisu::var level);
+    tiramisu::computation *deallocate_at(tiramisu::computation &C, int level);
+    //@}
+
+    /**
       * \brief Dump the function on standard output.
       * \details This functions dumps most of the fields of the buffer class
       * but not all of them.  It is mainly useful for debugging.
@@ -1424,6 +1723,11 @@ public:
       * Set whether the buffer should be allocated automatically.
       */
     void set_auto_allocate(bool auto_allocation);
+
+    /**
+    * Sets whether the buffer should be deallocated automatically.
+    */
+    void set_auto_deallocate(bool auto_deallocation);
 
     /**
       * Set whether the GPU copy should be done automatically.
@@ -2269,7 +2573,7 @@ private:
       * The second computation created using separate can be accessed with
       * get_update().
       */
-    void separate(int dim, tiramisu::expr N, int v);
+    void separate(int dim, tiramisu::expr N, int v, tiramisu::expr lower_bound);
 
     /**
       * Like separate, but the precise separate points are specified in _separate_points. _max is the loop max.
@@ -3941,12 +4245,16 @@ public:
       * a negative value would mean a shift backward.
       */
     virtual void shift(var L0, int n);
+    
 
-    /**
+    /*
       * Apply loop skewing on the loop levels \p i and \p j with a skewing factor of \p f.
       * The names of the new loop levels is \p ni and \p nj.
       *
       * This command transforms the loop (i, j) into the loop (i, f*i+j).
+      * 
+      * This method is requires the application of loop interchange afterwards to really change the execution order
+      * This is legacy code that should not be used on new projects
       * For example if you have the following loop
       *
       * \code
@@ -3969,72 +4277,103 @@ public:
           a[i][j - i] = a[i - 1][j - i] + a[i][j - i - 1];
       \endcode
 
-      */
-    virtual void skew(var i, var j, int f, var ni, var nj);
-
-    /**
       * Apply loop skewing on the loop levels \p i, \p j and \p k with a skewing factor of \p f.
       * The names of the new loop levels is \p ni, \p nj and \p nk.
-      *
       * This command transforms the loop (i, j, k) into the loop (i, f*i+j, f*i+k).
-      */
-    virtual void skew(var i, var j, var k, int factor,
-                      var ni, var nj, var nk);
-
-    /**
+      * 
       * Apply loop skewing on the loop levels \p i, \p j, \p k, \p l with a skewing factor of \p f.
       * The names of the new loop levels is \p ni, \p nj, \p nk and \p nl.
-      *
       * This command transforms the loop (i, j, k, l) into the loop (i, f*i+j, f*i+k, f*i+l).
-      */
+
+    // @{
+    virtual void skew(var i, var j, int f, var ni, var nj);
+
+    virtual void skew(var i, var j, var k, int factor,
+                      var ni, var nj, var nk);
+   
     virtual void skew(var i, var j, var k, var l, int factor,
                       var ni, var nj, var nk, var nl);
 
-    /**
-      * \overload
-      */
     virtual void skew(var i, var j, int factor);
 
-    /**
-      * \overload
-      */
     virtual void skew(var i, var j, var k, int factor);
 
-    /**
-      * \overload
-      */
     virtual void skew(var i, var j, var k, var l, int factor);
 
-    /**
-      * \overload
-      */
     virtual void skew(int i, int j, int factor);
 
-    /**
-      * \overload
-      */
     virtual void skew(int i, int j, int k, int factor);
 
-    /**
-      * \overload
-      */
     virtual void skew(int i, int j, int k, int l, int factor);
+    // @}
+    */
+    
+    /**
+      * Apply skewing on the loop levels \p i and \p j and replace them with the new loop levels i' and j' such that:
+      * i' = a*i +b*j 
+      * j' is calculated automatically to guarantee that its increment is always 1.
 
+      * additional constraints for inputs are :  b!=0 & a >=0
+      *           a & b must be prime between themselfs
+      * This command transforms the loop (i, j) into the loop (a*i+b*j,j').
+      * For example if you have the following loop
+      *
+      * \code
+      for (int i = 1; i < N; i++)
+        for (int j = 1; j < M; j++)
+          a[i][j] = a[i - 1][j] + a[i][j - 1];
+       \endcode
 
-    /*
-    applied to a computation's loop level i : it inverts the execution order for this specific loop
-    i.e : original i : 0 -> n to :
-    reversed i : n -> 0
+      * and apply
 
-    This command transforms the loop (i) into the loop (-i)
-  */
-    virtual void loop_reversal(var old_var,var new_var );
+      \code
+        a.skew(i, j, 1, 1, ni, nj);
+      \endcode
+
+      * you would get
+      *
+      \code
+      for (int i = 1; i < 2N; i++)
+        for (int j = max(i,N-i); j < Min(i,N) ; j++)
+          a[i-j][j] = a[i - j - 1][j] + a[i-j][j - 1];
+      \endcode
+      */
+    // @{
+    virtual void skew(var i, var j, int a , int b, var ni, var nj);
+
+    virtual void skew(int i, int j, int a, int b); 
+    // @}
 
     /**
-      * \overload
-      */
+      * applied to a computation's loop level i : it inverts the execution order for this specific loop
+      * i.e : original i : 0 -> n to :
+      * reversed i : n -> 0
+      * This command transforms the loop (i) into the loop (-i)  
+    */
+   // @{
+    virtual void loop_reversal(var old_var, var new_var);
+
     
-    virtual void loop_reversal(int i );
+    virtual void loop_reversal(int i);
+    // @}
+
+
+    /**
+     * Checks the correctness of a subset of dependencies after applying changes on the schedules (e.g., tiling, skewing, and shifting).
+     * The checked subset of dependencies is the set of dependencies mapping from this computation (this) to second computation (second).
+     * This methods returns a boolean: True if this subset of dependencies is respected, otherwise False.
+     * It relies fully on the dependence analysis result, so the  method \p performe_full_dependency_analysis() must be invoked before.
+     * To correctly invoke this method : schedules must be aligned (same out dimension size) and ordered,
+     * so invoking \p prepare_schedules_for_legality_checks() method before is mandatory. 
+    */
+    virtual bool involved_subset_of_dependencies_is_legal(tiramisu::computation * second) ;
+
+     
+    /**
+     * Checks if it's possible to unroll the loop level \p l for this computation.
+     * This is True when the bounds of the loop are constants. 
+     **/
+    virtual bool unrolling_is_legal(var l) ;
 
     /**
       * Split the loop level \p L0 of the iteration space into two
@@ -4054,6 +4393,16 @@ public:
       *     void split(var L0, int sizeX);
       */
     virtual void split(int L0, int sizeX);
+
+     /**
+      * Split the loop level \p L0 of the iteration space into two
+      * new loop levels.
+      *
+      * \p sizeX is the extent (size) of the inner loop created after
+      * splitting.
+      * Takes into consideration the lower bound so that max() and min() would not appear if possible(implicit shifting).
+      */
+    virtual void split_with_lower_bound(int L0, int sizeX, std::string lower_bound);
 
     /**
      * Fold the storage of the computation.

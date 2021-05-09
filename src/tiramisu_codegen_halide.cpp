@@ -1508,11 +1508,51 @@ Halide::Expr halide_expr_from_isl_ast_expr_temp(isl_ast_expr *isl_expr)
                                 0);
                 break;
             case isl_ast_op_max:
-                result = Halide::Internal::Max::make2(op0, op1, true);
+
+                /**
+                 * min & max dont only have 2 operands, they have as two or more, as stated in isl documentation :
+                 * "isl_ast_op_max Maximum of two or more arguments."
+                */
+                {
+                    int nb = isl_ast_expr_get_op_n_arg(isl_expr);
+
+                    result = op0;
+
+                    for(int i=1;i<nb;i++)
+                    {
+                        isl_ast_expr *expr_itr = isl_ast_expr_get_op_arg(isl_expr, i);
+                        Halide::Expr current_op = halide_expr_from_isl_ast_expr_temp<T, N>(expr_itr);
+
+                        result = Halide::Internal::Max::make2(result, current_op, true);
+                        
+                        isl_ast_expr_free(expr_itr);
+
+                    }
+
+                    break;
+                }
+
+
                 break;
             case isl_ast_op_min:
-                result = Halide::Internal::Min::make2(op0, op1, true);
-                break;
+                {
+                    int nb = isl_ast_expr_get_op_n_arg(isl_expr);
+
+                    result = op0;
+
+                    for(int i=1;i<nb;i++)
+                    {
+                        isl_ast_expr *expr_itr = isl_ast_expr_get_op_arg(isl_expr, i);
+                        Halide::Expr current_op = halide_expr_from_isl_ast_expr_temp<T, N>(expr_itr);
+
+                        result = Halide::Internal::Min::make2(result, current_op, true);
+                        
+                        isl_ast_expr_free(expr_itr);
+
+                    }
+
+                    break;
+                }
             case isl_ast_op_minus:
                 result = Halide::Internal::Sub::make(Halide::cast(op0.type(), Halide::Expr(0)), op0, true);
                 break;
@@ -1722,8 +1762,14 @@ tiramisu::generator::halide_stmt_from_isl_node(const tiramisu::function &fct, is
                 }
                 else if (op_type == tiramisu::o_free)
                 {
-                    auto * buffer = (comp->get_access_relation() != nullptr) ? fct.get_buffers().at(get_buffer_name(comp)) : nullptr;
-                    block = generator::make_buffer_free(buffer);
+                    std::string buffer_name = comp->get_expr().get_name();
+                    DEBUG(10, tiramisu::str_dump("The computation of the node is a free IR node."));
+                    DEBUG(10, tiramisu::str_dump("The buffer that should be freed is " + buffer_name));
+                    tiramisu::buffer *buf = comp->get_function()->get_buffers().at(buffer_name);
+                    if ( !buf || buf->get_auto_deallocate() )
+                        buf = (comp->get_access_relation() != nullptr) ? fct.get_buffers().at(buffer_name) : nullptr;
+                    if ( buf != nullptr && !buf->get_auto_deallocate() )
+                        block = generator::make_buffer_free(buf);
                 }
                 else
                 {
@@ -3297,6 +3343,7 @@ void computation::create_halide_assignment()
 
     DEBUG_INDENT(-4);
 }
+
 tiramisu::expr generator::replace_accesses(const tiramisu::function *fct, std::vector<isl_ast_expr *> &index_expr,
                                            const tiramisu::expr &tiramisu_expr){
     tiramisu::expr result;

@@ -39,7 +39,7 @@ test number `XX` in the file `tests/test_list.txt`.
 - .parallelize(): test_75
 - saxpy: test_71
 - skew(): 131, 132, 133, 134, 135, 136, 137, 138, 139,
-	  140
+	  140 [legacy removed code]
 - .store_at(): test_29, 30, 31, 38, 39, 82, 83
 - .shift(): test_15
 -  shift operator: test_06
@@ -48,9 +48,16 @@ test number `XX` in the file `tests/test_list.txt`.
 - .tag_unroll_level(): test_11
 - .then(): test_130
 - .tile(): test_01, 02, 03, 74, 80, 81
-- .vectorize(): test_10, 28, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 74
-- .unroll(): test_12, 74, 144, 145, 146, 147, 148, 149, 150, 151, 152
+- .vectorize(): test_10, 28, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 74 
+- .unroll(): test_12, 74, 144, 145, 146, 147, 148, 149, 150, 151, 152, 196(patch)
 - .update() (new way of expressing updates): test_91
 - 64 bit buffers: test_97
 - gen_communication() : 160
 - loop_reversal() : 175
+- skew() : 176 177 178
+- dependence analysis & legality check: 179 180 181 182 183 184
+- parallelism check : 185,187
+- unrolling check : 186
+- vectorization check : 188
+- .correcting_loop_fusion_with_shifting() + partial legality 189 190 191
+- custom allocation test : 197
