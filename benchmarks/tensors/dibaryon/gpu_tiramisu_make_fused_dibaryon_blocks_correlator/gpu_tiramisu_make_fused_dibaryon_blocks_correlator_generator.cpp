@@ -3103,8 +3103,8 @@ void generate_function(std::string name)
           .then(flip_B1_Bsecond_r1_i_update, m)
           .then(flip_B1_Bthird_r1_r_update, m)
           .then(flip_B1_Bthird_r1_i_update, m)
-
-          .then(B1_Blocal_r2_r_init, x2) // t, x1, x2, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m
+// ---------------------------- 
+          .then(B1_Blocal_r2_r_init, t) // t, x1, x2, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m
           .then(B1_Blocal_r2_i_init, m)
           .then(B1_Bfirst_r2_r_init, m)
           .then(B1_Bfirst_r2_i_init, m)
@@ -3280,8 +3280,8 @@ void generate_function(std::string name)
           .then(flip_B2_Bsecond_r2_i_update, m)
           .then(flip_B2_Bthird_r2_r_update, m)
           .then(flip_B2_Bthird_r2_i_update, m) 
-
-          .then(C_BB_BB_prop_init_r, x2) // t, x1, x2, rp, m, r
+// ------------------------------- 
+          .then(C_BB_BB_prop_init_r, t) // t, x1, x2, rp, m, r
           .then(C_BB_BB_prop_init_i, r)
 
           .then( *(BB_BB_new_term_0_r1_b1.get_real()), r) // t, x1, x2, rp, m, r, s, nperm, wnum
