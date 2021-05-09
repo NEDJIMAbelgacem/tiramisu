@@ -3179,8 +3179,8 @@ void generate_function(std::string name)
           .then(flip_B2_Bsecond_r1_i_init, m)
           .then(flip_B2_Bthird_r1_r_init, m)
           .then(flip_B2_Bthird_r1_i_init, m)
-
-          .then(B2_Blocal_r1_r_props_init, x2) // t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime
+// ----------------
+          .then(B2_Blocal_r1_r_props_init, t) // t, x_out, x_in, x2, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime
           .then(B2_Blocal_r1_i_props_init, jSprime)
           .then(B2_Bfirst_r1_r_props_init, jSprime)
           .then(B2_Bfirst_r1_i_props_init, jSprime)
