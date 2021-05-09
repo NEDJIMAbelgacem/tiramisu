@@ -13,7 +13,7 @@ Subject: Your script has finished
 try:
    smtpObj = smtplib.SMTP('localhost')
    smtpObj.sendmail(sender, receivers, message)         
-   print "Successfully sent email"
-except e:
-   print "Error: unable to send email"
+   print( "Successfully sent email" )
+except SMTPException:
+   print( "Error: unable to send email" )
    print e
