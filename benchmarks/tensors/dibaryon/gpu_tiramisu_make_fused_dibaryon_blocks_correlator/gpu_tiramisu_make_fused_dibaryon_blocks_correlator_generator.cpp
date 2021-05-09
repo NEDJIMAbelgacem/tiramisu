@@ -1195,8 +1195,12 @@ void generate_function(std::string name)
     complex_expr flip_BB_BB_term_res = prefactor * flip_BB_BB_term_res_b1 * flip_BB_BB_term_res_b2;
 
 
-    computation C_BB_BB_prop_update_r("C_BB_BB_prop_update_r", {t, x1, x2, rp, m, r, s, nperm, wnum}, C_BB_BB_prop_init_r(t, x1, x2, rp, m, r) + (BB_BB_term_res.get_real() + flip_BB_BB_term_res.get_real())/2.0 );
-    computation C_BB_BB_prop_update_i("C_BB_BB_prop_update_i", {t, x1, x2, rp, m, r, s, nperm, wnum}, C_BB_BB_prop_init_i(t, x1, x2, rp, m, r) + (BB_BB_term_res.get_imag() + flip_BB_BB_term_res.get_imag())/2.0 );
+    computation C_BB_BB_prop_update_r("C_BB_BB_prop_update_r", {t, x1, x2, rp, m, r, s, nperm, wnum}, C_BB_BB_prop_init_r(t, x1, x2, rp, m, r) + 0.5 * BB_BB_term_res.get_real() );
+    computation C_BB_BB_prop_update_i("C_BB_BB_prop_update_i", {t, x1, x2, rp, m, r, s, nperm, wnum}, C_BB_BB_prop_init_i(t, x1, x2, rp, m, r) + 0.5 * BB_BB_term_res.get_imag() );
+
+    computation C_BB_BB_prop_update_r_2("C_BB_BB_prop_update_r_2", {t, x1, x2, rp, m, r, s, nperm, wnum}, C_BB_BB_prop_init_r(t, x1, x2, rp, m, r) + 0.5 * flip_BB_BB_term_res.get_real() );
+    computation C_BB_BB_prop_update_i_2("C_BB_BB_prop_update_i_2", {t, x1, x2, rp, m, r, s, nperm, wnum}, C_BB_BB_prop_init_i(t, x1, x2, rp, m, r) + 0.5 * flip_BB_BB_term_res.get_imag() );
+
 
     complex_computation C_BB_BB_prop_update(&C_BB_BB_prop_update_r, &C_BB_BB_prop_update_i);
 
@@ -2239,6 +2243,11 @@ void generate_function(std::string name)
     C_BB_BB_prop_update_r.store_in(&buf_C_BB_BB_prop_r, {t, x1, x2});
     C_BB_BB_prop_update_i.store_in(&buf_C_BB_BB_prop_i, {t, x1, x2});
 
+    C_BB_BB_prop_update_r_2.store_in(&buf_C_BB_BB_prop_r, {t, x1, x2});
+    C_BB_BB_prop_update_i_2.store_in(&buf_C_BB_BB_prop_i, {t, x1, x2});
+
+
+
     C_BB_BB_update_b_r.store_in(&buf_C_BB_r, {t, x1, x2, rp, m, r, ne});
     C_BB_BB_update_b_i.store_in(&buf_C_BB_i, {t, x1, x2, rp, m, r, ne});
     C_BB_BB_update_s_r.store_in(&buf_C_BB_r, {t, x1, x2, rp, m, r, NEntangled+nue});
@@ -2737,6 +2746,9 @@ void generate_function(std::string name)
           flip_BB_BB_new_term_7_r2_b2.get_imag()->tag_gpu_level(x1, x2);
           C_BB_BB_prop_update_r.tag_gpu_level(x1, x2);
           C_BB_BB_prop_update_i.tag_gpu_level(x1, x2);
+          C_BB_BB_prop_update_r_2.tag_gpu_level(x1, x2);
+          C_BB_BB_prop_update_i_2.tag_gpu_level(x1, x2);
+
           C_BB_BB_update_b_r.tag_gpu_level(x1, x2); 
           C_BB_BB_update_b_i.tag_gpu_level(x1, x2);
           C_BB_BB_update_s_r.tag_gpu_level(x1, x2); 
@@ -3042,6 +3054,7 @@ void generate_function(std::string name)
     handle = &(handle->then( C_init_r, computation::root ).then( C_init_i, npnH ));
 
     // BB_BB
+// kernel 1
     handle = &(handle
           ->then(C_BB_init_r, t)
           .then(C_BB_init_i, n)
@@ -3104,6 +3117,7 @@ void generate_function(std::string name)
           .then(flip_B1_Bthird_r1_r_update, m)
           .then(flip_B1_Bthird_r1_i_update, m)
 // ---------------------------- 
+// kernel 2:
           .then(B1_Blocal_r2_r_init, t) // t, x1, x2, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m
           .then(B1_Blocal_r2_i_init, m)
           .then(B1_Bfirst_r2_r_init, m)
@@ -3163,6 +3177,7 @@ void generate_function(std::string name)
           .then(flip_B1_Bthird_r2_r_update, m)
           .then(flip_B1_Bthird_r2_i_update, m)
 // -----------------------
+// kernel 3
           .then(B2_Blocal_r1_r_init, t) // t, x1, x2, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m
           .then(B2_Blocal_r1_i_init, m)
           .then(B2_Bfirst_r1_r_init, m)
@@ -3222,6 +3237,7 @@ void generate_function(std::string name)
           .then(flip_B2_Bthird_r1_r_update, m)
           .then(flip_B2_Bthird_r1_i_update, m)
 // -------------
+// kernel 4
           .then(B2_Blocal_r2_r_init, t) // t, x1, x2, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m
           .then(B2_Blocal_r2_i_init, m)
           .then(B2_Bfirst_r2_r_init, m)
@@ -3281,6 +3297,7 @@ void generate_function(std::string name)
           .then(flip_B2_Bthird_r2_r_update, m)
           .then(flip_B2_Bthird_r2_i_update, m) 
 // ------------------------------- 
+// kernel 5:
           .then(C_BB_BB_prop_init_r, t) // t, x1, x2, rp, m, r
           .then(C_BB_BB_prop_init_i, r)
 
@@ -3348,7 +3365,10 @@ void generate_function(std::string name)
           .then( *(BB_BB_new_term_6_r2_b2.get_imag()), wnum)
           .then( *(BB_BB_new_term_7_r2_b2.get_real()), wnum)
           .then( *(BB_BB_new_term_7_r2_b2.get_imag()), wnum)
-          .then( *(flip_BB_BB_new_term_0_r1_b1.get_real()), wnum)
+          .then(C_BB_BB_prop_update_r, wnum) 
+          .then(C_BB_BB_prop_update_i, wnum)
+
+          .then( *(flip_BB_BB_new_term_0_r1_b1.get_real()), t)
           .then( *(flip_BB_BB_new_term_0_r1_b1.get_imag()), wnum)
           .then( *(flip_BB_BB_new_term_1_r1_b1.get_real()), wnum)
           .then( *(flip_BB_BB_new_term_1_r1_b1.get_imag()), wnum)
@@ -3412,8 +3432,8 @@ void generate_function(std::string name)
           .then( *(flip_BB_BB_new_term_6_r2_b2.get_imag()), wnum)
           .then( *(flip_BB_BB_new_term_7_r2_b2.get_real()), wnum)
           .then( *(flip_BB_BB_new_term_7_r2_b2.get_imag()), wnum)
-          .then(C_BB_BB_prop_update_r, wnum) 
-          .then(C_BB_BB_prop_update_i, wnum)
+          .then(C_BB_BB_prop_update_r_2, wnum) 
+          .then(C_BB_BB_prop_update_i_2, wnum)
 
           .then(C_BB_BB_update_b_r, r)  // t, x1, x2, rp, m, r, ne
           .then(C_BB_BB_update_b_i, ne)
@@ -3421,6 +3441,7 @@ void generate_function(std::string name)
           .then(C_BB_BB_update_s_i, nue)
           );
 
+// kernel 6:
     // BB_H
     handle = &(handle
           ->then(src_B1_Blocal_r1_r_init, t) // t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m
@@ -3511,6 +3532,7 @@ void generate_function(std::string name)
           .then(C_BB_H_update_i, nH)
           );
 
+// kernel 7:
     // H_BB
     handle = &(handle
           ->then( snk_B1_Blocal_r1_r_init, computation::root) // t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, n
@@ -3602,6 +3624,7 @@ void generate_function(std::string name)
           .then(C_H_BB_update_i, mH) 
           ); 
 
+// kernel 8:
     // // H_H
     handle = &(handle
           ->then(C_H_H_prop_init_r, t) // t, x_out, x_in, rp, r, y

@@ -1,0 +1,162 @@
+_kernel_0 : buf_C_i, buf_C_r
+_kernel_1 : 
+    buf_B1_Bfirst_r1_i * : alloc
+    buf_B1_Blocal_r1_i * : alloc
+    buf_B1_Bsecond_r1_i *  : alloc
+    buf_B1_Bthird_r1_i * : alloc
+    buf_flip_B1_Bfirst_r1_i * : alloc
+    buf_flip_B1_Blocal_r1_i * : alloc
+    buf_flip_B1_Bsecond_r1_i * : alloc
+    buf_flip_B1_Bthird_r1_i * : alloc
+_kernel_2 : 
+    buf_B1_Bfirst_r2_i * : alloc
+    buf_B1_Blocal_r2_i * : alloc
+    buf_B1_Bsecond_r2_i * : alloc
+    buf_B1_Bthird_r2_i * : alloc
+    buf_flip_B1_Bfirst_r2_i * : alloc
+    buf_flip_B1_Blocal_r2_i * : alloc
+    buf_flip_B1_Bsecond_r2_i * : alloc
+    buf_flip_B1_Bthird_r2_i * : alloc
+_kernel_3:
+    buf_B2_Bfirst_r1_i *  : alloc
+    buf_B2_Blocal_r1_i * : alloc
+    buf_B2_Bsecond_r1_i * : alloc
+    buf_B2_Bthird_r1_i * : alloc
+    buf_flip_B2_Bfirst_r1_i * : alloc
+    buf_flip_B2_Blocal_r1_i * : alloc
+    buf_flip_B2_Bsecond_r1_i * : alloc
+    buf_flip_B2_Bthird_r1_i * : alloc
+_kernel_4:
+    buf_B2_Bfirst_r2_i * : alloc
+    buf_B2_Blocal_r2_i * : alloc
+    buf_B2_Bsecond_r2_i * : alloc
+    buf_B2_Bthird_r2_i * : alloc
+    buf_flip_B2_Bfirst_r2_i * : alloc
+    buf_flip_B2_Blocal_r2_i * : alloc
+    buf_flip_B2_Bsecond_r2_i * : alloc
+    buf_flip_B2_Bthird_r2_i * : alloc
+kernel_5:
+    buf_B1_Bfirst_r1_i * |
+    buf_B1_Bfirst_r2_i * |
+    buf_B1_Blocal_r1_i * |
+    buf_B1_Blocal_r2_i * |
+    buf_B1_Bsecond_r1_i * |
+    buf_B1_Bsecond_r2_i * |
+    buf_B1_Bthird_r1_i * |
+    buf_B1_Bthird_r2_i * |
+    buf_B2_Bfirst_r1_i * |
+    buf_B2_Bfirst_r2_i * |
+    buf_B2_Blocal_r1_i * |
+    buf_B2_Blocal_r2_i * |
+    buf_B2_Bsecond_r1_i * |
+    buf_B2_Bsecond_r2_i * |
+    buf_B2_Bthird_r1_i * |
+    buf_B2_Bthird_r2_i * |
+    buf_flip_B1_Bfirst_r1_i * |
+    buf_flip_B1_Bfirst_r2_i * |
+    buf_flip_B1_Blocal_r1_i * |
+    buf_flip_B1_Blocal_r2_i * |
+    buf_flip_B1_Bsecond_r1_i * |
+    buf_flip_B1_Bsecond_r2_i * |
+    buf_flip_B1_Bthird_r1_i * |
+    buf_flip_B1_Bthird_r2_i * | 
+    buf_flip_B2_Bfirst_r1_i * |
+    buf_flip_B2_Bfirst_r2_i * | 
+    buf_flip_B2_Blocal_r1_i * |
+    buf_flip_B2_Blocal_r2_i * | 
+    buf_flip_B2_Bsecond_r1_i * | 
+    buf_flip_B2_Bsecond_r2_i * |
+    buf_flip_B2_Bthird_r1_i * |
+    buf_flip_B2_Bthird_r2_i * |
+kernel_6:
+    buf_B1_Bfirst_r1_i * free
+    buf_B1_Bfirst_r2_i * free
+    buf_B1_Blocal_r1_i * free 
+    buf_B1_Blocal_r2_i * free
+    buf_B1_Bsecond_r1_i * free 
+    buf_B1_Bsecond_r2_i * free
+    buf_B1_Bthird_r1_i * free
+    buf_B1_Bthird_r2_i * free
+    buf_B2_Bfirst_r1_i * free
+    buf_B2_Bfirst_r2_i * free
+    buf_B2_Blocal_r1_i * free
+    buf_B2_Blocal_r2_i * free
+    buf_B2_Bsecond_r1_i * free
+    buf_B2_Bsecond_r2_i * free
+    buf_B2_Bthird_r1_i * free
+    buf_B2_Bthird_r2_i * free
+    buf_flip_B1_Bfirst_r1_i * free
+    buf_flip_B1_Bfirst_r2_i * free
+    buf_flip_B1_Blocal_r1_i * free
+    buf_flip_B1_Blocal_r2_i * free
+    buf_flip_B1_Bsecond_r1_i * free
+    buf_flip_B1_Bsecond_r2_i * free
+    buf_flip_B1_Bthird_r1_i * free
+    buf_flip_B1_Bthird_r2_i * free
+    buf_flip_B2_Bfirst_r1_i * free
+    buf_flip_B2_Bfirst_r2_i * free
+    buf_flip_B2_Blocal_r1_i * free
+    buf_flip_B2_Blocal_r2_i * free
+    buf_flip_B2_Bsecond_r1_i * free
+    buf_flip_B2_Bsecond_r2_i * free
+    buf_flip_B2_Bthird_r1_i * free
+    buf_flip_B2_Bthird_r2_i * free
+
+
+kernel_7:
+    buf_B1_prop_i_gpu
+    buf_B1_prop_r_gpu
+    buf_B2_prop_i_gpu
+    buf_B2_prop_r_gpu
+    buf_C_H_BB_prop_i
+    buf_C_H_BB_prop_r
+    buf_C_i
+    buf_C_r
+    buf_H_BB_new_term_b1_i
+    buf_H_BB_new_term_b1_r
+    buf_H_BB_new_term_b2_i
+    buf_H_BB_new_term_b2_r
+    buf_flip_H_BB_new_term_b1_i
+    buf_flip_H_BB_new_term_b1_r
+    buf_flip_H_BB_new_term_b2_i
+    buf_flip_H_BB_new_term_b2_r
+    buf_flip_snk_B1_Blocal_r1_i
+    buf_flip_snk_B1_Blocal_r1_r
+    buf_flip_snk_B1_Blocal_r2_i
+    buf_flip_snk_B1_Blocal_r2_r
+    buf_flip_snk_B2_Blocal_r1_i
+    buf_flip_snk_B2_Blocal_r1_r
+    buf_flip_snk_B2_Blocal_r2_i
+    buf_flip_snk_B2_Blocal_r2_r
+    buf_snk_B1_Blocal_diquark_r1_i
+    buf_snk_B1_Blocal_diquark_r1_r
+    buf_snk_B1_Blocal_diquark_r2_i
+    buf_snk_B1_Blocal_diquark_r2_r
+    buf_snk_B1_Blocal_props_r1_i
+    buf_snk_B1_Blocal_props_r1_r
+    buf_snk_B1_Blocal_props_r2_i
+    buf_snk_B1_Blocal_props_r2_r
+    buf_snk_B1_Blocal_r1_i
+    buf_snk_B1_Blocal_r1_r
+    buf_snk_B1_Blocal_r2_i
+    buf_snk_B1_Blocal_r2_r
+    buf_snk_B2_Blocal_diquark_r1_i
+    buf_snk_B2_Blocal_diquark_r1_r
+    buf_snk_B2_Blocal_diquark_r2_i
+    buf_snk_B2_Blocal_diquark_r2_r
+    buf_snk_B2_Blocal_props_r1_i
+    buf_snk_B2_Blocal_props_r1_r
+    buf_snk_B2_Blocal_props_r2_i
+    buf_snk_B2_Blocal_props_r2_r
+    buf_snk_B2_Blocal_r1_i
+    buf_snk_B2_Blocal_r1_r
+    buf_snk_B2_Blocal_r2_i
+    buf_snk_B2_Blocal_r2_r
+    buff_H_BB_term_res_comp_i
+    buff_H_BB_term_res_comp_r
+    src_spin
+_kernel_8:
+    buf_C_H_H_prop_i
+    buf_C_H_H_prop_r
+    buf_C_i
+    buf_C_r
