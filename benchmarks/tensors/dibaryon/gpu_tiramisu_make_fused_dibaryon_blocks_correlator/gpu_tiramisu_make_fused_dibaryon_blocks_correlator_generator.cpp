@@ -2231,20 +2231,18 @@ void generate_function(std::string name)
     flip_BB_BB_new_term_7_r2_b2.get_real()->store_in(buf_flip_BB_BB_new_term_r_b2, {t, x1, x2});
     flip_BB_BB_new_term_7_r2_b2.get_imag()->store_in(buf_flip_BB_BB_new_term_i_b2, {t, x1, x2}); 
 //
-
-    buffer buf_C_BB_BB_prop_r("buf_C_BB_BB_prop_r", {Lt, Vsnk, Vsnk}, p_float64, a_temporary);
-    buffer buf_C_BB_BB_prop_i("buf_C_BB_BB_prop_i", {Lt, Vsnk, Vsnk}, p_float64, a_temporary);
+    buffer buf_C_BB_BB_prop_r("buf_C_BB_BB_prop_r", {Lt, Vsnk, B2Nrows, Nsrc, B2Nrows, Vsnk}, p_float64, a_temporary);
+    buffer buf_C_BB_BB_prop_i("buf_C_BB_BB_prop_i", {Lt, Vsnk, B2Nrows, Nsrc, B2Nrows, Vsnk}, p_float64, a_temporary);
 
     buf_C_BB_BB_prop_r.tag_gpu_global();
     buf_C_BB_BB_prop_i.tag_gpu_global();
 
-    C_BB_BB_prop_init_r.store_in(&buf_C_BB_BB_prop_r, {t, x1, x2});
-    C_BB_BB_prop_init_i.store_in(&buf_C_BB_BB_prop_i, {t, x1, x2});
-    C_BB_BB_prop_update_r.store_in(&buf_C_BB_BB_prop_r, {t, x1, x2});
-    C_BB_BB_prop_update_i.store_in(&buf_C_BB_BB_prop_i, {t, x1, x2});
-
-    C_BB_BB_prop_update_r_2.store_in(&buf_C_BB_BB_prop_r, {t, x1, x2});
-    C_BB_BB_prop_update_i_2.store_in(&buf_C_BB_BB_prop_i, {t, x1, x2});
+    C_BB_BB_prop_init_r.store_in(&buf_C_BB_BB_prop_r, {t, x1, rp, m, r, x2});
+    C_BB_BB_prop_init_i.store_in(&buf_C_BB_BB_prop_i, {t, x1, rp, m, r, x2});
+    C_BB_BB_prop_update_r.store_in(&buf_C_BB_BB_prop_r, {t, x1, rp, m, r, x2});
+    C_BB_BB_prop_update_i.store_in(&buf_C_BB_BB_prop_i, {t, x1, rp, m, r, x2});
+    C_BB_BB_prop_update_r_2.store_in(&buf_C_BB_BB_prop_r, {t, x1, rp, m, r, x2});
+    C_BB_BB_prop_update_i_2.store_in(&buf_C_BB_BB_prop_i, {t, x1, rp, m, r, x2});
 
 
 
@@ -3301,7 +3299,7 @@ void generate_function(std::string name)
           .then(C_BB_BB_prop_init_r, t) // t, x1, x2, rp, m, r
           .then(C_BB_BB_prop_init_i, r)
 
-          .then( *(BB_BB_new_term_0_r1_b1.get_real()), r) // t, x1, x2, rp, m, r, s, nperm, wnum
+          .then( *(BB_BB_new_term_0_r1_b1.get_real()), t) // t, x1, x2, rp, m, r, s, nperm, wnum
           .then( *(BB_BB_new_term_0_r1_b1.get_imag()), wnum)
           .then( *(BB_BB_new_term_1_r1_b1.get_real()), wnum)
           .then( *(BB_BB_new_term_1_r1_b1.get_imag()), wnum)
