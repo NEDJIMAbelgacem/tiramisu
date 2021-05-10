@@ -3088,16 +3088,16 @@ void generate_function(std::string name)
           .then(B1_Bfirst_r1_i_diquark, wnumBlock)
           .then(B1_Bthird_r1_r_diquark, wnumBlock)
           .then(B1_Bthird_r1_i_diquark, wnumBlock)
-          .then(B1_Blocal_r1_r_props, wnumBlock)
-
-          .then(B1_Blocal_r1_i_props, jSprime) // t, x1, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime
+          
+          .then(B1_Blocal_r1_r_props, y) // // t, x1, x2, iCprime, iSprime, kCprime, kSprime, y, wnumBlock, jCprime, jSprime
+          .then(B1_Blocal_r1_i_props, jSprime) 
           .then(B1_Bfirst_r1_r_props, jSprime)
           .then(B1_Bfirst_r1_i_props, jSprime)
           .then(B1_Bsecond_r1_r_props, jSprime)
           .then(B1_Bsecond_r1_i_props, jSprime)
           .then(B1_Bthird_r1_r_props, jSprime)
           .then(B1_Bthird_r1_i_props, jSprime)
-
+// this should be a new kernel
           .then(B1_Blocal_r1_r_update, y) // t, x1, x2, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime, m
           .then(B1_Blocal_r1_i_update, m)
           .then(B1_Bfirst_r1_r_update, m)
