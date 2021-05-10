@@ -3052,7 +3052,7 @@ void generate_function(std::string name)
     handle = &(handle->then( C_init_r, computation::root ).then( C_init_i, npnH ));
 
     // BB_BB
-// kernel 1
+// kernel_1
     handle = &(handle
           ->then(C_BB_init_r, t)
           .then(C_BB_init_i, n)
@@ -3115,7 +3115,7 @@ void generate_function(std::string name)
           .then(flip_B1_Bthird_r1_r_update, m)
           .then(flip_B1_Bthird_r1_i_update, m)
 // ---------------------------- 
-// kernel 2:
+// kernel_2:
           .then(B1_Blocal_r2_r_init, t) // t, x1, x2, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m
           .then(B1_Blocal_r2_i_init, m)
           .then(B1_Bfirst_r2_r_init, m)
@@ -3175,7 +3175,7 @@ void generate_function(std::string name)
           .then(flip_B1_Bthird_r2_r_update, m)
           .then(flip_B1_Bthird_r2_i_update, m)
 // -----------------------
-// kernel 3
+// kernel_3
           .then(B2_Blocal_r1_r_init, t) // t, x1, x2, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m
           .then(B2_Blocal_r1_i_init, m)
           .then(B2_Bfirst_r1_r_init, m)
@@ -3235,7 +3235,7 @@ void generate_function(std::string name)
           .then(flip_B2_Bthird_r1_r_update, m)
           .then(flip_B2_Bthird_r1_i_update, m)
 // -------------
-// kernel 4
+// kernel_4
           .then(B2_Blocal_r2_r_init, t) // t, x1, x2, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m
           .then(B2_Blocal_r2_i_init, m)
           .then(B2_Bfirst_r2_r_init, m)
@@ -3295,10 +3295,10 @@ void generate_function(std::string name)
           .then(flip_B2_Bthird_r2_r_update, m)
           .then(flip_B2_Bthird_r2_i_update, m) 
 // ------------------------------- 
-// kernel 5:
+// kernel_5:
           .then(C_BB_BB_prop_init_r, t) // t, x1, x2, rp, m, r
           .then(C_BB_BB_prop_init_i, r)
-
+// kernel_6
           .then( *(BB_BB_new_term_0_r1_b1.get_real()), t) // t, x1, x2, rp, m, r, s, nperm, wnum
           .then( *(BB_BB_new_term_0_r1_b1.get_imag()), wnum)
           .then( *(BB_BB_new_term_1_r1_b1.get_real()), wnum)
@@ -3365,7 +3365,7 @@ void generate_function(std::string name)
           .then( *(BB_BB_new_term_7_r2_b2.get_imag()), wnum)
           .then(C_BB_BB_prop_update_r, wnum) 
           .then(C_BB_BB_prop_update_i, wnum)
-
+// kernel_7
           .then( *(flip_BB_BB_new_term_0_r1_b1.get_real()), t)
           .then( *(flip_BB_BB_new_term_0_r1_b1.get_imag()), wnum)
           .then( *(flip_BB_BB_new_term_1_r1_b1.get_real()), wnum)
@@ -3432,14 +3432,14 @@ void generate_function(std::string name)
           .then( *(flip_BB_BB_new_term_7_r2_b2.get_imag()), wnum)
           .then(C_BB_BB_prop_update_r_2, wnum) 
           .then(C_BB_BB_prop_update_i_2, wnum)
-
-          .then(C_BB_BB_update_b_r, r)  // t, x1, x2, rp, m, r, ne
+// kernel_8
+          .then(C_BB_BB_update_b_r, t)  // t, x1, x2, rp, m, r, ne
           .then(C_BB_BB_update_b_i, ne)
           .then(C_BB_BB_update_s_r, r)  // t, x1, x2, rp, m, r, nue
           .then(C_BB_BB_update_s_i, nue)
           );
 
-// kernel 6:
+// kernel_9:
     // BB_H
     handle = &(handle
           ->then(src_B1_Blocal_r1_r_init, t) // t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m
@@ -3530,7 +3530,7 @@ void generate_function(std::string name)
           .then(C_BB_H_update_i, nH)
           );
 
-// kernel 7:
+// kernel_10:
     // H_BB
     handle = &(handle
           ->then( snk_B1_Blocal_r1_r_init, computation::root) // t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, n
@@ -3622,7 +3622,7 @@ void generate_function(std::string name)
           .then(C_H_BB_update_i, mH) 
           ); 
 
-// kernel 8:
+// kernel_11:
     // // H_H
     handle = &(handle
           ->then(C_H_H_prop_init_r, t) // t, x_out, x_in, rp, r, y
