@@ -1,5 +1,6 @@
 _kernel_0 : buf_C_i, buf_C_r
-_kernel_1 : 
+_kernel_1: buf_C_BB_i, buf_C_BB_r
+_kernel_2 : 
     buf_B1_Bfirst_r1_i * : alloc
     buf_B1_Blocal_r1_i * : alloc
     buf_B1_Bsecond_r1_i *  : alloc
@@ -8,7 +9,7 @@ _kernel_1 :
     buf_flip_B1_Blocal_r1_i * : alloc
     buf_flip_B1_Bsecond_r1_i * : alloc
     buf_flip_B1_Bthird_r1_i * : alloc
-_kernel_2 : 
+_kernel_3 : 
     buf_B1_Bfirst_r2_i * : alloc
     buf_B1_Blocal_r2_i * : alloc
     buf_B1_Bsecond_r2_i * : alloc
@@ -17,7 +18,7 @@ _kernel_2 :
     buf_flip_B1_Blocal_r2_i * : alloc
     buf_flip_B1_Bsecond_r2_i * : alloc
     buf_flip_B1_Bthird_r2_i * : alloc
-_kernel_3:
+_kernel_4:
     buf_B2_Bfirst_r1_i *  : alloc
     buf_B2_Blocal_r1_i * : alloc
     buf_B2_Bsecond_r1_i * : alloc
@@ -26,7 +27,7 @@ _kernel_3:
     buf_flip_B2_Blocal_r1_i * : alloc
     buf_flip_B2_Bsecond_r1_i * : alloc
     buf_flip_B2_Bthird_r1_i * : alloc
-_kernel_4:
+_kernel_5:
     buf_B2_Bfirst_r2_i * : alloc
     buf_B2_Blocal_r2_i * : alloc
     buf_B2_Bsecond_r2_i * : alloc
@@ -35,9 +36,9 @@ _kernel_4:
     buf_flip_B2_Blocal_r2_i * : alloc
     buf_flip_B2_Bsecond_r2_i * : alloc
     buf_flip_B2_Bthird_r2_i * : alloc
-kernel_5:
+kernel_6:
     buf_C_BB_BB_prop_i * : alloc
-kernel_6:   
+kernel_7:   
     buf_C_BB_BB_prop_i : | 5
 
     buf_B1_Bfirst_r1_i : | 1
@@ -57,7 +58,7 @@ kernel_6:
     buf_B2_Bsecond_r2_i : | 4
     buf_B2_Bthird_r1_i : | 3
     buf_B2_Bthird_r2_i : | 4
-kernel_7:
+kernel_8:
     buf_C_BB_BB_prop_i : | 5
 
     buf_flip_B1_Bfirst_r1_i : | 1
@@ -77,6 +78,6 @@ kernel_7:
     buf_flip_B2_Bsecond_r2_i : | 4
     buf_flip_B2_Bthird_r1_i : | 3
     buf_flip_B2_Bthird_r2_i : | 4
-kernel_8:
+kernel_9:
     buf_C_BB_BB_prop_i
     buf_C_BB_i

@@ -1554,14 +1554,14 @@ void generate_function(std::string name)
     B1_Bfirst_r2_i_diquark.store_in(&buf_B1_Bfirst_diquark_r2_i, {x1, x2}); 
     B1_Bthird_r2_r_diquark.store_in(&buf_B1_Bthird_diquark_r2_r, {x1, x2});
     B1_Bthird_r2_i_diquark.store_in(&buf_B1_Bthird_diquark_r2_i, {x1, x2}); 
-    buffer buf_B1_Blocal_props_r2_r("buf_B1_Blocal_props_r2_r",   {Vsnk, Nc, Ns, Vsnk}, p_float64, a_temporary);
-    buffer buf_B1_Blocal_props_r2_i("buf_B1_Blocal_props_r2_i",   {Vsnk, Nc, Ns, Vsnk}, p_float64, a_temporary);
-    buffer buf_B1_Bfirst_props_r2_r("buf_B1_Bfirst_props_r2_r",   {Vsnk, Nc, Ns, Vsnk}, p_float64, a_temporary);
-    buffer buf_B1_Bfirst_props_r2_i("buf_B1_Bfirst_props_r2_i",   {Vsnk, Nc, Ns, Vsnk}, p_float64, a_temporary);
-    buffer buf_B1_Bsecond_props_r2_r("buf_B1_Bsecond_props_r2_r",   {Vsnk, Nc, Ns, Vsnk}, p_float64, a_temporary);
-    buffer buf_B1_Bsecond_props_r2_i("buf_B1_Bsecond_props_r2_i",   {Vsnk, Nc, Ns, Vsnk}, p_float64, a_temporary);
-    buffer buf_B1_Bthird_props_r2_r("buf_B1_Bthird_props_r2_r",   {Vsnk, Nc, Ns, Vsnk}, p_float64, a_temporary);
-    buffer buf_B1_Bthird_props_r2_i("buf_B1_Bthird_props_r2_i",   {Vsnk, Nc, Ns, Vsnk}, p_float64, a_temporary);
+    buffer buf_B1_Blocal_props_r2_r("buf_B1_Blocal_props_r2_r",   {Vsnk, Nc, Ns, Nc, Ns, Nc, Ns, Vsnk, Vsnk}, p_float64, a_temporary);
+    buffer buf_B1_Blocal_props_r2_i("buf_B1_Blocal_props_r2_i",   {Vsnk, Nc, Ns, Nc, Ns, Nc, Ns, Vsnk, Vsnk}, p_float64, a_temporary);
+    buffer buf_B1_Bfirst_props_r2_r("buf_B1_Bfirst_props_r2_r",   {Vsnk, Nc, Ns, Nc, Ns, Nc, Ns, Vsnk, Vsnk}, p_float64, a_temporary);
+    buffer buf_B1_Bfirst_props_r2_i("buf_B1_Bfirst_props_r2_i",   {Vsnk, Nc, Ns, Nc, Ns, Nc, Ns, Vsnk, Vsnk}, p_float64, a_temporary);
+    buffer buf_B1_Bsecond_props_r2_r("buf_B1_Bsecond_props_r2_r",   {Vsnk, Nc, Ns, Nc, Ns, Nc, Ns, Vsnk, Vsnk}, p_float64, a_temporary);
+    buffer buf_B1_Bsecond_props_r2_i("buf_B1_Bsecond_props_r2_i",   {Vsnk, Nc, Ns, Nc, Ns, Nc, Ns, Vsnk, Vsnk}, p_float64, a_temporary);
+    buffer buf_B1_Bthird_props_r2_r("buf_B1_Bthird_props_r2_r",   {Vsnk, Nc, Ns, Nc, Ns, Nc, Ns, Vsnk, Vsnk}, p_float64, a_temporary);
+    buffer buf_B1_Bthird_props_r2_i("buf_B1_Bthird_props_r2_i",   {Vsnk, Nc, Ns, Nc, Ns, Nc, Ns, Vsnk, Vsnk}, p_float64, a_temporary);
     buf_B1_Blocal_props_r2_r.tag_gpu_global();
     buf_B1_Blocal_props_r2_i.tag_gpu_global();
     buf_B1_Bfirst_props_r2_r.tag_gpu_global();
@@ -1570,22 +1570,22 @@ void generate_function(std::string name)
     buf_B1_Bsecond_props_r2_i.tag_gpu_global();
     buf_B1_Bthird_props_r2_r.tag_gpu_global();
     buf_B1_Bthird_props_r2_i.tag_gpu_global();
-    B1_Blocal_r2_r_props_init.store_in(&buf_B1_Blocal_props_r2_r, {x1, jCprime, jSprime, x2});
-    B1_Blocal_r2_i_props_init.store_in(&buf_B1_Blocal_props_r2_i, {x1, jCprime, jSprime, x2});
-    B1_Bfirst_r2_r_props_init.store_in(&buf_B1_Bfirst_props_r2_r, {x1, jCprime, jSprime, x2});
-    B1_Bfirst_r2_i_props_init.store_in(&buf_B1_Bfirst_props_r2_i, {x1, jCprime, jSprime, x2});
-    B1_Bsecond_r2_r_props_init.store_in(&buf_B1_Bsecond_props_r2_r, {x1, jCprime, jSprime, x2});
-    B1_Bsecond_r2_i_props_init.store_in(&buf_B1_Bsecond_props_r2_i, {x1, jCprime, jSprime, x2});
-    B1_Bthird_r2_r_props_init.store_in(&buf_B1_Bthird_props_r2_r, {x1, jCprime, jSprime, x2});
-    B1_Bthird_r2_i_props_init.store_in(&buf_B1_Bthird_props_r2_i, {x1, jCprime, jSprime, x2});
-    B1_Blocal_r2_r_props.store_in(&buf_B1_Blocal_props_r2_r, {x1, jCprime, jSprime, x2});
-    B1_Blocal_r2_i_props.store_in(&buf_B1_Blocal_props_r2_i, {x1, jCprime, jSprime, x2});
-    B1_Bfirst_r2_r_props.store_in(&buf_B1_Bfirst_props_r2_r, {x1, jCprime, jSprime, x2});
-    B1_Bfirst_r2_i_props.store_in(&buf_B1_Bfirst_props_r2_i, {x1, jCprime, jSprime, x2}); 
-    B1_Bsecond_r2_r_props.store_in(&buf_B1_Bsecond_props_r2_r, {x1, jCprime, jSprime, x2});
-    B1_Bsecond_r2_i_props.store_in(&buf_B1_Bsecond_props_r2_i, {x1, jCprime, jSprime, x2});
-    B1_Bthird_r2_r_props.store_in(&buf_B1_Bthird_props_r2_r, {x1, jCprime, jSprime, x2});
-    B1_Bthird_r2_i_props.store_in(&buf_B1_Bthird_props_r2_i, {x1, jCprime, jSprime, x2}); 
+    B1_Blocal_r2_r_props_init.store_in(&buf_B1_Blocal_props_r2_r, {x1, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, y, x2});
+    B1_Blocal_r2_i_props_init.store_in(&buf_B1_Blocal_props_r2_i, {x1, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, y, x2});
+    B1_Bfirst_r2_r_props_init.store_in(&buf_B1_Bfirst_props_r2_r, {x1, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, y, x2});
+    B1_Bfirst_r2_i_props_init.store_in(&buf_B1_Bfirst_props_r2_i, {x1, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, y, x2});
+    B1_Bsecond_r2_r_props_init.store_in(&buf_B1_Bsecond_props_r2_r, {x1, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, y, x2});
+    B1_Bsecond_r2_i_props_init.store_in(&buf_B1_Bsecond_props_r2_i, {x1, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, y, x2});
+    B1_Bthird_r2_r_props_init.store_in(&buf_B1_Bthird_props_r2_r, {x1, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, y, x2});
+    B1_Bthird_r2_i_props_init.store_in(&buf_B1_Bthird_props_r2_i, {x1, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, y, x2});
+    B1_Blocal_r2_r_props.store_in(&buf_B1_Blocal_props_r2_r, {x1, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, y, x2});
+    B1_Blocal_r2_i_props.store_in(&buf_B1_Blocal_props_r2_i, {x1, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, y, x2});
+    B1_Bfirst_r2_r_props.store_in(&buf_B1_Bfirst_props_r2_r, {x1, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, y, x2});
+    B1_Bfirst_r2_i_props.store_in(&buf_B1_Bfirst_props_r2_i, {x1, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, y, x2}); 
+    B1_Bsecond_r2_r_props.store_in(&buf_B1_Bsecond_props_r2_r, {x1, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, y, x2});
+    B1_Bsecond_r2_i_props.store_in(&buf_B1_Bsecond_props_r2_i, {x1, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, y, x2});
+    B1_Bthird_r2_r_props.store_in(&buf_B1_Bthird_props_r2_r, {x1, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, y, x2});
+    B1_Bthird_r2_i_props.store_in(&buf_B1_Bthird_props_r2_i, {x1, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, y, x2}); 
     
     buffer buf_B2_Blocal_r1_r("buf_B2_Blocal_r1_r",   {Vsnk, Nc, Ns, Nc, Ns, Nc, Ns, Nsrc, Vsnk}, p_float64, a_temporary);
     buffer buf_B2_Blocal_r1_i("buf_B2_Blocal_r1_i",   {Vsnk, Nc, Ns, Nc, Ns, Nc, Ns, Nsrc, Vsnk}, p_float64, a_temporary);
@@ -1669,14 +1669,14 @@ void generate_function(std::string name)
     B2_Bfirst_r1_i_diquark.store_in(&buf_B2_Bfirst_diquark_r1_i, {x1, x2}); 
     B2_Bthird_r1_r_diquark.store_in(&buf_B2_Bthird_diquark_r1_r, {x1, x2});
     B2_Bthird_r1_i_diquark.store_in(&buf_B2_Bthird_diquark_r1_i, {x1, x2}); 
-    buffer buf_B2_Blocal_props_r1_r("buf_B2_Blocal_props_r1_r",   {Vsnk, Nc, Ns, Vsnk}, p_float64, a_temporary);
-    buffer buf_B2_Blocal_props_r1_i("buf_B2_Blocal_props_r1_i",   {Vsnk, Nc, Ns, Vsnk}, p_float64, a_temporary);
-    buffer buf_B2_Bfirst_props_r1_r("buf_B2_Bfirst_props_r1_r",   {Vsnk, Nc, Ns, Vsnk}, p_float64, a_temporary);
-    buffer buf_B2_Bfirst_props_r1_i("buf_B2_Bfirst_props_r1_i",   {Vsnk, Nc, Ns, Vsnk}, p_float64, a_temporary);
-    buffer buf_B2_Bsecond_props_r1_r("buf_B2_Bsecond_props_r1_r",   {Vsnk, Nc, Ns, Vsnk}, p_float64, a_temporary);
-    buffer buf_B2_Bsecond_props_r1_i("buf_B2_Bsecond_props_r1_i",   {Vsnk, Nc, Ns, Vsnk}, p_float64, a_temporary);
-    buffer buf_B2_Bthird_props_r1_r("buf_B2_Bthird_props_r1_r",   {Vsnk, Nc, Ns, Vsnk}, p_float64, a_temporary);
-    buffer buf_B2_Bthird_props_r1_i("buf_B2_Bthird_props_r1_i",   {Vsnk, Nc, Ns, Vsnk}, p_float64, a_temporary);
+    buffer buf_B2_Blocal_props_r1_r("buf_B2_Blocal_props_r1_r",   {Vsnk, Nc, Ns, Nc, Ns, Nc, Ns, Vsnk, Vsnk}, p_float64, a_temporary);
+    buffer buf_B2_Blocal_props_r1_i("buf_B2_Blocal_props_r1_i",   {Vsnk, Nc, Ns, Nc, Ns, Nc, Ns, Vsnk, Vsnk}, p_float64, a_temporary);
+    buffer buf_B2_Bfirst_props_r1_r("buf_B2_Bfirst_props_r1_r",   {Vsnk, Nc, Ns, Nc, Ns, Nc, Ns, Vsnk, Vsnk}, p_float64, a_temporary);
+    buffer buf_B2_Bfirst_props_r1_i("buf_B2_Bfirst_props_r1_i",   {Vsnk, Nc, Ns, Nc, Ns, Nc, Ns, Vsnk, Vsnk}, p_float64, a_temporary);
+    buffer buf_B2_Bsecond_props_r1_r("buf_B2_Bsecond_props_r1_r",   {Vsnk, Nc, Ns, Nc, Ns, Nc, Ns, Vsnk, Vsnk}, p_float64, a_temporary);
+    buffer buf_B2_Bsecond_props_r1_i("buf_B2_Bsecond_props_r1_i",   {Vsnk, Nc, Ns, Nc, Ns, Nc, Ns, Vsnk, Vsnk}, p_float64, a_temporary);
+    buffer buf_B2_Bthird_props_r1_r("buf_B2_Bthird_props_r1_r",   {Vsnk, Nc, Ns, Nc, Ns, Nc, Ns, Vsnk, Vsnk}, p_float64, a_temporary);
+    buffer buf_B2_Bthird_props_r1_i("buf_B2_Bthird_props_r1_i",   {Vsnk, Nc, Ns, Nc, Ns, Nc, Ns, Vsnk, Vsnk}, p_float64, a_temporary);
     buf_B2_Blocal_props_r1_r.tag_gpu_global();
     buf_B2_Blocal_props_r1_i.tag_gpu_global();
     buf_B2_Bfirst_props_r1_r.tag_gpu_global();
@@ -1685,22 +1685,22 @@ void generate_function(std::string name)
     buf_B2_Bsecond_props_r1_i.tag_gpu_global();
     buf_B2_Bthird_props_r1_r.tag_gpu_global();
     buf_B2_Bthird_props_r1_i.tag_gpu_global();
-    B2_Blocal_r1_r_props_init.store_in(&buf_B2_Blocal_props_r1_r, {x1, jCprime, jSprime, x2});
-    B2_Blocal_r1_i_props_init.store_in(&buf_B2_Blocal_props_r1_i, {x1, jCprime, jSprime, x2});
-    B2_Bfirst_r1_r_props_init.store_in(&buf_B2_Bfirst_props_r1_r, {x1, jCprime, jSprime, x2});
-    B2_Bfirst_r1_i_props_init.store_in(&buf_B2_Bfirst_props_r1_i, {x1, jCprime, jSprime, x2});
-    B2_Bsecond_r1_r_props_init.store_in(&buf_B2_Bsecond_props_r1_r, {x1, jCprime, jSprime, x2});
-    B2_Bsecond_r1_i_props_init.store_in(&buf_B2_Bsecond_props_r1_i, {x1, jCprime, jSprime, x2});
-    B2_Bthird_r1_r_props_init.store_in(&buf_B2_Bthird_props_r1_r, {x1, jCprime, jSprime, x2});
-    B2_Bthird_r1_i_props_init.store_in(&buf_B2_Bthird_props_r1_i, {x1, jCprime, jSprime, x2});
-    B2_Blocal_r1_r_props.store_in(&buf_B2_Blocal_props_r1_r, {x1, jCprime, jSprime, x2});
-    B2_Blocal_r1_i_props.store_in(&buf_B2_Blocal_props_r1_i, {x1, jCprime, jSprime, x2});
-    B2_Bfirst_r1_r_props.store_in(&buf_B2_Bfirst_props_r1_r, {x1, jCprime, jSprime, x2});
-    B2_Bfirst_r1_i_props.store_in(&buf_B2_Bfirst_props_r1_i, {x1, jCprime, jSprime, x2}); 
-    B2_Bsecond_r1_r_props.store_in(&buf_B2_Bsecond_props_r1_r, {x1, jCprime, jSprime, x2});
-    B2_Bsecond_r1_i_props.store_in(&buf_B2_Bsecond_props_r1_i, {x1, jCprime, jSprime, x2});
-    B2_Bthird_r1_r_props.store_in(&buf_B2_Bthird_props_r1_r, {x1, jCprime, jSprime, x2});
-    B2_Bthird_r1_i_props.store_in(&buf_B2_Bthird_props_r1_i, {x1, jCprime, jSprime, x2}); 
+    B2_Blocal_r1_r_props_init.store_in(&buf_B2_Blocal_props_r1_r, {x1, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, y, x2});
+    B2_Blocal_r1_i_props_init.store_in(&buf_B2_Blocal_props_r1_i, {x1, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, y, x2});
+    B2_Bfirst_r1_r_props_init.store_in(&buf_B2_Bfirst_props_r1_r, {x1, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, y, x2});
+    B2_Bfirst_r1_i_props_init.store_in(&buf_B2_Bfirst_props_r1_i, {x1, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, y, x2});
+    B2_Bsecond_r1_r_props_init.store_in(&buf_B2_Bsecond_props_r1_r, {x1, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, y, x2});
+    B2_Bsecond_r1_i_props_init.store_in(&buf_B2_Bsecond_props_r1_i, {x1, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, y, x2});
+    B2_Bthird_r1_r_props_init.store_in(&buf_B2_Bthird_props_r1_r, {x1, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, y, x2});
+    B2_Bthird_r1_i_props_init.store_in(&buf_B2_Bthird_props_r1_i, {x1, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, y, x2});
+    B2_Blocal_r1_r_props.store_in(&buf_B2_Blocal_props_r1_r, {x1, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, y, x2});
+    B2_Blocal_r1_i_props.store_in(&buf_B2_Blocal_props_r1_i, {x1, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, y, x2});
+    B2_Bfirst_r1_r_props.store_in(&buf_B2_Bfirst_props_r1_r, {x1, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, y, x2});
+    B2_Bfirst_r1_i_props.store_in(&buf_B2_Bfirst_props_r1_i, {x1, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, y, x2}); 
+    B2_Bsecond_r1_r_props.store_in(&buf_B2_Bsecond_props_r1_r, {x1, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, y, x2});
+    B2_Bsecond_r1_i_props.store_in(&buf_B2_Bsecond_props_r1_i, {x1, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, y, x2});
+    B2_Bthird_r1_r_props.store_in(&buf_B2_Bthird_props_r1_r, {x1, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, y, x2});
+    B2_Bthird_r1_i_props.store_in(&buf_B2_Bthird_props_r1_i, {x1, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, y, x2}); 
     
     buffer buf_B2_Blocal_r2_r("buf_B2_Blocal_r2_r",   {Vsnk, Nc, Ns, Nc, Ns, Nc, Ns, Nsrc, Vsnk}, p_float64, a_temporary);
     buffer buf_B2_Blocal_r2_i("buf_B2_Blocal_r2_i",   {Vsnk, Nc, Ns, Nc, Ns, Nc, Ns, Nsrc, Vsnk}, p_float64, a_temporary);
@@ -1784,14 +1784,14 @@ void generate_function(std::string name)
     B2_Bfirst_r2_i_diquark.store_in(&buf_B2_Bfirst_diquark_r2_i, {x1, x2}); 
     B2_Bthird_r2_r_diquark.store_in(&buf_B2_Bthird_diquark_r2_r, {x1, x2});
     B2_Bthird_r2_i_diquark.store_in(&buf_B2_Bthird_diquark_r2_i, {x1, x2}); 
-    buffer buf_B2_Blocal_props_r2_r("buf_B2_Blocal_props_r2_r",   {Vsnk, Nc, Ns, Vsnk}, p_float64, a_temporary);
-    buffer buf_B2_Blocal_props_r2_i("buf_B2_Blocal_props_r2_i",   {Vsnk, Nc, Ns, Vsnk}, p_float64, a_temporary);
-    buffer buf_B2_Bfirst_props_r2_r("buf_B2_Bfirst_props_r2_r",   {Vsnk, Nc, Ns, Vsnk}, p_float64, a_temporary);
-    buffer buf_B2_Bfirst_props_r2_i("buf_B2_Bfirst_props_r2_i",   {Vsnk, Nc, Ns, Vsnk}, p_float64, a_temporary);
-    buffer buf_B2_Bsecond_props_r2_r("buf_B2_Bsecond_props_r2_r",   {Vsnk, Nc, Ns, Vsnk}, p_float64, a_temporary);
-    buffer buf_B2_Bsecond_props_r2_i("buf_B2_Bsecond_props_r2_i",   {Vsnk, Nc, Ns, Vsnk}, p_float64, a_temporary);
-    buffer buf_B2_Bthird_props_r2_r("buf_B2_Bthird_props_r2_r",   {Vsnk, Nc, Ns, Vsnk}, p_float64, a_temporary);
-    buffer buf_B2_Bthird_props_r2_i("buf_B2_Bthird_props_r2_i",   {Vsnk, Nc, Ns, Vsnk}, p_float64, a_temporary);
+    buffer buf_B2_Blocal_props_r2_r("buf_B2_Blocal_props_r2_r",   {Vsnk, Nc, Ns, Nc, Ns, Nc, Ns, Vsnk, Vsnk}, p_float64, a_temporary);
+    buffer buf_B2_Blocal_props_r2_i("buf_B2_Blocal_props_r2_i",   {Vsnk, Nc, Ns, Nc, Ns, Nc, Ns, Vsnk, Vsnk}, p_float64, a_temporary);
+    buffer buf_B2_Bfirst_props_r2_r("buf_B2_Bfirst_props_r2_r",   {Vsnk, Nc, Ns, Nc, Ns, Nc, Ns, Vsnk, Vsnk}, p_float64, a_temporary);
+    buffer buf_B2_Bfirst_props_r2_i("buf_B2_Bfirst_props_r2_i",   {Vsnk, Nc, Ns, Nc, Ns, Nc, Ns, Vsnk, Vsnk}, p_float64, a_temporary);
+    buffer buf_B2_Bsecond_props_r2_r("buf_B2_Bsecond_props_r2_r",   {Vsnk, Nc, Ns, Nc, Ns, Nc, Ns, Vsnk, Vsnk}, p_float64, a_temporary);
+    buffer buf_B2_Bsecond_props_r2_i("buf_B2_Bsecond_props_r2_i",   {Vsnk, Nc, Ns, Nc, Ns, Nc, Ns, Vsnk, Vsnk}, p_float64, a_temporary);
+    buffer buf_B2_Bthird_props_r2_r("buf_B2_Bthird_props_r2_r",   {Vsnk, Nc, Ns, Nc, Ns, Nc, Ns, Vsnk, Vsnk}, p_float64, a_temporary);
+    buffer buf_B2_Bthird_props_r2_i("buf_B2_Bthird_props_r2_i",   {Vsnk, Nc, Ns, Nc, Ns, Nc, Ns, Vsnk, Vsnk}, p_float64, a_temporary);
     buf_B2_Blocal_props_r2_r.tag_gpu_global();
     buf_B2_Blocal_props_r2_i.tag_gpu_global();
     buf_B2_Bfirst_props_r2_r.tag_gpu_global();
@@ -1800,22 +1800,22 @@ void generate_function(std::string name)
     buf_B2_Bsecond_props_r2_i.tag_gpu_global();
     buf_B2_Bthird_props_r2_r.tag_gpu_global();
     buf_B2_Bthird_props_r2_i.tag_gpu_global();
-    B2_Blocal_r2_r_props_init.store_in(&buf_B2_Blocal_props_r2_r, {x1, jCprime, jSprime, x2});
-    B2_Blocal_r2_i_props_init.store_in(&buf_B2_Blocal_props_r2_i, {x1, jCprime, jSprime, x2});
-    B2_Bfirst_r2_r_props_init.store_in(&buf_B2_Bfirst_props_r2_r, {x1, jCprime, jSprime, x2});
-    B2_Bfirst_r2_i_props_init.store_in(&buf_B2_Bfirst_props_r2_i, {x1, jCprime, jSprime, x2});
-    B2_Bsecond_r2_r_props_init.store_in(&buf_B2_Bsecond_props_r2_r, {x1, jCprime, jSprime, x2});
-    B2_Bsecond_r2_i_props_init.store_in(&buf_B2_Bsecond_props_r2_i, {x1, jCprime, jSprime, x2});
-    B2_Bthird_r2_r_props_init.store_in(&buf_B2_Bthird_props_r2_r, {x1, jCprime, jSprime, x2});
-    B2_Bthird_r2_i_props_init.store_in(&buf_B2_Bthird_props_r2_i, {x1, jCprime, jSprime, x2});
-    B2_Blocal_r2_r_props.store_in(&buf_B2_Blocal_props_r2_r, {x1, jCprime, jSprime, x2});
-    B2_Blocal_r2_i_props.store_in(&buf_B2_Blocal_props_r2_i, {x1, jCprime, jSprime, x2});
-    B2_Bfirst_r2_r_props.store_in(&buf_B2_Bfirst_props_r2_r, {x1, jCprime, jSprime, x2});
-    B2_Bfirst_r2_i_props.store_in(&buf_B2_Bfirst_props_r2_i, {x1, jCprime, jSprime, x2}); 
-    B2_Bsecond_r2_r_props.store_in(&buf_B2_Bsecond_props_r2_r, {x1, jCprime, jSprime, x2});
-    B2_Bsecond_r2_i_props.store_in(&buf_B2_Bsecond_props_r2_i, {x1, jCprime, jSprime, x2});
-    B2_Bthird_r2_r_props.store_in(&buf_B2_Bthird_props_r2_r, {x1, jCprime, jSprime, x2});
-    B2_Bthird_r2_i_props.store_in(&buf_B2_Bthird_props_r2_i, {x1, jCprime, jSprime, x2}); 
+    B2_Blocal_r2_r_props_init.store_in(&buf_B2_Blocal_props_r2_r, {x1, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, y, x2});
+    B2_Blocal_r2_i_props_init.store_in(&buf_B2_Blocal_props_r2_i, {x1, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, y, x2});
+    B2_Bfirst_r2_r_props_init.store_in(&buf_B2_Bfirst_props_r2_r, {x1, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, y, x2});
+    B2_Bfirst_r2_i_props_init.store_in(&buf_B2_Bfirst_props_r2_i, {x1, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, y, x2});
+    B2_Bsecond_r2_r_props_init.store_in(&buf_B2_Bsecond_props_r2_r, {x1, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, y, x2});
+    B2_Bsecond_r2_i_props_init.store_in(&buf_B2_Bsecond_props_r2_i, {x1, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, y, x2});
+    B2_Bthird_r2_r_props_init.store_in(&buf_B2_Bthird_props_r2_r, {x1, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, y, x2});
+    B2_Bthird_r2_i_props_init.store_in(&buf_B2_Bthird_props_r2_i, {x1, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, y, x2});
+    B2_Blocal_r2_r_props.store_in(&buf_B2_Blocal_props_r2_r, {x1, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, y, x2});
+    B2_Blocal_r2_i_props.store_in(&buf_B2_Blocal_props_r2_i, {x1, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, y, x2});
+    B2_Bfirst_r2_r_props.store_in(&buf_B2_Bfirst_props_r2_r, {x1, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, y, x2});
+    B2_Bfirst_r2_i_props.store_in(&buf_B2_Bfirst_props_r2_i, {x1, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, y, x2}); 
+    B2_Bsecond_r2_r_props.store_in(&buf_B2_Bsecond_props_r2_r, {x1, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, y, x2});
+    B2_Bsecond_r2_i_props.store_in(&buf_B2_Bsecond_props_r2_i, {x1, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, y, x2});
+    B2_Bthird_r2_r_props.store_in(&buf_B2_Bthird_props_r2_r, {x1, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, y, x2});
+    B2_Bthird_r2_i_props.store_in(&buf_B2_Bthird_props_r2_i, {x1, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, y, x2}); 
     
     buffer buf_src_B1_Blocal_r1_r("buf_src_B1_Blocal_r1_r",   {Vsnk/sites_per_rank, Nc, Ns, Nc, Ns, Nc, Ns, Nsrc, sites_per_rank}, p_float64, a_temporary);
     buffer buf_src_B1_Blocal_r1_i("buf_src_B1_Blocal_r1_i",   {Vsnk/sites_per_rank, Nc, Ns, Nc, Ns, Nc, Ns, Nsrc, sites_per_rank}, p_float64, a_temporary);
@@ -3056,6 +3056,7 @@ void generate_function(std::string name)
     handle = &(handle
           ->then(C_BB_init_r, t)
           .then(C_BB_init_i, n)
+// kernel_2
           .then(B1_Blocal_r1_r_init, t) // t, x1, x2, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m
           .then(B1_Blocal_r1_i_init, m) 
           .then(B1_Bfirst_r1_r_init, m)
@@ -3064,7 +3065,8 @@ void generate_function(std::string name)
           .then(B1_Bsecond_r1_i_init, m)
           .then(B1_Bthird_r1_r_init, m)
           .then(B1_Bthird_r1_i_init, m)
-          .then(flip_B1_Blocal_r1_r_init, m)
+// kernel_3
+          .then(flip_B1_Blocal_r1_r_init, t)
           .then(flip_B1_Blocal_r1_i_init, m)
           .then(flip_B1_Bfirst_r1_r_init, m)
           .then(flip_B1_Bfirst_r1_i_init, m)
@@ -3072,7 +3074,7 @@ void generate_function(std::string name)
           .then(flip_B1_Bsecond_r1_i_init, m)
           .then(flip_B1_Bthird_r1_r_init, m)
           .then(flip_B1_Bthird_r1_i_init, m)
-
+// kernel_4
           .then(B1_Blocal_r1_r_props_init, t) // t, x1, x2, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime
           .then(B1_Blocal_r1_i_props_init, jSprime)
           .then(B1_Bfirst_r1_r_props_init, jSprime)
@@ -3098,6 +3100,7 @@ void generate_function(std::string name)
           .then(B1_Bthird_r1_r_props, jSprime)
           .then(B1_Bthird_r1_i_props, jSprime)
 // this should be a new kernel
+// kernel_5
           .then(B1_Blocal_r1_r_update, t) // t, x1, x2, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime, m
           .then(B1_Blocal_r1_i_update, m)
           .then(B1_Bfirst_r1_r_update, m)
@@ -3106,7 +3109,8 @@ void generate_function(std::string name)
           .then(B1_Bsecond_r1_i_update, m)
           .then(B1_Bthird_r1_r_update, m)
           .then(B1_Bthird_r1_i_update, m)
-          .then(flip_B1_Blocal_r1_r_update, m)
+// kernel_6
+          .then(flip_B1_Blocal_r1_r_update, t)
           .then(flip_B1_Blocal_r1_i_update, m)
           .then(flip_B1_Bfirst_r1_r_update, m)
           .then(flip_B1_Bfirst_r1_i_update, m)
@@ -3115,107 +3119,8 @@ void generate_function(std::string name)
           .then(flip_B1_Bthird_r1_r_update, m)
           .then(flip_B1_Bthird_r1_i_update, m)
 
-// original
-// for (y)
-//     for (jCprime)
-//         for (jSprime)
-//             B1_Blocal_r1_r_props_init( jCprime, jSprime )
-//             B1_Blocal_r1_i_props_init( jCprime, jSprime )
-//             B1_Bfirst_r1_r_props_init( jCprime, jSprime )
-//             B1_Bfirst_r1_i_props_init( jCprime, jSprime )
-//             B1_Bsecond_r1_r_props_init( jCprime, jSprime )
-//             B1_Bsecond_r1_i_props_init( jCprime, jSprime )
-//             B1_Bthird_r1_r_props_init( jCprime, jSprime )
-//             B1_Bthird_r1_i_props_init( jCprime, jSprime )
-//     for (wnumBlock)
-//         B1_Blocal_r1_r_diquark() : buf_B1_Blocal_diquark_r1_r[ 0 ]
-//         B1_Blocal_r1_i_diquark() : buf_B1_Blocal_diquark_r1_i[ 0 ]
-//         B1_Bfirst_r1_r_diquark() : buf_B1_Bfirst_diquark_r1_r[ 0 ]
-//         B1_Bfirst_r1_i_diquark() : buf_B1_Bfirst_diquark_r1_i[ 0 ]
-//         B1_Bthird_r1_r_diquark() : buf_B1_Bthird_diquark_r1_r[ 0 ]
-//         B1_Bthird_r1_i_diquark() : buf_B1_Bthird_diquark_r1_i[ 0 ]
-//         for (jCprime)
-//             for (jSprime)
-//                 B1_Blocal_r1_r_props( jCprime, jSprime ) : buf_B1_Blocal_props_r1_r[ jCprime, jSprime ]
-//                 B1_Blocal_r1_i_props( jCprime, jSprime ) : buf_B1_Blocal_props_r1_i[ jCprime, jSprime ]
-//                 B1_Bfirst_r1_r_props( jCprime, jSprime ) : buf_B1_Bfirst_props_r1_r[ jCprime, jSprime ]
-//                 B1_Bfirst_r1_i_props( jCprime, jSprime ) : buf_B1_Bfirst_props_r1_i[ jCprime, jSprime ]
-//                 B1_Bsecond_r1_r_props( jCprime, jSprime ) : buf_B1_Bsecond_props_r1_r[ jCprime, jSprime ]
-//                 B1_Bsecond_r1_i_props( jCprime, jSprime ) : buf_B1_Bsecond_props_r1_i[ jCprime, jSprime ]
-//                 B1_Bthird_r1_r_props( jCprime, jSprime ) : buf_B1_Bthird_props_r1_r[ jCprime, jSprime ]
-//                 B1_Bthird_r1_i_props( jCprime, jSprime ) : buf_B1_Bthird_props_r1_i[ jCprime, jSprime ]
-//     for (jCprime)
-//         for (jSprime)
-//             for (m)
-//                 B1_Blocal_r1_r_update( jCprime, jSprime, m ) : buf_B1_Blocal_r1_r[ jCprime, jSprime, m ] + B1_Blocal_r1_r_props
-//                 B1_Blocal_r1_i_update( jCprime, jSprime, m ) : buf_B1_Blocal_r1_i[ jCprime, jSprime, m ] 
-//                 B1_Bfirst_r1_r_update( jCprime, jSprime, m ) : buf_B1_Bfirst_r1_r[ jCprime, jSprime, m ]
-//                 B1_Bfirst_r1_i_update( jCprime, jSprime, m ) : buf_B1_Bfirst_r1_i[ jCprime, jSprime, m ]
-//                 B1_Bsecond_r1_r_update( jCprime, jSprime, m ) : buf_B1_Bsecond_r1_r[ jCprime, jSprime, m ]
-//                 B1_Bsecond_r1_i_update( jCprime, jSprime, m ) : buf_B1_Bsecond_r1_i[ jCprime, jSprime, m ]
-//                 B1_Bthird_r1_r_update( jCprime, jSprime, m ) : buf_B1_Bthird_r1_r[ jCprime, jSprime, m ]
-//                 B1_Bthird_r1_i_update( jCprime, jSprime, m ) : buf_B1_Bthird_r1_i[ jCprime, jSprime, m ]
-//                 flip_B1_Blocal_r1_r_update( jCprime, jSprime, m ) : buf_flip_B1_Blocal_r1_r[ jCprime, jSprime, m ]
-//                 flip_B1_Blocal_r1_i_update( jCprime, jSprime, m ) : buf_flip_B1_Blocal_r1_i[ jCprime, jSprime, m ]
-//                 flip_B1_Bfirst_r1_r_update( jCprime, jSprime, m ) : buf_flip_B1_Bfirst_r1_r[ jCprime, jSprime, m ]
-//                 flip_B1_Bfirst_r1_i_update( jCprime, jSprime, m ) : buf_flip_B1_Bfirst_r1_i[ jCprime, jSprime, m ]
-//                 flip_B1_Bsecond_r1_r_update( jCprime, jSprime, m ) : buf_flip_B1_Bsecond_r1_r[ jCprime, jSprime, m ]
-//                 flip_B1_Bsecond_r1_i_update( jCprime, jSprime, m ) : buf_flip_B1_Bsecond_r1_i[ jCprime, jSprime, m ]
-//                 flip_B1_Bthird_r1_r_update( jCprime, jSprime, m ) : buf_flip_B1_Bthird_r1_r[ jCprime, jSprime, m ]
-//                 flip_B1_Bthird_r1_i_update( jCprime, jSprime, m ) : buf_flip_B1_Bthird_r1_i[ jCprime, jSprime, m ]
-
-// for (y)
-//     for (jCprime)
-//         for (jSprime)
-//             B1_Blocal_r1_r_props_init( jCprime, jSprime )
-//             B1_Blocal_r1_i_props_init( jCprime, jSprime )
-//             B1_Bfirst_r1_r_props_init( jCprime, jSprime )
-//             B1_Bfirst_r1_i_props_init( jCprime, jSprime )
-//             B1_Bsecond_r1_r_props_init( jCprime, jSprime )
-//             B1_Bsecond_r1_i_props_init( jCprime, jSprime )
-//             B1_Bthird_r1_r_props_init( jCprime, jSprime )
-//             B1_Bthird_r1_i_props_init( jCprime, jSprime )
-//     for (wnumBlock)
-//         B1_Blocal_r1_r_diquark() : buf_B1_Blocal_diquark_r1_r[ 0 ]
-//         B1_Blocal_r1_i_diquark() : buf_B1_Blocal_diquark_r1_i[ 0 ]
-//         B1_Bfirst_r1_r_diquark() : buf_B1_Bfirst_diquark_r1_r[ 0 ]
-//         B1_Bfirst_r1_i_diquark() : buf_B1_Bfirst_diquark_r1_i[ 0 ]
-//         B1_Bthird_r1_r_diquark() : buf_B1_Bthird_diquark_r1_r[ 0 ]
-//         B1_Bthird_r1_i_diquark() : buf_B1_Bthird_diquark_r1_i[ 0 ]
-//         for (jCprime)
-//             for (jSprime)
-//                 B1_Blocal_r1_r_props( jCprime, jSprime ) : buf_B1_Blocal_props_r1_r[ jCprime, jSprime ]
-//                 B1_Blocal_r1_i_props( jCprime, jSprime ) : buf_B1_Blocal_props_r1_i[ jCprime, jSprime ]
-//                 B1_Bfirst_r1_r_props( jCprime, jSprime ) : buf_B1_Bfirst_props_r1_r[ jCprime, jSprime ]
-//                 B1_Bfirst_r1_i_props( jCprime, jSprime ) : buf_B1_Bfirst_props_r1_i[ jCprime, jSprime ]
-//                 B1_Bsecond_r1_r_props( jCprime, jSprime ) : buf_B1_Bsecond_props_r1_r[ jCprime, jSprime ]
-//                 B1_Bsecond_r1_i_props( jCprime, jSprime ) : buf_B1_Bsecond_props_r1_i[ jCprime, jSprime ]
-//                 B1_Bthird_r1_r_props( jCprime, jSprime ) : buf_B1_Bthird_props_r1_r[ jCprime, jSprime ]
-//                 B1_Bthird_r1_i_props( jCprime, jSprime ) : buf_B1_Bthird_props_r1_i[ jCprime, jSprime ]
-// for (y)
-//     for (jCprime)
-//         for (jSprime)
-//             for (m)
-//                 B1_Blocal_r1_r_update( jCprime, jSprime, m ) : buf_B1_Blocal_r1_r[ jCprime, jSprime, m ]
-//                 B1_Blocal_r1_i_update( jCprime, jSprime, m ) : buf_B1_Blocal_r1_i[ jCprime, jSprime, m ]
-//                 B1_Bfirst_r1_r_update( jCprime, jSprime, m ) : buf_B1_Bfirst_r1_r[ jCprime, jSprime, m ]
-//                 B1_Bfirst_r1_i_update( jCprime, jSprime, m ) : buf_B1_Bfirst_r1_i[ jCprime, jSprime, m ]
-//                 B1_Bsecond_r1_r_update( jCprime, jSprime, m ) : buf_B1_Bsecond_r1_r[ jCprime, jSprime, m ]
-//                 B1_Bsecond_r1_i_update( jCprime, jSprime, m ) : buf_B1_Bsecond_r1_i[ jCprime, jSprime, m ]
-//                 B1_Bthird_r1_r_update( jCprime, jSprime, m ) : buf_B1_Bthird_r1_r[ jCprime, jSprime, m ]
-//                 B1_Bthird_r1_i_update( jCprime, jSprime, m ) : buf_B1_Bthird_r1_i[ jCprime, jSprime, m ]
-//                 flip_B1_Blocal_r1_r_update( jCprime, jSprime, m ) : buf_flip_B1_Blocal_r1_r[ jCprime, jSprime, m ]
-//                 flip_B1_Blocal_r1_i_update( jCprime, jSprime, m ) : buf_flip_B1_Blocal_r1_i[ jCprime, jSprime, m ]
-//                 flip_B1_Bfirst_r1_r_update( jCprime, jSprime, m ) : buf_flip_B1_Bfirst_r1_r[ jCprime, jSprime, m ]
-//                 flip_B1_Bfirst_r1_i_update( jCprime, jSprime, m ) : buf_flip_B1_Bfirst_r1_i[ jCprime, jSprime, m ]
-//                 flip_B1_Bsecond_r1_r_update( jCprime, jSprime, m ) : buf_flip_B1_Bsecond_r1_r[ jCprime, jSprime, m ]
-//                 flip_B1_Bsecond_r1_i_update( jCprime, jSprime, m ) : buf_flip_B1_Bsecond_r1_i[ jCprime, jSprime, m ]
-//                 flip_B1_Bthird_r1_r_update( jCprime, jSprime, m ) : buf_flip_B1_Bthird_r1_r[ jCprime, jSprime, m ]
-//                 flip_B1_Bthird_r1_i_update( jCprime, jSprime, m ) : buf_flip_B1_Bthird_r1_i[ jCprime, jSprime, m ]
-
-
 // ---------------------------- 
-// kernel_2:
+// kernel_7:
           .then(B1_Blocal_r2_r_init, t) // t, x1, x2, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m
           .then(B1_Blocal_r2_i_init, m)
           .then(B1_Bfirst_r2_r_init, m)
@@ -3224,7 +3129,8 @@ void generate_function(std::string name)
           .then(B1_Bsecond_r2_i_init, m)
           .then(B1_Bthird_r2_r_init, m)
           .then(B1_Bthird_r2_i_init, m)
-          .then(flip_B1_Blocal_r2_r_init, m)
+// kernel_8
+          .then(flip_B1_Blocal_r2_r_init, t)
           .then(flip_B1_Blocal_r2_i_init, m)
           .then(flip_B1_Bfirst_r2_r_init, m)
           .then(flip_B1_Bfirst_r2_i_init, m)
@@ -3232,8 +3138,8 @@ void generate_function(std::string name)
           .then(flip_B1_Bsecond_r2_i_init, m)
           .then(flip_B1_Bthird_r2_r_init, m)
           .then(flip_B1_Bthird_r2_i_init, m)
-
-          .then(B1_Blocal_r2_r_props_init, kSprime) // t, x1, x2, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime
+// kernel_9:
+          .then(B1_Blocal_r2_r_props_init, t) // t, x1, x2, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime
           .then(B1_Blocal_r2_i_props_init, jSprime)
           .then(B1_Bfirst_r2_r_props_init, jSprime)
           .then(B1_Bfirst_r2_i_props_init, jSprime)
@@ -3257,8 +3163,8 @@ void generate_function(std::string name)
           .then(B1_Bsecond_r2_i_props, jSprime)
           .then(B1_Bthird_r2_r_props, jSprime)
           .then(B1_Bthird_r2_i_props, jSprime)
-
-          .then(B1_Blocal_r2_r_update, y) // t, x1, x2, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime, m
+// kernel_10:
+          .then(B1_Blocal_r2_r_update, t) // t, x1, x2, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime, m
           .then(B1_Blocal_r2_i_update, m)
           .then(B1_Bfirst_r2_r_update, m)
           .then(B1_Bfirst_r2_i_update, m)
@@ -3266,7 +3172,8 @@ void generate_function(std::string name)
           .then(B1_Bsecond_r2_i_update, m)
           .then(B1_Bthird_r2_r_update, m)
           .then(B1_Bthird_r2_i_update, m)
-          .then(flip_B1_Blocal_r2_r_update, m)
+// kernel_11:
+          .then(flip_B1_Blocal_r2_r_update, t)
           .then(flip_B1_Blocal_r2_i_update, m)
           .then(flip_B1_Bfirst_r2_r_update, m)
           .then(flip_B1_Bfirst_r2_i_update, m)
@@ -3275,7 +3182,7 @@ void generate_function(std::string name)
           .then(flip_B1_Bthird_r2_r_update, m)
           .then(flip_B1_Bthird_r2_i_update, m)
 // -----------------------
-// kernel_3
+// kernel_12:
           .then(B2_Blocal_r1_r_init, t) // t, x1, x2, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m
           .then(B2_Blocal_r1_i_init, m)
           .then(B2_Bfirst_r1_r_init, m)
@@ -3284,7 +3191,8 @@ void generate_function(std::string name)
           .then(B2_Bsecond_r1_i_init, m)
           .then(B2_Bthird_r1_r_init, m)
           .then(B2_Bthird_r1_i_init, m)
-          .then(flip_B2_Blocal_r1_r_init, m)
+// kernel_13:
+          .then(flip_B2_Blocal_r1_r_init, t)
           .then(flip_B2_Blocal_r1_i_init, m)
           .then(flip_B2_Bfirst_r1_r_init, m)
           .then(flip_B2_Bfirst_r1_i_init, m)
@@ -3292,8 +3200,8 @@ void generate_function(std::string name)
           .then(flip_B2_Bsecond_r1_i_init, m)
           .then(flip_B2_Bthird_r1_r_init, m)
           .then(flip_B2_Bthird_r1_i_init, m)
-
-          .then(B2_Blocal_r1_r_props_init, kSprime) // t, x1, x2, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime
+// kernel_14
+          .then(B2_Blocal_r1_r_props_init, t) // t, x1, x2, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime
           .then(B2_Blocal_r1_i_props_init, jSprime)
           .then(B2_Bfirst_r1_r_props_init, jSprime)
           .then(B2_Bfirst_r1_i_props_init, jSprime)
@@ -3317,8 +3225,8 @@ void generate_function(std::string name)
           .then(B2_Bsecond_r1_i_props, jSprime)
           .then(B2_Bthird_r1_r_props, jSprime)
           .then(B2_Bthird_r1_i_props, jSprime)
-
-          .then(B2_Blocal_r1_r_update, y) // t, x1, x2, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime, m
+// kernel_15:
+          .then(B2_Blocal_r1_r_update, t) // t, x1, x2, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime, m
           .then(B2_Blocal_r1_i_update, m)
           .then(B2_Bfirst_r1_r_update, m)
           .then(B2_Bfirst_r1_i_update, m)
@@ -3326,7 +3234,8 @@ void generate_function(std::string name)
           .then(B2_Bsecond_r1_i_update, m)
           .then(B2_Bthird_r1_r_update, m)
           .then(B2_Bthird_r1_i_update, m)
-          .then(flip_B2_Blocal_r1_r_update, m)
+// kernel_16:
+          .then(flip_B2_Blocal_r1_r_update, t)
           .then(flip_B2_Blocal_r1_i_update, m)
           .then(flip_B2_Bfirst_r1_r_update, m)
           .then(flip_B2_Bfirst_r1_i_update, m)
@@ -3335,7 +3244,7 @@ void generate_function(std::string name)
           .then(flip_B2_Bthird_r1_r_update, m)
           .then(flip_B2_Bthird_r1_i_update, m)
 // -------------
-// kernel_4
+// kernel_17:
           .then(B2_Blocal_r2_r_init, t) // t, x1, x2, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m
           .then(B2_Blocal_r2_i_init, m)
           .then(B2_Bfirst_r2_r_init, m)
@@ -3344,7 +3253,8 @@ void generate_function(std::string name)
           .then(B2_Bsecond_r2_i_init, m)
           .then(B2_Bthird_r2_r_init, m)
           .then(B2_Bthird_r2_i_init, m)
-          .then(flip_B2_Blocal_r2_r_init, m)
+// kernel_18
+          .then(flip_B2_Blocal_r2_r_init, t)
           .then(flip_B2_Blocal_r2_i_init, m)
           .then(flip_B2_Bfirst_r2_r_init, m)
           .then(flip_B2_Bfirst_r2_i_init, m)
@@ -3352,8 +3262,8 @@ void generate_function(std::string name)
           .then(flip_B2_Bsecond_r2_i_init, m)
           .then(flip_B2_Bthird_r2_r_init, m)
           .then(flip_B2_Bthird_r2_i_init, m)
-
-          .then(B2_Blocal_r2_r_props_init, x2) // t, x1, x2, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime
+// kernel_19
+          .then(B2_Blocal_r2_r_props_init, t) // t, x1, x2, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime
           .then(B2_Blocal_r2_i_props_init, jSprime)
           .then(B2_Bfirst_r2_r_props_init, jSprime)
           .then(B2_Bfirst_r2_i_props_init, jSprime)
@@ -3377,8 +3287,8 @@ void generate_function(std::string name)
           .then(B2_Bsecond_r2_i_props, jSprime)
           .then(B2_Bthird_r2_r_props, jSprime)
           .then(B2_Bthird_r2_i_props, jSprime)
-
-          .then(B2_Blocal_r2_r_update, y) // t, x1, x2, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime, m
+// kernel_20
+          .then(B2_Blocal_r2_r_update, t) // t, x1, x2, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime, m
           .then(B2_Blocal_r2_i_update, m)
           .then(B2_Bfirst_r2_r_update, m)
           .then(B2_Bfirst_r2_i_update, m) 
@@ -3386,7 +3296,8 @@ void generate_function(std::string name)
           .then(B2_Bsecond_r2_i_update, m)
           .then(B2_Bthird_r2_r_update, m)
           .then(B2_Bthird_r2_i_update, m) 
-          .then(flip_B2_Blocal_r2_r_update, m)
+// kernel_21
+          .then(flip_B2_Blocal_r2_r_update, t)
           .then(flip_B2_Blocal_r2_i_update, m)
           .then(flip_B2_Bfirst_r2_r_update, m)
           .then(flip_B2_Bfirst_r2_i_update, m) 
@@ -3395,10 +3306,10 @@ void generate_function(std::string name)
           .then(flip_B2_Bthird_r2_r_update, m)
           .then(flip_B2_Bthird_r2_i_update, m) 
 // ------------------------------- 
-// kernel_5:
+// kernel_22:
           .then(C_BB_BB_prop_init_r, t) // t, x1, x2, rp, m, r
           .then(C_BB_BB_prop_init_i, r)
-// kernel_6
+// kernel_23:
           .then( *(BB_BB_new_term_0_r1_b1.get_real()), t) // t, x1, x2, rp, m, r, s, nperm, wnum
           .then( *(BB_BB_new_term_0_r1_b1.get_imag()), wnum)
           .then( *(BB_BB_new_term_1_r1_b1.get_real()), wnum)
@@ -3465,7 +3376,7 @@ void generate_function(std::string name)
           .then( *(BB_BB_new_term_7_r2_b2.get_imag()), wnum)
           .then(C_BB_BB_prop_update_r, wnum) 
           .then(C_BB_BB_prop_update_i, wnum)
-// kernel_7
+// kernel_24
           .then( *(flip_BB_BB_new_term_0_r1_b1.get_real()), t)
           .then( *(flip_BB_BB_new_term_0_r1_b1.get_imag()), wnum)
           .then( *(flip_BB_BB_new_term_1_r1_b1.get_real()), wnum)
@@ -3532,14 +3443,13 @@ void generate_function(std::string name)
           .then( *(flip_BB_BB_new_term_7_r2_b2.get_imag()), wnum)
           .then(C_BB_BB_prop_update_r_2, wnum) 
           .then(C_BB_BB_prop_update_i_2, wnum)
-// kernel_8
+// kernel_25
           .then(C_BB_BB_update_b_r, t)  // t, x1, x2, rp, m, r, ne
           .then(C_BB_BB_update_b_i, ne)
           .then(C_BB_BB_update_s_r, r)  // t, x1, x2, rp, m, r, nue
           .then(C_BB_BB_update_s_i, nue)
           );
 
-// kernel_9:
     // BB_H
     handle = &(handle
           ->then(src_B1_Blocal_r1_r_init, t) // t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m
