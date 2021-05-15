@@ -1439,14 +1439,14 @@ void generate_function(std::string name)
     B1_Bfirst_r1_i_diquark.store_in(&buf_B1_Bfirst_diquark_r1_i, {x1, x2}); 
     B1_Bthird_r1_r_diquark.store_in(&buf_B1_Bthird_diquark_r1_r, {x1, x2});
     B1_Bthird_r1_i_diquark.store_in(&buf_B1_Bthird_diquark_r1_i, {x1, x2}); 
-    buffer buf_B1_Blocal_props_r1_r("buf_B1_Blocal_props_r1_r",   {Vsnk, Nc, Ns, Vsnk}, p_float64, a_temporary);
-    buffer buf_B1_Blocal_props_r1_i("buf_B1_Blocal_props_r1_i",   {Vsnk, Nc, Ns, Vsnk}, p_float64, a_temporary);
-    buffer buf_B1_Bfirst_props_r1_r("buf_B1_Bfirst_props_r1_r",   {Vsnk, Nc, Ns, Vsnk}, p_float64, a_temporary);
-    buffer buf_B1_Bfirst_props_r1_i("buf_B1_Bfirst_props_r1_i",   {Vsnk, Nc, Ns, Vsnk}, p_float64, a_temporary);
-    buffer buf_B1_Bsecond_props_r1_r("buf_B1_Bsecond_props_r1_r",   {Vsnk, Nc, Ns, Vsnk}, p_float64, a_temporary);
-    buffer buf_B1_Bsecond_props_r1_i("buf_B1_Bsecond_props_r1_i",   {Vsnk, Nc, Ns, Vsnk}, p_float64, a_temporary);
-    buffer buf_B1_Bthird_props_r1_r("buf_B1_Bthird_props_r1_r",   {Vsnk, Nc, Ns, Vsnk}, p_float64, a_temporary);
-    buffer buf_B1_Bthird_props_r1_i("buf_B1_Bthird_props_r1_i",   {Vsnk, Nc, Ns, Vsnk}, p_float64, a_temporary);
+    buffer buf_B1_Blocal_props_r1_r("buf_B1_Blocal_props_r1_r",   {Vsnk, Nc, Ns, Vsnk, Vsnk}, p_float64, a_temporary);
+    buffer buf_B1_Blocal_props_r1_i("buf_B1_Blocal_props_r1_i",   {Vsnk, Nc, Ns, Vsnk, Vsnk}, p_float64, a_temporary);
+    buffer buf_B1_Bfirst_props_r1_r("buf_B1_Bfirst_props_r1_r",   {Vsnk, Nc, Ns, Vsnk, Vsnk}, p_float64, a_temporary);
+    buffer buf_B1_Bfirst_props_r1_i("buf_B1_Bfirst_props_r1_i",   {Vsnk, Nc, Ns, Vsnk, Vsnk}, p_float64, a_temporary);
+    buffer buf_B1_Bsecond_props_r1_r("buf_B1_Bsecond_props_r1_r",   {Vsnk, Nc, Ns, Vsnk, Vsnk}, p_float64, a_temporary);
+    buffer buf_B1_Bsecond_props_r1_i("buf_B1_Bsecond_props_r1_i",   {Vsnk, Nc, Ns, Vsnk, Vsnk}, p_float64, a_temporary);
+    buffer buf_B1_Bthird_props_r1_r("buf_B1_Bthird_props_r1_r",   {Vsnk, Nc, Ns, Vsnk, Vsnk}, p_float64, a_temporary);
+    buffer buf_B1_Bthird_props_r1_i("buf_B1_Bthird_props_r1_i",   {Vsnk, Nc, Ns, Vsnk, Vsnk}, p_float64, a_temporary);
     buf_B1_Blocal_props_r1_r.tag_gpu_global();
     buf_B1_Blocal_props_r1_i.tag_gpu_global();
     buf_B1_Bfirst_props_r1_r.tag_gpu_global();
@@ -1455,22 +1455,22 @@ void generate_function(std::string name)
     buf_B1_Bsecond_props_r1_i.tag_gpu_global();
     buf_B1_Bthird_props_r1_r.tag_gpu_global();
     buf_B1_Bthird_props_r1_i.tag_gpu_global();
-    B1_Blocal_r1_r_props_init.store_in(&buf_B1_Blocal_props_r1_r, {x1, jCprime, jSprime, x2});
-    B1_Blocal_r1_i_props_init.store_in(&buf_B1_Blocal_props_r1_i, {x1, jCprime, jSprime, x2});
-    B1_Bfirst_r1_r_props_init.store_in(&buf_B1_Bfirst_props_r1_r, {x1, jCprime, jSprime, x2});
-    B1_Bfirst_r1_i_props_init.store_in(&buf_B1_Bfirst_props_r1_i, {x1, jCprime, jSprime, x2});
-    B1_Bsecond_r1_r_props_init.store_in(&buf_B1_Bsecond_props_r1_r, {x1, jCprime, jSprime, x2});
-    B1_Bsecond_r1_i_props_init.store_in(&buf_B1_Bsecond_props_r1_i, {x1, jCprime, jSprime, x2});
-    B1_Bthird_r1_r_props_init.store_in(&buf_B1_Bthird_props_r1_r, {x1, jCprime, jSprime, x2});
-    B1_Bthird_r1_i_props_init.store_in(&buf_B1_Bthird_props_r1_i, {x1, jCprime, jSprime, x2});
-    B1_Blocal_r1_r_props.store_in(&buf_B1_Blocal_props_r1_r, {x1, jCprime, jSprime, x2});
-    B1_Blocal_r1_i_props.store_in(&buf_B1_Blocal_props_r1_i, {x1, jCprime, jSprime, x2});
-    B1_Bfirst_r1_r_props.store_in(&buf_B1_Bfirst_props_r1_r, {x1, jCprime, jSprime, x2});
-    B1_Bfirst_r1_i_props.store_in(&buf_B1_Bfirst_props_r1_i, {x1, jCprime, jSprime, x2}); 
-    B1_Bsecond_r1_r_props.store_in(&buf_B1_Bsecond_props_r1_r, {x1, jCprime, jSprime, x2});
-    B1_Bsecond_r1_i_props.store_in(&buf_B1_Bsecond_props_r1_i, {x1, jCprime, jSprime, x2});
-    B1_Bthird_r1_r_props.store_in(&buf_B1_Bthird_props_r1_r, {x1, jCprime, jSprime, x2});
-    B1_Bthird_r1_i_props.store_in(&buf_B1_Bthird_props_r1_i, {x1, jCprime, jSprime, x2}); 
+    B1_Blocal_r1_r_props_init.store_in(&buf_B1_Blocal_props_r1_r, {x1, jCprime, jSprime, y, x2});
+    B1_Blocal_r1_i_props_init.store_in(&buf_B1_Blocal_props_r1_i, {x1, jCprime, jSprime, y, x2});
+    B1_Bfirst_r1_r_props_init.store_in(&buf_B1_Bfirst_props_r1_r, {x1, jCprime, jSprime, y, x2});
+    B1_Bfirst_r1_i_props_init.store_in(&buf_B1_Bfirst_props_r1_i, {x1, jCprime, jSprime, y, x2});
+    B1_Bsecond_r1_r_props_init.store_in(&buf_B1_Bsecond_props_r1_r, {x1, jCprime, jSprime, y, x2});
+    B1_Bsecond_r1_i_props_init.store_in(&buf_B1_Bsecond_props_r1_i, {x1, jCprime, jSprime, y, x2});
+    B1_Bthird_r1_r_props_init.store_in(&buf_B1_Bthird_props_r1_r, {x1, jCprime, jSprime, y, x2});
+    B1_Bthird_r1_i_props_init.store_in(&buf_B1_Bthird_props_r1_i, {x1, jCprime, jSprime, y, x2});
+    B1_Blocal_r1_r_props.store_in(&buf_B1_Blocal_props_r1_r, {x1, jCprime, jSprime, y, x2});
+    B1_Blocal_r1_i_props.store_in(&buf_B1_Blocal_props_r1_i, {x1, jCprime, jSprime, y, x2});
+    B1_Bfirst_r1_r_props.store_in(&buf_B1_Bfirst_props_r1_r, {x1, jCprime, jSprime, y, x2});
+    B1_Bfirst_r1_i_props.store_in(&buf_B1_Bfirst_props_r1_i, {x1, jCprime, jSprime, y, x2}); 
+    B1_Bsecond_r1_r_props.store_in(&buf_B1_Bsecond_props_r1_r, {x1, jCprime, jSprime, y, x2});
+    B1_Bsecond_r1_i_props.store_in(&buf_B1_Bsecond_props_r1_i, {x1, jCprime, jSprime, y, x2});
+    B1_Bthird_r1_r_props.store_in(&buf_B1_Bthird_props_r1_r, {x1, jCprime, jSprime, y, x2});
+    B1_Bthird_r1_i_props.store_in(&buf_B1_Bthird_props_r1_i, {x1, jCprime, jSprime, y, x2}); 
     
     buffer buf_B1_Blocal_r2_r("buf_B1_Blocal_r2_r",   {Vsnk, Nc, Ns, Nc, Ns, Nc, Ns, Nsrc, Vsnk}, p_float64, a_temporary);
     buffer buf_B1_Blocal_r2_i("buf_B1_Blocal_r2_i",   {Vsnk, Nc, Ns, Nc, Ns, Nc, Ns, Nsrc, Vsnk}, p_float64, a_temporary);
@@ -3056,7 +3056,7 @@ void generate_function(std::string name)
     handle = &(handle
           ->then(C_BB_init_r, t)
           .then(C_BB_init_i, n)
-          .then(B1_Blocal_r1_r_init, x2) // t, x1, x2, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m
+          .then(B1_Blocal_r1_r_init, t) // t, x1, x2, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m
           .then(B1_Blocal_r1_i_init, m) 
           .then(B1_Bfirst_r1_r_init, m)
           .then(B1_Bfirst_r1_i_init, m)
