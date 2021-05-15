@@ -3098,7 +3098,7 @@ void generate_function(std::string name)
           .then(B1_Bthird_r1_r_props, jSprime)
           .then(B1_Bthird_r1_i_props, jSprime)
 // this should be a new kernel
-          .then(B1_Blocal_r1_r_update, y) // t, x1, x2, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime, m
+          .then(B1_Blocal_r1_r_update, t) // t, x1, x2, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime, m
           .then(B1_Blocal_r1_i_update, m)
           .then(B1_Bfirst_r1_r_update, m)
           .then(B1_Bfirst_r1_i_update, m)
