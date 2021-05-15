@@ -1421,24 +1421,24 @@ void generate_function(std::string name)
     flip_B1_Bsecond_r1_i_update.store_in(&buf_flip_B1_Bsecond_r1_i, {x1, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m, x2});
     flip_B1_Bthird_r1_r_update.store_in(&buf_flip_B1_Bthird_r1_r, {x1, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m, x2});
     flip_B1_Bthird_r1_i_update.store_in(&buf_flip_B1_Bthird_r1_i, {x1, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m, x2}); 
-    buffer buf_B1_Blocal_diquark_r1_r("buf_B1_Blocal_diquark_r1_r",   {Vsnk, Vsnk, 1}, p_float64, a_temporary);
-    buffer buf_B1_Blocal_diquark_r1_i("buf_B1_Blocal_diquark_r1_i",   {Vsnk, Vsnk, 1}, p_float64, a_temporary);
-    buffer buf_B1_Bfirst_diquark_r1_r("buf_B1_Bfirst_diquark_r1_r",   {Vsnk, Vsnk, 1}, p_float64, a_temporary);
-    buffer buf_B1_Bfirst_diquark_r1_i("buf_B1_Bfirst_diquark_r1_i",   {Vsnk, Vsnk, 1}, p_float64, a_temporary);
-    buffer buf_B1_Bthird_diquark_r1_r("buf_B1_Bthird_diquark_r1_r",   {Vsnk, Vsnk, 1}, p_float64, a_temporary);
-    buffer buf_B1_Bthird_diquark_r1_i("buf_B1_Bthird_diquark_r1_i",   {Vsnk, Vsnk, 1}, p_float64, a_temporary);
+    buffer buf_B1_Blocal_diquark_r1_r("buf_B1_Blocal_diquark_r1_r",   {Vsnk, Vsnk, Vsnk}, p_float64, a_temporary);
+    buffer buf_B1_Blocal_diquark_r1_i("buf_B1_Blocal_diquark_r1_i",   {Vsnk, Vsnk, Vsnk}, p_float64, a_temporary);
+    buffer buf_B1_Bfirst_diquark_r1_r("buf_B1_Bfirst_diquark_r1_r",   {Vsnk, Vsnk, Vsnk}, p_float64, a_temporary);
+    buffer buf_B1_Bfirst_diquark_r1_i("buf_B1_Bfirst_diquark_r1_i",   {Vsnk, Vsnk, Vsnk}, p_float64, a_temporary);
+    buffer buf_B1_Bthird_diquark_r1_r("buf_B1_Bthird_diquark_r1_r",   {Vsnk, Vsnk, Vsnk}, p_float64, a_temporary);
+    buffer buf_B1_Bthird_diquark_r1_i("buf_B1_Bthird_diquark_r1_i",   {Vsnk, Vsnk, Vsnk}, p_float64, a_temporary);
     buf_B1_Blocal_diquark_r1_r.tag_gpu_global();
     buf_B1_Blocal_diquark_r1_i.tag_gpu_global();
     buf_B1_Bfirst_diquark_r1_r.tag_gpu_global();
     buf_B1_Bfirst_diquark_r1_i.tag_gpu_global();
     buf_B1_Bthird_diquark_r1_r.tag_gpu_global();
     buf_B1_Bthird_diquark_r1_i.tag_gpu_global();
-    B1_Blocal_r1_r_diquark.store_in(&buf_B1_Blocal_diquark_r1_r, {x1, x2, 0});
-    B1_Blocal_r1_i_diquark.store_in(&buf_B1_Blocal_diquark_r1_i, {x1, x2, 0});
-    B1_Bfirst_r1_r_diquark.store_in(&buf_B1_Bfirst_diquark_r1_r, {x1, x2, 0});
-    B1_Bfirst_r1_i_diquark.store_in(&buf_B1_Bfirst_diquark_r1_i, {x1, x2, 0}); 
-    B1_Bthird_r1_r_diquark.store_in(&buf_B1_Bthird_diquark_r1_r, {x1, x2, 0});
-    B1_Bthird_r1_i_diquark.store_in(&buf_B1_Bthird_diquark_r1_i, {x1, x2, 0}); 
+    B1_Blocal_r1_r_diquark.store_in(&buf_B1_Blocal_diquark_r1_r, {x1, y, x2});
+    B1_Blocal_r1_i_diquark.store_in(&buf_B1_Blocal_diquark_r1_i, {x1, y, x2});
+    B1_Bfirst_r1_r_diquark.store_in(&buf_B1_Bfirst_diquark_r1_r, {x1, y, x2});
+    B1_Bfirst_r1_i_diquark.store_in(&buf_B1_Bfirst_diquark_r1_i, {x1, y, x2}); 
+    B1_Bthird_r1_r_diquark.store_in(&buf_B1_Bthird_diquark_r1_r, {x1, y, x2});
+    B1_Bthird_r1_i_diquark.store_in(&buf_B1_Bthird_diquark_r1_i, {x1, y, x2}); 
     buffer buf_B1_Blocal_props_r1_r("buf_B1_Blocal_props_r1_r",   {Vsnk, Vsrc, Nc, Ns, Vsnk}, p_float64, a_temporary);
     buffer buf_B1_Blocal_props_r1_i("buf_B1_Blocal_props_r1_i",   {Vsnk, Vsrc, Nc, Ns, Vsnk}, p_float64, a_temporary);
     buffer buf_B1_Bfirst_props_r1_r("buf_B1_Bfirst_props_r1_r",   {Vsnk, Vsrc, Nc, Ns, Vsnk}, p_float64, a_temporary);
@@ -3147,8 +3147,8 @@ void generate_function(std::string name)
 //     for (jCprime)
 //         for (jSprime)
 //             for (m)
-//                 B1_Blocal_r1_r_update( jCprime, jSprime, m ) : buf_B1_Blocal_r1_r[ jCprime, jSprime, m ]
-//                 B1_Blocal_r1_i_update( jCprime, jSprime, m ) : buf_B1_Blocal_r1_i[ jCprime, jSprime, m ]
+//                 B1_Blocal_r1_r_update( jCprime, jSprime, m ) : buf_B1_Blocal_r1_r[ jCprime, jSprime, m ] + B1_Blocal_r1_r_props
+//                 B1_Blocal_r1_i_update( jCprime, jSprime, m ) : buf_B1_Blocal_r1_i[ jCprime, jSprime, m ] 
 //                 B1_Bfirst_r1_r_update( jCprime, jSprime, m ) : buf_B1_Bfirst_r1_r[ jCprime, jSprime, m ]
 //                 B1_Bfirst_r1_i_update( jCprime, jSprime, m ) : buf_B1_Bfirst_r1_i[ jCprime, jSprime, m ]
 //                 B1_Bsecond_r1_r_update( jCprime, jSprime, m ) : buf_B1_Bsecond_r1_r[ jCprime, jSprime, m ]
