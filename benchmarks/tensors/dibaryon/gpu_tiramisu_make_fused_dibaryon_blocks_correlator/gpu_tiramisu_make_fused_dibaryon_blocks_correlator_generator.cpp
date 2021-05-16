@@ -3366,14 +3366,14 @@ void generate_function(std::string name)
           .then(flip_B1_Bsecond_r1_i_update, m)
           .then(flip_B1_Bthird_r1_r_update, m)
           .then(flip_B1_Bthird_r1_i_update, m)
-          .then(deallocate_buf_B1_Blocal_props_r1_r, t);
-          .then(deallocate_buf_B1_Blocal_props_r1_i, t);
-          .then(deallocate_buf_B1_Bfirst_props_r1_r, t);
-          .then(deallocate_buf_B1_Bfirst_props_r1_i, t);
-          .then(deallocate_buf_B1_Bsecond_props_r1_r, t);
-          .then(deallocate_buf_B1_Bsecond_props_r1_i, t);
-          .then(deallocate_buf_B1_Bthird_props_r1_r, t);
-          .then(deallocate_buf_B1_Bthird_props_r1_i, t);
+          .then( *deallocate_buf_B1_Blocal_props_r1_r, t)
+          .then( *deallocate_buf_B1_Blocal_props_r1_i, t)
+          .then( *deallocate_buf_B1_Bfirst_props_r1_r, t)
+          .then( *deallocate_buf_B1_Bfirst_props_r1_i, t)
+          .then( *deallocate_buf_B1_Bsecond_props_r1_r, t)
+          .then( *deallocate_buf_B1_Bsecond_props_r1_i, t)
+          .then( *deallocate_buf_B1_Bthird_props_r1_r, t)
+          .then( *deallocate_buf_B1_Bthird_props_r1_i, t)
 // ---------------------------- 
 // kernel_7:
           .then( *allocate_buf_B1_Blocal_r2_r, t)
