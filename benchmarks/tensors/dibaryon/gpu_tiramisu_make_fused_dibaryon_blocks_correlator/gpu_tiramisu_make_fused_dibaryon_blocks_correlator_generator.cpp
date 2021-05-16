@@ -1389,6 +1389,24 @@ void generate_function(std::string name)
     B1_Bsecond_r1_i_update.store_in(&buf_B1_Bsecond_r1_i, {x1, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m, x2});
     B1_Bthird_r1_r_update.store_in(&buf_B1_Bthird_r1_r, {x1, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m, x2});
     B1_Bthird_r1_i_update.store_in(&buf_B1_Bthird_r1_i, {x1, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m, x2});
+    computation *allocate_buf_B1_Blocal_r1_r = buf_B1_Blocal_r1_r.allocate_at( B1_Blocal_r1_r_init, t );
+    computation *allocate_buf_B1_Blocal_r1_i = buf_B1_Blocal_r1_i.allocate_at( B1_Blocal_r1_r_init, t );
+    computation *allocate_buf_B1_Bfirst_r1_r = buf_B1_Bfirst_r1_r.allocate_at( B1_Blocal_r1_r_init, t );
+    computation *allocate_buf_B1_Bfirst_r1_i = buf_B1_Bfirst_r1_i.allocate_at( B1_Blocal_r1_r_init, t );
+    computation *allocate_buf_B1_Bsecond_r1_r = buf_B1_Bsecond_r1_r.allocate_at( B1_Blocal_r1_r_init, t );
+    computation *allocate_buf_B1_Bsecond_r1_i = buf_B1_Bsecond_r1_i.allocate_at( B1_Blocal_r1_r_init, t );
+    computation *allocate_buf_B1_Bthird_r1_r = buf_B1_Bthird_r1_r.allocate_at( B1_Blocal_r1_r_init, t );
+    computation *allocate_buf_B1_Bthird_r1_i = buf_B1_Bthird_r1_i.allocate_at( B1_Blocal_r1_r_init, t );
+
+    computation *deallocate_buf_B1_Blocal_r1_r = buf_B1_Blocal_r1_r.deallocate_at( C_BB_BB_prop_update_i, t );
+    computation *deallocate_buf_B1_Blocal_r1_i = buf_B1_Blocal_r1_i.deallocate_at( C_BB_BB_prop_update_i, t );
+    computation *deallocate_buf_B1_Bfirst_r1_r = buf_B1_Bfirst_r1_r.deallocate_at( C_BB_BB_prop_update_i, t );
+    computation *deallocate_buf_B1_Bfirst_r1_i = buf_B1_Bfirst_r1_i.deallocate_at( C_BB_BB_prop_update_i, t );
+    computation *deallocate_buf_B1_Bsecond_r1_r = buf_B1_Bsecond_r1_r.deallocate_at( C_BB_BB_prop_update_i, t );
+    computation *deallocate_buf_B1_Bsecond_r1_i = buf_B1_Bsecond_r1_i.deallocate_at( C_BB_BB_prop_update_i, t );
+    computation *deallocate_buf_B1_Bthird_r1_r = buf_B1_Bthird_r1_r.deallocate_at( C_BB_BB_prop_update_i, t );
+    computation *deallocate_buf_B1_Bthird_r1_i = buf_B1_Bthird_r1_i.deallocate_at( C_BB_BB_prop_update_i, t );
+
     buffer buf_flip_B1_Blocal_r1_r("buf_flip_B1_Blocal_r1_r",   {Vsnk, Nc, Ns, Nc, Ns, Nc, Ns, Nsrc, Vsnk}, p_float64, a_temporary);
     buffer buf_flip_B1_Blocal_r1_i("buf_flip_B1_Blocal_r1_i",   {Vsnk, Nc, Ns, Nc, Ns, Nc, Ns, Nsrc, Vsnk}, p_float64, a_temporary);
     buffer buf_flip_B1_Bfirst_r1_r("buf_flip_B1_Bfirst_r1_r",   {Vsnk, Nc, Ns, Nc, Ns, Nc, Ns, Nsrc, Vsnk}, p_float64, a_temporary);
@@ -1421,6 +1439,25 @@ void generate_function(std::string name)
     flip_B1_Bsecond_r1_i_update.store_in(&buf_flip_B1_Bsecond_r1_i, {x1, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m, x2});
     flip_B1_Bthird_r1_r_update.store_in(&buf_flip_B1_Bthird_r1_r, {x1, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m, x2});
     flip_B1_Bthird_r1_i_update.store_in(&buf_flip_B1_Bthird_r1_i, {x1, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m, x2}); 
+
+    computation *allocate_buf_flip_B1_Blocal_r1_r = buf_flip_B1_Blocal_r1_r.allocate_at( flip_B1_Blocal_r1_r_init, t );
+    computation *allocate_buf_flip_B1_Blocal_r1_i = buf_flip_B1_Blocal_r1_i.allocate_at( flip_B1_Blocal_r1_r_init, t );
+    computation *allocate_buf_flip_B1_Bfirst_r1_r = buf_flip_B1_Bfirst_r1_r.allocate_at( flip_B1_Blocal_r1_r_init, t );
+    computation *allocate_buf_flip_B1_Bfirst_r1_i = buf_flip_B1_Bfirst_r1_i.allocate_at( flip_B1_Blocal_r1_r_init, t );
+    computation *allocate_buf_flip_B1_Bsecond_r1_r = buf_flip_B1_Bsecond_r1_r.allocate_at( flip_B1_Blocal_r1_r_init, t );
+    computation *allocate_buf_flip_B1_Bsecond_r1_i = buf_flip_B1_Bsecond_r1_i.allocate_at( flip_B1_Blocal_r1_r_init, t );
+    computation *allocate_buf_flip_B1_Bthird_r1_r = buf_flip_B1_Bthird_r1_r.allocate_at( flip_B1_Blocal_r1_r_init, t );
+    computation *allocate_buf_flip_B1_Bthird_r1_i = buf_flip_B1_Bthird_r1_i.allocate_at( flip_B1_Blocal_r1_r_init, t );
+
+    computation *deallocate_buf_flip_B1_Blocal_r1_r = buf_flip_B1_Blocal_r1_r.deallocate_at( C_BB_BB_prop_update_i_2, t );
+    computation *deallocate_buf_flip_B1_Blocal_r1_i = buf_flip_B1_Blocal_r1_i.deallocate_at( C_BB_BB_prop_update_i_2, t );
+    computation *deallocate_buf_flip_B1_Bfirst_r1_r = buf_flip_B1_Bfirst_r1_r.deallocate_at( C_BB_BB_prop_update_i_2, t );
+    computation *deallocate_buf_flip_B1_Bfirst_r1_i = buf_flip_B1_Bfirst_r1_i.deallocate_at( C_BB_BB_prop_update_i_2, t );
+    computation *deallocate_buf_flip_B1_Bsecond_r1_r = buf_flip_B1_Bsecond_r1_r.deallocate_at( C_BB_BB_prop_update_i_2, t );
+    computation *deallocate_buf_flip_B1_Bsecond_r1_i = buf_flip_B1_Bsecond_r1_i.deallocate_at( C_BB_BB_prop_update_i_2, t );
+    computation *deallocate_buf_flip_B1_Bthird_r1_r = buf_flip_B1_Bthird_r1_r.deallocate_at( C_BB_BB_prop_update_i_2, t );
+    computation *deallocate_buf_flip_B1_Bthird_r1_i = buf_flip_B1_Bthird_r1_i.deallocate_at( C_BB_BB_prop_update_i_2, t );
+
     buffer buf_B1_Blocal_diquark_r1_r("buf_B1_Blocal_diquark_r1_r",   {Vsnk, Vsnk}, p_float64, a_temporary);
     buffer buf_B1_Blocal_diquark_r1_i("buf_B1_Blocal_diquark_r1_i",   {Vsnk, Vsnk}, p_float64, a_temporary);
     buffer buf_B1_Bfirst_diquark_r1_r("buf_B1_Bfirst_diquark_r1_r",   {Vsnk, Vsnk}, p_float64, a_temporary);
@@ -1471,7 +1508,25 @@ void generate_function(std::string name)
     B1_Bsecond_r1_i_props.store_in(&buf_B1_Bsecond_props_r1_i, {x1, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, y, x2});
     B1_Bthird_r1_r_props.store_in(&buf_B1_Bthird_props_r1_r, {x1, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, y, x2});
     B1_Bthird_r1_i_props.store_in(&buf_B1_Bthird_props_r1_i, {x1, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, y, x2}); 
-    
+
+    computation *allocate_buf_B1_Blocal_props_r1_r = buf_B1_Blocal_props_r1_r.allocate_at( B1_Blocal_r1_r_props_init, t );
+    computation *allocate_buf_B1_Blocal_props_r1_i = buf_B1_Blocal_props_r1_i.allocate_at( B1_Blocal_r1_r_props_init, t );
+    computation *allocate_buf_B1_Bfirst_props_r1_r = buf_B1_Bfirst_props_r1_r.allocate_at( B1_Blocal_r1_r_props_init, t );
+    computation *allocate_buf_B1_Bfirst_props_r1_i = buf_B1_Bfirst_props_r1_i.allocate_at( B1_Blocal_r1_r_props_init, t );
+    computation *allocate_buf_B1_Bsecond_props_r1_r = buf_B1_Bsecond_props_r1_r.allocate_at( B1_Blocal_r1_r_props_init, t );
+    computation *allocate_buf_B1_Bsecond_props_r1_i = buf_B1_Bsecond_props_r1_i.allocate_at( B1_Blocal_r1_r_props_init, t );
+    computation *allocate_buf_B1_Bthird_props_r1_r = buf_B1_Bthird_props_r1_r.allocate_at( B1_Blocal_r1_r_props_init, t );
+    computation *allocate_buf_B1_Bthird_props_r1_i = buf_B1_Bthird_props_r1_i.allocate_at( B1_Blocal_r1_r_props_init, t );
+
+    computation *deallocate_buf_B1_Blocal_props_r1_r = buf_B1_Blocal_props_r1_r.deallocate_at( flip_B1_Bthird_r1_i_update, t );
+    computation *deallocate_buf_B1_Blocal_props_r1_i = buf_B1_Blocal_props_r1_i.deallocate_at( flip_B1_Bthird_r1_i_update, t );
+    computation *deallocate_buf_B1_Bfirst_props_r1_r = buf_B1_Bfirst_props_r1_r.deallocate_at( flip_B1_Bthird_r1_i_update, t );
+    computation *deallocate_buf_B1_Bfirst_props_r1_i = buf_B1_Bfirst_props_r1_i.deallocate_at( flip_B1_Bthird_r1_i_update, t );
+    computation *deallocate_buf_B1_Bsecond_props_r1_r = buf_B1_Bsecond_props_r1_r.deallocate_at( flip_B1_Bthird_r1_i_update, t );
+    computation *deallocate_buf_B1_Bsecond_props_r1_i = buf_B1_Bsecond_props_r1_i.deallocate_at( flip_B1_Bthird_r1_i_update, t );
+    computation *deallocate_buf_B1_Bthird_props_r1_r = buf_B1_Bthird_props_r1_r.deallocate_at( flip_B1_Bthird_r1_i_update, t );
+    computation *deallocate_buf_B1_Bthird_props_r1_i = buf_B1_Bthird_props_r1_i.deallocate_at( flip_B1_Bthird_r1_i_update, t );
+
     buffer buf_B1_Blocal_r2_r("buf_B1_Blocal_r2_r",   {Vsnk, Nc, Ns, Nc, Ns, Nc, Ns, Nsrc, Vsnk}, p_float64, a_temporary);
     buffer buf_B1_Blocal_r2_i("buf_B1_Blocal_r2_i",   {Vsnk, Nc, Ns, Nc, Ns, Nc, Ns, Nsrc, Vsnk}, p_float64, a_temporary);
     buffer buf_B1_Bfirst_r2_r("buf_B1_Bfirst_r2_r",   {Vsnk, Nc, Ns, Nc, Ns, Nc, Ns, Nsrc, Vsnk}, p_float64, a_temporary);
@@ -1504,6 +1559,25 @@ void generate_function(std::string name)
     B1_Bsecond_r2_i_update.store_in(&buf_B1_Bsecond_r2_i, {x1, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m, x2});
     B1_Bthird_r2_r_update.store_in(&buf_B1_Bthird_r2_r, {x1, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m, x2});
     B1_Bthird_r2_i_update.store_in(&buf_B1_Bthird_r2_i, {x1, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m, x2});
+
+    computation *allocate_buf_B1_Blocal_r2_r = buf_B1_Blocal_r2_r.allocate_at( B1_Blocal_r2_r_init, t );
+    computation *allocate_buf_B1_Blocal_r2_i = buf_B1_Blocal_r2_i.allocate_at( B1_Blocal_r2_r_init, t );
+    computation *allocate_buf_B1_Bfirst_r2_r = buf_B1_Bfirst_r2_r.allocate_at( B1_Blocal_r2_r_init, t );
+    computation *allocate_buf_B1_Bfirst_r2_i = buf_B1_Bfirst_r2_i.allocate_at( B1_Blocal_r2_r_init, t );
+    computation *allocate_buf_B1_Bsecond_r2_r = buf_B1_Bsecond_r2_r.allocate_at( B1_Blocal_r2_r_init, t );
+    computation *allocate_buf_B1_Bsecond_r2_i = buf_B1_Bsecond_r2_i.allocate_at( B1_Blocal_r2_r_init, t );
+    computation *allocate_buf_B1_Bthird_r2_r = buf_B1_Bthird_r2_r.allocate_at( B1_Blocal_r2_r_init, t );
+    computation *allocate_buf_B1_Bthird_r2_i = buf_B1_Bthird_r2_i.allocate_at( B1_Blocal_r2_r_init, t );
+
+    computation *deallocate_buf_B1_Blocal_r2_r = buf_B1_Blocal_r2_r.deallocate_at( C_BB_BB_prop_update_i, t );
+    computation *deallocate_buf_B1_Blocal_r2_i = buf_B1_Blocal_r2_i.deallocate_at( C_BB_BB_prop_update_i, t );
+    computation *deallocate_buf_B1_Bfirst_r2_r = buf_B1_Bfirst_r2_r.deallocate_at( C_BB_BB_prop_update_i, t );
+    computation *deallocate_buf_B1_Bfirst_r2_i = buf_B1_Bfirst_r2_i.deallocate_at( C_BB_BB_prop_update_i, t );
+    computation *deallocate_buf_B1_Bsecond_r2_r = buf_B1_Bsecond_r2_r.deallocate_at( C_BB_BB_prop_update_i, t );
+    computation *deallocate_buf_B1_Bsecond_r2_i = buf_B1_Bsecond_r2_i.deallocate_at( C_BB_BB_prop_update_i, t );
+    computation *deallocate_buf_B1_Bthird_r2_r = buf_B1_Bthird_r2_r.deallocate_at( C_BB_BB_prop_update_i, t );
+    computation *deallocate_buf_B1_Bthird_r2_i = buf_B1_Bthird_r2_i.deallocate_at( C_BB_BB_prop_update_i, t );
+
     buffer buf_flip_B1_Blocal_r2_r("buf_flip_B1_Blocal_r2_r",   {Vsnk, Nc, Ns, Nc, Ns, Nc, Ns, Nsrc, Vsnk}, p_float64, a_temporary);
     buffer buf_flip_B1_Blocal_r2_i("buf_flip_B1_Blocal_r2_i",   {Vsnk, Nc, Ns, Nc, Ns, Nc, Ns, Nsrc, Vsnk}, p_float64, a_temporary);
     buffer buf_flip_B1_Bfirst_r2_r("buf_flip_B1_Bfirst_r2_r",   {Vsnk, Nc, Ns, Nc, Ns, Nc, Ns, Nsrc, Vsnk}, p_float64, a_temporary);
@@ -1536,6 +1610,25 @@ void generate_function(std::string name)
     flip_B1_Bsecond_r2_i_update.store_in(&buf_flip_B1_Bsecond_r2_i, {x1, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m, x2});
     flip_B1_Bthird_r2_r_update.store_in(&buf_flip_B1_Bthird_r2_r, {x1, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m, x2});
     flip_B1_Bthird_r2_i_update.store_in(&buf_flip_B1_Bthird_r2_i, {x1, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m, x2}); 
+
+    computation *allocate_buf_flip_B1_Blocal_r2_r = buf_flip_B1_Blocal_r2_r.allocate_at( flip_B1_Blocal_r2_r_init, t );
+    computation *allocate_buf_flip_B1_Blocal_r2_i = buf_flip_B1_Blocal_r2_i.allocate_at( flip_B1_Blocal_r2_r_init, t );
+    computation *allocate_buf_flip_B1_Bfirst_r2_r = buf_flip_B1_Bfirst_r2_r.allocate_at( flip_B1_Blocal_r2_r_init, t );
+    computation *allocate_buf_flip_B1_Bfirst_r2_i = buf_flip_B1_Bfirst_r2_i.allocate_at( flip_B1_Blocal_r2_r_init, t );
+    computation *allocate_buf_flip_B1_Bsecond_r2_r = buf_flip_B1_Bsecond_r2_r.allocate_at( flip_B1_Blocal_r2_r_init, t );
+    computation *allocate_buf_flip_B1_Bsecond_r2_i = buf_flip_B1_Bsecond_r2_i.allocate_at( flip_B1_Blocal_r2_r_init, t );
+    computation *allocate_buf_flip_B1_Bthird_r2_r = buf_flip_B1_Bthird_r2_r.allocate_at( flip_B1_Blocal_r2_r_init, t );
+    computation *allocate_buf_flip_B1_Bthird_r2_i = buf_flip_B1_Bthird_r2_i.allocate_at( flip_B1_Blocal_r2_r_init, t );
+
+    computation *deallocate_buf_flip_B1_Blocal_r2_r = buf_flip_B1_Blocal_r2_r.deallocate_at( C_BB_BB_prop_update_i_2, t );
+    computation *deallocate_buf_flip_B1_Blocal_r2_i = buf_flip_B1_Blocal_r2_i.deallocate_at( C_BB_BB_prop_update_i_2, t );
+    computation *deallocate_buf_flip_B1_Bfirst_r2_r = buf_flip_B1_Bfirst_r2_r.deallocate_at( C_BB_BB_prop_update_i_2, t );
+    computation *deallocate_buf_flip_B1_Bfirst_r2_i = buf_flip_B1_Bfirst_r2_i.deallocate_at( C_BB_BB_prop_update_i_2, t );
+    computation *deallocate_buf_flip_B1_Bsecond_r2_r = buf_flip_B1_Bsecond_r2_r.deallocate_at( C_BB_BB_prop_update_i_2, t );
+    computation *deallocate_buf_flip_B1_Bsecond_r2_i = buf_flip_B1_Bsecond_r2_i.deallocate_at( C_BB_BB_prop_update_i_2, t );
+    computation *deallocate_buf_flip_B1_Bthird_r2_r = buf_flip_B1_Bthird_r2_r.deallocate_at( C_BB_BB_prop_update_i_2, t );
+    computation *deallocate_buf_flip_B1_Bthird_r2_i = buf_flip_B1_Bthird_r2_i.deallocate_at( C_BB_BB_prop_update_i_2, t );
+
     buffer buf_B1_Blocal_diquark_r2_r("buf_B1_Blocal_diquark_r2_r",   {Vsnk, Vsnk}, p_float64, a_temporary);
     buffer buf_B1_Blocal_diquark_r2_i("buf_B1_Blocal_diquark_r2_i",   {Vsnk, Vsnk}, p_float64, a_temporary);
     buffer buf_B1_Bfirst_diquark_r2_r("buf_B1_Bfirst_diquark_r2_r",   {Vsnk, Vsnk}, p_float64, a_temporary);
@@ -1587,6 +1680,24 @@ void generate_function(std::string name)
     B1_Bthird_r2_r_props.store_in(&buf_B1_Bthird_props_r2_r, {x1, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, y, x2});
     B1_Bthird_r2_i_props.store_in(&buf_B1_Bthird_props_r2_i, {x1, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, y, x2}); 
     
+    computation *allocate_buf_B1_Blocal_props_r2_r = buf_B1_Blocal_props_r2_r.allocate_at( B1_Blocal_r2_r_props_init, t );
+    computation *allocate_buf_B1_Blocal_props_r2_i = buf_B1_Blocal_props_r2_i.allocate_at( B1_Blocal_r2_r_props_init, t );
+    computation *allocate_buf_B1_Bfirst_props_r2_r = buf_B1_Bfirst_props_r2_r.allocate_at( B1_Blocal_r2_r_props_init, t );
+    computation *allocate_buf_B1_Bfirst_props_r2_i = buf_B1_Bfirst_props_r2_i.allocate_at( B1_Blocal_r2_r_props_init, t );
+    computation *allocate_buf_B1_Bsecond_props_r2_r = buf_B1_Bsecond_props_r2_r.allocate_at( B1_Blocal_r2_r_props_init, t );
+    computation *allocate_buf_B1_Bsecond_props_r2_i = buf_B1_Bsecond_props_r2_i.allocate_at( B1_Blocal_r2_r_props_init, t );
+    computation *allocate_buf_B1_Bthird_props_r2_r = buf_B1_Bthird_props_r2_r.allocate_at( B1_Blocal_r2_r_props_init, t );
+    computation *allocate_buf_B1_Bthird_props_r2_i = buf_B1_Bthird_props_r2_i.allocate_at( B1_Blocal_r2_r_props_init, t );
+
+    computation *deallocate_buf_B1_Blocal_props_r2_r = buf_B1_Blocal_props_r2_r.deallocate_at( flip_B1_Bthird_r2_i_update, t );
+    computation *deallocate_buf_B1_Blocal_props_r2_i = buf_B1_Blocal_props_r2_i.deallocate_at( flip_B1_Bthird_r2_i_update, t );
+    computation *deallocate_buf_B1_Bfirst_props_r2_r = buf_B1_Bfirst_props_r2_r.deallocate_at( flip_B1_Bthird_r2_i_update, t );
+    computation *deallocate_buf_B1_Bfirst_props_r2_i = buf_B1_Bfirst_props_r2_i.deallocate_at( flip_B1_Bthird_r2_i_update, t );
+    computation *deallocate_buf_B1_Bsecond_props_r2_r = buf_B1_Bsecond_props_r2_r.deallocate_at( flip_B1_Bthird_r2_i_update, t );
+    computation *deallocate_buf_B1_Bsecond_props_r2_i = buf_B1_Bsecond_props_r2_i.deallocate_at( flip_B1_Bthird_r2_i_update, t );
+    computation *deallocate_buf_B1_Bthird_props_r2_r = buf_B1_Bthird_props_r2_r.deallocate_at( flip_B1_Bthird_r2_i_update, t );
+    computation *deallocate_buf_B1_Bthird_props_r2_i = buf_B1_Bthird_props_r2_i.deallocate_at( flip_B1_Bthird_r2_i_update, t );
+
     buffer buf_B2_Blocal_r1_r("buf_B2_Blocal_r1_r",   {Vsnk, Nc, Ns, Nc, Ns, Nc, Ns, Nsrc, Vsnk}, p_float64, a_temporary);
     buffer buf_B2_Blocal_r1_i("buf_B2_Blocal_r1_i",   {Vsnk, Nc, Ns, Nc, Ns, Nc, Ns, Nsrc, Vsnk}, p_float64, a_temporary);
     buffer buf_B2_Bfirst_r1_r("buf_B2_Bfirst_r1_r",   {Vsnk, Nc, Ns, Nc, Ns, Nc, Ns, Nsrc, Vsnk}, p_float64, a_temporary);
@@ -1619,6 +1730,25 @@ void generate_function(std::string name)
     B2_Bsecond_r1_i_update.store_in(&buf_B2_Bsecond_r1_i, {x1, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m, x2});
     B2_Bthird_r1_r_update.store_in(&buf_B2_Bthird_r1_r, {x1, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m, x2});
     B2_Bthird_r1_i_update.store_in(&buf_B2_Bthird_r1_i, {x1, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m, x2});
+
+    computation* allocate_buf_B2_Blocal_r1_r = buf_B2_Blocal_r1_r.allocate_at( B2_Blocal_r1_r_init, t );
+    computation* allocate_buf_B2_Blocal_r1_i = buf_B2_Blocal_r1_i.allocate_at( B2_Blocal_r1_r_init, t );
+    computation* allocate_buf_B2_Bfirst_r1_r = buf_B2_Bfirst_r1_r.allocate_at( B2_Blocal_r1_r_init, t );
+    computation* allocate_buf_B2_Bfirst_r1_i = buf_B2_Bfirst_r1_i.allocate_at( B2_Blocal_r1_r_init, t );
+    computation* allocate_buf_B2_Bsecond_r1_r = buf_B2_Bsecond_r1_r.allocate_at( B2_Blocal_r1_r_init, t );
+    computation* allocate_buf_B2_Bsecond_r1_i = buf_B2_Bsecond_r1_i.allocate_at( B2_Blocal_r1_r_init, t );
+    computation* allocate_buf_B2_Bthird_r1_r = buf_B2_Bthird_r1_r.allocate_at( B2_Blocal_r1_r_init, t );
+    computation* allocate_buf_B2_Bthird_r1_i = buf_B2_Bthird_r1_i.allocate_at( B2_Blocal_r1_r_init, t );
+
+    computation* deallocate_buf_B2_Blocal_r1_r = buf_B2_Blocal_r1_r.deallocate_at( C_BB_BB_prop_update_i, t );
+    computation* deallocate_buf_B2_Blocal_r1_i = buf_B2_Blocal_r1_i.deallocate_at( C_BB_BB_prop_update_i, t );
+    computation* deallocate_buf_B2_Bfirst_r1_r = buf_B2_Bfirst_r1_r.deallocate_at( C_BB_BB_prop_update_i, t );
+    computation* deallocate_buf_B2_Bfirst_r1_i = buf_B2_Bfirst_r1_i.deallocate_at( C_BB_BB_prop_update_i, t );
+    computation* deallocate_buf_B2_Bsecond_r1_r = buf_B2_Bsecond_r1_r.deallocate_at( C_BB_BB_prop_update_i, t );
+    computation* deallocate_buf_B2_Bsecond_r1_i = buf_B2_Bsecond_r1_i.deallocate_at( C_BB_BB_prop_update_i, t );
+    computation* deallocate_buf_B2_Bthird_r1_r = buf_B2_Bthird_r1_r.deallocate_at( C_BB_BB_prop_update_i, t );
+    computation* deallocate_buf_B2_Bthird_r1_i = buf_B2_Bthird_r1_i.deallocate_at( C_BB_BB_prop_update_i, t );
+
     buffer buf_flip_B2_Blocal_r1_r("buf_flip_B2_Blocal_r1_r",   {Vsnk, Nc, Ns, Nc, Ns, Nc, Ns, Nsrc, Vsnk}, p_float64, a_temporary);
     buffer buf_flip_B2_Blocal_r1_i("buf_flip_B2_Blocal_r1_i",   {Vsnk, Nc, Ns, Nc, Ns, Nc, Ns, Nsrc, Vsnk}, p_float64, a_temporary);
     buffer buf_flip_B2_Bfirst_r1_r("buf_flip_B2_Bfirst_r1_r",   {Vsnk, Nc, Ns, Nc, Ns, Nc, Ns, Nsrc, Vsnk}, p_float64, a_temporary);
@@ -1651,6 +1781,25 @@ void generate_function(std::string name)
     flip_B2_Bsecond_r1_i_update.store_in(&buf_flip_B2_Bsecond_r1_i, {x1, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m, x2});
     flip_B2_Bthird_r1_r_update.store_in(&buf_flip_B2_Bthird_r1_r, {x1, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m, x2});
     flip_B2_Bthird_r1_i_update.store_in(&buf_flip_B2_Bthird_r1_i, {x1, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m, x2}); 
+
+    computation *allocate_buf_flip_B2_Blocal_r1_r = buf_flip_B2_Blocal_r1_r.allocate_at( flip_B2_Blocal_r1_r_init, t );
+    computation *allocate_buf_flip_B2_Blocal_r1_i = buf_flip_B2_Blocal_r1_i.allocate_at( flip_B2_Blocal_r1_r_init, t );
+    computation *allocate_buf_flip_B2_Bfirst_r1_r = buf_flip_B2_Bfirst_r1_r.allocate_at( flip_B2_Blocal_r1_r_init, t );
+    computation *allocate_buf_flip_B2_Bfirst_r1_i = buf_flip_B2_Bfirst_r1_i.allocate_at( flip_B2_Blocal_r1_r_init, t );
+    computation *allocate_buf_flip_B2_Bsecond_r1_r = buf_flip_B2_Bsecond_r1_r.allocate_at( flip_B2_Blocal_r1_r_init, t );
+    computation *allocate_buf_flip_B2_Bsecond_r1_i = buf_flip_B2_Bsecond_r1_i.allocate_at( flip_B2_Blocal_r1_r_init, t );
+    computation *allocate_buf_flip_B2_Bthird_r1_r = buf_flip_B2_Bthird_r1_r.allocate_at( flip_B2_Blocal_r1_r_init, t );
+    computation *allocate_buf_flip_B2_Bthird_r1_i = buf_flip_B2_Bthird_r1_i.allocate_at( flip_B2_Blocal_r1_r_init, t );
+
+    computation *deallocate_buf_flip_B2_Blocal_r1_r = buf_flip_B2_Blocal_r1_r.deallocate_at( C_BB_BB_prop_update_i_2, t );
+    computation *deallocate_buf_flip_B2_Blocal_r1_i = buf_flip_B2_Blocal_r1_i.deallocate_at( C_BB_BB_prop_update_i_2, t );
+    computation *deallocate_buf_flip_B2_Bfirst_r1_r = buf_flip_B2_Bfirst_r1_r.deallocate_at( C_BB_BB_prop_update_i_2, t );
+    computation *deallocate_buf_flip_B2_Bfirst_r1_i = buf_flip_B2_Bfirst_r1_i.deallocate_at( C_BB_BB_prop_update_i_2, t );
+    computation *deallocate_buf_flip_B2_Bsecond_r1_r = buf_flip_B2_Bsecond_r1_r.deallocate_at( C_BB_BB_prop_update_i_2, t );
+    computation *deallocate_buf_flip_B2_Bsecond_r1_i = buf_flip_B2_Bsecond_r1_i.deallocate_at( C_BB_BB_prop_update_i_2, t );
+    computation *deallocate_buf_flip_B2_Bthird_r1_r = buf_flip_B2_Bthird_r1_r.deallocate_at( C_BB_BB_prop_update_i_2, t );
+    computation *deallocate_buf_flip_B2_Bthird_r1_i = buf_flip_B2_Bthird_r1_i.deallocate_at( C_BB_BB_prop_update_i_2, t );
+
     buffer buf_B2_Blocal_diquark_r1_r("buf_B2_Blocal_diquark_r1_r",   {Vsnk, Vsnk}, p_float64, a_temporary);
     buffer buf_B2_Blocal_diquark_r1_i("buf_B2_Blocal_diquark_r1_i",   {Vsnk, Vsnk}, p_float64, a_temporary);
     buffer buf_B2_Bfirst_diquark_r1_r("buf_B2_Bfirst_diquark_r1_r",   {Vsnk, Vsnk}, p_float64, a_temporary);
@@ -1702,6 +1851,24 @@ void generate_function(std::string name)
     B2_Bthird_r1_r_props.store_in(&buf_B2_Bthird_props_r1_r, {x1, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, y, x2});
     B2_Bthird_r1_i_props.store_in(&buf_B2_Bthird_props_r1_i, {x1, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, y, x2}); 
     
+    computation* allocate_buf_B2_Blocal_props_r1_r = buf_B2_Blocal_props_r1_r.allocate_at( B2_Blocal_r1_r_props_init, t );
+    computation* allocate_buf_B2_Blocal_props_r1_i = buf_B2_Blocal_props_r1_i.allocate_at( B2_Blocal_r1_r_props_init, t );
+    computation* allocate_buf_B2_Bfirst_props_r1_r = buf_B2_Bfirst_props_r1_r.allocate_at( B2_Blocal_r1_r_props_init, t );
+    computation* allocate_buf_B2_Bfirst_props_r1_i = buf_B2_Bfirst_props_r1_i.allocate_at( B2_Blocal_r1_r_props_init, t );
+    computation* allocate_buf_B2_Bsecond_props_r1_r = buf_B2_Bsecond_props_r1_r.allocate_at( B2_Blocal_r1_r_props_init, t );
+    computation* allocate_buf_B2_Bsecond_props_r1_i = buf_B2_Bsecond_props_r1_i.allocate_at( B2_Blocal_r1_r_props_init, t );
+    computation* allocate_buf_B2_Bthird_props_r1_r = buf_B2_Bthird_props_r1_r.allocate_at( B2_Blocal_r1_r_props_init, t );
+    computation* allocate_buf_B2_Bthird_props_r1_i = buf_B2_Bthird_props_r1_i.allocate_at( B2_Blocal_r1_r_props_init, t );
+
+    computation* deallocate_buf_B2_Blocal_props_r1_r = buf_B2_Blocal_props_r1_r.deallocate_at( flip_B2_Bthird_r1_i_update, t );
+    computation* deallocate_buf_B2_Blocal_props_r1_i = buf_B2_Blocal_props_r1_i.deallocate_at( flip_B2_Bthird_r1_i_update, t );
+    computation* deallocate_buf_B2_Bfirst_props_r1_r = buf_B2_Bfirst_props_r1_r.deallocate_at( flip_B2_Bthird_r1_i_update, t );
+    computation* deallocate_buf_B2_Bfirst_props_r1_i = buf_B2_Bfirst_props_r1_i.deallocate_at( flip_B2_Bthird_r1_i_update, t );
+    computation* deallocate_buf_B2_Bsecond_props_r1_r = buf_B2_Bsecond_props_r1_r.deallocate_at( flip_B2_Bthird_r1_i_update, t );
+    computation* deallocate_buf_B2_Bsecond_props_r1_i = buf_B2_Bsecond_props_r1_i.deallocate_at( flip_B2_Bthird_r1_i_update, t );
+    computation* deallocate_buf_B2_Bthird_props_r1_r = buf_B2_Bthird_props_r1_r.deallocate_at( flip_B2_Bthird_r1_i_update, t );
+    computation* deallocate_buf_B2_Bthird_props_r1_i = buf_B2_Bthird_props_r1_i.deallocate_at( flip_B2_Bthird_r1_i_update, t );
+
     buffer buf_B2_Blocal_r2_r("buf_B2_Blocal_r2_r",   {Vsnk, Nc, Ns, Nc, Ns, Nc, Ns, Nsrc, Vsnk}, p_float64, a_temporary);
     buffer buf_B2_Blocal_r2_i("buf_B2_Blocal_r2_i",   {Vsnk, Nc, Ns, Nc, Ns, Nc, Ns, Nsrc, Vsnk}, p_float64, a_temporary);
     buffer buf_B2_Bfirst_r2_r("buf_B2_Bfirst_r2_r",   {Vsnk, Nc, Ns, Nc, Ns, Nc, Ns, Nsrc, Vsnk}, p_float64, a_temporary);
@@ -1734,6 +1901,25 @@ void generate_function(std::string name)
     B2_Bsecond_r2_i_update.store_in(&buf_B2_Bsecond_r2_i, {x1, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m, x2});
     B2_Bthird_r2_r_update.store_in(&buf_B2_Bthird_r2_r, {x1, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m, x2});
     B2_Bthird_r2_i_update.store_in(&buf_B2_Bthird_r2_i, {x1, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m, x2});
+
+    computation *allocate_buf_B2_Blocal_r2_r = buf_B2_Blocal_r2_r.allocate_at( B2_Blocal_r2_r_init, t );
+    computation *allocate_buf_B2_Blocal_r2_i = buf_B2_Blocal_r2_i.allocate_at( B2_Blocal_r2_r_init, t );
+    computation *allocate_buf_B2_Bfirst_r2_r = buf_B2_Bfirst_r2_r.allocate_at( B2_Blocal_r2_r_init, t );
+    computation *allocate_buf_B2_Bfirst_r2_i = buf_B2_Bfirst_r2_i.allocate_at( B2_Blocal_r2_r_init, t );
+    computation *allocate_buf_B2_Bsecond_r2_r = buf_B2_Bsecond_r2_r.allocate_at( B2_Blocal_r2_r_init, t );
+    computation *allocate_buf_B2_Bsecond_r2_i = buf_B2_Bsecond_r2_i.allocate_at( B2_Blocal_r2_r_init, t );
+    computation *allocate_buf_B2_Bthird_r2_r = buf_B2_Bthird_r2_r.allocate_at( B2_Blocal_r2_r_init, t );
+    computation *allocate_buf_B2_Bthird_r2_i = buf_B2_Bthird_r2_i.allocate_at( B2_Blocal_r2_r_init, t );
+
+    computation *deallocate_buf_B2_Blocal_r2_r = buf_B2_Blocal_r2_r.deallocate_at( B2_Bthird_r2_i_update, t );
+    computation *deallocate_buf_B2_Blocal_r2_i = buf_B2_Blocal_r2_i.deallocate_at( B2_Bthird_r2_i_update, t );
+    computation *deallocate_buf_B2_Bfirst_r2_r = buf_B2_Bfirst_r2_r.deallocate_at( B2_Bthird_r2_i_update, t );
+    computation *deallocate_buf_B2_Bfirst_r2_i = buf_B2_Bfirst_r2_i.deallocate_at( B2_Bthird_r2_i_update, t );
+    computation *deallocate_buf_B2_Bsecond_r2_r = buf_B2_Bsecond_r2_r.deallocate_at( B2_Bthird_r2_i_update, t );
+    computation *deallocate_buf_B2_Bsecond_r2_i = buf_B2_Bsecond_r2_i.deallocate_at( B2_Bthird_r2_i_update, t );
+    computation *deallocate_buf_B2_Bthird_r2_r = buf_B2_Bthird_r2_r.deallocate_at( B2_Bthird_r2_i_update, t );
+    computation *deallocate_buf_B2_Bthird_r2_i = buf_B2_Bthird_r2_i.deallocate_at( B2_Bthird_r2_i_update, t );
+
     buffer buf_flip_B2_Blocal_r2_r("buf_flip_B2_Blocal_r2_r",   {Vsnk, Nc, Ns, Nc, Ns, Nc, Ns, Nsrc, Vsnk}, p_float64, a_temporary); // ~1Gb of data
     buffer buf_flip_B2_Blocal_r2_i("buf_flip_B2_Blocal_r2_i",   {Vsnk, Nc, Ns, Nc, Ns, Nc, Ns, Nsrc, Vsnk}, p_float64, a_temporary);
     buffer buf_flip_B2_Bfirst_r2_r("buf_flip_B2_Bfirst_r2_r",   {Vsnk, Nc, Ns, Nc, Ns, Nc, Ns, Nsrc, Vsnk}, p_float64, a_temporary);
@@ -1765,7 +1951,26 @@ void generate_function(std::string name)
     flip_B2_Bsecond_r2_r_update.store_in(&buf_flip_B2_Bsecond_r2_r, {x1, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m, x2});
     flip_B2_Bsecond_r2_i_update.store_in(&buf_flip_B2_Bsecond_r2_i, {x1, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m, x2});
     flip_B2_Bthird_r2_r_update.store_in(&buf_flip_B2_Bthird_r2_r, {x1, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m, x2});
-    flip_B2_Bthird_r2_i_update.store_in(&buf_flip_B2_Bthird_r2_i, {x1, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m, x2}); 
+    flip_B2_Bthird_r2_i_update.store_in(&buf_flip_B2_Bthird_r2_i, {x1, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m, x2});
+
+    computation *allocate_buf_flip_B2_Blocal_r2_r = buf_flip_B2_Blocal_r2_r.allocate_at( flip_B2_Blocal_r2_r_init, t );
+    computation *allocate_buf_flip_B2_Blocal_r2_i = buf_flip_B2_Blocal_r2_i.allocate_at( flip_B2_Blocal_r2_r_init, t );
+    computation *allocate_buf_flip_B2_Bfirst_r2_r = buf_flip_B2_Bfirst_r2_r.allocate_at( flip_B2_Blocal_r2_r_init, t );
+    computation *allocate_buf_flip_B2_Bfirst_r2_i = buf_flip_B2_Bfirst_r2_i.allocate_at( flip_B2_Blocal_r2_r_init, t );
+    computation *allocate_buf_flip_B2_Bsecond_r2_r = buf_flip_B2_Bsecond_r2_r.allocate_at( flip_B2_Blocal_r2_r_init, t );
+    computation *allocate_buf_flip_B2_Bsecond_r2_i = buf_flip_B2_Bsecond_r2_i.allocate_at( flip_B2_Blocal_r2_r_init, t );
+    computation *allocate_buf_flip_B2_Bthird_r2_r = buf_flip_B2_Bthird_r2_r.allocate_at( flip_B2_Blocal_r2_r_init, t );
+    computation *allocate_buf_flip_B2_Bthird_r2_i = buf_flip_B2_Bthird_r2_i.allocate_at( flip_B2_Blocal_r2_r_init, t );
+
+    computation *deallocate_buf_flip_B2_Blocal_r2_r = buf_flip_B2_Blocal_r2_r.deallocate_at( C_BB_BB_prop_update_i_2, t );
+    computation *deallocate_buf_flip_B2_Blocal_r2_i = buf_flip_B2_Blocal_r2_i.deallocate_at( C_BB_BB_prop_update_i_2, t );
+    computation *deallocate_buf_flip_B2_Bfirst_r2_r = buf_flip_B2_Bfirst_r2_r.deallocate_at( C_BB_BB_prop_update_i_2, t );
+    computation *deallocate_buf_flip_B2_Bfirst_r2_i = buf_flip_B2_Bfirst_r2_i.deallocate_at( C_BB_BB_prop_update_i_2, t );
+    computation *deallocate_buf_flip_B2_Bsecond_r2_r = buf_flip_B2_Bsecond_r2_r.deallocate_at( C_BB_BB_prop_update_i_2, t );
+    computation *deallocate_buf_flip_B2_Bsecond_r2_i = buf_flip_B2_Bsecond_r2_i.deallocate_at( C_BB_BB_prop_update_i_2, t );
+    computation *deallocate_buf_flip_B2_Bthird_r2_r = buf_flip_B2_Bthird_r2_r.deallocate_at( C_BB_BB_prop_update_i_2, t );
+    computation *deallocate_buf_flip_B2_Bthird_r2_i = buf_flip_B2_Bthird_r2_i.deallocate_at( C_BB_BB_prop_update_i_2, t );
+
     buffer buf_B2_Blocal_diquark_r2_r("buf_B2_Blocal_diquark_r2_r",   {Vsnk, Vsnk}, p_float64, a_temporary);
     buffer buf_B2_Blocal_diquark_r2_i("buf_B2_Blocal_diquark_r2_i",   {Vsnk, Vsnk}, p_float64, a_temporary);
     buffer buf_B2_Bfirst_diquark_r2_r("buf_B2_Bfirst_diquark_r2_r",   {Vsnk, Vsnk}, p_float64, a_temporary);
@@ -1817,6 +2022,24 @@ void generate_function(std::string name)
     B2_Bthird_r2_r_props.store_in(&buf_B2_Bthird_props_r2_r, {x1, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, y, x2});
     B2_Bthird_r2_i_props.store_in(&buf_B2_Bthird_props_r2_i, {x1, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, y, x2}); 
     
+    computation *allocate_buf_B2_Blocal_props_r2_r = buf_B2_Blocal_props_r2_r.allocate_at( B2_Blocal_r2_r_props_init, t );
+    computation *allocate_buf_B2_Blocal_props_r2_i = buf_B2_Blocal_props_r2_i.allocate_at( B2_Blocal_r2_r_props_init, t );
+    computation *allocate_buf_B2_Bfirst_props_r2_r = buf_B2_Bfirst_props_r2_r.allocate_at( B2_Blocal_r2_r_props_init, t );
+    computation *allocate_buf_B2_Bfirst_props_r2_i = buf_B2_Bfirst_props_r2_i.allocate_at( B2_Blocal_r2_r_props_init, t );
+    computation *allocate_buf_B2_Bsecond_props_r2_r = buf_B2_Bsecond_props_r2_r.allocate_at( B2_Blocal_r2_r_props_init, t );
+    computation *allocate_buf_B2_Bsecond_props_r2_i = buf_B2_Bsecond_props_r2_i.allocate_at( B2_Blocal_r2_r_props_init, t );
+    computation *allocate_buf_B2_Bthird_props_r2_r = buf_B2_Bthird_props_r2_r.allocate_at( B2_Blocal_r2_r_props_init, t );
+    computation *allocate_buf_B2_Bthird_props_r2_i = buf_B2_Bthird_props_r2_i.allocate_at( B2_Blocal_r2_r_props_init, t );
+
+    computation *deallocate_buf_B2_Blocal_props_r2_r = buf_B2_Blocal_props_r2_r.deallocate_at( flip_B2_Bthird_r2_i_update, t );
+    computation *deallocate_buf_B2_Blocal_props_r2_i = buf_B2_Blocal_props_r2_i.deallocate_at( flip_B2_Bthird_r2_i_update, t );
+    computation *deallocate_buf_B2_Bfirst_props_r2_r = buf_B2_Bfirst_props_r2_r.deallocate_at( flip_B2_Bthird_r2_i_update, t );
+    computation *deallocate_buf_B2_Bfirst_props_r2_i = buf_B2_Bfirst_props_r2_i.deallocate_at( flip_B2_Bthird_r2_i_update, t );
+    computation *deallocate_buf_B2_Bsecond_props_r2_r = buf_B2_Bsecond_props_r2_r.deallocate_at( flip_B2_Bthird_r2_i_update, t );
+    computation *deallocate_buf_B2_Bsecond_props_r2_i = buf_B2_Bsecond_props_r2_i.deallocate_at( flip_B2_Bthird_r2_i_update, t );
+    computation *deallocate_buf_B2_Bthird_props_r2_r = buf_B2_Bthird_props_r2_r.deallocate_at( flip_B2_Bthird_r2_i_update, t );
+    computation *deallocate_buf_B2_Bthird_props_r2_i = buf_B2_Bthird_props_r2_i.deallocate_at( flip_B2_Bthird_r2_i_update, t );
+
     buffer buf_src_B1_Blocal_r1_r("buf_src_B1_Blocal_r1_r",   {Vsnk/sites_per_rank, Nc, Ns, Nc, Ns, Nc, Ns, Nsrc, sites_per_rank}, p_float64, a_temporary);
     buffer buf_src_B1_Blocal_r1_i("buf_src_B1_Blocal_r1_i",   {Vsnk/sites_per_rank, Nc, Ns, Nc, Ns, Nc, Ns, Nsrc, sites_per_rank}, p_float64, a_temporary);
     buf_src_B1_Blocal_r1_r.tag_gpu_global();
@@ -3056,6 +3279,15 @@ void generate_function(std::string name)
     handle = &(handle
           ->then(C_BB_init_r, t)
           .then(C_BB_init_i, n)
+          .then( *allocate_buf_B1_Blocal_r1_r, t )
+          .then( *allocate_buf_B1_Blocal_r1_i, t )
+          .then( *allocate_buf_B1_Bfirst_r1_r, t )
+          .then( *allocate_buf_B1_Bfirst_r1_i, t )
+          .then( *allocate_buf_B1_Bsecond_r1_r, t )
+          .then( *allocate_buf_B1_Bsecond_r1_i, t )
+          .then( *allocate_buf_B1_Bthird_r1_r, t )
+          .then( *allocate_buf_B1_Bthird_r1_i, t )
+          .then( *allocate_buf_B1_Bfirst_r1_i, t )
 // kernel_2
           .then(B1_Blocal_r1_r_init, t) // t, x1, x2, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m
           .then(B1_Blocal_r1_i_init, m) 
@@ -3066,6 +3298,14 @@ void generate_function(std::string name)
           .then(B1_Bthird_r1_r_init, m)
           .then(B1_Bthird_r1_i_init, m)
 // kernel_3
+          .then( *allocate_buf_flip_B1_Blocal_r1_r, t)
+          .then( *allocate_buf_flip_B1_Blocal_r1_i, t)
+          .then( *allocate_buf_flip_B1_Bfirst_r1_r, t)
+          .then( *allocate_buf_flip_B1_Bfirst_r1_i, t)
+          .then( *allocate_buf_flip_B1_Bsecond_r1_r, t)
+          .then( *allocate_buf_flip_B1_Bsecond_r1_i, t)
+          .then( *allocate_buf_flip_B1_Bthird_r1_r, t)
+          .then( *allocate_buf_flip_B1_Bthird_r1_i, t)
           .then(flip_B1_Blocal_r1_r_init, t)
           .then(flip_B1_Blocal_r1_i_init, m)
           .then(flip_B1_Bfirst_r1_r_init, m)
@@ -3075,6 +3315,14 @@ void generate_function(std::string name)
           .then(flip_B1_Bthird_r1_r_init, m)
           .then(flip_B1_Bthird_r1_i_init, m)
 // kernel_4
+          .then( *allocate_buf_B1_Blocal_props_r1_r, t)
+          .then( *allocate_buf_B1_Blocal_props_r1_i, t)
+          .then( *allocate_buf_B1_Bfirst_props_r1_r, t)
+          .then( *allocate_buf_B1_Bfirst_props_r1_i, t)
+          .then( *allocate_buf_B1_Bsecond_props_r1_r, t)
+          .then( *allocate_buf_B1_Bsecond_props_r1_i, t)
+          .then( *allocate_buf_B1_Bthird_props_r1_r, t)
+          .then( *allocate_buf_B1_Bthird_props_r1_i, t)
           .then(B1_Blocal_r1_r_props_init, t) // t, x1, x2, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime
           .then(B1_Blocal_r1_i_props_init, jSprime)
           .then(B1_Bfirst_r1_r_props_init, jSprime)
@@ -3118,9 +3366,24 @@ void generate_function(std::string name)
           .then(flip_B1_Bsecond_r1_i_update, m)
           .then(flip_B1_Bthird_r1_r_update, m)
           .then(flip_B1_Bthird_r1_i_update, m)
-
+          .then(deallocate_buf_B1_Blocal_props_r1_r, t);
+          .then(deallocate_buf_B1_Blocal_props_r1_i, t);
+          .then(deallocate_buf_B1_Bfirst_props_r1_r, t);
+          .then(deallocate_buf_B1_Bfirst_props_r1_i, t);
+          .then(deallocate_buf_B1_Bsecond_props_r1_r, t);
+          .then(deallocate_buf_B1_Bsecond_props_r1_i, t);
+          .then(deallocate_buf_B1_Bthird_props_r1_r, t);
+          .then(deallocate_buf_B1_Bthird_props_r1_i, t);
 // ---------------------------- 
 // kernel_7:
+          .then( *allocate_buf_B1_Blocal_r2_r, t)
+          .then( *allocate_buf_B1_Blocal_r2_i, t)
+          .then( *allocate_buf_B1_Bfirst_r2_r, t)
+          .then( *allocate_buf_B1_Bfirst_r2_i, t)
+          .then( *allocate_buf_B1_Bsecond_r2_r, t)
+          .then( *allocate_buf_B1_Bsecond_r2_i, t)
+          .then( *allocate_buf_B1_Bthird_r2_r, t)
+          .then( *allocate_buf_B1_Bthird_r2_i, t)
           .then(B1_Blocal_r2_r_init, t) // t, x1, x2, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m
           .then(B1_Blocal_r2_i_init, m)
           .then(B1_Bfirst_r2_r_init, m)
@@ -3130,6 +3393,14 @@ void generate_function(std::string name)
           .then(B1_Bthird_r2_r_init, m)
           .then(B1_Bthird_r2_i_init, m)
 // kernel_8
+          .then( *allocate_buf_flip_B1_Blocal_r2_r, t )
+          .then( *allocate_buf_flip_B1_Blocal_r2_i, t )
+          .then( *allocate_buf_flip_B1_Bfirst_r2_r, t )
+          .then( *allocate_buf_flip_B1_Bfirst_r2_i, t )
+          .then( *allocate_buf_flip_B1_Bsecond_r2_r, t )
+          .then( *allocate_buf_flip_B1_Bsecond_r2_i, t )
+          .then( *allocate_buf_flip_B1_Bthird_r2_r, t )
+          .then( *allocate_buf_flip_B1_Bthird_r2_i, t )
           .then(flip_B1_Blocal_r2_r_init, t)
           .then(flip_B1_Blocal_r2_i_init, m)
           .then(flip_B1_Bfirst_r2_r_init, m)
@@ -3139,6 +3410,14 @@ void generate_function(std::string name)
           .then(flip_B1_Bthird_r2_r_init, m)
           .then(flip_B1_Bthird_r2_i_init, m)
 // kernel_9:
+          .then( *allocate_buf_B1_Blocal_props_r2_r, t )
+          .then( *allocate_buf_B1_Blocal_props_r2_i, t )
+          .then( *allocate_buf_B1_Bfirst_props_r2_r, t )
+          .then( *allocate_buf_B1_Bfirst_props_r2_i, t )
+          .then( *allocate_buf_B1_Bsecond_props_r2_r, t )
+          .then( *allocate_buf_B1_Bsecond_props_r2_i, t )
+          .then( *allocate_buf_B1_Bthird_props_r2_r, t )
+          .then( *allocate_buf_B1_Bthird_props_r2_i, t )
           .then(B1_Blocal_r2_r_props_init, t) // t, x1, x2, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime
           .then(B1_Blocal_r2_i_props_init, jSprime)
           .then(B1_Bfirst_r2_r_props_init, jSprime)
@@ -3181,8 +3460,24 @@ void generate_function(std::string name)
           .then(flip_B1_Bsecond_r2_i_update, m)
           .then(flip_B1_Bthird_r2_r_update, m)
           .then(flip_B1_Bthird_r2_i_update, m)
+          .then( *deallocate_buf_B1_Blocal_props_r2_r, t )
+          .then( *deallocate_buf_B1_Blocal_props_r2_i, t )
+          .then( *deallocate_buf_B1_Bfirst_props_r2_r, t )
+          .then( *deallocate_buf_B1_Bfirst_props_r2_i, t )
+          .then( *deallocate_buf_B1_Bsecond_props_r2_r, t )
+          .then( *deallocate_buf_B1_Bsecond_props_r2_i, t )
+          .then( *deallocate_buf_B1_Bthird_props_r2_r, t )
+          .then( *deallocate_buf_B1_Bthird_props_r2_i, t )
 // -----------------------
 // kernel_12:
+          .then( *allocate_buf_B2_Blocal_r1_r, t )
+          .then( *allocate_buf_B2_Blocal_r1_i, t )
+          .then( *allocate_buf_B2_Bfirst_r1_r, t )
+          .then( *allocate_buf_B2_Bfirst_r1_i, t )
+          .then( *allocate_buf_B2_Bsecond_r1_r, t )
+          .then( *allocate_buf_B2_Bsecond_r1_i, t )
+          .then( *allocate_buf_B2_Bthird_r1_r, t )
+          .then( *allocate_buf_B2_Bthird_r1_i, t )
           .then(B2_Blocal_r1_r_init, t) // t, x1, x2, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m
           .then(B2_Blocal_r1_i_init, m)
           .then(B2_Bfirst_r1_r_init, m)
@@ -3192,6 +3487,14 @@ void generate_function(std::string name)
           .then(B2_Bthird_r1_r_init, m)
           .then(B2_Bthird_r1_i_init, m)
 // kernel_13:
+          .then( *allocate_buf_flip_B2_Blocal_r1_r, t )
+          .then( *allocate_buf_flip_B2_Blocal_r1_i, t )
+          .then( *allocate_buf_flip_B2_Bfirst_r1_r, t )
+          .then( *allocate_buf_flip_B2_Bfirst_r1_i, t )
+          .then( *allocate_buf_flip_B2_Bsecond_r1_r, t )
+          .then( *allocate_buf_flip_B2_Bsecond_r1_i, t )
+          .then( *allocate_buf_flip_B2_Bthird_r1_r, t )
+          .then( *allocate_buf_flip_B2_Bthird_r1_i, t )
           .then(flip_B2_Blocal_r1_r_init, t)
           .then(flip_B2_Blocal_r1_i_init, m)
           .then(flip_B2_Bfirst_r1_r_init, m)
@@ -3201,6 +3504,14 @@ void generate_function(std::string name)
           .then(flip_B2_Bthird_r1_r_init, m)
           .then(flip_B2_Bthird_r1_i_init, m)
 // kernel_14
+          .then( *allocate_buf_B2_Blocal_props_r1_r, t )
+          .then( *allocate_buf_B2_Blocal_props_r1_i, t )
+          .then( *allocate_buf_B2_Bfirst_props_r1_r, t )
+          .then( *allocate_buf_B2_Bfirst_props_r1_i, t )
+          .then( *allocate_buf_B2_Bsecond_props_r1_r, t )
+          .then( *allocate_buf_B2_Bsecond_props_r1_i, t )
+          .then( *allocate_buf_B2_Bthird_props_r1_r, t )
+          .then( *allocate_buf_B2_Bthird_props_r1_i, t )
           .then(B2_Blocal_r1_r_props_init, t) // t, x1, x2, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime
           .then(B2_Blocal_r1_i_props_init, jSprime)
           .then(B2_Bfirst_r1_r_props_init, jSprime)
@@ -3243,8 +3554,24 @@ void generate_function(std::string name)
           .then(flip_B2_Bsecond_r1_i_update, m)
           .then(flip_B2_Bthird_r1_r_update, m)
           .then(flip_B2_Bthird_r1_i_update, m)
+          .then( *deallocate_buf_B2_Blocal_props_r1_r, t )
+          .then( *deallocate_buf_B2_Blocal_props_r1_i, t )
+          .then( *deallocate_buf_B2_Bfirst_props_r1_r, t )
+          .then( *deallocate_buf_B2_Bfirst_props_r1_i, t )
+          .then( *deallocate_buf_B2_Bsecond_props_r1_r, t )
+          .then( *deallocate_buf_B2_Bsecond_props_r1_i, t )
+          .then( *deallocate_buf_B2_Bthird_props_r1_r, t )
+          .then( *deallocate_buf_B2_Bthird_props_r1_i, t )
 // -------------
 // kernel_17:
+          .then( *allocate_buf_B2_Blocal_r2_r, t )
+          .then( *allocate_buf_B2_Blocal_r2_i, t )
+          .then( *allocate_buf_B2_Bfirst_r2_r, t )
+          .then( *allocate_buf_B2_Bfirst_r2_i, t )
+          .then( *allocate_buf_B2_Bsecond_r2_r, t )
+          .then( *allocate_buf_B2_Bsecond_r2_i, t )
+          .then( *allocate_buf_B2_Bthird_r2_r, t )
+          .then( *allocate_buf_B2_Bthird_r2_i, t )
           .then(B2_Blocal_r2_r_init, t) // t, x1, x2, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m
           .then(B2_Blocal_r2_i_init, m)
           .then(B2_Bfirst_r2_r_init, m)
@@ -3254,6 +3581,14 @@ void generate_function(std::string name)
           .then(B2_Bthird_r2_r_init, m)
           .then(B2_Bthird_r2_i_init, m)
 // kernel_18
+          .then( *allocate_buf_flip_B2_Blocal_r2_r, t )
+          .then( *allocate_buf_flip_B2_Blocal_r2_i, t )
+          .then( *allocate_buf_flip_B2_Bfirst_r2_r, t )
+          .then( *allocate_buf_flip_B2_Bfirst_r2_i, t )
+          .then( *allocate_buf_flip_B2_Bsecond_r2_r, t )
+          .then( *allocate_buf_flip_B2_Bsecond_r2_i, t )
+          .then( *allocate_buf_flip_B2_Bthird_r2_r, t )
+          .then( *allocate_buf_flip_B2_Bthird_r2_i, t )
           .then(flip_B2_Blocal_r2_r_init, t)
           .then(flip_B2_Blocal_r2_i_init, m)
           .then(flip_B2_Bfirst_r2_r_init, m)
@@ -3263,6 +3598,14 @@ void generate_function(std::string name)
           .then(flip_B2_Bthird_r2_r_init, m)
           .then(flip_B2_Bthird_r2_i_init, m)
 // kernel_19
+          .then( *allocate_buf_B2_Blocal_props_r2_r, t )
+          .then( *allocate_buf_B2_Blocal_props_r2_i, t )
+          .then( *allocate_buf_B2_Bfirst_props_r2_r, t )
+          .then( *allocate_buf_B2_Bfirst_props_r2_i, t )
+          .then( *allocate_buf_B2_Bsecond_props_r2_r, t )
+          .then( *allocate_buf_B2_Bsecond_props_r2_i, t )
+          .then( *allocate_buf_B2_Bthird_props_r2_r, t )
+          .then( *allocate_buf_B2_Bthird_props_r2_i, t )
           .then(B2_Blocal_r2_r_props_init, t) // t, x1, x2, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime
           .then(B2_Blocal_r2_i_props_init, jSprime)
           .then(B2_Bfirst_r2_r_props_init, jSprime)
@@ -3296,6 +3639,14 @@ void generate_function(std::string name)
           .then(B2_Bsecond_r2_i_update, m)
           .then(B2_Bthird_r2_r_update, m)
           .then(B2_Bthird_r2_i_update, m) 
+          .then( *deallocate_buf_B2_Blocal_r2_r, t )
+          .then( *deallocate_buf_B2_Blocal_r2_i, t )
+          .then( *deallocate_buf_B2_Bfirst_r2_r, t )
+          .then( *deallocate_buf_B2_Bfirst_r2_i, t )
+          .then( *deallocate_buf_B2_Bsecond_r2_r, t )
+          .then( *deallocate_buf_B2_Bsecond_r2_i, t )
+          .then( *deallocate_buf_B2_Bthird_r2_r, t )
+          .then( *deallocate_buf_B2_Bthird_r2_i, t )
 // kernel_21
           .then(flip_B2_Blocal_r2_r_update, t)
           .then(flip_B2_Blocal_r2_i_update, m)
@@ -3305,6 +3656,14 @@ void generate_function(std::string name)
           .then(flip_B2_Bsecond_r2_i_update, m)
           .then(flip_B2_Bthird_r2_r_update, m)
           .then(flip_B2_Bthird_r2_i_update, m) 
+          .then( *deallocate_buf_B2_Blocal_props_r2_r, t )
+          .then( *deallocate_buf_B2_Blocal_props_r2_i, t )
+          .then( *deallocate_buf_B2_Bfirst_props_r2_r, t )
+          .then( *deallocate_buf_B2_Bfirst_props_r2_i, t )
+          .then( *deallocate_buf_B2_Bsecond_props_r2_r, t )
+          .then( *deallocate_buf_B2_Bsecond_props_r2_i, t )
+          .then( *deallocate_buf_B2_Bthird_props_r2_r, t )
+          .then( *deallocate_buf_B2_Bthird_props_r2_i, t )
 // ------------------------------- 
 // kernel_22:
           .then(C_BB_BB_prop_init_r, t) // t, x1, x2, rp, m, r
@@ -3376,6 +3735,31 @@ void generate_function(std::string name)
           .then( *(BB_BB_new_term_7_r2_b2.get_imag()), wnum)
           .then(C_BB_BB_prop_update_r, wnum) 
           .then(C_BB_BB_prop_update_i, wnum)
+          .then( *deallocate_buf_B1_Blocal_r1_r, t )
+          .then( *deallocate_buf_B1_Blocal_r1_i, t )
+          .then( *deallocate_buf_B1_Bfirst_r1_r, t )
+          .then( *deallocate_buf_B1_Bfirst_r1_i, t )
+          .then( *deallocate_buf_B1_Bsecond_r1_r, t )
+          .then( *deallocate_buf_B1_Bsecond_r1_i, t )
+          .then( *deallocate_buf_B1_Bthird_r1_r, t )
+          .then( *deallocate_buf_B1_Bthird_r1_i, t )
+          .then( *deallocate_buf_B1_Bfirst_r1_i, t )
+          .then( *deallocate_buf_B1_Blocal_r2_r, t )
+          .then( *deallocate_buf_B1_Blocal_r2_i, t )
+          .then( *deallocate_buf_B1_Bfirst_r2_r, t )
+          .then( *deallocate_buf_B1_Bfirst_r2_i, t )
+          .then( *deallocate_buf_B1_Bsecond_r2_r, t )
+          .then( *deallocate_buf_B1_Bsecond_r2_i, t )
+          .then( *deallocate_buf_B1_Bthird_r2_r, t )
+          .then( *deallocate_buf_B1_Bthird_r2_i, t )
+          .then( *deallocate_buf_B2_Blocal_r1_r, t )
+          .then( *deallocate_buf_B2_Blocal_r1_i, t )
+          .then( *deallocate_buf_B2_Bfirst_r1_r, t )
+          .then( *deallocate_buf_B2_Bfirst_r1_i, t )
+          .then( *deallocate_buf_B2_Bsecond_r1_r, t )
+          .then( *deallocate_buf_B2_Bsecond_r1_i, t )
+          .then( *deallocate_buf_B2_Bthird_r1_r, t )
+          .then( *deallocate_buf_B2_Bthird_r1_i, t )
 // kernel_24
           .then( *(flip_BB_BB_new_term_0_r1_b1.get_real()), t)
           .then( *(flip_BB_BB_new_term_0_r1_b1.get_imag()), wnum)
@@ -3443,6 +3827,39 @@ void generate_function(std::string name)
           .then( *(flip_BB_BB_new_term_7_r2_b2.get_imag()), wnum)
           .then(C_BB_BB_prop_update_r_2, wnum) 
           .then(C_BB_BB_prop_update_i_2, wnum)
+          .then( *deallocate_buf_flip_B1_Blocal_r1_r, t)
+          .then( *deallocate_buf_flip_B1_Blocal_r1_i, t)
+          .then( *deallocate_buf_flip_B1_Bfirst_r1_r, t)
+          .then( *deallocate_buf_flip_B1_Bfirst_r1_i, t)
+          .then( *deallocate_buf_flip_B1_Bsecond_r1_r, t)
+          .then( *deallocate_buf_flip_B1_Bsecond_r1_i, t)
+          .then( *deallocate_buf_flip_B1_Bthird_r1_r, t)
+          .then( *deallocate_buf_flip_B1_Bthird_r1_i, t)
+          .then( *deallocate_buf_flip_B1_Blocal_r2_r, t)
+          .then( *deallocate_buf_flip_B1_Blocal_r2_i, t)
+          .then( *deallocate_buf_flip_B1_Bfirst_r2_r, t)
+          .then( *deallocate_buf_flip_B1_Bfirst_r2_i, t)
+          .then( *deallocate_buf_flip_B1_Bsecond_r2_r, t)
+          .then( *deallocate_buf_flip_B1_Bsecond_r2_i, t)
+          .then( *deallocate_buf_flip_B1_Bthird_r2_r, t)
+          .then( *deallocate_buf_flip_B1_Bthird_r2_i, t)
+          .then( *deallocate_buf_flip_B2_Blocal_r1_r, t)
+          .then( *deallocate_buf_flip_B2_Blocal_r1_i, t)
+          .then( *deallocate_buf_flip_B2_Bfirst_r1_r, t)
+          .then( *deallocate_buf_flip_B2_Bfirst_r1_i, t)
+          .then( *deallocate_buf_flip_B2_Bsecond_r1_r, t)
+          .then( *deallocate_buf_flip_B2_Bsecond_r1_i, t)
+          .then( *deallocate_buf_flip_B2_Bthird_r1_r, t)
+          .then( *deallocate_buf_flip_B2_Bthird_r1_i, t)
+          .then( *deallocate_buf_flip_B2_Blocal_r2_r, t )
+          .then( *deallocate_buf_flip_B2_Blocal_r2_i, t )
+          .then( *deallocate_buf_flip_B2_Bfirst_r2_r, t )
+          .then( *deallocate_buf_flip_B2_Bfirst_r2_i, t )
+          .then( *deallocate_buf_flip_B2_Bsecond_r2_r, t )
+          .then( *deallocate_buf_flip_B2_Bsecond_r2_i, t )
+          .then( *deallocate_buf_flip_B2_Bthird_r2_r, t )
+          .then( *deallocate_buf_flip_B2_Bthird_r2_i, t )
+
 // kernel_25
           .then(C_BB_BB_update_b_r, t)  // t, x1, x2, rp, m, r, ne
           .then(C_BB_BB_update_b_i, ne)
