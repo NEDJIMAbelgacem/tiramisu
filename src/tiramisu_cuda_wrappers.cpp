@@ -16,6 +16,7 @@ namespace {
         if (e != cudaError_t::cudaSuccess)
         {
             std::cerr << "Error at " << function_name << ": " << cudaGetErrorString(e) << std::endl;
+            __builtin_debugtrap();
             exit(1);
         }
 
