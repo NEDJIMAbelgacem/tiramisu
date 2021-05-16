@@ -16,7 +16,7 @@ namespace {
         if (e != cudaError_t::cudaSuccess)
         {
             std::cerr << "Error at " << function_name << ": " << cudaGetErrorString(e) << std::endl;
-            __builtin_debugtrap();
+            __builtin_trap();
             exit(1);
         }
 
@@ -66,12 +66,12 @@ void * tiramisu_cuda_malloc(uint64_t size)
 extern "C"
 int tiramisu_cuda_free(void * ptr)
 {
-    static bool already_called = false;
-    if ( !already_called )
-    {
-        already_called = true;
+    // static bool already_called = false;
+    // if ( !already_called )
+    // {
+    //     already_called = true;
         handle_cuda_error(cudaDeviceSynchronize(), __FUNCTION__);
-    }
+    // }
     handle_cuda_error(cudaFree(ptr), __FUNCTION__);
     return 0;
 }
