@@ -1526,7 +1526,7 @@ tiramisu::computation *buffer::allocate_at(tiramisu::computation &C, int level)
     {
         iter = isl_set_read_from_str(C.get_ctx(), "{[0]}");
     }
-    std::string new_name = "_allocation_" + this->get_name();
+    std::string new_name = "_allocate_" + this->get_name();
     iter = isl_set_set_tuple_name(iter, new_name.c_str());
     std::string iteration_domain_str = isl_set_to_str(iter);
 
@@ -1603,7 +1603,7 @@ tiramisu::computation *buffer::deallocate_at(tiramisu::computation &C, int level
     {
         iter = isl_set_read_from_str(C.get_ctx(), "{[0]}");
     }
-    std::string new_name = "_deallocation_" + this->get_name();
+    std::string new_name = "_deallocate_" + this->get_name();
     iter = isl_set_set_tuple_name(iter, new_name.c_str());
     std::string iteration_domain_str = isl_set_to_str(iter);
 
