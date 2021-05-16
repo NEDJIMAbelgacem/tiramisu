@@ -66,6 +66,9 @@ void * tiramisu_cuda_malloc(uint64_t size)
 extern "C"
 int tiramisu_cuda_free(void * ptr)
 {
+    static int free_count = 1;
+    std::cout << "called free : " << free_count << "\n";
+    free_count++;
     // static bool already_called = false;
     // if ( !already_called )
     // {
