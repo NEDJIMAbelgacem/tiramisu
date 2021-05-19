@@ -1737,7 +1737,7 @@ public:
     {
         if ( !m_isAllocAt )
             return Halide::Internal::Stmt();
-        return make_buffer_alloc( b, m_b, body );
+        return generator::make_buffer_alloc( m_b, m_extents, body );
     }
 
 };
@@ -1767,7 +1767,7 @@ tiramisu::generator::halide_stmt_from_isl_node(const tiramisu::function &fct, is
         {
             isl_ast_node *child = isl_ast_node_list_get_ast_node(list, i);
 
-            // Halide::Internal::Stmt block;
+            Halide::Internal::Stmt block;
 
             auto op_type = o_none;
 
