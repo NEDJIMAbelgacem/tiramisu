@@ -1733,13 +1733,8 @@ public:
 
     bool is_allocate_at() { return m_isAllocAt; }
     Halide::Internal::Stmt statement() { return m_statement; }
-    Halide::Internal::Stmt allocate_at_statement( Halide::Internal::Stmt body )
-    {
-        if ( !m_isAllocAt )
-            return Halide::Internal::Stmt();
-        return generator::make_buffer_alloc( m_b, m_extents, body );
-    }
-
+    buffer *get_buffer() { return m_b; }
+    const std::vector<Halide::Expr> extent() { return m_extent; }
 };
 
 Halide::Internal::Stmt
@@ -1965,7 +1960,7 @@ tiramisu::generator::halide_stmt_from_isl_node(const tiramisu::function &fct, is
         {
             if ( blocks_sequence[i].is_allocate_at() )
             {
-                stmts[i] = blocks_sequence[i].allocate_at_statement( stmts[ i + 1 ] )
+                stmts[i] = generator::make_buffer_alloc( blocks_sequence[i].buffer(), blocks_sequence[i].extent(), stmts[ i + 1 ] );
             }
         }
 
