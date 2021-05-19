@@ -1960,7 +1960,7 @@ tiramisu::generator::halide_stmt_from_isl_node(const tiramisu::function &fct, is
         {
             if ( blocks_sequence[i].is_allocate_at() )
             {
-                stmts[i] = generator::make_buffer_alloc( blocks_sequence[i].buffer(), blocks_sequence[i].extent(), stmts[ i + 1 ] );
+                stmts[i] = generator::make_buffer_alloc( blocks_sequence[i].get_buffer(), blocks_sequence[i].extent(), stmts[ i + 1 ] );
             }
         }
 
