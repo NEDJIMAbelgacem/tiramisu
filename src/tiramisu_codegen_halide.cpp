@@ -1725,10 +1725,10 @@ class TiramisuStatement
 {
     bool m_isAllocAt = false;
     buffer *m_b = nullptr;
-    const std::vector<Halide::Expr> m_extents;
+    const std::vector<Halide::Expr> m_extent;
     Halide::Internal::Stmt m_statement; 
 public:
-    TiramisuStatement( buffer *b, const std::vector<Halide::Expr> extent ) : m_isAllocAt( true ), m_b( b ), m_extents( extent ) {  }
+    TiramisuStatement( buffer *b, const std::vector<Halide::Expr> extent ) : m_isAllocAt( true ), m_b( b ), m_extent( extent ) {  }
     TiramisuStatement( Halide::Internal::Stmt s ) : m_isAllocAt( false ), m_statement( s ) {  }
 
     bool is_allocate_at() { return m_isAllocAt; }
