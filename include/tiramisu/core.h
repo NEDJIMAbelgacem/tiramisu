@@ -5221,7 +5221,6 @@ class generator
     friend computation;
     friend buffer;
     friend cuda_ast::generator;
-    friend 
 
 protected:
 
