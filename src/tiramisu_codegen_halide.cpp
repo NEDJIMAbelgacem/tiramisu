@@ -1911,6 +1911,7 @@ tiramisu::generator::halide_stmt_from_isl_node(const tiramisu::function &fct, is
             {
                 DEBUG(3, tiramisu::str_dump("Generating block."));
                 // Generate a child block
+                
                 blocks_sequence.push_back( TiramisuStatement( tiramisu::generator::halide_stmt_from_isl_node(fct, child, level, tagged_stmts, true) ) );
             }
             isl_ast_node_free(child);
@@ -1964,10 +1965,10 @@ tiramisu::generator::halide_stmt_from_isl_node(const tiramisu::function &fct, is
                     stmts[i] = generator::make_buffer_alloc( blocks_sequence[i].get_buffer(), blocks_sequence[i].extent(), stmts[ i + 1 ] );
                 } else 
                 {
-                    stmts[i] = blocks_sequence[i].get_statement();
+                    stmts[i] = Halide::Internal::Block::make( blocks_sequence[i].get_statement(), stmts[i + 1] );
                 }
             }
-            result = Halide::Internal::Block::make( stmts );
+            result = stmts[0]; // Halide::Internal::Block::make( stmts );
         }
 
         /**
