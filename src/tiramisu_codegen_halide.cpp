@@ -1954,7 +1954,7 @@ tiramisu::generator::halide_stmt_from_isl_node(const tiramisu::function &fct, is
         }
 
         std::vector<Halide::Internal::Stmt> stmts( blocks_sequence.size(), Halide::Internal::Stmt() );
-        stmts.back() = blocks_sequence.back().statement();
+        stmts.back() = blocks_sequence.back().get_statement();
 
         for (int i = blocks_sequence.size() - 2; i >= 0; --i)
         {

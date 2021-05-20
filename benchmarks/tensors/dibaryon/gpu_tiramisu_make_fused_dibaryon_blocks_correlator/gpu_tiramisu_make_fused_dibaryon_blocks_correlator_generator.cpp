@@ -3365,14 +3365,14 @@ void generate_function(std::string name)
           .then(flip_B1_Bsecond_r1_i_update, m)
           .then(flip_B1_Bthird_r1_r_update, m)
           .then(flip_B1_Bthird_r1_i_update, m)
-          .then( *deallocate_buf_B1_Blocal_props_r1_r, t)
-          .then( *deallocate_buf_B1_Blocal_props_r1_i, t)
-          .then( *deallocate_buf_B1_Bfirst_props_r1_r, t)
-          .then( *deallocate_buf_B1_Bfirst_props_r1_i, t)
-          .then( *deallocate_buf_B1_Bsecond_props_r1_r, t)
-          .then( *deallocate_buf_B1_Bsecond_props_r1_i, t)
-          .then( *deallocate_buf_B1_Bthird_props_r1_r, t)
-          .then( *deallocate_buf_B1_Bthird_props_r1_i, t)
+          .then( *deallocate_buf_B1_Blocal_props_r1_r, t) // 1
+          .then( *deallocate_buf_B1_Blocal_props_r1_i, t) // 2
+          .then( *deallocate_buf_B1_Bfirst_props_r1_r, t) // 3
+          .then( *deallocate_buf_B1_Bfirst_props_r1_i, t) // 4
+          .then( *deallocate_buf_B1_Bsecond_props_r1_r, t) // 5
+          .then( *deallocate_buf_B1_Bsecond_props_r1_i, t) // 6
+          .then( *deallocate_buf_B1_Bthird_props_r1_r, t) // 7
+          .then( *deallocate_buf_B1_Bthird_props_r1_i, t) // 8
 // ---------------------------- 
 // kernel_7:
           .then( *allocate_buf_B1_Blocal_r2_r, t)
@@ -3459,14 +3459,14 @@ void generate_function(std::string name)
           .then(flip_B1_Bsecond_r2_i_update, m)
           .then(flip_B1_Bthird_r2_r_update, m)
           .then(flip_B1_Bthird_r2_i_update, m)
-          .then( *deallocate_buf_B1_Blocal_props_r2_r, t )
-          .then( *deallocate_buf_B1_Blocal_props_r2_i, t )
-          .then( *deallocate_buf_B1_Bfirst_props_r2_r, t )
-          .then( *deallocate_buf_B1_Bfirst_props_r2_i, t )
-          .then( *deallocate_buf_B1_Bsecond_props_r2_r, t )
-          .then( *deallocate_buf_B1_Bsecond_props_r2_i, t )
-          .then( *deallocate_buf_B1_Bthird_props_r2_r, t )
-          .then( *deallocate_buf_B1_Bthird_props_r2_i, t )
+          .then( *deallocate_buf_B1_Blocal_props_r2_r, t ) // 9
+          .then( *deallocate_buf_B1_Blocal_props_r2_i, t ) // 10
+          .then( *deallocate_buf_B1_Bfirst_props_r2_r, t ) // 11
+          .then( *deallocate_buf_B1_Bfirst_props_r2_i, t ) // 12
+          .then( *deallocate_buf_B1_Bsecond_props_r2_r, t ) // 13
+          .then( *deallocate_buf_B1_Bsecond_props_r2_i, t ) // 14
+          .then( *deallocate_buf_B1_Bthird_props_r2_r, t ) // 15
+          .then( *deallocate_buf_B1_Bthird_props_r2_i, t ) // 16
 // -----------------------
 // kernel_12:
           .then( *allocate_buf_B2_Blocal_r1_r, t )
@@ -3553,14 +3553,14 @@ void generate_function(std::string name)
           .then(flip_B2_Bsecond_r1_i_update, m)
           .then(flip_B2_Bthird_r1_r_update, m)
           .then(flip_B2_Bthird_r1_i_update, m)
-          .then( *deallocate_buf_B2_Blocal_props_r1_r, t )
-          .then( *deallocate_buf_B2_Blocal_props_r1_i, t )
-          .then( *deallocate_buf_B2_Bfirst_props_r1_r, t )
-          .then( *deallocate_buf_B2_Bfirst_props_r1_i, t )
-          .then( *deallocate_buf_B2_Bsecond_props_r1_r, t )
-          .then( *deallocate_buf_B2_Bsecond_props_r1_i, t )
-          .then( *deallocate_buf_B2_Bthird_props_r1_r, t )
-          .then( *deallocate_buf_B2_Bthird_props_r1_i, t )
+          .then( *deallocate_buf_B2_Blocal_props_r1_r, t ) // 17
+          .then( *deallocate_buf_B2_Blocal_props_r1_i, t ) // 18
+          .then( *deallocate_buf_B2_Bfirst_props_r1_r, t ) // 19
+          .then( *deallocate_buf_B2_Bfirst_props_r1_i, t ) // 20
+          .then( *deallocate_buf_B2_Bsecond_props_r1_r, t ) // 21
+          .then( *deallocate_buf_B2_Bsecond_props_r1_i, t ) // 22
+          .then( *deallocate_buf_B2_Bthird_props_r1_r, t ) // 23
+          .then( *deallocate_buf_B2_Bthird_props_r1_i, t ) // 24
 // -------------
 // kernel_17:
           .then( *allocate_buf_B2_Blocal_r2_r, t )
@@ -3638,14 +3638,14 @@ void generate_function(std::string name)
           .then(B2_Bsecond_r2_i_update, m)
           .then(B2_Bthird_r2_r_update, m)
           .then(B2_Bthird_r2_i_update, m) 
-          .then( *deallocate_buf_B2_Blocal_r2_r, t )
-          .then( *deallocate_buf_B2_Blocal_r2_i, t )
-          .then( *deallocate_buf_B2_Bfirst_r2_r, t )
-          .then( *deallocate_buf_B2_Bfirst_r2_i, t )
-          .then( *deallocate_buf_B2_Bsecond_r2_r, t )
-          .then( *deallocate_buf_B2_Bsecond_r2_i, t )
-          .then( *deallocate_buf_B2_Bthird_r2_r, t )
-          .then( *deallocate_buf_B2_Bthird_r2_i, t )
+          .then( *deallocate_buf_B2_Blocal_r2_r, t ) // 25
+          .then( *deallocate_buf_B2_Blocal_r2_i, t ) // 26
+          .then( *deallocate_buf_B2_Bfirst_r2_r, t ) // 27
+          .then( *deallocate_buf_B2_Bfirst_r2_i, t ) // 28
+          .then( *deallocate_buf_B2_Bsecond_r2_r, t ) // 29
+          .then( *deallocate_buf_B2_Bsecond_r2_i, t ) // 30
+          .then( *deallocate_buf_B2_Bthird_r2_r, t ) // 31
+          .then( *deallocate_buf_B2_Bthird_r2_i, t ) // 32
 // kernel_21
           .then(flip_B2_Blocal_r2_r_update, t)
           .then(flip_B2_Blocal_r2_i_update, m)
@@ -3655,14 +3655,14 @@ void generate_function(std::string name)
           .then(flip_B2_Bsecond_r2_i_update, m)
           .then(flip_B2_Bthird_r2_r_update, m)
           .then(flip_B2_Bthird_r2_i_update, m) 
-          .then( *deallocate_buf_B2_Blocal_props_r2_r, t )
-          .then( *deallocate_buf_B2_Blocal_props_r2_i, t )
-          .then( *deallocate_buf_B2_Bfirst_props_r2_r, t )
-          .then( *deallocate_buf_B2_Bfirst_props_r2_i, t )
-          .then( *deallocate_buf_B2_Bsecond_props_r2_r, t )
-          .then( *deallocate_buf_B2_Bsecond_props_r2_i, t )
-          .then( *deallocate_buf_B2_Bthird_props_r2_r, t )
-          .then( *deallocate_buf_B2_Bthird_props_r2_i, t )
+          .then( *deallocate_buf_B2_Blocal_props_r2_r, t ) // 33
+          .then( *deallocate_buf_B2_Blocal_props_r2_i, t ) // 34
+          .then( *deallocate_buf_B2_Bfirst_props_r2_r, t ) // 35
+          .then( *deallocate_buf_B2_Bfirst_props_r2_i, t ) // 36
+          .then( *deallocate_buf_B2_Bsecond_props_r2_r, t ) // 37
+          .then( *deallocate_buf_B2_Bsecond_props_r2_i, t ) // 38
+          .then( *deallocate_buf_B2_Bthird_props_r2_r, t ) // 39
+          .then( *deallocate_buf_B2_Bthird_props_r2_i, t ) // 40
 // ------------------------------- 
 // kernel_22:
           .then(C_BB_BB_prop_init_r, t) // t, x1, x2, rp, m, r
@@ -3734,30 +3734,30 @@ void generate_function(std::string name)
           .then( *(BB_BB_new_term_7_r2_b2.get_imag()), wnum)
           .then(C_BB_BB_prop_update_r, wnum) 
           .then(C_BB_BB_prop_update_i, wnum)
-          .then( *deallocate_buf_B1_Blocal_r1_r, t )
-          .then( *deallocate_buf_B1_Blocal_r1_i, t )
-          .then( *deallocate_buf_B1_Bfirst_r1_r, t )
-          .then( *deallocate_buf_B1_Bfirst_r1_i, t )
-          .then( *deallocate_buf_B1_Bsecond_r1_r, t )
-          .then( *deallocate_buf_B1_Bsecond_r1_i, t )
-          .then( *deallocate_buf_B1_Bthird_r1_r, t )
-          .then( *deallocate_buf_B1_Bthird_r1_i, t )
-          .then( *deallocate_buf_B1_Blocal_r2_r, t )
-          .then( *deallocate_buf_B1_Blocal_r2_i, t )
-          .then( *deallocate_buf_B1_Bfirst_r2_r, t )
-          .then( *deallocate_buf_B1_Bfirst_r2_i, t )
-          .then( *deallocate_buf_B1_Bsecond_r2_r, t )
-          .then( *deallocate_buf_B1_Bsecond_r2_i, t )
-          .then( *deallocate_buf_B1_Bthird_r2_r, t )
-          .then( *deallocate_buf_B1_Bthird_r2_i, t )
-          .then( *deallocate_buf_B2_Blocal_r1_r, t )
-          .then( *deallocate_buf_B2_Blocal_r1_i, t )
-          .then( *deallocate_buf_B2_Bfirst_r1_r, t )
-          .then( *deallocate_buf_B2_Bfirst_r1_i, t )
-          .then( *deallocate_buf_B2_Bsecond_r1_r, t )
-          .then( *deallocate_buf_B2_Bsecond_r1_i, t )
-          .then( *deallocate_buf_B2_Bthird_r1_r, t )
-          .then( *deallocate_buf_B2_Bthird_r1_i, t )
+          .then( *deallocate_buf_B1_Blocal_r1_r, t ) // 41
+          .then( *deallocate_buf_B1_Blocal_r1_i, t ) // 42
+          .then( *deallocate_buf_B1_Bfirst_r1_r, t ) // 43
+          .then( *deallocate_buf_B1_Bfirst_r1_i, t ) // 44
+          .then( *deallocate_buf_B1_Bsecond_r1_r, t ) // 45
+          .then( *deallocate_buf_B1_Bsecond_r1_i, t ) // 46
+          .then( *deallocate_buf_B1_Bthird_r1_r, t ) // 47
+          .then( *deallocate_buf_B1_Bthird_r1_i, t ) // 48
+          .then( *deallocate_buf_B1_Blocal_r2_r, t ) // 49
+          .then( *deallocate_buf_B1_Blocal_r2_i, t ) // 50 
+          .then( *deallocate_buf_B1_Bfirst_r2_r, t ) // 51
+          .then( *deallocate_buf_B1_Bfirst_r2_i, t ) // 52
+          .then( *deallocate_buf_B1_Bsecond_r2_r, t ) // 53
+          .then( *deallocate_buf_B1_Bsecond_r2_i, t ) // 54
+          .then( *deallocate_buf_B1_Bthird_r2_r, t ) // 55
+          .then( *deallocate_buf_B1_Bthird_r2_i, t ) // 56
+          .then( *deallocate_buf_B2_Blocal_r1_r, t ) // 57
+          .then( *deallocate_buf_B2_Blocal_r1_i, t ) // 58
+          .then( *deallocate_buf_B2_Bfirst_r1_r, t ) // 59
+          .then( *deallocate_buf_B2_Bfirst_r1_i, t ) // 60
+          .then( *deallocate_buf_B2_Bsecond_r1_r, t ) // 61
+          .then( *deallocate_buf_B2_Bsecond_r1_i, t ) // 62
+          .then( *deallocate_buf_B2_Bthird_r1_r, t ) // 63
+          .then( *deallocate_buf_B2_Bthird_r1_i, t ) // 64
 // kernel_24
           .then( *(flip_BB_BB_new_term_0_r1_b1.get_real()), t)
           .then( *(flip_BB_BB_new_term_0_r1_b1.get_imag()), wnum)
@@ -3825,38 +3825,38 @@ void generate_function(std::string name)
           .then( *(flip_BB_BB_new_term_7_r2_b2.get_imag()), wnum)
           .then(C_BB_BB_prop_update_r_2, wnum) 
           .then(C_BB_BB_prop_update_i_2, wnum)
-          .then( *deallocate_buf_flip_B1_Blocal_r1_r, t)
-          .then( *deallocate_buf_flip_B1_Blocal_r1_i, t)
-          .then( *deallocate_buf_flip_B1_Bfirst_r1_r, t)
-          .then( *deallocate_buf_flip_B1_Bfirst_r1_i, t)
-          .then( *deallocate_buf_flip_B1_Bsecond_r1_r, t)
-          .then( *deallocate_buf_flip_B1_Bsecond_r1_i, t)
-          .then( *deallocate_buf_flip_B1_Bthird_r1_r, t)
-          .then( *deallocate_buf_flip_B1_Bthird_r1_i, t)
-          .then( *deallocate_buf_flip_B1_Blocal_r2_r, t)
-          .then( *deallocate_buf_flip_B1_Blocal_r2_i, t)
-          .then( *deallocate_buf_flip_B1_Bfirst_r2_r, t)
-          .then( *deallocate_buf_flip_B1_Bfirst_r2_i, t)
-          .then( *deallocate_buf_flip_B1_Bsecond_r2_r, t)
-          .then( *deallocate_buf_flip_B1_Bsecond_r2_i, t)
-          .then( *deallocate_buf_flip_B1_Bthird_r2_r, t)
-          .then( *deallocate_buf_flip_B1_Bthird_r2_i, t)
-          .then( *deallocate_buf_flip_B2_Blocal_r1_r, t)
-          .then( *deallocate_buf_flip_B2_Blocal_r1_i, t)
-          .then( *deallocate_buf_flip_B2_Bfirst_r1_r, t)
-          .then( *deallocate_buf_flip_B2_Bfirst_r1_i, t)
-          .then( *deallocate_buf_flip_B2_Bsecond_r1_r, t)
-          .then( *deallocate_buf_flip_B2_Bsecond_r1_i, t)
-          .then( *deallocate_buf_flip_B2_Bthird_r1_r, t)
-          .then( *deallocate_buf_flip_B2_Bthird_r1_i, t)
-          .then( *deallocate_buf_flip_B2_Blocal_r2_r, t )
-          .then( *deallocate_buf_flip_B2_Blocal_r2_i, t )
-          .then( *deallocate_buf_flip_B2_Bfirst_r2_r, t )
-          .then( *deallocate_buf_flip_B2_Bfirst_r2_i, t )
-          .then( *deallocate_buf_flip_B2_Bsecond_r2_r, t )
-          .then( *deallocate_buf_flip_B2_Bsecond_r2_i, t )
-          .then( *deallocate_buf_flip_B2_Bthird_r2_r, t )
-          .then( *deallocate_buf_flip_B2_Bthird_r2_i, t )
+          .then( *deallocate_buf_flip_B1_Blocal_r1_r, t) // 65
+          .then( *deallocate_buf_flip_B1_Blocal_r1_i, t) // 66
+          .then( *deallocate_buf_flip_B1_Bfirst_r1_r, t) // 67
+          .then( *deallocate_buf_flip_B1_Bfirst_r1_i, t) // 68
+          .then( *deallocate_buf_flip_B1_Bsecond_r1_r, t) // 69
+          .then( *deallocate_buf_flip_B1_Bsecond_r1_i, t) // 70
+          .then( *deallocate_buf_flip_B1_Bthird_r1_r, t) // 71
+          .then( *deallocate_buf_flip_B1_Bthird_r1_i, t) // 72
+          .then( *deallocate_buf_flip_B1_Blocal_r2_r, t) // 73
+          .then( *deallocate_buf_flip_B1_Blocal_r2_i, t) // 74
+          .then( *deallocate_buf_flip_B1_Bfirst_r2_r, t) // 75
+          .then( *deallocate_buf_flip_B1_Bfirst_r2_i, t) // 76
+          .then( *deallocate_buf_flip_B1_Bsecond_r2_r, t) // 77
+          .then( *deallocate_buf_flip_B1_Bsecond_r2_i, t) // 78
+          .then( *deallocate_buf_flip_B1_Bthird_r2_r, t) // 79
+          .then( *deallocate_buf_flip_B1_Bthird_r2_i, t) // 80
+          .then( *deallocate_buf_flip_B2_Blocal_r1_r, t) // 81
+          .then( *deallocate_buf_flip_B2_Blocal_r1_i, t) // 82
+          .then( *deallocate_buf_flip_B2_Bfirst_r1_r, t) // 83
+          .then( *deallocate_buf_flip_B2_Bfirst_r1_i, t) // 84
+          .then( *deallocate_buf_flip_B2_Bsecond_r1_r, t) // 85
+          .then( *deallocate_buf_flip_B2_Bsecond_r1_i, t) // 86
+          .then( *deallocate_buf_flip_B2_Bthird_r1_r, t) // 87
+          .then( *deallocate_buf_flip_B2_Bthird_r1_i, t) // 88
+          .then( *deallocate_buf_flip_B2_Blocal_r2_r, t ) // 89
+          .then( *deallocate_buf_flip_B2_Blocal_r2_i, t ) // 90
+          .then( *deallocate_buf_flip_B2_Bfirst_r2_r, t ) // 91
+          .then( *deallocate_buf_flip_B2_Bfirst_r2_i, t ) // 92
+          .then( *deallocate_buf_flip_B2_Bsecond_r2_r, t ) // 93
+          .then( *deallocate_buf_flip_B2_Bsecond_r2_i, t ) // 94
+          .then( *deallocate_buf_flip_B2_Bthird_r2_r, t ) // 95
+          .then( *deallocate_buf_flip_B2_Bthird_r2_i, t ) // 96
 
 // kernel_25
           .then(C_BB_BB_update_b_r, t)  // t, x1, x2, rp, m, r, ne
