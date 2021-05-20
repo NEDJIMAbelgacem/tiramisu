@@ -1962,7 +1962,15 @@ tiramisu::generator::halide_stmt_from_isl_node(const tiramisu::function &fct, is
             {
                 if ( blocks_sequence[i].is_allocate_at() )
                 {
-                    stmts[i] = generator::make_buffer_alloc( blocks_sequence[i].get_buffer(), blocks_sequence[i].extent(), stmts[ i + 1 ] );
+                    for (int j = i + 1; j < stmts.size(); ++j)
+                    {
+                        if ( stmts[j].defined() )
+                        {
+                            stmts[i] = generator::make_buffer_alloc( blocks_sequence[i].get_buffer(), blocks_sequence[i].extent(), stmts[ j ] );
+                            break;
+                        }
+                    }
+                    
                 } else 
                 {
                     for (int j = i + 1; j < stmts.size(); ++j)
@@ -1975,7 +1983,14 @@ tiramisu::generator::halide_stmt_from_isl_node(const tiramisu::function &fct, is
                     }
                 }
             }
-            result = stmts[0]; // Halide::Internal::Block::make( stmts );
+            for (int i = 0; i < stmts.size(); ++i)
+            {
+                if ( stmts[i].defined() )
+                {
+                    result = stmts[i];
+                    break;
+                }
+            }
         }
 
         /**
