@@ -1952,22 +1952,23 @@ tiramisu::generator::halide_stmt_from_isl_node(const tiramisu::function &fct, is
             }
             DEBUG(3, std::cout << "Result is now: " << result);
         }
-
-        std::vector<Halide::Internal::Stmt> stmts( blocks_sequence.size(), Halide::Internal::Stmt() );
-        stmts.back() = blocks_sequence.back().get_statement();
-
-        for (int i = blocks_sequence.size() - 2; i >= 0; --i)
+        if ( !blocks_sequence.empty() )
         {
-            if ( blocks_sequence[i].is_allocate_at() )
-            {
-                stmts[i] = generator::make_buffer_alloc( blocks_sequence[i].get_buffer(), blocks_sequence[i].extent(), stmts[ i + 1 ] );
-            } else 
-            {
-                stmts[i] = blocks_sequence[i].get_statement();
-            }
-        }
+            std::vector<Halide::Internal::Stmt> stmts( blocks_sequence.size(), Halide::Internal::Stmt() );
+            stmts.back() = blocks_sequence.back().get_statement();
 
-        result = Halide::Internal::Block::make( stmts );
+            for (int i = blocks_sequence.size() - 2; i >= 0; --i)
+            {
+                if ( blocks_sequence[i].is_allocate_at() )
+                {
+                    stmts[i] = generator::make_buffer_alloc( blocks_sequence[i].get_buffer(), blocks_sequence[i].extent(), stmts[ i + 1 ] );
+                } else 
+                {
+                    stmts[i] = blocks_sequence[i].get_statement();
+                }
+            }
+            result = Halide::Internal::Block::make( stmts );
+        }
 
         /**
          *  Generate all the "allocate" statements (which should be declared on all the block)
