@@ -1965,7 +1965,14 @@ tiramisu::generator::halide_stmt_from_isl_node(const tiramisu::function &fct, is
                     stmts[i] = generator::make_buffer_alloc( blocks_sequence[i].get_buffer(), blocks_sequence[i].extent(), stmts[ i + 1 ] );
                 } else 
                 {
-                    stmts[i] = Halide::Internal::Block::make( blocks_sequence[i].get_statement(), stmts[i + 1] );
+                    for (int j = i + 1; j < stmts.size(); ++j)
+                    {
+                        if ( stmts[j].defined() )
+                        {
+                            stmts[i] = Halide::Internal::Block::make( blocks_sequence[i].get_statement(), stmts[j] );
+                            break;
+                        }
+                    }
                 }
             }
             result = stmts[0]; // Halide::Internal::Block::make( stmts );
