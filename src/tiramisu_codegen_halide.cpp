@@ -1623,7 +1623,6 @@ Halide::Expr halide_expr_from_isl_ast_expr(isl_ast_expr *isl_expr)
 }
 
 std::vector<std::pair<std::string, Halide::Expr>> let_stmts_vector;
-std::vector<tiramisu::computation *> for_block_allocate_stmts_vector;
 std::vector<tiramisu::computation *> allocate_stmts_vector;
 
 // For each node of the ISL AST, the corresponding computation is stored.
@@ -1915,6 +1914,7 @@ tiramisu::generator::halide_stmt_from_isl_node(const tiramisu::function &fct, is
                         DEBUG(10, tiramisu::str_dump("The computation that corresponds to the child of this node: "); comp->dump());
 
                         std::string buffer_name = comp->get_expr().get_name();
+                        std::cout << "CREATING LET STATEMENT FOR: " << buffer_name << "\n";
                         DEBUG(10, tiramisu::str_dump("The computation of the node is an allocate or a free IR node."));
                         DEBUG(10, tiramisu::str_dump("The buffer that should be allocated or freed is " + buffer_name));
                         tiramisu::buffer *buf = comp->get_function()->get_buffers().find(buffer_name)->second;
@@ -1964,6 +1964,7 @@ tiramisu::generator::halide_stmt_from_isl_node(const tiramisu::function &fct, is
                         }
                     }
                     allocate_stmts_vector.clear();
+                    result = block;
                 }
                 if (result.defined())
                 {
@@ -3048,7 +3049,7 @@ void computation::create_halide_assignment()
         }
 
         const std::string &let_stmt_name = this->get_name();
-
+        std::cout << "CREATED LET STATEMENT" << "\n";
         let_stmts_vector.push_back(
                 std::pair<std::string, Halide::Expr>(let_stmt_name, result));
         DEBUG(10, tiramisu::str_dump("A let statement was added to the vector of let statements."));
