@@ -1905,8 +1905,8 @@ tiramisu::generator::halide_stmt_from_isl_node(const tiramisu::function &fct, is
             }
             else // ((block.defined())
             {
-                DEBUG(3, tiramisu::str_dump("Block defined."));
-                if ( !allocate_stmts_vector.empty() )
+                DEBUG(3, tiramisu::str_dump("Generating from allocate_stmts_vector."));
+                if ( !allocate_stmts_vector.empty() && !is_a_child_block )
                 {
                     for (auto comp: allocate_stmts_vector)
                     {
