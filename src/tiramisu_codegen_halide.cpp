@@ -1623,7 +1623,7 @@ Halide::Expr halide_expr_from_isl_ast_expr(isl_ast_expr *isl_expr)
 }
 
 std::vector<std::pair<std::string, Halide::Expr>> let_stmts_vector;
-std::vector<std::pair<std::string, Halide::Expr>> for_block_allocate_stmts_vector;
+std::vector<tiramisu::computation *> for_block_allocate_stmts_vector;
 std::vector<tiramisu::computation *> allocate_stmts_vector;
 
 // For each node of the ISL AST, the corresponding computation is stored.
