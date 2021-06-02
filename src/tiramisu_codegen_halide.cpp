@@ -1623,6 +1623,7 @@ Halide::Expr halide_expr_from_isl_ast_expr(isl_ast_expr *isl_expr)
 }
 
 std::vector<std::pair<std::string, Halide::Expr>> let_stmts_vector;
+std::vector<std::pair<std::string, Halide::Expr>> for_block_allocate_stmts_vector;
 std::vector<tiramisu::computation *> allocate_stmts_vector;
 
 // For each node of the ISL AST, the corresponding computation is stored.
@@ -1758,7 +1759,7 @@ tiramisu::generator::halide_stmt_from_isl_node(const tiramisu::function &fct, is
                 if (op_type == tiramisu::o_allocate)
                 {
                     DEBUG(3, tiramisu::str_dump("Adding a computation to vector of allocate stmts (for later construction)"));
-                    allocate_stmts_vector.push_back(comp);
+                    for_block_allocate_stmts_vector.push_back(comp);
                 }
                 else if (op_type == tiramisu::o_free)
                 {
@@ -1902,11 +1903,68 @@ tiramisu::generator::halide_stmt_from_isl_node(const tiramisu::function &fct, is
                 }
                 // else, if (let_stmts_vector.empty()), continue looping to
                 // create more let stmts and to encounter a real statement
-
             }
             else // ((block.defined())
             {
                 DEBUG(3, tiramisu::str_dump("Block defined."));
+                if ( !for_block_allocate_stmts_vector.empty() )
+                {
+                    for (auto comp: for_block_allocate_stmts_vector)
+                    {
+                        assert(comp != NULL);
+                        DEBUG(10, tiramisu::str_dump("The computation that corresponds to the child of this node: "); comp->dump());
+
+                        std::string buffer_name = comp->get_expr().get_name();
+                        DEBUG(10, tiramisu::str_dump("The computation of the node is an allocate or a free IR node."));
+                        DEBUG(10, tiramisu::str_dump("The buffer that should be allocated or freed is " + buffer_name));
+                        tiramisu::buffer *buf = comp->get_function()->get_buffers().find(buffer_name)->second;
+
+                        std::vector<Halide::Expr> halide_dim_sizes;
+                        // Create a vector indicating the size that should be allocated.
+                        // Tiramisu buffer is defined from outermost to innermost, whereas Halide is from
+                        // innermost to outermost; thus, we need to reverse the order.
+                        for (int i = buf->get_dim_sizes().size() - 1; i >= 0; --i)
+                        {
+                            // TODO: if the size of an array is a computation access
+                            // this is not supported yet. Mainly because in the code below
+                            // we pass NULL pointers for parameters that are necessary
+                            // in case we are computing the halide expression from a tiramisu expression
+                            // that represents a computation access.
+                            const auto sz = buf->get_dim_sizes()[i];
+                            std::vector<isl_ast_expr *> ie = {};
+                            tiramisu::expr dim_sz = replace_original_indices_with_transformed_indices(sz, comp->get_iterators_map());
+                            halide_dim_sizes.push_back(generator::halide_expr_from_tiramisu_expr(NULL, ie, dim_sz, comp));
+                        }
+
+                        if (comp->get_expr().get_op_type() == tiramisu::o_allocate)
+                        {
+                            block = make_buffer_alloc(buf, halide_dim_sizes, block);
+
+
+                            buf->mark_as_allocated();
+
+                            for (const auto &l_stmt : comp->get_associated_let_stmts())
+                            {
+                                DEBUG(3, tiramisu::str_dump("Generating the following let statement."));
+                                DEBUG(3, tiramisu::str_dump("Name : " + l_stmt.first));
+                                DEBUG(3, tiramisu::str_dump("Expression of the let statement: "));
+
+                                l_stmt.second.dump(false);
+
+                                std::vector<isl_ast_expr *> ie = {}; // Dummy variable.
+                                tiramisu::expr tiramisu_let = replace_original_indices_with_transformed_indices(l_stmt.second, comp->get_iterators_map());
+                                Halide::Expr let_expr = halide_expr_from_tiramisu_expr(comp->get_function(), ie, tiramisu_let, comp);
+                                block = Halide::Internal::LetStmt::make(
+                                        l_stmt.first,
+                                        let_expr,
+                                        block);
+                                DEBUG(10, tiramisu::str_dump("Generated let stmt:"));
+                                DEBUG_NO_NEWLINE(10, std::cout << block);
+                            }
+                        }
+                    }
+                    for_block_allocate_stmts_vector.clear();
+                }
                 if (result.defined())
                 {
                     // result = Halide::Internal::Block::make(block, result);

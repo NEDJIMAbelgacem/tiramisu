@@ -2098,7 +2098,7 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
 
         stringstream command;
         command << NVCC_PATH;
-        command << " -O3";
+        command << " -O3 -g";
         // Basic streaming for parallelization
         command << " --default-stream per-thread";
         // Say that this is actually cuda code
@@ -2132,7 +2132,7 @@ cuda_ast::statement_ptr cuda_ast::generator::cuda_stmt_handle_isl_if(isl_ast_nod
 
         stringstream command;
         command << NVCC_PATH;
-        command << " -O3";
+        command << " -O3 -g";
         // Basic streaming for parallelization
         command << " --default-stream per-thread";
         // Link device object code
