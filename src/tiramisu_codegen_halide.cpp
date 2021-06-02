@@ -2564,26 +2564,26 @@ void function::gen_halide_stmt()
         stmt = Halide::Internal::Block::make(stmt, freestmts);
 
     // Allocate buffers that are not passed as an argument to the function
-    for (const auto &b : this->get_buffers())
-    {
-        tiramisu::buffer *buf = b.second;
-        // Allocate only arrays that are not passed to the function as arguments.
-        if (buf->get_argument_type() == tiramisu::a_temporary && buf->get_auto_allocate() == true && !buf->is_allocated())
-        {
-            std::vector<Halide::Expr> halide_dim_sizes;
-            // Create a vector indicating the size that should be allocated.
-            // Tiramisu buffer is defined from outermost to innermost, whereas Halide is from
-            // innermost to outermost; thus, we need to reverse the order.
-            for (int i = buf->get_dim_sizes().size() - 1; i >= 0; --i)
-            {
-                const auto sz = buf->get_dim_sizes()[i];
-                std::vector<isl_ast_expr *> ie = {};
-                halide_dim_sizes.push_back(generator::halide_expr_from_tiramisu_expr(this, ie, sz));
-            }
-            stmt = generator::make_buffer_alloc(buf, halide_dim_sizes, stmt);
-            buf->mark_as_allocated();
-        }
-    }
+    // for (const auto &b : this->get_buffers())
+    // {
+    //     tiramisu::buffer *buf = b.second;
+    //     // Allocate only arrays that are not passed to the function as arguments.
+    //     if (buf->get_argument_type() == tiramisu::a_temporary && buf->get_auto_allocate() == true && !buf->is_allocated())
+    //     {
+    //         std::vector<Halide::Expr> halide_dim_sizes;
+    //         // Create a vector indicating the size that should be allocated.
+    //         // Tiramisu buffer is defined from outermost to innermost, whereas Halide is from
+    //         // innermost to outermost; thus, we need to reverse the order.
+    //         for (int i = buf->get_dim_sizes().size() - 1; i >= 0; --i)
+    //         {
+    //             const auto sz = buf->get_dim_sizes()[i];
+    //             std::vector<isl_ast_expr *> ie = {};
+    //             halide_dim_sizes.push_back(generator::halide_expr_from_tiramisu_expr(this, ie, sz));
+    //         }
+    //         stmt = generator::make_buffer_alloc(buf, halide_dim_sizes, stmt);
+    //         buf->mark_as_allocated();
+    //     }
+    // }
 
     const auto &invariant_vector = this->get_invariants();
 

@@ -3177,10 +3177,26 @@ void generate_function(std::string name)
     computation copy_snk_psi_B1_r_host_to_device({}, memcpy(buf_snk_psi_B1_r_cpu, buf_snk_psi_B1_r_gpu));
     computation copy_snk_psi_B1_i_host_to_device({}, memcpy(buf_snk_psi_B1_i_cpu, buf_snk_psi_B1_i_gpu));
     computation copy_snk_psi_B2_r_host_to_device({}, memcpy(buf_snk_psi_B2_r_cpu, buf_snk_psi_B2_r_gpu));
-    computation copy_snk_psi_B2_i_host_to_device({}, memcpy(buf_snk_psi_B2_i_cpu, buf_snk_psi_B2_i_gpu));
-    
-    computation copy_hex_src_psi_r_host_to_device( {}, memcpy( buf_hex_src_psi_r_cpu,  buf_hex_src_psi_r_gpu ) );
-    computation copy_hex_src_psi_i_host_to_device( {}, memcpy( buf_hex_src_psi_i_cpu,  buf_hex_src_psi_i_gpu ) );
+    computation copy_snk_psi_B2_i_host_to_device({}, memcpy(buf_snk_psi_B2_i_cpu, buf_snk_psi_B2_i_gpu));    
+    computation copy_hex_src_psi_r_host_to_device({}, memcpy(buf_hex_src_psi_r_cpu, buf_hex_src_psi_r_gpu ) );
+    computation copy_hex_src_psi_i_host_to_device({}, memcpy(buf_hex_src_psi_i_cpu, buf_hex_src_psi_i_gpu ) );
+
+    computation alloc_buf_C_r = *buf_C_r.allocate_at( copy_buf_C_r_host_to_device, computation::root );
+    computation alloc_buf_C_i = *buf_C_i.allocate_at( copy_buf_C_r_host_to_device, computation::root );
+    computation alloc_buf_B1_prop_r_gpu = *buf_B1_prop_r_gpu.allocate_at( copy_buf_C_r_host_to_device, computation::root );
+    computation alloc_buf_B1_prop_i_gpu = *buf_B1_prop_i_gpu.allocate_at( copy_buf_C_r_host_to_device, computation::root );
+    computation alloc_buf_B2_prop_r_gpu = *buf_B2_prop_r_gpu.allocate_at( copy_buf_C_r_host_to_device, computation::root );
+    computation alloc_buf_B2_prop_i_gpu = *buf_B2_prop_i_gpu.allocate_at( copy_buf_C_r_host_to_device, computation::root );
+    computation alloc_buf_src_psi_B1_r_gpu = *buf_src_psi_B1_r_gpu.allocate_at( copy_buf_C_r_host_to_device, computation::root );
+    computation alloc_buf_src_psi_B1_i_gpu = *buf_src_psi_B1_i_gpu.allocate_at( copy_buf_C_r_host_to_device, computation::root );
+    computation alloc_buf_src_psi_B2_r_gpu = *buf_src_psi_B2_r_gpu.allocate_at( copy_buf_C_r_host_to_device, computation::root );
+    computation alloc_buf_src_psi_B2_i_gpu = *buf_src_psi_B2_i_gpu.allocate_at( copy_buf_C_r_host_to_device, computation::root );
+    computation alloc_buf_snk_psi_B1_r_gpu = *buf_snk_psi_B1_r_gpu.allocate_at( copy_buf_C_r_host_to_device, computation::root );
+    computation alloc_buf_snk_psi_B1_i_gpu = *buf_snk_psi_B1_i_gpu.allocate_at( copy_buf_C_r_host_to_device, computation::root );
+    computation alloc_buf_snk_psi_B2_r_gpu = *buf_snk_psi_B2_r_gpu.allocate_at( copy_buf_C_r_host_to_device, computation::root );
+    computation alloc_buf_snk_psi_B2_i_gpu = *buf_snk_psi_B2_i_gpu.allocate_at( copy_buf_C_r_host_to_device, computation::root );
+    computation alloc_buf_hex_src_psi_r_gpu = *buf_hex_src_psi_r_gpu.allocate_at( copy_buf_C_r_host_to_device, computation::root );
+    computation alloc_buf_hex_src_psi_i_gpu = *buf_hex_src_psi_i_gpu.allocate_at( copy_buf_C_r_host_to_device, computation::root );
 
     computation copy_src_spins_host_to_device({}, memcpy(buf_src_spins_cpu, buf_src_spins_gpu));
     computation copy_sigs_host_to_device({}, memcpy(buf_sigs_cpu, buf_sigs_gpu));
@@ -3237,7 +3253,24 @@ void generate_function(std::string name)
     computation copy_buf_C_BB_r_device_to_host({}, memcpy(buf_C_BB_r, buf_C_BB_r_cpu));
     computation copy_buf_C_BB_i_device_to_host({}, memcpy(buf_C_BB_i, buf_C_BB_i_cpu));
     
-    computation* handle = &(copy_buf_C_r_host_to_device
+    computation* handle;
+    handle = &alloc_buf_C_r.then( alloc_buf_C_i, compuation::root )
+                .then( alloc_buf_B1_prop_r_gpu, computation::root )
+                .then( alloc_buf_B1_prop_i_gpu, computation::root )
+                .then( alloc_buf_B2_prop_r_gpu, computation::root )
+                .then( alloc_buf_B2_prop_i_gpu, computation::root )
+                .then( alloc_buf_src_psi_B1_r_gpu, computation::root )
+                .then( alloc_buf_src_psi_B1_i_gpu, computation::root )
+                .then( alloc_buf_src_psi_B2_r_gpu, computation::root )
+                .then( alloc_buf_src_psi_B2_i_gpu, computation::root )
+                .then( alloc_buf_snk_psi_B1_r_gpu, computation::root )
+                .then( alloc_buf_snk_psi_B1_i_gpu, computation::root )
+                .then( alloc_buf_snk_psi_B2_r_gpu, computation::root )
+                .then( alloc_buf_snk_psi_B2_i_gpu, computation::root )
+                .then( alloc_buf_hex_src_psi_r_gpu, computation::root )
+                .then( alloc_buf_hex_src_psi_i_gpu, computation::root );
+
+    handle = &(handle->then( copy_buf_C_r_host_to_device, computation::root )
         .then(copy_buf_C_i_host_to_device, computation::root)
         .then(copy_B1_prop_r_host_to_device, computation::root)
         .then(copy_B1_prop_i_host_to_device, computation::root)
