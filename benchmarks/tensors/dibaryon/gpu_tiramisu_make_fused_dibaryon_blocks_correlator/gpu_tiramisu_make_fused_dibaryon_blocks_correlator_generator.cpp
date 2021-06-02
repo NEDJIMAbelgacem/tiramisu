@@ -3302,8 +3302,7 @@ void generate_function(std::string name)
         .then(copy_hex_snk_spin_weights_host_to_device, computation::root)
         .then(copy_hex_snk_weights_host_to_device, computation::root)
         .then(copy_src_spin_block_weights_host_to_device, computation::root)
-        .then(copy_snk_b_host_to_device, computation::root)
-        );
+        .then(copy_snk_b_host_to_device, computation::root);
 
     handle = &(handle->then( C_init_r, computation::root ).then( C_init_i, npnH ));
 
