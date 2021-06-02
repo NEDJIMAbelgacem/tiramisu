@@ -3254,7 +3254,7 @@ void generate_function(std::string name)
     computation copy_buf_C_BB_i_device_to_host({}, memcpy(buf_C_BB_i, buf_C_BB_i_cpu));
     
     computation* handle;
-    handle = &alloc_buf_C_r.then( alloc_buf_C_i, compuation::root )
+    handle = &alloc_buf_C_r.then( alloc_buf_C_i, computation::root )
                 .then( alloc_buf_B1_prop_r_gpu, computation::root )
                 .then( alloc_buf_B1_prop_i_gpu, computation::root )
                 .then( alloc_buf_B2_prop_r_gpu, computation::root )
