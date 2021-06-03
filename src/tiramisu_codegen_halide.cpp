@@ -2572,7 +2572,7 @@ void function::gen_halide_stmt()
     {
         tiramisu::buffer *buf = b.second;
         // Allocate only arrays that are not passed to the function as arguments.
-        if (buf->get_argument_type() == tiramisu::a_temporary && buf->get_auto_allocate() == true && !buf->is_allocated())
+        if ( allocated_buffers.find( buf->get_name() ) == allocated_buffers.end() ) //(buf->get_argument_type() == tiramisu::a_temporary && buf->get_auto_allocate() == true && !buf->is_allocated())
         {
             std::cout << "ALLOCATING ON TOP " << buf->get_name() << "\n";
             std::vector<Halide::Expr> halide_dim_sizes;
