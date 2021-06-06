@@ -56,9 +56,9 @@ Module lower_halide_pipeline(const string &pipeline_name,
     // This uniquifies the variable names, so we're good to simplify
     // after this point. This lets later passes assume syntactic
     // equivalence means semantic equivalence.
-    DEBUG(3, tiramisu::str_dump("Uniquifying variable names...\n"));
-    s = uniquify_variable_names(s);
-    DEBUG(4, tiramisu::str_dump(stmt_to_string("Lowering after uniquifying variable names:\n", s)));
+    // DEBUG(3, tiramisu::str_dump("Uniquifying variable names...\n"));
+    // s = uniquify_variable_names(s);
+    // DEBUG(4, tiramisu::str_dump(stmt_to_string("Lowering after uniquifying variable names:\n", s)));
 
     DEBUG(3, tiramisu::str_dump("Simplifying...\n")); // without removing dead lets, because storage flattening needs the strides
     s = simplify(s, false);
