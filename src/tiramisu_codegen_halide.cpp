@@ -1945,24 +1945,24 @@ tiramisu::generator::halide_stmt_from_isl_node(const tiramisu::function &fct, is
 
                             buf->mark_as_allocated();
 
-                            for (const auto &l_stmt : comp->get_associated_let_stmts())
-                            {
-                                DEBUG(3, tiramisu::str_dump("Generating the following let statement."));
-                                DEBUG(3, tiramisu::str_dump("Name : " + l_stmt.first));
-                                DEBUG(3, tiramisu::str_dump("Expression of the let statement: "));
+                            // for (const auto &l_stmt : comp->get_associated_let_stmts())
+                            // {
+                            //     DEBUG(3, tiramisu::str_dump("Generating the following let statement."));
+                            //     DEBUG(3, tiramisu::str_dump("Name : " + l_stmt.first));
+                            //     DEBUG(3, tiramisu::str_dump("Expression of the let statement: "));
 
-                                l_stmt.second.dump(false);
+                            //     l_stmt.second.dump(false);
 
-                                std::vector<isl_ast_expr *> ie = {}; // Dummy variable.
-                                tiramisu::expr tiramisu_let = replace_original_indices_with_transformed_indices(l_stmt.second, comp->get_iterators_map());
-                                Halide::Expr let_expr = halide_expr_from_tiramisu_expr(comp->get_function(), ie, tiramisu_let, comp);
-                                block = Halide::Internal::LetStmt::make(
-                                        l_stmt.first,
-                                        let_expr,
-                                        block);
-                                DEBUG(10, tiramisu::str_dump("Generated let stmt:"));
-                                DEBUG_NO_NEWLINE(10, std::cout << block);
-                            }
+                            //     std::vector<isl_ast_expr *> ie = {}; // Dummy variable.
+                            //     tiramisu::expr tiramisu_let = replace_original_indices_with_transformed_indices(l_stmt.second, comp->get_iterators_map());
+                            //     Halide::Expr let_expr = halide_expr_from_tiramisu_expr(comp->get_function(), ie, tiramisu_let, comp);
+                            //     block = Halide::Internal::LetStmt::make(
+                            //             l_stmt.first,
+                            //             let_expr,
+                            //             block);
+                            //     DEBUG(10, tiramisu::str_dump("Generated let stmt:"));
+                            //     DEBUG_NO_NEWLINE(10, std::cout << block);
+                            // }
                         }
                     }
                     allocate_stmts_vector.clear();
@@ -2416,25 +2416,25 @@ tiramisu::generator::halide_stmt_from_isl_node(const tiramisu::function &fct, is
             result = comp->get_generated_halide_stmt();
 
 
-            for (const auto &l_stmt : comp->get_associated_let_stmts())
-            {
-                DEBUG(3, tiramisu::str_dump("Generating the following let statement."));
-                DEBUG(3, tiramisu::str_dump("Name : " + l_stmt.first));
-                DEBUG(3, tiramisu::str_dump("Expression of the let statement: "));
+            // for (const auto &l_stmt : comp->get_associated_let_stmts())
+            // {
+            //     DEBUG(3, tiramisu::str_dump("Generating the following let statement."));
+            //     DEBUG(3, tiramisu::str_dump("Name : " + l_stmt.first));
+            //     DEBUG(3, tiramisu::str_dump("Expression of the let statement: "));
 
-                l_stmt.second.dump(false);
+            //     l_stmt.second.dump(false);
 
-                std::vector<isl_ast_expr *> ie = {}; // Dummy variable.
-                tiramisu::expr tiramisu_let = replace_original_indices_with_transformed_indices(l_stmt.second, comp->get_iterators_map());
-                Halide::Expr let_expr = halide_expr_from_tiramisu_expr(comp->get_function(), ie, tiramisu_let, comp);
-                result = Halide::Internal::LetStmt::make(
-                        l_stmt.first,
-                        let_expr,
-                        result);
+            //     std::vector<isl_ast_expr *> ie = {}; // Dummy variable.
+            //     tiramisu::expr tiramisu_let = replace_original_indices_with_transformed_indices(l_stmt.second, comp->get_iterators_map());
+            //     Halide::Expr let_expr = halide_expr_from_tiramisu_expr(comp->get_function(), ie, tiramisu_let, comp);
+            //     result = Halide::Internal::LetStmt::make(
+            //             l_stmt.first,
+            //             let_expr,
+            //             result);
 
-                DEBUG(10, tiramisu::str_dump("Generated let stmt:"));
-                DEBUG_NO_NEWLINE(10, std::cout << result);
-            }
+            //     DEBUG(10, tiramisu::str_dump("Generated let stmt:"));
+            //     DEBUG_NO_NEWLINE(10, std::cout << result);
+            // }
 
             if (comp->get_predicate().is_defined())
             {
@@ -2471,7 +2471,7 @@ tiramisu::generator::halide_stmt_from_isl_node(const tiramisu::function &fct, is
             if (get_computation_annotated_in_a_node(if_stmt)->get_expr().get_op_type() == tiramisu::o_allocate)
             {
                 DEBUG(3, tiramisu::str_dump("Adding a computation to vector of allocate stmts (for later construction)"));
-                allocate_stmts_vector.push_back(comp);
+                // allocate_stmts_vector.push_back(comp);
             }
         }
         else
@@ -2497,7 +2497,7 @@ tiramisu::generator::halide_stmt_from_isl_node(const tiramisu::function &fct, is
                     if (get_computation_annotated_in_a_node(else_stmt)->get_expr().get_op_type() == tiramisu::o_allocate)
                     {
                         DEBUG(3, tiramisu::str_dump("Adding a computation to vector of allocate stmts (for later construction)"));
-                        allocate_stmts_vector.push_back(comp);
+                        // allocate_stmts_vector.push_back(comp);
                     }
                 }
                 else
