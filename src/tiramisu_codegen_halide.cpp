@@ -1944,7 +1944,7 @@ tiramisu::generator::halide_stmt_from_isl_node(const tiramisu::function &fct, is
                             if ( buf->is_allocated() )
                                 continue;
                             std::cout << "ALLOCATING " << buf->get_name() << "\n";
-                            block = make_buffer_alloc(buf, halide_dim_sizes, block);
+                            // block = make_buffer_alloc(buf, halide_dim_sizes, block);
 
                             buf->mark_as_allocated();
 
