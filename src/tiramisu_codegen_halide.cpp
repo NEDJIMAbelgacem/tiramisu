@@ -1944,7 +1944,7 @@ tiramisu::generator::halide_stmt_from_isl_node(const tiramisu::function &fct, is
                             if ( buf->is_allocated() )
                                 continue;
                             std::cout << "ALLOCATING " << buf->get_name() << "\n";
-                            // block = make_buffer_alloc(buf, halide_dim_sizes, block);
+                            block = make_buffer_alloc(buf, halide_dim_sizes, block);
 
                             buf->mark_as_allocated();
 
@@ -1969,7 +1969,7 @@ tiramisu::generator::halide_stmt_from_isl_node(const tiramisu::function &fct, is
                         }
                     }
                     allocate_stmts_vector.clear();
-                    result = block;
+                    // result = block;
                 }
                 if (result.defined())
                 {
@@ -2284,32 +2284,32 @@ tiramisu::generator::halide_stmt_from_isl_node(const tiramisu::function &fct, is
                         DEBUG(3, tiramisu::str_dump("Trying to unroll at level ");
                                 tiramisu::str_dump(std::to_string(level)));
 
-			int unrolling_factor = fct.get_unrolling_factor(tagged_stmts[tt].first, level);
+			            int unrolling_factor = fct.get_unrolling_factor(tagged_stmts[tt].first, level);
 
-			// Check if the user provided an unrolling factor. If
-			// unrolling_factor is 0 then the user did not provide
-			// a facor, thus we have to use the loop extent as
-			// factor (which should work in most cases but not
-			// always). If the user provided a factor, we use it.
-			if (unrolling_factor != 0)
-			{
-			    cond_upper_bound_halide_format = Halide::Expr(unrolling_factor);
-			    fortype = Halide::Internal::ForType::Unrolled;
-			    DEBUG(3, tiramisu::str_dump("Loop unrolled"));
-			}
-			else
-			{
-			    const Halide::Internal::IntImm *extent =
-				    cond_upper_bound_halide_format.as<Halide::Internal::IntImm>();
-			    if (extent) {
-				fortype = Halide::Internal::ForType::Unrolled;
-				DEBUG(3, tiramisu::str_dump("Loop unrolled"));
-			    } else {
-				DEBUG(3, tiramisu::str_dump("Loop not unrolled (extent is non constant)"));
-				DEBUG(3, std::cout << cond_upper_bound_halide_format << std::endl);
-				DEBUG(3, tiramisu::str_dump("Please pass the unrolling factor to the unrolling command."));
-			    }
-			}
+                        // Check if the user provided an unrolling factor. If
+                        // unrolling_factor is 0 then the user did not provide
+                        // a facor, thus we have to use the loop extent as
+                        // factor (which should work in most cases but not
+                        // always). If the user provided a factor, we use it.
+                        if (unrolling_factor != 0)
+                        {
+                            cond_upper_bound_halide_format = Halide::Expr(unrolling_factor);
+                            fortype = Halide::Internal::ForType::Unrolled;
+                            DEBUG(3, tiramisu::str_dump("Loop unrolled"));
+                        }
+                        else
+                        {
+                            const Halide::Internal::IntImm *extent =
+                                cond_upper_bound_halide_format.as<Halide::Internal::IntImm>();
+                            if (extent) {
+                            fortype = Halide::Internal::ForType::Unrolled;
+                            DEBUG(3, tiramisu::str_dump("Loop unrolled"));
+                            } else {
+                            DEBUG(3, tiramisu::str_dump("Loop not unrolled (extent is non constant)"));
+                            DEBUG(3, std::cout << cond_upper_bound_halide_format << std::endl);
+                            DEBUG(3, tiramisu::str_dump("Please pass the unrolling factor to the unrolling command."));
+                            }
+                        }
 
                         // Since this statement is treated, remove it from the list of
                         // tagged statements so that it does not get treated again later.
@@ -2408,7 +2408,7 @@ tiramisu::generator::halide_stmt_from_isl_node(const tiramisu::function &fct, is
 
                 DEBUG(10, tiramisu::str_dump("The full list of tagged statements is now"));
                 for (const auto &ts: tagged_stmts)
-                DEBUG(10, tiramisu::str_dump(ts.first + " with tag " + ts.second));
+                    DEBUG(10, tiramisu::str_dump(ts.first + " with tag " + ts.second));
             }
 
             // Retrieve the computation of the node.
