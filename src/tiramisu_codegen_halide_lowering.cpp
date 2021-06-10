@@ -56,9 +56,9 @@ Module lower_halide_pipeline(const string &pipeline_name,
     // This uniquifies the variable names, so we're good to simplify
     // after this point. This lets later passes assume syntactic
     // equivalence means semantic equivalence.
-    // DEBUG(3, tiramisu::str_dump("Uniquifying variable names...\n"));
-    // s = uniquify_variable_names(s);
-    // DEBUG(4, tiramisu::str_dump(stmt_to_string("Lowering after uniquifying variable names:\n", s)));
+    DEBUG(3, tiramisu::str_dump("Uniquifying variable names...\n"));
+    s = uniquify_variable_names(s);
+    DEBUG(4, tiramisu::str_dump(stmt_to_string("Lowering after uniquifying variable names:\n", s)));
 
     DEBUG(3, tiramisu::str_dump("Simplifying...\n")); // without removing dead lets, because storage flattening needs the strides
     s = simplify(s, false);
@@ -117,11 +117,11 @@ Module lower_halide_pipeline(const string &pipeline_name,
                   stmt_to_string("Lowering after injecting per-block gpu synchronization:\n", s)));
     }
 
-    // DEBUG(3, tiramisu::str_dump("Simplifying...\n"));
-    // s = simplify(s);
-    // s = unify_duplicate_lets(s);
-    // s = remove_trivial_for_loops(s);
-    // DEBUG(4, tiramisu::str_dump(stmt_to_string("Lowering after second simplifcation:\n", s)));
+    DEBUG(3, tiramisu::str_dump("Simplifying...\n"));
+    s = simplify(s);
+    s = unify_duplicate_lets(s);
+    s = remove_trivial_for_loops(s);
+    DEBUG(4, tiramisu::str_dump(stmt_to_string("Lowering after second simplifcation:\n", s)));
 
     if (PRINT_HALIDE_IR_AFTER_CODEGEN)
     {
@@ -136,22 +136,22 @@ Module lower_halide_pipeline(const string &pipeline_name,
 
     DEBUG(3, tiramisu::str_dump("Unrolling...\n"));
     s = unroll_loops(s);
-    // s = simplify(s);
+    s = simplify(s);
     DEBUG(4, tiramisu::str_dump(stmt_to_string("Lowering after unrolling:\n", s)));
 
     DEBUG(3, tiramisu::str_dump("Vectorizing...\n"));
     s = vectorize_loops(s, t);
-    // s = simplify(s);
+    s = simplify(s);
     DEBUG(4, tiramisu::str_dump(stmt_to_string("Lowering after vectorizing:\n", s)));
 
     DEBUG(3, tiramisu::str_dump("Detecting vector interleavings...\n"));
     s = rewrite_interleavings(s);
-    // s = simplify(s);
+    s = simplify(s);
     DEBUG(4, tiramisu::str_dump(stmt_to_string("Lowering after rewriting vector interleavings:\n", s)));
 
     DEBUG(3, tiramisu::str_dump("Partitioning loops to simplify boundary conditions...\n"));
     s = partition_loops(s);
-    // s = simplify(s);
+    s = simplify(s);
     DEBUG(4, tiramisu::str_dump(stmt_to_string("Lowering after partitioning loops:\n", s)));
 
     //DEBUG(3, tiramisu::str_dump("Trimming loops to the region over which they do something...\n"));
@@ -185,8 +185,8 @@ Module lower_halide_pipeline(const string &pipeline_name,
 
     s = remove_dead_allocations(s);
     s = remove_trivial_for_loops(s);
-    // s = simplify(s);
-    // s = loop_invariant_code_motion(s);
+    s = simplify(s);
+    s = loop_invariant_code_motion(s);
     if (ENABLE_DEBUG)
     {
         std::cout << "Lowering after final simplification:\n" << s << "\n";
