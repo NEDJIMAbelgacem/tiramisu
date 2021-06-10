@@ -136,22 +136,22 @@ Module lower_halide_pipeline(const string &pipeline_name,
 
     DEBUG(3, tiramisu::str_dump("Unrolling...\n"));
     s = unroll_loops(s);
-    s = simplify(s);
+    // s = simplify(s);
     DEBUG(4, tiramisu::str_dump(stmt_to_string("Lowering after unrolling:\n", s)));
 
     DEBUG(3, tiramisu::str_dump("Vectorizing...\n"));
     s = vectorize_loops(s, t);
-    s = simplify(s);
+    // s = simplify(s);
     DEBUG(4, tiramisu::str_dump(stmt_to_string("Lowering after vectorizing:\n", s)));
 
     DEBUG(3, tiramisu::str_dump("Detecting vector interleavings...\n"));
     s = rewrite_interleavings(s);
-    s = simplify(s);
+    // s = simplify(s);
     DEBUG(4, tiramisu::str_dump(stmt_to_string("Lowering after rewriting vector interleavings:\n", s)));
 
     DEBUG(3, tiramisu::str_dump("Partitioning loops to simplify boundary conditions...\n"));
     s = partition_loops(s);
-    s = simplify(s);
+    // s = simplify(s);
     DEBUG(4, tiramisu::str_dump(stmt_to_string("Lowering after partitioning loops:\n", s)));
 
     //DEBUG(3, tiramisu::str_dump("Trimming loops to the region over which they do something...\n"));
