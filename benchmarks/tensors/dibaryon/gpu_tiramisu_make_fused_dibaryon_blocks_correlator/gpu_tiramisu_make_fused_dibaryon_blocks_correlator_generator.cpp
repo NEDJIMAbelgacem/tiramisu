@@ -3277,7 +3277,7 @@ void generate_function(std::string name)
     // BB_BB
 // kernel_1
     handle = &(handle
-          ->then(C_BB_init_r, third_B1_r2_props)
+          ->then(C_BB_init_r, computation::root)
           .then(C_BB_init_i, n)
         //   .then( *allocate_buf_B1_Blocal_r1_r, t )
         //   .then( *allocate_buf_B1_Blocal_r1_i, t )
