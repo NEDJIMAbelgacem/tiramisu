@@ -3277,7 +3277,7 @@ void generate_function(std::string name)
     // BB_BB
 // kernel_1
     handle = &(handle
-          ->then(C_BB_init_r, computation::root)
+          ->then(C_BB_init_r, third_B1_r2_props)
           .then(C_BB_init_i, n)
         //   .then( *allocate_buf_B1_Blocal_r1_r, t )
         //   .then( *allocate_buf_B1_Blocal_r1_i, t )
@@ -3288,7 +3288,7 @@ void generate_function(std::string name)
         //   .then( *allocate_buf_B1_Bthird_r1_r, t )
         //   .then( *allocate_buf_B1_Bthird_r1_i, t )
 // kernel_2
-          .then(B1_Blocal_r1_r_init, computation::root) // t, x1, x2, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m
+          .then(B1_Blocal_r1_r_init, t) // t, x1, x2, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m
           .then(B1_Blocal_r1_i_init, m) 
           .then(B1_Bfirst_r1_r_init, m)
           .then(B1_Bfirst_r1_i_init, m)
@@ -3305,7 +3305,7 @@ void generate_function(std::string name)
         //   .then( *allocate_buf_flip_B1_Bsecond_r1_i, t)
         //   .then( *allocate_buf_flip_B1_Bthird_r1_r, t)
         //   .then( *allocate_buf_flip_B1_Bthird_r1_i, t)
-          .then(flip_B1_Blocal_r1_r_init, computation::root)
+          .then(flip_B1_Blocal_r1_r_init, t)
           .then(flip_B1_Blocal_r1_i_init, m)
           .then(flip_B1_Bfirst_r1_r_init, m)
           .then(flip_B1_Bfirst_r1_i_init, m)
@@ -3322,7 +3322,7 @@ void generate_function(std::string name)
         //   .then( *allocate_buf_B1_Bsecond_props_r1_i, t)
         //   .then( *allocate_buf_B1_Bthird_props_r1_r, t)
         //   .then( *allocate_buf_B1_Bthird_props_r1_i, t)
-          .then(B1_Blocal_r1_r_props_init, computation::root ) // t, x1, x2, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime
+          .then(B1_Blocal_r1_r_props_init, t ) // t, x1, x2, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime
           .then(B1_Blocal_r1_i_props_init, jSprime)
           .then(B1_Bfirst_r1_r_props_init, jSprime)
           .then(B1_Bfirst_r1_i_props_init, jSprime)
@@ -3348,7 +3348,7 @@ void generate_function(std::string name)
           .then(B1_Bthird_r1_i_props, jSprime)
 // this should be a new kernel
 // kernel_5
-          .then(B1_Blocal_r1_r_update, computation::root ) // t, x1, x2, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime, m
+          .then(B1_Blocal_r1_r_update, t ) // t, x1, x2, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime, m
           .then(B1_Blocal_r1_i_update, m)
           .then(B1_Bfirst_r1_r_update, m)
           .then(B1_Bfirst_r1_i_update, m)
@@ -3357,7 +3357,7 @@ void generate_function(std::string name)
           .then(B1_Bthird_r1_r_update, m)
           .then(B1_Bthird_r1_i_update, m)
 // kernel_6
-          .then(flip_B1_Blocal_r1_r_update, computation::root )
+          .then(flip_B1_Blocal_r1_r_update, t )
           .then(flip_B1_Blocal_r1_i_update, m)
           .then(flip_B1_Bfirst_r1_r_update, m)
           .then(flip_B1_Bfirst_r1_i_update, m)
@@ -3383,7 +3383,7 @@ void generate_function(std::string name)
         //   .then( *allocate_buf_B1_Bsecond_r2_i, t)
         //   .then( *allocate_buf_B1_Bthird_r2_r, t)
         //   .then( *allocate_buf_B1_Bthird_r2_i, t)
-          .then(B1_Blocal_r2_r_init, computation::root ) // t, x1, x2, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m
+          .then(B1_Blocal_r2_r_init, t ) // t, x1, x2, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m
           .then(B1_Blocal_r2_i_init, m)
           .then(B1_Bfirst_r2_r_init, m)
           .then(B1_Bfirst_r2_i_init, m)
@@ -3400,7 +3400,7 @@ void generate_function(std::string name)
         //   .then( *allocate_buf_flip_B1_Bsecond_r2_i, t )
         //   .then( *allocate_buf_flip_B1_Bthird_r2_r, t )
         //   .then( *allocate_buf_flip_B1_Bthird_r2_i, t )
-          .then(flip_B1_Blocal_r2_r_init, computation::root)
+          .then(flip_B1_Blocal_r2_r_init, t )
           .then(flip_B1_Blocal_r2_i_init, m)
           .then(flip_B1_Bfirst_r2_r_init, m)
           .then(flip_B1_Bfirst_r2_i_init, m)
@@ -3417,7 +3417,7 @@ void generate_function(std::string name)
         //   .then( *allocate_buf_B1_Bsecond_props_r2_i, t )
         //   .then( *allocate_buf_B1_Bthird_props_r2_r, t )
         //   .then( *allocate_buf_B1_Bthird_props_r2_i, t )
-          .then(B1_Blocal_r2_r_props_init, computation::root) // t, x1, x2, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime
+          .then(B1_Blocal_r2_r_props_init, t ) // t, x1, x2, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime
           .then(B1_Blocal_r2_i_props_init, jSprime)
           .then(B1_Bfirst_r2_r_props_init, jSprime)
           .then(B1_Bfirst_r2_i_props_init, jSprime)
@@ -3442,7 +3442,7 @@ void generate_function(std::string name)
           .then(B1_Bthird_r2_r_props, jSprime)
           .then(B1_Bthird_r2_i_props, jSprime)
 // kernel_10:
-          .then(B1_Blocal_r2_r_update, computation::root ) // t, x1, x2, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime, m
+          .then(B1_Blocal_r2_r_update, t ) // t, x1, x2, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime, m
           .then(B1_Blocal_r2_i_update, m)
           .then(B1_Bfirst_r2_r_update, m)
           .then(B1_Bfirst_r2_i_update, m)
@@ -3451,7 +3451,7 @@ void generate_function(std::string name)
           .then(B1_Bthird_r2_r_update, m)
           .then(B1_Bthird_r2_i_update, m)
 // kernel_11:
-          .then(flip_B1_Blocal_r2_r_update, computation::root )
+          .then(flip_B1_Blocal_r2_r_update, t )
           .then(flip_B1_Blocal_r2_i_update, m)
           .then(flip_B1_Bfirst_r2_r_update, m)
           .then(flip_B1_Bfirst_r2_i_update, m)
@@ -3477,7 +3477,7 @@ void generate_function(std::string name)
         //   .then( *allocate_buf_B2_Bsecond_r1_i, t )
         //   .then( *allocate_buf_B2_Bthird_r1_r, t )
         //   .then( *allocate_buf_B2_Bthird_r1_i, t )
-          .then(B2_Blocal_r1_r_init, computation::root) // t, x1, x2, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m
+          .then(B2_Blocal_r1_r_init, t ) // t, x1, x2, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m
           .then(B2_Blocal_r1_i_init, m)
           .then(B2_Bfirst_r1_r_init, m)
           .then(B2_Bfirst_r1_i_init, m)
@@ -3494,7 +3494,7 @@ void generate_function(std::string name)
         //   .then( *allocate_buf_flip_B2_Bsecond_r1_i, t )
         //   .then( *allocate_buf_flip_B2_Bthird_r1_r, t )
         //   .then( *allocate_buf_flip_B2_Bthird_r1_i, t )
-          .then(flip_B2_Blocal_r1_r_init, computation::root )
+          .then(flip_B2_Blocal_r1_r_init, t )
           .then(flip_B2_Blocal_r1_i_init, m)
           .then(flip_B2_Bfirst_r1_r_init, m)
           .then(flip_B2_Bfirst_r1_i_init, m)
@@ -3511,7 +3511,7 @@ void generate_function(std::string name)
         //   .then( *allocate_buf_B2_Bsecond_props_r1_i, t )
         //   .then( *allocate_buf_B2_Bthird_props_r1_r, t )
         //   .then( *allocate_buf_B2_Bthird_props_r1_i, t )
-          .then(B2_Blocal_r1_r_props_init, computation::root ) // t, x1, x2, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime
+          .then(B2_Blocal_r1_r_props_init, t ) // t, x1, x2, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime
           .then(B2_Blocal_r1_i_props_init, jSprime)
           .then(B2_Bfirst_r1_r_props_init, jSprime)
           .then(B2_Bfirst_r1_i_props_init, jSprime)
@@ -3536,7 +3536,7 @@ void generate_function(std::string name)
           .then(B2_Bthird_r1_r_props, jSprime)
           .then(B2_Bthird_r1_i_props, jSprime)
 // kernel_15:
-          .then(B2_Blocal_r1_r_update, computation::root ) // t, x1, x2, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime, m
+          .then(B2_Blocal_r1_r_update, t ) // t, x1, x2, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime, m
           .then(B2_Blocal_r1_i_update, m)
           .then(B2_Bfirst_r1_r_update, m)
           .then(B2_Bfirst_r1_i_update, m)
@@ -3545,7 +3545,7 @@ void generate_function(std::string name)
           .then(B2_Bthird_r1_r_update, m)
           .then(B2_Bthird_r1_i_update, m)
 // kernel_16:
-          .then(flip_B2_Blocal_r1_r_update, computation::root )
+          .then(flip_B2_Blocal_r1_r_update, t )
           .then(flip_B2_Blocal_r1_i_update, m)
           .then(flip_B2_Bfirst_r1_r_update, m)
           .then(flip_B2_Bfirst_r1_i_update, m)
@@ -3571,7 +3571,7 @@ void generate_function(std::string name)
         //   .then( *allocate_buf_B2_Bsecond_r2_i, t )
         //   .then( *allocate_buf_B2_Bthird_r2_r, t )
         //   .then( *allocate_buf_B2_Bthird_r2_i, t )
-          .then(B2_Blocal_r2_r_init, computation::root ) // t, x1, x2, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m
+          .then(B2_Blocal_r2_r_init, t ) // t, x1, x2, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m
           .then(B2_Blocal_r2_i_init, m)
           .then(B2_Bfirst_r2_r_init, m)
           .then(B2_Bfirst_r2_i_init, m)
@@ -3588,7 +3588,7 @@ void generate_function(std::string name)
         //   .then( *allocate_buf_flip_B2_Bsecond_r2_i, t )
         //   .then( *allocate_buf_flip_B2_Bthird_r2_r, t )
         //   .then( *allocate_buf_flip_B2_Bthird_r2_i, t )
-          .then(flip_B2_Blocal_r2_r_init, computation::root )
+          .then(flip_B2_Blocal_r2_r_init, t )
           .then(flip_B2_Blocal_r2_i_init, m)
           .then(flip_B2_Bfirst_r2_r_init, m)
           .then(flip_B2_Bfirst_r2_i_init, m)
@@ -3605,7 +3605,7 @@ void generate_function(std::string name)
         //   .then( *allocate_buf_B2_Bsecond_props_r2_i, t )
         //   .then( *allocate_buf_B2_Bthird_props_r2_r, t )
         //   .then( *allocate_buf_B2_Bthird_props_r2_i, t )
-          .then(B2_Blocal_r2_r_props_init, computation::root ) // t, x1, x2, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime
+          .then(B2_Blocal_r2_r_props_init, t ) // t, x1, x2, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime
           .then(B2_Blocal_r2_i_props_init, jSprime)
           .then(B2_Bfirst_r2_r_props_init, jSprime)
           .then(B2_Bfirst_r2_i_props_init, jSprime)
@@ -3630,7 +3630,7 @@ void generate_function(std::string name)
           .then(B2_Bthird_r2_r_props, jSprime)
           .then(B2_Bthird_r2_i_props, jSprime)
 // kernel_20
-          .then(B2_Blocal_r2_r_update, computation::root ) // t, x1, x2, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime, m
+          .then(B2_Blocal_r2_r_update, t ) // t, x1, x2, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime, m
           .then(B2_Blocal_r2_i_update, m)
           .then(B2_Bfirst_r2_r_update, m)
           .then(B2_Bfirst_r2_i_update, m) 
@@ -3647,7 +3647,7 @@ void generate_function(std::string name)
         //   .then( *deallocate_buf_B2_Bthird_r2_r, t ) // 31
         //   .then( *deallocate_buf_B2_Bthird_r2_i, t ) // 32
 // kernel_21
-          .then(flip_B2_Blocal_r2_r_update, computation::root )
+          .then(flip_B2_Blocal_r2_r_update, t )
           .then(flip_B2_Blocal_r2_i_update, m)
           .then(flip_B2_Bfirst_r2_r_update, m)
           .then(flip_B2_Bfirst_r2_i_update, m) 
@@ -3665,10 +3665,10 @@ void generate_function(std::string name)
         //   .then( *deallocate_buf_B2_Bthird_props_r2_i, t ) // 40
 // ------------------------------- 
 // kernel_22:
-          .then(C_BB_BB_prop_init_r, computation::root ) // t, x1, x2, rp, m, r
+          .then(C_BB_BB_prop_init_r, t ) // t, x1, x2, rp, m, r
           .then(C_BB_BB_prop_init_i, r)
 // kernel_23:
-          .then( *(BB_BB_new_term_0_r1_b1.get_real()), computation::root ) // t, x1, x2, rp, m, r, s, nperm, wnum
+          .then( *(BB_BB_new_term_0_r1_b1.get_real()), t ) // t, x1, x2, rp, m, r, s, nperm, wnum
           .then( *(BB_BB_new_term_0_r1_b1.get_imag()), wnum)
           .then( *(BB_BB_new_term_1_r1_b1.get_real()), wnum)
           .then( *(BB_BB_new_term_1_r1_b1.get_imag()), wnum)
@@ -3759,7 +3759,7 @@ void generate_function(std::string name)
         //   .then( *deallocate_buf_B2_Bthird_r1_r, t ) // 63
         //   .then( *deallocate_buf_B2_Bthird_r1_i, t ) // 64
 // kernel_24
-          .then( *(flip_BB_BB_new_term_0_r1_b1.get_real()), computation::root )
+          .then( *(flip_BB_BB_new_term_0_r1_b1.get_real()), t)
           .then( *(flip_BB_BB_new_term_0_r1_b1.get_imag()), wnum)
           .then( *(flip_BB_BB_new_term_1_r1_b1.get_real()), wnum)
           .then( *(flip_BB_BB_new_term_1_r1_b1.get_imag()), wnum)
@@ -3859,7 +3859,7 @@ void generate_function(std::string name)
         //   .then( *deallocate_buf_flip_B2_Bthird_r2_i, t ) // 96
 
 // kernel_25
-          .then(C_BB_BB_update_b_r, computation::root )  // t, x1, x2, rp, m, r, ne
+          .then(C_BB_BB_update_b_r, t )  // t, x1, x2, rp, m, r, ne
           .then(C_BB_BB_update_b_i, ne)
           .then(C_BB_BB_update_s_r, r)  // t, x1, x2, rp, m, r, nue
           .then(C_BB_BB_update_s_i, nue)
