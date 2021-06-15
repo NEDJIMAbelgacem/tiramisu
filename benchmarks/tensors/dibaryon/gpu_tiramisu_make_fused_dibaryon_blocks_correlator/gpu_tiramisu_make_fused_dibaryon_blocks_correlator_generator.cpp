@@ -2617,7 +2617,7 @@ void generate_function(std::string name)
     C_init_i.tag_gpu_level(x_out, x_in);
 
     // BB_BB
-    C_BB_init_r. (x1, x2);
+    C_BB_init_r.tag_gpu_level(x1, x2);
     C_BB_init_i.tag_gpu_level(x1, x2);
     B1_Blocal_r1_r_init.tag_gpu_level(x1, x2);
     B1_Blocal_r1_i_init.tag_gpu_level(x1, x2);
