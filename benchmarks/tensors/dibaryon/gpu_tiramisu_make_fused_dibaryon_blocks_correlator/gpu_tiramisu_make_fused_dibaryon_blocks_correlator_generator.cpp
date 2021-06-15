@@ -3277,7 +3277,7 @@ void generate_function(std::string name)
     // BB_BB
 // kernel_1
     handle = &(handle
-          ->then(C_BB_init_r, computation::root)
+          ->then(C_BB_init_r, t)
           .then(C_BB_init_i, n)
         //   .then( *allocate_buf_B1_Blocal_r1_r, t )
         //   .then( *allocate_buf_B1_Blocal_r1_i, t )
@@ -3867,7 +3867,7 @@ void generate_function(std::string name)
 
     // BB_H
     handle = &(handle
-          ->then(src_B1_Blocal_r1_r_init, computation::root ) // t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m
+          ->then(src_B1_Blocal_r1_r_init, t ) // t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m
           .then(src_B1_Blocal_r1_i_init, jSprime)
           .then(flip_src_B1_Blocal_r1_r_init, jSprime)
           .then(flip_src_B1_Blocal_r1_i_init, jSprime)
