@@ -1725,16 +1725,21 @@ class TiramisuStatement
 {
     bool m_isAllocAt = false;
     buffer *m_b = nullptr;
-    const std::vector<Halide::Expr> m_extent;
+    const std::vector<Halide::Expr> m_extents;
     Halide::Internal::Stmt m_statement; 
 public:
-    TiramisuStatement( buffer *b, const std::vector<Halide::Expr> extent ) : m_isAllocAt( true ), m_b( b ), m_extent( extent ) {  }
+    TiramisuStatement( buffer *b, const std::vector<Halide::Expr> extent ) : m_isAllocAt( true ), m_b( b ), m_extents( extent ) {  }
     TiramisuStatement( Halide::Internal::Stmt s ) : m_isAllocAt( false ), m_statement( s ) {  }
 
     bool is_allocate_at() { return m_isAllocAt; }
-    Halide::Internal::Stmt get_statement() { return m_statement; }
-    buffer *get_buffer() { return m_b; }
-    const std::vector<Halide::Expr> extent() { return m_extent; }
+    Halide::Internal::Stmt statement() { return m_statement; }
+    Halide::Internal::Stmt allocate_at_statement( Halide::Internal::Stmt body )
+    {
+        if ( !m_isAllocAt )
+            return Halide::Internal::Stmt();
+        return make_buffer_alloc( b, m_b, body );
+    }
+
 };
 
 Halide::Internal::Stmt
@@ -1762,7 +1767,7 @@ tiramisu::generator::halide_stmt_from_isl_node(const tiramisu::function &fct, is
         {
             isl_ast_node *child = isl_ast_node_list_get_ast_node(list, i);
 
-            Halide::Internal::Stmt block;
+            // Halide::Internal::Stmt block;
 
             auto op_type = o_none;
 
@@ -1911,7 +1916,6 @@ tiramisu::generator::halide_stmt_from_isl_node(const tiramisu::function &fct, is
             {
                 DEBUG(3, tiramisu::str_dump("Generating block."));
                 // Generate a child block
-                
                 blocks_sequence.push_back( TiramisuStatement( tiramisu::generator::halide_stmt_from_isl_node(fct, child, level, tagged_stmts, true) ) );
             }
             isl_ast_node_free(child);
@@ -1953,45 +1957,19 @@ tiramisu::generator::halide_stmt_from_isl_node(const tiramisu::function &fct, is
             }
             DEBUG(3, std::cout << "Result is now: " << result);
         }
-        if ( !blocks_sequence.empty() )
-        {
-            std::vector<Halide::Internal::Stmt> stmts( blocks_sequence.size(), Halide::Internal::Stmt() );
-            stmts.back() = blocks_sequence.back().get_statement();
 
-            for (int i = blocks_sequence.size() - 2; i >= 0; --i)
+        std::vector<Halide::Internal::Stmt> stmts( blocks_sequence.size(), Halide::Internal::Stmt() );
+        stmts.back() = blocks_sequence.back().statement();
+
+        for (int i = blocks_sequence.size() - 2; i >= 0; --i)
+        {
+            if ( blocks_sequence[i].is_allocate_at() )
             {
-                if ( blocks_sequence[i].is_allocate_at() )
-                {
-                    for (int j = i + 1; j < stmts.size(); ++j)
-                    {
-                        if ( stmts[j].defined() )
-                        {
-                            stmts[i] = generator::make_buffer_alloc( blocks_sequence[i].get_buffer(), blocks_sequence[i].extent(), stmts[ j ] );
-                            break;
-                        }
-                    }
-                    
-                } else 
-                {
-                    for (int j = i + 1; j < stmts.size(); ++j)
-                    {
-                        if ( stmts[j].defined() )
-                        {
-                            stmts[i] = Halide::Internal::Block::make( blocks_sequence[i].get_statement(), stmts[j] );
-                            break;
-                        }
-                    }
-                }
-            }
-            for (int i = 0; i < stmts.size(); ++i)
-            {
-                if ( stmts[i].defined() )
-                {
-                    result = stmts[i];
-                    break;
-                }
+                stmts[i] = blocks_sequence[i].allocate_at_statement( stmts[ i + 1 ] )
             }
         }
+
+        result = Halide::Internal::Block::make( stmts );
 
         /**
          *  Generate all the "allocate" statements (which should be declared on all the block)
