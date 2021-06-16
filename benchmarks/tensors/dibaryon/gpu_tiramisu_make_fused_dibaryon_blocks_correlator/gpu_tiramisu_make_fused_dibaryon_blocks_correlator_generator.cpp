@@ -1357,14 +1357,14 @@ void generate_function(std::string name)
     // Layer III
     // -------------------------------------------------------
 
-    buffer buf_B1_Blocal_r1_r("buf_B1_Blocal_r1_r",   { Vsnk, Nc, Ns, Nc, Ns, Nc, Ns, Nsrc, Vsnk}, p_float64, a_temporary);
-    buffer buf_B1_Blocal_r1_i("buf_B1_Blocal_r1_i",   { Vsnk, Nc, Ns, Nc, Ns, Nc, Ns, Nsrc, Vsnk}, p_float64, a_temporary);
-    buffer buf_B1_Bfirst_r1_r("buf_B1_Bfirst_r1_r",   { Vsnk, Nc, Ns, Nc, Ns, Nc, Ns, Nsrc, Vsnk}, p_float64, a_temporary);
-    buffer buf_B1_Bfirst_r1_i("buf_B1_Bfirst_r1_i",   { Vsnk, Nc, Ns, Nc, Ns, Nc, Ns, Nsrc, Vsnk}, p_float64, a_temporary);
-    buffer buf_B1_Bsecond_r1_r("buf_B1_Bsecond_r1_r",   { Vsnk, Nc, Ns, Nc, Ns, Nc, Ns, Nsrc, Vsnk}, p_float64, a_temporary);
-    buffer buf_B1_Bsecond_r1_i("buf_B1_Bsecond_r1_i",   { Vsnk, Nc, Ns, Nc, Ns, Nc, Ns, Nsrc, Vsnk}, p_float64, a_temporary);
-    buffer buf_B1_Bthird_r1_r("buf_B1_Bthird_r1_r",   { Vsnk, Nc, Ns, Nc, Ns, Nc, Ns, Nsrc, Vsnk}, p_float64, a_temporary);
-    buffer buf_B1_Bthird_r1_i("buf_B1_Bthird_r1_i",   { Vsnk, Nc, Ns, Nc, Ns, Nc, Ns, Nsrc, Vsnk}, p_float64, a_temporary);
+    buffer buf_B1_Blocal_r1_r("buf_B1_Blocal_r1_r",   { Lt, Vsnk, Nc, Ns, Nc, Ns, Nc, Ns, Nsrc, Vsnk}, p_float64, a_temporary);
+    buffer buf_B1_Blocal_r1_i("buf_B1_Blocal_r1_i",   { Lt, Vsnk, Nc, Ns, Nc, Ns, Nc, Ns, Nsrc, Vsnk}, p_float64, a_temporary);
+    buffer buf_B1_Bfirst_r1_r("buf_B1_Bfirst_r1_r",   { Lt, Vsnk, Nc, Ns, Nc, Ns, Nc, Ns, Nsrc, Vsnk}, p_float64, a_temporary);
+    buffer buf_B1_Bfirst_r1_i("buf_B1_Bfirst_r1_i",   { Lt, Vsnk, Nc, Ns, Nc, Ns, Nc, Ns, Nsrc, Vsnk}, p_float64, a_temporary);
+    buffer buf_B1_Bsecond_r1_r("buf_B1_Bsecond_r1_r",   { Lt, Vsnk, Nc, Ns, Nc, Ns, Nc, Ns, Nsrc, Vsnk}, p_float64, a_temporary);
+    buffer buf_B1_Bsecond_r1_i("buf_B1_Bsecond_r1_i",   { Lt, Vsnk, Nc, Ns, Nc, Ns, Nc, Ns, Nsrc, Vsnk}, p_float64, a_temporary);
+    buffer buf_B1_Bthird_r1_r("buf_B1_Bthird_r1_r",   { Lt, Vsnk, Nc, Ns, Nc, Ns, Nc, Ns, Nsrc, Vsnk}, p_float64, a_temporary);
+    buffer buf_B1_Bthird_r1_i("buf_B1_Bthird_r1_i",   { Lt, Vsnk, Nc, Ns, Nc, Ns, Nc, Ns, Nsrc, Vsnk}, p_float64, a_temporary);
     buf_B1_Blocal_r1_r.tag_gpu_global();
     buf_B1_Blocal_r1_i.tag_gpu_global();
     buf_B1_Bfirst_r1_r.tag_gpu_global();
@@ -1373,22 +1373,22 @@ void generate_function(std::string name)
     buf_B1_Bsecond_r1_i.tag_gpu_global();
     buf_B1_Bthird_r1_r.tag_gpu_global();
     buf_B1_Bthird_r1_i.tag_gpu_global();
-    B1_Blocal_r1_r_init.store_in(&buf_B1_Blocal_r1_r, {x1, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m, x2});
-    B1_Blocal_r1_i_init.store_in(&buf_B1_Blocal_r1_i, {x1, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m, x2});
-    B1_Bfirst_r1_r_init.store_in(&buf_B1_Bfirst_r1_r, {x1, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m, x2});
-    B1_Bfirst_r1_i_init.store_in(&buf_B1_Bfirst_r1_i, {x1, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m, x2});
-    B1_Bsecond_r1_r_init.store_in(&buf_B1_Bsecond_r1_r, {x1, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m, x2});
-    B1_Bsecond_r1_i_init.store_in(&buf_B1_Bsecond_r1_i, {x1, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m, x2});
-    B1_Bthird_r1_r_init.store_in(&buf_B1_Bthird_r1_r, {x1, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m, x2});
-    B1_Bthird_r1_i_init.store_in(&buf_B1_Bthird_r1_i, {x1, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m, x2});
-    B1_Blocal_r1_r_update.store_in(&buf_B1_Blocal_r1_r, {x1, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m, x2});
-    B1_Blocal_r1_i_update.store_in(&buf_B1_Blocal_r1_i, {x1, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m, x2});
-    B1_Bfirst_r1_r_update.store_in(&buf_B1_Bfirst_r1_r, {x1, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m, x2});
-    B1_Bfirst_r1_i_update.store_in(&buf_B1_Bfirst_r1_i, {x1, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m, x2});
-    B1_Bsecond_r1_r_update.store_in(&buf_B1_Bsecond_r1_r, {x1, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m, x2});
-    B1_Bsecond_r1_i_update.store_in(&buf_B1_Bsecond_r1_i, {x1, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m, x2});
-    B1_Bthird_r1_r_update.store_in(&buf_B1_Bthird_r1_r, {x1, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m, x2});
-    B1_Bthird_r1_i_update.store_in(&buf_B1_Bthird_r1_i, {x1, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m, x2});
+    B1_Blocal_r1_r_init.store_in(&buf_B1_Blocal_r1_r, { t, x1, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m, x2});
+    B1_Blocal_r1_i_init.store_in(&buf_B1_Blocal_r1_i, { t, x1, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m, x2});
+    B1_Bfirst_r1_r_init.store_in(&buf_B1_Bfirst_r1_r, { t, x1, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m, x2});
+    B1_Bfirst_r1_i_init.store_in(&buf_B1_Bfirst_r1_i, { t, x1, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m, x2});
+    B1_Bsecond_r1_r_init.store_in(&buf_B1_Bsecond_r1_r, { t, x1, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m, x2});
+    B1_Bsecond_r1_i_init.store_in(&buf_B1_Bsecond_r1_i, { t, x1, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m, x2});
+    B1_Bthird_r1_r_init.store_in(&buf_B1_Bthird_r1_r, { t, x1, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m, x2});
+    B1_Bthird_r1_i_init.store_in(&buf_B1_Bthird_r1_i, { t, x1, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m, x2});
+    B1_Blocal_r1_r_update.store_in(&buf_B1_Blocal_r1_r, { t, x1, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m, x2});
+    B1_Blocal_r1_i_update.store_in(&buf_B1_Blocal_r1_i, { t, x1, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m, x2});
+    B1_Bfirst_r1_r_update.store_in(&buf_B1_Bfirst_r1_r, { t, x1, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m, x2});
+    B1_Bfirst_r1_i_update.store_in(&buf_B1_Bfirst_r1_i, { t, x1, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m, x2});
+    B1_Bsecond_r1_r_update.store_in(&buf_B1_Bsecond_r1_r, { t, x1, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m, x2});
+    B1_Bsecond_r1_i_update.store_in(&buf_B1_Bsecond_r1_i, { t, x1, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m, x2});
+    B1_Bthird_r1_r_update.store_in(&buf_B1_Bthird_r1_r, { t, x1, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m, x2});
+    B1_Bthird_r1_i_update.store_in(&buf_B1_Bthird_r1_i, { t, x1, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m, x2});
     // computation *allocate_buf_B1_Blocal_r1_r = buf_B1_Blocal_r1_r.allocate_at( B1_Blocal_r1_r_init, t );
     // computation *allocate_buf_B1_Blocal_r1_i = buf_B1_Blocal_r1_i.allocate_at( B1_Blocal_r1_r_init, t );
     // computation *allocate_buf_B1_Bfirst_r1_r = buf_B1_Bfirst_r1_r.allocate_at( B1_Blocal_r1_r_init, t );
@@ -3273,7 +3273,6 @@ void generate_function(std::string name)
         );
 
     handle = &(handle->then( C_init_r, computation::root ).then( C_init_i, npnH ));
-
 
     // BB_BB
 // kernel_1
