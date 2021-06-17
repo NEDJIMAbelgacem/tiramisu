@@ -3323,7 +3323,7 @@ void generate_function(std::string name)
           .then( *allocate_buf_B1_Bthird_props_r1_r, t)
           .then( *allocate_buf_B1_Bthird_props_r1_i, t)
 // 
-          .then(B1_Blocal_r1_r_props_init, r ) // t, x1, x2, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime
+          .then(B1_Blocal_r1_r_props_init, t ) // t, x1, x2, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime
           .then(B1_Blocal_r1_i_props_init, jSprime)
           .then(B1_Bfirst_r1_r_props_init, jSprime)
           .then(B1_Bfirst_r1_i_props_init, jSprime)
