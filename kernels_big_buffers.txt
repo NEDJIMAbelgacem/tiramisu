@@ -89,7 +89,7 @@ kernel_13 : [flip_B2_Blocal_r1_r_init, flip_B2_Bthird_r1_i_init]
 // allocation/deallocation             
     kernel_14 : [B2_Blocal_r1_r_props_init, B2_Bthird_r1_i_props]
         buf_B2_Bfirst_diquark_r1_i, buf_B2_Bfirst_diquark_r1_r       // alloc local  
-        buf_B2_Blocal_diquark_r1_i, buf_B2_Blocal_diquark_r1_r       // alloc local                           
+        buf_B2_BlocC_BB_BB_prop_init_ral_diquark_r1_i, buf_B2_Blocal_diquark_r1_r       // alloc local                           
         buf_B2_Bthird_diquark_r1_i, buf_B2_Bthird_diquark_r1_r       // alloc local                           
         buf_B2_Bfirst_props_r1_i, buf_B2_Bfirst_props_r1_r           // alloc // dealloc at 16                      
         buf_B2_Blocal_props_r1_i, buf_B2_Blocal_props_r1_r           // alloc // dealloc at 16                      

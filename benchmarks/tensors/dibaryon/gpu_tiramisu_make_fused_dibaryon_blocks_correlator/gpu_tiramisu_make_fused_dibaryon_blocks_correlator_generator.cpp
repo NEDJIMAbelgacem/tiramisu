@@ -1509,23 +1509,23 @@ void generate_function(std::string name)
     B1_Bthird_r1_r_props.store_in(&buf_B1_Bthird_props_r1_r, {x1, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, y, x2});
     B1_Bthird_r1_i_props.store_in(&buf_B1_Bthird_props_r1_i, {x1, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, y, x2}); 
 
-    // computation *allocate_buf_B1_Blocal_props_r1_r = buf_B1_Blocal_props_r1_r.allocate_at( B1_Blocal_r1_r_props_init, t );
-    // computation *allocate_buf_B1_Blocal_props_r1_i = buf_B1_Blocal_props_r1_i.allocate_at( B1_Blocal_r1_r_props_init, t );
-    // computation *allocate_buf_B1_Bfirst_props_r1_r = buf_B1_Bfirst_props_r1_r.allocate_at( B1_Blocal_r1_r_props_init, t );
-    // computation *allocate_buf_B1_Bfirst_props_r1_i = buf_B1_Bfirst_props_r1_i.allocate_at( B1_Blocal_r1_r_props_init, t );
-    // computation *allocate_buf_B1_Bsecond_props_r1_r = buf_B1_Bsecond_props_r1_r.allocate_at( B1_Blocal_r1_r_props_init, t );
-    // computation *allocate_buf_B1_Bsecond_props_r1_i = buf_B1_Bsecond_props_r1_i.allocate_at( B1_Blocal_r1_r_props_init, t );
-    // computation *allocate_buf_B1_Bthird_props_r1_r = buf_B1_Bthird_props_r1_r.allocate_at( B1_Blocal_r1_r_props_init, t );
-    // computation *allocate_buf_B1_Bthird_props_r1_i = buf_B1_Bthird_props_r1_i.allocate_at( B1_Blocal_r1_r_props_init, t );
+    computation *allocate_buf_B1_Blocal_props_r1_r = buf_B1_Blocal_props_r1_r.allocate_at( B1_Blocal_r1_r_props_init, t );
+    computation *allocate_buf_B1_Blocal_props_r1_i = buf_B1_Blocal_props_r1_i.allocate_at( B1_Blocal_r1_r_props_init, t );
+    computation *allocate_buf_B1_Bfirst_props_r1_r = buf_B1_Bfirst_props_r1_r.allocate_at( B1_Blocal_r1_r_props_init, t );
+    computation *allocate_buf_B1_Bfirst_props_r1_i = buf_B1_Bfirst_props_r1_i.allocate_at( B1_Blocal_r1_r_props_init, t );
+    computation *allocate_buf_B1_Bsecond_props_r1_r = buf_B1_Bsecond_props_r1_r.allocate_at( B1_Blocal_r1_r_props_init, t );
+    computation *allocate_buf_B1_Bsecond_props_r1_i = buf_B1_Bsecond_props_r1_i.allocate_at( B1_Blocal_r1_r_props_init, t );
+    computation *allocate_buf_B1_Bthird_props_r1_r = buf_B1_Bthird_props_r1_r.allocate_at( B1_Blocal_r1_r_props_init, t );
+    computation *allocate_buf_B1_Bthird_props_r1_i = buf_B1_Bthird_props_r1_i.allocate_at( B1_Blocal_r1_r_props_init, t );
 
-    // computation *deallocate_buf_B1_Blocal_props_r1_r = buf_B1_Blocal_props_r1_r.deallocate_at( flip_B1_Bthird_r1_i_update, t );
-    // computation *deallocate_buf_B1_Blocal_props_r1_i = buf_B1_Blocal_props_r1_i.deallocate_at( flip_B1_Bthird_r1_i_update, t );
-    // computation *deallocate_buf_B1_Bfirst_props_r1_r = buf_B1_Bfirst_props_r1_r.deallocate_at( flip_B1_Bthird_r1_i_update, t );
-    // computation *deallocate_buf_B1_Bfirst_props_r1_i = buf_B1_Bfirst_props_r1_i.deallocate_at( flip_B1_Bthird_r1_i_update, t );
-    // computation *deallocate_buf_B1_Bsecond_props_r1_r = buf_B1_Bsecond_props_r1_r.deallocate_at( flip_B1_Bthird_r1_i_update, t );
-    // computation *deallocate_buf_B1_Bsecond_props_r1_i = buf_B1_Bsecond_props_r1_i.deallocate_at( flip_B1_Bthird_r1_i_update, t );
-    // computation *deallocate_buf_B1_Bthird_props_r1_r = buf_B1_Bthird_props_r1_r.deallocate_at( flip_B1_Bthird_r1_i_update, t );
-    // computation *deallocate_buf_B1_Bthird_props_r1_i = buf_B1_Bthird_props_r1_i.deallocate_at( flip_B1_Bthird_r1_i_update, t );
+    computation *deallocate_buf_B1_Blocal_props_r1_r = buf_B1_Blocal_props_r1_r.deallocate_at( flip_B1_Bthird_r1_i_update, t );
+    computation *deallocate_buf_B1_Blocal_props_r1_i = buf_B1_Blocal_props_r1_i.deallocate_at( flip_B1_Bthird_r1_i_update, t );
+    computation *deallocate_buf_B1_Bfirst_props_r1_r = buf_B1_Bfirst_props_r1_r.deallocate_at( flip_B1_Bthird_r1_i_update, t );
+    computation *deallocate_buf_B1_Bfirst_props_r1_i = buf_B1_Bfirst_props_r1_i.deallocate_at( flip_B1_Bthird_r1_i_update, t );
+    computation *deallocate_buf_B1_Bsecond_props_r1_r = buf_B1_Bsecond_props_r1_r.deallocate_at( flip_B1_Bthird_r1_i_update, t );
+    computation *deallocate_buf_B1_Bsecond_props_r1_i = buf_B1_Bsecond_props_r1_i.deallocate_at( flip_B1_Bthird_r1_i_update, t );
+    computation *deallocate_buf_B1_Bthird_props_r1_r = buf_B1_Bthird_props_r1_r.deallocate_at( flip_B1_Bthird_r1_i_update, t );
+    computation *deallocate_buf_B1_Bthird_props_r1_i = buf_B1_Bthird_props_r1_i.deallocate_at( flip_B1_Bthird_r1_i_update, t );
 
     buffer buf_B1_Blocal_r2_r("buf_B1_Blocal_r2_r",   { Lt, Vsnk, Nc, Ns, Nc, Ns, Nc, Ns, Nsrc, Vsnk}, p_float64, a_temporary);
     buffer buf_B1_Blocal_r2_i("buf_B1_Blocal_r2_i",   { Lt, Vsnk, Nc, Ns, Nc, Ns, Nc, Ns, Nsrc, Vsnk}, p_float64, a_temporary);
@@ -3314,14 +3314,14 @@ void generate_function(std::string name)
           .then(flip_B1_Bthird_r1_r_init, m)
           .then(flip_B1_Bthird_r1_i_init, m)
 // kernel_4
-        //   .then( *allocate_buf_B1_Blocal_props_r1_r, t)
-        //   .then( *allocate_buf_B1_Blocal_props_r1_i, t)
-        //   .then( *allocate_buf_B1_Bfirst_props_r1_r, t)
-        //   .then( *allocate_buf_B1_Bfirst_props_r1_i, t)
-        //   .then( *allocate_buf_B1_Bsecond_props_r1_r, t)
-        //   .then( *allocate_buf_B1_Bsecond_props_r1_i, t)
-        //   .then( *allocate_buf_B1_Bthird_props_r1_r, t)
-        //   .then( *allocate_buf_B1_Bthird_props_r1_i, t)
+          .then( *allocate_buf_B1_Blocal_props_r1_r, t)
+          .then( *allocate_buf_B1_Blocal_props_r1_i, t)
+          .then( *allocate_buf_B1_Bfirst_props_r1_r, t)
+          .then( *allocate_buf_B1_Bfirst_props_r1_i, t)
+          .then( *allocate_buf_B1_Bsecond_props_r1_r, t)
+          .then( *allocate_buf_B1_Bsecond_props_r1_i, t)
+          .then( *allocate_buf_B1_Bthird_props_r1_r, t)
+          .then( *allocate_buf_B1_Bthird_props_r1_i, t)
 // 
           .then(B1_Blocal_r1_r_props_init, computation::root ) // t, x1, x2, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime
           .then(B1_Blocal_r1_i_props_init, jSprime)
@@ -3366,14 +3366,14 @@ void generate_function(std::string name)
           .then(flip_B1_Bsecond_r1_i_update, m)
           .then(flip_B1_Bthird_r1_r_update, m)
           .then(flip_B1_Bthird_r1_i_update, m)
-        //   .then( *deallocate_buf_B1_Blocal_props_r1_r, t) // 1
-        //   .then( *deallocate_buf_B1_Blocal_props_r1_i, t) // 2
-        //   .then( *deallocate_buf_B1_Bfirst_props_r1_r, t) // 3
-        //   .then( *deallocate_buf_B1_Bfirst_props_r1_i, t) // 4
-        //   .then( *deallocate_buf_B1_Bsecond_props_r1_r, t) // 5
-        //   .then( *deallocate_buf_B1_Bsecond_props_r1_i, t) // 6
-        //   .then( *deallocate_buf_B1_Bthird_props_r1_r, t) // 7
-        //   .then( *deallocate_buf_B1_Bthird_props_r1_i, t) // 8
+          .then( *deallocate_buf_B1_Blocal_props_r1_r, t) // 1
+          .then( *deallocate_buf_B1_Blocal_props_r1_i, t) // 2
+          .then( *deallocate_buf_B1_Bfirst_props_r1_r, t) // 3
+          .then( *deallocate_buf_B1_Bfirst_props_r1_i, t) // 4
+          .then( *deallocate_buf_B1_Bsecond_props_r1_r, t) // 5
+          .then( *deallocate_buf_B1_Bsecond_props_r1_i, t) // 6
+          .then( *deallocate_buf_B1_Bthird_props_r1_r, t) // 7
+          .then( *deallocate_buf_B1_Bthird_props_r1_i, t) // 8
 // ---------------------------- 
 // kernel_7:
         //   .then( *allocate_buf_B1_Blocal_r2_r, t)
