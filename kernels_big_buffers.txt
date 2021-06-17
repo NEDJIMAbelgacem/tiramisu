@@ -10,6 +10,7 @@ kernel_3 : [flip_B1_Blocal_r1_r_init, flip_B1_Bthird_r1_i_init]
     buf_flip_B1_Blocal_r1_i, buf_flip_B1_Blocal_r1_r             // alloc 3 // dealloc at 24  
     buf_flip_B1_Bsecond_r1_i, buf_flip_B1_Bsecond_r1_r           // alloc 3 // dealloc at 24    
     buf_flip_B1_Bthird_r1_i, buf_flip_B1_Bthird_r1_r             // alloc 3 // dealloc at 24 
+// allocation / deallocation
     kernel_4 : [B1_Blocal_r1_r_props_init, B1_Bthird_r1_i_props]
         buf_B1_Bfirst_diquark_r1_i, buf_B1_Bfirst_diquark_r1_r       // alloc local 
         buf_B1_Bthird_diquark_r1_i, buf_B1_Bthird_diquark_r1_r       // alloc local           
@@ -35,7 +36,8 @@ kernel_3 : [flip_B1_Blocal_r1_r_init, flip_B1_Bthird_r1_i_init]
         buf_flip_B1_Bfirst_r1_i, buf_flip_B1_Bfirst_r1_r             // use 3 -> 24              
         buf_flip_B1_Blocal_r1_i, buf_flip_B1_Blocal_r1_r             // use 3 -> 24               
         buf_flip_B1_Bsecond_r1_i, buf_flip_B1_Bsecond_r1_r           // use 3 -> 24                 
-        buf_flip_B1_Bthird_r1_i, buf_flip_B1_Bthird_r1_r             // use 3 -> 24               
+        buf_flip_B1_Bthird_r1_i, buf_flip_B1_Bthird_r1_r             // use 3 -> 24
+//            
 kernel_7 : [B1_Blocal_r2_r_init, B1_Bthird_r2_i_init]
     buf_B1_Bfirst_r2_i, buf_B1_Bfirst_r2_r                       // alloc // dealloc at 23                                                                 
     buf_B1_Blocal_r2_i, buf_B1_Blocal_r2_r                       // alloc // dealloc at 23                 
@@ -45,33 +47,35 @@ kernel_8 : [flip_B1_Blocal_r2_r_init, flip_B1_Bthird_r2_i_init]
     buf_flip_B1_Bfirst_r2_i, buf_flip_B1_Bfirst_r2_r             // alloc // dealloc at 24                            
     buf_flip_B1_Blocal_r2_i, buf_flip_B1_Blocal_r2_r             // alloc // dealloc at 24                            
     buf_flip_B1_Bsecond_r2_i, buf_flip_B1_Bsecond_r2_r           // alloc // dealloc at 24                              
-    buf_flip_B1_Bthird_r2_i, buf_flip_B1_Bthird_r2_r             // alloc // dealloc at 24                           
-kernel_9 : [B1_Blocal_r2_r_props_init, B1_Bthird_r2_i_props]
-    buf_B1_Bfirst_diquark_r2_i, buf_B1_Bfirst_diquark_r2_r       // alloc local     
-    buf_B1_Blocal_diquark_r2_i, buf_B1_Blocal_diquark_r2_r       // alloc local      
-    buf_B1_Bthird_diquark_r2_i, buf_B1_Bthird_diquark_r2_r       // alloc local                                                                 
-    buf_B1_Bfirst_props_r2_i, buf_B1_Bfirst_props_r2_r           // alloc // dealloc at 11                    
-    buf_B1_Blocal_props_r2_i, buf_B1_Blocal_props_r2_r           // alloc // dealloc at 11                    
-    buf_B1_Bsecond_props_r2_i, buf_B1_Bsecond_props_r2_r         // alloc // dealloc at 11                      
-    buf_B1_Bthird_props_r2_i, buf_B1_Bthird_props_r2_r           // alloc // dealloc at 11                    
-kernel_10 : [B1_Blocal_r2_r_update, B1_Bthird_r2_i_update]
-    buf_B1_Bfirst_props_r2_i, buf_B1_Bfirst_props_r2_r           // use 9 -> 11  
-    buf_B1_Blocal_props_r2_i, buf_B1_Blocal_props_r2_r           // use 9 -> 11                                                    
-    buf_B1_Bsecond_props_r2_i, buf_B1_Bsecond_props_r2_r         // use 9 -> 11                              
-    buf_B1_Bthird_props_r2_i, buf_B1_Bthird_props_r2_r           // use 9 -> 11                            
-    buf_B1_Bfirst_r2_i, buf_B1_Bfirst_r2_r                       // use 7 -> 23                
-    buf_B1_Blocal_r2_i, buf_B1_Blocal_r2_r                       // use 7 -> 23                
-    buf_B1_Bsecond_r2_i, buf_B1_Bsecond_r2_r                     // use 7 -> 23                  
-    buf_B1_Bthird_r2_i, buf_B1_Bthird_r2_r                       // use 7 -> 23                
-kernel_11 : [flip_B1_Blocal_r2_r_update, flip_B1_Bthird_r2_i_update]
-    buf_B1_Bfirst_props_r2_i, buf_B1_Bfirst_props_r2_r           // free after                            
-    buf_B1_Blocal_props_r2_i, buf_B1_Blocal_props_r2_r           // free after                            
-    buf_B1_Bsecond_props_r2_i, buf_B1_Bsecond_props_r2_r         // free after                              
-    buf_B1_Bthird_props_r2_i, buf_B1_Bthird_props_r2_r           // free after                            
-    buf_flip_B1_Bfirst_r2_i, buf_flip_B1_Bfirst_r2_r             // use 8 -> 24                          
-    buf_flip_B1_Blocal_r2_i, buf_flip_B1_Blocal_r2_r             // use 8 -> 24                          
-    buf_flip_B1_Bsecond_r2_i, buf_flip_B1_Bsecond_r2_r           // use 8 -> 24                            
-    buf_flip_B1_Bthird_r2_i, buf_flip_B1_Bthird_r2_r             // use 8 -> 24                         
+    buf_flip_B1_Bthird_r2_i, buf_flip_B1_Bthird_r2_r             // alloc // dealloc at 24
+// allocation / deallocation
+    kernel_9 : [B1_Blocal_r2_r_props_init, B1_Bthird_r2_i_props]
+        buf_B1_Bfirst_diquark_r2_i, buf_B1_Bfirst_diquark_r2_r       // alloc local     
+        buf_B1_Blocal_diquark_r2_i, buf_B1_Blocal_diquark_r2_r       // alloc local      
+        buf_B1_Bthird_diquark_r2_i, buf_B1_Bthird_diquark_r2_r       // alloc local                                                                 
+        buf_B1_Bfirst_props_r2_i, buf_B1_Bfirst_props_r2_r           // alloc // dealloc at 11                    
+        buf_B1_Blocal_props_r2_i, buf_B1_Blocal_props_r2_r           // alloc // dealloc at 11                    
+        buf_B1_Bsecond_props_r2_i, buf_B1_Bsecond_props_r2_r         // alloc // dealloc at 11                      
+        buf_B1_Bthird_props_r2_i, buf_B1_Bthird_props_r2_r           // alloc // dealloc at 11                    
+    kernel_10 : [B1_Blocal_r2_r_update, B1_Bthird_r2_i_update]
+        buf_B1_Bfirst_props_r2_i, buf_B1_Bfirst_props_r2_r           // use 9 -> 11  
+        buf_B1_Blocal_props_r2_i, buf_B1_Blocal_props_r2_r           // use 9 -> 11                                                    
+        buf_B1_Bsecond_props_r2_i, buf_B1_Bsecond_props_r2_r         // use 9 -> 11                              
+        buf_B1_Bthird_props_r2_i, buf_B1_Bthird_props_r2_r           // use 9 -> 11                            
+        buf_B1_Bfirst_r2_i, buf_B1_Bfirst_r2_r                       // use 7 -> 23                
+        buf_B1_Blocal_r2_i, buf_B1_Blocal_r2_r                       // use 7 -> 23                
+        buf_B1_Bsecond_r2_i, buf_B1_Bsecond_r2_r                     // use 7 -> 23                  
+        buf_B1_Bthird_r2_i, buf_B1_Bthird_r2_r                       // use 7 -> 23                
+    kernel_11 : [flip_B1_Blocal_r2_r_update, flip_B1_Bthird_r2_i_update]
+        buf_B1_Bfirst_props_r2_i, buf_B1_Bfirst_props_r2_r           // free after                            
+        buf_B1_Blocal_props_r2_i, buf_B1_Blocal_props_r2_r           // free after                            
+        buf_B1_Bsecond_props_r2_i, buf_B1_Bsecond_props_r2_r         // free after                              
+        buf_B1_Bthird_props_r2_i, buf_B1_Bthird_props_r2_r           // free after                            
+        buf_flip_B1_Bfirst_r2_i, buf_flip_B1_Bfirst_r2_r             // use 8 -> 24                          
+        buf_flip_B1_Blocal_r2_i, buf_flip_B1_Blocal_r2_r             // use 8 -> 24                          
+        buf_flip_B1_Bsecond_r2_i, buf_flip_B1_Bsecond_r2_r           // use 8 -> 24                            
+        buf_flip_B1_Bthird_r2_i, buf_flip_B1_Bthird_r2_r             // use 8 -> 24
+//                        
 kernel_12 : [B2_Blocal_r1_r_init, B2_Bthird_r1_i_init]
     buf_B2_Bfirst_r1_i, buf_B2_Bfirst_r1_r                       // alloc // dealloc at 23       
     buf_B2_Blocal_r1_i, buf_B2_Blocal_r1_r                       // alloc // dealloc at 23           
@@ -81,34 +85,36 @@ kernel_13 : [flip_B2_Blocal_r1_r_init, flip_B2_Bthird_r1_i_init]
     buf_flip_B2_Bfirst_r1_i, buf_flip_B2_Bfirst_r1_r             // alloc // dealloc at 23                
     buf_flip_B2_Blocal_r1_i, buf_flip_B2_Blocal_r1_r             // alloc // dealloc at 23                
     buf_flip_B2_Bsecond_r1_i, buf_flip_B2_Bsecond_r1_r           // alloc // dealloc at 23                  
-    buf_flip_B2_Bthird_r1_i, buf_flip_B2_Bthird_r1_r             // alloc // dealloc at 23                
-kernel_14 : [B2_Blocal_r1_r_props_init, B2_Bthird_r1_i_props]
-    buf_B2_Bfirst_diquark_r1_i, buf_B2_Bfirst_diquark_r1_r       // alloc local  
-    buf_B2_Blocal_diquark_r1_i, buf_B2_Blocal_diquark_r1_r       // alloc local                           
-    buf_B2_Bthird_diquark_r1_i, buf_B2_Bthird_diquark_r1_r       // alloc local                           
-    buf_B2_Bfirst_props_r1_i, buf_B2_Bfirst_props_r1_r           // alloc // dealloc at 16                      
-    buf_B2_Blocal_props_r1_i, buf_B2_Blocal_props_r1_r           // alloc // dealloc at 16                      
-    buf_B2_Bsecond_props_r1_i, buf_B2_Bsecond_props_r1_r         // alloc // dealloc at 16                        
-    buf_B2_Bthird_props_r1_i, buf_B2_Bthird_props_r1_r           // alloc // dealloc at 16                      
-kernel_15 : [B2_Blocal_r1_r_update, B2_Bthird_r1_i_update]
-    buf_B2_Bfirst_r1_i, buf_B2_Bfirst_r1_r                       // use 12 -> 23            
-    buf_B2_Blocal_r1_i, buf_B2_Blocal_r1_r                       // use 12 -> 23            
-    buf_B2_Bsecond_r1_i, buf_B2_Bsecond_r1_r                     // use 12 -> 23
-    buf_B2_Bthird_r1_i, buf_B2_Bthird_r1_r                       // use 12 -> 23
-    buf_B2_Bfirst_props_r1_i, buf_B2_Bfirst_props_r1_r           // use 14 -> 16                        
-    buf_B2_Blocal_props_r1_i, buf_B2_Blocal_props_r1_r           // use 14 -> 16                        
-    buf_B2_Bsecond_props_r1_i, buf_B2_Bsecond_props_r1_r         // use 14 -> 16                                          
-    buf_B2_Bthird_props_r1_i, buf_B2_Bthird_props_r1_r           // use 14 -> 16                         
-             
-kernel_16 : [flip_B2_Blocal_r1_r_update, flip_B2_Bthird_r1_i_update]
-    buf_B2_Bfirst_props_r1_i, buf_B2_Bfirst_props_r1_r           // free after                  
-    buf_B2_Blocal_props_r1_i, buf_B2_Blocal_props_r1_r           // free after                  
-    buf_B2_Bsecond_props_r1_i, buf_B2_Bsecond_props_r1_r         // free after                    
-    buf_B2_Bthird_props_r1_i, buf_B2_Bthird_props_r1_r           // free after                 
-    buf_flip_B2_Bfirst_r1_i, buf_flip_B2_Bfirst_r1_r             // use 13 -> 24                 
-    buf_flip_B2_Blocal_r1_i, buf_flip_B2_Blocal_r1_r             // use 13 -> 24                
-    buf_flip_B2_Bsecond_r1_i, buf_flip_B2_Bsecond_r1_r           // use 13 -> 24                  
-    buf_flip_B2_Bthird_r1_i, buf_flip_B2_Bthird_r1_r             // use 13 -> 24                
+    buf_flip_B2_Bthird_r1_i, buf_flip_B2_Bthird_r1_r             // alloc // dealloc at 23
+// allocation/deallocation             
+    kernel_14 : [B2_Blocal_r1_r_props_init, B2_Bthird_r1_i_props]
+        buf_B2_Bfirst_diquark_r1_i, buf_B2_Bfirst_diquark_r1_r       // alloc local  
+        buf_B2_Blocal_diquark_r1_i, buf_B2_Blocal_diquark_r1_r       // alloc local                           
+        buf_B2_Bthird_diquark_r1_i, buf_B2_Bthird_diquark_r1_r       // alloc local                           
+        buf_B2_Bfirst_props_r1_i, buf_B2_Bfirst_props_r1_r           // alloc // dealloc at 16                      
+        buf_B2_Blocal_props_r1_i, buf_B2_Blocal_props_r1_r           // alloc // dealloc at 16                      
+        buf_B2_Bsecond_props_r1_i, buf_B2_Bsecond_props_r1_r         // alloc // dealloc at 16                        
+        buf_B2_Bthird_props_r1_i, buf_B2_Bthird_props_r1_r           // alloc // dealloc at 16                      
+    kernel_15 : [B2_Blocal_r1_r_update, B2_Bthird_r1_i_update]
+        buf_B2_Bfirst_r1_i, buf_B2_Bfirst_r1_r                       // use 12 -> 23            
+        buf_B2_Blocal_r1_i, buf_B2_Blocal_r1_r                       // use 12 -> 23            
+        buf_B2_Bsecond_r1_i, buf_B2_Bsecond_r1_r                     // use 12 -> 23
+        buf_B2_Bthird_r1_i, buf_B2_Bthird_r1_r                       // use 12 -> 23
+        buf_B2_Bfirst_props_r1_i, buf_B2_Bfirst_props_r1_r           // use 14 -> 16                        
+        buf_B2_Blocal_props_r1_i, buf_B2_Blocal_props_r1_r           // use 14 -> 16                        
+        buf_B2_Bsecond_props_r1_i, buf_B2_Bsecond_props_r1_r         // use 14 -> 16                                          
+        buf_B2_Bthird_props_r1_i, buf_B2_Bthird_props_r1_r           // use 14 -> 16                         
+                
+    kernel_16 : [flip_B2_Blocal_r1_r_update, flip_B2_Bthird_r1_i_update]
+        buf_B2_Bfirst_props_r1_i, buf_B2_Bfirst_props_r1_r           // free after                  
+        buf_B2_Blocal_props_r1_i, buf_B2_Blocal_props_r1_r           // free after                  
+        buf_B2_Bsecond_props_r1_i, buf_B2_Bsecond_props_r1_r         // free after                    
+        buf_B2_Bthird_props_r1_i, buf_B2_Bthird_props_r1_r           // free after                 
+        buf_flip_B2_Bfirst_r1_i, buf_flip_B2_Bfirst_r1_r             // use 13 -> 24                 
+        buf_flip_B2_Blocal_r1_i, buf_flip_B2_Blocal_r1_r             // use 13 -> 24                
+        buf_flip_B2_Bsecond_r1_i, buf_flip_B2_Bsecond_r1_r           // use 13 -> 24                  
+        buf_flip_B2_Bthird_r1_i, buf_flip_B2_Bthird_r1_r             // use 13 -> 24
+//
 kernel_17 : [B2_Blocal_r2_r_init, B2_Bthird_r2_i_init]
     buf_B2_Bfirst_r2_i, buf_B2_Bfirst_r2_r                       // alloc // dealloc at 23           
     buf_B2_Blocal_r2_i, buf_B2_Blocal_r2_r                       // alloc // dealloc at 23           
@@ -119,32 +125,34 @@ kernel_18 : [flip_B2_Blocal_r2_r_init, flip_B2_Bthird_r2_i_init]
     buf_flip_B2_Blocal_r2_i, buf_flip_B2_Blocal_r2_r             // alloc // dealloc at 24               
     buf_flip_B2_Bsecond_r2_i, buf_flip_B2_Bsecond_r2_r           // alloc // dealloc at 24                  
     buf_flip_B2_Bthird_r2_i, buf_flip_B2_Bthird_r2_r             // alloc // dealloc at 24               
-kernel_19 : [B2_Blocal_r2_r_props_init, B2_Bthird_r2_i_props]
-    buf_B2_Bfirst_diquark_r2_i, buf_B2_Bfirst_diquark_r2_r       // alloc local      
-    buf_B2_Blocal_diquark_r2_i, buf_B2_Blocal_diquark_r2_r       // alloc local     
-    buf_B2_Bthird_diquark_r2_i, buf_B2_Bthird_diquark_r2_r       // alloc local                                                                   
-    buf_B2_Bfirst_props_r2_i, buf_B2_Bfirst_props_r2_r           // alloc // dealloc at 21                     
-    buf_B2_Blocal_props_r2_i, buf_B2_Blocal_props_r2_r           // alloc // dealloc at 21                     
-    buf_B2_Bsecond_props_r2_i, buf_B2_Bsecond_props_r2_r         // alloc // dealloc at 21                       
-    buf_B2_Bthird_props_r2_i, buf_B2_Bthird_props_r2_r           // alloc // dealloc at 21                    
-kernel_20 : [B2_Blocal_r2_r_update, B2_Bthird_r2_i_update]
-    buf_B2_Bfirst_props_r2_i, buf_B2_Bfirst_props_r2_r           // use 19 -> 21                                  
-    buf_B2_Blocal_props_r2_i, buf_B2_Blocal_props_r2_r           // use 19 -> 21                                  
-    buf_B2_Bsecond_props_r2_i, buf_B2_Bsecond_props_r2_r         // use 19 -> 21                                    
-    buf_B2_Bthird_props_r2_i, buf_B2_Bthird_props_r2_r           // use 19 -> 21                                  
-    buf_B2_Bfirst_r2_i, buf_B2_Bfirst_r2_r                       // use 17 -> 23                      
-    buf_B2_Blocal_r2_i, buf_B2_Blocal_r2_r                       // use 17 -> 23                      
-    buf_B2_Bsecond_r2_i, buf_B2_Bsecond_r2_r                     // use 17 -> 23                        
-    buf_B2_Bthird_r2_i, buf_B2_Bthird_r2_r                       // use 17 -> 23                      
-kernel_21 : [flip_B2_Blocal_r2_r_update, flip_B2_Bthird_r2_i_update]
-    buf_B2_Bfirst_props_r2_i, buf_B2_Bfirst_props_r2_r           // free after                            
-    buf_B2_Blocal_props_r2_i, buf_B2_Blocal_props_r2_r           // free after                             
-    buf_B2_Bsecond_props_r2_i, buf_B2_Bsecond_props_r2_r         // free after                               
-    buf_B2_Bthird_props_r2_i, buf_B2_Bthird_props_r2_r           // free after                             
-    buf_flip_B2_Bfirst_r2_i, buf_flip_B2_Bfirst_r2_r             // use 18 -> 24                           
-    buf_flip_B2_Blocal_r2_i, buf_flip_B2_Blocal_r2_r             // use 18 -> 24                           
-    buf_flip_B2_Bsecond_r2_i, buf_flip_B2_Bsecond_r2_r           // use 18 -> 24                             
-    buf_flip_B2_Bthird_r2_i, buf_flip_B2_Bthird_r2_r             // use 18 -> 24                           
+// allocation/deallocation
+    kernel_19 : [B2_Blocal_r2_r_props_init, B2_Bthird_r2_i_props]
+        buf_B2_Bfirst_diquark_r2_i, buf_B2_Bfirst_diquark_r2_r       // alloc local      
+        buf_B2_Blocal_diquark_r2_i, buf_B2_Blocal_diquark_r2_r       // alloc local     
+        buf_B2_Bthird_diquark_r2_i, buf_B2_Bthird_diquark_r2_r       // alloc local                                                                   
+        buf_B2_Bfirst_props_r2_i, buf_B2_Bfirst_props_r2_r           // alloc // dealloc at 21                     
+        buf_B2_Blocal_props_r2_i, buf_B2_Blocal_props_r2_r           // alloc // dealloc at 21                     
+        buf_B2_Bsecond_props_r2_i, buf_B2_Bsecond_props_r2_r         // alloc // dealloc at 21                       
+        buf_B2_Bthird_props_r2_i, buf_B2_Bthird_props_r2_r           // alloc // dealloc at 21                    
+    kernel_20 : [B2_Blocal_r2_r_update, B2_Bthird_r2_i_update]
+        buf_B2_Bfirst_props_r2_i, buf_B2_Bfirst_props_r2_r           // use 19 -> 21                                  
+        buf_B2_Blocal_props_r2_i, buf_B2_Blocal_props_r2_r           // use 19 -> 21                                  
+        buf_B2_Bsecond_props_r2_i, buf_B2_Bsecond_props_r2_r         // use 19 -> 21                                    
+        buf_B2_Bthird_props_r2_i, buf_B2_Bthird_props_r2_r           // use 19 -> 21                                  
+        buf_B2_Bfirst_r2_i, buf_B2_Bfirst_r2_r                       // use 17 -> 23                      
+        buf_B2_Blocal_r2_i, buf_B2_Blocal_r2_r                       // use 17 -> 23                      
+        buf_B2_Bsecond_r2_i, buf_B2_Bsecond_r2_r                     // use 17 -> 23                        
+        buf_B2_Bthird_r2_i, buf_B2_Bthird_r2_r                       // use 17 -> 23                      
+    kernel_21 : [flip_B2_Blocal_r2_r_update, flip_B2_Bthird_r2_i_update]
+        buf_B2_Bfirst_props_r2_i, buf_B2_Bfirst_props_r2_r           // free after                            
+        buf_B2_Blocal_props_r2_i, buf_B2_Blocal_props_r2_r           // free after                             
+        buf_B2_Bsecond_props_r2_i, buf_B2_Bsecond_props_r2_r         // free after                               
+        buf_B2_Bthird_props_r2_i, buf_B2_Bthird_props_r2_r           // free after                             
+        buf_flip_B2_Bfirst_r2_i, buf_flip_B2_Bfirst_r2_r             // use 18 -> 24                           
+        buf_flip_B2_Blocal_r2_i, buf_flip_B2_Blocal_r2_r             // use 18 -> 24                           
+        buf_flip_B2_Bsecond_r2_i, buf_flip_B2_Bsecond_r2_r           // use 18 -> 24                             
+        buf_flip_B2_Bthird_r2_i, buf_flip_B2_Bthird_r2_r             // use 18 -> 24
+//
 kernel_22 : [C_BB_BB_prop_init_r, C_BB_BB_prop_init_i]
     buf_C_BB_BB_prop_i, buf_C_BB_BB_prop_r                       //    
 kernel_23 : [*(BB_BB_new_term_0_r1_b1.get_real(), C_BB_BB_prop_update_i]
