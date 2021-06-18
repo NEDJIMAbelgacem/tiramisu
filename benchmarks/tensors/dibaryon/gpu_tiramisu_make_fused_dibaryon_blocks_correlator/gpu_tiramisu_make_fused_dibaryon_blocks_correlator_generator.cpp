@@ -3353,7 +3353,7 @@ void generate_function(std::string name)
           .then(B1_Bthird_r1_i_props, jSprime)
 // this should be a new kernel
 // kernel_5
-          .then(B1_Blocal_r1_r_update, t) // t, x1, x2, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime, m
+          .then(B1_Blocal_r1_r_update, kSprime) // t, x1, x2, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime, m
           .then(B1_Blocal_r1_i_update, m)
           .then(B1_Bfirst_r1_r_update, m)
           .then(B1_Bfirst_r1_i_update, m)
@@ -3362,7 +3362,7 @@ void generate_function(std::string name)
           .then(B1_Bthird_r1_r_update, m)
           .then(B1_Bthird_r1_i_update, m)
 // kernel_6
-          .then(flip_B1_Blocal_r1_r_update, t)
+          .then(flip_B1_Blocal_r1_r_update, kSprime)
           .then(flip_B1_Blocal_r1_i_update, m)
           .then(flip_B1_Bfirst_r1_r_update, m)
           .then(flip_B1_Bfirst_r1_i_update, m)
