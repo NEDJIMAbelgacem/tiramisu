@@ -2636,30 +2636,30 @@ void generate_function(std::string name)
     flip_B1_Bthird_r1_r_init.tag_gpu_level(x1, x2, iCprime, iSprime, kCprime, kSprime);
     flip_B1_Bthird_r1_i_init.tag_gpu_level(x1, x2, iCprime, iSprime, kCprime, kSprime);
 
-    B1_Blocal_r1_r_props_init.tag_gpu_level(x1, x2);
-    B1_Blocal_r1_i_props_init.tag_gpu_level(x1, x2);
-    B1_Bfirst_r1_r_props_init.tag_gpu_level(x1, x2);
-    B1_Bfirst_r1_i_props_init.tag_gpu_level(x1, x2);
-    B1_Bsecond_r1_r_props_init.tag_gpu_level(x1, x2);
-    B1_Bsecond_r1_i_props_init.tag_gpu_level(x1, x2);
-    B1_Bthird_r1_r_props_init.tag_gpu_level(x1, x2);
-    B1_Bthird_r1_i_props_init.tag_gpu_level(x1, x2);
+    B1_Blocal_r1_r_props_init.tag_gpu_level(x1, x2, iCprime, iSprime, kCprime, kSprime);
+    B1_Blocal_r1_i_props_init.tag_gpu_level(x1, x2, iCprime, iSprime, kCprime, kSprime);
+    B1_Bfirst_r1_r_props_init.tag_gpu_level(x1, x2, iCprime, iSprime, kCprime, kSprime);
+    B1_Bfirst_r1_i_props_init.tag_gpu_level(x1, x2, iCprime, iSprime, kCprime, kSprime);
+    B1_Bsecond_r1_r_props_init.tag_gpu_level(x1, x2, iCprime, iSprime, kCprime, kSprime);
+    B1_Bsecond_r1_i_props_init.tag_gpu_level(x1, x2, iCprime, iSprime, kCprime, kSprime);
+    B1_Bthird_r1_r_props_init.tag_gpu_level(x1, x2, iCprime, iSprime, kCprime, kSprime);
+    B1_Bthird_r1_i_props_init.tag_gpu_level(x1, x2, iCprime, iSprime, kCprime, kSprime);
 
-    B1_Blocal_r1_r_diquark.tag_gpu_level(x1, x2);
-    B1_Blocal_r1_i_diquark.tag_gpu_level(x1, x2);
-    B1_Bfirst_r1_r_diquark.tag_gpu_level(x1, x2);
-    B1_Bfirst_r1_i_diquark.tag_gpu_level(x1, x2);
-    B1_Bthird_r1_r_diquark.tag_gpu_level(x1, x2);
-    B1_Bthird_r1_i_diquark.tag_gpu_level(x1, x2);
+    B1_Blocal_r1_r_diquark.tag_gpu_level(x1, x2, iCprime, iSprime, kCprime, kSprime);
+    B1_Blocal_r1_i_diquark.tag_gpu_level(x1, x2, iCprime, iSprime, kCprime, kSprime);
+    B1_Bfirst_r1_r_diquark.tag_gpu_level(x1, x2, iCprime, iSprime, kCprime, kSprime);
+    B1_Bfirst_r1_i_diquark.tag_gpu_level(x1, x2, iCprime, iSprime, kCprime, kSprime);
+    B1_Bthird_r1_r_diquark.tag_gpu_level(x1, x2, iCprime, iSprime, kCprime, kSprime);
+    B1_Bthird_r1_i_diquark.tag_gpu_level(x1, x2, iCprime, iSprime, kCprime, kSprime);
 
-    B1_Blocal_r1_i_props.tag_gpu_level(x1, x2);
-    B1_Blocal_r1_r_props.tag_gpu_level(x1, x2);
-    B1_Bfirst_r1_r_props.tag_gpu_level(x1, x2);
-    B1_Bfirst_r1_i_props.tag_gpu_level(x1, x2);
-    B1_Bsecond_r1_r_props.tag_gpu_level(x1, x2);
-    B1_Bsecond_r1_i_props.tag_gpu_level(x1, x2);
-    B1_Bthird_r1_r_props.tag_gpu_level(x1, x2);
-    B1_Bthird_r1_i_props.tag_gpu_level(x1, x2);
+    B1_Blocal_r1_i_props.tag_gpu_level(x1, x2, iCprime, iSprime, kCprime, kSprime);
+    B1_Blocal_r1_r_props.tag_gpu_level(x1, x2, iCprime, iSprime, kCprime, kSprime);
+    B1_Bfirst_r1_r_props.tag_gpu_level(x1, x2, iCprime, iSprime, kCprime, kSprime);
+    B1_Bfirst_r1_i_props.tag_gpu_level(x1, x2, iCprime, iSprime, kCprime, kSprime);
+    B1_Bsecond_r1_r_props.tag_gpu_level(x1, x2, iCprime, iSprime, kCprime, kSprime);
+    B1_Bsecond_r1_i_props.tag_gpu_level(x1, x2, iCprime, iSprime, kCprime, kSprime);
+    B1_Bthird_r1_r_props.tag_gpu_level(x1, x2, iCprime, iSprime, kCprime, kSprime);
+    B1_Bthird_r1_i_props.tag_gpu_level(x1, x2, iCprime, iSprime, kCprime, kSprime);
 
     B1_Blocal_r1_r_update.tag_gpu_level(x1, x2);
     B1_Blocal_r1_i_update.tag_gpu_level(x1, x2);
