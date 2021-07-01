@@ -1092,7 +1092,14 @@ void generate_function(std::string name)
 
     // r2, b = 1
     complex_computation BB_BB_new_term_1_r2_b2("BB_BB_new_term_1_r2_b2", {t, x1, rp, x2, r, m, s, nperm, wnum}, B2_Blocal_r2_init(t, x1, snk_spin_weights(r, nperm, wnum, 0, 1), snk_spin_weights(r, nperm, wnum, 2, 1), x2, snk_color_weights(r, nperm, wnum, 0, 1), snk_color_weights(r, nperm, wnum, 2, 1), snk_color_weights(r, nperm, wnum, 1, 1), snk_spin_weights(r, nperm, wnum, 1, 1), m));
-    complex_computation BB_BB_new_term_0_r2_b2("BB_BB_new_term_0_r2_b2", {t, x1, rp, x2, r, m, s, nperm, wnum}, B1_Blocal_r2_init(t, x1, snk_spin_weights(r, nperm, wnum, 0, 1), snk_spin_weights(r, nperm, wnum, 2, 1), x2, snk_color_weights(r, nperm, wnum, 0, 1), snk_color_weights(r, nperm, wnum, 2, 1), snk_color_weights(r, nperm, wnum, 1, 1), snk_spin_weights(r, nperm, wnum, 1, 1), m));
+    complex_computation BB_BB_new_term_0_r2_b2("BB_BB_new_term_0_r2_b2", {t, x1, rp, x2, r, m, s, nperm, wnum}, B1_Blocal_r2_init(t, x1, snk_spin_weights(r, nperm, wnusnk_spin_weights(r, nperm, wnum, 2, 1)
+snk_spin_weights(r, nperm, wnum, 2, 1)
+snk_spin_weights(r, nperm, wnum, 2, 1)
+snk_spin_weights(r, nperm, wnum, 2, 1)
+snk_spin_weights(r, nperm, wnum, 2, 1)
+snk_spin_weights(r, nperm, wnum, 2, 1)
+snk_spin_weights(r, nperm, wnum, 2, 1)
+snk_spin_weights(r, nperm, wnum, 2, 1)m, 0, 1), snk_spin_weights(r, nperm, wnum, 2, 1), x2, snk_color_weights(r, nperm, wnum, 0, 1), snk_color_weights(r, nperm, wnum, 2, 1), snk_color_weights(r, nperm, wnum, 1, 1), snk_spin_weights(r, nperm, wnum, 1, 1), m));
     complex_computation BB_BB_new_term_2_r2_b2("BB_BB_new_term_2_r2_b2", {t, x1, rp, x2, r, m, s, nperm, wnum}, B1_Bfirst_r2_init(t, x1, snk_spin_weights(r, nperm, wnum, 0, 1), snk_spin_weights(r, nperm, wnum, 2, 1), x2, snk_color_weights(r, nperm, wnum, 0, 1), snk_color_weights(r, nperm, wnum, 2, 1), snk_color_weights(r, nperm, wnum, 1, 1), snk_spin_weights(r, nperm, wnum, 1, 1), m));
     complex_computation BB_BB_new_term_3_r2_b2("BB_BB_new_term_3_r2_b2", {t, x1, rp, x2, r, m, s, nperm, wnum}, B2_Bfirst_r2_init(t, x1, snk_spin_weights(r, nperm, wnum, 0, 1), snk_spin_weights(r, nperm, wnum, 2, 1), x2, snk_color_weights(r, nperm, wnum, 0, 1), snk_color_weights(r, nperm, wnum, 2, 1), snk_color_weights(r, nperm, wnum, 1, 1), snk_spin_weights(r, nperm, wnum, 1, 1), m));
     complex_computation BB_BB_new_term_4_r2_b2("BB_BB_new_term_4_r2_b2", {t, x1, rp, x2, r, m, s, nperm, wnum}, B1_Bsecond_r2_init(t, x1, snk_spin_weights(r, nperm, wnum, 0, 1), snk_spin_weights(r, nperm, wnum, 2, 1), x2, snk_color_weights(r, nperm, wnum, 0, 1), snk_color_weights(r, nperm, wnum, 2, 1), snk_color_weights(r, nperm, wnum, 1, 1), snk_spin_weights(r, nperm, wnum, 1, 1), m));
