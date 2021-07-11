@@ -1197,11 +1197,11 @@ void generate_function(std::string name)
     complex_expr flip_BB_BB_term_res = prefactor * flip_BB_BB_term_res_b1 * flip_BB_BB_term_res_b2;
 
 
-    computation C_BB_BB_prop_update_r("C_BB_BB_prop_update_r", {t, tileX, tileY, x1, rp, x2, r, m, s, nperm, wnum}, C_BB_BB_prop_init_r(t, x1, rp, x2, r, m) + tiramisu::expr( 0.5 ) * BB_BB_term_res.get_real() );
-    computation C_BB_BB_prop_update_i("C_BB_BB_prop_update_i", {t, tileX, tileY, x1, rp, x2, r, m, s, nperm, wnum}, C_BB_BB_prop_init_i(t, x1, rp, x2, r, m) + tiramisu::expr( 0.5 ) * BB_BB_term_res.get_imag() );
+    computation C_BB_BB_prop_update_r("C_BB_BB_prop_update_r", {t, tileX, tileY, x1, rp, x2, r, m, s, nperm, wnum}, C_BB_BB_prop_init_r(t, tileX, tileY, x1, rp, x2, r, m) + tiramisu::expr( 0.5 ) * BB_BB_term_res.get_real() );
+    computation C_BB_BB_prop_update_i("C_BB_BB_prop_update_i", {t, tileX, tileY, x1, rp, x2, r, m, s, nperm, wnum}, C_BB_BB_prop_init_i(t, tileX, tileY, x1, rp, x2, r, m) + tiramisu::expr( 0.5 ) * BB_BB_term_res.get_imag() );
 
-    computation C_BB_BB_prop_update_r_2("C_BB_BB_prop_update_r_2", {t, tileX, tileY, x1, rp, x2, r, m, s, nperm, wnum}, C_BB_BB_prop_init_r(t, x1, rp, x2, r, m) + tiramisu::expr( 0.5 ) * flip_BB_BB_term_res.get_real() );
-    computation C_BB_BB_prop_update_i_2("C_BB_BB_prop_update_i_2", {t, tileX, tileY, x1, rp, x2, r, m, s, nperm, wnum}, C_BB_BB_prop_init_i(t, x1, rp, x2, r, m) + tiramisu::expr( 0.5 ) * flip_BB_BB_term_res.get_imag() );
+    computation C_BB_BB_prop_update_r_2("C_BB_BB_prop_update_r_2", {t, tileX, tileY, x1, rp, x2, r, m, s, nperm, wnum}, C_BB_BB_prop_init_r(t, tileX, tileY, x1, rp, x2, r, m) + tiramisu::expr( 0.5 ) * flip_BB_BB_term_res.get_real() );
+    computation C_BB_BB_prop_update_i_2("C_BB_BB_prop_update_i_2", {t, tileX, tileY, x1, rp, x2, r, m, s, nperm, wnum}, C_BB_BB_prop_init_i(t, tileX, tileY, x1, rp, x2, r, m) + tiramisu::expr( 0.5 ) * flip_BB_BB_term_res.get_imag() );
 
 
     complex_computation C_BB_BB_prop_update(&C_BB_BB_prop_update_r, &C_BB_BB_prop_update_i);
