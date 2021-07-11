@@ -1206,8 +1206,8 @@ void generate_function(std::string name)
 
     complex_computation C_BB_BB_prop_update(&C_BB_BB_prop_update_r, &C_BB_BB_prop_update_i);
 
-    complex_expr BB_BB_term_s = (snk_psi_B1_ue * snk_psi_B2_x2_ue + snk_psi_B1_x2_ue * snk_psi_B2_ue) * C_BB_BB_prop_update(t, x1, rp, x2, r, m, 1, Nperms-1, Nw2-1);
-    complex_expr BB_BB_term_b = snk_psi * C_BB_BB_prop_update(t, x1, rp, x2, r, m, 1, Nperms-1, Nw2-1);
+    complex_expr BB_BB_term_s = (snk_psi_B1_ue * snk_psi_B2_x2_ue + snk_psi_B1_x2_ue * snk_psi_B2_ue) * C_BB_BB_prop_update(t, tileX, tileY, x1, rp, x2, r, m, 1, Nperms-1, Nw2-1);
+    complex_expr BB_BB_term_b = snk_psi * C_BB_BB_prop_update(t, tileX, tileY, x1, rp, x2, r, m, 1, Nperms-1, Nw2-1);
 
         // t, x1, x2, rp, m, r, nue}
         // Lt, Vsnk, Vsnk, B2Nrows, Nsrc, B2Nrows, Nsnk
@@ -1527,24 +1527,6 @@ void generate_function(std::string name)
     B1_Bthird_r2_r_update.store_in(&buf_B1_Bthird_r2_r, { x1, iCprime, iSprime, jCprime, jSprime, m, x2, kCprime, kSprime});
     B1_Bthird_r2_i_update.store_in(&buf_B1_Bthird_r2_i, { x1, iCprime, iSprime, jCprime, jSprime, m, x2, kCprime, kSprime});
 
-    // computation *allocate_buf_B1_Blocal_r2_r = buf_B1_Blocal_r2_r.allocate_at( B1_Blocal_r2_r_init, t );
-    // computation *allocate_buf_B1_Blocal_r2_i = buf_B1_Blocal_r2_i.allocate_at( B1_Blocal_r2_r_init, t );
-    // computation *allocate_buf_B1_Bfirst_r2_r = buf_B1_Bfirst_r2_r.allocate_at( B1_Blocal_r2_r_init, t );
-    // computation *allocate_buf_B1_Bfirst_r2_i = buf_B1_Bfirst_r2_i.allocate_at( B1_Blocal_r2_r_init, t );
-    // computation *allocate_buf_B1_Bsecond_r2_r = buf_B1_Bsecond_r2_r.allocate_at( B1_Blocal_r2_r_init, t );
-    // computation *allocate_buf_B1_Bsecond_r2_i = buf_B1_Bsecond_r2_i.allocate_at( B1_Blocal_r2_r_init, t );
-    // computation *allocate_buf_B1_Bthird_r2_r = buf_B1_Bthird_r2_r.allocate_at( B1_Blocal_r2_r_init, t );
-    // computation *allocate_buf_B1_Bthird_r2_i = buf_B1_Bthird_r2_i.allocate_at( B1_Blocal_r2_r_init, t );
-
-    // computation *deallocate_buf_B1_Blocal_r2_r = buf_B1_Blocal_r2_r.deallocate_at( C_BB_BB_prop_update_i, t );
-    // computation *deallocate_buf_B1_Blocal_r2_i = buf_B1_Blocal_r2_i.deallocate_at( C_BB_BB_prop_update_i, t );
-    // computation *deallocate_buf_B1_Bfirst_r2_r = buf_B1_Bfirst_r2_r.deallocate_at( C_BB_BB_prop_update_i, t );
-    // computation *deallocate_buf_B1_Bfirst_r2_i = buf_B1_Bfirst_r2_i.deallocate_at( C_BB_BB_prop_update_i, t );
-    // computation *deallocate_buf_B1_Bsecond_r2_r = buf_B1_Bsecond_r2_r.deallocate_at( C_BB_BB_prop_update_i, t );
-    // computation *deallocate_buf_B1_Bsecond_r2_i = buf_B1_Bsecond_r2_i.deallocate_at( C_BB_BB_prop_update_i, t );
-    // computation *deallocate_buf_B1_Bthird_r2_r = buf_B1_Bthird_r2_r.deallocate_at( C_BB_BB_prop_update_i, t );
-    // computation *deallocate_buf_B1_Bthird_r2_i = buf_B1_Bthird_r2_i.deallocate_at( C_BB_BB_prop_update_i, t );
-
     buffer buf_flip_B1_Blocal_r2_r("buf_flip_B1_Blocal_r2_r",   { Vsnk, Nc, Ns, Nc, Ns, Nsrc, Vsnk, Nc, Ns }, p_float64, a_temporary);
     buffer buf_flip_B1_Blocal_r2_i("buf_flip_B1_Blocal_r2_i",   { Vsnk, Nc, Ns, Nc, Ns, Nsrc, Vsnk, Nc, Ns }, p_float64, a_temporary);
     buffer buf_flip_B1_Bfirst_r2_r("buf_flip_B1_Bfirst_r2_r",   { Vsnk, Nc, Ns, Nc, Ns, Nsrc, Vsnk, Nc, Ns }, p_float64, a_temporary);
@@ -1697,24 +1679,6 @@ void generate_function(std::string name)
     B2_Bsecond_r1_i_update.store_in(&buf_B2_Bsecond_r1_i, { x1, iCprime, iSprime, jCprime, jSprime, m, x2, kCprime, kSprime});
     B2_Bthird_r1_r_update.store_in(&buf_B2_Bthird_r1_r, { x1, iCprime, iSprime, jCprime, jSprime, m, x2, kCprime, kSprime});
     B2_Bthird_r1_i_update.store_in(&buf_B2_Bthird_r1_i, { x1, iCprime, iSprime, jCprime, jSprime, m, x2, kCprime, kSprime});
-
-    // computation* allocate_buf_B2_Blocal_r1_r = buf_B2_Blocal_r1_r.allocate_at( B2_Blocal_r1_r_init, t );
-    // computation* allocate_buf_B2_Blocal_r1_i = buf_B2_Blocal_r1_i.allocate_at( B2_Blocal_r1_r_init, t );
-    // computation* allocate_buf_B2_Bfirst_r1_r = buf_B2_Bfirst_r1_r.allocate_at( B2_Blocal_r1_r_init, t );
-    // computation* allocate_buf_B2_Bfirst_r1_i = buf_B2_Bfirst_r1_i.allocate_at( B2_Blocal_r1_r_init, t );
-    // computation* allocate_buf_B2_Bsecond_r1_r = buf_B2_Bsecond_r1_r.allocate_at( B2_Blocal_r1_r_init, t );
-    // computation* allocate_buf_B2_Bsecond_r1_i = buf_B2_Bsecond_r1_i.allocate_at( B2_Blocal_r1_r_init, t );
-    // computation* allocate_buf_B2_Bthird_r1_r = buf_B2_Bthird_r1_r.allocate_at( B2_Blocal_r1_r_init, t );
-    // computation* allocate_buf_B2_Bthird_r1_i = buf_B2_Bthird_r1_i.allocate_at( B2_Blocal_r1_r_init, t );
-
-    // computation* deallocate_buf_B2_Blocal_r1_r = buf_B2_Blocal_r1_r.deallocate_at( C_BB_BB_prop_update_i, t );
-    // computation* deallocate_buf_B2_Blocal_r1_i = buf_B2_Blocal_r1_i.deallocate_at( C_BB_BB_prop_update_i, t );
-    // computation* deallocate_buf_B2_Bfirst_r1_r = buf_B2_Bfirst_r1_r.deallocate_at( C_BB_BB_prop_update_i, t );
-    // computation* deallocate_buf_B2_Bfirst_r1_i = buf_B2_Bfirst_r1_i.deallocate_at( C_BB_BB_prop_update_i, t );
-    // computation* deallocate_buf_B2_Bsecond_r1_r = buf_B2_Bsecond_r1_r.deallocate_at( C_BB_BB_prop_update_i, t );
-    // computation* deallocate_buf_B2_Bsecond_r1_i = buf_B2_Bsecond_r1_i.deallocate_at( C_BB_BB_prop_update_i, t );
-    // computation* deallocate_buf_B2_Bthird_r1_r = buf_B2_Bthird_r1_r.deallocate_at( C_BB_BB_prop_update_i, t );
-    // computation* deallocate_buf_B2_Bthird_r1_i = buf_B2_Bthird_r1_i.deallocate_at( C_BB_BB_prop_update_i, t );
 
     buffer buf_flip_B2_Blocal_r1_r("buf_flip_B2_Blocal_r1_r",   { Vsnk, Nc, Ns, Nc, Ns, Nsrc, Vsnk, Nc, Ns }, p_float64, a_temporary);
     buffer buf_flip_B2_Blocal_r1_i("buf_flip_B2_Blocal_r1_i",   { Vsnk, Nc, Ns, Nc, Ns, Nsrc, Vsnk, Nc, Ns }, p_float64, a_temporary);
