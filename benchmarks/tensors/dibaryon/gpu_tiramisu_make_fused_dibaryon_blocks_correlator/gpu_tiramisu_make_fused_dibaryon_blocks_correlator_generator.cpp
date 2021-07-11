@@ -1224,11 +1224,11 @@ void generate_function(std::string name)
     C_BB_init_r.store_in(&buf_C_BB_r, {t, x1, x2, rp, m, r, n});
     C_BB_init_i.store_in(&buf_C_BB_i, {t, x1, x2, rp, m, r, n});
 
-    computation C_BB_BB_update_s_r("C_BB_BB_update_s_r", {t, tileX, tileY, x1, rp, x2, r, m, nue}, C_BB_init_r(t, x1, rp, x2, r, m, NEntangled+nue) + BB_BB_term_s.get_real());
-    computation C_BB_BB_update_s_i("C_BB_BB_update_s_i", {t, tileX, tileY, x1, rp, x2, r, m, nue}, C_BB_init_i(t, x1, rp, x2, r, m, NEntangled+nue) + BB_BB_term_s.get_imag());
+    computation C_BB_BB_update_s_r("C_BB_BB_update_s_r", {t, tileX, tileY, x1, rp, x2, r, m, nue}, C_BB_init_r(t, tileX, tileY, x1, rp, x2, r, m, NEntangled+nue) + BB_BB_term_s.get_real());
+    computation C_BB_BB_update_s_i("C_BB_BB_update_s_i", {t, tileX, tileY, x1, rp, x2, r, m, nue}, C_BB_init_i(t, tileX, tileY, x1, rp, x2, r, m, NEntangled+nue) + BB_BB_term_s.get_imag());
 
-    computation C_BB_BB_update_b_r("C_BB_BB_update_b_r", {t, tileX, tileY, x1, rp, x2, r, m, ne}, C_BB_init_r(t, x1, rp, x2, r, m, ne) + BB_BB_term_b.get_real());
-    computation C_BB_BB_update_b_i("C_BB_BB_update_b_i", {t, tileX, tileY, x1, rp, x2, r, m, ne}, C_BB_init_i(t, x1, rp, x2, r, m, ne) + BB_BB_term_b.get_imag());
+    computation C_BB_BB_update_b_r("C_BB_BB_update_b_r", {t, tileX, tileY, x1, rp, x2, r, m, ne}, C_BB_init_r(t, tileX, tileY, x1, rp, x2, r, m, ne) + BB_BB_term_b.get_real());
+    computation C_BB_BB_update_b_i("C_BB_BB_update_b_i", {t, tileX, tileY, x1, rp, x2, r, m, ne}, C_BB_init_i(t, tileX, tileY, x1, rp, x2, r, m, ne) + BB_BB_term_b.get_imag());
 
     // BB_H
     computation C_BB_H_prop_init_r("C_BB_H_prop_init_r", {t, x_out, x_in, rp, m, r}, expr((double) 0));
