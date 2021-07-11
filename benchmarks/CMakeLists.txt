@@ -60,3 +60,4 @@ add_subdirectory(FlexNLP/LSTM_manual_data_copy)
 
 add_subdirectory(FlexNLP/LSTM_partitioned_same_accelerator)
 add_subdirectory(FlexNLP/LSTM_partitioned_multi_accelerators)
+add_subdirectory(tensors/dibaryon/tiramisu_make_fused_baryon_blocks_correlator)
