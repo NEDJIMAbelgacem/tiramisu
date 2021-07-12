@@ -1372,6 +1372,20 @@ void generate_function(std::string name)
     summurize_C_BB_re.store_in( &out_C_re, {t, n, r, m, rp} );
     summurize_C_BB_im.store_in( &out_C_im, {t, n, r, m, rp} );
 
+    // C_init_r.store_in(&buf_C_r, {t, x_out, x_in, rp, mpmH, r, npnH});
+    // C_init_i.store_in(&buf_C_i, {t, x_out, x_in, rp, mpmH, r, npnH});
+
+    computation summurize_C_re_init( "summurize_C_re_init", { t, rp, m, r, n }, expr((double) 0) );
+    computation summurize_C_im_init( "summurize_C_im_init", { t, rp, m, r, n }, expr((double) 0) );
+    computation summurize_C_re( "summurize_C_re", { t, rp, m, r, n, x1, x2 }, summurize_C_re_init( t, rp, m, r, n ) + C_BB_cpu_init_r( t, x1, rp, x2, r, m, n ) );
+    computation summurize_C_im( "summurize_C_im", { t, rp, m, r, n, x1, x2 }, summurize_C_im_init( t, rp, m, r, n ) + C_BB_cpu_init_i( t, x1, rp, x2, r, m, n ) );
+
+    summurize_C_re_init.store_in( &out_C_re, {t, n, r, m, rp} );
+    summurize_C_im_init.store_in( &out_C_im, {t, n, r, m, rp} );
+    summurize_C_re.store_in( &out_C_re, {t, n, r, m, rp} );
+    summurize_C_im.store_in( &out_C_im, {t, n, r, m, rp} );
+
+
     // -------------------------------------------------------
     // Layer III
     // -------------------------------------------------------
@@ -3026,44 +3040,44 @@ void generate_function(std::string name)
     // Layer II
     // -------------------------------------------------------
 
-    computation copy_buf_C_r_host_to_device({}, memcpy(buf_C_r_cpu, buf_C_r));
-    computation copy_buf_C_i_host_to_device({}, memcpy(buf_C_i_cpu, buf_C_i));
-    computation copy_B1_prop_r_host_to_device({}, memcpy(buf_B1_prop_r_cpu, buf_B1_prop_r_gpu));
-    computation copy_B1_prop_i_host_to_device({}, memcpy(buf_B1_prop_i_cpu, buf_B1_prop_i_gpu));
-    computation copy_B2_prop_r_host_to_device({}, memcpy(buf_B2_prop_r_cpu, buf_B2_prop_r_gpu));
-    computation copy_B2_prop_i_host_to_device({}, memcpy(buf_B2_prop_i_cpu, buf_B2_prop_i_gpu));
-    computation copy_src_psi_B1_r_host_to_device({}, memcpy(buf_src_psi_B1_r_cpu, buf_src_psi_B1_r_gpu));
-    computation copy_src_psi_B1_i_host_to_device({}, memcpy(buf_src_psi_B1_i_cpu, buf_src_psi_B1_i_gpu));
-    computation copy_src_psi_B2_r_host_to_device({}, memcpy(buf_src_psi_B2_r_cpu, buf_src_psi_B2_r_gpu));
-    computation copy_src_psi_B2_i_host_to_device({}, memcpy(buf_src_psi_B2_i_cpu, buf_src_psi_B2_i_gpu));
-    computation copy_snk_psi_B1_r_host_to_device({}, memcpy(buf_snk_psi_B1_r_cpu, buf_snk_psi_B1_r_gpu));
-    computation copy_snk_psi_B1_i_host_to_device({}, memcpy(buf_snk_psi_B1_i_cpu, buf_snk_psi_B1_i_gpu));
-    computation copy_snk_psi_B2_r_host_to_device({}, memcpy(buf_snk_psi_B2_r_cpu, buf_snk_psi_B2_r_gpu));
-    computation copy_snk_psi_B2_i_host_to_device({}, memcpy(buf_snk_psi_B2_i_cpu, buf_snk_psi_B2_i_gpu));
+    computation copy_buf_C_r_host_to_device({t}, memcpy(buf_C_r_cpu, buf_C_r));
+    computation copy_buf_C_i_host_to_device({t}, memcpy(buf_C_i_cpu, buf_C_i));
+    computation copy_B1_prop_r_host_to_device({t}, memcpy(buf_B1_prop_r_cpu, buf_B1_prop_r_gpu));
+    computation copy_B1_prop_i_host_to_device({t}, memcpy(buf_B1_prop_i_cpu, buf_B1_prop_i_gpu));
+    computation copy_B2_prop_r_host_to_device({t}, memcpy(buf_B2_prop_r_cpu, buf_B2_prop_r_gpu));
+    computation copy_B2_prop_i_host_to_device({t}, memcpy(buf_B2_prop_i_cpu, buf_B2_prop_i_gpu));
+    computation copy_src_psi_B1_r_host_to_device({t}, memcpy(buf_src_psi_B1_r_cpu, buf_src_psi_B1_r_gpu));
+    computation copy_src_psi_B1_i_host_to_device({t}, memcpy(buf_src_psi_B1_i_cpu, buf_src_psi_B1_i_gpu));
+    computation copy_src_psi_B2_r_host_to_device({t}, memcpy(buf_src_psi_B2_r_cpu, buf_src_psi_B2_r_gpu));
+    computation copy_src_psi_B2_i_host_to_device({t}, memcpy(buf_src_psi_B2_i_cpu, buf_src_psi_B2_i_gpu));
+    computation copy_snk_psi_B1_r_host_to_device({t}, memcpy(buf_snk_psi_B1_r_cpu, buf_snk_psi_B1_r_gpu));
+    computation copy_snk_psi_B1_i_host_to_device({t}, memcpy(buf_snk_psi_B1_i_cpu, buf_snk_psi_B1_i_gpu));
+    computation copy_snk_psi_B2_r_host_to_device({t}, memcpy(buf_snk_psi_B2_r_cpu, buf_snk_psi_B2_r_gpu));
+    computation copy_snk_psi_B2_i_host_to_device({t}, memcpy(buf_snk_psi_B2_i_cpu, buf_snk_psi_B2_i_gpu));
     
-    computation copy_hex_src_psi_r_host_to_device( {}, memcpy( buf_hex_src_psi_r_cpu,  buf_hex_src_psi_r_gpu ) );
-    computation copy_hex_src_psi_i_host_to_device( {}, memcpy( buf_hex_src_psi_i_cpu,  buf_hex_src_psi_i_gpu ) );
+    computation copy_hex_src_psi_r_host_to_device( {t}, memcpy( buf_hex_src_psi_r_cpu,  buf_hex_src_psi_r_gpu ) );
+    computation copy_hex_src_psi_i_host_to_device( {t}, memcpy( buf_hex_src_psi_i_cpu,  buf_hex_src_psi_i_gpu ) );
 
-    computation copy_src_spins_host_to_device({}, memcpy(buf_src_spins_cpu, buf_src_spins_gpu));
-    computation copy_sigs_host_to_device({}, memcpy(buf_sigs_cpu, buf_sigs_gpu));
-    computation copy_snk_psi_r_host_to_device({}, memcpy(buf_snk_psi_r_cpu, buf_snk_psi_r_gpu));
-    computation copy_snk_psi_i_host_to_device({}, memcpy(buf_snk_psi_i_cpu, buf_snk_psi_i_gpu));
-    computation copy_hex_snk_psi_r_host_to_device({}, memcpy(buf_hex_snk_psi_r_cpu, buf_hex_snk_psi_r_gpu));
-    computation copy_hex_snk_psi_i_host_to_device({}, memcpy(buf_hex_snk_psi_i_cpu, buf_hex_snk_psi_i_gpu));
-    computation copy_src_color_weights_host_to_device({}, memcpy(buf_src_color_weights_cpu, buf_src_color_weights_gpu));
-    computation copy_src_spin_weights_host_to_device({}, memcpy(buf_src_spin_weights_cpu, buf_src_spin_weights_gpu));
-    computation copy_src_weights_host_to_device({}, memcpy(buf_src_weights_cpu, buf_src_weights_gpu));
-    computation copy_snk_color_weights_host_to_device({}, memcpy(buf_snk_color_weights_cpu, buf_snk_color_weights_gpu));
-    computation copy_snk_spin_weights_host_to_device({}, memcpy(buf_snk_spin_weights_cpu, buf_snk_spin_weights_gpu));
-    computation copy_snk_weights_host_to_device({}, memcpy(buf_snk_weights_cpu, buf_snk_weights_gpu));
-    computation copy_hex_snk_color_weights_host_to_device({}, memcpy(buf_hex_snk_color_weights_cpu, buf_hex_snk_color_weights_gpu));
-    computation copy_hex_snk_spin_weights_host_to_device({}, memcpy(buf_hex_snk_spin_weights_cpu, buf_hex_snk_spin_weights_gpu));
-    computation copy_hex_snk_weights_host_to_device({}, memcpy(buf_hex_snk_weights_cpu, buf_hex_snk_weights_gpu));
-    computation copy_src_spin_block_weights_host_to_device({}, memcpy(buf_src_spin_block_weights_cpu, buf_src_spin_block_weights_gpu));
-    computation copy_snk_b_host_to_device({}, memcpy(buf_snk_b_cpu, buf_snk_b_gpu));
+    computation copy_src_spins_host_to_device({t}, memcpy(buf_src_spins_cpu, buf_src_spins_gpu));
+    computation copy_sigs_host_to_device({t}, memcpy(buf_sigs_cpu, buf_sigs_gpu));
+    computation copy_snk_psi_r_host_to_device({t}, memcpy(buf_snk_psi_r_cpu, buf_snk_psi_r_gpu));
+    computation copy_snk_psi_i_host_to_device({t}, memcpy(buf_snk_psi_i_cpu, buf_snk_psi_i_gpu));
+    computation copy_hex_snk_psi_r_host_to_device({t}, memcpy(buf_hex_snk_psi_r_cpu, buf_hex_snk_psi_r_gpu));
+    computation copy_hex_snk_psi_i_host_to_device({t}, memcpy(buf_hex_snk_psi_i_cpu, buf_hex_snk_psi_i_gpu));
+    computation copy_src_color_weights_host_to_device({t}, memcpy(buf_src_color_weights_cpu, buf_src_color_weights_gpu));
+    computation copy_src_spin_weights_host_to_device({t}, memcpy(buf_src_spin_weights_cpu, buf_src_spin_weights_gpu));
+    computation copy_src_weights_host_to_device({t}, memcpy(buf_src_weights_cpu, buf_src_weights_gpu));
+    computation copy_snk_color_weights_host_to_device({t}, memcpy(buf_snk_color_weights_cpu, buf_snk_color_weights_gpu));
+    computation copy_snk_spin_weights_host_to_device({t}, memcpy(buf_snk_spin_weights_cpu, buf_snk_spin_weights_gpu));
+    computation copy_snk_weights_host_to_device({t}, memcpy(buf_snk_weights_cpu, buf_snk_weights_gpu));
+    computation copy_hex_snk_color_weights_host_to_device({t}, memcpy(buf_hex_snk_color_weights_cpu, buf_hex_snk_color_weights_gpu));
+    computation copy_hex_snk_spin_weights_host_to_device({t}, memcpy(buf_hex_snk_spin_weights_cpu, buf_hex_snk_spin_weights_gpu));
+    computation copy_hex_snk_weights_host_to_device({t}, memcpy(buf_hex_snk_weights_cpu, buf_hex_snk_weights_gpu));
+    computation copy_src_spin_block_weights_host_to_device({t}, memcpy(buf_src_spin_block_weights_cpu, buf_src_spin_block_weights_gpu));
+    computation copy_snk_b_host_to_device({t}, memcpy(buf_snk_b_cpu, buf_snk_b_gpu));
 
-    computation copy_buf_C_r_device_to_host({}, memcpy(buf_C_r, buf_C_r_cpu));
-    computation copy_buf_C_i_device_to_host({}, memcpy(buf_C_i, buf_C_i_cpu));
+    computation copy_buf_C_r_device_to_host({t}, memcpy(buf_C_r, buf_C_r_cpu));
+    computation copy_buf_C_i_device_to_host({t}, memcpy(buf_C_i, buf_C_i_cpu));
     // computation copy_B1_prop_r_device_to_host({}, memcpy(*B1_prop_r.get_buffer(), buf_B1_prop_r_cpu));
     // computation copy_B1_prop_i_device_to_host({}, memcpy(*B1_prop_i.get_buffer(), buf_B1_prop_i_cpu));
     // computation copy_B2_prop_r_device_to_host({}, memcpy(*B2_prop_r.get_buffer(), buf_B2_prop_r_cpu));
@@ -3100,58 +3114,50 @@ void generate_function(std::string name)
     computation copy_buf_C_BB_i_device_to_host({}, memcpy(buf_C_BB_i, buf_C_BB_i_cpu));
     
     computation *handle = nullptr;
-    handle = &C_BB_cpu_init_r.then( C_BB_cpu_init_i, computation::root );
+    handle = &C_BB_cpu_init_r.then( C_BB_cpu_init_i, t );
 
-    handle = &(handle->then( copy_buf_C_r_host_to_device, computation::root )
-        .then(copy_buf_C_i_host_to_device, computation::root)
-        .then(copy_B1_prop_r_host_to_device, computation::root)
-        .then(copy_B1_prop_i_host_to_device, computation::root)
-        .then(copy_B2_prop_r_host_to_device, computation::root)
-        .then(copy_B2_prop_i_host_to_device, computation::root)
-        .then(copy_src_psi_B1_r_host_to_device, computation::root)
-        .then(copy_src_psi_B1_i_host_to_device, computation::root)
-        .then(copy_src_psi_B2_r_host_to_device, computation::root)
-        .then(copy_src_psi_B2_i_host_to_device, computation::root)
-        .then(copy_snk_psi_B1_r_host_to_device, computation::root)
-        .then(copy_snk_psi_B1_i_host_to_device, computation::root)
-        .then(copy_snk_psi_B2_r_host_to_device, computation::root)
-        .then(copy_snk_psi_B2_i_host_to_device, computation::root)
-        .then(copy_hex_src_psi_r_host_to_device, computation::root)
-        .then(copy_hex_src_psi_i_host_to_device, computation::root)
-        .then(copy_src_spins_host_to_device, computation::root)
-        .then(copy_sigs_host_to_device, computation::root)
-        .then(copy_snk_psi_r_host_to_device, computation::root)
-        .then(copy_snk_psi_i_host_to_device, computation::root)
-        .then(copy_hex_snk_psi_r_host_to_device, computation::root)
-        .then(copy_hex_snk_psi_i_host_to_device, computation::root)
-        .then(copy_src_color_weights_host_to_device, computation::root)
-        .then(copy_src_spin_weights_host_to_device, computation::root)
-        .then(copy_src_weights_host_to_device, computation::root)
-        .then(copy_snk_color_weights_host_to_device, computation::root)
-        .then(copy_snk_spin_weights_host_to_device, computation::root)
-        .then(copy_snk_weights_host_to_device, computation::root)
-        .then(copy_hex_snk_color_weights_host_to_device, computation::root)
-        .then(copy_hex_snk_spin_weights_host_to_device, computation::root)
-        .then(copy_hex_snk_weights_host_to_device, computation::root)
-        .then(copy_src_spin_block_weights_host_to_device, computation::root)
-        .then(copy_snk_b_host_to_device, computation::root)
+    handle = &(handle->then( copy_buf_C_r_host_to_device, t )
+        .then(copy_buf_C_i_host_to_device, t)
+        .then(copy_B1_prop_r_host_to_device, t)
+        .then(copy_B1_prop_i_host_to_device, t)
+        .then(copy_B2_prop_r_host_to_device, t)
+        .then(copy_B2_prop_i_host_to_device, t)
+        .then(copy_src_psi_B1_r_host_to_device, t)
+        .then(copy_src_psi_B1_i_host_to_device, t)
+        .then(copy_src_psi_B2_r_host_to_device, t)
+        .then(copy_src_psi_B2_i_host_to_device, t)
+        .then(copy_snk_psi_B1_r_host_to_device, t)
+        .then(copy_snk_psi_B1_i_host_to_device, t)
+        .then(copy_snk_psi_B2_r_host_to_device, t)
+        .then(copy_snk_psi_B2_i_host_to_device, t)
+        .then(copy_hex_src_psi_r_host_to_device, t)
+        .then(copy_hex_src_psi_i_host_to_device, t)
+        .then(copy_src_spins_host_to_device, t)
+        .then(copy_sigs_host_to_device, t)
+        .then(copy_snk_psi_r_host_to_device, t)
+        .then(copy_snk_psi_i_host_to_device, t)
+        .then(copy_hex_snk_psi_r_host_to_device, t)
+        .then(copy_hex_snk_psi_i_host_to_device, t)
+        .then(copy_src_color_weights_host_to_device, t)
+        .then(copy_src_spin_weights_host_to_device, t)
+        .then(copy_src_weights_host_to_device, t)
+        .then(copy_snk_color_weights_host_to_device, t)
+        .then(copy_snk_spin_weights_host_to_device, t)
+        .then(copy_snk_weights_host_to_device, t)
+        .then(copy_hex_snk_color_weights_host_to_device, t)
+        .then(copy_hex_snk_spin_weights_host_to_device, t)
+        .then(copy_hex_snk_weights_host_to_device, t)
+        .then(copy_src_spin_block_weights_host_to_device, t)
+        .then(copy_snk_b_host_to_device, t)
         );
 
-    handle = &(handle->then( C_init_r, computation::root ).then( C_init_i, npnH ));
+    handle = &(handle->then( C_init_r, t ).then( C_init_i, npnH ));
 
     // BB_BB
 // kernel_1
     handle = &(handle
           ->then(C_BB_init_r, t )
           .then(C_BB_init_i, n)
-        //   .then( *allocate_buf_B1_Blocal_r1_r, t )
-        //   .then( *allocate_buf_B1_Blocal_r1_i, t )
-        //   .then( *allocate_buf_B1_Bfirst_r1_r, t )
-        //   .then( *allocate_buf_B1_Bfirst_r1_i, t )
-        //   .then( *allocate_buf_B1_Bsecond_r1_r, t )
-        //   .then( *allocate_buf_B1_Bsecond_r1_i, t )
-        //   .then( *allocate_buf_B1_Bthird_r1_r, t )
-        //   .then( *allocate_buf_B1_Bthird_r1_i, t )
 // kernel_2
           .then(B1_Blocal_r1_r_init, t ) // t, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m
           .then(B1_Blocal_r1_i_init, m) 
@@ -3162,14 +3168,6 @@ void generate_function(std::string name)
           .then(B1_Bthird_r1_r_init, m)
           .then(B1_Bthird_r1_i_init, m)
 // kernel_3
-        //   .then( *allocate_buf_flip_B1_Blocal_r1_r, t)
-        //   .then( *allocate_buf_flip_B1_Blocal_r1_i, t)
-        //   .then( *allocate_buf_flip_B1_Bfirst_r1_r, t)
-        //   .then( *allocate_buf_flip_B1_Bfirst_r1_i, t)
-        //   .then( *allocate_buf_flip_B1_Bsecond_r1_r, t)
-        //   .then( *allocate_buf_flip_B1_Bsecond_r1_i, t)
-        //   .then( *allocate_buf_flip_B1_Bthird_r1_r, t)
-        //   .then( *allocate_buf_flip_B1_Bthird_r1_i, t)
           .then(flip_B1_Blocal_r1_r_init, m) // t, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m
           .then(flip_B1_Blocal_r1_i_init, m)
           .then(flip_B1_Bfirst_r1_r_init, m)
@@ -3179,14 +3177,6 @@ void generate_function(std::string name)
           .then(flip_B1_Bthird_r1_r_init, m)
           .then(flip_B1_Bthird_r1_i_init, m)
 // kernel_4
-          // .then( *allocate_buf_B1_Blocal_props_r1_r, t )
-          // .then( *allocate_buf_B1_Blocal_props_r1_i, t)
-          // .then( *allocate_buf_B1_Bfirst_props_r1_r, t)
-          // .then( *allocate_buf_B1_Bfirst_props_r1_i, t)
-          // .then( *allocate_buf_B1_Bsecond_props_r1_r, t)
-          // .then( *allocate_buf_B1_Bsecond_props_r1_i, t)
-          // .then( *allocate_buf_B1_Bthird_props_r1_r, t)
-          // .then( *allocate_buf_B1_Bthird_props_r1_i, t)
 // 
           .then(B1_Blocal_r1_r_props_init, kSprime ) // t, x1, x2, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime
           .then(B1_Blocal_r1_i_props_init, jSprime)
@@ -3231,24 +3221,8 @@ void generate_function(std::string name)
           .then(flip_B1_Bsecond_r1_i_update, m)
           .then(flip_B1_Bthird_r1_r_update, m)
           .then(flip_B1_Bthird_r1_i_update, m)
-          // .then( *deallocate_buf_B1_Blocal_props_r1_r, t) // 1
-          // .then( *deallocate_buf_B1_Blocal_props_r1_i, t) // 2
-          // .then( *deallocate_buf_B1_Bfirst_props_r1_r, t) // 3
-          // .then( *deallocate_buf_B1_Bfirst_props_r1_i, t) // 4
-          // .then( *deallocate_buf_B1_Bsecond_props_r1_r, t) // 5
-          // .then( *deallocate_buf_B1_Bsecond_props_r1_i, t) // 6
-          // .then( *deallocate_buf_B1_Bthird_props_r1_r, t) // 7
-          // .then( *deallocate_buf_B1_Bthird_props_r1_i, t) // 8
 // ---------------------------- 
 // kernel_7:
-        //   .then( *allocate_buf_B1_Blocal_r2_r, t)
-        //   .then( *allocate_buf_B1_Blocal_r2_i, t)
-        //   .then( *allocate_buf_B1_Bfirst_r2_r, t)
-        //   .then( *allocate_buf_B1_Bfirst_r2_i, t)
-        //   .then( *allocate_buf_B1_Bsecond_r2_r, t)
-        //   .then( *allocate_buf_B1_Bsecond_r2_i, t)
-        //   .then( *allocate_buf_B1_Bthird_r2_r, t)
-        //   .then( *allocate_buf_B1_Bthird_r2_i, t)
           .then(B1_Blocal_r2_r_init, kSprime ) // t, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m
           .then(B1_Blocal_r2_i_init, m)
           .then(B1_Bfirst_r2_r_init, m)
@@ -3258,14 +3232,6 @@ void generate_function(std::string name)
           .then(B1_Bthird_r2_r_init, m)
           .then(B1_Bthird_r2_i_init, m)
 // kernel_8
-        //   .then( *allocate_buf_flip_B1_Blocal_r2_r, t )
-        //   .then( *allocate_buf_flip_B1_Blocal_r2_i, t )
-        //   .then( *allocate_buf_flip_B1_Bfirst_r2_r, t )
-        //   .then( *allocate_buf_flip_B1_Bfirst_r2_i, t )
-        //   .then( *allocate_buf_flip_B1_Bsecond_r2_r, t )
-        //   .then( *allocate_buf_flip_B1_Bsecond_r2_i, t )
-        //   .then( *allocate_buf_flip_B1_Bthird_r2_r, t )
-        //   .then( *allocate_buf_flip_B1_Bthird_r2_i, t )
           .then(flip_B1_Blocal_r2_r_init, m) // t, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m
           .then(flip_B1_Blocal_r2_i_init, m)
           .then(flip_B1_Bfirst_r2_r_init, m)
@@ -3275,14 +3241,6 @@ void generate_function(std::string name)
           .then(flip_B1_Bthird_r2_r_init, m)
           .then(flip_B1_Bthird_r2_i_init, m)
 // kernel_9:
-          // .then( *allocate_buf_B1_Blocal_props_r2_r, computation::root )
-          // .then( *allocate_buf_B1_Blocal_props_r2_i, t )
-          // .then( *allocate_buf_B1_Bfirst_props_r2_r, t )
-          // .then( *allocate_buf_B1_Bfirst_props_r2_i, t )
-          // .then( *allocate_buf_B1_Bsecond_props_r2_r, t )
-          // .then( *allocate_buf_B1_Bsecond_props_r2_i, t )
-          // .then( *allocate_buf_B1_Bthird_props_r2_r, t )
-          // .then( *allocate_buf_B1_Bthird_props_r2_i, t )
           .then(B1_Blocal_r2_r_props_init, kSprime) // t, x1, x2, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime
           .then(B1_Blocal_r2_i_props_init, jSprime)
           .then(B1_Bfirst_r2_r_props_init, jSprime)
@@ -3325,24 +3283,8 @@ void generate_function(std::string name)
           .then(flip_B1_Bsecond_r2_i_update, m)
           .then(flip_B1_Bthird_r2_r_update, m)
           .then(flip_B1_Bthird_r2_i_update, m)
-          // .then( *deallocate_buf_B1_Blocal_props_r2_r, t ) // 9
-          // .then( *deallocate_buf_B1_Blocal_props_r2_i, t ) // 10
-          // .then( *deallocate_buf_B1_Bfirst_props_r2_r, t ) // 11
-          // .then( *deallocate_buf_B1_Bfirst_props_r2_i, t ) // 12
-          // .then( *deallocate_buf_B1_Bsecond_props_r2_r, t ) // 13
-          // .then( *deallocate_buf_B1_Bsecond_props_r2_i, t ) // 14
-          // .then( *deallocate_buf_B1_Bthird_props_r2_r, t ) // 15
-          // .then( *deallocate_buf_B1_Bthird_props_r2_i, t ) // 16
 // -----------------------
 // kernel_12:
-        //   .then( *allocate_buf_B2_Blocal_r1_r, t )
-        //   .then( *allocate_buf_B2_Blocal_r1_i, t )
-        //   .then( *allocate_buf_B2_Bfirst_r1_r, t )
-        //   .then( *allocate_buf_B2_Bfirst_r1_i, t )
-        //   .then( *allocate_buf_B2_Bsecond_r1_r, t )
-        //   .then( *allocate_buf_B2_Bsecond_r1_i, t )
-        //   .then( *allocate_buf_B2_Bthird_r1_r, t )
-        //   .then( *allocate_buf_B2_Bthird_r1_i, t )
           .then(B2_Blocal_r1_r_init, kSprime) // t, x1, x2, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m
           .then(B2_Blocal_r1_i_init, m)
           .then(B2_Bfirst_r1_r_init, m)
@@ -3352,14 +3294,6 @@ void generate_function(std::string name)
           .then(B2_Bthird_r1_r_init, m)
           .then(B2_Bthird_r1_i_init, m)
 // kernel_13:
-        //   .then( *allocate_buf_flip_B2_Blocal_r1_r, t )
-        //   .then( *allocate_buf_flip_B2_Blocal_r1_i, t )
-        //   .then( *allocate_buf_flip_B2_Bfirst_r1_r, t )
-        //   .then( *allocate_buf_flip_B2_Bfirst_r1_i, t )
-        //   .then( *allocate_buf_flip_B2_Bsecond_r1_r, t )
-        //   .then( *allocate_buf_flip_B2_Bsecond_r1_i, t )
-        //   .then( *allocate_buf_flip_B2_Bthird_r1_r, t )
-        //   .then( *allocate_buf_flip_B2_Bthird_r1_i, t )
           .then(flip_B2_Blocal_r1_r_init, m )
           .then(flip_B2_Blocal_r1_i_init, m)
           .then(flip_B2_Bfirst_r1_r_init, m)
@@ -3369,14 +3303,6 @@ void generate_function(std::string name)
           .then(flip_B2_Bthird_r1_r_init, m)
           .then(flip_B2_Bthird_r1_i_init, m)
 // kernel_14
-          // .then( *allocate_buf_B2_Blocal_props_r1_r, computation::root )
-          // .then( *allocate_buf_B2_Blocal_props_r1_i, t )
-          // .then( *allocate_buf_B2_Bfirst_props_r1_r, t )
-          // .then( *allocate_buf_B2_Bfirst_props_r1_i, t )
-          // .then( *allocate_buf_B2_Bsecond_props_r1_r, t )
-          // .then( *allocate_buf_B2_Bsecond_props_r1_i, t )
-          // .then( *allocate_buf_B2_Bthird_props_r1_r, t )
-          // .then( *allocate_buf_B2_Bthird_props_r1_i, t )
           .then(B2_Blocal_r1_r_props_init, kSprime ) // t, x1, x2, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime
           .then(B2_Blocal_r1_i_props_init, jSprime)
           .then(B2_Bfirst_r1_r_props_init, jSprime)
@@ -3419,24 +3345,8 @@ void generate_function(std::string name)
           .then(flip_B2_Bsecond_r1_i_update, m)
           .then(flip_B2_Bthird_r1_r_update, m)
           .then(flip_B2_Bthird_r1_i_update, m)
-          // .then( *deallocate_buf_B2_Blocal_props_r1_r, t ) // 17
-          // .then( *deallocate_buf_B2_Blocal_props_r1_i, t ) // 18
-          // .then( *deallocate_buf_B2_Bfirst_props_r1_r, t ) // 19
-          // .then( *deallocate_buf_B2_Bfirst_props_r1_i, t ) // 20
-          // .then( *deallocate_buf_B2_Bsecond_props_r1_r, t ) // 21
-          // .then( *deallocate_buf_B2_Bsecond_props_r1_i, t ) // 22
-          // .then( *deallocate_buf_B2_Bthird_props_r1_r, t ) // 23
-          // .then( *deallocate_buf_B2_Bthird_props_r1_i, t ) // 24
 // -------------
 // kernel_17:
-        //   .then( *allocate_buf_B2_Blocal_r2_r, t )
-        //   .then( *allocate_buf_B2_Blocal_r2_i, t )
-        //   .then( *allocate_buf_B2_Bfirst_r2_r, t )
-        //   .then( *allocate_buf_B2_Bfirst_r2_i, t )
-        //   .then( *allocate_buf_B2_Bsecond_r2_r, t )
-        //   .then( *allocate_buf_B2_Bsecond_r2_i, t )
-        //   .then( *allocate_buf_B2_Bthird_r2_r, t )
-        //   .then( *allocate_buf_B2_Bthird_r2_i, t )
           .then(B2_Blocal_r2_r_init, kSprime) // t, x1, x2, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m
           .then(B2_Blocal_r2_i_init, m)
           .then(B2_Bfirst_r2_r_init, m)
@@ -3446,14 +3356,6 @@ void generate_function(std::string name)
           .then(B2_Bthird_r2_r_init, m)
           .then(B2_Bthird_r2_i_init, m)
 // kernel_18
-        //   .then( *allocate_buf_flip_B2_Blocal_r2_r, t )
-        //   .then( *allocate_buf_flip_B2_Blocal_r2_i, t )
-        //   .then( *allocate_buf_flip_B2_Bfirst_r2_r, t )
-        //   .then( *allocate_buf_flip_B2_Bfirst_r2_i, t )
-        //   .then( *allocate_buf_flip_B2_Bsecond_r2_r, t )
-        //   .then( *allocate_buf_flip_B2_Bsecond_r2_i, t )
-        //   .then( *allocate_buf_flip_B2_Bthird_r2_r, t )
-        //   .then( *allocate_buf_flip_B2_Bthird_r2_i, t )
           .then(flip_B2_Blocal_r2_r_init, m)
           .then(flip_B2_Blocal_r2_i_init, m)
           .then(flip_B2_Bfirst_r2_r_init, m)
@@ -3463,14 +3365,6 @@ void generate_function(std::string name)
           .then(flip_B2_Bthird_r2_r_init, m)
           .then(flip_B2_Bthird_r2_i_init, m)
 // kernel_19
-          // .then( *allocate_buf_B2_Blocal_props_r2_r, computation::root )
-          // .then( *allocate_buf_B2_Blocal_props_r2_i, t )
-          // .then( *allocate_buf_B2_Bfirst_props_r2_r, t )
-          // .then( *allocate_buf_B2_Bfirst_props_r2_i, t )
-          // .then( *allocate_buf_B2_Bsecond_props_r2_r, t )
-          // .then( *allocate_buf_B2_Bsecond_props_r2_i, t )
-          // .then( *allocate_buf_B2_Bthird_props_r2_r, t )
-          // .then( *allocate_buf_B2_Bthird_props_r2_i, t )
           .then(B2_Blocal_r2_r_props_init, kSprime ) // t, x1, x2, iCprime, iSprime, kCprime, kSprime, y, jCprime, jSprime
           .then(B2_Blocal_r2_i_props_init, jSprime)
           .then(B2_Bfirst_r2_r_props_init, jSprime)
@@ -3504,14 +3398,6 @@ void generate_function(std::string name)
           .then(B2_Bsecond_r2_i_update, m)
           .then(B2_Bthird_r2_r_update, m)
           .then(B2_Bthird_r2_i_update, m) 
-        //   .then( *deallocate_buf_B2_Blocal_r2_r, t ) // 25
-        //   .then( *deallocate_buf_B2_Blocal_r2_i, t ) // 26
-        //   .then( *deallocate_buf_B2_Bfirst_r2_r, t ) // 27
-        //   .then( *deallocate_buf_B2_Bfirst_r2_i, t ) // 28
-        //   .then( *deallocate_buf_B2_Bsecond_r2_r, t ) // 29
-        //   .then( *deallocate_buf_B2_Bsecond_r2_i, t ) // 30
-        //   .then( *deallocate_buf_B2_Bthird_r2_r, t ) // 31
-        //   .then( *deallocate_buf_B2_Bthird_r2_i, t ) // 32
 // kernel_21
           .then(flip_B2_Blocal_r2_r_update, m)
           .then(flip_B2_Blocal_r2_i_update, m)
@@ -3521,14 +3407,6 @@ void generate_function(std::string name)
           .then(flip_B2_Bsecond_r2_i_update, m)
           .then(flip_B2_Bthird_r2_r_update, m)
           .then(flip_B2_Bthird_r2_i_update, m) 
-          // .then( *deallocate_buf_B2_Blocal_props_r2_r, t ) // 33
-          // .then( *deallocate_buf_B2_Blocal_props_r2_i, t ) // 34
-          // .then( *deallocate_buf_B2_Bfirst_props_r2_r, t ) // 35
-          // .then( *deallocate_buf_B2_Bfirst_props_r2_i, t ) // 36
-          // .then( *deallocate_buf_B2_Bsecond_props_r2_r, t ) // 37
-          // .then( *deallocate_buf_B2_Bsecond_props_r2_i, t ) // 38
-          // .then( *deallocate_buf_B2_Bthird_props_r2_r, t ) // 39
-          // .then( *deallocate_buf_B2_Bthird_props_r2_i, t ) // 40
 // ------------------------------- 
 // kernel_22:
           .then(C_BB_BB_prop_init_r, t) // t, x1, x2, rp, m, r
@@ -3600,30 +3478,7 @@ void generate_function(std::string name)
           .then( *(BB_BB_new_term_7_r2_b2.get_imag()), wnum)
           .then(C_BB_BB_prop_update_r, wnum) 
           .then(C_BB_BB_prop_update_i, wnum)
-        //   .then( *deallocate_buf_B1_Blocal_r1_r, t ) // 41
-        //   .then( *deallocate_buf_B1_Blocal_r1_i, t ) // 42
-        //   .then( *deallocate_buf_B1_Bfirst_r1_r, t ) // 43
-        //   .then( *deallocate_buf_B1_Bfirst_r1_i, t ) // 44
-        //   .then( *deallocate_buf_B1_Bsecond_r1_r, t ) // 45
-        //   .then( *deallocate_buf_B1_Bsecond_r1_i, t ) // 46
-        //   .then( *deallocate_buf_B1_Bthird_r1_r, t ) // 47
-        //   .then( *deallocate_buf_B1_Bthird_r1_i, t ) // 48
-        //   .then( *deallocate_buf_B1_Blocal_r2_r, t ) // 49
-        //   .then( *deallocate_buf_B1_Blocal_r2_i, t ) // 50 
-        //   .then( *deallocate_buf_B1_Bfirst_r2_r, t ) // 51
-        //   .then( *deallocate_buf_B1_Bfirst_r2_i, t ) // 52
-        //   .then( *deallocate_buf_B1_Bsecond_r2_r, t ) // 53
-        //   .then( *deallocate_buf_B1_Bsecond_r2_i, t ) // 54
-        //   .then( *deallocate_buf_B1_Bthird_r2_r, t ) // 55
-        //   .then( *deallocate_buf_B1_Bthird_r2_i, t ) // 56
-        //   .then( *deallocate_buf_B2_Blocal_r1_r, t ) // 57
-        //   .then( *deallocate_buf_B2_Blocal_r1_i, t ) // 58
-        //   .then( *deallocate_buf_B2_Bfirst_r1_r, t ) // 59
-        //   .then( *deallocate_buf_B2_Bfirst_r1_i, t ) // 60
-        //   .then( *deallocate_buf_B2_Bsecond_r1_r, t ) // 61
-        //   .then( *deallocate_buf_B2_Bsecond_r1_i, t ) // 62
-        //   .then( *deallocate_buf_B2_Bthird_r1_r, t ) // 63
-        //   .then( *deallocate_buf_B2_Bthird_r1_i, t ) // 64
+
 // kernel_24
           .then( *(flip_BB_BB_new_term_0_r1_b1.get_real()), t)
           .then( *(flip_BB_BB_new_term_0_r1_b1.get_imag()), wnum)
@@ -3691,38 +3546,6 @@ void generate_function(std::string name)
           .then( *(flip_BB_BB_new_term_7_r2_b2.get_imag()), wnum)
           .then(C_BB_BB_prop_update_r_2, wnum) 
           .then(C_BB_BB_prop_update_i_2, wnum)
-        //   .then( *deallocate_buf_flip_B1_Blocal_r1_r, t) // 65
-        //   .then( *deallocate_buf_flip_B1_Blocal_r1_i, t) // 66
-        //   .then( *deallocate_buf_flip_B1_Bfirst_r1_r, t) // 67
-        //   .then( *deallocate_buf_flip_B1_Bfirst_r1_i, t) // 68
-        //   .then( *deallocate_buf_flip_B1_Bsecond_r1_r, t) // 69
-        //   .then( *deallocate_buf_flip_B1_Bsecond_r1_i, t) // 70
-        //   .then( *deallocate_buf_flip_B1_Bthird_r1_r, t) // 71
-        //   .then( *deallocate_buf_flip_B1_Bthird_r1_i, t) // 72
-        //   .then( *deallocate_buf_flip_B1_Blocal_r2_r, t) // 73
-        //   .then( *deallocate_buf_flip_B1_Blocal_r2_i, t) // 74
-        //   .then( *deallocate_buf_flip_B1_Bfirst_r2_r, t) // 75
-        //   .then( *deallocate_buf_flip_B1_Bfirst_r2_i, t) // 76
-        //   .then( *deallocate_buf_flip_B1_Bsecond_r2_r, t) // 77
-        //   .then( *deallocate_buf_flip_B1_Bsecond_r2_i, t) // 78
-        //   .then( *deallocate_buf_flip_B1_Bthird_r2_r, t) // 79
-        //   .then( *deallocate_buf_flip_B1_Bthird_r2_i, t) // 80
-        //   .then( *deallocate_buf_flip_B2_Blocal_r1_r, t) // 81
-        //   .then( *deallocate_buf_flip_B2_Blocal_r1_i, t) // 82
-        //   .then( *deallocate_buf_flip_B2_Bfirst_r1_r, t) // 83
-        //   .then( *deallocate_buf_flip_B2_Bfirst_r1_i, t) // 84
-        //   .then( *deallocate_buf_flip_B2_Bsecond_r1_r, t) // 85
-        //   .then( *deallocate_buf_flip_B2_Bsecond_r1_i, t) // 86
-        //   .then( *deallocate_buf_flip_B2_Bthird_r1_r, t) // 87
-        //   .then( *deallocate_buf_flip_B2_Bthird_r1_i, t) // 88
-        //   .then( *deallocate_buf_flip_B2_Blocal_r2_r, t ) // 89
-        //   .then( *deallocate_buf_flip_B2_Blocal_r2_i, t ) // 90
-        //   .then( *deallocate_buf_flip_B2_Bfirst_r2_r, t ) // 91
-        //   .then( *deallocate_buf_flip_B2_Bfirst_r2_i, t ) // 92
-        //   .then( *deallocate_buf_flip_B2_Bsecond_r2_r, t ) // 93
-        //   .then( *deallocate_buf_flip_B2_Bsecond_r2_i, t ) // 94
-        //   .then( *deallocate_buf_flip_B2_Bthird_r2_r, t ) // 95
-        //   .then( *deallocate_buf_flip_B2_Bthird_r2_i, t ) // 96
 
 // kernel_25
           .then(C_BB_BB_update_b_r, t)  // t, x1, x2, rp, m, r, ne
@@ -3924,47 +3747,16 @@ void generate_function(std::string name)
           .then(C_H_H_update_i, nH) 
           ); 
 
-    handle = &(handle->then(copy_buf_C_r_device_to_host, computation::root)
-    .then(copy_buf_C_i_device_to_host, computation::root)
-    // .then(copy_B1_prop_r_device_to_host, computation::root)
-    // .then(copy_B1_prop_i_device_to_host, computation::root)
-    // .then(copy_B2_prop_r_device_to_host, computation::root)
-    // .then(copy_B2_prop_i_device_to_host, computation::root)
-    // .then(copy_src_psi_B1_r_device_to_host, computation::root)
-    // .then(copy_src_psi_B1_i_device_to_host, computation::root)
-    // .then(copy_src_psi_B2_r_device_to_host, computation::root)
-    // .then(copy_src_psi_B2_i_device_to_host, computation::root)
-    // .then(copy_snk_psi_B1_r_device_to_host, computation::root)
-    // .then(copy_snk_psi_B1_i_device_to_host, computation::root)
-    // .then(copy_snk_psi_B2_r_device_to_host, computation::root)
-    // .then(copy_snk_psi_B2_i_device_to_host, computation::root)
-    // .then(copy_hex_src_psi_r_device_to_host, computation::root)
-    // .then(copy_hex_src_psi_i_device_to_host, computation::root)
-    // .then(copy_src_spins_device_to_host, computation::root)
-    // .then(copy_sigs_device_to_host, computation::root)
-    // .then(copy_snk_psi_r_device_to_host, computation::root)
-    // .then(copy_snk_psi_i_device_to_host, computation::root)
-    // .then(copy_hex_snk_psi_r_device_to_host, computation::root)
-    // .then(copy_hex_snk_psi_i_device_to_host, computation::root)
-    // .then(copy_src_color_weights_device_to_host, computation::root)
-    // .then(copy_src_spin_weights_device_to_host, computation::root)
-    // .then(copy_src_weights_device_to_host, computation::root)
-    // .then(copy_snk_color_weights_device_to_host, computation::root)
-    // .then(copy_snk_spin_weights_device_to_host, computation::root)
-    // .then(copy_snk_weights_device_to_host, computation::root)
-    // .then(copy_hex_snk_color_weights_device_to_host, computation::root)
-    // .then(copy_hex_snk_spin_weights_device_to_host, computation::root)
-    // .then(copy_hex_snk_weights_device_to_host, computation::root)
-    // .then(copy_src_spin_block_weights_device_to_host, computation::root)
-    // .then(copy_snk_b_device_to_host, computation::root)
-    .then(copy_buf_C_BB_r_device_to_host, computation::root)
-    .then(copy_buf_C_BB_i_device_to_host, computation::root)
+    handle = &(handle->then(copy_buf_C_r_device_to_host, t)
+    .then(copy_buf_C_i_device_to_host, t)
+    .then(copy_buf_C_BB_r_device_to_host, t)
+    .then(copy_buf_C_BB_i_device_to_host, t)
     );
 
-    handle = &handle->then( summurize_C_BB_re_init, computation::root );
-    handle = &handle->then( summurize_C_BB_im_init, computation::root );
-    handle = &handle->then( summurize_C_BB_re, computation::root );
-    handle = &handle->then( summurize_C_BB_im, computation::root );
+    handle = &handle->then( summurize_C_BB_re_init, t );
+    handle = &handle->then( summurize_C_BB_im_init, t );
+    handle = &handle->then( summurize_C_BB_re, t );
+    handle = &handle->then( summurize_C_BB_im, t );
 
 #if VECTORIZED
 
