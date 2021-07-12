@@ -3110,8 +3110,8 @@ void generate_function(std::string name)
     // computation copy_src_spin_block_weights_device_to_host({}, memcpy(*src_spin_block_weights.get_buffer(), buf_src_spin_block_weights_cpu));
     // computation copy_snk_b_device_to_host({}, memcpy(*snk_b.get_buffer(), buf_snk_b_cpu));
 
-    computation copy_buf_C_BB_r_device_to_host({}, memcpy(buf_C_BB_r, buf_C_BB_r_cpu));
-    computation copy_buf_C_BB_i_device_to_host({}, memcpy(buf_C_BB_i, buf_C_BB_i_cpu));
+    computation copy_buf_C_BB_r_device_to_host({t}, memcpy(buf_C_BB_r, buf_C_BB_r_cpu));
+    computation copy_buf_C_BB_i_device_to_host({t}, memcpy(buf_C_BB_i, buf_C_BB_i_cpu));
     
     computation *handle = nullptr;
     handle = &C_BB_cpu_init_r.then( C_BB_cpu_init_i, t );
