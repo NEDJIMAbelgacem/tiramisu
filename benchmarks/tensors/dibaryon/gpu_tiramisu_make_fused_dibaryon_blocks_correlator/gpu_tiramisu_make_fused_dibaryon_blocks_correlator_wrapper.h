@@ -75,7 +75,10 @@ int gpu_tiramisu_make_fused_dibaryon_blocks_correlator(
 			    halide_buffer_t *,
 			    halide_buffer_t *,
 			    halide_buffer_t *,
-			    halide_buffer_t *);
+			    halide_buffer_t *,
+			    halide_buffer_t * b_out_C_re,
+			    halide_buffer_t * b_out_C_im
+				);
 
 
 int tiramisu_generated_code_argv(void **args);
