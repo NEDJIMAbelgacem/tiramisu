@@ -1364,7 +1364,7 @@ void generate_function(std::string name)
     
     computation summurize_C_BB_re_init( "summurize_C_BB_re_init", { t, rp, m, r, n }, expr((double) 0) );
     computation summurize_C_BB_im_init( "summurize_C_BB_im_init", { t, rp, m, r, n }, expr((double) 0) );
-    computation summurize_C_BB_re( "summurize_C_BB_re", { t, rp, m, r, n, x1, x2 }, summurize_C_BB_re_init( t, rp, m, r, n ) + C_BB_cpu_init_r( t, x1, rp, x2, r, m, n ) );
+    computation summurize_C_BB_re( "summurize_C_BB_re", { t, rp, m, r, n, x1, x2 }, summurize_C_BB_re_init( t, rp, m, r, n ) + FS( t, x1, rp, x2, r, m, n ) );
     computation summurize_C_BB_im( "summurize_C_BB_im", { t, rp, m, r, n, x1, x2 }, summurize_C_BB_im_init( t, rp, m, r, n ) + C_BB_cpu_init_i( t, x1, rp, x2, r, m, n ) );
 
     summurize_C_BB_re_init.store_in( &out_C_re, {t, n, r, m, rp} );
@@ -3114,10 +3114,10 @@ void generate_function(std::string name)
     computation copy_buf_C_BB_i_device_to_host({t}, memcpy(buf_C_BB_i, buf_C_BB_i_cpu));
     
     computation *handle = nullptr;
-    handle = &C_BB_cpu_init_r.then( C_BB_cpu_init_i, t );
+    // handle = &C_BB_cpu_init_r.then( C_BB_cpu_init_i, t );
 
-    handle = &(handle->then( copy_buf_C_r_host_to_device, computation::root )
-        .then(copy_buf_C_i_host_to_device, t)
+    handle = &(copy_buf_C_r_host_to_device->
+         then(copy_buf_C_i_host_to_device, t)
         .then(copy_B1_prop_r_host_to_device, t)
         .then(copy_B1_prop_i_host_to_device, t)
         .then(copy_B2_prop_r_host_to_device, t)
