@@ -3112,8 +3112,11 @@ void generate_function(std::string name)
 
     computation copy_buf_C_BB_r_device_to_host({t}, memcpy(buf_C_BB_r, buf_C_BB_r_cpu));
     computation copy_buf_C_BB_i_device_to_host({t}, memcpy(buf_C_BB_i, buf_C_BB_i_cpu));
+    
+    computation *handle = nullptr;
+    handle = &C_BB_cpu_init_r.then( C_BB_cpu_init_i, t );
 
-    computation* handle = &(copy_buf_C_r_host_to_device
+    handle = &(handle->then( copy_buf_C_r_host_to_device, computation::root )
         .then(copy_buf_C_i_host_to_device, t)
         .then(copy_B1_prop_r_host_to_device, t)
         .then(copy_B1_prop_i_host_to_device, t)
@@ -3749,8 +3752,6 @@ void generate_function(std::string name)
     .then(copy_buf_C_BB_r_device_to_host, t)
     .then(copy_buf_C_BB_i_device_to_host, t)
     );
-
-    handle = &handle->then( C_BB_cpu_init_r, t ).then( C_BB_cpu_init_i, t );
 
     handle = &handle->then( summurize_C_BB_re_init, t );
     handle = &handle->then( summurize_C_BB_im_init, t );
