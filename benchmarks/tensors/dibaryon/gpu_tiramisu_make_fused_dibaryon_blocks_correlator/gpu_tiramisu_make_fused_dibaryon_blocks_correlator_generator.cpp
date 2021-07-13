@@ -3116,8 +3116,8 @@ void generate_function(std::string name)
     computation *handle = nullptr;
     // handle = &C_BB_cpu_init_r.then( C_BB_cpu_init_i, t );
 
-    handle = &(copy_buf_C_r_host_to_device->
-         then(copy_buf_C_i_host_to_device, t)
+    handle = &(copy_buf_C_r_host_to_device
+        .then(copy_buf_C_i_host_to_device, t)
         .then(copy_B1_prop_r_host_to_device, t)
         .then(copy_B1_prop_i_host_to_device, t)
         .then(copy_B2_prop_r_host_to_device, t)
