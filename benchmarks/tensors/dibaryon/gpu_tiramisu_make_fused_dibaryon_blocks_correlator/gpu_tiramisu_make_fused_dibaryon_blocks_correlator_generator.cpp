@@ -1375,15 +1375,15 @@ void generate_function(std::string name)
     // C_init_r.store_in(&buf_C_r, {t, x_out, x_in, rp, mpmH, r, npnH});
     // C_init_i.store_in(&buf_C_i, {t, x_out, x_in, rp, mpmH, r, npnH});
 
-    computation summurize_C_re_init( "summurize_C_re_init", { t, rp, m, r, n }, expr((double) 0) );
-    computation summurize_C_im_init( "summurize_C_im_init", { t, rp, m, r, n }, expr((double) 0) );
-    computation summurize_C_re( "summurize_C_re", { t, rp, m, r, n, x1, x2 }, summurize_C_re_init( t, rp, m, r, n ) + C_BB_cpu_init_r( t, x1, rp, x2, r, m, n ) );
-    computation summurize_C_im( "summurize_C_im", { t, rp, m, r, n, x1, x2 }, summurize_C_im_init( t, rp, m, r, n ) + C_BB_cpu_init_i( t, x1, rp, x2, r, m, n ) );
+    // computation summurize_C_re_init( "summurize_C_re_init", { t, rp, m, r, n }, expr((double) 0) );
+    // computation summurize_C_im_init( "summurize_C_im_init", { t, rp, m, r, n }, expr((double) 0) );
+    // computation summurize_C_re( "summurize_C_re", { t, rp, m, r, n, x1, x2 }, summurize_C_re_init( t, rp, m, r, n ) + C_BB_cpu_init_r( t, x1, rp, x2, r, m, n ) );
+    // computation summurize_C_im( "summurize_C_im", { t, rp, m, r, n, x1, x2 }, summurize_C_im_init( t, rp, m, r, n ) + C_BB_cpu_init_i( t, x1, rp, x2, r, m, n ) );
 
-    summurize_C_re_init.store_in( &out_C_re, {t, n, r, m, rp} );
-    summurize_C_im_init.store_in( &out_C_im, {t, n, r, m, rp} );
-    summurize_C_re.store_in( &out_C_re, {t, n, r, m, rp} );
-    summurize_C_im.store_in( &out_C_im, {t, n, r, m, rp} );
+    // summurize_C_re_init.store_in( &out_C_re, {t, n, r, m, rp} );
+    // summurize_C_im_init.store_in( &out_C_im, {t, n, r, m, rp} );
+    // summurize_C_re.store_in( &out_C_re, {t, n, r, m, rp} );
+    // summurize_C_im.store_in( &out_C_im, {t, n, r, m, rp} );
 
 
     // -------------------------------------------------------
