@@ -3151,7 +3151,7 @@ void generate_function(std::string name)
         .then(copy_snk_b_host_to_device, computation::root)
         );
 
-    handle = &(handle->then( C_init_r, t ).then( C_init_i, npnH ));
+    handle = &(handle->then( C_init_r, computation::root ).then( C_init_i, npnH ));
 
     // BB_BB
 // kernel_1
