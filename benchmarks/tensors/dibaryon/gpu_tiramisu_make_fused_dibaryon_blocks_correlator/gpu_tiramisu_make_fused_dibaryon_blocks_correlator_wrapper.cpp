@@ -96,8 +96,8 @@ void tiramisu_make_two_nucleon_2pt(double* C_re,
    Halide::Buffer<double> b_C_r(Nsnk+NsnkHex, B2Nrows, Nsrc+NsrcHex, B2Nrows, sites_per_rank, Vsnk/sites_per_rank, Lt, "C_r");
    Halide::Buffer<double> b_C_i(Nsnk+NsnkHex, B2Nrows, Nsrc+NsrcHex, B2Nrows, sites_per_rank, Vsnk/sites_per_rank, Lt, "C_i");
 
-   Halide::Buffer<double> b_C_BB_r(Nsnk, B2Nrows, Nsrc, B2Nrows, Vsnk, Vsnk, 2, 2, Lt, "b_C_BB_r");
-   Halide::Buffer<double> b_C_BB_i(Nsnk, B2Nrows, Nsrc, B2Nrows, Vsnk, Vsnk, 2, 2, Lt, "b_C_BB_i");
+   Halide::Buffer<double> b_C_BB_r(Nsnk, B2Nrows, Nsrc, B2Nrows, Vsnk / tiling_factor, Vsnk / tiling_factor, tiling_factor, tiling_factor, Lt, "b_C_BB_r");
+   Halide::Buffer<double> b_C_BB_i(Nsnk, B2Nrows, Nsrc, B2Nrows, Vsnk / tiling_factor, Vsnk / tiling_factor, tiling_factor, tiling_factor, Lt, "b_C_BB_i");
 
    Halide::Buffer<int> b_src_color_weights(Nq, Nw, B2Nrows, "src_color_weights");
    Halide::Buffer<int> b_src_spin_weights(Nq, Nw, B2Nrows, "src_spin_weights");
