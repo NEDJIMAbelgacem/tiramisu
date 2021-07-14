@@ -3079,7 +3079,7 @@ void generate_function(std::string name)
         //   .then( *allocate_buf_B1_Bthird_r1_r, t )
         //   .then( *allocate_buf_B1_Bthird_r1_i, t )
 // kernel_2
-          .then(B1_Blocal_r1_r_init, t ) // t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m
+          .then(B1_Blocal_r1_r_init, tileY ) // t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m
           .then(B1_Blocal_r1_i_init, m) 
           .then(B1_Bfirst_r1_r_init, m)
           .then(B1_Bfirst_r1_i_init, m)
@@ -3457,10 +3457,10 @@ void generate_function(std::string name)
           // .then( *deallocate_buf_B2_Bthird_props_r2_i, t ) // 40
 // ------------------------------- 
 // kernel_22:
-          .then(C_BB_BB_prop_init_r, t) // t, x1, x2, rp, m, r
+          .then(C_BB_BB_prop_init_r, tileY) // t, x1, x2, rp, m, r
           .then(C_BB_BB_prop_init_i, r)
 // kernel_23:
-          .then( *(BB_BB_new_term_0_r1_b1.get_real()), t) // t, x1, x2, rp, m, r, s, nperm, wnum
+          .then( *(BB_BB_new_term_0_r1_b1.get_real()), tileY) // t, x1, x2, rp, m, r, s, nperm, wnum
           .then( *(BB_BB_new_term_0_r1_b1.get_imag()), wnum)
           .then( *(BB_BB_new_term_1_r1_b1.get_real()), wnum)
           .then( *(BB_BB_new_term_1_r1_b1.get_imag()), wnum)
@@ -3551,7 +3551,7 @@ void generate_function(std::string name)
         //   .then( *deallocate_buf_B2_Bthird_r1_r, t ) // 63
         //   .then( *deallocate_buf_B2_Bthird_r1_i, t ) // 64
 // kernel_24
-          .then( *(flip_BB_BB_new_term_0_r1_b1.get_real()), t)
+          .then( *(flip_BB_BB_new_term_0_r1_b1.get_real()), tileY)
           .then( *(flip_BB_BB_new_term_0_r1_b1.get_imag()), wnum)
           .then( *(flip_BB_BB_new_term_1_r1_b1.get_real()), wnum)
           .then( *(flip_BB_BB_new_term_1_r1_b1.get_imag()), wnum)
@@ -3651,7 +3651,7 @@ void generate_function(std::string name)
         //   .then( *deallocate_buf_flip_B2_Bthird_r2_i, t ) // 96
 
 // kernel_25
-          .then(C_BB_BB_update_b_r, t)  // t, x1, x2, rp, m, r, ne
+          .then(C_BB_BB_update_b_r, tileY)  // t, x1, x2, rp, m, r, ne
           .then(C_BB_BB_update_b_i, ne)
           .then(C_BB_BB_update_s_r, r)  // t, x1, x2, rp, m, r, nue
           .then(C_BB_BB_update_s_i, nue)
@@ -3659,7 +3659,7 @@ void generate_function(std::string name)
 
     // BB_H
     handle = &(handle
-          ->then(src_B1_Blocal_r1_r_init, computation::root) // t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m
+          ->then(src_B1_Blocal_r1_r_init, t) // t, x_out, x_in, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, m
           .then(src_B1_Blocal_r1_i_init, jSprime)
           .then(flip_src_B1_Blocal_r1_r_init, jSprime)
           .then(flip_src_B1_Blocal_r1_i_init, jSprime)
@@ -3750,7 +3750,7 @@ void generate_function(std::string name)
 // kernel_10:
     // H_BB
     handle = &(handle
-          ->then( snk_B1_Blocal_r1_r_init, computation::root) // t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, n
+          ->then( snk_B1_Blocal_r1_r_init, t) // t, y_out, y_in, iCprime, iSprime, kCprime, kSprime, jCprime, jSprime, n
           .then(snk_B1_Blocal_r1_i_init, jSprime)
           .then(flip_snk_B1_Blocal_r1_r_init, jSprime)
           .then(flip_snk_B1_Blocal_r1_i_init, jSprime)
@@ -3842,7 +3842,7 @@ void generate_function(std::string name)
 // kernel_11:
     // // H_H
     handle = &(handle
-          ->then(C_H_H_prop_init_r, computation::root) // t, x_out, x_in, rp, r, y
+          ->then(C_H_H_prop_init_r, t) // t, x_out, x_in, rp, r, y
           .then(C_H_H_prop_init_i, y)
           .then(C_H_H_prop_update_r, y) 
           .then(C_H_H_prop_update_i, wnumHexHex)
