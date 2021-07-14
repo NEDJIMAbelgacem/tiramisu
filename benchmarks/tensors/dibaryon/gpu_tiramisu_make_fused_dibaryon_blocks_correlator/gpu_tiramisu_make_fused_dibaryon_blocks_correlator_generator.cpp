@@ -3745,16 +3745,17 @@ void generate_function(std::string name)
           .then(C_H_H_update_i, nH) 
           ); 
 
+    handle = &handle->then( C_BB_cpu_init_r, t );
+    handle = &handle->then( C_BB_cpu_init_i, n );
+
     handle = &(handle->then(copy_buf_C_BB_r_device_to_host, t)
     .then(copy_buf_C_BB_i_device_to_host, t)
     );
-    handle = &handle->then( C_BB_cpu_init_r, t );
-    handle = &handle->then( C_BB_cpu_init_i, t );
 
     handle = &handle->then( summurize_C_BB_re_init, t );
-    handle = &handle->then( summurize_C_BB_im_init, t );
-    handle = &handle->then( summurize_C_BB_re, t );
-    handle = &handle->then( summurize_C_BB_im, t );
+    handle = &handle->then( summurize_C_BB_im_init, n );
+    handle = &handle->then( summurize_C_BB_re, n );
+    handle = &handle->then( summurize_C_BB_im, n );
 
     handle = &(handle->then(copy_buf_C_r_device_to_host, computation::root)
     .then(copy_buf_C_i_device_to_host, computation::root) );
