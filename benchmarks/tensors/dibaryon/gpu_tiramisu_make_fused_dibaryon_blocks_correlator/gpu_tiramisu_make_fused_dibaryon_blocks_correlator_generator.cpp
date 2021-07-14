@@ -50,6 +50,8 @@ void generate_function(std::string name)
         jSprime("jSprime", 0, Ns),
         kCprime("kCprime", 0, Nc),
         kSprime("kSprime", 0, Ns);
+  int tileXSize = 1;
+  int tileYSize = 1;
   var tileX( "tileX", 0, 1 );
   var tileY( "tileY", 0, 1 );
 // rp, m, r -> B2Nrows, Nsrc, B2Nrows -> 4 * 44 * 4
@@ -1215,14 +1217,14 @@ void generate_function(std::string name)
     computation C_BB_init_r("C_BB_init_r", {t, tileX, tileY, x1, rp, x2, r, m, n}, expr((double) 0));
     computation C_BB_init_i("C_BB_init_i", {t, tileX, tileY, x1, rp, x2, r, m, n}, expr((double) 0));
 
-    buffer buf_C_BB_r("buf_C_BB_r", {Lt, Vsnk, Vsnk, B2Nrows, Nsrc, B2Nrows, Nsnk}, p_float64, a_temporary);
-    buffer buf_C_BB_i("buf_C_BB_i", {Lt, Vsnk, Vsnk, B2Nrows, Nsrc, B2Nrows, Nsnk}, p_float64, a_temporary);
-    buffer buf_C_BB_r_cpu("buf_C_BB_r_cpu", {Lt, Vsnk, Vsnk, B2Nrows, Nsrc, B2Nrows, Nsnk}, p_float64, a_temporary);
-    buffer buf_C_BB_i_cpu("buf_C_BB_i_cpu", {Lt, Vsnk, Vsnk, B2Nrows, Nsrc, B2Nrows, Nsnk}, p_float64, a_temporary);
+    buffer buf_C_BB_r("buf_C_BB_r", {Lt, tileXSize, tileYSize, Vsnk, Vsnk, B2Nrows, Nsrc, B2Nrows, Nsnk}, p_float64, a_temporary);
+    buffer buf_C_BB_i("buf_C_BB_i", {Lt, tileXSize, tileYSize, Vsnk, Vsnk, B2Nrows, Nsrc, B2Nrows, Nsnk}, p_float64, a_temporary);
+    buffer buf_C_BB_r_cpu("buf_C_BB_r_cpu", {Lt, tileXSize, tileYSize, Vsnk, Vsnk, B2Nrows, Nsrc, B2Nrows, Nsnk}, p_float64, a_temporary);
+    buffer buf_C_BB_i_cpu("buf_C_BB_i_cpu", {Lt, tileXSize, tileYSize, Vsnk, Vsnk, B2Nrows, Nsrc, B2Nrows, Nsnk}, p_float64, a_temporary);
     buf_C_BB_r.tag_gpu_global();
     buf_C_BB_i.tag_gpu_global();
-    C_BB_init_r.store_in(&buf_C_BB_r, {t, x1, x2, rp, m, r, n});
-    C_BB_init_i.store_in(&buf_C_BB_i, {t, x1, x2, rp, m, r, n});
+    C_BB_init_r.store_in(&buf_C_BB_r, {t, tileX, tileY, x1, x2, rp, m, r, n});
+    C_BB_init_i.store_in(&buf_C_BB_i, {t, tileX, tileY, x1, x2, rp, m, r, n});
 
     computation C_BB_BB_update_s_r("C_BB_BB_update_s_r", {t, tileX, tileY, x1, rp, x2, r, m, nue}, C_BB_init_r(t, tileX, tileY, x1, rp, x2, r, m, NEntangled+nue) + BB_BB_term_s.get_real());
     computation C_BB_BB_update_s_i("C_BB_BB_update_s_i", {t, tileX, tileY, x1, rp, x2, r, m, nue}, C_BB_init_i(t, tileX, tileY, x1, rp, x2, r, m, NEntangled+nue) + BB_BB_term_s.get_imag());
@@ -2310,10 +2312,10 @@ void generate_function(std::string name)
 
 
 
-    C_BB_BB_update_b_r.store_in(&buf_C_BB_r, {t, x1, x2, rp, m, r, ne});
-    C_BB_BB_update_b_i.store_in(&buf_C_BB_i, {t, x1, x2, rp, m, r, ne});
-    C_BB_BB_update_s_r.store_in(&buf_C_BB_r, {t, x1, x2, rp, m, r, NEntangled+nue});
-    C_BB_BB_update_s_i.store_in(&buf_C_BB_i, {t, x1, x2, rp, m, r, NEntangled+nue});
+    C_BB_BB_update_b_r.store_in(&buf_C_BB_r, {t, tileX, tileY, x1, x2, rp, m, r, ne});
+    C_BB_BB_update_b_i.store_in(&buf_C_BB_i, {t, tileX, tileY, x1, x2, rp, m, r, ne});
+    C_BB_BB_update_s_r.store_in(&buf_C_BB_r, {t, tileX, tileY, x1, x2, rp, m, r, NEntangled+nue});
+    C_BB_BB_update_s_i.store_in(&buf_C_BB_i, {t, tileX, tileY, x1, x2, rp, m, r, NEntangled+nue});
 
     // BB_H
 
