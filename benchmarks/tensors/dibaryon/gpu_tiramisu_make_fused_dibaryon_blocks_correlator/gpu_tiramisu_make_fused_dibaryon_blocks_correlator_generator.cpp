@@ -231,19 +231,19 @@ void generate_function(std::string name)
 
     complex_expr snk_psi_B1(snk_psi_B1_r(x, n), snk_psi_B1_i(x, n));
     complex_expr snk_psi_B2(snk_psi_B2_r(x, n), snk_psi_B2_i(x, n));
-    complex_expr snk_psi_B1_x2(snk_psi_B1_r(x2, n), snk_psi_B1_i(x2, n));
-    complex_expr snk_psi_B2_x2(snk_psi_B2_r(x2, n), snk_psi_B2_i(x2, n));
+    complex_expr snk_psi_B1_x2(snk_psi_B1_r(x2 * tiling_factor + tileY, n), snk_psi_B1_i(x2 * tiling_factor + tileY, n));
+    complex_expr snk_psi_B2_x2(snk_psi_B2_r(x2 * tiling_factor + tileY, n), snk_psi_B2_i(x2 * tiling_factor + tileY, n));
 
-    complex_expr snk_psi_B1_ue(snk_psi_B1_r(x1, NEntangled+nue), snk_psi_B1_i(x1, NEntangled+nue));
-    complex_expr snk_psi_B2_ue(snk_psi_B2_r(x1, NEntangled+nue), snk_psi_B2_i(x1, NEntangled+nue));
-    complex_expr snk_psi_B1_x2_ue(snk_psi_B1_r(x2, NEntangled+nue), snk_psi_B1_i(x2, NEntangled+nue));
-    complex_expr snk_psi_B2_x2_ue(snk_psi_B2_r(x2, NEntangled+nue), snk_psi_B2_i(x2, NEntangled+nue));
+    complex_expr snk_psi_B1_ue(snk_psi_B1_r(x1 * tiling_factor + tileX, NEntangled+nue), snk_psi_B1_i(x1 * tiling_factor + tileX, NEntangled+nue));
+    complex_expr snk_psi_B2_ue(snk_psi_B2_r(x1 * tiling_factor + tileX, NEntangled+nue), snk_psi_B2_i(x1 * tiling_factor + tileX, NEntangled+nue));
+    complex_expr snk_psi_B1_x2_ue(snk_psi_B1_r(x2 * tiling_factor + tileY, NEntangled+nue), snk_psi_B1_i(x2 * tiling_factor + tileY, NEntangled+nue));
+    complex_expr snk_psi_B2_x2_ue(snk_psi_B2_r(x2 * tiling_factor + tileY, NEntangled+nue), snk_psi_B2_i(x2 * tiling_factor + tileY, NEntangled+nue));
 
     complex_expr hex_src_psi(hex_src_psi_r(y_out*src_sites_per_rank+y_in, mH), hex_src_psi_i(y_out*src_sites_per_rank+y_in, mH));
     complex_expr hex_hex_src_psi(hex_src_psi_r(y, mH), hex_src_psi_i(y, mH));
     complex_expr hex_snk_psi(hex_snk_psi_r(x_out*sites_per_rank+x_in, nH), hex_snk_psi_i(x_out*sites_per_rank+x_in, nH));
 
-    complex_expr snk_psi(snk_psi_r(x1, x2, ne), snk_psi_i(x1, x2, ne));
+    complex_expr snk_psi(snk_psi_r(x1 * tiling_factor + tileX, x2 * tiling_factor + tileY, ne), snk_psi_i(x1 * tiling_factor + tileX, x2 * tiling_factor + tileY, ne));
 
      /* Baryon blocks */
 
