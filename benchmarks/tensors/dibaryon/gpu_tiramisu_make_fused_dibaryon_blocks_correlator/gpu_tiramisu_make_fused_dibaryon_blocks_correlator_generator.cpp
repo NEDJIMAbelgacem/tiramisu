@@ -1223,10 +1223,10 @@ void generate_function(std::string name)
 
     buf_C_BB_r.tag_gpu_global();
     buf_C_BB_i.tag_gpu_global();
-    C_BB_init_r.store_in(&buf_C_BB_r, {t, x1, x2, rp, m, r, n});
-    C_BB_init_i.store_in(&buf_C_BB_i, {t, x1, x2, rp, m, r, n});
-    C_BB_cpu_init_r.store_in( &buf_C_BB_r_cpu, {t, x1, x2, rp, m, r, n} );
-    C_BB_cpu_init_i.store_in( &buf_C_BB_i_cpu, {t, x1, x2, rp, m, r, n} );
+    C_BB_init_r.store_in(&buf_C_BB_r, {x1, x2, rp, m, r, n});
+    C_BB_init_i.store_in(&buf_C_BB_i, {x1, x2, rp, m, r, n});
+    C_BB_cpu_init_r.store_in( &buf_C_BB_r_cpu, {x1, x2, rp, m, r, n} );
+    C_BB_cpu_init_i.store_in( &buf_C_BB_i_cpu, {x1, x2, rp, m, r, n} );
 
     computation C_BB_BB_update_s_r("C_BB_BB_update_s_r", {t, x1, rp, x2, r, m, nue}, C_BB_init_r(t, x1, rp, x2, r, m, NEntangled+nue) + BB_BB_term_s.get_real());
     computation C_BB_BB_update_s_i("C_BB_BB_update_s_i", {t, x1, rp, x2, r, m, nue}, C_BB_init_i(t, x1, rp, x2, r, m, NEntangled+nue) + BB_BB_term_s.get_imag());
@@ -2341,10 +2341,10 @@ void generate_function(std::string name)
 
 
 
-    C_BB_BB_update_b_r.store_in(&buf_C_BB_r, {t, x1, x2, rp, m, r, ne});
-    C_BB_BB_update_b_i.store_in(&buf_C_BB_i, {t, x1, x2, rp, m, r, ne});
-    C_BB_BB_update_s_r.store_in(&buf_C_BB_r, {t, x1, x2, rp, m, r, NEntangled+nue});
-    C_BB_BB_update_s_i.store_in(&buf_C_BB_i, {t, x1, x2, rp, m, r, NEntangled+nue});
+    C_BB_BB_update_b_r.store_in(&buf_C_BB_r, {x1, x2, rp, m, r, ne});
+    C_BB_BB_update_b_i.store_in(&buf_C_BB_i, {x1, x2, rp, m, r, ne});
+    C_BB_BB_update_s_r.store_in(&buf_C_BB_r, {x1, x2, rp, m, r, NEntangled+nue});
+    C_BB_BB_update_s_i.store_in(&buf_C_BB_i, {x1, x2, rp, m, r, NEntangled+nue});
 
     // BB_H
 
@@ -3110,14 +3110,12 @@ void generate_function(std::string name)
     // computation copy_src_spin_block_weights_device_to_host({}, memcpy(*src_spin_block_weights.get_buffer(), buf_src_spin_block_weights_cpu));
     // computation copy_snk_b_device_to_host({}, memcpy(*snk_b.get_buffer(), buf_snk_b_cpu));
 
-    computation copy_buf_C_BB_r_device_to_host({}, memcpy(buf_C_BB_r, buf_C_BB_r_cpu));
-    computation copy_buf_C_BB_i_device_to_host({}, memcpy(buf_C_BB_i, buf_C_BB_i_cpu));
+    computation copy_buf_C_BB_r_device_to_host({t}, memcpy(buf_C_BB_r, buf_C_BB_r_cpu));
+    computation copy_buf_C_BB_i_device_to_host({t}, memcpy(buf_C_BB_i, buf_C_BB_i_cpu));
     
     computation *handle = nullptr;
-    handle = &C_BB_cpu_init_r.then( C_BB_cpu_init_i, computation::root );
 
-    handle = &(handle->then( copy_buf_C_r_host_to_device, computation::root )
-        .then(copy_buf_C_i_host_to_device, computation::root)
+    handle = &(copy_buf_C_r_host_to_device.then(copy_buf_C_i_host_to_device, computation::root)
         .then(copy_B1_prop_r_host_to_device, computation::root)
         .then(copy_B1_prop_i_host_to_device, computation::root)
         .then(copy_B2_prop_r_host_to_device, computation::root)
@@ -3747,16 +3745,19 @@ void generate_function(std::string name)
           .then(C_H_H_update_i, nH) 
           ); 
 
-    handle = &(handle->then(copy_buf_C_r_device_to_host, computation::root)
-    .then(copy_buf_C_i_device_to_host, computation::root)
-    .then(copy_buf_C_BB_r_device_to_host, computation::root)
-    .then(copy_buf_C_BB_i_device_to_host, computation::root)
+    handle = &(handle->then(copy_buf_C_BB_r_device_to_host, t)
+    .then(copy_buf_C_BB_i_device_to_host, t)
     );
+    handle = &handle->then( C_BB_cpu_init_r, t );
+    handle = &handle->then( C_BB_cpu_init_i, t );
 
-    handle = &handle->then( summurize_C_BB_re_init, computation::root );
+    handle = &handle->then( summurize_C_BB_re_init, t );
     handle = &handle->then( summurize_C_BB_im_init, t );
     handle = &handle->then( summurize_C_BB_re, t );
     handle = &handle->then( summurize_C_BB_im, t );
+
+    handle = &(handle->then(copy_buf_C_r_device_to_host, computation::root)
+    .then(copy_buf_C_i_device_to_host, computation::root) );
 
 #if VECTORIZED
 
