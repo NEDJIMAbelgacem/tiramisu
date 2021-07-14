@@ -353,10 +353,10 @@ void tiramisu_make_two_nucleon_2pt(double* C_re,
          for (int r=0; r<B2Nrows; r++)
             for (int n=0; n<Nsnk; n++)
                for (int t=0; t<Lt; t++) 
-                  for (int tileX = 0; tileX < 2; tileX++)
-                  for (int tileY = 0; tileY < 2; tileY++)
-                  for ( int x2 = 0; x2 < Vsnk; x2++)
-                     for (int x1 = 0; x1 < Vsnk; x1++) {
+                  for (int tileX = 0; tileX < tiling_factor; tileX++)
+                  for (int tileY = 0; tileY < tiling_factor; tileY++)
+                  for ( int x2 = 0; x2 < Vsnk / tiling_factor; x2++)
+                     for (int x1 = 0; x1 < Vsnk / tiling_factor; x1++) {
                         b_C_BB_r(n,r,m,rp,x2,x1,tileY,tileX,t) = 0.0;
                         b_C_BB_i(n,r,m,rp,x2,x1,tileY,tileX,t) = 0.0;
                      } 
@@ -466,10 +466,10 @@ void tiramisu_make_two_nucleon_2pt(double* C_re,
          for (int r=0; r<B2Nrows; r++)
             for (int n=0; n<Nsnk; n++)
                for (int t=0; t<Lt; t++)
-                  for (int tileX = 0; tileX < 2; tileX++)
-                  for (int tileY = 0; tileY < 2; tileY++)
-                  for (int x1 = 0; x1 < Vsnk; x1++)
-                     for (int x2=0; x2 < Vsnk; x2++) {
+                  for (int tileX = 0; tileX < tiling_factor; tileX++)
+                  for (int tileY = 0; tileY < tiling_factor; tileY++)
+                  for (int x1 = 0; x1 < Vsnk / tiling_factor; x1++)
+                     for (int x2=0; x2 < Vsnk / tiling_factor; x2++) {
                         double number0r = b_C_BB_r(n,r,m,rp,x2,x1,tileY,tileX,t);
                         double number0i = b_C_BB_i(n,r,m,rp,x2,x1,tileY,tileX,t);
                         C_re[index_5d(rp,m,r,n,t, Nsrc+NsrcHex,B2Nrows,Nsnk+NsnkHex,Lt)] += number0r;

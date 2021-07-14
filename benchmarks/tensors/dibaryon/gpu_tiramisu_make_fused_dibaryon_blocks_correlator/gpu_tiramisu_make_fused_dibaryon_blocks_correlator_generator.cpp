@@ -30,8 +30,8 @@ void generate_function(std::string name)
 	x("x", 0, Vsnk),
 	x_out("x_out", 0, Vsnk/sites_per_rank),
 	x_in("x_in", 0, sites_per_rank),
-    x1("x1", 0, Vsnk),
-	x2("x2", 0, Vsnk),
+    x1("x1", 0, Vsnk / tiling_factor),
+	x2("x2", 0, Vsnk / tiling_factor),
         y("y", 0, Vsrc),
 	y_out("y_out", 0, Vsrc/src_sites_per_rank),
 	y_in("y_in", 0, src_sites_per_rank),
@@ -50,10 +50,8 @@ void generate_function(std::string name)
         jSprime("jSprime", 0, Ns),
         kCprime("kCprime", 0, Nc),
         kSprime("kSprime", 0, Ns);
-  int tileXSize = 2;
-  int tileYSize = 2;
-  var tileX( "tileX", 0, tileXSize );
-  var tileY( "tileY", 0, tileYSize );
+  var tileX( "tileX", 0, tiling_factor );
+  var tileY( "tileY", 0, tiling_factor );
 // rp, m, r -> B2Nrows, Nsrc, B2Nrows -> 4 * 44 * 4
    input C_r("C_r",      {t, x_out, x_in, rp, mpmH, r, npnH}, p_float64);
    input C_i("C_i",      {t, x_out, x_in, rp, mpmH, r, npnH}, p_float64);
@@ -1217,10 +1215,10 @@ void generate_function(std::string name)
     computation C_BB_init_r("C_BB_init_r", {t, tileX, tileY, x1, rp, x2, r, m, n}, expr((double) 0));
     computation C_BB_init_i("C_BB_init_i", {t, tileX, tileY, x1, rp, x2, r, m, n}, expr((double) 0));
 
-    buffer buf_C_BB_r("buf_C_BB_r", {Lt, tileXSize, tileYSize, Vsnk, Vsnk, B2Nrows, Nsrc, B2Nrows, Nsnk}, p_float64, a_temporary);
-    buffer buf_C_BB_i("buf_C_BB_i", {Lt, tileXSize, tileYSize, Vsnk, Vsnk, B2Nrows, Nsrc, B2Nrows, Nsnk}, p_float64, a_temporary);
-    buffer buf_C_BB_r_cpu("buf_C_BB_r_cpu", {Lt, tileXSize, tileYSize, Vsnk, Vsnk, B2Nrows, Nsrc, B2Nrows, Nsnk}, p_float64, a_temporary);
-    buffer buf_C_BB_i_cpu("buf_C_BB_i_cpu", {Lt, tileXSize, tileYSize, Vsnk, Vsnk, B2Nrows, Nsrc, B2Nrows, Nsnk}, p_float64, a_temporary);
+    buffer buf_C_BB_r("buf_C_BB_r", {Lt, tiling_factor, tiling_factor, Vsnk / tiling_factor, Vsnk / tiling_factor, B2Nrows, Nsrc, B2Nrows, Nsnk}, p_float64, a_temporary);
+    buffer buf_C_BB_i("buf_C_BB_i", {Lt, tiling_factor, tiling_factor, Vsnk / tiling_factor, Vsnk / tiling_factor, B2Nrows, Nsrc, B2Nrows, Nsnk}, p_float64, a_temporary);
+    buffer buf_C_BB_r_cpu("buf_C_BB_r_cpu", {Lt, tiling_factor, tiling_factor, Vsnk / tiling_factor, Vsnk / tiling_factor, B2Nrows, Nsrc, B2Nrows, Nsnk}, p_float64, a_temporary);
+    buffer buf_C_BB_i_cpu("buf_C_BB_i_cpu", {Lt, tiling_factor, tiling_factor, Vsnk / tiling_factor, Vsnk / tiling_factor, B2Nrows, Nsrc, B2Nrows, Nsnk}, p_float64, a_temporary);
     buf_C_BB_r.tag_gpu_global();
     buf_C_BB_i.tag_gpu_global();
     C_BB_init_r.store_in(&buf_C_BB_r, {t, tileX, tileY, x1, x2, rp, m, r, n});
@@ -1361,14 +1359,14 @@ void generate_function(std::string name)
     // Layer III
     // -------------------------------------------------------
 
-    buffer buf_B1_Blocal_r1_r("buf_B1_Blocal_r1_r",   { Vsnk, Nc, Ns, Nc, Ns, Nsrc, Vsnk, Nc, Ns }, p_float64, a_temporary);
-    buffer buf_B1_Blocal_r1_i("buf_B1_Blocal_r1_i",   { Vsnk, Nc, Ns, Nc, Ns, Nsrc, Vsnk, Nc, Ns }, p_float64, a_temporary);
-    buffer buf_B1_Bfirst_r1_r("buf_B1_Bfirst_r1_r",   { Vsnk, Nc, Ns, Nc, Ns, Nsrc, Vsnk, Nc, Ns }, p_float64, a_temporary);
-    buffer buf_B1_Bfirst_r1_i("buf_B1_Bfirst_r1_i",   { Vsnk, Nc, Ns, Nc, Ns, Nsrc, Vsnk, Nc, Ns }, p_float64, a_temporary);
-    buffer buf_B1_Bsecond_r1_r("buf_B1_Bsecond_r1_r",   { Vsnk, Nc, Ns, Nc, Ns, Nsrc, Vsnk, Nc, Ns }, p_float64, a_temporary);
-    buffer buf_B1_Bsecond_r1_i("buf_B1_Bsecond_r1_i",   { Vsnk, Nc, Ns, Nc, Ns, Nsrc, Vsnk, Nc, Ns }, p_float64, a_temporary);
-    buffer buf_B1_Bthird_r1_r("buf_B1_Bthird_r1_r",   { Vsnk, Nc, Ns, Nc, Ns, Nsrc, Vsnk, Nc, Ns }, p_float64, a_temporary);
-    buffer buf_B1_Bthird_r1_i("buf_B1_Bthird_r1_i",   { Vsnk, Nc, Ns, Nc, Ns, Nsrc, Vsnk, Nc, Ns }, p_float64, a_temporary);
+    buffer buf_B1_Blocal_r1_r("buf_B1_Blocal_r1_r",   { Vsnk / tiling_factor, Nc, Ns, Nc, Ns, Nsrc, Vsnk / tiling_factor, Nc, Ns }, p_float64, a_temporary);
+    buffer buf_B1_Blocal_r1_i("buf_B1_Blocal_r1_i",   { Vsnk / tiling_factor, Nc, Ns, Nc, Ns, Nsrc, Vsnk / tiling_factor, Nc, Ns }, p_float64, a_temporary);
+    buffer buf_B1_Bfirst_r1_r("buf_B1_Bfirst_r1_r",   { Vsnk / tiling_factor, Nc, Ns, Nc, Ns, Nsrc, Vsnk / tiling_factor, Nc, Ns }, p_float64, a_temporary);
+    buffer buf_B1_Bfirst_r1_i("buf_B1_Bfirst_r1_i",   { Vsnk / tiling_factor, Nc, Ns, Nc, Ns, Nsrc, Vsnk / tiling_factor, Nc, Ns }, p_float64, a_temporary);
+    buffer buf_B1_Bsecond_r1_r("buf_B1_Bsecond_r1_r",   { Vsnk / tiling_factor, Nc, Ns, Nc, Ns, Nsrc, Vsnk / tiling_factor, Nc, Ns }, p_float64, a_temporary);
+    buffer buf_B1_Bsecond_r1_i("buf_B1_Bsecond_r1_i",   { Vsnk / tiling_factor, Nc, Ns, Nc, Ns, Nsrc, Vsnk / tiling_factor, Nc, Ns }, p_float64, a_temporary);
+    buffer buf_B1_Bthird_r1_r("buf_B1_Bthird_r1_r",   { Vsnk / tiling_factor, Nc, Ns, Nc, Ns, Nsrc, Vsnk / tiling_factor, Nc, Ns }, p_float64, a_temporary);
+    buffer buf_B1_Bthird_r1_i("buf_B1_Bthird_r1_i",   { Vsnk / tiling_factor, Nc, Ns, Nc, Ns, Nsrc, Vsnk / tiling_factor, Nc, Ns }, p_float64, a_temporary);
     buf_B1_Blocal_r1_r.tag_gpu_global();
     buf_B1_Blocal_r1_i.tag_gpu_global();
     buf_B1_Bfirst_r1_r.tag_gpu_global();
@@ -1394,14 +1392,14 @@ void generate_function(std::string name)
     B1_Bthird_r1_r_update.store_in(&buf_B1_Bthird_r1_r, { x1, iCprime, iSprime, jCprime, jSprime, m, x2, kCprime, kSprime});
     B1_Bthird_r1_i_update.store_in(&buf_B1_Bthird_r1_i, { x1, iCprime, iSprime, jCprime, jSprime, m, x2, kCprime, kSprime});
 
-    buffer buf_flip_B1_Blocal_r1_r("buf_flip_B1_Blocal_r1_r",   { Vsnk, Nc, Ns, Nc, Ns, Nsrc, Vsnk, Nc, Ns }, p_float64, a_temporary);
-    buffer buf_flip_B1_Blocal_r1_i("buf_flip_B1_Blocal_r1_i",   { Vsnk, Nc, Ns, Nc, Ns, Nsrc, Vsnk, Nc, Ns }, p_float64, a_temporary);
-    buffer buf_flip_B1_Bfirst_r1_r("buf_flip_B1_Bfirst_r1_r",   { Vsnk, Nc, Ns, Nc, Ns, Nsrc, Vsnk, Nc, Ns }, p_float64, a_temporary);
-    buffer buf_flip_B1_Bfirst_r1_i("buf_flip_B1_Bfirst_r1_i",   { Vsnk, Nc, Ns, Nc, Ns, Nsrc, Vsnk, Nc, Ns }, p_float64, a_temporary);
-    buffer buf_flip_B1_Bsecond_r1_r("buf_flip_B1_Bsecond_r1_r",   { Vsnk, Nc, Ns, Nc, Ns, Nsrc, Vsnk, Nc, Ns }, p_float64, a_temporary);
-    buffer buf_flip_B1_Bsecond_r1_i("buf_flip_B1_Bsecond_r1_i",   { Vsnk, Nc, Ns, Nc, Ns, Nsrc, Vsnk, Nc, Ns }, p_float64, a_temporary);
-    buffer buf_flip_B1_Bthird_r1_r("buf_flip_B1_Bthird_r1_r",   { Vsnk, Nc, Ns, Nc, Ns, Nsrc, Vsnk, Nc, Ns }, p_float64, a_temporary);
-    buffer buf_flip_B1_Bthird_r1_i("buf_flip_B1_Bthird_r1_i",   { Vsnk, Nc, Ns, Nc, Ns, Nsrc, Vsnk, Nc, Ns }, p_float64, a_temporary);
+    buffer buf_flip_B1_Blocal_r1_r("buf_flip_B1_Blocal_r1_r",   { Vsnk / tiling_factor, Nc, Ns, Nc, Ns, Nsrc, Vsnk / tiling_factor, Nc, Ns }, p_float64, a_temporary);
+    buffer buf_flip_B1_Blocal_r1_i("buf_flip_B1_Blocal_r1_i",   { Vsnk / tiling_factor, Nc, Ns, Nc, Ns, Nsrc, Vsnk / tiling_factor, Nc, Ns }, p_float64, a_temporary);
+    buffer buf_flip_B1_Bfirst_r1_r("buf_flip_B1_Bfirst_r1_r",   { Vsnk / tiling_factor, Nc, Ns, Nc, Ns, Nsrc, Vsnk / tiling_factor, Nc, Ns }, p_float64, a_temporary);
+    buffer buf_flip_B1_Bfirst_r1_i("buf_flip_B1_Bfirst_r1_i",   { Vsnk / tiling_factor, Nc, Ns, Nc, Ns, Nsrc, Vsnk / tiling_factor, Nc, Ns }, p_float64, a_temporary);
+    buffer buf_flip_B1_Bsecond_r1_r("buf_flip_B1_Bsecond_r1_r",   { Vsnk / tiling_factor, Nc, Ns, Nc, Ns, Nsrc, Vsnk / tiling_factor, Nc, Ns }, p_float64, a_temporary);
+    buffer buf_flip_B1_Bsecond_r1_i("buf_flip_B1_Bsecond_r1_i",   { Vsnk / tiling_factor, Nc, Ns, Nc, Ns, Nsrc, Vsnk / tiling_factor, Nc, Ns }, p_float64, a_temporary);
+    buffer buf_flip_B1_Bthird_r1_r("buf_flip_B1_Bthird_r1_r",   { Vsnk / tiling_factor, Nc, Ns, Nc, Ns, Nsrc, Vsnk / tiling_factor, Nc, Ns }, p_float64, a_temporary);
+    buffer buf_flip_B1_Bthird_r1_i("buf_flip_B1_Bthird_r1_i",   { Vsnk / tiling_factor, Nc, Ns, Nc, Ns, Nsrc, Vsnk / tiling_factor, Nc, Ns }, p_float64, a_temporary);
     buf_flip_B1_Blocal_r1_r.tag_gpu_global();
     buf_flip_B1_Blocal_r1_i.tag_gpu_global();
     buf_flip_B1_Bfirst_r1_r.tag_gpu_global();
@@ -1427,30 +1425,12 @@ void generate_function(std::string name)
     flip_B1_Bthird_r1_r_update.store_in(&buf_flip_B1_Bthird_r1_r, { x1, iCprime, iSprime, jCprime, jSprime, m, x2, kCprime, kSprime });
     flip_B1_Bthird_r1_i_update.store_in(&buf_flip_B1_Bthird_r1_i, { x1, iCprime, iSprime, jCprime, jSprime, m, x2, kCprime, kSprime }); 
 
-    // computation *allocate_buf_flip_B1_Blocal_r1_r = buf_flip_B1_Blocal_r1_r.allocate_at( flip_B1_Blocal_r1_r_init, t );
-    // computation *allocate_buf_flip_B1_Blocal_r1_i = buf_flip_B1_Blocal_r1_i.allocate_at( flip_B1_Blocal_r1_r_init, t );
-    // computation *allocate_buf_flip_B1_Bfirst_r1_r = buf_flip_B1_Bfirst_r1_r.allocate_at( flip_B1_Blocal_r1_r_init, t );
-    // computation *allocate_buf_flip_B1_Bfirst_r1_i = buf_flip_B1_Bfirst_r1_i.allocate_at( flip_B1_Blocal_r1_r_init, t );
-    // computation *allocate_buf_flip_B1_Bsecond_r1_r = buf_flip_B1_Bsecond_r1_r.allocate_at( flip_B1_Blocal_r1_r_init, t );
-    // computation *allocate_buf_flip_B1_Bsecond_r1_i = buf_flip_B1_Bsecond_r1_i.allocate_at( flip_B1_Blocal_r1_r_init, t );
-    // computation *allocate_buf_flip_B1_Bthird_r1_r = buf_flip_B1_Bthird_r1_r.allocate_at( flip_B1_Blocal_r1_r_init, t );
-    // computation *allocate_buf_flip_B1_Bthird_r1_i = buf_flip_B1_Bthird_r1_i.allocate_at( flip_B1_Blocal_r1_r_init, t );
-
-    // computation *deallocate_buf_flip_B1_Blocal_r1_r = buf_flip_B1_Blocal_r1_r.deallocate_at( C_BB_BB_prop_update_i_2, t );
-    // computation *deallocate_buf_flip_B1_Blocal_r1_i = buf_flip_B1_Blocal_r1_i.deallocate_at( C_BB_BB_prop_update_i_2, t );
-    // computation *deallocate_buf_flip_B1_Bfirst_r1_r = buf_flip_B1_Bfirst_r1_r.deallocate_at( C_BB_BB_prop_update_i_2, t );
-    // computation *deallocate_buf_flip_B1_Bfirst_r1_i = buf_flip_B1_Bfirst_r1_i.deallocate_at( C_BB_BB_prop_update_i_2, t );
-    // computation *deallocate_buf_flip_B1_Bsecond_r1_r = buf_flip_B1_Bsecond_r1_r.deallocate_at( C_BB_BB_prop_update_i_2, t );
-    // computation *deallocate_buf_flip_B1_Bsecond_r1_i = buf_flip_B1_Bsecond_r1_i.deallocate_at( C_BB_BB_prop_update_i_2, t );
-    // computation *deallocate_buf_flip_B1_Bthird_r1_r = buf_flip_B1_Bthird_r1_r.deallocate_at( C_BB_BB_prop_update_i_2, t );
-    // computation *deallocate_buf_flip_B1_Bthird_r1_i = buf_flip_B1_Bthird_r1_i.deallocate_at( C_BB_BB_prop_update_i_2, t );
-
-    buffer buf_B1_Blocal_diquark_r1_r("buf_B1_Blocal_diquark_r1_r",   {Vsnk, Nc, Ns, Vsnk, Nc, Ns}, p_float64, a_temporary);
-    buffer buf_B1_Blocal_diquark_r1_i("buf_B1_Blocal_diquark_r1_i",   {Vsnk, Nc, Ns, Vsnk, Nc, Ns}, p_float64, a_temporary);
-    buffer buf_B1_Bfirst_diquark_r1_r("buf_B1_Bfirst_diquark_r1_r",   {Vsnk, Nc, Ns, Vsnk, Nc, Ns}, p_float64, a_temporary);
-    buffer buf_B1_Bfirst_diquark_r1_i("buf_B1_Bfirst_diquark_r1_i",   {Vsnk, Nc, Ns, Vsnk, Nc, Ns}, p_float64, a_temporary);
-    buffer buf_B1_Bthird_diquark_r1_r("buf_B1_Bthird_diquark_r1_r",   {Vsnk, Nc, Ns, Vsnk, Nc, Ns}, p_float64, a_temporary);
-    buffer buf_B1_Bthird_diquark_r1_i("buf_B1_Bthird_diquark_r1_i",   {Vsnk, Nc, Ns, Vsnk, Nc, Ns}, p_float64, a_temporary);
+    buffer buf_B1_Blocal_diquark_r1_r("buf_B1_Blocal_diquark_r1_r",   {Vsnk / tiling_factor, Nc, Ns, Vsnk / tiling_factor, Nc, Ns}, p_float64, a_temporary);
+    buffer buf_B1_Blocal_diquark_r1_i("buf_B1_Blocal_diquark_r1_i",   {Vsnk / tiling_factor, Nc, Ns, Vsnk / tiling_factor, Nc, Ns}, p_float64, a_temporary);
+    buffer buf_B1_Bfirst_diquark_r1_r("buf_B1_Bfirst_diquark_r1_r",   {Vsnk / tiling_factor, Nc, Ns, Vsnk / tiling_factor, Nc, Ns}, p_float64, a_temporary);
+    buffer buf_B1_Bfirst_diquark_r1_i("buf_B1_Bfirst_diquark_r1_i",   {Vsnk / tiling_factor, Nc, Ns, Vsnk / tiling_factor, Nc, Ns}, p_float64, a_temporary);
+    buffer buf_B1_Bthird_diquark_r1_r("buf_B1_Bthird_diquark_r1_r",   {Vsnk / tiling_factor, Nc, Ns, Vsnk / tiling_factor, Nc, Ns}, p_float64, a_temporary);
+    buffer buf_B1_Bthird_diquark_r1_i("buf_B1_Bthird_diquark_r1_i",   {Vsnk / tiling_factor, Nc, Ns, Vsnk / tiling_factor, Nc, Ns}, p_float64, a_temporary);
     buf_B1_Blocal_diquark_r1_r.tag_gpu_global();
     buf_B1_Blocal_diquark_r1_i.tag_gpu_global();
     buf_B1_Bfirst_diquark_r1_r.tag_gpu_global();
@@ -1463,14 +1443,14 @@ void generate_function(std::string name)
     B1_Bfirst_r1_i_diquark.store_in(&buf_B1_Bfirst_diquark_r1_i, {x1, iCprime, iSprime, x2, kCprime, kSprime}); 
     B1_Bthird_r1_r_diquark.store_in(&buf_B1_Bthird_diquark_r1_r, {x1, iCprime, iSprime, x2, kCprime, kSprime});
     B1_Bthird_r1_i_diquark.store_in(&buf_B1_Bthird_diquark_r1_i, {x1, iCprime, iSprime, x2, kCprime, kSprime}); 
-    buffer buf_B1_Blocal_props_r1_r("buf_B1_Blocal_props_r1_r",   {Vsnk, Nc, Ns, Nc, Ns, Vsnk, Nc, Ns}, p_float64, a_temporary);
-    buffer buf_B1_Blocal_props_r1_i("buf_B1_Blocal_props_r1_i",   {Vsnk, Nc, Ns, Nc, Ns, Vsnk, Nc, Ns}, p_float64, a_temporary);
-    buffer buf_B1_Bfirst_props_r1_r("buf_B1_Bfirst_props_r1_r",   {Vsnk, Nc, Ns, Nc, Ns, Vsnk, Nc, Ns}, p_float64, a_temporary);
-    buffer buf_B1_Bfirst_props_r1_i("buf_B1_Bfirst_props_r1_i",   {Vsnk, Nc, Ns, Nc, Ns, Vsnk, Nc, Ns}, p_float64, a_temporary);
-    buffer buf_B1_Bsecond_props_r1_r("buf_B1_Bsecond_props_r1_r",   {Vsnk, Nc, Ns, Nc, Ns, Vsnk, Nc, Ns}, p_float64, a_temporary);
-    buffer buf_B1_Bsecond_props_r1_i("buf_B1_Bsecond_props_r1_i",   {Vsnk, Nc, Ns, Nc, Ns, Vsnk, Nc, Ns}, p_float64, a_temporary);
-    buffer buf_B1_Bthird_props_r1_r("buf_B1_Bthird_props_r1_r",   {Vsnk, Nc, Ns, Nc, Ns, Vsnk, Nc, Ns}, p_float64, a_temporary);
-    buffer buf_B1_Bthird_props_r1_i("buf_B1_Bthird_props_r1_i",   {Vsnk, Nc, Ns, Nc, Ns, Vsnk, Nc, Ns}, p_float64, a_temporary);
+    buffer buf_B1_Blocal_props_r1_r("buf_B1_Blocal_props_r1_r",   {Vsnk / tiling_factor, Nc, Ns, Nc, Ns, Vsnk / tiling_factor, Nc, Ns}, p_float64, a_temporary);
+    buffer buf_B1_Blocal_props_r1_i("buf_B1_Blocal_props_r1_i",   {Vsnk / tiling_factor, Nc, Ns, Nc, Ns, Vsnk / tiling_factor, Nc, Ns}, p_float64, a_temporary);
+    buffer buf_B1_Bfirst_props_r1_r("buf_B1_Bfirst_props_r1_r",   {Vsnk / tiling_factor, Nc, Ns, Nc, Ns, Vsnk / tiling_factor, Nc, Ns}, p_float64, a_temporary);
+    buffer buf_B1_Bfirst_props_r1_i("buf_B1_Bfirst_props_r1_i",   {Vsnk / tiling_factor, Nc, Ns, Nc, Ns, Vsnk / tiling_factor, Nc, Ns}, p_float64, a_temporary);
+    buffer buf_B1_Bsecond_props_r1_r("buf_B1_Bsecond_props_r1_r",   {Vsnk / tiling_factor, Nc, Ns, Nc, Ns, Vsnk / tiling_factor, Nc, Ns}, p_float64, a_temporary);
+    buffer buf_B1_Bsecond_props_r1_i("buf_B1_Bsecond_props_r1_i",   {Vsnk / tiling_factor, Nc, Ns, Nc, Ns, Vsnk / tiling_factor, Nc, Ns}, p_float64, a_temporary);
+    buffer buf_B1_Bthird_props_r1_r("buf_B1_Bthird_props_r1_r",   {Vsnk / tiling_factor, Nc, Ns, Nc, Ns, Vsnk / tiling_factor, Nc, Ns}, p_float64, a_temporary);
+    buffer buf_B1_Bthird_props_r1_i("buf_B1_Bthird_props_r1_i",   {Vsnk / tiling_factor, Nc, Ns, Nc, Ns, Vsnk / tiling_factor, Nc, Ns}, p_float64, a_temporary);
     buf_B1_Blocal_props_r1_r.tag_gpu_global();
     buf_B1_Blocal_props_r1_i.tag_gpu_global();
     buf_B1_Bfirst_props_r1_r.tag_gpu_global();
@@ -1496,14 +1476,14 @@ void generate_function(std::string name)
     B1_Bthird_r1_r_props.store_in(&buf_B1_Bthird_props_r1_r, {x1, iCprime, iSprime, jCprime, jSprime, x2, kCprime, kSprime});
     B1_Bthird_r1_i_props.store_in(&buf_B1_Bthird_props_r1_i, {x1, iCprime, iSprime, jCprime, jSprime, x2, kCprime, kSprime}); 
 
-    buffer buf_B1_Blocal_r2_r("buf_B1_Blocal_r2_r",   { Vsnk, Nc, Ns, Nc, Ns, Nsrc, Vsnk, Nc, Ns }, p_float64, a_temporary);
-    buffer buf_B1_Blocal_r2_i("buf_B1_Blocal_r2_i",   { Vsnk, Nc, Ns, Nc, Ns, Nsrc, Vsnk, Nc, Ns }, p_float64, a_temporary);
-    buffer buf_B1_Bfirst_r2_r("buf_B1_Bfirst_r2_r",   { Vsnk, Nc, Ns, Nc, Ns, Nsrc, Vsnk, Nc, Ns }, p_float64, a_temporary);
-    buffer buf_B1_Bfirst_r2_i("buf_B1_Bfirst_r2_i",   { Vsnk, Nc, Ns, Nc, Ns, Nsrc, Vsnk, Nc, Ns }, p_float64, a_temporary);
-    buffer buf_B1_Bsecond_r2_r("buf_B1_Bsecond_r2_r",   { Vsnk, Nc, Ns, Nc, Ns, Nsrc, Vsnk, Nc, Ns }, p_float64, a_temporary);
-    buffer buf_B1_Bsecond_r2_i("buf_B1_Bsecond_r2_i",   { Vsnk, Nc, Ns, Nc, Ns, Nsrc, Vsnk, Nc, Ns }, p_float64, a_temporary);
-    buffer buf_B1_Bthird_r2_r("buf_B1_Bthird_r2_r",   { Vsnk, Nc, Ns, Nc, Ns, Nsrc, Vsnk, Nc, Ns }, p_float64, a_temporary);
-    buffer buf_B1_Bthird_r2_i("buf_B1_Bthird_r2_i",   { Vsnk, Nc, Ns, Nc, Ns, Nsrc, Vsnk, Nc, Ns }, p_float64, a_temporary);
+    buffer buf_B1_Blocal_r2_r("buf_B1_Blocal_r2_r",   { Vsnk / tiling_factor, Nc, Ns, Nc, Ns, Nsrc, Vsnk / tiling_factor, Nc, Ns }, p_float64, a_temporary);
+    buffer buf_B1_Blocal_r2_i("buf_B1_Blocal_r2_i",   { Vsnk / tiling_factor, Nc, Ns, Nc, Ns, Nsrc, Vsnk / tiling_factor, Nc, Ns }, p_float64, a_temporary);
+    buffer buf_B1_Bfirst_r2_r("buf_B1_Bfirst_r2_r",   { Vsnk / tiling_factor, Nc, Ns, Nc, Ns, Nsrc, Vsnk / tiling_factor, Nc, Ns }, p_float64, a_temporary);
+    buffer buf_B1_Bfirst_r2_i("buf_B1_Bfirst_r2_i",   { Vsnk / tiling_factor, Nc, Ns, Nc, Ns, Nsrc, Vsnk / tiling_factor, Nc, Ns }, p_float64, a_temporary);
+    buffer buf_B1_Bsecond_r2_r("buf_B1_Bsecond_r2_r",   { Vsnk / tiling_factor, Nc, Ns, Nc, Ns, Nsrc, Vsnk / tiling_factor, Nc, Ns }, p_float64, a_temporary);
+    buffer buf_B1_Bsecond_r2_i("buf_B1_Bsecond_r2_i",   { Vsnk / tiling_factor, Nc, Ns, Nc, Ns, Nsrc, Vsnk / tiling_factor, Nc, Ns }, p_float64, a_temporary);
+    buffer buf_B1_Bthird_r2_r("buf_B1_Bthird_r2_r",   { Vsnk / tiling_factor, Nc, Ns, Nc, Ns, Nsrc, Vsnk / tiling_factor, Nc, Ns }, p_float64, a_temporary);
+    buffer buf_B1_Bthird_r2_i("buf_B1_Bthird_r2_i",   { Vsnk / tiling_factor, Nc, Ns, Nc, Ns, Nsrc, Vsnk / tiling_factor, Nc, Ns }, p_float64, a_temporary);
     buf_B1_Blocal_r2_r.tag_gpu_global();
     buf_B1_Blocal_r2_i.tag_gpu_global();
     buf_B1_Bfirst_r2_r.tag_gpu_global();
@@ -1529,14 +1509,14 @@ void generate_function(std::string name)
     B1_Bthird_r2_r_update.store_in(&buf_B1_Bthird_r2_r, { x1, iCprime, iSprime, jCprime, jSprime, m, x2, kCprime, kSprime});
     B1_Bthird_r2_i_update.store_in(&buf_B1_Bthird_r2_i, { x1, iCprime, iSprime, jCprime, jSprime, m, x2, kCprime, kSprime});
 
-    buffer buf_flip_B1_Blocal_r2_r("buf_flip_B1_Blocal_r2_r",   { Vsnk, Nc, Ns, Nc, Ns, Nsrc, Vsnk, Nc, Ns }, p_float64, a_temporary);
-    buffer buf_flip_B1_Blocal_r2_i("buf_flip_B1_Blocal_r2_i",   { Vsnk, Nc, Ns, Nc, Ns, Nsrc, Vsnk, Nc, Ns }, p_float64, a_temporary);
-    buffer buf_flip_B1_Bfirst_r2_r("buf_flip_B1_Bfirst_r2_r",   { Vsnk, Nc, Ns, Nc, Ns, Nsrc, Vsnk, Nc, Ns }, p_float64, a_temporary);
-    buffer buf_flip_B1_Bfirst_r2_i("buf_flip_B1_Bfirst_r2_i",   { Vsnk, Nc, Ns, Nc, Ns, Nsrc, Vsnk, Nc, Ns }, p_float64, a_temporary);
-    buffer buf_flip_B1_Bsecond_r2_r("buf_flip_B1_Bsecond_r2_r",   { Vsnk, Nc, Ns, Nc, Ns, Nsrc, Vsnk, Nc, Ns }, p_float64, a_temporary);
-    buffer buf_flip_B1_Bsecond_r2_i("buf_flip_B1_Bsecond_r2_i",   { Vsnk, Nc, Ns, Nc, Ns, Nsrc, Vsnk, Nc, Ns }, p_float64, a_temporary);
-    buffer buf_flip_B1_Bthird_r2_r("buf_flip_B1_Bthird_r2_r",   { Vsnk, Nc, Ns, Nc, Ns, Nsrc, Vsnk, Nc, Ns }, p_float64, a_temporary);
-    buffer buf_flip_B1_Bthird_r2_i("buf_flip_B1_Bthird_r2_i",   { Vsnk, Nc, Ns, Nc, Ns, Nsrc, Vsnk, Nc, Ns }, p_float64, a_temporary);
+    buffer buf_flip_B1_Blocal_r2_r("buf_flip_B1_Blocal_r2_r",   { Vsnk / tiling_factor, Nc, Ns, Nc, Ns, Nsrc, Vsnk / tiling_factor, Nc, Ns }, p_float64, a_temporary);
+    buffer buf_flip_B1_Blocal_r2_i("buf_flip_B1_Blocal_r2_i",   { Vsnk / tiling_factor, Nc, Ns, Nc, Ns, Nsrc, Vsnk / tiling_factor, Nc, Ns }, p_float64, a_temporary);
+    buffer buf_flip_B1_Bfirst_r2_r("buf_flip_B1_Bfirst_r2_r",   { Vsnk / tiling_factor, Nc, Ns, Nc, Ns, Nsrc, Vsnk / tiling_factor, Nc, Ns }, p_float64, a_temporary);
+    buffer buf_flip_B1_Bfirst_r2_i("buf_flip_B1_Bfirst_r2_i",   { Vsnk / tiling_factor, Nc, Ns, Nc, Ns, Nsrc, Vsnk / tiling_factor, Nc, Ns }, p_float64, a_temporary);
+    buffer buf_flip_B1_Bsecond_r2_r("buf_flip_B1_Bsecond_r2_r",   { Vsnk / tiling_factor, Nc, Ns, Nc, Ns, Nsrc, Vsnk / tiling_factor, Nc, Ns }, p_float64, a_temporary);
+    buffer buf_flip_B1_Bsecond_r2_i("buf_flip_B1_Bsecond_r2_i",   { Vsnk / tiling_factor, Nc, Ns, Nc, Ns, Nsrc, Vsnk / tiling_factor, Nc, Ns }, p_float64, a_temporary);
+    buffer buf_flip_B1_Bthird_r2_r("buf_flip_B1_Bthird_r2_r",   { Vsnk / tiling_factor, Nc, Ns, Nc, Ns, Nsrc, Vsnk / tiling_factor, Nc, Ns }, p_float64, a_temporary);
+    buffer buf_flip_B1_Bthird_r2_i("buf_flip_B1_Bthird_r2_i",   { Vsnk / tiling_factor, Nc, Ns, Nc, Ns, Nsrc, Vsnk / tiling_factor, Nc, Ns }, p_float64, a_temporary);
     buf_flip_B1_Blocal_r2_r.tag_gpu_global();
     buf_flip_B1_Blocal_r2_i.tag_gpu_global();
     buf_flip_B1_Bfirst_r2_r.tag_gpu_global();
@@ -1562,30 +1542,12 @@ void generate_function(std::string name)
     flip_B1_Bthird_r2_r_update.store_in(&buf_flip_B1_Bthird_r2_r, { x1, iCprime, iSprime, jCprime, jSprime, m, x2, kCprime, kSprime });
     flip_B1_Bthird_r2_i_update.store_in(&buf_flip_B1_Bthird_r2_i, { x1, iCprime, iSprime, jCprime, jSprime, m, x2, kCprime, kSprime }); 
 
-    // computation *allocate_buf_flip_B1_Blocal_r2_r = buf_flip_B1_Blocal_r2_r.allocate_at( flip_B1_Blocal_r2_r_init, t );
-    // computation *allocate_buf_flip_B1_Blocal_r2_i = buf_flip_B1_Blocal_r2_i.allocate_at( flip_B1_Blocal_r2_r_init, t );
-    // computation *allocate_buf_flip_B1_Bfirst_r2_r = buf_flip_B1_Bfirst_r2_r.allocate_at( flip_B1_Blocal_r2_r_init, t );
-    // computation *allocate_buf_flip_B1_Bfirst_r2_i = buf_flip_B1_Bfirst_r2_i.allocate_at( flip_B1_Blocal_r2_r_init, t );
-    // computation *allocate_buf_flip_B1_Bsecond_r2_r = buf_flip_B1_Bsecond_r2_r.allocate_at( flip_B1_Blocal_r2_r_init, t );
-    // computation *allocate_buf_flip_B1_Bsecond_r2_i = buf_flip_B1_Bsecond_r2_i.allocate_at( flip_B1_Blocal_r2_r_init, t );
-    // computation *allocate_buf_flip_B1_Bthird_r2_r = buf_flip_B1_Bthird_r2_r.allocate_at( flip_B1_Blocal_r2_r_init, t );
-    // computation *allocate_buf_flip_B1_Bthird_r2_i = buf_flip_B1_Bthird_r2_i.allocate_at( flip_B1_Blocal_r2_r_init, t );
-
-    // computation *deallocate_buf_flip_B1_Blocal_r2_r = buf_flip_B1_Blocal_r2_r.deallocate_at( C_BB_BB_prop_update_i_2, t );
-    // computation *deallocate_buf_flip_B1_Blocal_r2_i = buf_flip_B1_Blocal_r2_i.deallocate_at( C_BB_BB_prop_update_i_2, t );
-    // computation *deallocate_buf_flip_B1_Bfirst_r2_r = buf_flip_B1_Bfirst_r2_r.deallocate_at( C_BB_BB_prop_update_i_2, t );
-    // computation *deallocate_buf_flip_B1_Bfirst_r2_i = buf_flip_B1_Bfirst_r2_i.deallocate_at( C_BB_BB_prop_update_i_2, t );
-    // computation *deallocate_buf_flip_B1_Bsecond_r2_r = buf_flip_B1_Bsecond_r2_r.deallocate_at( C_BB_BB_prop_update_i_2, t );
-    // computation *deallocate_buf_flip_B1_Bsecond_r2_i = buf_flip_B1_Bsecond_r2_i.deallocate_at( C_BB_BB_prop_update_i_2, t );
-    // computation *deallocate_buf_flip_B1_Bthird_r2_r = buf_flip_B1_Bthird_r2_r.deallocate_at( C_BB_BB_prop_update_i_2, t );
-    // computation *deallocate_buf_flip_B1_Bthird_r2_i = buf_flip_B1_Bthird_r2_i.deallocate_at( C_BB_BB_prop_update_i_2, t );
-
-    buffer buf_B1_Blocal_diquark_r2_r("buf_B1_Blocal_diquark_r2_r",   {Vsnk, Nc, Ns, Vsnk, Nc, Ns}, p_float64, a_temporary);
-    buffer buf_B1_Blocal_diquark_r2_i("buf_B1_Blocal_diquark_r2_i",   {Vsnk, Nc, Ns, Vsnk, Nc, Ns}, p_float64, a_temporary);
-    buffer buf_B1_Bfirst_diquark_r2_r("buf_B1_Bfirst_diquark_r2_r",   {Vsnk, Nc, Ns, Vsnk, Nc, Ns}, p_float64, a_temporary);
-    buffer buf_B1_Bfirst_diquark_r2_i("buf_B1_Bfirst_diquark_r2_i",   {Vsnk, Nc, Ns, Vsnk, Nc, Ns}, p_float64, a_temporary);
-    buffer buf_B1_Bthird_diquark_r2_r("buf_B1_Bthird_diquark_r2_r",   {Vsnk, Nc, Ns, Vsnk, Nc, Ns}, p_float64, a_temporary);
-    buffer buf_B1_Bthird_diquark_r2_i("buf_B1_Bthird_diquark_r2_i",   {Vsnk, Nc, Ns, Vsnk, Nc, Ns}, p_float64, a_temporary);
+    buffer buf_B1_Blocal_diquark_r2_r("buf_B1_Blocal_diquark_r2_r",   {Vsnk / tiling_factor, Nc, Ns, Vsnk / tiling_factor, Nc, Ns}, p_float64, a_temporary);
+    buffer buf_B1_Blocal_diquark_r2_i("buf_B1_Blocal_diquark_r2_i",   {Vsnk / tiling_factor, Nc, Ns, Vsnk / tiling_factor, Nc, Ns}, p_float64, a_temporary);
+    buffer buf_B1_Bfirst_diquark_r2_r("buf_B1_Bfirst_diquark_r2_r",   {Vsnk / tiling_factor, Nc, Ns, Vsnk / tiling_factor, Nc, Ns}, p_float64, a_temporary);
+    buffer buf_B1_Bfirst_diquark_r2_i("buf_B1_Bfirst_diquark_r2_i",   {Vsnk / tiling_factor, Nc, Ns, Vsnk / tiling_factor, Nc, Ns}, p_float64, a_temporary);
+    buffer buf_B1_Bthird_diquark_r2_r("buf_B1_Bthird_diquark_r2_r",   {Vsnk / tiling_factor, Nc, Ns, Vsnk / tiling_factor, Nc, Ns}, p_float64, a_temporary);
+    buffer buf_B1_Bthird_diquark_r2_i("buf_B1_Bthird_diquark_r2_i",   {Vsnk / tiling_factor, Nc, Ns, Vsnk / tiling_factor, Nc, Ns}, p_float64, a_temporary);
     buf_B1_Blocal_diquark_r2_r.tag_gpu_global();
     buf_B1_Blocal_diquark_r2_i.tag_gpu_global();
     buf_B1_Bfirst_diquark_r2_r.tag_gpu_global();
@@ -1598,14 +1560,14 @@ void generate_function(std::string name)
     B1_Bfirst_r2_i_diquark.store_in(&buf_B1_Bfirst_diquark_r2_i, {x1, iCprime, iSprime, x2, kCprime, kSprime}); 
     B1_Bthird_r2_r_diquark.store_in(&buf_B1_Bthird_diquark_r2_r, {x1, iCprime, iSprime, x2, kCprime, kSprime});
     B1_Bthird_r2_i_diquark.store_in(&buf_B1_Bthird_diquark_r2_i, {x1, iCprime, iSprime, x2, kCprime, kSprime}); 
-    buffer buf_B1_Blocal_props_r2_r("buf_B1_Blocal_props_r2_r",   {Vsnk, Nc, Ns, Nc, Ns, Vsnk, Nc, Ns}, p_float64, a_temporary);
-    buffer buf_B1_Blocal_props_r2_i("buf_B1_Blocal_props_r2_i",   {Vsnk, Nc, Ns, Nc, Ns, Vsnk, Nc, Ns}, p_float64, a_temporary);
-    buffer buf_B1_Bfirst_props_r2_r("buf_B1_Bfirst_props_r2_r",   {Vsnk, Nc, Ns, Nc, Ns, Vsnk, Nc, Ns}, p_float64, a_temporary);
-    buffer buf_B1_Bfirst_props_r2_i("buf_B1_Bfirst_props_r2_i",   {Vsnk, Nc, Ns, Nc, Ns, Vsnk, Nc, Ns}, p_float64, a_temporary);
-    buffer buf_B1_Bsecond_props_r2_r("buf_B1_Bsecond_props_r2_r",   {Vsnk, Nc, Ns, Nc, Ns, Vsnk, Nc, Ns}, p_float64, a_temporary);
-    buffer buf_B1_Bsecond_props_r2_i("buf_B1_Bsecond_props_r2_i",   {Vsnk, Nc, Ns, Nc, Ns, Vsnk, Nc, Ns}, p_float64, a_temporary);
-    buffer buf_B1_Bthird_props_r2_r("buf_B1_Bthird_props_r2_r",   {Vsnk, Nc, Ns, Nc, Ns, Vsnk, Nc, Ns}, p_float64, a_temporary);
-    buffer buf_B1_Bthird_props_r2_i("buf_B1_Bthird_props_r2_i",   {Vsnk, Nc, Ns, Nc, Ns, Vsnk, Nc, Ns}, p_float64, a_temporary);
+    buffer buf_B1_Blocal_props_r2_r("buf_B1_Blocal_props_r2_r",   {Vsnk / tiling_factor, Nc, Ns, Nc, Ns, Vsnk / tiling_factor, Nc, Ns}, p_float64, a_temporary);
+    buffer buf_B1_Blocal_props_r2_i("buf_B1_Blocal_props_r2_i",   {Vsnk / tiling_factor, Nc, Ns, Nc, Ns, Vsnk / tiling_factor, Nc, Ns}, p_float64, a_temporary);
+    buffer buf_B1_Bfirst_props_r2_r("buf_B1_Bfirst_props_r2_r",   {Vsnk / tiling_factor, Nc, Ns, Nc, Ns, Vsnk / tiling_factor, Nc, Ns}, p_float64, a_temporary);
+    buffer buf_B1_Bfirst_props_r2_i("buf_B1_Bfirst_props_r2_i",   {Vsnk / tiling_factor, Nc, Ns, Nc, Ns, Vsnk / tiling_factor, Nc, Ns}, p_float64, a_temporary);
+    buffer buf_B1_Bsecond_props_r2_r("buf_B1_Bsecond_props_r2_r",   {Vsnk / tiling_factor, Nc, Ns, Nc, Ns, Vsnk / tiling_factor, Nc, Ns}, p_float64, a_temporary);
+    buffer buf_B1_Bsecond_props_r2_i("buf_B1_Bsecond_props_r2_i",   {Vsnk / tiling_factor, Nc, Ns, Nc, Ns, Vsnk / tiling_factor, Nc, Ns}, p_float64, a_temporary);
+    buffer buf_B1_Bthird_props_r2_r("buf_B1_Bthird_props_r2_r",   {Vsnk / tiling_factor, Nc, Ns, Nc, Ns, Vsnk / tiling_factor, Nc, Ns}, p_float64, a_temporary);
+    buffer buf_B1_Bthird_props_r2_i("buf_B1_Bthird_props_r2_i",   {Vsnk / tiling_factor, Nc, Ns, Nc, Ns, Vsnk / tiling_factor, Nc, Ns}, p_float64, a_temporary);
     buf_B1_Blocal_props_r2_r.tag_gpu_global();
     buf_B1_Blocal_props_r2_i.tag_gpu_global();
     buf_B1_Bfirst_props_r2_r.tag_gpu_global();
@@ -1631,32 +1593,14 @@ void generate_function(std::string name)
     B1_Bthird_r2_r_props.store_in(&buf_B1_Bthird_props_r2_r, {x1, iCprime, iSprime, jCprime, jSprime, x2, kCprime, kSprime});
     B1_Bthird_r2_i_props.store_in(&buf_B1_Bthird_props_r2_i, {x1, iCprime, iSprime, jCprime, jSprime, x2, kCprime, kSprime}); 
     
-    // computation *allocate_buf_B1_Blocal_props_r2_r = buf_B1_Blocal_props_r2_r.allocate_at( B1_Blocal_r2_r_props_init, t );
-    // computation *allocate_buf_B1_Blocal_props_r2_i = buf_B1_Blocal_props_r2_i.allocate_at( B1_Blocal_r2_r_props_init, t );
-    // computation *allocate_buf_B1_Bfirst_props_r2_r = buf_B1_Bfirst_props_r2_r.allocate_at( B1_Blocal_r2_r_props_init, t );
-    // computation *allocate_buf_B1_Bfirst_props_r2_i = buf_B1_Bfirst_props_r2_i.allocate_at( B1_Blocal_r2_r_props_init, t );
-    // computation *allocate_buf_B1_Bsecond_props_r2_r = buf_B1_Bsecond_props_r2_r.allocate_at( B1_Blocal_r2_r_props_init, t );
-    // computation *allocate_buf_B1_Bsecond_props_r2_i = buf_B1_Bsecond_props_r2_i.allocate_at( B1_Blocal_r2_r_props_init, t );
-    // computation *allocate_buf_B1_Bthird_props_r2_r = buf_B1_Bthird_props_r2_r.allocate_at( B1_Blocal_r2_r_props_init, t );
-    // computation *allocate_buf_B1_Bthird_props_r2_i = buf_B1_Bthird_props_r2_i.allocate_at( B1_Blocal_r2_r_props_init, t );
-
-    // computation *deallocate_buf_B1_Blocal_props_r2_r = buf_B1_Blocal_props_r2_r.deallocate_at( flip_B1_Bthird_r2_i_update, t );
-    // computation *deallocate_buf_B1_Blocal_props_r2_i = buf_B1_Blocal_props_r2_i.deallocate_at( flip_B1_Bthird_r2_i_update, t );
-    // computation *deallocate_buf_B1_Bfirst_props_r2_r = buf_B1_Bfirst_props_r2_r.deallocate_at( flip_B1_Bthird_r2_i_update, t );
-    // computation *deallocate_buf_B1_Bfirst_props_r2_i = buf_B1_Bfirst_props_r2_i.deallocate_at( flip_B1_Bthird_r2_i_update, t );
-    // computation *deallocate_buf_B1_Bsecond_props_r2_r = buf_B1_Bsecond_props_r2_r.deallocate_at( flip_B1_Bthird_r2_i_update, t );
-    // computation *deallocate_buf_B1_Bsecond_props_r2_i = buf_B1_Bsecond_props_r2_i.deallocate_at( flip_B1_Bthird_r2_i_update, t );
-    // computation *deallocate_buf_B1_Bthird_props_r2_r = buf_B1_Bthird_props_r2_r.deallocate_at( flip_B1_Bthird_r2_i_update, t );
-    // computation *deallocate_buf_B1_Bthird_props_r2_i = buf_B1_Bthird_props_r2_i.deallocate_at( flip_B1_Bthird_r2_i_update, t );
-
-    buffer buf_B2_Blocal_r1_r("buf_B2_Blocal_r1_r",   { Vsnk, Nc, Ns, Nc, Ns, Nsrc, Vsnk, Nc, Ns }, p_float64, a_temporary);
-    buffer buf_B2_Blocal_r1_i("buf_B2_Blocal_r1_i",   { Vsnk, Nc, Ns, Nc, Ns, Nsrc, Vsnk, Nc, Ns }, p_float64, a_temporary);
-    buffer buf_B2_Bfirst_r1_r("buf_B2_Bfirst_r1_r",   { Vsnk, Nc, Ns, Nc, Ns, Nsrc, Vsnk, Nc, Ns }, p_float64, a_temporary);
-    buffer buf_B2_Bfirst_r1_i("buf_B2_Bfirst_r1_i",   { Vsnk, Nc, Ns, Nc, Ns, Nsrc, Vsnk, Nc, Ns }, p_float64, a_temporary);
-    buffer buf_B2_Bsecond_r1_r("buf_B2_Bsecond_r1_r",   { Vsnk, Nc, Ns, Nc, Ns, Nsrc, Vsnk, Nc, Ns }, p_float64, a_temporary);
-    buffer buf_B2_Bsecond_r1_i("buf_B2_Bsecond_r1_i",   { Vsnk, Nc, Ns, Nc, Ns, Nsrc, Vsnk, Nc, Ns }, p_float64, a_temporary);
-    buffer buf_B2_Bthird_r1_r("buf_B2_Bthird_r1_r",   { Vsnk, Nc, Ns, Nc, Ns, Nsrc, Vsnk, Nc, Ns }, p_float64, a_temporary);
-    buffer buf_B2_Bthird_r1_i("buf_B2_Bthird_r1_i",   { Vsnk, Nc, Ns, Nc, Ns, Nsrc, Vsnk, Nc, Ns }, p_float64, a_temporary);
+    buffer buf_B2_Blocal_r1_r("buf_B2_Blocal_r1_r",   { Vsnk / tiling_factor, Nc, Ns, Nc, Ns, Nsrc, Vsnk / tiling_factor, Nc, Ns }, p_float64, a_temporary);
+    buffer buf_B2_Blocal_r1_i("buf_B2_Blocal_r1_i",   { Vsnk / tiling_factor, Nc, Ns, Nc, Ns, Nsrc, Vsnk / tiling_factor, Nc, Ns }, p_float64, a_temporary);
+    buffer buf_B2_Bfirst_r1_r("buf_B2_Bfirst_r1_r",   { Vsnk / tiling_factor, Nc, Ns, Nc, Ns, Nsrc, Vsnk / tiling_factor, Nc, Ns }, p_float64, a_temporary);
+    buffer buf_B2_Bfirst_r1_i("buf_B2_Bfirst_r1_i",   { Vsnk / tiling_factor, Nc, Ns, Nc, Ns, Nsrc, Vsnk / tiling_factor, Nc, Ns }, p_float64, a_temporary);
+    buffer buf_B2_Bsecond_r1_r("buf_B2_Bsecond_r1_r",   { Vsnk / tiling_factor, Nc, Ns, Nc, Ns, Nsrc, Vsnk / tiling_factor, Nc, Ns }, p_float64, a_temporary);
+    buffer buf_B2_Bsecond_r1_i("buf_B2_Bsecond_r1_i",   { Vsnk / tiling_factor, Nc, Ns, Nc, Ns, Nsrc, Vsnk / tiling_factor, Nc, Ns }, p_float64, a_temporary);
+    buffer buf_B2_Bthird_r1_r("buf_B2_Bthird_r1_r",   { Vsnk / tiling_factor, Nc, Ns, Nc, Ns, Nsrc, Vsnk / tiling_factor, Nc, Ns }, p_float64, a_temporary);
+    buffer buf_B2_Bthird_r1_i("buf_B2_Bthird_r1_i",   { Vsnk / tiling_factor, Nc, Ns, Nc, Ns, Nsrc, Vsnk / tiling_factor, Nc, Ns }, p_float64, a_temporary);
     buf_B2_Blocal_r1_r.tag_gpu_global();
     buf_B2_Blocal_r1_i.tag_gpu_global();
     buf_B2_Bfirst_r1_r.tag_gpu_global();
@@ -1682,14 +1626,14 @@ void generate_function(std::string name)
     B2_Bthird_r1_r_update.store_in(&buf_B2_Bthird_r1_r, { x1, iCprime, iSprime, jCprime, jSprime, m, x2, kCprime, kSprime});
     B2_Bthird_r1_i_update.store_in(&buf_B2_Bthird_r1_i, { x1, iCprime, iSprime, jCprime, jSprime, m, x2, kCprime, kSprime});
 
-    buffer buf_flip_B2_Blocal_r1_r("buf_flip_B2_Blocal_r1_r",   { Vsnk, Nc, Ns, Nc, Ns, Nsrc, Vsnk, Nc, Ns }, p_float64, a_temporary);
-    buffer buf_flip_B2_Blocal_r1_i("buf_flip_B2_Blocal_r1_i",   { Vsnk, Nc, Ns, Nc, Ns, Nsrc, Vsnk, Nc, Ns }, p_float64, a_temporary);
-    buffer buf_flip_B2_Bfirst_r1_r("buf_flip_B2_Bfirst_r1_r",   { Vsnk, Nc, Ns, Nc, Ns, Nsrc, Vsnk, Nc, Ns }, p_float64, a_temporary);
-    buffer buf_flip_B2_Bfirst_r1_i("buf_flip_B2_Bfirst_r1_i",   { Vsnk, Nc, Ns, Nc, Ns, Nsrc, Vsnk, Nc, Ns }, p_float64, a_temporary);
-    buffer buf_flip_B2_Bsecond_r1_r("buf_flip_B2_Bsecond_r1_r",   { Vsnk, Nc, Ns, Nc, Ns, Nsrc, Vsnk, Nc, Ns }, p_float64, a_temporary);
-    buffer buf_flip_B2_Bsecond_r1_i("buf_flip_B2_Bsecond_r1_i",   { Vsnk, Nc, Ns, Nc, Ns, Nsrc, Vsnk, Nc, Ns }, p_float64, a_temporary);
-    buffer buf_flip_B2_Bthird_r1_r("buf_flip_B2_Bthird_r1_r",   { Vsnk, Nc, Ns, Nc, Ns, Nsrc, Vsnk, Nc, Ns }, p_float64, a_temporary);
-    buffer buf_flip_B2_Bthird_r1_i("buf_flip_B2_Bthird_r1_i",   { Vsnk, Nc, Ns, Nc, Ns, Nsrc, Vsnk, Nc, Ns }, p_float64, a_temporary);
+    buffer buf_flip_B2_Blocal_r1_r("buf_flip_B2_Blocal_r1_r",   { Vsnk / tiling_factor, Nc, Ns, Nc, Ns, Nsrc, Vsnk / tiling_factor, Nc, Ns }, p_float64, a_temporary);
+    buffer buf_flip_B2_Blocal_r1_i("buf_flip_B2_Blocal_r1_i",   { Vsnk / tiling_factor, Nc, Ns, Nc, Ns, Nsrc, Vsnk / tiling_factor, Nc, Ns }, p_float64, a_temporary);
+    buffer buf_flip_B2_Bfirst_r1_r("buf_flip_B2_Bfirst_r1_r",   { Vsnk / tiling_factor, Nc, Ns, Nc, Ns, Nsrc, Vsnk / tiling_factor, Nc, Ns }, p_float64, a_temporary);
+    buffer buf_flip_B2_Bfirst_r1_i("buf_flip_B2_Bfirst_r1_i",   { Vsnk / tiling_factor, Nc, Ns, Nc, Ns, Nsrc, Vsnk / tiling_factor, Nc, Ns }, p_float64, a_temporary);
+    buffer buf_flip_B2_Bsecond_r1_r("buf_flip_B2_Bsecond_r1_r",   { Vsnk / tiling_factor, Nc, Ns, Nc, Ns, Nsrc, Vsnk / tiling_factor, Nc, Ns }, p_float64, a_temporary);
+    buffer buf_flip_B2_Bsecond_r1_i("buf_flip_B2_Bsecond_r1_i",   { Vsnk / tiling_factor, Nc, Ns, Nc, Ns, Nsrc, Vsnk / tiling_factor, Nc, Ns }, p_float64, a_temporary);
+    buffer buf_flip_B2_Bthird_r1_r("buf_flip_B2_Bthird_r1_r",   { Vsnk / tiling_factor, Nc, Ns, Nc, Ns, Nsrc, Vsnk / tiling_factor, Nc, Ns }, p_float64, a_temporary);
+    buffer buf_flip_B2_Bthird_r1_i("buf_flip_B2_Bthird_r1_i",   { Vsnk / tiling_factor, Nc, Ns, Nc, Ns, Nsrc, Vsnk / tiling_factor, Nc, Ns }, p_float64, a_temporary);
     buf_flip_B2_Blocal_r1_r.tag_gpu_global();
     buf_flip_B2_Blocal_r1_i.tag_gpu_global();
     buf_flip_B2_Bfirst_r1_r.tag_gpu_global();
@@ -1715,12 +1659,12 @@ void generate_function(std::string name)
     flip_B2_Bthird_r1_r_update.store_in(&buf_flip_B2_Bthird_r1_r, { x1, iCprime, iSprime, jCprime, jSprime, m, x2, kCprime, kSprime });
     flip_B2_Bthird_r1_i_update.store_in(&buf_flip_B2_Bthird_r1_i, { x1, iCprime, iSprime, jCprime, jSprime, m, x2, kCprime, kSprime }); 
 
-    buffer buf_B2_Blocal_diquark_r1_r("buf_B2_Blocal_diquark_r1_r",   {Vsnk, Nc, Ns, Vsnk, Nc, Ns}, p_float64, a_temporary);
-    buffer buf_B2_Blocal_diquark_r1_i("buf_B2_Blocal_diquark_r1_i",   {Vsnk, Nc, Ns, Vsnk, Nc, Ns}, p_float64, a_temporary);
-    buffer buf_B2_Bfirst_diquark_r1_r("buf_B2_Bfirst_diquark_r1_r",   {Vsnk, Nc, Ns, Vsnk, Nc, Ns}, p_float64, a_temporary);
-    buffer buf_B2_Bfirst_diquark_r1_i("buf_B2_Bfirst_diquark_r1_i",   {Vsnk, Nc, Ns, Vsnk, Nc, Ns}, p_float64, a_temporary);
-    buffer buf_B2_Bthird_diquark_r1_r("buf_B2_Bthird_diquark_r1_r",   {Vsnk, Nc, Ns, Vsnk, Nc, Ns}, p_float64, a_temporary);
-    buffer buf_B2_Bthird_diquark_r1_i("buf_B2_Bthird_diquark_r1_i",   {Vsnk, Nc, Ns, Vsnk, Nc, Ns}, p_float64, a_temporary);
+    buffer buf_B2_Blocal_diquark_r1_r("buf_B2_Blocal_diquark_r1_r",   {Vsnk / tiling_factor, Nc, Ns, Vsnk / tiling_factor, Nc, Ns}, p_float64, a_temporary);
+    buffer buf_B2_Blocal_diquark_r1_i("buf_B2_Blocal_diquark_r1_i",   {Vsnk / tiling_factor, Nc, Ns, Vsnk / tiling_factor, Nc, Ns}, p_float64, a_temporary);
+    buffer buf_B2_Bfirst_diquark_r1_r("buf_B2_Bfirst_diquark_r1_r",   {Vsnk / tiling_factor, Nc, Ns, Vsnk / tiling_factor, Nc, Ns}, p_float64, a_temporary);
+    buffer buf_B2_Bfirst_diquark_r1_i("buf_B2_Bfirst_diquark_r1_i",   {Vsnk / tiling_factor, Nc, Ns, Vsnk / tiling_factor, Nc, Ns}, p_float64, a_temporary);
+    buffer buf_B2_Bthird_diquark_r1_r("buf_B2_Bthird_diquark_r1_r",   {Vsnk / tiling_factor, Nc, Ns, Vsnk / tiling_factor, Nc, Ns}, p_float64, a_temporary);
+    buffer buf_B2_Bthird_diquark_r1_i("buf_B2_Bthird_diquark_r1_i",   {Vsnk / tiling_factor, Nc, Ns, Vsnk / tiling_factor, Nc, Ns}, p_float64, a_temporary);
     buf_B2_Blocal_diquark_r1_r.tag_gpu_global();
     buf_B2_Blocal_diquark_r1_i.tag_gpu_global();
     buf_B2_Bfirst_diquark_r1_r.tag_gpu_global();
@@ -1733,14 +1677,14 @@ void generate_function(std::string name)
     B2_Bfirst_r1_i_diquark.store_in(&buf_B2_Bfirst_diquark_r1_i, {x1, iCprime, iSprime, x2, kCprime, kSprime}); 
     B2_Bthird_r1_r_diquark.store_in(&buf_B2_Bthird_diquark_r1_r, {x1, iCprime, iSprime, x2, kCprime, kSprime});
     B2_Bthird_r1_i_diquark.store_in(&buf_B2_Bthird_diquark_r1_i, {x1, iCprime, iSprime, x2, kCprime, kSprime}); 
-    buffer buf_B2_Blocal_props_r1_r("buf_B2_Blocal_props_r1_r",   {Vsnk, Nc, Ns, Nc, Ns, Vsnk, Nc, Ns}, p_float64, a_temporary);
-    buffer buf_B2_Blocal_props_r1_i("buf_B2_Blocal_props_r1_i",   {Vsnk, Nc, Ns, Nc, Ns, Vsnk, Nc, Ns}, p_float64, a_temporary);
-    buffer buf_B2_Bfirst_props_r1_r("buf_B2_Bfirst_props_r1_r",   {Vsnk, Nc, Ns, Nc, Ns, Vsnk, Nc, Ns}, p_float64, a_temporary);
-    buffer buf_B2_Bfirst_props_r1_i("buf_B2_Bfirst_props_r1_i",   {Vsnk, Nc, Ns, Nc, Ns, Vsnk, Nc, Ns}, p_float64, a_temporary);
-    buffer buf_B2_Bsecond_props_r1_r("buf_B2_Bsecond_props_r1_r",   {Vsnk, Nc, Ns, Nc, Ns, Vsnk, Nc, Ns}, p_float64, a_temporary);
-    buffer buf_B2_Bsecond_props_r1_i("buf_B2_Bsecond_props_r1_i",   {Vsnk, Nc, Ns, Nc, Ns, Vsnk, Nc, Ns}, p_float64, a_temporary);
-    buffer buf_B2_Bthird_props_r1_r("buf_B2_Bthird_props_r1_r",   {Vsnk, Nc, Ns, Nc, Ns, Vsnk, Nc, Ns}, p_float64, a_temporary);
-    buffer buf_B2_Bthird_props_r1_i("buf_B2_Bthird_props_r1_i",   {Vsnk, Nc, Ns, Nc, Ns, Vsnk, Nc, Ns}, p_float64, a_temporary);
+    buffer buf_B2_Blocal_props_r1_r("buf_B2_Blocal_props_r1_r",   {Vsnk / tiling_factor, Nc, Ns, Nc, Ns, Vsnk / tiling_factor, Nc, Ns}, p_float64, a_temporary);
+    buffer buf_B2_Blocal_props_r1_i("buf_B2_Blocal_props_r1_i",   {Vsnk / tiling_factor, Nc, Ns, Nc, Ns, Vsnk / tiling_factor, Nc, Ns}, p_float64, a_temporary);
+    buffer buf_B2_Bfirst_props_r1_r("buf_B2_Bfirst_props_r1_r",   {Vsnk / tiling_factor, Nc, Ns, Nc, Ns, Vsnk / tiling_factor, Nc, Ns}, p_float64, a_temporary);
+    buffer buf_B2_Bfirst_props_r1_i("buf_B2_Bfirst_props_r1_i",   {Vsnk / tiling_factor, Nc, Ns, Nc, Ns, Vsnk / tiling_factor, Nc, Ns}, p_float64, a_temporary);
+    buffer buf_B2_Bsecond_props_r1_r("buf_B2_Bsecond_props_r1_r",   {Vsnk / tiling_factor, Nc, Ns, Nc, Ns, Vsnk / tiling_factor, Nc, Ns}, p_float64, a_temporary);
+    buffer buf_B2_Bsecond_props_r1_i("buf_B2_Bsecond_props_r1_i",   {Vsnk / tiling_factor, Nc, Ns, Nc, Ns, Vsnk / tiling_factor, Nc, Ns}, p_float64, a_temporary);
+    buffer buf_B2_Bthird_props_r1_r("buf_B2_Bthird_props_r1_r",   {Vsnk / tiling_factor, Nc, Ns, Nc, Ns, Vsnk / tiling_factor, Nc, Ns}, p_float64, a_temporary);
+    buffer buf_B2_Bthird_props_r1_i("buf_B2_Bthird_props_r1_i",   {Vsnk / tiling_factor, Nc, Ns, Nc, Ns, Vsnk / tiling_factor, Nc, Ns}, p_float64, a_temporary);
     buf_B2_Blocal_props_r1_r.tag_gpu_global();
     buf_B2_Blocal_props_r1_i.tag_gpu_global();
     buf_B2_Bfirst_props_r1_r.tag_gpu_global();
@@ -1766,14 +1710,14 @@ void generate_function(std::string name)
     B2_Bthird_r1_r_props.store_in(&buf_B2_Bthird_props_r1_r, {x1, iCprime, iSprime, jCprime, jSprime, x2, kCprime, kSprime});
     B2_Bthird_r1_i_props.store_in(&buf_B2_Bthird_props_r1_i, {x1, iCprime, iSprime, jCprime, jSprime, x2, kCprime, kSprime}); 
     
-    buffer buf_B2_Blocal_r2_r("buf_B2_Blocal_r2_r",   { Vsnk, Nc, Ns, Nc, Ns, Nsrc, Vsnk, Nc, Ns}, p_float64, a_temporary);
-    buffer buf_B2_Blocal_r2_i("buf_B2_Blocal_r2_i",   { Vsnk, Nc, Ns, Nc, Ns, Nsrc, Vsnk, Nc, Ns}, p_float64, a_temporary);
-    buffer buf_B2_Bfirst_r2_r("buf_B2_Bfirst_r2_r",   { Vsnk, Nc, Ns, Nc, Ns, Nsrc, Vsnk, Nc, Ns}, p_float64, a_temporary);
-    buffer buf_B2_Bfirst_r2_i("buf_B2_Bfirst_r2_i",   { Vsnk, Nc, Ns, Nc, Ns, Nsrc, Vsnk, Nc, Ns}, p_float64, a_temporary);
-    buffer buf_B2_Bsecond_r2_r("buf_B2_Bsecond_r2_r",   { Vsnk, Nc, Ns, Nc, Ns, Nsrc, Vsnk, Nc, Ns}, p_float64, a_temporary);
-    buffer buf_B2_Bsecond_r2_i("buf_B2_Bsecond_r2_i",   { Vsnk, Nc, Ns, Nc, Ns, Nsrc, Vsnk, Nc, Ns}, p_float64, a_temporary);
-    buffer buf_B2_Bthird_r2_r("buf_B2_Bthird_r2_r",   { Vsnk, Nc, Ns, Nc, Ns, Nsrc, Vsnk, Nc, Ns}, p_float64, a_temporary);
-    buffer buf_B2_Bthird_r2_i("buf_B2_Bthird_r2_i",   { Vsnk, Nc, Ns, Nc, Ns, Nsrc, Vsnk, Nc, Ns}, p_float64, a_temporary);
+    buffer buf_B2_Blocal_r2_r("buf_B2_Blocal_r2_r",   { Vsnk / tiling_factor, Nc, Ns, Nc, Ns, Nsrc, Vsnk / tiling_factor, Nc, Ns}, p_float64, a_temporary);
+    buffer buf_B2_Blocal_r2_i("buf_B2_Blocal_r2_i",   { Vsnk / tiling_factor, Nc, Ns, Nc, Ns, Nsrc, Vsnk / tiling_factor, Nc, Ns}, p_float64, a_temporary);
+    buffer buf_B2_Bfirst_r2_r("buf_B2_Bfirst_r2_r",   { Vsnk / tiling_factor, Nc, Ns, Nc, Ns, Nsrc, Vsnk / tiling_factor, Nc, Ns}, p_float64, a_temporary);
+    buffer buf_B2_Bfirst_r2_i("buf_B2_Bfirst_r2_i",   { Vsnk / tiling_factor, Nc, Ns, Nc, Ns, Nsrc, Vsnk / tiling_factor, Nc, Ns}, p_float64, a_temporary);
+    buffer buf_B2_Bsecond_r2_r("buf_B2_Bsecond_r2_r",   { Vsnk / tiling_factor, Nc, Ns, Nc, Ns, Nsrc, Vsnk / tiling_factor, Nc, Ns}, p_float64, a_temporary);
+    buffer buf_B2_Bsecond_r2_i("buf_B2_Bsecond_r2_i",   { Vsnk / tiling_factor, Nc, Ns, Nc, Ns, Nsrc, Vsnk / tiling_factor, Nc, Ns}, p_float64, a_temporary);
+    buffer buf_B2_Bthird_r2_r("buf_B2_Bthird_r2_r",   { Vsnk / tiling_factor, Nc, Ns, Nc, Ns, Nsrc, Vsnk / tiling_factor, Nc, Ns}, p_float64, a_temporary);
+    buffer buf_B2_Bthird_r2_i("buf_B2_Bthird_r2_i",   { Vsnk / tiling_factor, Nc, Ns, Nc, Ns, Nsrc, Vsnk / tiling_factor, Nc, Ns}, p_float64, a_temporary);
     buf_B2_Blocal_r2_r.tag_gpu_global();
     buf_B2_Blocal_r2_i.tag_gpu_global();
     buf_B2_Bfirst_r2_r.tag_gpu_global();
@@ -1799,14 +1743,14 @@ void generate_function(std::string name)
     B2_Bthird_r2_r_update.store_in(&buf_B2_Bthird_r2_r, { x1, iCprime, iSprime, jCprime, jSprime, m, x2, kCprime, kSprime});
     B2_Bthird_r2_i_update.store_in(&buf_B2_Bthird_r2_i, { x1, iCprime, iSprime, jCprime, jSprime, m, x2, kCprime, kSprime});
 
-    buffer buf_flip_B2_Blocal_r2_r("buf_flip_B2_Blocal_r2_r",   { Vsnk, Nc, Ns, Nc, Ns, Nsrc, Vsnk, Nc, Ns }, p_float64, a_temporary); // ~1Gb of data
-    buffer buf_flip_B2_Blocal_r2_i("buf_flip_B2_Blocal_r2_i",   { Vsnk, Nc, Ns, Nc, Ns, Nsrc, Vsnk, Nc, Ns }, p_float64, a_temporary);
-    buffer buf_flip_B2_Bfirst_r2_r("buf_flip_B2_Bfirst_r2_r",   { Vsnk, Nc, Ns, Nc, Ns, Nsrc, Vsnk, Nc, Ns }, p_float64, a_temporary);
-    buffer buf_flip_B2_Bfirst_r2_i("buf_flip_B2_Bfirst_r2_i",   { Vsnk, Nc, Ns, Nc, Ns, Nsrc, Vsnk, Nc, Ns }, p_float64, a_temporary);
-    buffer buf_flip_B2_Bsecond_r2_r("buf_flip_B2_Bsecond_r2_r",   { Vsnk, Nc, Ns, Nc, Ns, Nsrc, Vsnk, Nc, Ns }, p_float64, a_temporary);
-    buffer buf_flip_B2_Bsecond_r2_i("buf_flip_B2_Bsecond_r2_i",   { Vsnk, Nc, Ns, Nc, Ns, Nsrc, Vsnk, Nc, Ns }, p_float64, a_temporary);
-    buffer buf_flip_B2_Bthird_r2_r("buf_flip_B2_Bthird_r2_r",   { Vsnk, Nc, Ns, Nc, Ns, Nsrc, Vsnk, Nc, Ns }, p_float64, a_temporary);
-    buffer buf_flip_B2_Bthird_r2_i("buf_flip_B2_Bthird_r2_i",   { Vsnk, Nc, Ns, Nc, Ns, Nsrc, Vsnk, Nc, Ns }, p_float64, a_temporary);
+    buffer buf_flip_B2_Blocal_r2_r("buf_flip_B2_Blocal_r2_r",   { Vsnk / tiling_factor, Nc, Ns, Nc, Ns, Nsrc, Vsnk / tiling_factor, Nc, Ns }, p_float64, a_temporary); // ~1Gb of data
+    buffer buf_flip_B2_Blocal_r2_i("buf_flip_B2_Blocal_r2_i",   { Vsnk / tiling_factor, Nc, Ns, Nc, Ns, Nsrc, Vsnk / tiling_factor, Nc, Ns }, p_float64, a_temporary);
+    buffer buf_flip_B2_Bfirst_r2_r("buf_flip_B2_Bfirst_r2_r",   { Vsnk / tiling_factor, Nc, Ns, Nc, Ns, Nsrc, Vsnk / tiling_factor, Nc, Ns }, p_float64, a_temporary);
+    buffer buf_flip_B2_Bfirst_r2_i("buf_flip_B2_Bfirst_r2_i",   { Vsnk / tiling_factor, Nc, Ns, Nc, Ns, Nsrc, Vsnk / tiling_factor, Nc, Ns }, p_float64, a_temporary);
+    buffer buf_flip_B2_Bsecond_r2_r("buf_flip_B2_Bsecond_r2_r",   { Vsnk / tiling_factor, Nc, Ns, Nc, Ns, Nsrc, Vsnk / tiling_factor, Nc, Ns }, p_float64, a_temporary);
+    buffer buf_flip_B2_Bsecond_r2_i("buf_flip_B2_Bsecond_r2_i",   { Vsnk / tiling_factor, Nc, Ns, Nc, Ns, Nsrc, Vsnk / tiling_factor, Nc, Ns }, p_float64, a_temporary);
+    buffer buf_flip_B2_Bthird_r2_r("buf_flip_B2_Bthird_r2_r",   { Vsnk / tiling_factor, Nc, Ns, Nc, Ns, Nsrc, Vsnk / tiling_factor, Nc, Ns }, p_float64, a_temporary);
+    buffer buf_flip_B2_Bthird_r2_i("buf_flip_B2_Bthird_r2_i",   { Vsnk / tiling_factor, Nc, Ns, Nc, Ns, Nsrc, Vsnk / tiling_factor, Nc, Ns }, p_float64, a_temporary);
     buf_flip_B2_Blocal_r2_r.tag_gpu_global();
     buf_flip_B2_Blocal_r2_i.tag_gpu_global();
     buf_flip_B2_Bfirst_r2_r.tag_gpu_global();
@@ -1832,12 +1776,12 @@ void generate_function(std::string name)
     flip_B2_Bthird_r2_r_update.store_in(&buf_flip_B2_Bthird_r2_r, { x1, iCprime, iSprime, jCprime, jSprime, m, x2, kCprime, kSprime});
     flip_B2_Bthird_r2_i_update.store_in(&buf_flip_B2_Bthird_r2_i, { x1, iCprime, iSprime, jCprime, jSprime, m, x2, kCprime, kSprime}); 
 
-    buffer buf_B2_Blocal_diquark_r2_r("buf_B2_Blocal_diquark_r2_r",   {Vsnk, Nc, Ns, Vsnk, Nc, Ns}, p_float64, a_temporary);
-    buffer buf_B2_Blocal_diquark_r2_i("buf_B2_Blocal_diquark_r2_i",   {Vsnk, Nc, Ns, Vsnk, Nc, Ns}, p_float64, a_temporary);
-    buffer buf_B2_Bfirst_diquark_r2_r("buf_B2_Bfirst_diquark_r2_r",   {Vsnk, Nc, Ns, Vsnk, Nc, Ns}, p_float64, a_temporary);
-    buffer buf_B2_Bfirst_diquark_r2_i("buf_B2_Bfirst_diquark_r2_i",   {Vsnk, Nc, Ns, Vsnk, Nc, Ns}, p_float64, a_temporary);
-    buffer buf_B2_Bthird_diquark_r2_r("buf_B2_Bthird_diquark_r2_r",   {Vsnk, Nc, Ns, Vsnk, Nc, Ns}, p_float64, a_temporary);
-    buffer buf_B2_Bthird_diquark_r2_i("buf_B2_Bthird_diquark_r2_i",   {Vsnk, Nc, Ns, Vsnk, Nc, Ns}, p_float64, a_temporary);
+    buffer buf_B2_Blocal_diquark_r2_r("buf_B2_Blocal_diquark_r2_r",   {Vsnk / tiling_factor, Nc, Ns, Vsnk / tiling_factor, Nc, Ns}, p_float64, a_temporary);
+    buffer buf_B2_Blocal_diquark_r2_i("buf_B2_Blocal_diquark_r2_i",   {Vsnk / tiling_factor, Nc, Ns, Vsnk / tiling_factor, Nc, Ns}, p_float64, a_temporary);
+    buffer buf_B2_Bfirst_diquark_r2_r("buf_B2_Bfirst_diquark_r2_r",   {Vsnk / tiling_factor, Nc, Ns, Vsnk / tiling_factor, Nc, Ns}, p_float64, a_temporary);
+    buffer buf_B2_Bfirst_diquark_r2_i("buf_B2_Bfirst_diquark_r2_i",   {Vsnk / tiling_factor, Nc, Ns, Vsnk / tiling_factor, Nc, Ns}, p_float64, a_temporary);
+    buffer buf_B2_Bthird_diquark_r2_r("buf_B2_Bthird_diquark_r2_r",   {Vsnk / tiling_factor, Nc, Ns, Vsnk / tiling_factor, Nc, Ns}, p_float64, a_temporary);
+    buffer buf_B2_Bthird_diquark_r2_i("buf_B2_Bthird_diquark_r2_i",   {Vsnk / tiling_factor, Nc, Ns, Vsnk / tiling_factor, Nc, Ns}, p_float64, a_temporary);
     buf_B2_Blocal_diquark_r2_r.tag_gpu_global();
     buf_B2_Blocal_diquark_r2_i.tag_gpu_global();
     buf_B2_Bfirst_diquark_r2_r.tag_gpu_global();
@@ -1850,14 +1794,14 @@ void generate_function(std::string name)
     B2_Bfirst_r2_i_diquark.store_in(&buf_B2_Bfirst_diquark_r2_i, {x1, iCprime, iSprime, x2, kCprime, kSprime}); 
     B2_Bthird_r2_r_diquark.store_in(&buf_B2_Bthird_diquark_r2_r, {x1, iCprime, iSprime, x2, kCprime, kSprime});
     B2_Bthird_r2_i_diquark.store_in(&buf_B2_Bthird_diquark_r2_i, {x1, iCprime, iSprime, x2, kCprime, kSprime}); 
-    buffer buf_B2_Blocal_props_r2_r("buf_B2_Blocal_props_r2_r",   {Vsnk, Nc, Ns, Nc, Ns, Vsnk, Nc, Ns}, p_float64, a_temporary);
-    buffer buf_B2_Blocal_props_r2_i("buf_B2_Blocal_props_r2_i",   {Vsnk, Nc, Ns, Nc, Ns, Vsnk, Nc, Ns}, p_float64, a_temporary);
-    buffer buf_B2_Bfirst_props_r2_r("buf_B2_Bfirst_props_r2_r",   {Vsnk, Nc, Ns, Nc, Ns, Vsnk, Nc, Ns}, p_float64, a_temporary);
-    buffer buf_B2_Bfirst_props_r2_i("buf_B2_Bfirst_props_r2_i",   {Vsnk, Nc, Ns, Nc, Ns, Vsnk, Nc, Ns}, p_float64, a_temporary);
-    buffer buf_B2_Bsecond_props_r2_r("buf_B2_Bsecond_props_r2_r",   {Vsnk, Nc, Ns, Nc, Ns, Vsnk, Nc, Ns}, p_float64, a_temporary);
-    buffer buf_B2_Bsecond_props_r2_i("buf_B2_Bsecond_props_r2_i",   {Vsnk, Nc, Ns, Nc, Ns, Vsnk, Nc, Ns}, p_float64, a_temporary);
-    buffer buf_B2_Bthird_props_r2_r("buf_B2_Bthird_props_r2_r",   {Vsnk, Nc, Ns, Nc, Ns, Vsnk, Nc, Ns}, p_float64, a_temporary);
-    buffer buf_B2_Bthird_props_r2_i("buf_B2_Bthird_props_r2_i",   {Vsnk, Nc, Ns, Nc, Ns, Vsnk, Nc, Ns}, p_float64, a_temporary);
+    buffer buf_B2_Blocal_props_r2_r("buf_B2_Blocal_props_r2_r",   {Vsnk / tiling_factor, Nc, Ns, Nc, Ns, Vsnk / tiling_factor, Nc, Ns}, p_float64, a_temporary);
+    buffer buf_B2_Blocal_props_r2_i("buf_B2_Blocal_props_r2_i",   {Vsnk / tiling_factor, Nc, Ns, Nc, Ns, Vsnk / tiling_factor, Nc, Ns}, p_float64, a_temporary);
+    buffer buf_B2_Bfirst_props_r2_r("buf_B2_Bfirst_props_r2_r",   {Vsnk / tiling_factor, Nc, Ns, Nc, Ns, Vsnk / tiling_factor, Nc, Ns}, p_float64, a_temporary);
+    buffer buf_B2_Bfirst_props_r2_i("buf_B2_Bfirst_props_r2_i",   {Vsnk / tiling_factor, Nc, Ns, Nc, Ns, Vsnk / tiling_factor, Nc, Ns}, p_float64, a_temporary);
+    buffer buf_B2_Bsecond_props_r2_r("buf_B2_Bsecond_props_r2_r",   {Vsnk / tiling_factor, Nc, Ns, Nc, Ns, Vsnk / tiling_factor, Nc, Ns}, p_float64, a_temporary);
+    buffer buf_B2_Bsecond_props_r2_i("buf_B2_Bsecond_props_r2_i",   {Vsnk / tiling_factor, Nc, Ns, Nc, Ns, Vsnk / tiling_factor, Nc, Ns}, p_float64, a_temporary);
+    buffer buf_B2_Bthird_props_r2_r("buf_B2_Bthird_props_r2_r",   {Vsnk / tiling_factor, Nc, Ns, Nc, Ns, Vsnk / tiling_factor, Nc, Ns}, p_float64, a_temporary);
+    buffer buf_B2_Bthird_props_r2_i("buf_B2_Bthird_props_r2_i",   {Vsnk / tiling_factor, Nc, Ns, Nc, Ns, Vsnk / tiling_factor, Nc, Ns}, p_float64, a_temporary);
     buf_B2_Blocal_props_r2_r.tag_gpu_global();
     buf_B2_Blocal_props_r2_i.tag_gpu_global();
     buf_B2_Bfirst_props_r2_r.tag_gpu_global();
@@ -2148,11 +2092,11 @@ void generate_function(std::string name)
 
     buffer* buf_BB_BB_new_term_r_b1;
     buffer* buf_BB_BB_new_term_i_b1;
-    allocate_complex_buffers(buf_BB_BB_new_term_r_b1, buf_BB_BB_new_term_i_b1, {Vsnk, B2Nrows, Vsnk, B2Nrows}, "buf_BB_BB_new_term_b1", true);
+    allocate_complex_buffers(buf_BB_BB_new_term_r_b1, buf_BB_BB_new_term_i_b1, {Vsnk / tiling_factor, B2Nrows, Vsnk / tiling_factor, B2Nrows}, "buf_BB_BB_new_term_b1", true);
     
     buffer* buf_BB_BB_new_term_r_b2;
     buffer* buf_BB_BB_new_term_i_b2;
-    allocate_complex_buffers(buf_BB_BB_new_term_r_b2, buf_BB_BB_new_term_i_b2, {Vsnk, B2Nrows, Vsnk, B2Nrows}, "buf_BB_BB_new_term_b2", true); 
+    allocate_complex_buffers(buf_BB_BB_new_term_r_b2, buf_BB_BB_new_term_i_b2, {Vsnk / tiling_factor, B2Nrows, Vsnk / tiling_factor, B2Nrows}, "buf_BB_BB_new_term_b2", true); 
 
     BB_BB_new_term_0_r1_b1.get_real()->store_in(buf_BB_BB_new_term_r_b1, {x1, rp, x2, r});
     BB_BB_new_term_0_r1_b1.get_imag()->store_in(buf_BB_BB_new_term_i_b1, {x1, rp, x2, r});
@@ -2224,10 +2168,10 @@ void generate_function(std::string name)
 
     buffer* buf_flip_BB_BB_new_term_r_b1;
     buffer* buf_flip_BB_BB_new_term_i_b1;
-    allocate_complex_buffers(buf_flip_BB_BB_new_term_r_b1, buf_flip_BB_BB_new_term_i_b1, {Vsnk, B2Nrows, Vsnk, B2Nrows}, "buf_flip_BB_BB_new_term_b1", true);
+    allocate_complex_buffers(buf_flip_BB_BB_new_term_r_b1, buf_flip_BB_BB_new_term_i_b1, {Vsnk / tiling_factor, B2Nrows, Vsnk / tiling_factor, B2Nrows}, "buf_flip_BB_BB_new_term_b1", true);
     buffer* buf_flip_BB_BB_new_term_r_b2;
     buffer* buf_flip_BB_BB_new_term_i_b2;
-    allocate_complex_buffers(buf_flip_BB_BB_new_term_r_b2, buf_flip_BB_BB_new_term_i_b2, {Vsnk, B2Nrows, Vsnk, B2Nrows}, "buf_flip_BB_BB_new_term_b2", true); 
+    allocate_complex_buffers(buf_flip_BB_BB_new_term_r_b2, buf_flip_BB_BB_new_term_i_b2, {Vsnk / tiling_factor, B2Nrows, Vsnk / tiling_factor, B2Nrows}, "buf_flip_BB_BB_new_term_b2", true); 
 
     flip_BB_BB_new_term_0_r1_b1.get_real()->store_in(buf_flip_BB_BB_new_term_r_b1, {x1, rp, x2, r});
     flip_BB_BB_new_term_0_r1_b1.get_imag()->store_in(buf_flip_BB_BB_new_term_i_b1, {x1, rp, x2, r});
@@ -2297,18 +2241,18 @@ void generate_function(std::string name)
     flip_BB_BB_new_term_7_r2_b2.get_real()->store_in(buf_flip_BB_BB_new_term_r_b2, {x1, rp, x2, r});
     flip_BB_BB_new_term_7_r2_b2.get_imag()->store_in(buf_flip_BB_BB_new_term_i_b2, {x1, rp, x2, r}); 
 //
-    buffer buf_C_BB_BB_prop_r("buf_C_BB_BB_prop_r", {Lt, Vsnk, B2Nrows, Nsrc, B2Nrows, Vsnk}, p_float64, a_temporary);
-    buffer buf_C_BB_BB_prop_i("buf_C_BB_BB_prop_i", {Lt, Vsnk, B2Nrows, Nsrc, B2Nrows, Vsnk}, p_float64, a_temporary);
+    buffer buf_C_BB_BB_prop_r("buf_C_BB_BB_prop_r", { Vsnk / tiling_factor, B2Nrows, Nsrc, B2Nrows, Vsnk / tiling_factor}, p_float64, a_temporary);
+    buffer buf_C_BB_BB_prop_i("buf_C_BB_BB_prop_i", { Vsnk / tiling_factor, B2Nrows, Nsrc, B2Nrows, Vsnk / tiling_factor}, p_float64, a_temporary);
 
     buf_C_BB_BB_prop_r.tag_gpu_global();
     buf_C_BB_BB_prop_i.tag_gpu_global();
 
-    C_BB_BB_prop_init_r.store_in(&buf_C_BB_BB_prop_r, {t, x1, rp, m, r, x2});
-    C_BB_BB_prop_init_i.store_in(&buf_C_BB_BB_prop_i, {t, x1, rp, m, r, x2});
-    C_BB_BB_prop_update_r.store_in(&buf_C_BB_BB_prop_r, {t, x1, rp, m, r, x2});
-    C_BB_BB_prop_update_i.store_in(&buf_C_BB_BB_prop_i, {t, x1, rp, m, r, x2});
-    C_BB_BB_prop_update_r_2.store_in(&buf_C_BB_BB_prop_r, {t, x1, rp, m, r, x2});
-    C_BB_BB_prop_update_i_2.store_in(&buf_C_BB_BB_prop_i, {t, x1, rp, m, r, x2});
+    C_BB_BB_prop_init_r.store_in(&buf_C_BB_BB_prop_r, { x1, rp, m, r, x2});
+    C_BB_BB_prop_init_i.store_in(&buf_C_BB_BB_prop_i, { x1, rp, m, r, x2});
+    C_BB_BB_prop_update_r.store_in(&buf_C_BB_BB_prop_r, { x1, rp, m, r, x2});
+    C_BB_BB_prop_update_i.store_in(&buf_C_BB_BB_prop_i, { x1, rp, m, r, x2});
+    C_BB_BB_prop_update_r_2.store_in(&buf_C_BB_BB_prop_r, { x1, rp, m, r, x2});
+    C_BB_BB_prop_update_i_2.store_in(&buf_C_BB_BB_prop_i, { x1, rp, m, r, x2});
 
 
 
