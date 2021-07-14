@@ -50,10 +50,10 @@ void generate_function(std::string name)
         jSprime("jSprime", 0, Ns),
         kCprime("kCprime", 0, Nc),
         kSprime("kSprime", 0, Ns);
-  int tileXSize = 1;
-  int tileYSize = 1;
-  var tileX( "tileX", 0, 1 );
-  var tileY( "tileY", 0, 1 );
+  int tileXSize = 2;
+  int tileYSize = 2;
+  var tileX( "tileX", 0, tileXSize );
+  var tileY( "tileY", 0, tileYSize );
 // rp, m, r -> B2Nrows, Nsrc, B2Nrows -> 4 * 44 * 4
    input C_r("C_r",      {t, x_out, x_in, rp, mpmH, r, npnH}, p_float64);
    input C_i("C_i",      {t, x_out, x_in, rp, mpmH, r, npnH}, p_float64);
