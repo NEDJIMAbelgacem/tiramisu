@@ -1216,10 +1216,10 @@ void generate_function(std::string name)
     computation C_BB_cpu_init_r("C_BB_cpu_init_r", {t, x1, rp, x2, r, m, n}, expr((double) 0));
     computation C_BB_cpu_init_i("C_BB_cpu_init_i", {t, x1, rp, x2, r, m, n}, expr((double) 0));
 
-    buffer buf_C_BB_r("buf_C_BB_r", {Lt, Vsnk, Vsnk, B2Nrows, Nsrc, B2Nrows, Nsnk}, p_float64, a_temporary);
-    buffer buf_C_BB_i("buf_C_BB_i", {Lt, Vsnk, Vsnk, B2Nrows, Nsrc, B2Nrows, Nsnk}, p_float64, a_temporary);
-    buffer buf_C_BB_r_cpu("buf_C_BB_r_cpu", {Lt, Vsnk, Vsnk, B2Nrows, Nsrc, B2Nrows, Nsnk}, p_float64, a_temporary);
-    buffer buf_C_BB_i_cpu("buf_C_BB_i_cpu", {Lt, Vsnk, Vsnk, B2Nrows, Nsrc, B2Nrows, Nsnk}, p_float64, a_temporary);
+    buffer buf_C_BB_r("buf_C_BB_r", {Vsnk, Vsnk, B2Nrows, Nsrc, B2Nrows, Nsnk}, p_float64, a_temporary);
+    buffer buf_C_BB_i("buf_C_BB_i", {Vsnk, Vsnk, B2Nrows, Nsrc, B2Nrows, Nsnk}, p_float64, a_temporary);
+    buffer buf_C_BB_r_cpu("buf_C_BB_r_cpu", {Vsnk, Vsnk, B2Nrows, Nsrc, B2Nrows, Nsnk}, p_float64, a_temporary);
+    buffer buf_C_BB_i_cpu("buf_C_BB_i_cpu", {Vsnk, Vsnk, B2Nrows, Nsrc, B2Nrows, Nsnk}, p_float64, a_temporary);
 
     buf_C_BB_r.tag_gpu_global();
     buf_C_BB_i.tag_gpu_global();
