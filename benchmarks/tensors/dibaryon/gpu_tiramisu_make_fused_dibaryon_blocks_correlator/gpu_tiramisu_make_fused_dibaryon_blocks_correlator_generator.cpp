@@ -71,10 +71,10 @@ void generate_function(std::string name)
    buf_B1_prop_i_gpu.tag_gpu_global();
    buf_B2_prop_r_gpu.tag_gpu_global();
    buf_B2_prop_i_gpu.tag_gpu_global();
-   B1_prop_r.store_in( &buf_B1_prop_r_gpu );
-   B1_prop_i.store_in( &buf_B1_prop_i_gpu );
-   B2_prop_r.store_in( &buf_B2_prop_r_gpu );
-   B2_prop_i.store_in( &buf_B2_prop_i_gpu );
+   B1_prop_r.store_in( &buf_B1_prop_r_gpu, {tri, t, iCprime, iSprime, jCprime, jSprime, x, y} );
+   B1_prop_i.store_in( &buf_B1_prop_i_gpu, {tri, t, iCprime, iSprime, jCprime, jSprime, x, y} );
+   B2_prop_r.store_in( &buf_B2_prop_r_gpu, {tri, t, iCprime, iSprime, jCprime, jSprime, x, y} );
+   B2_prop_i.store_in( &buf_B2_prop_i_gpu, {tri, t, iCprime, iSprime, jCprime, jSprime, x, y} );
    buffer buf_B1_prop_r_cpu("B1_prop_r",   {Nq, Lt, Nc, Ns, Nc, Ns, Vsnk, Vsrc}, p_float64, a_temporary);
    buffer buf_B1_prop_i_cpu("B1_prop_i",   {Nq, Lt, Nc, Ns, Nc, Ns, Vsnk, Vsrc}, p_float64, a_temporary);
    buffer buf_B2_prop_r_cpu("B2_prop_r",   {Nq, Lt, Nc, Ns, Nc, Ns, Vsnk, Vsrc}, p_float64, a_temporary);

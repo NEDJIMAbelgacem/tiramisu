@@ -55,41 +55,41 @@ enum op_t
 {
     // Unary operators
     // The argument of the following operators is a tiramisu::expr.
-    o_minus,
-    o_floor,
-    o_sin,
-    o_cos,
-    o_tan,
-    o_asin,
-    o_acos,
-    o_atan,
-    o_sinh,
-    o_cosh,
-    o_tanh,
-    o_asinh,
-    o_acosh,
-    o_atanh,
-    o_abs,
-    o_sqrt,
-    o_expo, // exponential
-    o_log,
-    o_ceil,
-    o_round,
-    o_trunc,
+    o_minus, // 0
+    o_floor, // 1
+    o_sin,   // 2
+    o_cos,   // 3
+    o_tan,   // 4
+    o_asin,  // 5
+    o_acos,  // 6
+    o_atan,  // 7
+    o_sinh,  // 8
+    o_cosh,  // 9
+    o_tanh,  // 10
+    o_asinh, // 11
+    o_acosh, // 12
+    o_atanh, // 13
+    o_abs,   // 14
+    o_sqrt,  // 15
+    o_expo, // exponential // 16
+    o_log, // 17
+    o_ceil, // 18
+    o_round, // 19
+    o_trunc, // 20
     // The argument of the following operators is a string representing
     // the name of the buffer to allocate.
-    o_allocate,
-    o_free,
+    o_allocate, // 21
+    o_free, // 22
     // Other arguments
-    o_cast, // The argument is an expression and a type.
-    o_address, // The argument is a tiramisu::var() that represents a buffer.
+    o_cast, // The argument is an expression and a type. // 23
+    o_address, // The argument is a tiramisu::var() that represents a buffer. // 24
 
 
     // Binary operator
     // The arguments are tiramisu::expr.
-    o_add,
-    o_sub,
-    o_mul,
+    o_add, // 25
+    o_sub, // 26
+    o_mul, // 27
     o_div,
     o_mod,
     o_logical_and,
