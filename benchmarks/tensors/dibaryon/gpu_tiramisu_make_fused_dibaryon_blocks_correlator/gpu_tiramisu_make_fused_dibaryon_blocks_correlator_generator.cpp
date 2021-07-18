@@ -12,6 +12,7 @@ using namespace tiramisu;
 void generate_function(std::string name)
 {
     tiramisu::init(name);
+    global::set_loop_iterator_type( p_int64 );
     
    int b;
    int NsrcTot = Nsrc+NsrcHex;
