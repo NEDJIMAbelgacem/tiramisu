@@ -309,12 +309,12 @@ public:
     {
         if ( expr0.get_data_type() == p_int32 && expr1.get_data_type() == p_int64 )
         {
-            tiramisu::expr expr3 = tiramisu::cast( p_int64, expr0 );
+            tiramisu::expr expr3 = tiramisu::expr(tiramisu::o_cast, p_int64, expr0);
             expr0 = expr3;
         }
         if ( expr0.get_data_type() == p_int64 && expr1.get_data_type() == p_int32 )
         {
-            tiramisu::expr expr3 = tiramisu::cast( p_int64, expr1 );
+            tiramisu::expr expr3 = tiramisu::expr(tiramisu::o_cast, p_int64, expr1);
             expr1 = expr3;
         }
         if (expr0.get_data_type() != expr1.get_data_type())
