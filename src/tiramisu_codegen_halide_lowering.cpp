@@ -65,7 +65,7 @@ Module lower_halide_pipeline(const string &pipeline_name,
     DEBUG(4, tiramisu::str_dump(stmt_to_string("Lowering after simplification:\n", s)));
     
     DEBUG(3, tiramisu::str_dump("Performing storage folding optimization...\n"));
-    s = storage_folding(s, env);
+    // s = storage_folding(s, env);
     DEBUG(4, tiramisu::str_dump(stmt_to_string("Lowering after storage folding:\n", s)));
 
     DEBUG(3, tiramisu::str_dump("Simplifying...\n")); // without removing dead lets, because storage flattening needs the strides
