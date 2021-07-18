@@ -316,6 +316,7 @@ public:
             expr1.dump(false);
             tiramisu::str_dump(" (" + str_from_tiramisu_type_primitive(expr1.get_data_type()) + ")");
             tiramisu::str_dump("\n");
+            tiramisu::str_dump( std::to_string( (int)o ) );
             ERROR("\nThe two expressions should be of the same type. Use casting to elevate the type of one expression to the other.\n", true);
         }
 
