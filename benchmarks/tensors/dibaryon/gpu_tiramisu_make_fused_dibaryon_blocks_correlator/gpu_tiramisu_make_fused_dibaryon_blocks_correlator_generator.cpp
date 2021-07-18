@@ -14,9 +14,9 @@ void generate_function(std::string name)
     tiramisu::init(name);
     global::set_loop_iterator_type( p_int64 );
     
-   int b;
-   int NsrcTot = Nsrc+NsrcHex;
-   int NsnkTot = Nsnk+NsnkHex;
+   long long b;
+   long long NsrcTot = Nsrc+NsrcHex;
+   long long NsnkTot = Nsnk+NsnkHex;
    var nperm("nperm", 0l, Nperms),
 	r("r", 0l, B2Nrows),
 	rp("rp", 0l, B2Nrows),
