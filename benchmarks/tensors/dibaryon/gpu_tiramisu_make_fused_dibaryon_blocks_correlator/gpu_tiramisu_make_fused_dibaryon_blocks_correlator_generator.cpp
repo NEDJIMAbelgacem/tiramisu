@@ -154,32 +154,32 @@ void generate_function(std::string name)
    buffer buf_snk_psi_r_cpu("snk_psi_r",   {Vsnk, Vsnk, NEntangled}, p_float64, a_temporary);
    buffer buf_snk_psi_i_cpu("snk_psi_i",   {Vsnk, Vsnk, NEntangled}, p_float64, a_temporary);
 
-   input src_spins("src_spins", {rp, s, to}, p_int32);
+   input src_spins("src_spins", {rp, s, to}, p_int64);
    input src_spin_block_weights("src_spin_block_weights", {rp, s}, p_float64);
-   input sigs("sigs", {nperm}, p_int32);
-   input snk_b("snk_b", {nperm, q, to}, p_int32);
-   input src_color_weights("src_color_weights", {r, wnumBlock, q}, p_int32);
-   input src_spin_weights("src_spin_weights", {r, wnumBlock, q}, p_int32);
+   input sigs("sigs", {nperm}, p_int64);
+   input snk_b("snk_b", {nperm, q, to}, p_int64);
+   input src_color_weights("src_color_weights", {r, wnumBlock, q}, p_int64);
+   input src_spin_weights("src_spin_weights", {r, wnumBlock, q}, p_int64);
    input src_weights("src_weights", {r, wnumBlock}, p_float64);
-   input snk_color_weights("snk_color_weights", {r, nperm, wnum, q, to}, p_int32);
-   input snk_spin_weights("snk_spin_weights", {r, nperm, wnum, q, to}, p_int32);
+   input snk_color_weights("snk_color_weights", {r, nperm, wnum, q, to}, p_int64);
+   input snk_spin_weights("snk_spin_weights", {r, nperm, wnum, q, to}, p_int64);
    input snk_weights("snk_weights", {r, wnum}, p_float64);
-   input hex_snk_color_weights("hex_snk_color_weights", {r, nperm, wnumHex, q, to}, p_int32);
-   input hex_snk_spin_weights("hex_snk_spin_weights", {r, nperm, wnumHex, q, to}, p_int32);
+   input hex_snk_color_weights("hex_snk_color_weights", {r, nperm, wnumHex, q, to}, p_int64);
+   input hex_snk_spin_weights("hex_snk_spin_weights", {r, nperm, wnumHex, q, to}, p_int64);
    input hex_snk_weights("hex_snk_weights", {r, wnumHex}, p_float64);
 
-   buffer buf_src_spins_gpu("src_spins",   {B2Nrows, 2l, 2l}, p_int32, a_temporary);
+   buffer buf_src_spins_gpu("src_spins",   {B2Nrows, 2l, 2l}, p_int64, a_temporary);
    buffer buf_src_spin_block_weights_gpu("buf_src_spin_block_weights_gpu",   {B2Nrows, 2l}, p_float64, a_temporary);
-   buffer buf_sigs_gpu("buf_sigs_gpu",   {Nperms}, p_int32, a_temporary);
-   buffer buf_snk_b_gpu("snk_b",   {Nperms, Nq, 2l}, p_int32, a_temporary);
-   buffer buf_src_color_weights_gpu("buf_src_color_weights_gpu",   {B2Nrows, Nw, Nq}, p_int32, a_temporary);
-   buffer buf_src_spin_weights_gpu("buf_src_spin_weights_gpu",   {B2Nrows, Nw, Nq}, p_int32, a_temporary);
+   buffer buf_sigs_gpu("buf_sigs_gpu",   {Nperms}, p_int64, a_temporary);
+   buffer buf_snk_b_gpu("snk_b",   {Nperms, Nq, 2l}, p_int64, a_temporary);
+   buffer buf_src_color_weights_gpu("buf_src_color_weights_gpu",   {B2Nrows, Nw, Nq}, p_int64, a_temporary);
+   buffer buf_src_spin_weights_gpu("buf_src_spin_weights_gpu",   {B2Nrows, Nw, Nq}, p_int64, a_temporary);
    buffer buf_src_weights_gpu("buf_src_weights_gpu",   {B2Nrows, Nw}, p_float64, a_temporary);
-   buffer buf_snk_color_weights_gpu("buf_snk_color_weights_gpu",   {B2Nrows, Nperms, Nw2, Nq, 2l}, p_int32, a_temporary);
-   buffer buf_snk_spin_weights_gpu("buf_snk_spin_weights_gpu",   {B2Nrows, Nperms, Nw2, Nq, 2l}, p_int32, a_temporary);
+   buffer buf_snk_color_weights_gpu("buf_snk_color_weights_gpu",   {B2Nrows, Nperms, Nw2, Nq, 2l}, p_int64, a_temporary);
+   buffer buf_snk_spin_weights_gpu("buf_snk_spin_weights_gpu",   {B2Nrows, Nperms, Nw2, Nq, 2l}, p_int64, a_temporary);
    buffer buf_snk_weights_gpu("buf_snk_weights_gpu",   {B2Nrows, Nw2}, p_float64, a_temporary);
-   buffer buf_hex_snk_color_weights_gpu("buf_hex_snk_color_weights_gpu", {B2Nrows, Nperms, Nw2Hex, Nq, 2l}, p_int32, a_temporary);
-   buffer buf_hex_snk_spin_weights_gpu("buf_hex_snk_spin_weights_gpu", {B2Nrows, Nperms, Nw2Hex, Nq, 2l}, p_int32, a_temporary);
+   buffer buf_hex_snk_color_weights_gpu("buf_hex_snk_color_weights_gpu", {B2Nrows, Nperms, Nw2Hex, Nq, 2l}, p_int64, a_temporary);
+   buffer buf_hex_snk_spin_weights_gpu("buf_hex_snk_spin_weights_gpu", {B2Nrows, Nperms, Nw2Hex, Nq, 2l}, p_int64, a_temporary);
    buffer buf_hex_snk_weights_gpu("buf_hex_snk_weights_gpu", {B2Nrows, Nw2Hex}, p_float64, a_temporary);
 
       buf_src_spins_gpu.tag_gpu_global();
@@ -210,18 +210,18 @@ void generate_function(std::string name)
       hex_snk_spin_weights.store_in( &buf_hex_snk_spin_weights_gpu );
       hex_snk_weights.store_in( &buf_hex_snk_weights_gpu );
 
-   buffer buf_src_spins_cpu("buf_src_spins",   {B2Nrows, 2l, 2l}, p_int32, a_temporary);
+   buffer buf_src_spins_cpu("buf_src_spins",   {B2Nrows, 2l, 2l}, p_int64, a_temporary);
    buffer buf_src_spin_block_weights_cpu("src_spin_block_weights",   {B2Nrows, 2l}, p_float64, a_temporary);
-   buffer buf_sigs_cpu("sigs",   {Nperms}, p_int32, a_temporary);
-   buffer buf_snk_b_cpu("buf_snk_b",   {Nperms, Nq, 2l}, p_int32, a_temporary);
-   buffer buf_src_color_weights_cpu("src_color_weights",   {B2Nrows, Nw, Nq}, p_int32, a_temporary);
-   buffer buf_src_spin_weights_cpu("src_spin_weights",   {B2Nrows, Nw, Nq}, p_int32, a_temporary);
+   buffer buf_sigs_cpu("sigs",   {Nperms}, p_int64, a_temporary);
+   buffer buf_snk_b_cpu("buf_snk_b",   {Nperms, Nq, 2l}, p_int64, a_temporary);
+   buffer buf_src_color_weights_cpu("src_color_weights",   {B2Nrows, Nw, Nq}, p_int64, a_temporary);
+   buffer buf_src_spin_weights_cpu("src_spin_weights",   {B2Nrows, Nw, Nq}, p_int64, a_temporary);
    buffer buf_src_weights_cpu("src_weights",   {B2Nrows, Nw}, p_float64, a_temporary);
-   buffer buf_snk_color_weights_cpu("snk_color_weights",   {B2Nrows, Nperms, Nw2, Nq, 2l}, p_int32, a_temporary);
-   buffer buf_snk_spin_weights_cpu("snk_spin_weights",   {B2Nrows, Nperms, Nw2, Nq, 2l}, p_int32, a_temporary);
+   buffer buf_snk_color_weights_cpu("snk_color_weights",   {B2Nrows, Nperms, Nw2, Nq, 2l}, p_int64, a_temporary);
+   buffer buf_snk_spin_weights_cpu("snk_spin_weights",   {B2Nrows, Nperms, Nw2, Nq, 2l}, p_int64, a_temporary);
    buffer buf_snk_weights_cpu("snk_weights",   {B2Nrows, Nw2}, p_float64, a_temporary);
-   buffer buf_hex_snk_color_weights_cpu("hex_snk_color_weights", {B2Nrows, Nperms, Nw2Hex, Nq, 2l}, p_int32, a_temporary);
-   buffer buf_hex_snk_spin_weights_cpu("hex_snk_spin_weights", {B2Nrows, Nperms, Nw2Hex, Nq, 2l}, p_int32, a_temporary);
+   buffer buf_hex_snk_color_weights_cpu("hex_snk_color_weights", {B2Nrows, Nperms, Nw2Hex, Nq, 2l}, p_int64, a_temporary);
+   buffer buf_hex_snk_spin_weights_cpu("hex_snk_spin_weights", {B2Nrows, Nperms, Nw2Hex, Nq, 2l}, p_int64, a_temporary);
    buffer buf_hex_snk_weights_cpu("hex_snk_weights", {B2Nrows, Nw2Hex}, p_float64, a_temporary);
 
     complex_computation B1_prop(&B1_prop_r, &B1_prop_i);
@@ -278,12 +278,12 @@ void generate_function(std::string name)
     complex_computation flip_B1_Bsecond_r1_init(&flip_B1_Bsecond_r1_r_init, &flip_B1_Bsecond_r1_i_init);
     complex_computation flip_B1_Bthird_r1_init(&flip_B1_Bthird_r1_r_init, &flip_B1_Bthird_r1_i_init);
 
-    complex_expr B1_r1_prop_0 =  B1_prop( 0l, t, iCprime, iSprime, src_color_weights(0l, wnumBlock, 0l), src_spin_weights(0l, wnumBlock, 0l), x1 * tiling_factor + tileX, y);
-    complex_expr B1_r1_prop_1 = B1_prop( 1l, t, jCprime, jSprime, src_color_weights(0l, wnumBlock, 1l), src_spin_weights(0l, wnumBlock, 1l), x1 * tiling_factor + tileX, y);
-    complex_expr B1_r1_prop_2 =  B1_prop( 2l, t, kCprime, kSprime, src_color_weights(0l, wnumBlock, 2l), src_spin_weights(0l, wnumBlock, 2l), x1 * tiling_factor + tileX, y);
-    complex_expr first_B1_r1_prop_0 =  B1_prop( 0l, t, iCprime, iSprime, src_color_weights(0l, wnumBlock, 0l), src_spin_weights(0l, wnumBlock, 0l), x2 * tiling_factor + tileY, y);
-    complex_expr second_B1_r1_prop_1 = B1_prop( 1l, t, jCprime, jSprime, src_color_weights(0l, wnumBlock, 1l), src_spin_weights(0l, wnumBlock, 1l), x2 * tiling_factor + tileY, y);
-    complex_expr third_B1_r1_prop_2 =  B1_prop( 2l, t, kCprime, kSprime, src_color_weights(0l, wnumBlock, 2l), src_spin_weights(0l, wnumBlock, 2l), x2 * tiling_factor + tileY, y);
+    complex_expr B1_r1_prop_0 =  B1_prop(cast( p_int64, 0l ), t, iCprime, iSprime, src_color_weights(0l, wnumBlock, 0l), src_spin_weights(0l, wnumBlock, 0l), x1 * tiling_factor + tileX, y);
+    complex_expr B1_r1_prop_1 = B1_prop(cast( p_int64, 1l ), t, jCprime, jSprime, src_color_weights(0l, wnumBlock, 1l), src_spin_weights(0l, wnumBlock, 1l), x1 * tiling_factor + tileX, y);
+    complex_expr B1_r1_prop_2 =  B1_prop( cast( p_int64, 2l ), t, kCprime, kSprime, src_color_weights(0l, wnumBlock, 2l), src_spin_weights(0l, wnumBlock, 2l), x1 * tiling_factor + tileX, y);
+    complex_expr first_B1_r1_prop_0 =  B1_prop( cast( p_int64, 0l ), t, iCprime, iSprime, src_color_weights(0l, wnumBlock, 0l), src_spin_weights(0l, wnumBlock, 0l), x2 * tiling_factor + tileY, y);
+    complex_expr second_B1_r1_prop_1 = B1_prop( cast( p_int64, 1l ), t, jCprime, jSprime, src_color_weights(0l, wnumBlock, 1l), src_spin_weights(0l, wnumBlock, 1l), x2 * tiling_factor + tileY, y);
+    complex_expr third_B1_r1_prop_2 =  B1_prop( cast( p_int64, 2l ), t, kCprime, kSprime, src_color_weights(0l, wnumBlock, 2l), src_spin_weights(0l, wnumBlock, 2l), x2 * tiling_factor + tileY, y);
 
     complex_expr B1_r1_diquark = ( B1_r1_prop_0 * B1_r1_prop_2 ) *  src_weights(0l, wnumBlock);
     complex_expr first_B1_r1_diquark = ( first_B1_r1_prop_0 * B1_r1_prop_2 ) *  src_weights(0l, wnumBlock);
@@ -386,12 +386,12 @@ void generate_function(std::string name)
     complex_computation flip_B1_Bsecond_r2_init(&flip_B1_Bsecond_r2_r_init, &flip_B1_Bsecond_r2_i_init);
     complex_computation flip_B1_Bthird_r2_init(&flip_B1_Bthird_r2_r_init, &flip_B1_Bthird_r2_i_init);
 
-    complex_expr B1_r2_prop_0 =  B1_prop( 0l, t, iCprime, iSprime, src_color_weights(1l, wnumBlock, 0l), src_spin_weights(1l, wnumBlock, 0l), x1 * tiling_factor + tileX, y);
-    complex_expr B1_r2_prop_2 =  B1_prop( 2l, t, kCprime, kSprime, src_color_weights(1l, wnumBlock, 2l), src_spin_weights(1l, wnumBlock, 2l), x1 * tiling_factor + tileX, y);
-    complex_expr B1_r2_prop_1 = B1_prop( 1l, t, jCprime, jSprime, src_color_weights(1l, wnumBlock, 1l), src_spin_weights(1l, wnumBlock, 1l), x1 * tiling_factor + tileX, y);
-    complex_expr first_B1_r2_prop_0 =  B1_prop( 0l, t, iCprime, iSprime, src_color_weights(1l, wnumBlock, 0l), src_spin_weights(1l, wnumBlock, 0l), x2 * tiling_factor + tileY, y);
-    complex_expr second_B1_r2_prop_1 = B1_prop( 1l, t, jCprime, jSprime, src_color_weights(1l, wnumBlock, 1l), src_spin_weights(1l, wnumBlock, 1l), x2 * tiling_factor + tileY, y);
-    complex_expr third_B1_r2_prop_2 =  B1_prop( 2l, t, kCprime, kSprime, src_color_weights(1l, wnumBlock, 2l), src_spin_weights(1l, wnumBlock, 2l), x2 * tiling_factor + tileY, y);
+    complex_expr B1_r2_prop_0 =  B1_prop( cast( p_int64, 0l ), t, iCprime, iSprime, src_color_weights(1l, wnumBlock, 0l), src_spin_weights(1l, wnumBlock, 0l), x1 * tiling_factor + tileX, y);
+    complex_expr B1_r2_prop_2 =  B1_prop( cast( p_int64, 2l ), t, kCprime, kSprime, src_color_weights(1l, wnumBlock, 2l), src_spin_weights(1l, wnumBlock, 2l), x1 * tiling_factor + tileX, y);
+    complex_expr B1_r2_prop_1 = B1_prop( cast( p_int64, 1l ), t, jCprime, jSprime, src_color_weights(1l, wnumBlock, 1l), src_spin_weights(1l, wnumBlock, 1l), x1 * tiling_factor + tileX, y);
+    complex_expr first_B1_r2_prop_0 =  B1_prop( cast( p_int64, 0l ), t, iCprime, iSprime, src_color_weights(1l, wnumBlock, 0l), src_spin_weights(1l, wnumBlock, 0l), x2 * tiling_factor + tileY, y);
+    complex_expr second_B1_r2_prop_1 = B1_prop( cast( p_int64, 1l ), t, jCprime, jSprime, src_color_weights(1l, wnumBlock, 1l), src_spin_weights(1l, wnumBlock, 1l), x2 * tiling_factor + tileY, y);
+    complex_expr third_B1_r2_prop_2 =  B1_prop( cast( p_int64, 2l ), t, kCprime, kSprime, src_color_weights(1l, wnumBlock, 2l), src_spin_weights(1l, wnumBlock, 2l), x2 * tiling_factor + tileY, y);
 
     complex_expr B1_r2_diquark = ( B1_r2_prop_0 * B1_r2_prop_2 ) *  src_weights(1l, wnumBlock);
     complex_expr first_B1_r2_diquark = ( first_B1_r2_prop_0 * B1_r2_prop_2 ) *  src_weights(1l, wnumBlock);
@@ -694,9 +694,9 @@ void generate_function(std::string name)
 
     complex_computation flip_src_B1_Blocal_r1_init(&flip_src_B1_Blocal_r1_r_init, &flip_src_B1_Blocal_r1_i_init);
 
-    complex_expr src_B1_r1_prop_0 =  B1_prop( 0l, t, iCprime, iSprime, src_color_weights(0l, wnumBlock, 0l), src_spin_weights(0l, wnumBlock, 0l), x_out*sites_per_rank+x_in, y);
-    complex_expr src_B1_r1_prop_2 =  B1_prop( 2l, t, kCprime, kSprime, src_color_weights(0l, wnumBlock, 2l), src_spin_weights(0l, wnumBlock, 2l), x_out*sites_per_rank+x_in, y);
-    complex_expr src_B1_r1_prop_1 = B1_prop( 1l, t, jCprime, jSprime, src_color_weights(0l, wnumBlock, 1l), src_spin_weights(0l, wnumBlock, 1l), x_out*sites_per_rank+x_in, y);
+    complex_expr src_B1_r1_prop_0 =  B1_prop( cast( p_int64, 0l ), t, iCprime, iSprime, src_color_weights(0l, wnumBlock, 0l), src_spin_weights(0l, wnumBlock, 0l), x_out*sites_per_rank+x_in, y);
+    complex_expr src_B1_r1_prop_2 =  B1_prop( cast( p_int64, 2l ), t, kCprime, kSprime, src_color_weights(0l, wnumBlock, 2l), src_spin_weights(0l, wnumBlock, 2l), x_out*sites_per_rank+x_in, y);
+    complex_expr src_B1_r1_prop_1 = B1_prop( cast( p_int64, 1l ), t, jCprime, jSprime, src_color_weights(0l, wnumBlock, 1l), src_spin_weights(0l, wnumBlock, 1l), x_out*sites_per_rank+x_in, y);
 
     complex_expr src_B1_r1_diquark = ( src_B1_r1_prop_0 * src_B1_r1_prop_2 ) *  src_weights(0l, wnumBlock);
 
@@ -737,11 +737,11 @@ void generate_function(std::string name)
 
     complex_computation flip_src_B1_Blocal_r2_init(&flip_src_B1_Blocal_r2_r_init, &flip_src_B1_Blocal_r2_i_init);
 
-    complex_expr src_B1_r2_prop_0 =  B1_prop( 0l, t, iCprime, iSprime, src_color_weights(1l, wnumBlock, 0l), src_spin_weights(1l, wnumBlock, 0l), x_out*sites_per_rank+x_in, y);
-    complex_expr src_B1_r2_prop_2 =  B1_prop( 2l, t, kCprime, kSprime, src_color_weights(1l, wnumBlock, 2l), src_spin_weights(1l, wnumBlock, 2l), x_out*sites_per_rank+x_in, y);
-    complex_expr src_B1_r2_prop_0p = B1_prop( 0l, t, kCprime, kSprime, src_color_weights(1l, wnumBlock, 0l), src_spin_weights(1l, wnumBlock, 0l), x_out*sites_per_rank+x_in, y);
-    complex_expr src_B1_r2_prop_2p = B1_prop( 2l, t, iCprime, iSprime, src_color_weights(1l, wnumBlock, 2l), src_spin_weights(1l, wnumBlock, 2l), x_out*sites_per_rank+x_in, y);
-    complex_expr src_B1_r2_prop_1 = B1_prop( 1l, t, jCprime, jSprime, src_color_weights(1l, wnumBlock, 1l), src_spin_weights(1l, wnumBlock, 1l), x_out*sites_per_rank+x_in, y);
+    complex_expr src_B1_r2_prop_0 =  B1_prop( cast( p_int64, 0l ), t, iCprime, iSprime, src_color_weights(1l, wnumBlock, 0l), src_spin_weights(1l, wnumBlock, 0l), x_out*sites_per_rank+x_in, y);
+    complex_expr src_B1_r2_prop_2 =  B1_prop( cast( p_int64, 2l ), t, kCprime, kSprime, src_color_weights(1l, wnumBlock, 2l), src_spin_weights(1l, wnumBlock, 2l), x_out*sites_per_rank+x_in, y);
+    complex_expr src_B1_r2_prop_0p = B1_prop( cast( p_int64, 0l ), t, kCprime, kSprime, src_color_weights(1l, wnumBlock, 0l), src_spin_weights(1l, wnumBlock, 0l), x_out*sites_per_rank+x_in, y);
+    complex_expr src_B1_r2_prop_2p = B1_prop( cast( p_int64, 2l ), t, iCprime, iSprime, src_color_weights(1l, wnumBlock, 2l), src_spin_weights(1l, wnumBlock, 2l), x_out*sites_per_rank+x_in, y);
+    complex_expr src_B1_r2_prop_1 = B1_prop( cast( p_int64, 1l ), t, jCprime, jSprime, src_color_weights(1l, wnumBlock, 1l), src_spin_weights(1l, wnumBlock, 1l), x_out*sites_per_rank+x_in, y);
 
     complex_expr src_B1_r2_diquark = ( src_B1_r2_prop_0 * src_B1_r2_prop_2 ) *  src_weights(1l, wnumBlock);
 
@@ -868,9 +868,9 @@ void generate_function(std::string name)
 
     complex_computation flip_snk_B1_Blocal_r1_init(&flip_snk_B1_Blocal_r1_r_init, &flip_snk_B1_Blocal_r1_i_init);
 
-    complex_expr snk_B1_r1_prop_0 =  B1_prop( 0l, t, src_color_weights(0l, wnumBlock, 0l), src_spin_weights(0l, wnumBlock, 0l), iCprime, iSprime, x, y_out*src_sites_per_rank+y_in);
-    complex_expr snk_B1_r1_prop_2 =  B1_prop( 2l, t, src_color_weights(0l, wnumBlock, 2l), src_spin_weights(0l, wnumBlock, 2l), kCprime, kSprime, x, y_out*src_sites_per_rank+y_in);
-    complex_expr snk_B1_r1_prop_1 = B1_prop( 1l, t, src_color_weights(0l, wnumBlock, 1l), src_spin_weights(0l, wnumBlock, 1l), jCprime, jSprime, x, y_out*src_sites_per_rank+y_in);
+    complex_expr snk_B1_r1_prop_0 =  B1_prop( cast( p_int64, 0l ), t, src_color_weights(0l, wnumBlock, 0l), src_spin_weights(0l, wnumBlock, 0l), iCprime, iSprime, x, y_out*src_sites_per_rank+y_in);
+    complex_expr snk_B1_r1_prop_2 =  B1_prop( cast( p_int64, 2l ), t, src_color_weights(0l, wnumBlock, 2l), src_spin_weights(0l, wnumBlock, 2l), kCprime, kSprime, x, y_out*src_sites_per_rank+y_in);
+    complex_expr snk_B1_r1_prop_1 = B1_prop( cast( p_int64, 1l ), t, src_color_weights(0l, wnumBlock, 1l), src_spin_weights(0l, wnumBlock, 1l), jCprime, jSprime, x, y_out*src_sites_per_rank+y_in);
 
     complex_expr snk_B1_r1_diquark = ( snk_B1_r1_prop_0 * snk_B1_r1_prop_2 ) *  src_weights(0l, wnumBlock);
 
@@ -911,9 +911,9 @@ void generate_function(std::string name)
 
     complex_computation flip_snk_B1_Blocal_r2_init(&flip_snk_B1_Blocal_r2_r_init, &flip_snk_B1_Blocal_r2_i_init);
 
-    complex_expr snk_B1_r2_prop_0 =  B1_prop( 0l, t, src_color_weights(1l, wnumBlock, 0l), src_spin_weights(1l, wnumBlock, 0l), iCprime, iSprime, x, y_out*src_sites_per_rank+y_in);
-    complex_expr snk_B1_r2_prop_2 =  B1_prop( 2l, t, src_color_weights(1l, wnumBlock, 2l), src_spin_weights(1l, wnumBlock, 2l), kCprime, kSprime, x, y_out*src_sites_per_rank+y_in);
-    complex_expr snk_B1_r2_prop_1 = B1_prop( 1l, t, src_color_weights(1l, wnumBlock, 1l), src_spin_weights(1l, wnumBlock, 1l), jCprime, jSprime, x, y_out*src_sites_per_rank+y_in);
+    complex_expr snk_B1_r2_prop_0 =  B1_prop( cast( p_int64, 0l ), t, src_color_weights(1l, wnumBlock, 0l), src_spin_weights(1l, wnumBlock, 0l), iCprime, iSprime, x, y_out*src_sites_per_rank+y_in);
+    complex_expr snk_B1_r2_prop_2 =  B1_prop( cast( p_int64, 2l ), t, src_color_weights(1l, wnumBlock, 2l), src_spin_weights(1l, wnumBlock, 2l), kCprime, kSprime, x, y_out*src_sites_per_rank+y_in);
+    complex_expr snk_B1_r2_prop_1 = B1_prop( cast( p_int64, 1l ), t, src_color_weights(1l, wnumBlock, 1l), src_spin_weights(1l, wnumBlock, 1l), jCprime, jSprime, x, y_out*src_sites_per_rank+y_in);
 
     complex_expr snk_B1_r2_diquark = ( snk_B1_r2_prop_0 * snk_B1_r2_prop_2 ) *  src_weights(1l, wnumBlock);
 
@@ -1332,9 +1332,9 @@ void generate_function(std::string name)
     computation C_H_H_prop_init_i("C_H_H_prop_init_i", {t, x_out, x_in, rp, r, y}, expr((double) 0l));
 
 
-    complex_expr H_H_B1_prop_0 =  B1_prop( 0l, t, hex_snk_color_weights(r,nperm,wnumHex,0l,0), hex_snk_spin_weights(r,nperm,wnumHex,0l,0), hex_snk_color_weights(rp,0l,wnumHexHex,0l,0), hex_snk_spin_weights(rp,0l,wnumHexHex,0l,0), x_out*sites_per_rank+x_in, y);
-    complex_expr H_H_B1_prop_2 =  B1_prop( 2l, t, hex_snk_color_weights(r,nperm,wnumHex,2l,0), hex_snk_spin_weights(r,nperm,wnumHex,2l,0), hex_snk_color_weights(rp,0l,wnumHexHex,2l,0), hex_snk_spin_weights(rp,0l,wnumHexHex,2l,0), x_out*sites_per_rank+x_in, y);
-    complex_expr H_H_B1_prop_1 = B1_prop( 1l, t, hex_snk_color_weights(r,nperm,wnumHex,1l,0), hex_snk_spin_weights(r,nperm,wnumHex,1l,0), hex_snk_color_weights(rp,0l,wnumHexHex,1l,0), hex_snk_spin_weights(rp,0l,wnumHexHex,1l,0), x_out*sites_per_rank+x_in, y);
+    complex_expr H_H_B1_prop_0 =  B1_prop( cast( p_int64, 0l ), t, hex_snk_color_weights(r,nperm,wnumHex,0l,0), hex_snk_spin_weights(r,nperm,wnumHex,0l,0), hex_snk_color_weights(rp,0l,wnumHexHex,0l,0), hex_snk_spin_weights(rp,0l,wnumHexHex,0l,0), x_out*sites_per_rank+x_in, y);
+    complex_expr H_H_B1_prop_2 =  B1_prop( cast( p_int64, 2l ), t, hex_snk_color_weights(r,nperm,wnumHex,2l,0), hex_snk_spin_weights(r,nperm,wnumHex,2l,0), hex_snk_color_weights(rp,0l,wnumHexHex,2l,0), hex_snk_spin_weights(rp,0l,wnumHexHex,2l,0), x_out*sites_per_rank+x_in, y);
+    complex_expr H_H_B1_prop_1 = B1_prop( cast( p_int64, 1l ), t, hex_snk_color_weights(r,nperm,wnumHex,1l,0), hex_snk_spin_weights(r,nperm,wnumHex,1l,0), hex_snk_color_weights(rp,0l,wnumHexHex,1l,0), hex_snk_spin_weights(rp,0l,wnumHexHex,1l,0), x_out*sites_per_rank+x_in, y);
     complex_expr B1_H = H_H_B1_prop_0 * H_H_B1_prop_2 * H_H_B1_prop_1;
 
     complex_expr H_H_B2_prop_0 =  B2_prop(0l, t, hex_snk_color_weights(r,nperm,wnumHex,0l,1), hex_snk_spin_weights(r,nperm,wnumHex,0l,1), hex_snk_color_weights(rp,0l,wnumHexHex,0l,1), hex_snk_spin_weights(rp,0l,wnumHexHex,0l,1), x_out*sites_per_rank+x_in, y);
