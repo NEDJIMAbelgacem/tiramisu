@@ -14,7 +14,7 @@
   * Set to true to enable printing the final (fully simplified)
   * generated Halide IR.
   */
-#define PRINT_FINAL_HALIDE_IR_AFTER_CODEGEN 0
+#define PRINT_FINAL_HALIDE_IR_AFTER_CODEGEN 1
 
 
 /**
