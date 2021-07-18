@@ -307,6 +307,16 @@ public:
      */
     expr(tiramisu::op_t o, tiramisu::expr expr0, tiramisu::expr expr1)
     {
+        if ( expr0.get_data_type() == p_int32 && expr1.get_data_type() == p_int64 )
+        {
+            tiramisu::expr expr3 = cast( p_int64, expr0 );
+            expr0 = expr3;
+        }
+        if ( expr0.get_data_type() == p_int64 && expr1.get_data_type() == p_int32 )
+        {
+            tiramisu::expr expr3 = cast( p_int64, expr1 );
+            expr1 = expr3;
+        }
         if (expr0.get_data_type() != expr1.get_data_type())
         {
             tiramisu::str_dump("Binary operation between two expressions of different types:\n");
