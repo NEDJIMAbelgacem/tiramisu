@@ -1215,15 +1215,28 @@ void generate_function(std::string name)
 
     computation C_BB_init_r("C_BB_init_r", {t, tileX, tileY, x1, rp, x2, r, m, n}, expr((double) 0l));
     computation C_BB_init_i("C_BB_init_i", {t, tileX, tileY, x1, rp, x2, r, m, n}, expr((double) 0l));
+    computation out_buf_C_BB_r_cpu_init("out_buf_C_BB_r_cpu_init", {t, rp, r, m, n}, expr((double) 0l));
+    computation out_buf_C_BB_i_cpu_init("out_buf_C_BB_i_cpu_init", {t, rp, r, m, n}, expr((double) 0l));
 
-    buffer buf_C_BB_r("buf_C_BB_r", {Lt, tiling_factor, tiling_factor, Vsnk / tiling_factor, Vsnk / tiling_factor, B2Nrows, Nsrc, B2Nrows, Nsnk}, p_float64, a_temporary);
-    buffer buf_C_BB_i("buf_C_BB_i", {Lt, tiling_factor, tiling_factor, Vsnk / tiling_factor, Vsnk / tiling_factor, B2Nrows, Nsrc, B2Nrows, Nsnk}, p_float64, a_temporary);
-    buffer buf_C_BB_r_cpu("buf_C_BB_r_cpu", {Lt, tiling_factor, tiling_factor, Vsnk / tiling_factor, Vsnk / tiling_factor, B2Nrows, Nsrc, B2Nrows, Nsnk}, p_float64, a_temporary);
-    buffer buf_C_BB_i_cpu("buf_C_BB_i_cpu", {Lt, tiling_factor, tiling_factor, Vsnk / tiling_factor, Vsnk / tiling_factor, B2Nrows, Nsrc, B2Nrows, Nsnk}, p_float64, a_temporary);
+    buffer buf_C_BB_r("buf_C_BB_r", { Vsnk / tiling_factor, Vsnk / tiling_factor, B2Nrows, Nsrc, B2Nrows, Nsnk}, p_float64, a_temporary);
+    buffer buf_C_BB_i("buf_C_BB_i", { Vsnk / tiling_factor, Vsnk / tiling_factor, B2Nrows, Nsrc, B2Nrows, Nsnk}, p_float64, a_temporary);
+    buffer buf_C_BB_r_cpu("buf_C_BB_r_cpu", { Vsnk / tiling_factor, Vsnk / tiling_factor, B2Nrows, Nsrc, B2Nrows, Nsnk}, p_float64, a_temporary);
+    buffer buf_C_BB_i_cpu("buf_C_BB_i_cpu", { Vsnk / tiling_factor, Vsnk / tiling_factor, B2Nrows, Nsrc, B2Nrows, Nsnk}, p_float64, a_temporary);
+    buffer out_buf_C_BB_r_cpu("buf_C_BB_r_cpu", { Lt, B2Nrows, Nsrc, B2Nrows, Nsnk}, p_float64, a_temporary);
+    buffer out_buf_C_BB_i_cpu("buf_C_BB_i_cpu", { Lt, B2Nrows, Nsrc, B2Nrows, Nsnk}, p_float64, a_temporary);
     buf_C_BB_r.tag_gpu_global();
     buf_C_BB_i.tag_gpu_global();
-    C_BB_init_r.store_in(&buf_C_BB_r, {t, tileX, tileY, x1, x2, rp, m, r, n});
-    C_BB_init_i.store_in(&buf_C_BB_i, {t, tileX, tileY, x1, x2, rp, m, r, n});
+    C_BB_init_r.store_in(&buf_C_BB_r, { x1, x2, rp, m, r, n });
+    C_BB_init_i.store_in(&buf_C_BB_i, { x1, x2, rp, m, r, n });
+    out_buf_C_BB_r_cpu_init.store_in( &out_buf_C_BB_r_cpu, { t, rp, r, m, n } );
+    out_buf_C_BB_i_cpu_init.store_in( &out_buf_C_BB_i_cpu, { t, rp, r, m, n } );
+
+    computation reduce_buf_C_BB_r_cpu("reduce_buf_C_BB_r_cpu", {t, tileX, tileY, x1, rp, x2, r, m, n}, p_float64);
+    reduce_buf_C_BB_r_cpu.set_expression( reduce_buf_C_BB_r_cpu( t, tileX, tileY, x1, rp, x2, r, m, n) + out_buf_C_BB_r_cpu_init( t, rp, r, m, n ) ).
+    computation reduce_buf_C_BB_i_cpu("reduce_buf_C_BB_i_cpu", {t, tileX, tileY, x1, rp, x2, r, m, n}, p_float64);
+    reduce_buf_C_BB_i_cpu.set_expression( reduce_buf_C_BB_i_cpu( t, tileX, tileY, x1, rp, x2, r, m, n) + out_buf_C_BB_i_cpu_init( t, rp, r, m, n ) ).
+    reduce_buf_C_BB_r_cpu.store_in( &out_buf_C_BB_r_cpu, { t, rp, r, m, n } );
+    reduce_buf_C_BB_i_cpu.store_in( &out_buf_C_BB_i_cpu, { t, rp, r, m, n } );
 
     computation C_BB_BB_update_s_r("C_BB_BB_update_s_r", {t, tileX, tileY, x1, rp, x2, r, m, nue}, C_BB_init_r(t, tileX, tileY, x1, rp, x2, r, m, NEntangled+nue) + BB_BB_term_s.get_real());
     computation C_BB_BB_update_s_i("C_BB_BB_update_s_i", {t, tileX, tileY, x1, rp, x2, r, m, nue}, C_BB_init_i(t, tileX, tileY, x1, rp, x2, r, m, NEntangled+nue) + BB_BB_term_s.get_imag());
@@ -2257,10 +2270,10 @@ void generate_function(std::string name)
 
 
 
-    C_BB_BB_update_b_r.store_in(&buf_C_BB_r, {t, tileX, tileY, x1, x2, rp, m, r, ne});
-    C_BB_BB_update_b_i.store_in(&buf_C_BB_i, {t, tileX, tileY, x1, x2, rp, m, r, ne});
-    C_BB_BB_update_s_r.store_in(&buf_C_BB_r, {t, tileX, tileY, x1, x2, rp, m, r, NEntangled+nue});
-    C_BB_BB_update_s_i.store_in(&buf_C_BB_i, {t, tileX, tileY, x1, x2, rp, m, r, NEntangled+nue});
+    C_BB_BB_update_b_r.store_in(&buf_C_BB_r, { x1, x2, rp, m, r, ne});
+    C_BB_BB_update_b_i.store_in(&buf_C_BB_i, { x1, x2, rp, m, r, ne});
+    C_BB_BB_update_s_r.store_in(&buf_C_BB_r, { x1, x2, rp, m, r, NEntangled+nue});
+    C_BB_BB_update_s_i.store_in(&buf_C_BB_i, { x1, x2, rp, m, r, NEntangled+nue});
 
     // BB_H
 
@@ -3026,8 +3039,8 @@ void generate_function(std::string name)
     // computation copy_src_spin_block_weights_device_to_host({}, memcpy(*src_spin_block_weights.get_buffer(), buf_src_spin_block_weights_cpu));
     // computation copy_snk_b_device_to_host({}, memcpy(*snk_b.get_buffer(), buf_snk_b_cpu));
 
-    computation copy_buf_C_BB_r_device_to_host({}, memcpy(buf_C_BB_r, buf_C_BB_r_cpu));
-    computation copy_buf_C_BB_i_device_to_host({}, memcpy(buf_C_BB_i, buf_C_BB_i_cpu));
+    computation copy_buf_C_BB_r_device_to_host({t, tileX, tileY}, memcpy(buf_C_BB_r, buf_C_BB_r_cpu));
+    computation copy_buf_C_BB_i_device_to_host({t, tileX, tileY}, memcpy(buf_C_BB_i, buf_C_BB_i_cpu));
     
     computation* handle = &(copy_buf_C_r_host_to_device
         .then(copy_buf_C_i_host_to_device, computation::root)
@@ -3068,6 +3081,7 @@ void generate_function(std::string name)
 
     // BB_BB
 // kernel_1
+    handle = & handle->then( out_buf_C_BB_r_cpu_init, t).then( out_buf_C_BB_i_cpu_init, n );
     handle = &(handle
           ->then(C_BB_init_r, t )
           .then(C_BB_init_i, n)
@@ -3657,6 +3671,8 @@ void generate_function(std::string name)
           .then(C_BB_BB_update_s_r, r)  // t, x1, x2, rp, m, r, nue
           .then(C_BB_BB_update_s_i, nue)
           );
+    handle = &handle->then( copy_buf_C_BB_r_device_to_host, tileY ).then( copy_buf_C_BB_i_device_to_host, tileY );
+    handle = &handle->then( reduce_buf_C_BB_r_cpu, tileY ).then( reduce_buf_C_BB_i_cpu, n );
 
     // BB_H
     handle = &(handle
@@ -3884,8 +3900,6 @@ void generate_function(std::string name)
     // .then(copy_hex_snk_weights_device_to_host, computation::root)
     // .then(copy_src_spin_block_weights_device_to_host, computation::root)
     // .then(copy_snk_b_device_to_host, computation::root)
-    .then(copy_buf_C_BB_r_device_to_host, computation::root)
-    .then(copy_buf_C_BB_i_device_to_host, computation::root)
     );
 
 #if VECTORIZED
@@ -3912,7 +3926,7 @@ void generate_function(std::string name)
     // -------------------------------------------------------
     tiramisu::codegen({
             &buf_C_r_cpu, &buf_C_i_cpu,
-            &buf_C_BB_r_cpu, &buf_C_BB_i_cpu,
+            &out_buf_C_BB_r_cpu, &out_buf_C_BB_i_cpu,
             &buf_B1_prop_r_cpu, &buf_B1_prop_i_cpu,
             &buf_B2_prop_r_cpu, &buf_B2_prop_i_cpu,
             &buf_src_psi_B1_r_cpu, &buf_src_psi_B1_i_cpu, 
