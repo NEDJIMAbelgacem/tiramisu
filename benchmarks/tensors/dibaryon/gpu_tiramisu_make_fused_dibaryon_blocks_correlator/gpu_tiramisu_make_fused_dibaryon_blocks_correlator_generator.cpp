@@ -1222,8 +1222,8 @@ void generate_function(std::string name)
     buffer buf_C_BB_i("buf_C_BB_i", { Vsnk / tiling_factor, Vsnk / tiling_factor, B2Nrows, Nsrc, B2Nrows, Nsnk}, p_float64, a_temporary);
     buffer buf_C_BB_r_cpu("buf_C_BB_r_cpu", { Vsnk / tiling_factor, Vsnk / tiling_factor, B2Nrows, Nsrc, B2Nrows, Nsnk}, p_float64, a_temporary);
     buffer buf_C_BB_i_cpu("buf_C_BB_i_cpu", { Vsnk / tiling_factor, Vsnk / tiling_factor, B2Nrows, Nsrc, B2Nrows, Nsnk}, p_float64, a_temporary);
-    buffer out_buf_C_BB_r_cpu("buf_C_BB_r_cpu", { Lt, B2Nrows, Nsrc, B2Nrows, Nsnk}, p_float64, a_temporary);
-    buffer out_buf_C_BB_i_cpu("buf_C_BB_i_cpu", { Lt, B2Nrows, Nsrc, B2Nrows, Nsnk}, p_float64, a_temporary);
+    buffer out_buf_C_BB_r_cpu("out_buf_C_BB_r_cpu", { Lt, B2Nrows, Nsrc, B2Nrows, Nsnk}, p_float64, a_temporary);
+    buffer out_buf_C_BB_i_cpu("out_buf_C_BB_i_cpu", { Lt, B2Nrows, Nsrc, B2Nrows, Nsnk}, p_float64, a_temporary);
     buf_C_BB_r.tag_gpu_global();
     buf_C_BB_i.tag_gpu_global();
     C_BB_init_r.store_in(&buf_C_BB_r, { x1, x2, rp, m, r, n });
