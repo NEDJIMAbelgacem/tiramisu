@@ -1215,6 +1215,8 @@ void generate_function(std::string name)
 
     computation C_BB_init_r("C_BB_init_r", {t, tileX, tileY, x1, rp, x2, r, m, n}, expr((double) 0l));
     computation C_BB_init_i("C_BB_init_i", {t, tileX, tileY, x1, rp, x2, r, m, n}, expr((double) 0l));
+    computation buf_C_BB_r_cpu_init("buf_C_BB_r_cpu_init", {t, tileX, tileY, x1, rp, x2, r, m, n}, expr((double) 0l));
+    computation buf_C_BB_i_cpu_init("buf_C_BB_i_cpu_init", {t, tileX, tileY, x1, rp, x2, r, m, n}, expr((double) 0l));
     computation out_buf_C_BB_r_cpu_init("out_buf_C_BB_r_cpu_init", {t, rp, r, m, n}, expr((double) 0l));
     computation out_buf_C_BB_i_cpu_init("out_buf_C_BB_i_cpu_init", {t, rp, r, m, n}, expr((double) 0l));
 
@@ -1228,6 +1230,8 @@ void generate_function(std::string name)
     buf_C_BB_i.tag_gpu_global();
     C_BB_init_r.store_in(&buf_C_BB_r, { x1, x2, rp, m, r, n });
     C_BB_init_i.store_in(&buf_C_BB_i, { x1, x2, rp, m, r, n });
+    buf_C_BB_r_cpu_init.store_in( &buf_C_BB_r_cpu, { x1, x2, rp, m, r, n } );
+    buf_C_BB_i_cpu_init.store_in( &buf_C_BB_i_cpu, { x1, x2, rp, m, r, n } );
     out_buf_C_BB_r_cpu_init.store_in( &out_buf_C_BB_r_cpu, { t, rp, r, m, n } );
     out_buf_C_BB_i_cpu_init.store_in( &out_buf_C_BB_i_cpu, { t, rp, r, m, n } );
 
@@ -3082,8 +3086,9 @@ void generate_function(std::string name)
     // BB_BB
 // kernel_1
     handle = & handle->then( out_buf_C_BB_r_cpu_init, t).then( out_buf_C_BB_i_cpu_init, n );
+    handle = & handle->then( buf_C_BB_r_cpu_init, t).then( buf_C_BB_i_cpu_init, n );
     handle = &(handle
-          ->then(C_BB_init_r, t )
+          ->then(C_BB_init_r, tileY )
           .then(C_BB_init_i, n)
         //   .then( *allocate_buf_B1_Blocal_r1_r, t )
         //   .then( *allocate_buf_B1_Blocal_r1_i, t )
