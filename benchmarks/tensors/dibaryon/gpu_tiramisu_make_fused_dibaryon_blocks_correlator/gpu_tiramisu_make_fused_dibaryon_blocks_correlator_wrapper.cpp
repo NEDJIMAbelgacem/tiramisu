@@ -16,8 +16,8 @@ extern "C" {
 
 #define RUN_REFERENCE 1
 #define RUN_CHECK 1
-int64_t nb_tests = 1;
-int64_t randommode = 1;
+int nb_tests = 1;
+int randommode = 1;
 
 
 
@@ -27,26 +27,26 @@ void tiramisu_make_two_nucleon_2pt(double* C_re,
      double* B1_prop_im, 
      double* B2_prop_re, 
      double* B2_prop_im, 
-     int64_t *src_color_weights_r1,
-     int64_t *src_spin_weights_r1,
+     int *src_color_weights_r1,
+     int *src_spin_weights_r1,
      double *src_weights_r1,
-     int64_t *src_color_weights_r2,
-     int64_t *src_spin_weights_r2,
+     int *src_color_weights_r2,
+     int *src_spin_weights_r2,
      double *src_weights_r2,
-     int64_t *hex_snk_color_weights_A1,
-     int64_t *hex_snk_spin_weights_A1,
+     int *hex_snk_color_weights_A1,
+     int *hex_snk_spin_weights_A1,
      double *hex_snk_weights_A1,
-     int64_t *hex_snk_color_weights_T1_r1,
-     int64_t *hex_snk_spin_weights_T1_r1,
+     int *hex_snk_color_weights_T1_r1,
+     int *hex_snk_spin_weights_T1_r1,
      double *hex_snk_weights_T1_r1,
-     int64_t *hex_snk_color_weights_T1_r2,
-     int64_t *hex_snk_spin_weights_T1_r2,
+     int *hex_snk_color_weights_T1_r2,
+     int *hex_snk_spin_weights_T1_r2,
      double *hex_snk_weights_T1_r2,
-     int64_t *hex_snk_color_weights_T1_r3,
-     int64_t *hex_snk_spin_weights_T1_r3,
+     int *hex_snk_color_weights_T1_r3,
+     int *hex_snk_spin_weights_T1_r3,
      double *hex_snk_weights_T1_r3,
-     int64_t* perms, 
-     int64_t* sigs, 
+     int* perms, 
+     int* sigs, 
      double* src_psi_B1_re, 
      double* src_psi_B1_im, 
      double* src_psi_B2_re, 
@@ -61,8 +61,8 @@ void tiramisu_make_two_nucleon_2pt(double* C_re,
      double* hex_src_psi_im, 
      double* hex_snk_psi_re, 
      double* hex_snk_psi_im,
-     int64_t space_symmetric,
-     int64_t snk_entangled)
+     int space_symmetric,
+     int snk_entangled)
 {
    int64_t q, t, iC, iS, jC, jS, y, x, x1, x2, m, n, k, wnum, nperm, b, r, rp;
    int64_t iC1, iS1, iC2, iS2, jC1, jS1, jC2, jS2, kC1, kS1, kC2, kS2;
@@ -504,8 +504,8 @@ int main(int, char **)
    std::vector<std::chrono::duration<double,std::milli>> duration_vector_1;
    std::vector<std::chrono::duration<double,std::milli>> duration_vector_2;
 
-   int64_t q, t, iC, iS, jC, jS, y, x, x1, x2, m, n, k, wnum, nperm, b, r, rp;
-   int64_t iC1, iS1, iC2, iS2, jC1, jS1, jC2, jS2, kC1, kS1, kC2, kS2;
+   int q, t, iC, iS, jC, jS, y, x, x1, x2, m, n, k, wnum, nperm, b, r, rp;
+   int iC1, iS1, iC2, iS2, jC1, jS1, jC2, jS2, kC1, kS1, kC2, kS2;
 
    // Initialization
    // Props
@@ -646,26 +646,26 @@ int main(int, char **)
       }
    }
    // Weights
-   /*static int64_t src_color_weights_r1_P[Nw][Nq] = { {0,1,2}, {0,2,1}, {1,0,2} ,{0,1,2}, {0,2,1}, {1,0,2}, {1,2,0}, {2,1,0}, {2,0,1} };
-   static int64_t src_spin_weights_r1_P[Nw][Nq] = { {0,1,0}, {0,1,0}, {0,1,0}, {1,0,0}, {1,0,0}, {1,0,0}, {1,0,0}, {1,0,0}, {1,0,0} };
+   /*static int src_color_weights_r1_P[Nw][Nq] = { {0,1,2}, {0,2,1}, {1,0,2} ,{0,1,2}, {0,2,1}, {1,0,2}, {1,2,0}, {2,1,0}, {2,0,1} };
+   static int src_spin_weights_r1_P[Nw][Nq] = { {0,1,0}, {0,1,0}, {0,1,0}, {1,0,0}, {1,0,0}, {1,0,0}, {1,0,0}, {1,0,0}, {1,0,0} };
    static double src_weights_r1_P[Nw] = {-2/ sqrt(2), 2/sqrt(2), 2/sqrt(2), 1/sqrt(2), -1/sqrt(2), -1/sqrt(2), 1/sqrt(2), -1/sqrt(2), 1/sqrt(2)};
    
-   static int64_t src_color_weights_r2_P[Nw][Nq] = { {0,1,2}, {0,2,1}, {1,0,2} ,{1,2,0}, {2,1,0}, {2,0,1}, {0,1,2}, {0,2,1}, {1,0,2} };
-   static int64_t src_spin_weights_r2_P[Nw][Nq] = { {0,1,1}, {0,1,1}, {0,1,1}, {0,1,1}, {0,1,1}, {0,1,1}, {1,0,1}, {1,0,1}, {1,0,1} };
+   static int src_color_weights_r2_P[Nw][Nq] = { {0,1,2}, {0,2,1}, {1,0,2} ,{1,2,0}, {2,1,0}, {2,0,1}, {0,1,2}, {0,2,1}, {1,0,2} };
+   static int src_spin_weights_r2_P[Nw][Nq] = { {0,1,1}, {0,1,1}, {0,1,1}, {0,1,1}, {0,1,1}, {0,1,1}, {1,0,1}, {1,0,1}, {1,0,1} };
    static double src_weights_r2_P[Nw] = {1/ sqrt(2), -1/sqrt(2), -1/sqrt(2), 1/sqrt(2), -1/sqrt(2), 1/sqrt(2), -2/sqrt(2), 2/sqrt(2), 2/sqrt(2)}; */
    
-   static int64_t src_color_weights_r1_P[Nw][Nq] = { {0,1,2}, {0,2,1}, {1,0,2}, {1,2,0}, {2,1,0}, {2,0,1}, {0,1,2}, {0,2,1}, {1,0,2}, {1,2,0}, {2,1,0}, {2,0,1} };
-   static int64_t src_spin_weights_r1_P[Nw][Nq] = { {0,1,0}, {0,1,0}, {0,1,0}, {0,1,0}, {0,1,0}, {0,1,0}, {1,0,0}, {1,0,0}, {1,0,0}, {1,0,0}, {1,0,0}, {1,0,0} };
+   static int src_color_weights_r1_P[Nw][Nq] = { {0,1,2}, {0,2,1}, {1,0,2}, {1,2,0}, {2,1,0}, {2,0,1}, {0,1,2}, {0,2,1}, {1,0,2}, {1,2,0}, {2,1,0}, {2,0,1} };
+   static int src_spin_weights_r1_P[Nw][Nq] = { {0,1,0}, {0,1,0}, {0,1,0}, {0,1,0}, {0,1,0}, {0,1,0}, {1,0,0}, {1,0,0}, {1,0,0}, {1,0,0}, {1,0,0}, {1,0,0} };
    static double src_weights_r1_P[Nw] = {-1/ sqrt(2), 1/sqrt(2), 1/sqrt(2), -1/sqrt(2), 1/sqrt(2), -1/sqrt(2), 1/ sqrt(2), -1/sqrt(2), -1/sqrt(2), 1/sqrt(2), -1/sqrt(2), 1/sqrt(2)};
     
-   static int64_t src_color_weights_r2_P[Nw][Nq] = { {0,1,2}, {0,2,1}, {1,0,2}, {1,2,0}, {2,1,0}, {2,0,1}, {0,1,2}, {0,2,1}, {1,0,2}, {1,2,0}, {2,1,0}, {2,0,1} };
-   static int64_t src_spin_weights_r2_P[Nw][Nq] = { {0,1,1}, {0,1,1}, {0,1,1}, {0,1,1}, {0,1,1}, {0,1,1}, {1,0,1}, {1,0,1}, {1,0,1}, {1,0,1}, {1,0,1}, {1,0,1} };
+   static int src_color_weights_r2_P[Nw][Nq] = { {0,1,2}, {0,2,1}, {1,0,2}, {1,2,0}, {2,1,0}, {2,0,1}, {0,1,2}, {0,2,1}, {1,0,2}, {1,2,0}, {2,1,0}, {2,0,1} };
+   static int src_spin_weights_r2_P[Nw][Nq] = { {0,1,1}, {0,1,1}, {0,1,1}, {0,1,1}, {0,1,1}, {0,1,1}, {1,0,1}, {1,0,1}, {1,0,1}, {1,0,1}, {1,0,1}, {1,0,1} };
    static double src_weights_r2_P[Nw] = {1/ sqrt(2), -1/sqrt(2), -1/sqrt(2), 1/sqrt(2), -1/sqrt(2), 1/sqrt(2), -1/ sqrt(2), 1/sqrt(2), 1/sqrt(2), -1/sqrt(2), 1/sqrt(2), -1/sqrt(2)};
 
-   int64_t* src_color_weights_r1 = (int64_t *) malloc(Nw * Nq * sizeof (int64_t));
-   int64_t* src_color_weights_r2 = (int64_t *) malloc(Nw * Nq * sizeof (int64_t));
-   int64_t* src_spin_weights_r1 = (int64_t *) malloc(Nw * Nq * sizeof (int64_t));
-   int64_t* src_spin_weights_r2 = (int64_t *) malloc(Nw * Nq * sizeof (int64_t));
+   int* src_color_weights_r1 = (int *) malloc(Nw * Nq * sizeof (int));
+   int* src_color_weights_r2 = (int *) malloc(Nw * Nq * sizeof (int));
+   int* src_spin_weights_r1 = (int *) malloc(Nw * Nq * sizeof (int));
+   int* src_spin_weights_r2 = (int *) malloc(Nw * Nq * sizeof (int));
    double src_weights_r1[Nw];
    double src_weights_r2[Nw];
    for (wnum = 0; wnum < Nw; wnum++) {
@@ -678,14 +678,14 @@ int main(int, char **)
       src_weights_r1[wnum] = src_weights_r1_P[wnum];
       src_weights_r2[wnum] = src_weights_r2_P[wnum];
    }
-   int64_t* snk_color_weights_A1 = (int64_t *) malloc(Nw2Hex * 2*Nq * sizeof (int64_t));
-   int64_t* snk_color_weights_T1_r1 = (int64_t *) malloc(Nw2Hex * 2*Nq * sizeof (int64_t));
-   int64_t* snk_color_weights_T1_r2 = (int64_t *) malloc(Nw2Hex * 2*Nq * sizeof (int64_t));
-   int64_t* snk_color_weights_T1_r3 = (int64_t *) malloc(Nw2Hex * 2*Nq * sizeof (int64_t));
-   int64_t* snk_spin_weights_A1 = (int64_t *) malloc(Nw2Hex * 2*Nq * sizeof (int64_t));
-   int64_t* snk_spin_weights_T1_r1 = (int64_t *) malloc(Nw2Hex * 2*Nq * sizeof (int64_t));
-   int64_t* snk_spin_weights_T1_r2 = (int64_t *) malloc(Nw2Hex * 2*Nq * sizeof (int64_t));
-   int64_t* snk_spin_weights_T1_r3 = (int64_t *) malloc(Nw2Hex * 2*Nq * sizeof (int64_t));
+   int* snk_color_weights_A1 = (int *) malloc(Nw2Hex * 2*Nq * sizeof (int));
+   int* snk_color_weights_T1_r1 = (int *) malloc(Nw2Hex * 2*Nq * sizeof (int));
+   int* snk_color_weights_T1_r2 = (int *) malloc(Nw2Hex * 2*Nq * sizeof (int));
+   int* snk_color_weights_T1_r3 = (int *) malloc(Nw2Hex * 2*Nq * sizeof (int));
+   int* snk_spin_weights_A1 = (int *) malloc(Nw2Hex * 2*Nq * sizeof (int));
+   int* snk_spin_weights_T1_r1 = (int *) malloc(Nw2Hex * 2*Nq * sizeof (int));
+   int* snk_spin_weights_T1_r2 = (int *) malloc(Nw2Hex * 2*Nq * sizeof (int));
+   int* snk_spin_weights_T1_r3 = (int *) malloc(Nw2Hex * 2*Nq * sizeof (int));
    double snk_weights_A1[Nw2Hex];
    double snk_weights_T1_r1[Nw2Hex];
    double snk_weights_T1_r2[Nw2Hex];
@@ -727,12 +727,12 @@ int main(int, char **)
       snk_weights_T1_r3[wnum] = 1.0;
    }
    // Permutations
-   int64_t perms_array[36][6] = { {1,2,3,4,5,6}, {1, 4, 3, 2, 5, 6}, {1, 6, 3, 2, 5, 4}, {1, 2, 3, 6, 5, 4}, {1, 4, 3, 6, 5, 2}, {1, 6, 3, 4, 5, 2}, {3, 2, 1, 4, 5, 6}, {3, 4, 1, 2, 5, 6}, {3, 6, 1, 2, 5, 4}, {3, 2, 1, 6, 5, 4}, {3, 4, 1, 6, 5, 2}, {3, 6, 1, 4, 5, 2}, {5, 2, 1, 4, 3, 6}, {5, 4, 1, 2, 3, 6}, {5, 6, 1, 2, 3, 4}, {5, 2, 1, 6, 3, 4}, {5, 4, 1, 6, 3, 2}, {5, 6, 1, 4, 3, 2}, {1, 2, 5, 4, 3, 6}, {1, 4, 5, 2, 3, 6}, {1, 6, 5, 2, 3, 4}, {1, 2, 5, 6, 3, 4}, {1, 4, 5, 6, 3, 2}, {1, 6, 5, 4, 3, 2}, {3, 2, 5, 4, 1, 6}, {3, 4, 5, 2, 1, 6}, {3, 6, 5, 2, 1, 4}, {3, 2, 5, 6, 1, 4}, {3, 4, 5, 6, 1, 2}, {3, 6, 5, 4, 1, 2}, {5, 2, 3, 4, 1, 6}, {5, 4, 3, 2, 1, 6}, {5, 6, 3, 2, 1, 4}, {5, 2, 3, 6, 1, 4}, {5, 4, 3, 6, 1, 2}, {5, 6, 3, 4, 1, 2} };
-   int64_t sigs_array[36] = {1,-1,1,-1,1,-1,-1,1,-1,1,-1,1,1,-1,1,-1,1,-1,-1,1,-1,1,-1,1,1,-1,1,-1,1,-1,-1,1,-1,1,-1,1};
-   int64_t* perms = (int64_t *) malloc(Nperms * 2*Nq * sizeof (int64_t));
-   int64_t sigs[Nperms];
-   int64_t permnum = 0;
-   for (int64_t i = 0; i < 36; i++) {
+   int perms_array[36][6] = { {1,2,3,4,5,6}, {1, 4, 3, 2, 5, 6}, {1, 6, 3, 2, 5, 4}, {1, 2, 3, 6, 5, 4}, {1, 4, 3, 6, 5, 2}, {1, 6, 3, 4, 5, 2}, {3, 2, 1, 4, 5, 6}, {3, 4, 1, 2, 5, 6}, {3, 6, 1, 2, 5, 4}, {3, 2, 1, 6, 5, 4}, {3, 4, 1, 6, 5, 2}, {3, 6, 1, 4, 5, 2}, {5, 2, 1, 4, 3, 6}, {5, 4, 1, 2, 3, 6}, {5, 6, 1, 2, 3, 4}, {5, 2, 1, 6, 3, 4}, {5, 4, 1, 6, 3, 2}, {5, 6, 1, 4, 3, 2}, {1, 2, 5, 4, 3, 6}, {1, 4, 5, 2, 3, 6}, {1, 6, 5, 2, 3, 4}, {1, 2, 5, 6, 3, 4}, {1, 4, 5, 6, 3, 2}, {1, 6, 5, 4, 3, 2}, {3, 2, 5, 4, 1, 6}, {3, 4, 5, 2, 1, 6}, {3, 6, 5, 2, 1, 4}, {3, 2, 5, 6, 1, 4}, {3, 4, 5, 6, 1, 2}, {3, 6, 5, 4, 1, 2}, {5, 2, 3, 4, 1, 6}, {5, 4, 3, 2, 1, 6}, {5, 6, 3, 2, 1, 4}, {5, 2, 3, 6, 1, 4}, {5, 4, 3, 6, 1, 2}, {5, 6, 3, 4, 1, 2} };
+   int sigs_array[36] = {1,-1,1,-1,1,-1,-1,1,-1,1,-1,1,1,-1,1,-1,1,-1,-1,1,-1,1,-1,1,1,-1,1,-1,1,-1,-1,1,-1,1,-1,1};
+   int* perms = (int *) malloc(Nperms * 2*Nq * sizeof (int));
+   int sigs[Nperms];
+   int permnum = 0;
+   for (int i = 0; i < 36; i++) {
 
       /*if (perms_array[i][0] > perms_array[i][2]) {
          continue;
@@ -741,7 +741,7 @@ int main(int, char **)
          continue;
       } 
       else {  */
-         for (int64_t q = 0; q < 2*Nq; q++) {
+         for (int q = 0; q < 2*Nq; q++) {
             perms[index_2d(permnum,q ,2*Nq)] = perms_array[i][q];
          }
          sigs[permnum] = sigs_array[i];
@@ -768,15 +768,15 @@ int main(int, char **)
                   t_C_im[index_5d(rp,m,r,n,t, Nsrc+NsrcHex,B2Nrows,Nsnk+NsnkHex,Lt)] = 0.0;
                }
 
-   int64_t space_symmetric = 0;
-   int64_t snk_entangled = 0;
+   int space_symmetric = 0;
+   int snk_entangled = 0;
 
 
    if (rank == 0) {
    std::cout << "Start Tiramisu code." <<  std::endl;
    }
 
-   for (int64_t i = 0; i < nb_tests; i++)
+   for (int i = 0; i < nb_tests; i++)
    {
       if (rank == 0)
          std::cout << "Run " << i << "/" << nb_tests <<  std::endl;
@@ -839,7 +839,7 @@ int main(int, char **)
 
 #if RUN_REFERENCE
    std::cout << "Start reference C code." <<  std::endl;
-   for (int64_t i = 0; i < nb_tests; i++)
+   for (int i = 0; i < nb_tests; i++)
    {
 	   std::cout << "Run " << i << "/" << nb_tests <<  std::endl;
 	   auto start2 = std::chrono::high_resolution_clock::now();
