@@ -492,7 +492,7 @@ void tiramisu_make_two_nucleon_2pt(double* C_re,
    }
 }
 
-int64_t main(int64_t, char **)
+int main(int, char **)
 {
    int64_t rank = 0;
 #ifdef WITH_MPI
