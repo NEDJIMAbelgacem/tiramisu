@@ -6,8 +6,8 @@
 
 #if DATA_SET_1
 
-#define P_Vsrc 128l
-#define P_Vsnk 128l
+#define P_Vsrc 64l
+#define P_Vsnk 64l
 #define P_Nsrc 44l
 #define P_Nsnk 44l
 #define P_NEntangled 3l
