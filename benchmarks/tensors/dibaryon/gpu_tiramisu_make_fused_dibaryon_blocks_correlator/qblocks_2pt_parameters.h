@@ -6,8 +6,8 @@
 
 #if DATA_SET_1
 
-#define P_Vsrc 128l
-#define P_Vsnk 128l
+#define P_Vsrc 8
+#define P_Vsnk 8
 #define P_Nsrc 44l
 #define P_Nsnk 44l
 #define P_NEntangled 3l
@@ -32,6 +32,7 @@
 #define P_NsFull 4l
 #define P_sites_per_rank 2l
 #define P_src_sites_per_rank 2l
+#define P_tiling_factor 2
 
 #elif DATA_SET_2
 

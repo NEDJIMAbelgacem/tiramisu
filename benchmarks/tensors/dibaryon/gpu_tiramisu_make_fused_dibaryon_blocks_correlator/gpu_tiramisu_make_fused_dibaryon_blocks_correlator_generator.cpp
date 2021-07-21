@@ -51,8 +51,8 @@ void generate_function(std::string name)
         jSprime("jSprime", 0l, Ns),
         kCprime("kCprime", 0l, Nc),
         kSprime("kSprime", 0l, Ns);
-  var tileX( "tileX", 0l, tiling_factor );
-  var tileY( "tileY", 0l, tiling_factor );
+  var tile1( "tile1", 0l, tiling_factor );
+  var tile2( "tile2", 0l, tiling_factor );
 // rp, m, r -> B2Nrows, Nsrc, B2Nrows -> 4l * 44l * 4
    input C_r("C_r",      {t, x_out, x_in, rp, mpmH, r, npnH}, p_float64);
    input C_i("C_i",      {t, x_out, x_in, rp, mpmH, r, npnH}, p_float64);
@@ -232,453 +232,453 @@ void generate_function(std::string name)
 
     complex_expr snk_psi_B1(snk_psi_B1_r(x, n), snk_psi_B1_i(x, n));
     complex_expr snk_psi_B2(snk_psi_B2_r(x, n), snk_psi_B2_i(x, n));
-    complex_expr snk_psi_B1_x2(snk_psi_B1_r(x2 * tiling_factor + tileY, n), snk_psi_B1_i(x2 * tiling_factor + tileY, n));
-    complex_expr snk_psi_B2_x2(snk_psi_B2_r(x2 * tiling_factor + tileY, n), snk_psi_B2_i(x2 * tiling_factor + tileY, n));
+    complex_expr snk_psi_B1_x2(snk_psi_B1_r(x2 * tiling_factor + tile2, n), snk_psi_B1_i(x2 * tiling_factor + tile2, n));
+    complex_expr snk_psi_B2_x2(snk_psi_B2_r(x2 * tiling_factor + tile2, n), snk_psi_B2_i(x2 * tiling_factor + tile2, n));
 
-    complex_expr snk_psi_B1_ue(snk_psi_B1_r(x1 * tiling_factor + tileX, NEntangled+nue), snk_psi_B1_i(x1 * tiling_factor + tileX, NEntangled+nue));
-    complex_expr snk_psi_B2_ue(snk_psi_B2_r(x1 * tiling_factor + tileX, NEntangled+nue), snk_psi_B2_i(x1 * tiling_factor + tileX, NEntangled+nue));
-    complex_expr snk_psi_B1_x2_ue(snk_psi_B1_r(x2 * tiling_factor + tileY, NEntangled+nue), snk_psi_B1_i(x2 * tiling_factor + tileY, NEntangled+nue));
-    complex_expr snk_psi_B2_x2_ue(snk_psi_B2_r(x2 * tiling_factor + tileY, NEntangled+nue), snk_psi_B2_i(x2 * tiling_factor + tileY, NEntangled+nue));
+    complex_expr snk_psi_B1_ue(snk_psi_B1_r(x1 * tiling_factor + tile1, NEntangled+nue), snk_psi_B1_i(x1 * tiling_factor + tile1, NEntangled+nue));
+    complex_expr snk_psi_B2_ue(snk_psi_B2_r(x1 * tiling_factor + tile1, NEntangled+nue), snk_psi_B2_i(x1 * tiling_factor + tile1, NEntangled+nue));
+    complex_expr snk_psi_B1_x2_ue(snk_psi_B1_r(x2 * tiling_factor + tile2, NEntangled+nue), snk_psi_B1_i(x2 * tiling_factor + tile2, NEntangled+nue));
+    complex_expr snk_psi_B2_x2_ue(snk_psi_B2_r(x2 * tiling_factor + tile2, NEntangled+nue), snk_psi_B2_i(x2 * tiling_factor + tile2, NEntangled+nue));
 
     complex_expr hex_src_psi(hex_src_psi_r(y_out*src_sites_per_rank+y_in, mH), hex_src_psi_i(y_out*src_sites_per_rank+y_in, mH));
     complex_expr hex_hex_src_psi(hex_src_psi_r(y, mH), hex_src_psi_i(y, mH));
     complex_expr hex_snk_psi(hex_snk_psi_r(x_out*sites_per_rank+x_in, nH), hex_snk_psi_i(x_out*sites_per_rank+x_in, nH));
 
-    complex_expr snk_psi(snk_psi_r(x1 * tiling_factor + tileX, x2 * tiling_factor + tileY, ne), snk_psi_i(x1 * tiling_factor + tileX, x2 * tiling_factor + tileY, ne));
+    complex_expr snk_psi(snk_psi_r(x1 * tiling_factor + tile1, x2 * tiling_factor + tile2, ne), snk_psi_i(x1 * tiling_factor + tile1, x2 * tiling_factor + tile2, ne));
 
      /* Baryon blocks */
 
      // Computing B1_Blocal_r1, B1_Bsecond_r1, B1_Bfirst_r1
 
-    computation B1_Blocal_r1_r_init("B1_Blocal_r1_r_init", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
-    computation B1_Blocal_r1_i_init("B1_Blocal_r1_i_init", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
-    computation B1_Bfirst_r1_r_init("B1_Bfirst_r1_r_init", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
-    computation B1_Bfirst_r1_i_init("B1_Bfirst_r1_i_init", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
-    computation B1_Bsecond_r1_r_init("B1_Bsecond_r1_r_init", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
-    computation B1_Bsecond_r1_i_init("B1_Bsecond_r1_i_init", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
-    computation B1_Bthird_r1_r_init("B1_Bthird_r1_r_init", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
-    computation B1_Bthird_r1_i_init("B1_Bthird_r1_i_init", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
+    computation B1_Blocal_r1_r_init("B1_Blocal_r1_r_init", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
+    computation B1_Blocal_r1_i_init("B1_Blocal_r1_i_init", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
+    computation B1_Bfirst_r1_r_init("B1_Bfirst_r1_r_init", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
+    computation B1_Bfirst_r1_i_init("B1_Bfirst_r1_i_init", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
+    computation B1_Bsecond_r1_r_init("B1_Bsecond_r1_r_init", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
+    computation B1_Bsecond_r1_i_init("B1_Bsecond_r1_i_init", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
+    computation B1_Bthird_r1_r_init("B1_Bthird_r1_r_init", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
+    computation B1_Bthird_r1_i_init("B1_Bthird_r1_i_init", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
 
     complex_computation B1_Blocal_r1_init(&B1_Blocal_r1_r_init, &B1_Blocal_r1_i_init);
     complex_computation B1_Bfirst_r1_init(&B1_Bfirst_r1_r_init, &B1_Bfirst_r1_i_init);
     complex_computation B1_Bsecond_r1_init(&B1_Bsecond_r1_r_init, &B1_Bsecond_r1_i_init);
     complex_computation B1_Bthird_r1_init(&B1_Bthird_r1_r_init, &B1_Bthird_r1_i_init);
 
-    computation flip_B1_Blocal_r1_r_init("flip_B1_Blocal_r1_r_init", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
-    computation flip_B1_Blocal_r1_i_init("flip_B1_Blocal_r1_i_init", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
-    computation flip_B1_Bfirst_r1_r_init("flip_B1_Bfirst_r1_r_init", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
-    computation flip_B1_Bfirst_r1_i_init("flip_B1_Bfirst_r1_i_init", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
-    computation flip_B1_Bsecond_r1_r_init("flip_B1_Bsecond_r1_r_init", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
-    computation flip_B1_Bsecond_r1_i_init("flip_B1_Bsecond_r1_i_init", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
-    computation flip_B1_Bthird_r1_r_init("flip_B1_Bthird_r1_r_init", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
-    computation flip_B1_Bthird_r1_i_init("flip_B1_Bthird_r1_i_init", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
+    computation flip_B1_Blocal_r1_r_init("flip_B1_Blocal_r1_r_init", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
+    computation flip_B1_Blocal_r1_i_init("flip_B1_Blocal_r1_i_init", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
+    computation flip_B1_Bfirst_r1_r_init("flip_B1_Bfirst_r1_r_init", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
+    computation flip_B1_Bfirst_r1_i_init("flip_B1_Bfirst_r1_i_init", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
+    computation flip_B1_Bsecond_r1_r_init("flip_B1_Bsecond_r1_r_init", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
+    computation flip_B1_Bsecond_r1_i_init("flip_B1_Bsecond_r1_i_init", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
+    computation flip_B1_Bthird_r1_r_init("flip_B1_Bthird_r1_r_init", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
+    computation flip_B1_Bthird_r1_i_init("flip_B1_Bthird_r1_i_init", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
 
     complex_computation flip_B1_Blocal_r1_init(&flip_B1_Blocal_r1_r_init, &flip_B1_Blocal_r1_i_init);
     complex_computation flip_B1_Bfirst_r1_init(&flip_B1_Bfirst_r1_r_init, &flip_B1_Bfirst_r1_i_init);
     complex_computation flip_B1_Bsecond_r1_init(&flip_B1_Bsecond_r1_r_init, &flip_B1_Bsecond_r1_i_init);
     complex_computation flip_B1_Bthird_r1_init(&flip_B1_Bthird_r1_r_init, &flip_B1_Bthird_r1_i_init);
 
-    complex_expr B1_r1_prop_0 =  B1_prop(cast( p_int64, 0l ), t, iCprime, iSprime, src_color_weights(0l, wnumBlock, 0l), src_spin_weights(0l, wnumBlock, 0l), x1 * tiling_factor + tileX, y);
-    complex_expr B1_r1_prop_1 = B1_prop(cast( p_int64, 1l ), t, jCprime, jSprime, src_color_weights(0l, wnumBlock, 1l), src_spin_weights(0l, wnumBlock, 1l), x1 * tiling_factor + tileX, y);
-    complex_expr B1_r1_prop_2 =  B1_prop( cast( p_int64, 2l ), t, kCprime, kSprime, src_color_weights(0l, wnumBlock, 2l), src_spin_weights(0l, wnumBlock, 2l), x1 * tiling_factor + tileX, y);
-    complex_expr first_B1_r1_prop_0 =  B1_prop( cast( p_int64, 0l ), t, iCprime, iSprime, src_color_weights(0l, wnumBlock, 0l), src_spin_weights(0l, wnumBlock, 0l), x2 * tiling_factor + tileY, y);
-    complex_expr second_B1_r1_prop_1 = B1_prop( cast( p_int64, 1l ), t, jCprime, jSprime, src_color_weights(0l, wnumBlock, 1l), src_spin_weights(0l, wnumBlock, 1l), x2 * tiling_factor + tileY, y);
-    complex_expr third_B1_r1_prop_2 =  B1_prop( cast( p_int64, 2l ), t, kCprime, kSprime, src_color_weights(0l, wnumBlock, 2l), src_spin_weights(0l, wnumBlock, 2l), x2 * tiling_factor + tileY, y);
+    complex_expr B1_r1_prop_0 =  B1_prop(cast( p_int64, 0l ), t, iCprime, iSprime, src_color_weights(0l, wnumBlock, 0l), src_spin_weights(0l, wnumBlock, 0l), x1 * tiling_factor + tile1, y);
+    complex_expr B1_r1_prop_1 = B1_prop(cast( p_int64, 1l ), t, jCprime, jSprime, src_color_weights(0l, wnumBlock, 1l), src_spin_weights(0l, wnumBlock, 1l), x1 * tiling_factor + tile1, y);
+    complex_expr B1_r1_prop_2 =  B1_prop( cast( p_int64, 2l ), t, kCprime, kSprime, src_color_weights(0l, wnumBlock, 2l), src_spin_weights(0l, wnumBlock, 2l), x1 * tiling_factor + tile1, y);
+    complex_expr first_B1_r1_prop_0 =  B1_prop( cast( p_int64, 0l ), t, iCprime, iSprime, src_color_weights(0l, wnumBlock, 0l), src_spin_weights(0l, wnumBlock, 0l), x2 * tiling_factor + tile2, y);
+    complex_expr second_B1_r1_prop_1 = B1_prop( cast( p_int64, 1l ), t, jCprime, jSprime, src_color_weights(0l, wnumBlock, 1l), src_spin_weights(0l, wnumBlock, 1l), x2 * tiling_factor + tile2, y);
+    complex_expr third_B1_r1_prop_2 =  B1_prop( cast( p_int64, 2l ), t, kCprime, kSprime, src_color_weights(0l, wnumBlock, 2l), src_spin_weights(0l, wnumBlock, 2l), x2 * tiling_factor + tile2, y);
 
     complex_expr B1_r1_diquark = ( B1_r1_prop_0 * B1_r1_prop_2 ) *  src_weights(0l, wnumBlock);
     complex_expr first_B1_r1_diquark = ( first_B1_r1_prop_0 * B1_r1_prop_2 ) *  src_weights(0l, wnumBlock);
     complex_expr third_B1_r1_diquark = ( B1_r1_prop_0 * third_B1_r1_prop_2 ) *  src_weights(0l, wnumBlock);
 
-    computation B1_Blocal_r1_r_props_init("B1_Blocal_r1_r_props_init", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime}, expr((double) 0l));
-    computation B1_Blocal_r1_i_props_init("B1_Blocal_r1_i_props_init", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime}, expr((double) 0l));
-    computation B1_Bfirst_r1_r_props_init("B1_Bfirst_r1_r_props_init", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime}, expr((double) 0l));
-    computation B1_Bfirst_r1_i_props_init("B1_Bfirst_r1_i_props_init", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime}, expr((double) 0l));
-    computation B1_Bsecond_r1_r_props_init("B1_Bsecond_r1_r_props_init", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime}, expr((double) 0l));
-    computation B1_Bsecond_r1_i_props_init("B1_Bsecond_r1_i_props_init", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime}, expr((double) 0l));
-    computation B1_Bthird_r1_r_props_init("B1_Bthird_r1_r_props_init", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime}, expr((double) 0l));
-    computation B1_Bthird_r1_i_props_init("B1_Bthird_r1_i_props_init", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime}, expr((double) 0l));
+    computation B1_Blocal_r1_r_props_init("B1_Blocal_r1_r_props_init", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime}, expr((double) 0l));
+    computation B1_Blocal_r1_i_props_init("B1_Blocal_r1_i_props_init", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime}, expr((double) 0l));
+    computation B1_Bfirst_r1_r_props_init("B1_Bfirst_r1_r_props_init", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime}, expr((double) 0l));
+    computation B1_Bfirst_r1_i_props_init("B1_Bfirst_r1_i_props_init", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime}, expr((double) 0l));
+    computation B1_Bsecond_r1_r_props_init("B1_Bsecond_r1_r_props_init", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime}, expr((double) 0l));
+    computation B1_Bsecond_r1_i_props_init("B1_Bsecond_r1_i_props_init", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime}, expr((double) 0l));
+    computation B1_Bthird_r1_r_props_init("B1_Bthird_r1_r_props_init", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime}, expr((double) 0l));
+    computation B1_Bthird_r1_i_props_init("B1_Bthird_r1_i_props_init", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime}, expr((double) 0l));
 
-    computation B1_Blocal_r1_r_diquark("B1_Blocal_r1_r_diquark", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock}, B1_r1_diquark.get_real());
-    computation B1_Blocal_r1_i_diquark("B1_Blocal_r1_i_diquark", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock}, B1_r1_diquark.get_imag());
-    computation B1_Bfirst_r1_r_diquark("B1_Bfirst_r1_r_diquark", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock}, first_B1_r1_diquark.get_real());
-    computation B1_Bfirst_r1_i_diquark("B1_Bfirst_r1_i_diquark", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock}, first_B1_r1_diquark.get_imag());
-    computation B1_Bthird_r1_r_diquark("B1_Bthird_r1_r_diquark", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock}, third_B1_r1_diquark.get_real());
-    computation B1_Bthird_r1_i_diquark("B1_Bthird_r1_i_diquark", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock}, third_B1_r1_diquark.get_imag());
+    computation B1_Blocal_r1_r_diquark("B1_Blocal_r1_r_diquark", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock}, B1_r1_diquark.get_real());
+    computation B1_Blocal_r1_i_diquark("B1_Blocal_r1_i_diquark", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock}, B1_r1_diquark.get_imag());
+    computation B1_Bfirst_r1_r_diquark("B1_Bfirst_r1_r_diquark", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock}, first_B1_r1_diquark.get_real());
+    computation B1_Bfirst_r1_i_diquark("B1_Bfirst_r1_i_diquark", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock}, first_B1_r1_diquark.get_imag());
+    computation B1_Bthird_r1_r_diquark("B1_Bthird_r1_r_diquark", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock}, third_B1_r1_diquark.get_real());
+    computation B1_Bthird_r1_i_diquark("B1_Bthird_r1_i_diquark", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock}, third_B1_r1_diquark.get_imag());
 
     complex_computation B1_Blocal_r1_diquark(&B1_Blocal_r1_r_diquark, &B1_Blocal_r1_i_diquark);
     complex_computation B1_Bfirst_r1_diquark(&B1_Bfirst_r1_r_diquark, &B1_Bfirst_r1_i_diquark);
     complex_computation B1_Bthird_r1_diquark(&B1_Bthird_r1_r_diquark, &B1_Bthird_r1_i_diquark);
 
-    complex_expr B1_r1_props = B1_r1_prop_1 * B1_Blocal_r1_diquark(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock);
-    complex_expr first_B1_r1_props = B1_r1_prop_1 * B1_Bfirst_r1_diquark(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock);
-    complex_expr second_B1_r1_props = second_B1_r1_prop_1 * B1_Blocal_r1_diquark(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock);
-    complex_expr third_B1_r1_props = B1_r1_prop_1 * B1_Bthird_r1_diquark(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock);
+    complex_expr B1_r1_props = B1_r1_prop_1 * B1_Blocal_r1_diquark(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock);
+    complex_expr first_B1_r1_props = B1_r1_prop_1 * B1_Bfirst_r1_diquark(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock);
+    complex_expr second_B1_r1_props = second_B1_r1_prop_1 * B1_Blocal_r1_diquark(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock);
+    complex_expr third_B1_r1_props = B1_r1_prop_1 * B1_Bthird_r1_diquark(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock);
 
-    computation B1_Blocal_r1_r_props("B1_Blocal_r1_r_props", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, B1_Blocal_r1_r_props_init(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime) + B1_r1_props.get_real());
-    computation B1_Blocal_r1_i_props("B1_Blocal_r1_i_props", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, B1_Blocal_r1_i_props_init(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime) + B1_r1_props.get_imag());
-    computation B1_Bfirst_r1_r_props("B1_Bfirst_r1_r_props", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, B1_Bfirst_r1_r_props_init(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime) + first_B1_r1_props.get_real());
-    computation B1_Bfirst_r1_i_props("B1_Bfirst_r1_i_props", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, B1_Bfirst_r1_i_props_init(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime) + first_B1_r1_props.get_imag());
-    computation B1_Bsecond_r1_r_props("B1_Bsecond_r1_r_props", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, B1_Bsecond_r1_r_props_init(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime) + second_B1_r1_props.get_real());
-    computation B1_Bsecond_r1_i_props("B1_Bsecond_r1_i_props", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, B1_Bsecond_r1_i_props_init(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime) + second_B1_r1_props.get_imag());
-    computation B1_Bthird_r1_r_props("B1_Bthird_r1_r_props", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, B1_Bthird_r1_r_props_init(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime) + third_B1_r1_props.get_real());
-    computation B1_Bthird_r1_i_props("B1_Bthird_r1_i_props", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, B1_Bthird_r1_i_props_init(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime) + third_B1_r1_props.get_imag());
+    computation B1_Blocal_r1_r_props("B1_Blocal_r1_r_props", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, B1_Blocal_r1_r_props_init(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime) + B1_r1_props.get_real());
+    computation B1_Blocal_r1_i_props("B1_Blocal_r1_i_props", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, B1_Blocal_r1_i_props_init(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime) + B1_r1_props.get_imag());
+    computation B1_Bfirst_r1_r_props("B1_Bfirst_r1_r_props", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, B1_Bfirst_r1_r_props_init(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime) + first_B1_r1_props.get_real());
+    computation B1_Bfirst_r1_i_props("B1_Bfirst_r1_i_props", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, B1_Bfirst_r1_i_props_init(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime) + first_B1_r1_props.get_imag());
+    computation B1_Bsecond_r1_r_props("B1_Bsecond_r1_r_props", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, B1_Bsecond_r1_r_props_init(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime) + second_B1_r1_props.get_real());
+    computation B1_Bsecond_r1_i_props("B1_Bsecond_r1_i_props", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, B1_Bsecond_r1_i_props_init(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime) + second_B1_r1_props.get_imag());
+    computation B1_Bthird_r1_r_props("B1_Bthird_r1_r_props", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, B1_Bthird_r1_r_props_init(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime) + third_B1_r1_props.get_real());
+    computation B1_Bthird_r1_i_props("B1_Bthird_r1_i_props", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, B1_Bthird_r1_i_props_init(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime) + third_B1_r1_props.get_imag());
 
      complex_computation B1_Blocal_r1_props(&B1_Blocal_r1_r_props, &B1_Blocal_r1_i_props);
      complex_computation B1_Bfirst_r1_props(&B1_Bfirst_r1_r_props, &B1_Bfirst_r1_i_props);
      complex_computation B1_Bsecond_r1_props(&B1_Bsecond_r1_r_props, &B1_Bsecond_r1_i_props);
      complex_computation B1_Bthird_r1_props(&B1_Bthird_r1_r_props, &B1_Bthird_r1_i_props);
 
-    complex_expr B1_r1 = src_psi_B1 * B1_Blocal_r1_props(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, Nw-1, jCprime, jSprime);
-    complex_expr first_B1_r1 = src_psi_B1 * B1_Bfirst_r1_props(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, Nw-1, jCprime, jSprime);
-    complex_expr second_B1_r1 = src_psi_B1 * B1_Bsecond_r1_props(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, Nw-1, jCprime, jSprime);
-    complex_expr third_B1_r1 = src_psi_B1 * B1_Bthird_r1_props(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, Nw-1, jCprime, jSprime);
+    complex_expr B1_r1 = src_psi_B1 * B1_Blocal_r1_props(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, Nw-1, jCprime, jSprime);
+    complex_expr first_B1_r1 = src_psi_B1 * B1_Bfirst_r1_props(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, Nw-1, jCprime, jSprime);
+    complex_expr second_B1_r1 = src_psi_B1 * B1_Bsecond_r1_props(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, Nw-1, jCprime, jSprime);
+    complex_expr third_B1_r1 = src_psi_B1 * B1_Bthird_r1_props(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, Nw-1, jCprime, jSprime);
 
-    computation B1_Blocal_r1_r_update("B1_Blocal_r1_r_update", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, B1_Blocal_r1_r_init(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + B1_r1.get_real());
-    computation B1_Blocal_r1_i_update("B1_Blocal_r1_i_update", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, B1_Blocal_r1_i_init(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + B1_r1.get_imag());
-    computation B1_Bfirst_r1_r_update("B1_Bfirst_r1_r_update", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, B1_Bfirst_r1_r_init(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + first_B1_r1.get_real());
-    computation B1_Bfirst_r1_i_update("B1_Bfirst_r1_i_update", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, B1_Bfirst_r1_i_init(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + first_B1_r1.get_imag()); 
-    computation B1_Bsecond_r1_r_update("B1_Bsecond_r1_r_update", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, B1_Bsecond_r1_r_init(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + second_B1_r1.get_real());
-    computation B1_Bsecond_r1_i_update("B1_Bsecond_r1_i_update", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, B1_Bsecond_r1_i_init(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + second_B1_r1.get_imag());
-    computation B1_Bthird_r1_r_update("B1_Bthird_r1_r_update", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, B1_Bthird_r1_r_init(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + third_B1_r1.get_real());
-    computation B1_Bthird_r1_i_update("B1_Bthird_r1_i_update", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, B1_Bthird_r1_i_init(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + third_B1_r1.get_imag()); 
+    computation B1_Blocal_r1_r_update("B1_Blocal_r1_r_update", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, B1_Blocal_r1_r_init(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + B1_r1.get_real());
+    computation B1_Blocal_r1_i_update("B1_Blocal_r1_i_update", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, B1_Blocal_r1_i_init(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + B1_r1.get_imag());
+    computation B1_Bfirst_r1_r_update("B1_Bfirst_r1_r_update", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, B1_Bfirst_r1_r_init(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + first_B1_r1.get_real());
+    computation B1_Bfirst_r1_i_update("B1_Bfirst_r1_i_update", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, B1_Bfirst_r1_i_init(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + first_B1_r1.get_imag()); 
+    computation B1_Bsecond_r1_r_update("B1_Bsecond_r1_r_update", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, B1_Bsecond_r1_r_init(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + second_B1_r1.get_real());
+    computation B1_Bsecond_r1_i_update("B1_Bsecond_r1_i_update", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, B1_Bsecond_r1_i_init(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + second_B1_r1.get_imag());
+    computation B1_Bthird_r1_r_update("B1_Bthird_r1_r_update", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, B1_Bthird_r1_r_init(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + third_B1_r1.get_real());
+    computation B1_Bthird_r1_i_update("B1_Bthird_r1_i_update", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, B1_Bthird_r1_i_init(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + third_B1_r1.get_imag()); 
 
-    complex_expr flip_B1_r1 = src_psi_B2 * B1_Blocal_r1_props(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, Nw-1, jCprime, jSprime);
-    complex_expr flip_first_B1_r1 = src_psi_B2 * B1_Bfirst_r1_props(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, Nw-1, jCprime, jSprime);
-    complex_expr flip_second_B1_r1 = src_psi_B2 * B1_Bsecond_r1_props(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, Nw-1, jCprime, jSprime);
-    complex_expr flip_third_B1_r1 = src_psi_B2 * B1_Bthird_r1_props(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, Nw-1, jCprime, jSprime);
+    complex_expr flip_B1_r1 = src_psi_B2 * B1_Blocal_r1_props(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, Nw-1, jCprime, jSprime);
+    complex_expr flip_first_B1_r1 = src_psi_B2 * B1_Bfirst_r1_props(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, Nw-1, jCprime, jSprime);
+    complex_expr flip_second_B1_r1 = src_psi_B2 * B1_Bsecond_r1_props(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, Nw-1, jCprime, jSprime);
+    complex_expr flip_third_B1_r1 = src_psi_B2 * B1_Bthird_r1_props(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, Nw-1, jCprime, jSprime);
 
-    computation flip_B1_Blocal_r1_r_update("flip_B1_Blocal_r1_r_update", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, flip_B1_Blocal_r1_r_init(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + flip_B1_r1.get_real());
-    computation flip_B1_Blocal_r1_i_update("flip_B1_Blocal_r1_i_update", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, flip_B1_Blocal_r1_i_init(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + flip_B1_r1.get_imag());
-    computation flip_B1_Bfirst_r1_r_update("flip_B1_Bfirst_r1_r_update", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, flip_B1_Bfirst_r1_r_init(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + flip_first_B1_r1.get_real());
-    computation flip_B1_Bfirst_r1_i_update("flip_B1_Bfirst_r1_i_update", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, flip_B1_Bfirst_r1_i_init(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + flip_first_B1_r1.get_imag()); 
-    computation flip_B1_Bsecond_r1_r_update("flip_B1_Bsecond_r1_r_update", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, flip_B1_Bsecond_r1_r_init(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + flip_second_B1_r1.get_real());
-    computation flip_B1_Bsecond_r1_i_update("flip_B1_Bsecond_r1_i_update", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, flip_B1_Bsecond_r1_i_init(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + flip_second_B1_r1.get_imag());
-    computation flip_B1_Bthird_r1_r_update("flip_B1_Bthird_r1_r_update", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, flip_B1_Bthird_r1_r_init(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + flip_third_B1_r1.get_real());
-    computation flip_B1_Bthird_r1_i_update("flip_B1_Bthird_r1_i_update", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, flip_B1_Bthird_r1_i_init(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + flip_third_B1_r1.get_imag()); 
+    computation flip_B1_Blocal_r1_r_update("flip_B1_Blocal_r1_r_update", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, flip_B1_Blocal_r1_r_init(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + flip_B1_r1.get_real());
+    computation flip_B1_Blocal_r1_i_update("flip_B1_Blocal_r1_i_update", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, flip_B1_Blocal_r1_i_init(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + flip_B1_r1.get_imag());
+    computation flip_B1_Bfirst_r1_r_update("flip_B1_Bfirst_r1_r_update", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, flip_B1_Bfirst_r1_r_init(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + flip_first_B1_r1.get_real());
+    computation flip_B1_Bfirst_r1_i_update("flip_B1_Bfirst_r1_i_update", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, flip_B1_Bfirst_r1_i_init(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + flip_first_B1_r1.get_imag()); 
+    computation flip_B1_Bsecond_r1_r_update("flip_B1_Bsecond_r1_r_update", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, flip_B1_Bsecond_r1_r_init(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + flip_second_B1_r1.get_real());
+    computation flip_B1_Bsecond_r1_i_update("flip_B1_Bsecond_r1_i_update", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, flip_B1_Bsecond_r1_i_init(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + flip_second_B1_r1.get_imag());
+    computation flip_B1_Bthird_r1_r_update("flip_B1_Bthird_r1_r_update", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, flip_B1_Bthird_r1_r_init(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + flip_third_B1_r1.get_real());
+    computation flip_B1_Bthird_r1_i_update("flip_B1_Bthird_r1_i_update", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, flip_B1_Bthird_r1_i_init(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + flip_third_B1_r1.get_imag()); 
 
      // Computing B1_Blocal_r2, B1_Bsecond_r2, B1_Bfirst_r2
 
-    computation B1_Blocal_r2_r_init("B1_Blocal_r2_r_init", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
-    computation B1_Blocal_r2_i_init("B1_Blocal_r2_i_init", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
-    computation B1_Bfirst_r2_r_init("B1_Bfirst_r2_r_init", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
-    computation B1_Bfirst_r2_i_init("B1_Bfirst_r2_i_init", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
-    computation B1_Bsecond_r2_r_init("B1_Bsecond_r2_r_init", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
-    computation B1_Bsecond_r2_i_init("B1_Bsecond_r2_i_init", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
-    computation B1_Bthird_r2_r_init("B1_Bthird_r2_r_init", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
-    computation B1_Bthird_r2_i_init("B1_Bthird_r2_i_init", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
+    computation B1_Blocal_r2_r_init("B1_Blocal_r2_r_init", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
+    computation B1_Blocal_r2_i_init("B1_Blocal_r2_i_init", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
+    computation B1_Bfirst_r2_r_init("B1_Bfirst_r2_r_init", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
+    computation B1_Bfirst_r2_i_init("B1_Bfirst_r2_i_init", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
+    computation B1_Bsecond_r2_r_init("B1_Bsecond_r2_r_init", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
+    computation B1_Bsecond_r2_i_init("B1_Bsecond_r2_i_init", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
+    computation B1_Bthird_r2_r_init("B1_Bthird_r2_r_init", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
+    computation B1_Bthird_r2_i_init("B1_Bthird_r2_i_init", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
 
     complex_computation B1_Blocal_r2_init(&B1_Blocal_r2_r_init, &B1_Blocal_r2_i_init);
     complex_computation B1_Bfirst_r2_init(&B1_Bfirst_r2_r_init, &B1_Bfirst_r2_i_init);
     complex_computation B1_Bsecond_r2_init(&B1_Bsecond_r2_r_init, &B1_Bsecond_r2_i_init);
     complex_computation B1_Bthird_r2_init(&B1_Bthird_r2_r_init, &B1_Bthird_r2_i_init);
 
-    computation flip_B1_Blocal_r2_r_init("flip_B1_Blocal_r2_r_init", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
-    computation flip_B1_Blocal_r2_i_init("flip_B1_Blocal_r2_i_init", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
-    computation flip_B1_Bfirst_r2_r_init("flip_B1_Bfirst_r2_r_init", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
-    computation flip_B1_Bfirst_r2_i_init("flip_B1_Bfirst_r2_i_init", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
-    computation flip_B1_Bsecond_r2_r_init("flip_B1_Bsecond_r2_r_init", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
-    computation flip_B1_Bsecond_r2_i_init("flip_B1_Bsecond_r2_i_init", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
-    computation flip_B1_Bthird_r2_r_init("flip_B1_Bthird_r2_r_init", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
-    computation flip_B1_Bthird_r2_i_init("flip_B1_Bthird_r2_i_init", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
+    computation flip_B1_Blocal_r2_r_init("flip_B1_Blocal_r2_r_init", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
+    computation flip_B1_Blocal_r2_i_init("flip_B1_Blocal_r2_i_init", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
+    computation flip_B1_Bfirst_r2_r_init("flip_B1_Bfirst_r2_r_init", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
+    computation flip_B1_Bfirst_r2_i_init("flip_B1_Bfirst_r2_i_init", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
+    computation flip_B1_Bsecond_r2_r_init("flip_B1_Bsecond_r2_r_init", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
+    computation flip_B1_Bsecond_r2_i_init("flip_B1_Bsecond_r2_i_init", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
+    computation flip_B1_Bthird_r2_r_init("flip_B1_Bthird_r2_r_init", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
+    computation flip_B1_Bthird_r2_i_init("flip_B1_Bthird_r2_i_init", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
 
     complex_computation flip_B1_Blocal_r2_init(&flip_B1_Blocal_r2_r_init, &flip_B1_Blocal_r2_i_init);
     complex_computation flip_B1_Bfirst_r2_init(&flip_B1_Bfirst_r2_r_init, &flip_B1_Bfirst_r2_i_init);
     complex_computation flip_B1_Bsecond_r2_init(&flip_B1_Bsecond_r2_r_init, &flip_B1_Bsecond_r2_i_init);
     complex_computation flip_B1_Bthird_r2_init(&flip_B1_Bthird_r2_r_init, &flip_B1_Bthird_r2_i_init);
 
-    complex_expr B1_r2_prop_0 =  B1_prop( cast( p_int64, 0l ), t, iCprime, iSprime, src_color_weights(1l, wnumBlock, 0l), src_spin_weights(1l, wnumBlock, 0l), x1 * tiling_factor + tileX, y);
-    complex_expr B1_r2_prop_2 =  B1_prop( cast( p_int64, 2l ), t, kCprime, kSprime, src_color_weights(1l, wnumBlock, 2l), src_spin_weights(1l, wnumBlock, 2l), x1 * tiling_factor + tileX, y);
-    complex_expr B1_r2_prop_1 = B1_prop( cast( p_int64, 1l ), t, jCprime, jSprime, src_color_weights(1l, wnumBlock, 1l), src_spin_weights(1l, wnumBlock, 1l), x1 * tiling_factor + tileX, y);
-    complex_expr first_B1_r2_prop_0 =  B1_prop( cast( p_int64, 0l ), t, iCprime, iSprime, src_color_weights(1l, wnumBlock, 0l), src_spin_weights(1l, wnumBlock, 0l), x2 * tiling_factor + tileY, y);
-    complex_expr second_B1_r2_prop_1 = B1_prop( cast( p_int64, 1l ), t, jCprime, jSprime, src_color_weights(1l, wnumBlock, 1l), src_spin_weights(1l, wnumBlock, 1l), x2 * tiling_factor + tileY, y);
-    complex_expr third_B1_r2_prop_2 =  B1_prop( cast( p_int64, 2l ), t, kCprime, kSprime, src_color_weights(1l, wnumBlock, 2l), src_spin_weights(1l, wnumBlock, 2l), x2 * tiling_factor + tileY, y);
+    complex_expr B1_r2_prop_0 =  B1_prop( cast( p_int64, 0l ), t, iCprime, iSprime, src_color_weights(1l, wnumBlock, 0l), src_spin_weights(1l, wnumBlock, 0l), x1 * tiling_factor + tile1, y);
+    complex_expr B1_r2_prop_2 =  B1_prop( cast( p_int64, 2l ), t, kCprime, kSprime, src_color_weights(1l, wnumBlock, 2l), src_spin_weights(1l, wnumBlock, 2l), x1 * tiling_factor + tile1, y);
+    complex_expr B1_r2_prop_1 = B1_prop( cast( p_int64, 1l ), t, jCprime, jSprime, src_color_weights(1l, wnumBlock, 1l), src_spin_weights(1l, wnumBlock, 1l), x1 * tiling_factor + tile1, y);
+    complex_expr first_B1_r2_prop_0 =  B1_prop( cast( p_int64, 0l ), t, iCprime, iSprime, src_color_weights(1l, wnumBlock, 0l), src_spin_weights(1l, wnumBlock, 0l), x2 * tiling_factor + tile2, y);
+    complex_expr second_B1_r2_prop_1 = B1_prop( cast( p_int64, 1l ), t, jCprime, jSprime, src_color_weights(1l, wnumBlock, 1l), src_spin_weights(1l, wnumBlock, 1l), x2 * tiling_factor + tile2, y);
+    complex_expr third_B1_r2_prop_2 =  B1_prop( cast( p_int64, 2l ), t, kCprime, kSprime, src_color_weights(1l, wnumBlock, 2l), src_spin_weights(1l, wnumBlock, 2l), x2 * tiling_factor + tile2, y);
 
     complex_expr B1_r2_diquark = ( B1_r2_prop_0 * B1_r2_prop_2 ) *  src_weights(1l, wnumBlock);
     complex_expr first_B1_r2_diquark = ( first_B1_r2_prop_0 * B1_r2_prop_2 ) *  src_weights(1l, wnumBlock);
     complex_expr third_B1_r2_diquark = ( B1_r2_prop_0 * third_B1_r2_prop_2 ) *  src_weights(1l, wnumBlock);
 
-    computation B1_Blocal_r2_r_props_init("B1_Blocal_r2_r_props_init", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime}, expr((double) 0l));
-    computation B1_Blocal_r2_i_props_init("B1_Blocal_r2_i_props_init", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime}, expr((double) 0l));
-    computation B1_Bfirst_r2_r_props_init("B1_Bfirst_r2_r_props_init", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime}, expr((double) 0l));
-    computation B1_Bfirst_r2_i_props_init("B1_Bfirst_r2_i_props_init", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime}, expr((double) 0l));
-    computation B1_Bsecond_r2_r_props_init("B1_Bsecond_r2_r_props_init", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime}, expr((double) 0l));
-    computation B1_Bsecond_r2_i_props_init("B1_Bsecond_r2_i_props_init", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime}, expr((double) 0l));
-    computation B1_Bthird_r2_r_props_init("B1_Bthird_r2_r_props_init", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime}, expr((double) 0l));
-    computation B1_Bthird_r2_i_props_init("B1_Bthird_r2_i_props_init", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime}, expr((double) 0l));
+    computation B1_Blocal_r2_r_props_init("B1_Blocal_r2_r_props_init", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime}, expr((double) 0l));
+    computation B1_Blocal_r2_i_props_init("B1_Blocal_r2_i_props_init", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime}, expr((double) 0l));
+    computation B1_Bfirst_r2_r_props_init("B1_Bfirst_r2_r_props_init", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime}, expr((double) 0l));
+    computation B1_Bfirst_r2_i_props_init("B1_Bfirst_r2_i_props_init", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime}, expr((double) 0l));
+    computation B1_Bsecond_r2_r_props_init("B1_Bsecond_r2_r_props_init", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime}, expr((double) 0l));
+    computation B1_Bsecond_r2_i_props_init("B1_Bsecond_r2_i_props_init", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime}, expr((double) 0l));
+    computation B1_Bthird_r2_r_props_init("B1_Bthird_r2_r_props_init", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime}, expr((double) 0l));
+    computation B1_Bthird_r2_i_props_init("B1_Bthird_r2_i_props_init", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime}, expr((double) 0l));
 
-    computation B1_Blocal_r2_r_diquark("B1_Blocal_r2_r_diquark", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock}, B1_r2_diquark.get_real());
-    computation B1_Blocal_r2_i_diquark("B1_Blocal_r2_i_diquark", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock}, B1_r2_diquark.get_imag());
-    computation B1_Bfirst_r2_r_diquark("B1_Bfirst_r2_r_diquark", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock}, first_B1_r2_diquark.get_real());
-    computation B1_Bfirst_r2_i_diquark("B1_Bfirst_r2_i_diquark", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock}, first_B1_r2_diquark.get_imag());
-    computation B1_Bthird_r2_r_diquark("B1_Bthird_r2_r_diquark", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock}, third_B1_r2_diquark.get_real());
-    computation B1_Bthird_r2_i_diquark("B1_Bthird_r2_i_diquark", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock}, third_B1_r2_diquark.get_imag());
+    computation B1_Blocal_r2_r_diquark("B1_Blocal_r2_r_diquark", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock}, B1_r2_diquark.get_real());
+    computation B1_Blocal_r2_i_diquark("B1_Blocal_r2_i_diquark", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock}, B1_r2_diquark.get_imag());
+    computation B1_Bfirst_r2_r_diquark("B1_Bfirst_r2_r_diquark", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock}, first_B1_r2_diquark.get_real());
+    computation B1_Bfirst_r2_i_diquark("B1_Bfirst_r2_i_diquark", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock}, first_B1_r2_diquark.get_imag());
+    computation B1_Bthird_r2_r_diquark("B1_Bthird_r2_r_diquark", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock}, third_B1_r2_diquark.get_real());
+    computation B1_Bthird_r2_i_diquark("B1_Bthird_r2_i_diquark", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock}, third_B1_r2_diquark.get_imag());
 
     complex_computation B1_Blocal_r2_diquark(&B1_Blocal_r2_r_diquark, &B1_Blocal_r2_i_diquark);
     complex_computation B1_Bfirst_r2_diquark(&B1_Bfirst_r2_r_diquark, &B1_Bfirst_r2_i_diquark);
     complex_computation B1_Bthird_r2_diquark(&B1_Bthird_r2_r_diquark, &B1_Bthird_r2_i_diquark);
 
-    complex_expr B1_r2_props = B1_r2_prop_1 * B1_Blocal_r2_diquark(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock);
-    complex_expr first_B1_r2_props = B1_r2_prop_1 * B1_Bfirst_r2_diquark(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock);
-    complex_expr second_B1_r2_props = second_B1_r2_prop_1 * B1_Blocal_r2_diquark(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock);
-    complex_expr third_B1_r2_props = B1_r2_prop_1 * B1_Bthird_r2_diquark(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock);
+    complex_expr B1_r2_props = B1_r2_prop_1 * B1_Blocal_r2_diquark(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock);
+    complex_expr first_B1_r2_props = B1_r2_prop_1 * B1_Bfirst_r2_diquark(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock);
+    complex_expr second_B1_r2_props = second_B1_r2_prop_1 * B1_Blocal_r2_diquark(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock);
+    complex_expr third_B1_r2_props = B1_r2_prop_1 * B1_Bthird_r2_diquark(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock);
 
-    computation B1_Blocal_r2_r_props("B1_Blocal_r2_r_props", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, B1_Blocal_r2_r_props_init(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime) + B1_r2_props.get_real());
-    computation B1_Blocal_r2_i_props("B1_Blocal_r2_i_props", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, B1_Blocal_r2_i_props_init(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime) + B1_r2_props.get_imag());
-    computation B1_Bfirst_r2_r_props("B1_Bfirst_r2_r_props", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, B1_Bfirst_r2_r_props_init(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime) + first_B1_r2_props.get_real());
-    computation B1_Bfirst_r2_i_props("B1_Bfirst_r2_i_props", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, B1_Bfirst_r2_i_props_init(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime) + first_B1_r2_props.get_imag());
-    computation B1_Bsecond_r2_r_props("B1_Bsecond_r2_r_props", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, B1_Bsecond_r2_r_props_init(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime) + second_B1_r2_props.get_real());
-    computation B1_Bsecond_r2_i_props("B1_Bsecond_r2_i_props", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, B1_Bsecond_r2_i_props_init(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime) + second_B1_r2_props.get_imag());
-    computation B1_Bthird_r2_r_props("B1_Bthird_r2_r_props", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, B1_Bthird_r2_r_props_init(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime) + third_B1_r2_props.get_real());
-    computation B1_Bthird_r2_i_props("B1_Bthird_r2_i_props", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, B1_Bthird_r2_i_props_init(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime) + third_B1_r2_props.get_imag());
+    computation B1_Blocal_r2_r_props("B1_Blocal_r2_r_props", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, B1_Blocal_r2_r_props_init(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime) + B1_r2_props.get_real());
+    computation B1_Blocal_r2_i_props("B1_Blocal_r2_i_props", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, B1_Blocal_r2_i_props_init(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime) + B1_r2_props.get_imag());
+    computation B1_Bfirst_r2_r_props("B1_Bfirst_r2_r_props", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, B1_Bfirst_r2_r_props_init(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime) + first_B1_r2_props.get_real());
+    computation B1_Bfirst_r2_i_props("B1_Bfirst_r2_i_props", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, B1_Bfirst_r2_i_props_init(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime) + first_B1_r2_props.get_imag());
+    computation B1_Bsecond_r2_r_props("B1_Bsecond_r2_r_props", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, B1_Bsecond_r2_r_props_init(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime) + second_B1_r2_props.get_real());
+    computation B1_Bsecond_r2_i_props("B1_Bsecond_r2_i_props", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, B1_Bsecond_r2_i_props_init(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime) + second_B1_r2_props.get_imag());
+    computation B1_Bthird_r2_r_props("B1_Bthird_r2_r_props", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, B1_Bthird_r2_r_props_init(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime) + third_B1_r2_props.get_real());
+    computation B1_Bthird_r2_i_props("B1_Bthird_r2_i_props", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, B1_Bthird_r2_i_props_init(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime) + third_B1_r2_props.get_imag());
 
     complex_computation B1_Blocal_r2_props(&B1_Blocal_r2_r_props, &B1_Blocal_r2_i_props);
     complex_computation B1_Bfirst_r2_props(&B1_Bfirst_r2_r_props, &B1_Bfirst_r2_i_props);
     complex_computation B1_Bsecond_r2_props(&B1_Bsecond_r2_r_props, &B1_Bsecond_r2_i_props);
     complex_computation B1_Bthird_r2_props(&B1_Bthird_r2_r_props, &B1_Bthird_r2_i_props);
 
-    complex_expr B1_r2 = src_psi_B1 * B1_Blocal_r2_props(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, Nw-1, jCprime, jSprime);
-    complex_expr first_B1_r2 = src_psi_B1 * B1_Bfirst_r2_props(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, Nw-1, jCprime, jSprime);
-    complex_expr second_B1_r2 = src_psi_B1 * B1_Bsecond_r2_props(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, Nw-1, jCprime, jSprime);
-    complex_expr third_B1_r2 = src_psi_B1 * B1_Bthird_r2_props(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, Nw-1, jCprime, jSprime);
+    complex_expr B1_r2 = src_psi_B1 * B1_Blocal_r2_props(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, Nw-1, jCprime, jSprime);
+    complex_expr first_B1_r2 = src_psi_B1 * B1_Bfirst_r2_props(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, Nw-1, jCprime, jSprime);
+    complex_expr second_B1_r2 = src_psi_B1 * B1_Bsecond_r2_props(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, Nw-1, jCprime, jSprime);
+    complex_expr third_B1_r2 = src_psi_B1 * B1_Bthird_r2_props(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, Nw-1, jCprime, jSprime);
 
-    computation B1_Blocal_r2_r_update("B1_Blocal_r2_r_update", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, B1_Blocal_r2_r_init(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + B1_r2.get_real());
-    computation B1_Blocal_r2_i_update("B1_Blocal_r2_i_update", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, B1_Blocal_r2_i_init(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + B1_r2.get_imag());
-    computation B1_Bfirst_r2_r_update("B1_Bfirst_r2_r_update", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, B1_Bfirst_r2_r_init(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + first_B1_r2.get_real());
-    computation B1_Bfirst_r2_i_update("B1_Bfirst_r2_i_update", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, B1_Bfirst_r2_i_init(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + first_B1_r2.get_imag());
-    computation B1_Bsecond_r2_r_update("B1_Bsecond_r2_r_update", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, B1_Bsecond_r2_r_init(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + second_B1_r2.get_real());
-    computation B1_Bsecond_r2_i_update("B1_Bsecond_r2_i_update", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, B1_Bsecond_r2_i_init(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + second_B1_r2.get_imag());
-    computation B1_Bthird_r2_r_update("B1_Bthird_r2_r_update", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, B1_Bthird_r2_r_init(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + third_B1_r2.get_real());
-    computation B1_Bthird_r2_i_update("B1_Bthird_r2_i_update", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, B1_Bthird_r2_i_init(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + third_B1_r2.get_imag());
+    computation B1_Blocal_r2_r_update("B1_Blocal_r2_r_update", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, B1_Blocal_r2_r_init(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + B1_r2.get_real());
+    computation B1_Blocal_r2_i_update("B1_Blocal_r2_i_update", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, B1_Blocal_r2_i_init(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + B1_r2.get_imag());
+    computation B1_Bfirst_r2_r_update("B1_Bfirst_r2_r_update", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, B1_Bfirst_r2_r_init(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + first_B1_r2.get_real());
+    computation B1_Bfirst_r2_i_update("B1_Bfirst_r2_i_update", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, B1_Bfirst_r2_i_init(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + first_B1_r2.get_imag());
+    computation B1_Bsecond_r2_r_update("B1_Bsecond_r2_r_update", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, B1_Bsecond_r2_r_init(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + second_B1_r2.get_real());
+    computation B1_Bsecond_r2_i_update("B1_Bsecond_r2_i_update", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, B1_Bsecond_r2_i_init(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + second_B1_r2.get_imag());
+    computation B1_Bthird_r2_r_update("B1_Bthird_r2_r_update", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, B1_Bthird_r2_r_init(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + third_B1_r2.get_real());
+    computation B1_Bthird_r2_i_update("B1_Bthird_r2_i_update", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, B1_Bthird_r2_i_init(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + third_B1_r2.get_imag());
 
-    complex_expr flip_B1_r2 = src_psi_B2 * B1_Blocal_r2_props(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, Nw-1, jCprime, jSprime);
-    complex_expr flip_first_B1_r2 = src_psi_B2 * B1_Bfirst_r2_props(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, Nw-1, jCprime, jSprime);
-    complex_expr flip_second_B1_r2 = src_psi_B2 * B1_Bsecond_r2_props(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, Nw-1, jCprime, jSprime);
-    complex_expr flip_third_B1_r2 = src_psi_B2 * B1_Bthird_r2_props(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, Nw-1, jCprime, jSprime);
+    complex_expr flip_B1_r2 = src_psi_B2 * B1_Blocal_r2_props(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, Nw-1, jCprime, jSprime);
+    complex_expr flip_first_B1_r2 = src_psi_B2 * B1_Bfirst_r2_props(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, Nw-1, jCprime, jSprime);
+    complex_expr flip_second_B1_r2 = src_psi_B2 * B1_Bsecond_r2_props(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, Nw-1, jCprime, jSprime);
+    complex_expr flip_third_B1_r2 = src_psi_B2 * B1_Bthird_r2_props(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, Nw-1, jCprime, jSprime);
 
-    computation flip_B1_Blocal_r2_r_update("flip_B1_Blocal_r2_r_update", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, flip_B1_Blocal_r2_r_init(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + flip_B1_r2.get_real());
-    computation flip_B1_Blocal_r2_i_update("flip_B1_Blocal_r2_i_update", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, flip_B1_Blocal_r2_i_init(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + flip_B1_r2.get_imag());
-    computation flip_B1_Bfirst_r2_r_update("flip_B1_Bfirst_r2_r_update", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, flip_B1_Bfirst_r2_r_init(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + flip_first_B1_r2.get_real());
-    computation flip_B1_Bfirst_r2_i_update("flip_B1_Bfirst_r2_i_update", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, flip_B1_Bfirst_r2_i_init(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + flip_first_B1_r2.get_imag()); 
-    computation flip_B1_Bsecond_r2_r_update("flip_B1_Bsecond_r2_r_update", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, flip_B1_Bsecond_r2_r_init(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + flip_second_B1_r2.get_real());
-    computation flip_B1_Bsecond_r2_i_update("flip_B1_Bsecond_r2_i_update", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, flip_B1_Bsecond_r2_i_init(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + flip_second_B1_r2.get_imag());
-    computation flip_B1_Bthird_r2_r_update("flip_B1_Bthird_r2_r_update", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, flip_B1_Bthird_r2_r_init(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + flip_third_B1_r2.get_real());
-    computation flip_B1_Bthird_r2_i_update("flip_B1_Bthird_r2_i_update", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, flip_B1_Bthird_r2_i_init(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + flip_third_B1_r2.get_imag()); 
+    computation flip_B1_Blocal_r2_r_update("flip_B1_Blocal_r2_r_update", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, flip_B1_Blocal_r2_r_init(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + flip_B1_r2.get_real());
+    computation flip_B1_Blocal_r2_i_update("flip_B1_Blocal_r2_i_update", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, flip_B1_Blocal_r2_i_init(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + flip_B1_r2.get_imag());
+    computation flip_B1_Bfirst_r2_r_update("flip_B1_Bfirst_r2_r_update", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, flip_B1_Bfirst_r2_r_init(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + flip_first_B1_r2.get_real());
+    computation flip_B1_Bfirst_r2_i_update("flip_B1_Bfirst_r2_i_update", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, flip_B1_Bfirst_r2_i_init(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + flip_first_B1_r2.get_imag()); 
+    computation flip_B1_Bsecond_r2_r_update("flip_B1_Bsecond_r2_r_update", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, flip_B1_Bsecond_r2_r_init(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + flip_second_B1_r2.get_real());
+    computation flip_B1_Bsecond_r2_i_update("flip_B1_Bsecond_r2_i_update", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, flip_B1_Bsecond_r2_i_init(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + flip_second_B1_r2.get_imag());
+    computation flip_B1_Bthird_r2_r_update("flip_B1_Bthird_r2_r_update", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, flip_B1_Bthird_r2_r_init(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + flip_third_B1_r2.get_real());
+    computation flip_B1_Bthird_r2_i_update("flip_B1_Bthird_r2_i_update", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, flip_B1_Bthird_r2_i_init(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + flip_third_B1_r2.get_imag()); 
 
      //Computing B2_Blocal_r1, B2_Bsecond_r1, B2_Bfirst_r1
 
-    computation B2_Blocal_r1_r_init("B2_Blocal_r1_r_init", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
-    computation B2_Blocal_r1_i_init("B2_Blocal_r1_i_init", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
-    computation B2_Bfirst_r1_r_init("B2_Bfirst_r1_r_init", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
-    computation B2_Bfirst_r1_i_init("B2_Bfirst_r1_i_init", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
-    computation B2_Bsecond_r1_r_init("B2_Bsecond_r1_r_init", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
-    computation B2_Bsecond_r1_i_init("B2_Bsecond_r1_i_init", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
-    computation B2_Bthird_r1_r_init("B2_Bthird_r1_r_init", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
-    computation B2_Bthird_r1_i_init("B2_Bthird_r1_i_init", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
+    computation B2_Blocal_r1_r_init("B2_Blocal_r1_r_init", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
+    computation B2_Blocal_r1_i_init("B2_Blocal_r1_i_init", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
+    computation B2_Bfirst_r1_r_init("B2_Bfirst_r1_r_init", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
+    computation B2_Bfirst_r1_i_init("B2_Bfirst_r1_i_init", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
+    computation B2_Bsecond_r1_r_init("B2_Bsecond_r1_r_init", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
+    computation B2_Bsecond_r1_i_init("B2_Bsecond_r1_i_init", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
+    computation B2_Bthird_r1_r_init("B2_Bthird_r1_r_init", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
+    computation B2_Bthird_r1_i_init("B2_Bthird_r1_i_init", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
 
     complex_computation B2_Blocal_r1_init(&B2_Blocal_r1_r_init, &B2_Blocal_r1_i_init);
     complex_computation B2_Bfirst_r1_init(&B2_Bfirst_r1_r_init, &B2_Bfirst_r1_i_init);
     complex_computation B2_Bsecond_r1_init(&B2_Bsecond_r1_r_init, &B2_Bsecond_r1_i_init);
     complex_computation B2_Bthird_r1_init(&B2_Bthird_r1_r_init, &B2_Bthird_r1_i_init);
 
-    computation flip_B2_Blocal_r1_r_init("flip_B2_Blocal_r1_r_init", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
-    computation flip_B2_Blocal_r1_i_init("flip_B2_Blocal_r1_i_init", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
-    computation flip_B2_Bfirst_r1_r_init("flip_B2_Bfirst_r1_r_init", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
-    computation flip_B2_Bfirst_r1_i_init("flip_B2_Bfirst_r1_i_init", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
-    computation flip_B2_Bsecond_r1_r_init("flip_B2_Bsecond_r1_r_init", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
-    computation flip_B2_Bsecond_r1_i_init("flip_B2_Bsecond_r1_i_init", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
-    computation flip_B2_Bthird_r1_r_init("flip_B2_Bthird_r1_r_init", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
-    computation flip_B2_Bthird_r1_i_init("flip_B2_Bthird_r1_i_init", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
+    computation flip_B2_Blocal_r1_r_init("flip_B2_Blocal_r1_r_init", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
+    computation flip_B2_Blocal_r1_i_init("flip_B2_Blocal_r1_i_init", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
+    computation flip_B2_Bfirst_r1_r_init("flip_B2_Bfirst_r1_r_init", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
+    computation flip_B2_Bfirst_r1_i_init("flip_B2_Bfirst_r1_i_init", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
+    computation flip_B2_Bsecond_r1_r_init("flip_B2_Bsecond_r1_r_init", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
+    computation flip_B2_Bsecond_r1_i_init("flip_B2_Bsecond_r1_i_init", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
+    computation flip_B2_Bthird_r1_r_init("flip_B2_Bthird_r1_r_init", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
+    computation flip_B2_Bthird_r1_i_init("flip_B2_Bthird_r1_i_init", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
 
     complex_computation flip_B2_Blocal_r1_init(&flip_B2_Blocal_r1_r_init, &flip_B2_Blocal_r1_i_init);
     complex_computation flip_B2_Bfirst_r1_init(&flip_B2_Bfirst_r1_r_init, &flip_B2_Bfirst_r1_i_init);
     complex_computation flip_B2_Bsecond_r1_init(&flip_B2_Bsecond_r1_r_init, &flip_B2_Bsecond_r1_i_init);
     complex_computation flip_B2_Bthird_r1_init(&flip_B2_Bthird_r1_r_init, &flip_B2_Bthird_r1_i_init);
 
-    complex_expr B2_r1_prop_0 =  B2_prop(0l, t, iCprime, iSprime, src_color_weights(0l, wnumBlock, 0l), src_spin_weights(0l, wnumBlock, 0l), x2 * tiling_factor + tileY, y);
-    complex_expr B2_r1_prop_2 =  B2_prop(2l, t, kCprime, kSprime, src_color_weights(0l, wnumBlock, 2l), src_spin_weights(0l, wnumBlock, 2l), x2 * tiling_factor + tileY, y);
-    complex_expr B2_r1_prop_1 = B2_prop(1l, t, jCprime, jSprime, src_color_weights(0l, wnumBlock, 1l), src_spin_weights(0l, wnumBlock, 1l), x2 * tiling_factor + tileY, y);
-    complex_expr first_B2_r1_prop_0 =  B2_prop(0l, t, iCprime, iSprime, src_color_weights(0l, wnumBlock, 0l), src_spin_weights(0l, wnumBlock, 0l), x1 * tiling_factor + tileX, y);
-    complex_expr second_B2_r1_prop_1 = B2_prop(1l, t, jCprime, jSprime, src_color_weights(0l, wnumBlock, 1l), src_spin_weights(0l, wnumBlock, 1l), x1 * tiling_factor + tileX, y);
-    complex_expr third_B2_r1_prop_2 =  B2_prop(2l, t, kCprime, kSprime, src_color_weights(0l, wnumBlock, 2l), src_spin_weights(0l, wnumBlock, 2l), x1 * tiling_factor + tileX, y);
+    complex_expr B2_r1_prop_0 =  B2_prop(0l, t, iCprime, iSprime, src_color_weights(0l, wnumBlock, 0l), src_spin_weights(0l, wnumBlock, 0l), x2 * tiling_factor + tile2, y);
+    complex_expr B2_r1_prop_2 =  B2_prop(2l, t, kCprime, kSprime, src_color_weights(0l, wnumBlock, 2l), src_spin_weights(0l, wnumBlock, 2l), x2 * tiling_factor + tile2, y);
+    complex_expr B2_r1_prop_1 = B2_prop(1l, t, jCprime, jSprime, src_color_weights(0l, wnumBlock, 1l), src_spin_weights(0l, wnumBlock, 1l), x2 * tiling_factor + tile2, y);
+    complex_expr first_B2_r1_prop_0 =  B2_prop(0l, t, iCprime, iSprime, src_color_weights(0l, wnumBlock, 0l), src_spin_weights(0l, wnumBlock, 0l), x1 * tiling_factor + tile1, y);
+    complex_expr second_B2_r1_prop_1 = B2_prop(1l, t, jCprime, jSprime, src_color_weights(0l, wnumBlock, 1l), src_spin_weights(0l, wnumBlock, 1l), x1 * tiling_factor + tile1, y);
+    complex_expr third_B2_r1_prop_2 =  B2_prop(2l, t, kCprime, kSprime, src_color_weights(0l, wnumBlock, 2l), src_spin_weights(0l, wnumBlock, 2l), x1 * tiling_factor + tile1, y);
 
     complex_expr B2_r1_diquark = ( B2_r1_prop_0 * B2_r1_prop_2 ) *  src_weights(0l, wnumBlock);
     complex_expr first_B2_r1_diquark = ( first_B2_r1_prop_0 * B2_r1_prop_2 ) *  src_weights(0l, wnumBlock);
     complex_expr third_B2_r1_diquark = ( B2_r1_prop_0 * third_B2_r1_prop_2 ) *  src_weights(0l, wnumBlock);
 
-    computation B2_Blocal_r1_r_props_init("B2_Blocal_r1_r_props_init", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime}, expr((double) 0l));
-    computation B2_Blocal_r1_i_props_init("B2_Blocal_r1_i_props_init", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime}, expr((double) 0l));
-    computation B2_Bfirst_r1_r_props_init("B2_Bfirst_r1_r_props_init", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime}, expr((double) 0l));
-    computation B2_Bfirst_r1_i_props_init("B2_Bfirst_r1_i_props_init", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime}, expr((double) 0l));
-    computation B2_Bsecond_r1_r_props_init("B2_Bsecond_r1_r_props_init", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime}, expr((double) 0l));
-    computation B2_Bsecond_r1_i_props_init("B2_Bsecond_r1_i_props_init", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime}, expr((double) 0l));
-    computation B2_Bthird_r1_r_props_init("B2_Bthird_r1_r_props_init", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime}, expr((double) 0l));
-    computation B2_Bthird_r1_i_props_init("B2_Bthird_r1_i_props_init", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime}, expr((double) 0l));
+    computation B2_Blocal_r1_r_props_init("B2_Blocal_r1_r_props_init", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime}, expr((double) 0l));
+    computation B2_Blocal_r1_i_props_init("B2_Blocal_r1_i_props_init", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime}, expr((double) 0l));
+    computation B2_Bfirst_r1_r_props_init("B2_Bfirst_r1_r_props_init", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime}, expr((double) 0l));
+    computation B2_Bfirst_r1_i_props_init("B2_Bfirst_r1_i_props_init", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime}, expr((double) 0l));
+    computation B2_Bsecond_r1_r_props_init("B2_Bsecond_r1_r_props_init", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime}, expr((double) 0l));
+    computation B2_Bsecond_r1_i_props_init("B2_Bsecond_r1_i_props_init", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime}, expr((double) 0l));
+    computation B2_Bthird_r1_r_props_init("B2_Bthird_r1_r_props_init", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime}, expr((double) 0l));
+    computation B2_Bthird_r1_i_props_init("B2_Bthird_r1_i_props_init", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime}, expr((double) 0l));
 
-    computation B2_Blocal_r1_r_diquark("B2_Blocal_r1_r_diquark", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock}, B2_r1_diquark.get_real());
-    computation B2_Blocal_r1_i_diquark("B2_Blocal_r1_i_diquark", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock}, B2_r1_diquark.get_imag());
-    computation B2_Bfirst_r1_r_diquark("B2_Bfirst_r1_r_diquark", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock}, first_B2_r1_diquark.get_real());
-    computation B2_Bfirst_r1_i_diquark("B2_Bfirst_r1_i_diquark", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock}, first_B2_r1_diquark.get_imag());
-    computation B2_Bthird_r1_r_diquark("B2_Bthird_r1_r_diquark", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock}, third_B2_r1_diquark.get_real());
-    computation B2_Bthird_r1_i_diquark("B2_Bthird_r1_i_diquark", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock}, third_B2_r1_diquark.get_imag());
+    computation B2_Blocal_r1_r_diquark("B2_Blocal_r1_r_diquark", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock}, B2_r1_diquark.get_real());
+    computation B2_Blocal_r1_i_diquark("B2_Blocal_r1_i_diquark", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock}, B2_r1_diquark.get_imag());
+    computation B2_Bfirst_r1_r_diquark("B2_Bfirst_r1_r_diquark", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock}, first_B2_r1_diquark.get_real());
+    computation B2_Bfirst_r1_i_diquark("B2_Bfirst_r1_i_diquark", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock}, first_B2_r1_diquark.get_imag());
+    computation B2_Bthird_r1_r_diquark("B2_Bthird_r1_r_diquark", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock}, third_B2_r1_diquark.get_real());
+    computation B2_Bthird_r1_i_diquark("B2_Bthird_r1_i_diquark", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock}, third_B2_r1_diquark.get_imag());
 
     complex_computation B2_Blocal_r1_diquark(&B2_Blocal_r1_r_diquark, &B2_Blocal_r1_i_diquark);
     complex_computation B2_Bfirst_r1_diquark(&B2_Bfirst_r1_r_diquark, &B2_Bfirst_r1_i_diquark);
     complex_computation B2_Bthird_r1_diquark(&B2_Bthird_r1_r_diquark, &B2_Bthird_r1_i_diquark);
 
-    complex_expr B2_r1_props = B2_r1_prop_1 * B2_Blocal_r1_diquark(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock);
-    complex_expr first_B2_r1_props = B2_r1_prop_1 * B2_Bfirst_r1_diquark(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock);
-    complex_expr second_B2_r1_props = second_B2_r1_prop_1 * B2_Blocal_r1_diquark(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock);
-    complex_expr third_B2_r1_props = B2_r1_prop_1 * B2_Bthird_r1_diquark(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock);
+    complex_expr B2_r1_props = B2_r1_prop_1 * B2_Blocal_r1_diquark(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock);
+    complex_expr first_B2_r1_props = B2_r1_prop_1 * B2_Bfirst_r1_diquark(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock);
+    complex_expr second_B2_r1_props = second_B2_r1_prop_1 * B2_Blocal_r1_diquark(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock);
+    complex_expr third_B2_r1_props = B2_r1_prop_1 * B2_Bthird_r1_diquark(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock);
 
-    computation B2_Blocal_r1_r_props("B2_Blocal_r1_r_props", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, B2_Blocal_r1_r_props_init(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime) + B2_r1_props.get_real());
-    computation B2_Blocal_r1_i_props("B2_Blocal_r1_i_props", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, B2_Blocal_r1_i_props_init(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime) + B2_r1_props.get_imag());
-    computation B2_Bfirst_r1_r_props("B2_Bfirst_r1_r_props", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, B2_Bfirst_r1_r_props_init(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime) + first_B2_r1_props.get_real());
-    computation B2_Bfirst_r1_i_props("B2_Bfirst_r1_i_props", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, B2_Bfirst_r1_i_props_init(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime) + first_B2_r1_props.get_imag());
-    computation B2_Bsecond_r1_r_props("B2_Bsecond_r1_r_props", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, B2_Bsecond_r1_r_props_init(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime) + second_B2_r1_props.get_real());
-    computation B2_Bsecond_r1_i_props("B2_Bsecond_r1_i_props", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, B2_Bsecond_r1_i_props_init(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime) + second_B2_r1_props.get_imag());
-    computation B2_Bthird_r1_r_props("B2_Bthird_r1_r_props", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, B2_Bthird_r1_r_props_init(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime) + third_B2_r1_props.get_real());
-    computation B2_Bthird_r1_i_props("B2_Bthird_r1_i_props", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, B2_Bthird_r1_i_props_init(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime) + third_B2_r1_props.get_imag());
+    computation B2_Blocal_r1_r_props("B2_Blocal_r1_r_props", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, B2_Blocal_r1_r_props_init(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime) + B2_r1_props.get_real());
+    computation B2_Blocal_r1_i_props("B2_Blocal_r1_i_props", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, B2_Blocal_r1_i_props_init(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime) + B2_r1_props.get_imag());
+    computation B2_Bfirst_r1_r_props("B2_Bfirst_r1_r_props", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, B2_Bfirst_r1_r_props_init(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime) + first_B2_r1_props.get_real());
+    computation B2_Bfirst_r1_i_props("B2_Bfirst_r1_i_props", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, B2_Bfirst_r1_i_props_init(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime) + first_B2_r1_props.get_imag());
+    computation B2_Bsecond_r1_r_props("B2_Bsecond_r1_r_props", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, B2_Bsecond_r1_r_props_init(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime) + second_B2_r1_props.get_real());
+    computation B2_Bsecond_r1_i_props("B2_Bsecond_r1_i_props", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, B2_Bsecond_r1_i_props_init(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime) + second_B2_r1_props.get_imag());
+    computation B2_Bthird_r1_r_props("B2_Bthird_r1_r_props", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, B2_Bthird_r1_r_props_init(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime) + third_B2_r1_props.get_real());
+    computation B2_Bthird_r1_i_props("B2_Bthird_r1_i_props", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, B2_Bthird_r1_i_props_init(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime) + third_B2_r1_props.get_imag());
 
     complex_computation B2_Blocal_r1_props(&B2_Blocal_r1_r_props, &B2_Blocal_r1_i_props);
     complex_computation B2_Bfirst_r1_props(&B2_Bfirst_r1_r_props, &B2_Bfirst_r1_i_props);
     complex_computation B2_Bsecond_r1_props(&B2_Bsecond_r1_r_props, &B2_Bsecond_r1_i_props);
     complex_computation B2_Bthird_r1_props(&B2_Bthird_r1_r_props, &B2_Bthird_r1_i_props);
 
-    complex_expr B2_r1 = src_psi_B2 * B2_Blocal_r1_props(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, Nw-1, jCprime, jSprime);
-    complex_expr first_B2_r1 = src_psi_B2 * B2_Bfirst_r1_props(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, Nw-1, jCprime, jSprime);
-    complex_expr second_B2_r1 = src_psi_B2 * B2_Bsecond_r1_props(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, Nw-1, jCprime, jSprime);
-    complex_expr third_B2_r1 = src_psi_B2 * B2_Bthird_r1_props(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, Nw-1, jCprime, jSprime);
+    complex_expr B2_r1 = src_psi_B2 * B2_Blocal_r1_props(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, Nw-1, jCprime, jSprime);
+    complex_expr first_B2_r1 = src_psi_B2 * B2_Bfirst_r1_props(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, Nw-1, jCprime, jSprime);
+    complex_expr second_B2_r1 = src_psi_B2 * B2_Bsecond_r1_props(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, Nw-1, jCprime, jSprime);
+    complex_expr third_B2_r1 = src_psi_B2 * B2_Bthird_r1_props(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, Nw-1, jCprime, jSprime);
 
-    computation B2_Blocal_r1_r_update("B2_Blocal_r1_r_update", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, B2_Blocal_r1_r_init(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + B2_r1.get_real());
-    computation B2_Blocal_r1_i_update("B2_Blocal_r1_i_update", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, B2_Blocal_r1_i_init(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + B2_r1.get_imag());
-    computation B2_Bfirst_r1_r_update("B2_Bfirst_r1_r_update", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, B2_Bfirst_r1_r_init(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + first_B2_r1.get_real());
-    computation B2_Bfirst_r1_i_update("B2_Bfirst_r1_i_update", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, B2_Bfirst_r1_i_init(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + first_B2_r1.get_imag()); 
-    computation B2_Bsecond_r1_r_update("B2_Bsecond_r1_r_update", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, B2_Bsecond_r1_r_init(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + second_B2_r1.get_real());
-    computation B2_Bsecond_r1_i_update("B2_Bsecond_r1_i_update", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, B2_Bsecond_r1_i_init(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + second_B2_r1.get_imag());
-    computation B2_Bthird_r1_r_update("B2_Bthird_r1_r_update", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, B2_Bthird_r1_r_init(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + third_B2_r1.get_real());
-    computation B2_Bthird_r1_i_update("B2_Bthird_r1_i_update", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, B2_Bthird_r1_i_init(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + third_B2_r1.get_imag()); 
+    computation B2_Blocal_r1_r_update("B2_Blocal_r1_r_update", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, B2_Blocal_r1_r_init(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + B2_r1.get_real());
+    computation B2_Blocal_r1_i_update("B2_Blocal_r1_i_update", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, B2_Blocal_r1_i_init(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + B2_r1.get_imag());
+    computation B2_Bfirst_r1_r_update("B2_Bfirst_r1_r_update", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, B2_Bfirst_r1_r_init(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + first_B2_r1.get_real());
+    computation B2_Bfirst_r1_i_update("B2_Bfirst_r1_i_update", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, B2_Bfirst_r1_i_init(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + first_B2_r1.get_imag()); 
+    computation B2_Bsecond_r1_r_update("B2_Bsecond_r1_r_update", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, B2_Bsecond_r1_r_init(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + second_B2_r1.get_real());
+    computation B2_Bsecond_r1_i_update("B2_Bsecond_r1_i_update", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, B2_Bsecond_r1_i_init(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + second_B2_r1.get_imag());
+    computation B2_Bthird_r1_r_update("B2_Bthird_r1_r_update", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, B2_Bthird_r1_r_init(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + third_B2_r1.get_real());
+    computation B2_Bthird_r1_i_update("B2_Bthird_r1_i_update", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, B2_Bthird_r1_i_init(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + third_B2_r1.get_imag()); 
 
-    complex_expr flip_B2_r1 = src_psi_B1 * B2_Blocal_r1_props(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, Nw-1, jCprime, jSprime);
-    complex_expr flip_first_B2_r1 = src_psi_B1 * B2_Bfirst_r1_props(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, Nw-1, jCprime, jSprime);
-    complex_expr flip_second_B2_r1 = src_psi_B1 * B2_Bsecond_r1_props(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, Nw-1, jCprime, jSprime);
-    complex_expr flip_third_B2_r1 = src_psi_B1 * B2_Bthird_r1_props(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, Nw-1, jCprime, jSprime);
+    complex_expr flip_B2_r1 = src_psi_B1 * B2_Blocal_r1_props(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, Nw-1, jCprime, jSprime);
+    complex_expr flip_first_B2_r1 = src_psi_B1 * B2_Bfirst_r1_props(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, Nw-1, jCprime, jSprime);
+    complex_expr flip_second_B2_r1 = src_psi_B1 * B2_Bsecond_r1_props(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, Nw-1, jCprime, jSprime);
+    complex_expr flip_third_B2_r1 = src_psi_B1 * B2_Bthird_r1_props(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, Nw-1, jCprime, jSprime);
 
-    computation flip_B2_Blocal_r1_r_update("flip_B2_Blocal_r1_r_update", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, flip_B2_Blocal_r1_r_init(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + flip_B2_r1.get_real());
-    computation flip_B2_Blocal_r1_i_update("flip_B2_Blocal_r1_i_update", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, flip_B2_Blocal_r1_i_init(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + flip_B2_r1.get_imag());
-    computation flip_B2_Bfirst_r1_r_update("flip_B2_Bfirst_r1_r_update", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, flip_B2_Bfirst_r1_r_init(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + flip_first_B2_r1.get_real());
-    computation flip_B2_Bfirst_r1_i_update("flip_B2_Bfirst_r1_i_update", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, flip_B2_Bfirst_r1_i_init(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + flip_first_B2_r1.get_imag()); 
-    computation flip_B2_Bsecond_r1_r_update("flip_B2_Bsecond_r1_r_update", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, flip_B2_Bsecond_r1_r_init(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + flip_second_B2_r1.get_real());
-    computation flip_B2_Bsecond_r1_i_update("flip_B2_Bsecond_r1_i_update", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, flip_B2_Bsecond_r1_i_init(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + flip_second_B2_r1.get_imag());
-    computation flip_B2_Bthird_r1_r_update("flip_B2_Bthird_r1_r_update", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, flip_B2_Bthird_r1_r_init(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + flip_third_B2_r1.get_real());
-    computation flip_B2_Bthird_r1_i_update("flip_B2_Bthird_r1_i_update", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, flip_B2_Bthird_r1_i_init(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + flip_third_B2_r1.get_imag()); 
+    computation flip_B2_Blocal_r1_r_update("flip_B2_Blocal_r1_r_update", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, flip_B2_Blocal_r1_r_init(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + flip_B2_r1.get_real());
+    computation flip_B2_Blocal_r1_i_update("flip_B2_Blocal_r1_i_update", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, flip_B2_Blocal_r1_i_init(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + flip_B2_r1.get_imag());
+    computation flip_B2_Bfirst_r1_r_update("flip_B2_Bfirst_r1_r_update", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, flip_B2_Bfirst_r1_r_init(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + flip_first_B2_r1.get_real());
+    computation flip_B2_Bfirst_r1_i_update("flip_B2_Bfirst_r1_i_update", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, flip_B2_Bfirst_r1_i_init(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + flip_first_B2_r1.get_imag()); 
+    computation flip_B2_Bsecond_r1_r_update("flip_B2_Bsecond_r1_r_update", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, flip_B2_Bsecond_r1_r_init(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + flip_second_B2_r1.get_real());
+    computation flip_B2_Bsecond_r1_i_update("flip_B2_Bsecond_r1_i_update", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, flip_B2_Bsecond_r1_i_init(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + flip_second_B2_r1.get_imag());
+    computation flip_B2_Bthird_r1_r_update("flip_B2_Bthird_r1_r_update", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, flip_B2_Bthird_r1_r_init(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + flip_third_B2_r1.get_real());
+    computation flip_B2_Bthird_r1_i_update("flip_B2_Bthird_r1_i_update", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, flip_B2_Bthird_r1_i_init(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + flip_third_B2_r1.get_imag()); 
 
      // Computing B2_Blocal_r2, B2_Bsecond_r2, B2_Bfirst_r2
 
-    computation B2_Blocal_r2_r_init("B2_Blocal_r2_r_init", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
-    computation B2_Blocal_r2_i_init("B2_Blocal_r2_i_init", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
-    computation B2_Bfirst_r2_r_init("B2_Bfirst_r2_r_init", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
-    computation B2_Bfirst_r2_i_init("B2_Bfirst_r2_i_init", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
-    computation B2_Bsecond_r2_r_init("B2_Bsecond_r2_r_init", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
-    computation B2_Bsecond_r2_i_init("B2_Bsecond_r2_i_init", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
-    computation B2_Bthird_r2_r_init("B2_Bthird_r2_r_init", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
-    computation B2_Bthird_r2_i_init("B2_Bthird_r2_i_init", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
+    computation B2_Blocal_r2_r_init("B2_Blocal_r2_r_init", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
+    computation B2_Blocal_r2_i_init("B2_Blocal_r2_i_init", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
+    computation B2_Bfirst_r2_r_init("B2_Bfirst_r2_r_init", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
+    computation B2_Bfirst_r2_i_init("B2_Bfirst_r2_i_init", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
+    computation B2_Bsecond_r2_r_init("B2_Bsecond_r2_r_init", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
+    computation B2_Bsecond_r2_i_init("B2_Bsecond_r2_i_init", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
+    computation B2_Bthird_r2_r_init("B2_Bthird_r2_r_init", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
+    computation B2_Bthird_r2_i_init("B2_Bthird_r2_i_init", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
 
     complex_computation B2_Blocal_r2_init(&B2_Blocal_r2_r_init, &B2_Blocal_r2_i_init);
     complex_computation B2_Bfirst_r2_init(&B2_Bfirst_r2_r_init, &B2_Bfirst_r2_i_init);
     complex_computation B2_Bsecond_r2_init(&B2_Bsecond_r2_r_init, &B2_Bsecond_r2_i_init);
     complex_computation B2_Bthird_r2_init(&B2_Bthird_r2_r_init, &B2_Bthird_r2_i_init);
 
-    computation flip_B2_Blocal_r2_r_init("flip_B2_Blocal_r2_r_init", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
-    computation flip_B2_Blocal_r2_i_init("flip_B2_Blocal_r2_i_init", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
-    computation flip_B2_Bfirst_r2_r_init("flip_B2_Bfirst_r2_r_init", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
-    computation flip_B2_Bfirst_r2_i_init("flip_B2_Bfirst_r2_i_init", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
-    computation flip_B2_Bsecond_r2_r_init("flip_B2_Bsecond_r2_r_init", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
-    computation flip_B2_Bsecond_r2_i_init("flip_B2_Bsecond_r2_i_init", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
-    computation flip_B2_Bthird_r2_r_init("flip_B2_Bthird_r2_r_init", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
-    computation flip_B2_Bthird_r2_i_init("flip_B2_Bthird_r2_i_init", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
+    computation flip_B2_Blocal_r2_r_init("flip_B2_Blocal_r2_r_init", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
+    computation flip_B2_Blocal_r2_i_init("flip_B2_Blocal_r2_i_init", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
+    computation flip_B2_Bfirst_r2_r_init("flip_B2_Bfirst_r2_r_init", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
+    computation flip_B2_Bfirst_r2_i_init("flip_B2_Bfirst_r2_i_init", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
+    computation flip_B2_Bsecond_r2_r_init("flip_B2_Bsecond_r2_r_init", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
+    computation flip_B2_Bsecond_r2_i_init("flip_B2_Bsecond_r2_i_init", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
+    computation flip_B2_Bthird_r2_r_init("flip_B2_Bthird_r2_r_init", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
+    computation flip_B2_Bthird_r2_i_init("flip_B2_Bthird_r2_i_init", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m}, expr((double) 0l));
 
     complex_computation flip_B2_Blocal_r2_init(&flip_B2_Blocal_r2_r_init, &flip_B2_Blocal_r2_i_init);
     complex_computation flip_B2_Bfirst_r2_init(&flip_B2_Bfirst_r2_r_init, &flip_B2_Bfirst_r2_i_init);
     complex_computation flip_B2_Bsecond_r2_init(&flip_B2_Bsecond_r2_r_init, &flip_B2_Bsecond_r2_i_init);
     complex_computation flip_B2_Bthird_r2_init(&flip_B2_Bthird_r2_r_init, &flip_B2_Bthird_r2_i_init);
 
-    complex_expr B2_r2_prop_0 =  B2_prop(0l, t, iCprime, iSprime, src_color_weights(1l, wnumBlock, 0l), src_spin_weights(1l, wnumBlock, 0l), x2 * tiling_factor + tileY, y);
-    complex_expr B2_r2_prop_2 =  B2_prop(2l, t, kCprime, kSprime, src_color_weights(1l, wnumBlock, 2l), src_spin_weights(1l, wnumBlock, 2l), x2 * tiling_factor + tileY, y);
-    complex_expr B2_r2_prop_1 = B2_prop(1l, t, jCprime, jSprime, src_color_weights(1l, wnumBlock, 1l), src_spin_weights(1l, wnumBlock, 1l), x2 * tiling_factor + tileY, y);
-    complex_expr first_B2_r2_prop_0 =  B2_prop(0l, t, iCprime, iSprime, src_color_weights(1l, wnumBlock, 0l), src_spin_weights(1l, wnumBlock, 0l), x1 * tiling_factor + tileX, y);
-    complex_expr second_B2_r2_prop_1 = B2_prop(1l, t, jCprime, jSprime, src_color_weights(1l, wnumBlock, 1l), src_spin_weights(1l, wnumBlock, 1l), x1 * tiling_factor + tileX, y);
-    complex_expr third_B2_r2_prop_2 =  B2_prop(2l, t, kCprime, kSprime, src_color_weights(1l, wnumBlock, 2l), src_spin_weights(1l, wnumBlock, 2l), x1 * tiling_factor + tileX, y);
+    complex_expr B2_r2_prop_0 =  B2_prop(0l, t, iCprime, iSprime, src_color_weights(1l, wnumBlock, 0l), src_spin_weights(1l, wnumBlock, 0l), x2 * tiling_factor + tile2, y);
+    complex_expr B2_r2_prop_2 =  B2_prop(2l, t, kCprime, kSprime, src_color_weights(1l, wnumBlock, 2l), src_spin_weights(1l, wnumBlock, 2l), x2 * tiling_factor + tile2, y);
+    complex_expr B2_r2_prop_1 = B2_prop(1l, t, jCprime, jSprime, src_color_weights(1l, wnumBlock, 1l), src_spin_weights(1l, wnumBlock, 1l), x2 * tiling_factor + tile2, y);
+    complex_expr first_B2_r2_prop_0 =  B2_prop(0l, t, iCprime, iSprime, src_color_weights(1l, wnumBlock, 0l), src_spin_weights(1l, wnumBlock, 0l), x1 * tiling_factor + tile1, y);
+    complex_expr second_B2_r2_prop_1 = B2_prop(1l, t, jCprime, jSprime, src_color_weights(1l, wnumBlock, 1l), src_spin_weights(1l, wnumBlock, 1l), x1 * tiling_factor + tile1, y);
+    complex_expr third_B2_r2_prop_2 =  B2_prop(2l, t, kCprime, kSprime, src_color_weights(1l, wnumBlock, 2l), src_spin_weights(1l, wnumBlock, 2l), x1 * tiling_factor + tile1, y);
 
     complex_expr B2_r2_diquark = ( B2_r2_prop_0 * B2_r2_prop_2 ) *  src_weights(1l, wnumBlock);
     complex_expr first_B2_r2_diquark = ( first_B2_r2_prop_0 * B2_r2_prop_2 ) *  src_weights(1l, wnumBlock);
     complex_expr third_B2_r2_diquark = ( B2_r2_prop_0 * third_B2_r2_prop_2 ) *  src_weights(1l, wnumBlock);
 
-    computation B2_Blocal_r2_r_props_init("B2_Blocal_r2_r_props_init", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime}, expr((double) 0l));
-    computation B2_Blocal_r2_i_props_init("B2_Blocal_r2_i_props_init", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime}, expr((double) 0l));
-    computation B2_Bfirst_r2_r_props_init("B2_Bfirst_r2_r_props_init", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime}, expr((double) 0l));
-    computation B2_Bfirst_r2_i_props_init("B2_Bfirst_r2_i_props_init", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime}, expr((double) 0l));
-    computation B2_Bsecond_r2_r_props_init("B2_Bsecond_r2_r_props_init", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime}, expr((double) 0l));
-    computation B2_Bsecond_r2_i_props_init("B2_Bsecond_r2_i_props_init", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime}, expr((double) 0l));
-    computation B2_Bthird_r2_r_props_init("B2_Bthird_r2_r_props_init", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime}, expr((double) 0l));
-    computation B2_Bthird_r2_i_props_init("B2_Bthird_r2_i_props_init", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime}, expr((double) 0l));
+    computation B2_Blocal_r2_r_props_init("B2_Blocal_r2_r_props_init", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime}, expr((double) 0l));
+    computation B2_Blocal_r2_i_props_init("B2_Blocal_r2_i_props_init", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime}, expr((double) 0l));
+    computation B2_Bfirst_r2_r_props_init("B2_Bfirst_r2_r_props_init", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime}, expr((double) 0l));
+    computation B2_Bfirst_r2_i_props_init("B2_Bfirst_r2_i_props_init", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime}, expr((double) 0l));
+    computation B2_Bsecond_r2_r_props_init("B2_Bsecond_r2_r_props_init", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime}, expr((double) 0l));
+    computation B2_Bsecond_r2_i_props_init("B2_Bsecond_r2_i_props_init", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime}, expr((double) 0l));
+    computation B2_Bthird_r2_r_props_init("B2_Bthird_r2_r_props_init", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime}, expr((double) 0l));
+    computation B2_Bthird_r2_i_props_init("B2_Bthird_r2_i_props_init", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime}, expr((double) 0l));
 
-    computation B2_Blocal_r2_r_diquark("B2_Blocal_r2_r_diquark", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock}, B2_r2_diquark.get_real());
-    computation B2_Blocal_r2_i_diquark("B2_Blocal_r2_i_diquark", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock}, B2_r2_diquark.get_imag());
-    computation B2_Bfirst_r2_r_diquark("B2_Bfirst_r2_r_diquark", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock}, first_B2_r2_diquark.get_real());
-    computation B2_Bfirst_r2_i_diquark("B2_Bfirst_r2_i_diquark", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock}, first_B2_r2_diquark.get_imag());
-    computation B2_Bthird_r2_r_diquark("B2_Bthird_r2_r_diquark", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock}, third_B2_r2_diquark.get_real());
-    computation B2_Bthird_r2_i_diquark("B2_Bthird_r2_i_diquark", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock}, third_B2_r2_diquark.get_imag());
+    computation B2_Blocal_r2_r_diquark("B2_Blocal_r2_r_diquark", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock}, B2_r2_diquark.get_real());
+    computation B2_Blocal_r2_i_diquark("B2_Blocal_r2_i_diquark", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock}, B2_r2_diquark.get_imag());
+    computation B2_Bfirst_r2_r_diquark("B2_Bfirst_r2_r_diquark", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock}, first_B2_r2_diquark.get_real());
+    computation B2_Bfirst_r2_i_diquark("B2_Bfirst_r2_i_diquark", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock}, first_B2_r2_diquark.get_imag());
+    computation B2_Bthird_r2_r_diquark("B2_Bthird_r2_r_diquark", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock}, third_B2_r2_diquark.get_real());
+    computation B2_Bthird_r2_i_diquark("B2_Bthird_r2_i_diquark", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock}, third_B2_r2_diquark.get_imag());
 
     complex_computation B2_Blocal_r2_diquark(&B2_Blocal_r2_r_diquark, &B2_Blocal_r2_i_diquark);
     complex_computation B2_Bfirst_r2_diquark(&B2_Bfirst_r2_r_diquark, &B2_Bfirst_r2_i_diquark);
     complex_computation B2_Bthird_r2_diquark(&B2_Bthird_r2_r_diquark, &B2_Bthird_r2_i_diquark);
 
-    complex_expr B2_r2_props = B2_r2_prop_1 * B2_Blocal_r2_diquark(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock);
-    complex_expr first_B2_r2_props = B2_r2_prop_1 * B2_Bfirst_r2_diquark(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock);
-    complex_expr second_B2_r2_props = second_B2_r2_prop_1 * B2_Blocal_r2_diquark(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock);
-    complex_expr third_B2_r2_props = B2_r2_prop_1 * B2_Bthird_r2_diquark(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock);
+    complex_expr B2_r2_props = B2_r2_prop_1 * B2_Blocal_r2_diquark(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock);
+    complex_expr first_B2_r2_props = B2_r2_prop_1 * B2_Bfirst_r2_diquark(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock);
+    complex_expr second_B2_r2_props = second_B2_r2_prop_1 * B2_Blocal_r2_diquark(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock);
+    complex_expr third_B2_r2_props = B2_r2_prop_1 * B2_Bthird_r2_diquark(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock);
 
-    computation B2_Blocal_r2_r_props("B2_Blocal_r2_r_props", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, B2_Blocal_r2_r_props_init(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime) + B2_r2_props.get_real());
-    computation B2_Blocal_r2_i_props("B2_Blocal_r2_i_props", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, B2_Blocal_r2_i_props_init(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime) + B2_r2_props.get_imag());
-    computation B2_Bfirst_r2_r_props("B2_Bfirst_r2_r_props", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, B2_Bfirst_r2_r_props_init(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime) + first_B2_r2_props.get_real());
-    computation B2_Bfirst_r2_i_props("B2_Bfirst_r2_i_props", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, B2_Bfirst_r2_i_props_init(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime) + first_B2_r2_props.get_imag());
-    computation B2_Bsecond_r2_r_props("B2_Bsecond_r2_r_props", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, B2_Bsecond_r2_r_props_init(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime) + second_B2_r2_props.get_real());
-    computation B2_Bsecond_r2_i_props("B2_Bsecond_r2_i_props", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, B2_Bsecond_r2_i_props_init(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime) + second_B2_r2_props.get_imag());
-    computation B2_Bthird_r2_r_props("B2_Bthird_r2_r_props", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, B2_Bthird_r2_r_props_init(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime) + third_B2_r2_props.get_real());
-    computation B2_Bthird_r2_i_props("B2_Bthird_r2_i_props", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, B2_Bthird_r2_i_props_init(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime) + third_B2_r2_props.get_imag());
+    computation B2_Blocal_r2_r_props("B2_Blocal_r2_r_props", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, B2_Blocal_r2_r_props_init(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime) + B2_r2_props.get_real());
+    computation B2_Blocal_r2_i_props("B2_Blocal_r2_i_props", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, B2_Blocal_r2_i_props_init(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime) + B2_r2_props.get_imag());
+    computation B2_Bfirst_r2_r_props("B2_Bfirst_r2_r_props", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, B2_Bfirst_r2_r_props_init(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime) + first_B2_r2_props.get_real());
+    computation B2_Bfirst_r2_i_props("B2_Bfirst_r2_i_props", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, B2_Bfirst_r2_i_props_init(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime) + first_B2_r2_props.get_imag());
+    computation B2_Bsecond_r2_r_props("B2_Bsecond_r2_r_props", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, B2_Bsecond_r2_r_props_init(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime) + second_B2_r2_props.get_real());
+    computation B2_Bsecond_r2_i_props("B2_Bsecond_r2_i_props", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, B2_Bsecond_r2_i_props_init(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime) + second_B2_r2_props.get_imag());
+    computation B2_Bthird_r2_r_props("B2_Bthird_r2_r_props", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, B2_Bthird_r2_r_props_init(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime) + third_B2_r2_props.get_real());
+    computation B2_Bthird_r2_i_props("B2_Bthird_r2_i_props", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, wnumBlock, jCprime, jSprime}, B2_Bthird_r2_i_props_init(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime) + third_B2_r2_props.get_imag());
 
     complex_computation B2_Blocal_r2_props(&B2_Blocal_r2_r_props, &B2_Blocal_r2_i_props);
     complex_computation B2_Bfirst_r2_props(&B2_Bfirst_r2_r_props, &B2_Bfirst_r2_i_props);
     complex_computation B2_Bsecond_r2_props(&B2_Bsecond_r2_r_props, &B2_Bsecond_r2_i_props);
     complex_computation B2_Bthird_r2_props(&B2_Bthird_r2_r_props, &B2_Bthird_r2_i_props);
 
-    complex_expr B2_r2 = src_psi_B2 * B2_Blocal_r2_props(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, Nw-1, jCprime, jSprime);
-    complex_expr first_B2_r2 = src_psi_B2 * B2_Bfirst_r2_props(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, Nw-1, jCprime, jSprime);
-    complex_expr second_B2_r2 = src_psi_B2 * B2_Bsecond_r2_props(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, Nw-1, jCprime, jSprime);
-    complex_expr third_B2_r2 = src_psi_B2 * B2_Bthird_r2_props(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, Nw-1, jCprime, jSprime);
+    complex_expr B2_r2 = src_psi_B2 * B2_Blocal_r2_props(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, Nw-1, jCprime, jSprime);
+    complex_expr first_B2_r2 = src_psi_B2 * B2_Bfirst_r2_props(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, Nw-1, jCprime, jSprime);
+    complex_expr second_B2_r2 = src_psi_B2 * B2_Bsecond_r2_props(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, Nw-1, jCprime, jSprime);
+    complex_expr third_B2_r2 = src_psi_B2 * B2_Bthird_r2_props(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, Nw-1, jCprime, jSprime);
 
-    computation B2_Blocal_r2_r_update("B2_Blocal_r2_r_update", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, B2_Blocal_r2_r_init(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + B2_r2.get_real());
-    computation B2_Blocal_r2_i_update("B2_Blocal_r2_i_update", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, B2_Blocal_r2_i_init(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + B2_r2.get_imag());
-    computation B2_Bfirst_r2_r_update("B2_Bfirst_r2_r_update", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, B2_Bfirst_r2_r_init(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + first_B2_r2.get_real());
-    computation B2_Bfirst_r2_i_update("B2_Bfirst_r2_i_update", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, B2_Bfirst_r2_i_init(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + first_B2_r2.get_imag());
-    computation B2_Bsecond_r2_r_update("B2_Bsecond_r2_r_update", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, B2_Bsecond_r2_r_init(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + second_B2_r2.get_real());
-    computation B2_Bsecond_r2_i_update("B2_Bsecond_r2_i_update", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, B2_Bsecond_r2_i_init(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + second_B2_r2.get_imag());
-    computation B2_Bthird_r2_r_update("B2_Bthird_r2_r_update", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, B2_Bthird_r2_r_init(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + third_B2_r2.get_real());
-    computation B2_Bthird_r2_i_update("B2_Bthird_r2_i_update", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, B2_Bthird_r2_i_init(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + third_B2_r2.get_imag());
+    computation B2_Blocal_r2_r_update("B2_Blocal_r2_r_update", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, B2_Blocal_r2_r_init(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + B2_r2.get_real());
+    computation B2_Blocal_r2_i_update("B2_Blocal_r2_i_update", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, B2_Blocal_r2_i_init(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + B2_r2.get_imag());
+    computation B2_Bfirst_r2_r_update("B2_Bfirst_r2_r_update", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, B2_Bfirst_r2_r_init(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + first_B2_r2.get_real());
+    computation B2_Bfirst_r2_i_update("B2_Bfirst_r2_i_update", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, B2_Bfirst_r2_i_init(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + first_B2_r2.get_imag());
+    computation B2_Bsecond_r2_r_update("B2_Bsecond_r2_r_update", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, B2_Bsecond_r2_r_init(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + second_B2_r2.get_real());
+    computation B2_Bsecond_r2_i_update("B2_Bsecond_r2_i_update", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, B2_Bsecond_r2_i_init(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + second_B2_r2.get_imag());
+    computation B2_Bthird_r2_r_update("B2_Bthird_r2_r_update", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, B2_Bthird_r2_r_init(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + third_B2_r2.get_real());
+    computation B2_Bthird_r2_i_update("B2_Bthird_r2_i_update", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, B2_Bthird_r2_i_init(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + third_B2_r2.get_imag());
 
-    complex_expr flip_B2_r2 = src_psi_B1 * B2_Blocal_r2_props(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, Nw-1, jCprime, jSprime);
-    complex_expr flip_first_B2_r2 = src_psi_B1 * B2_Bfirst_r2_props(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, Nw-1, jCprime, jSprime);
-    complex_expr flip_second_B2_r2 = src_psi_B1 * B2_Bsecond_r2_props(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, Nw-1, jCprime, jSprime);
-    complex_expr flip_third_B2_r2 = src_psi_B1 * B2_Bthird_r2_props(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, Nw-1, jCprime, jSprime);
+    complex_expr flip_B2_r2 = src_psi_B1 * B2_Blocal_r2_props(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, Nw-1, jCprime, jSprime);
+    complex_expr flip_first_B2_r2 = src_psi_B1 * B2_Bfirst_r2_props(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, Nw-1, jCprime, jSprime);
+    complex_expr flip_second_B2_r2 = src_psi_B1 * B2_Bsecond_r2_props(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, Nw-1, jCprime, jSprime);
+    complex_expr flip_third_B2_r2 = src_psi_B1 * B2_Bthird_r2_props(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, Nw-1, jCprime, jSprime);
 
-    computation flip_B2_Blocal_r2_r_update("flip_B2_Blocal_r2_r_update", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, flip_B2_Blocal_r2_r_init(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + flip_B2_r2.get_real());
-    computation flip_B2_Blocal_r2_i_update("flip_B2_Blocal_r2_i_update", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, flip_B2_Blocal_r2_i_init(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + flip_B2_r2.get_imag());
-    computation flip_B2_Bfirst_r2_r_update("flip_B2_Bfirst_r2_r_update", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, flip_B2_Bfirst_r2_r_init(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + flip_first_B2_r2.get_real());
-    computation flip_B2_Bfirst_r2_i_update("flip_B2_Bfirst_r2_i_update", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, flip_B2_Bfirst_r2_i_init(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + flip_first_B2_r2.get_imag()); 
-    computation flip_B2_Bsecond_r2_r_update("flip_B2_Bsecond_r2_r_update", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, flip_B2_Bsecond_r2_r_init(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + flip_second_B2_r2.get_real());
-    computation flip_B2_Bsecond_r2_i_update("flip_B2_Bsecond_r2_i_update", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, flip_B2_Bsecond_r2_i_init(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + flip_second_B2_r2.get_imag());
-    computation flip_B2_Bthird_r2_r_update("flip_B2_Bthird_r2_r_update", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, flip_B2_Bthird_r2_r_init(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + flip_third_B2_r2.get_real());
-    computation flip_B2_Bthird_r2_i_update("flip_B2_Bthird_r2_i_update", {t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, flip_B2_Bthird_r2_i_init(t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + flip_third_B2_r2.get_imag()); 
+    computation flip_B2_Blocal_r2_r_update("flip_B2_Blocal_r2_r_update", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, flip_B2_Blocal_r2_r_init(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + flip_B2_r2.get_real());
+    computation flip_B2_Blocal_r2_i_update("flip_B2_Blocal_r2_i_update", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, flip_B2_Blocal_r2_i_init(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + flip_B2_r2.get_imag());
+    computation flip_B2_Bfirst_r2_r_update("flip_B2_Bfirst_r2_r_update", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, flip_B2_Bfirst_r2_r_init(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + flip_first_B2_r2.get_real());
+    computation flip_B2_Bfirst_r2_i_update("flip_B2_Bfirst_r2_i_update", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, flip_B2_Bfirst_r2_i_init(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + flip_first_B2_r2.get_imag()); 
+    computation flip_B2_Bsecond_r2_r_update("flip_B2_Bsecond_r2_r_update", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, flip_B2_Bsecond_r2_r_init(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + flip_second_B2_r2.get_real());
+    computation flip_B2_Bsecond_r2_i_update("flip_B2_Bsecond_r2_i_update", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, flip_B2_Bsecond_r2_i_init(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + flip_second_B2_r2.get_imag());
+    computation flip_B2_Bthird_r2_r_update("flip_B2_Bthird_r2_r_update", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, flip_B2_Bthird_r2_r_init(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + flip_third_B2_r2.get_real());
+    computation flip_B2_Bthird_r2_i_update("flip_B2_Bthird_r2_i_update", {t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m}, flip_B2_Bthird_r2_i_init(t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m) + flip_third_B2_r2.get_imag()); 
     
 // BB_H
 
@@ -1034,19 +1034,19 @@ void generate_function(std::string name)
     computation C_init_i("C_init_i", {t, x_out, x_in, rp, mpmH, r, npnH}, expr((double) 0l));
 
     // BB_BB
-    computation C_BB_BB_prop_init_r("C_BB_BB_prop_init_r", {t, tileX, tileY, x1, rp, x2, r, m}, expr((double) 0l));
-    computation C_BB_BB_prop_init_i("C_BB_BB_prop_init_i", {t, tileX, tileY, x1, rp, x2, r, m}, expr((double) 0l));
+    computation C_BB_BB_prop_init_r("C_BB_BB_prop_init_r", {t, tile1, tile2, x1, rp, x2, r, m}, expr((double) 0l));
+    computation C_BB_BB_prop_init_i("C_BB_BB_prop_init_i", {t, tile1, tile2, x1, rp, x2, r, m}, expr((double) 0l));
     
     b=0;
     // r1, b = 0l 
-    complex_computation BB_BB_new_term_0_r1_b1("BB_BB_new_term_0_r1_b1", {t, tileX, tileY, x1, rp, x2, r, m, s, nperm, wnum}, B1_Blocal_r1_init(t, tileX, tileY, x1, snk_color_weights(r, nperm, wnum, 0l, 0l), snk_spin_weights(r, nperm, wnum, 0l, 0l), x2, snk_color_weights(r, nperm, wnum, 2l, 0l), snk_spin_weights(r, nperm, wnum, 2l, 0l), snk_color_weights(r, nperm, wnum, 1l, 0l), snk_spin_weights(r, nperm, wnum, 1l, 0l), m));
-    complex_computation BB_BB_new_term_1_r1_b1("BB_BB_new_term_1_r1_b1", {t, tileX, tileY, x1, rp, x2, r, m, s, nperm, wnum}, B2_Blocal_r1_init(t, tileX, tileY, x1, snk_color_weights(r, nperm, wnum, 0l, 0l), snk_spin_weights(r, nperm, wnum, 0l, 0l), x2, snk_color_weights(r, nperm, wnum, 2l, 0l), snk_spin_weights(r, nperm, wnum, 2l, 0l), snk_color_weights(r, nperm, wnum, 1l, 0l), snk_spin_weights(r, nperm, wnum, 1l, 0l), m));
-    complex_computation BB_BB_new_term_2_r1_b1("BB_BB_new_term_2_r1_b1", {t, tileX, tileY, x1, rp, x2, r, m, s, nperm, wnum}, B1_Bfirst_r1_init(t, tileX, tileY, x1, snk_color_weights(r, nperm, wnum, 0l, 0l), snk_spin_weights(r, nperm, wnum, 0l, 0l), x2, snk_color_weights(r, nperm, wnum, 2l, 0l), snk_spin_weights(r, nperm, wnum, 2l, 0l), snk_color_weights(r, nperm, wnum, 1l, 0l), snk_spin_weights(r, nperm, wnum, 1l, 0l), m));
-    complex_computation BB_BB_new_term_3_r1_b1("BB_BB_new_term_3_r1_b1", {t, tileX, tileY, x1, rp, x2, r, m, s, nperm, wnum}, B2_Bfirst_r1_init(t, tileX, tileY, x1, snk_color_weights(r, nperm, wnum, 0l, 0l), snk_spin_weights(r, nperm, wnum, 0l, 0l), x2, snk_color_weights(r, nperm, wnum, 2l, 0l), snk_spin_weights(r, nperm, wnum, 2l, 0l), snk_color_weights(r, nperm, wnum, 1l, 0l), snk_spin_weights(r, nperm, wnum, 1l, 0l), m));
-    complex_computation BB_BB_new_term_4_r1_b1("BB_BB_new_term_4_r1_b1", {t, tileX, tileY, x1, rp, x2, r, m, s, nperm, wnum}, B1_Bsecond_r1_init(t, tileX, tileY, x1, snk_color_weights(r, nperm, wnum, 0l, 0l), snk_spin_weights(r, nperm, wnum, 0l, 0l), x2, snk_color_weights(r, nperm, wnum, 2l, 0l), snk_spin_weights(r, nperm, wnum, 2l, 0l), snk_color_weights(r, nperm, wnum, 1l, 0l), snk_spin_weights(r, nperm, wnum, 1l, 0l), m));
-    complex_computation BB_BB_new_term_5_r1_b1("BB_BB_new_term_5_r1_b1", {t, tileX, tileY, x1, rp, x2, r, m, s, nperm, wnum}, B2_Bsecond_r1_init(t, tileX, tileY, x1, snk_color_weights(r, nperm, wnum, 0l, 0l), snk_spin_weights(r, nperm, wnum, 0l, 0l), x2, snk_color_weights(r, nperm, wnum, 2l, 0l), snk_spin_weights(r, nperm, wnum, 2l, 0l), snk_color_weights(r, nperm, wnum, 1l, 0l), snk_spin_weights(r, nperm, wnum, 1l, 0l), m));
-    complex_computation BB_BB_new_term_6_r1_b1("BB_BB_new_term_6_r1_b1", {t, tileX, tileY, x1, rp, x2, r, m, s, nperm, wnum}, B1_Bthird_r1_init(t, tileX, tileY, x1, snk_color_weights(r, nperm, wnum, 0l, 0l), snk_spin_weights(r, nperm, wnum, 0l, 0l), x2, snk_color_weights(r, nperm, wnum, 2l, 0l), snk_spin_weights(r, nperm, wnum, 2l, 0l), snk_color_weights(r, nperm, wnum, 1l, 0l), snk_spin_weights(r, nperm, wnum, 1l, 0l), m));
-    complex_computation BB_BB_new_term_7_r1_b1("BB_BB_new_term_7_r1_b1", {t, tileX, tileY, x1, rp, x2, r, m, s, nperm, wnum}, B2_Bthird_r1_init(t, tileX, tileY, x1, snk_color_weights(r, nperm, wnum, 0l, 0l), snk_spin_weights(r, nperm, wnum, 0l, 0l), x2, snk_color_weights(r, nperm, wnum, 2l, 0l), snk_spin_weights(r, nperm, wnum, 2l, 0l), snk_color_weights(r, nperm, wnum, 1l, 0l), snk_spin_weights(r, nperm, wnum, 1l, 0l), m));
+    complex_computation BB_BB_new_term_0_r1_b1("BB_BB_new_term_0_r1_b1", {t, tile1, tile2, x1, rp, x2, r, m, s, nperm, wnum}, B1_Blocal_r1_init(t, tile1, tile2, x1, snk_color_weights(r, nperm, wnum, 0l, 0l), snk_spin_weights(r, nperm, wnum, 0l, 0l), x2, snk_color_weights(r, nperm, wnum, 2l, 0l), snk_spin_weights(r, nperm, wnum, 2l, 0l), snk_color_weights(r, nperm, wnum, 1l, 0l), snk_spin_weights(r, nperm, wnum, 1l, 0l), m));
+    complex_computation BB_BB_new_term_1_r1_b1("BB_BB_new_term_1_r1_b1", {t, tile1, tile2, x1, rp, x2, r, m, s, nperm, wnum}, B2_Blocal_r1_init(t, tile1, tile2, x1, snk_color_weights(r, nperm, wnum, 0l, 0l), snk_spin_weights(r, nperm, wnum, 0l, 0l), x2, snk_color_weights(r, nperm, wnum, 2l, 0l), snk_spin_weights(r, nperm, wnum, 2l, 0l), snk_color_weights(r, nperm, wnum, 1l, 0l), snk_spin_weights(r, nperm, wnum, 1l, 0l), m));
+    complex_computation BB_BB_new_term_2_r1_b1("BB_BB_new_term_2_r1_b1", {t, tile1, tile2, x1, rp, x2, r, m, s, nperm, wnum}, B1_Bfirst_r1_init(t, tile1, tile2, x1, snk_color_weights(r, nperm, wnum, 0l, 0l), snk_spin_weights(r, nperm, wnum, 0l, 0l), x2, snk_color_weights(r, nperm, wnum, 2l, 0l), snk_spin_weights(r, nperm, wnum, 2l, 0l), snk_color_weights(r, nperm, wnum, 1l, 0l), snk_spin_weights(r, nperm, wnum, 1l, 0l), m));
+    complex_computation BB_BB_new_term_3_r1_b1("BB_BB_new_term_3_r1_b1", {t, tile1, tile2, x1, rp, x2, r, m, s, nperm, wnum}, B2_Bfirst_r1_init(t, tile1, tile2, x1, snk_color_weights(r, nperm, wnum, 0l, 0l), snk_spin_weights(r, nperm, wnum, 0l, 0l), x2, snk_color_weights(r, nperm, wnum, 2l, 0l), snk_spin_weights(r, nperm, wnum, 2l, 0l), snk_color_weights(r, nperm, wnum, 1l, 0l), snk_spin_weights(r, nperm, wnum, 1l, 0l), m));
+    complex_computation BB_BB_new_term_4_r1_b1("BB_BB_new_term_4_r1_b1", {t, tile1, tile2, x1, rp, x2, r, m, s, nperm, wnum}, B1_Bsecond_r1_init(t, tile1, tile2, x1, snk_color_weights(r, nperm, wnum, 0l, 0l), snk_spin_weights(r, nperm, wnum, 0l, 0l), x2, snk_color_weights(r, nperm, wnum, 2l, 0l), snk_spin_weights(r, nperm, wnum, 2l, 0l), snk_color_weights(r, nperm, wnum, 1l, 0l), snk_spin_weights(r, nperm, wnum, 1l, 0l), m));
+    complex_computation BB_BB_new_term_5_r1_b1("BB_BB_new_term_5_r1_b1", {t, tile1, tile2, x1, rp, x2, r, m, s, nperm, wnum}, B2_Bsecond_r1_init(t, tile1, tile2, x1, snk_color_weights(r, nperm, wnum, 0l, 0l), snk_spin_weights(r, nperm, wnum, 0l, 0l), x2, snk_color_weights(r, nperm, wnum, 2l, 0l), snk_spin_weights(r, nperm, wnum, 2l, 0l), snk_color_weights(r, nperm, wnum, 1l, 0l), snk_spin_weights(r, nperm, wnum, 1l, 0l), m));
+    complex_computation BB_BB_new_term_6_r1_b1("BB_BB_new_term_6_r1_b1", {t, tile1, tile2, x1, rp, x2, r, m, s, nperm, wnum}, B1_Bthird_r1_init(t, tile1, tile2, x1, snk_color_weights(r, nperm, wnum, 0l, 0l), snk_spin_weights(r, nperm, wnum, 0l, 0l), x2, snk_color_weights(r, nperm, wnum, 2l, 0l), snk_spin_weights(r, nperm, wnum, 2l, 0l), snk_color_weights(r, nperm, wnum, 1l, 0l), snk_spin_weights(r, nperm, wnum, 1l, 0l), m));
+    complex_computation BB_BB_new_term_7_r1_b1("BB_BB_new_term_7_r1_b1", {t, tile1, tile2, x1, rp, x2, r, m, s, nperm, wnum}, B2_Bthird_r1_init(t, tile1, tile2, x1, snk_color_weights(r, nperm, wnum, 0l, 0l), snk_spin_weights(r, nperm, wnum, 0l, 0l), x2, snk_color_weights(r, nperm, wnum, 2l, 0l), snk_spin_weights(r, nperm, wnum, 2l, 0l), snk_color_weights(r, nperm, wnum, 1l, 0l), snk_spin_weights(r, nperm, wnum, 1l, 0l), m));
     BB_BB_new_term_0_r1_b1.add_predicate((src_spins(rp, s, 0l) == 1l) && (snk_b(nperm, 0l, b) == 0l && snk_b(nperm, 1l, b) == 0l && snk_b(nperm, 2l, b) == 0l));
     BB_BB_new_term_1_r1_b1.add_predicate((src_spins(rp, s, 0l) == 1l) && (snk_b(nperm, 0l, b) == 1l && snk_b(nperm, 1l, b) == 1l && snk_b(nperm, 2l, b) == 1l));
     BB_BB_new_term_2_r1_b1.add_predicate((src_spins(rp, s, 0l) == 1l) && (snk_b(nperm, 0l, b) == 1l && snk_b(nperm, 1l, b) == 0l && snk_b(nperm, 2l, b) == 0l));
@@ -1057,14 +1057,14 @@ void generate_function(std::string name)
     BB_BB_new_term_7_r1_b1.add_predicate((src_spins(rp, s, 0l) == 1l) && (snk_b(nperm, 0l, b) == 1l && snk_b(nperm, 1l, b) == 1l && snk_b(nperm, 2l, b) == 0l));
 
     // r2, b = 0l 
-    complex_computation BB_BB_new_term_0_r2_b1("BB_BB_new_term_0_r2_b1", {t, tileX, tileY, x1, rp, x2, r, m, s, nperm, wnum}, B1_Blocal_r2_init(t, tileX, tileY, x1, snk_color_weights(r, nperm, wnum, 0l, 0l), snk_spin_weights(r, nperm, wnum, 0l, 0l), x2, snk_color_weights(r, nperm, wnum, 2l, 0l), snk_spin_weights(r, nperm, wnum, 2l, 0l), snk_color_weights(r, nperm, wnum, 1l, 0l), snk_spin_weights(r, nperm, wnum, 1l, 0l), m));
-    complex_computation BB_BB_new_term_1_r2_b1("BB_BB_new_term_1_r2_b1", {t, tileX, tileY, x1, rp, x2, r, m, s, nperm, wnum}, B2_Blocal_r2_init(t, tileX, tileY, x1, snk_color_weights(r, nperm, wnum, 0l, 0l), snk_spin_weights(r, nperm, wnum, 0l, 0l), x2, snk_color_weights(r, nperm, wnum, 2l, 0l), snk_spin_weights(r, nperm, wnum, 2l, 0l), snk_color_weights(r, nperm, wnum, 1l, 0l), snk_spin_weights(r, nperm, wnum, 1l, 0l), m));
-    complex_computation BB_BB_new_term_2_r2_b1("BB_BB_new_term_2_r2_b1", {t, tileX, tileY, x1, rp, x2, r, m, s, nperm, wnum}, B1_Bfirst_r2_init(t, tileX, tileY, x1, snk_color_weights(r, nperm, wnum, 0l, 0l), snk_spin_weights(r, nperm, wnum, 0l, 0l), x2, snk_color_weights(r, nperm, wnum, 2l, 0l), snk_spin_weights(r, nperm, wnum, 2l, 0l), snk_color_weights(r, nperm, wnum, 1l, 0l), snk_spin_weights(r, nperm, wnum, 1l, 0l), m));
-    complex_computation BB_BB_new_term_3_r2_b1("BB_BB_new_term_3_r2_b1", {t, tileX, tileY, x1, rp, x2, r, m, s, nperm, wnum}, B2_Bfirst_r2_init(t, tileX, tileY, x1, snk_color_weights(r, nperm, wnum, 0l, 0l), snk_spin_weights(r, nperm, wnum, 0l, 0l), x2, snk_color_weights(r, nperm, wnum, 2l, 0l), snk_spin_weights(r, nperm, wnum, 2l, 0l), snk_color_weights(r, nperm, wnum, 1l, 0l), snk_spin_weights(r, nperm, wnum, 1l, 0l), m));
-    complex_computation BB_BB_new_term_4_r2_b1("BB_BB_new_term_4_r2_b1", {t, tileX, tileY, x1, rp, x2, r, m, s, nperm, wnum}, B1_Bsecond_r2_init(t, tileX, tileY, x1, snk_color_weights(r, nperm, wnum, 0l, 0l), snk_spin_weights(r, nperm, wnum, 0l, 0l), x2, snk_color_weights(r, nperm, wnum, 2l, 0l), snk_spin_weights(r, nperm, wnum, 2l, 0l), snk_color_weights(r, nperm, wnum, 1l, 0l), snk_spin_weights(r, nperm, wnum, 1l, 0l), m));
-    complex_computation BB_BB_new_term_5_r2_b1("BB_BB_new_term_5_r2_b1", {t, tileX, tileY, x1, rp, x2, r, m, s, nperm, wnum}, B2_Bsecond_r2_init(t, tileX, tileY, x1, snk_color_weights(r, nperm, wnum, 0l, 0l), snk_spin_weights(r, nperm, wnum, 0l, 0l), x2, snk_color_weights(r, nperm, wnum, 2l, 0l), snk_spin_weights(r, nperm, wnum, 2l, 0l), snk_color_weights(r, nperm, wnum, 1l, 0l), snk_spin_weights(r, nperm, wnum, 1l, 0l), m));
-    complex_computation BB_BB_new_term_6_r2_b1("BB_BB_new_term_6_r2_b1", {t, tileX, tileY, x1, rp, x2, r, m, s, nperm, wnum}, B1_Bthird_r2_init(t, tileX, tileY, x1, snk_color_weights(r, nperm, wnum, 0l, 0l), snk_spin_weights(r, nperm, wnum, 0l, 0l), x2, snk_color_weights(r, nperm, wnum, 2l, 0l), snk_spin_weights(r, nperm, wnum, 2l, 0l), snk_color_weights(r, nperm, wnum, 1l, 0l), snk_spin_weights(r, nperm, wnum, 1l, 0l), m));
-    complex_computation BB_BB_new_term_7_r2_b1("BB_BB_new_term_7_r2_b1", {t, tileX, tileY, x1, rp, x2, r, m, s, nperm, wnum}, B2_Bthird_r2_init(t, tileX, tileY, x1, snk_color_weights(r, nperm, wnum, 0l, 0l), snk_spin_weights(r, nperm, wnum, 0l, 0l), x2, snk_color_weights(r, nperm, wnum, 2l, 0l), snk_spin_weights(r, nperm, wnum, 2l, 0l), snk_color_weights(r, nperm, wnum, 1l, 0l), snk_spin_weights(r, nperm, wnum, 1l, 0l), m));
+    complex_computation BB_BB_new_term_0_r2_b1("BB_BB_new_term_0_r2_b1", {t, tile1, tile2, x1, rp, x2, r, m, s, nperm, wnum}, B1_Blocal_r2_init(t, tile1, tile2, x1, snk_color_weights(r, nperm, wnum, 0l, 0l), snk_spin_weights(r, nperm, wnum, 0l, 0l), x2, snk_color_weights(r, nperm, wnum, 2l, 0l), snk_spin_weights(r, nperm, wnum, 2l, 0l), snk_color_weights(r, nperm, wnum, 1l, 0l), snk_spin_weights(r, nperm, wnum, 1l, 0l), m));
+    complex_computation BB_BB_new_term_1_r2_b1("BB_BB_new_term_1_r2_b1", {t, tile1, tile2, x1, rp, x2, r, m, s, nperm, wnum}, B2_Blocal_r2_init(t, tile1, tile2, x1, snk_color_weights(r, nperm, wnum, 0l, 0l), snk_spin_weights(r, nperm, wnum, 0l, 0l), x2, snk_color_weights(r, nperm, wnum, 2l, 0l), snk_spin_weights(r, nperm, wnum, 2l, 0l), snk_color_weights(r, nperm, wnum, 1l, 0l), snk_spin_weights(r, nperm, wnum, 1l, 0l), m));
+    complex_computation BB_BB_new_term_2_r2_b1("BB_BB_new_term_2_r2_b1", {t, tile1, tile2, x1, rp, x2, r, m, s, nperm, wnum}, B1_Bfirst_r2_init(t, tile1, tile2, x1, snk_color_weights(r, nperm, wnum, 0l, 0l), snk_spin_weights(r, nperm, wnum, 0l, 0l), x2, snk_color_weights(r, nperm, wnum, 2l, 0l), snk_spin_weights(r, nperm, wnum, 2l, 0l), snk_color_weights(r, nperm, wnum, 1l, 0l), snk_spin_weights(r, nperm, wnum, 1l, 0l), m));
+    complex_computation BB_BB_new_term_3_r2_b1("BB_BB_new_term_3_r2_b1", {t, tile1, tile2, x1, rp, x2, r, m, s, nperm, wnum}, B2_Bfirst_r2_init(t, tile1, tile2, x1, snk_color_weights(r, nperm, wnum, 0l, 0l), snk_spin_weights(r, nperm, wnum, 0l, 0l), x2, snk_color_weights(r, nperm, wnum, 2l, 0l), snk_spin_weights(r, nperm, wnum, 2l, 0l), snk_color_weights(r, nperm, wnum, 1l, 0l), snk_spin_weights(r, nperm, wnum, 1l, 0l), m));
+    complex_computation BB_BB_new_term_4_r2_b1("BB_BB_new_term_4_r2_b1", {t, tile1, tile2, x1, rp, x2, r, m, s, nperm, wnum}, B1_Bsecond_r2_init(t, tile1, tile2, x1, snk_color_weights(r, nperm, wnum, 0l, 0l), snk_spin_weights(r, nperm, wnum, 0l, 0l), x2, snk_color_weights(r, nperm, wnum, 2l, 0l), snk_spin_weights(r, nperm, wnum, 2l, 0l), snk_color_weights(r, nperm, wnum, 1l, 0l), snk_spin_weights(r, nperm, wnum, 1l, 0l), m));
+    complex_computation BB_BB_new_term_5_r2_b1("BB_BB_new_term_5_r2_b1", {t, tile1, tile2, x1, rp, x2, r, m, s, nperm, wnum}, B2_Bsecond_r2_init(t, tile1, tile2, x1, snk_color_weights(r, nperm, wnum, 0l, 0l), snk_spin_weights(r, nperm, wnum, 0l, 0l), x2, snk_color_weights(r, nperm, wnum, 2l, 0l), snk_spin_weights(r, nperm, wnum, 2l, 0l), snk_color_weights(r, nperm, wnum, 1l, 0l), snk_spin_weights(r, nperm, wnum, 1l, 0l), m));
+    complex_computation BB_BB_new_term_6_r2_b1("BB_BB_new_term_6_r2_b1", {t, tile1, tile2, x1, rp, x2, r, m, s, nperm, wnum}, B1_Bthird_r2_init(t, tile1, tile2, x1, snk_color_weights(r, nperm, wnum, 0l, 0l), snk_spin_weights(r, nperm, wnum, 0l, 0l), x2, snk_color_weights(r, nperm, wnum, 2l, 0l), snk_spin_weights(r, nperm, wnum, 2l, 0l), snk_color_weights(r, nperm, wnum, 1l, 0l), snk_spin_weights(r, nperm, wnum, 1l, 0l), m));
+    complex_computation BB_BB_new_term_7_r2_b1("BB_BB_new_term_7_r2_b1", {t, tile1, tile2, x1, rp, x2, r, m, s, nperm, wnum}, B2_Bthird_r2_init(t, tile1, tile2, x1, snk_color_weights(r, nperm, wnum, 0l, 0l), snk_spin_weights(r, nperm, wnum, 0l, 0l), x2, snk_color_weights(r, nperm, wnum, 2l, 0l), snk_spin_weights(r, nperm, wnum, 2l, 0l), snk_color_weights(r, nperm, wnum, 1l, 0l), snk_spin_weights(r, nperm, wnum, 1l, 0l), m));
     BB_BB_new_term_0_r2_b1.add_predicate((src_spins(rp, s, 0l) == 2l) && (snk_b(nperm, 0l, b) == 0l && snk_b(nperm, 1l, b) == 0l && snk_b(nperm, 2l, b) == 0l));
     BB_BB_new_term_1_r2_b1.add_predicate((src_spins(rp, s, 0l) == 2l) && (snk_b(nperm, 0l, b) == 1l && snk_b(nperm, 1l, b) == 1l && snk_b(nperm, 2l, b) == 1l));
     BB_BB_new_term_2_r2_b1.add_predicate((src_spins(rp, s, 0l) == 2l) && (snk_b(nperm, 0l, b) == 1l && snk_b(nperm, 1l, b) == 0l && snk_b(nperm, 2l, b) == 0l));
@@ -1076,14 +1076,14 @@ void generate_function(std::string name)
 
     b=1;
     // r1, b = 1l 
-    complex_computation BB_BB_new_term_0_r1_b2("BB_BB_new_term_0_r1_b2", {t, tileX, tileY, x1, rp, x2, r, m, s, nperm, wnum}, B1_Blocal_r1_init(t, tileX, tileY, x1, snk_color_weights(r, nperm, wnum, 0l, 1l), snk_spin_weights(r, nperm, wnum, 0l, 1l), x2, snk_color_weights(r, nperm, wnum, 2l, 1l), snk_spin_weights(r, nperm, wnum, 2l, 1l), snk_color_weights(r, nperm, wnum, 1l, 1l), snk_spin_weights(r, nperm, wnum, 1l, 1l), m));
-    complex_computation BB_BB_new_term_1_r1_b2("BB_BB_new_term_1_r1_b2", {t, tileX, tileY, x1, rp, x2, r, m, s, nperm, wnum}, B2_Blocal_r1_init(t, tileX, tileY, x1, snk_color_weights(r, nperm, wnum, 0l, 1l), snk_spin_weights(r, nperm, wnum, 0l, 1l), x2, snk_color_weights(r, nperm, wnum, 2l, 1l), snk_spin_weights(r, nperm, wnum, 2l, 1l), snk_color_weights(r, nperm, wnum, 1l, 1l), snk_spin_weights(r, nperm, wnum, 1l, 1l), m));
-    complex_computation BB_BB_new_term_2_r1_b2("BB_BB_new_term_2_r1_b2", {t, tileX, tileY, x1, rp, x2, r, m, s, nperm, wnum}, B1_Bfirst_r1_init(t, tileX, tileY, x1, snk_color_weights(r, nperm, wnum, 0l, 1l), snk_spin_weights(r, nperm, wnum, 0l, 1l), x2, snk_color_weights(r, nperm, wnum, 2l, 1l), snk_spin_weights(r, nperm, wnum, 2l, 1l), snk_color_weights(r, nperm, wnum, 1l, 1l), snk_spin_weights(r, nperm, wnum, 1l, 1l), m));
-    complex_computation BB_BB_new_term_3_r1_b2("BB_BB_new_term_3_r1_b2", {t, tileX, tileY, x1, rp, x2, r, m, s, nperm, wnum}, B2_Bfirst_r1_init(t, tileX, tileY, x1, snk_color_weights(r, nperm, wnum, 0l, 1l), snk_spin_weights(r, nperm, wnum, 0l, 1l), x2, snk_color_weights(r, nperm, wnum, 2l, 1l), snk_spin_weights(r, nperm, wnum, 2l, 1l), snk_color_weights(r, nperm, wnum, 1l, 1l), snk_spin_weights(r, nperm, wnum, 1l, 1l), m));
-    complex_computation BB_BB_new_term_4_r1_b2("BB_BB_new_term_4_r1_b2", {t, tileX, tileY, x1, rp, x2, r, m, s, nperm, wnum}, B1_Bsecond_r1_init(t, tileX, tileY, x1, snk_color_weights(r, nperm, wnum, 0l, 1l), snk_spin_weights(r, nperm, wnum, 0l, 1l), x2, snk_color_weights(r, nperm, wnum, 2l, 1l), snk_spin_weights(r, nperm, wnum, 2l, 1l), snk_color_weights(r, nperm, wnum, 1l, 1l), snk_spin_weights(r, nperm, wnum, 1l, 1l), m));
-    complex_computation BB_BB_new_term_5_r1_b2("BB_BB_new_term_5_r1_b2", {t, tileX, tileY, x1, rp, x2, r, m, s, nperm, wnum}, B2_Bsecond_r1_init(t, tileX, tileY, x1, snk_color_weights(r, nperm, wnum, 0l, 1l), snk_spin_weights(r, nperm, wnum, 0l, 1l), x2, snk_color_weights(r, nperm, wnum, 2l, 1l), snk_spin_weights(r, nperm, wnum, 2l, 1l), snk_color_weights(r, nperm, wnum, 1l, 1l), snk_spin_weights(r, nperm, wnum, 1l, 1l), m));
-    complex_computation BB_BB_new_term_6_r1_b2("BB_BB_new_term_6_r1_b2", {t, tileX, tileY, x1, rp, x2, r, m, s, nperm, wnum}, B1_Bthird_r1_init(t, tileX, tileY, x1, snk_color_weights(r, nperm, wnum, 0l, 1l), snk_spin_weights(r, nperm, wnum, 0l, 1l), x2, snk_color_weights(r, nperm, wnum, 2l, 1l), snk_spin_weights(r, nperm, wnum, 2l, 1l), snk_color_weights(r, nperm, wnum, 1l, 1l), snk_spin_weights(r, nperm, wnum, 1l, 1l), m));
-    complex_computation BB_BB_new_term_7_r1_b2("BB_BB_new_term_7_r1_b2", {t, tileX, tileY, x1, rp, x2, r, m, s, nperm, wnum}, B2_Bthird_r1_init(t, tileX, tileY, x1, snk_color_weights(r, nperm, wnum, 0l, 1l), snk_spin_weights(r, nperm, wnum, 0l, 1l), x2, snk_color_weights(r, nperm, wnum, 2l, 1l), snk_spin_weights(r, nperm, wnum, 2l, 1l), snk_color_weights(r, nperm, wnum, 1l, 1l), snk_spin_weights(r, nperm, wnum, 1l, 1l), m));
+    complex_computation BB_BB_new_term_0_r1_b2("BB_BB_new_term_0_r1_b2", {t, tile1, tile2, x1, rp, x2, r, m, s, nperm, wnum}, B1_Blocal_r1_init(t, tile1, tile2, x1, snk_color_weights(r, nperm, wnum, 0l, 1l), snk_spin_weights(r, nperm, wnum, 0l, 1l), x2, snk_color_weights(r, nperm, wnum, 2l, 1l), snk_spin_weights(r, nperm, wnum, 2l, 1l), snk_color_weights(r, nperm, wnum, 1l, 1l), snk_spin_weights(r, nperm, wnum, 1l, 1l), m));
+    complex_computation BB_BB_new_term_1_r1_b2("BB_BB_new_term_1_r1_b2", {t, tile1, tile2, x1, rp, x2, r, m, s, nperm, wnum}, B2_Blocal_r1_init(t, tile1, tile2, x1, snk_color_weights(r, nperm, wnum, 0l, 1l), snk_spin_weights(r, nperm, wnum, 0l, 1l), x2, snk_color_weights(r, nperm, wnum, 2l, 1l), snk_spin_weights(r, nperm, wnum, 2l, 1l), snk_color_weights(r, nperm, wnum, 1l, 1l), snk_spin_weights(r, nperm, wnum, 1l, 1l), m));
+    complex_computation BB_BB_new_term_2_r1_b2("BB_BB_new_term_2_r1_b2", {t, tile1, tile2, x1, rp, x2, r, m, s, nperm, wnum}, B1_Bfirst_r1_init(t, tile1, tile2, x1, snk_color_weights(r, nperm, wnum, 0l, 1l), snk_spin_weights(r, nperm, wnum, 0l, 1l), x2, snk_color_weights(r, nperm, wnum, 2l, 1l), snk_spin_weights(r, nperm, wnum, 2l, 1l), snk_color_weights(r, nperm, wnum, 1l, 1l), snk_spin_weights(r, nperm, wnum, 1l, 1l), m));
+    complex_computation BB_BB_new_term_3_r1_b2("BB_BB_new_term_3_r1_b2", {t, tile1, tile2, x1, rp, x2, r, m, s, nperm, wnum}, B2_Bfirst_r1_init(t, tile1, tile2, x1, snk_color_weights(r, nperm, wnum, 0l, 1l), snk_spin_weights(r, nperm, wnum, 0l, 1l), x2, snk_color_weights(r, nperm, wnum, 2l, 1l), snk_spin_weights(r, nperm, wnum, 2l, 1l), snk_color_weights(r, nperm, wnum, 1l, 1l), snk_spin_weights(r, nperm, wnum, 1l, 1l), m));
+    complex_computation BB_BB_new_term_4_r1_b2("BB_BB_new_term_4_r1_b2", {t, tile1, tile2, x1, rp, x2, r, m, s, nperm, wnum}, B1_Bsecond_r1_init(t, tile1, tile2, x1, snk_color_weights(r, nperm, wnum, 0l, 1l), snk_spin_weights(r, nperm, wnum, 0l, 1l), x2, snk_color_weights(r, nperm, wnum, 2l, 1l), snk_spin_weights(r, nperm, wnum, 2l, 1l), snk_color_weights(r, nperm, wnum, 1l, 1l), snk_spin_weights(r, nperm, wnum, 1l, 1l), m));
+    complex_computation BB_BB_new_term_5_r1_b2("BB_BB_new_term_5_r1_b2", {t, tile1, tile2, x1, rp, x2, r, m, s, nperm, wnum}, B2_Bsecond_r1_init(t, tile1, tile2, x1, snk_color_weights(r, nperm, wnum, 0l, 1l), snk_spin_weights(r, nperm, wnum, 0l, 1l), x2, snk_color_weights(r, nperm, wnum, 2l, 1l), snk_spin_weights(r, nperm, wnum, 2l, 1l), snk_color_weights(r, nperm, wnum, 1l, 1l), snk_spin_weights(r, nperm, wnum, 1l, 1l), m));
+    complex_computation BB_BB_new_term_6_r1_b2("BB_BB_new_term_6_r1_b2", {t, tile1, tile2, x1, rp, x2, r, m, s, nperm, wnum}, B1_Bthird_r1_init(t, tile1, tile2, x1, snk_color_weights(r, nperm, wnum, 0l, 1l), snk_spin_weights(r, nperm, wnum, 0l, 1l), x2, snk_color_weights(r, nperm, wnum, 2l, 1l), snk_spin_weights(r, nperm, wnum, 2l, 1l), snk_color_weights(r, nperm, wnum, 1l, 1l), snk_spin_weights(r, nperm, wnum, 1l, 1l), m));
+    complex_computation BB_BB_new_term_7_r1_b2("BB_BB_new_term_7_r1_b2", {t, tile1, tile2, x1, rp, x2, r, m, s, nperm, wnum}, B2_Bthird_r1_init(t, tile1, tile2, x1, snk_color_weights(r, nperm, wnum, 0l, 1l), snk_spin_weights(r, nperm, wnum, 0l, 1l), x2, snk_color_weights(r, nperm, wnum, 2l, 1l), snk_spin_weights(r, nperm, wnum, 2l, 1l), snk_color_weights(r, nperm, wnum, 1l, 1l), snk_spin_weights(r, nperm, wnum, 1l, 1l), m));
     BB_BB_new_term_0_r1_b2.add_predicate((src_spins(rp, s, 1l) == 1l) && (snk_b(nperm, 0l, b) == 0l && snk_b(nperm, 1l, b) == 0l && snk_b(nperm, 2l, b) == 0l));
     BB_BB_new_term_1_r1_b2.add_predicate((src_spins(rp, s, 1l) == 1l) && (snk_b(nperm, 0l, b) == 1l && snk_b(nperm, 1l, b) == 1l && snk_b(nperm, 2l, b) == 1l));
     BB_BB_new_term_2_r1_b2.add_predicate((src_spins(rp, s, 1l) == 1l) && (snk_b(nperm, 0l, b) == 1l && snk_b(nperm, 1l, b) == 0l && snk_b(nperm, 2l, b) == 0l));
@@ -1094,14 +1094,14 @@ void generate_function(std::string name)
     BB_BB_new_term_7_r1_b2.add_predicate((src_spins(rp, s, 1l) == 1l) && (snk_b(nperm, 0l, b) == 1l && snk_b(nperm, 1l, b) == 1l && snk_b(nperm, 2l, b) == 0l));
 
     // r2, b = 1
-    complex_computation BB_BB_new_term_1_r2_b2("BB_BB_new_term_1_r2_b2", {t, tileX, tileY, x1, rp, x2, r, m, s, nperm, wnum}, B2_Blocal_r2_init(t, tileX, tileY, x1, snk_color_weights(r, nperm, wnum, 0l, 1l), snk_spin_weights(r, nperm, wnum, 0l, 1l), x2, snk_color_weights(r, nperm, wnum, 2l, 1l), snk_spin_weights(r, nperm, wnum, 2l, 1l), snk_color_weights(r, nperm, wnum, 1l, 1l), snk_spin_weights(r, nperm, wnum, 1l, 1l), m));
-    complex_computation BB_BB_new_term_0_r2_b2("BB_BB_new_term_0_r2_b2", {t, tileX, tileY, x1, rp, x2, r, m, s, nperm, wnum}, B1_Blocal_r2_init(t, tileX, tileY, x1, snk_color_weights(r, nperm, wnum, 0l, 1l), snk_spin_weights(r, nperm, wnum, 0l, 1l), x2, snk_color_weights(r, nperm, wnum, 2l, 1l), snk_spin_weights(r, nperm, wnum, 2l, 1l), snk_color_weights(r, nperm, wnum, 1l, 1l), snk_spin_weights(r, nperm, wnum, 1l, 1l), m));
-    complex_computation BB_BB_new_term_2_r2_b2("BB_BB_new_term_2_r2_b2", {t, tileX, tileY, x1, rp, x2, r, m, s, nperm, wnum}, B1_Bfirst_r2_init(t, tileX, tileY, x1, snk_color_weights(r, nperm, wnum, 0l, 1l), snk_spin_weights(r, nperm, wnum, 0l, 1l), x2, snk_color_weights(r, nperm, wnum, 2l, 1l), snk_spin_weights(r, nperm, wnum, 2l, 1l), snk_color_weights(r, nperm, wnum, 1l, 1l), snk_spin_weights(r, nperm, wnum, 1l, 1l), m));
-    complex_computation BB_BB_new_term_3_r2_b2("BB_BB_new_term_3_r2_b2", {t, tileX, tileY, x1, rp, x2, r, m, s, nperm, wnum}, B2_Bfirst_r2_init(t, tileX, tileY, x1, snk_color_weights(r, nperm, wnum, 0l, 1l), snk_spin_weights(r, nperm, wnum, 0l, 1l), x2, snk_color_weights(r, nperm, wnum, 2l, 1l), snk_spin_weights(r, nperm, wnum, 2l, 1l), snk_color_weights(r, nperm, wnum, 1l, 1l), snk_spin_weights(r, nperm, wnum, 1l, 1l), m));
-    complex_computation BB_BB_new_term_4_r2_b2("BB_BB_new_term_4_r2_b2", {t, tileX, tileY, x1, rp, x2, r, m, s, nperm, wnum}, B1_Bsecond_r2_init(t, tileX, tileY, x1, snk_color_weights(r, nperm, wnum, 0l, 1l), snk_spin_weights(r, nperm, wnum, 0l, 1l), x2, snk_color_weights(r, nperm, wnum, 2l, 1l), snk_spin_weights(r, nperm, wnum, 2l, 1l), snk_color_weights(r, nperm, wnum, 1l, 1l), snk_spin_weights(r, nperm, wnum, 1l, 1l), m));
-    complex_computation BB_BB_new_term_5_r2_b2("BB_BB_new_term_5_r2_b2", {t, tileX, tileY, x1, rp, x2, r, m, s, nperm, wnum}, B2_Bsecond_r2_init(t, tileX, tileY, x1, snk_color_weights(r, nperm, wnum, 0l, 1l), snk_spin_weights(r, nperm, wnum, 0l, 1l), x2, snk_color_weights(r, nperm, wnum, 2l, 1l), snk_spin_weights(r, nperm, wnum, 2l, 1l), snk_color_weights(r, nperm, wnum, 1l, 1l), snk_spin_weights(r, nperm, wnum, 1l, 1l), m));
-    complex_computation BB_BB_new_term_6_r2_b2("BB_BB_new_term_6_r2_b2", {t, tileX, tileY, x1, rp, x2, r, m, s, nperm, wnum}, B1_Bthird_r2_init(t, tileX, tileY, x1, snk_color_weights(r, nperm, wnum, 0l, 1l), snk_spin_weights(r, nperm, wnum, 0l, 1l), x2, snk_color_weights(r, nperm, wnum, 2l, 1l), snk_spin_weights(r, nperm, wnum, 2l, 1l), snk_color_weights(r, nperm, wnum, 1l, 1l), snk_spin_weights(r, nperm, wnum, 1l, 1l), m));
-    complex_computation BB_BB_new_term_7_r2_b2("BB_BB_new_term_7_r2_b2", {t, tileX, tileY, x1, rp, x2, r, m, s, nperm, wnum}, B2_Bthird_r2_init(t, tileX, tileY, x1, snk_color_weights(r, nperm, wnum, 0l, 1l), snk_spin_weights(r, nperm, wnum, 0l, 1l), x2, snk_color_weights(r, nperm, wnum, 2l, 1l), snk_spin_weights(r, nperm, wnum, 2l, 1l), snk_color_weights(r, nperm, wnum, 1l, 1l), snk_spin_weights(r, nperm, wnum, 1l, 1l), m));
+    complex_computation BB_BB_new_term_1_r2_b2("BB_BB_new_term_1_r2_b2", {t, tile1, tile2, x1, rp, x2, r, m, s, nperm, wnum}, B2_Blocal_r2_init(t, tile1, tile2, x1, snk_color_weights(r, nperm, wnum, 0l, 1l), snk_spin_weights(r, nperm, wnum, 0l, 1l), x2, snk_color_weights(r, nperm, wnum, 2l, 1l), snk_spin_weights(r, nperm, wnum, 2l, 1l), snk_color_weights(r, nperm, wnum, 1l, 1l), snk_spin_weights(r, nperm, wnum, 1l, 1l), m));
+    complex_computation BB_BB_new_term_0_r2_b2("BB_BB_new_term_0_r2_b2", {t, tile1, tile2, x1, rp, x2, r, m, s, nperm, wnum}, B1_Blocal_r2_init(t, tile1, tile2, x1, snk_color_weights(r, nperm, wnum, 0l, 1l), snk_spin_weights(r, nperm, wnum, 0l, 1l), x2, snk_color_weights(r, nperm, wnum, 2l, 1l), snk_spin_weights(r, nperm, wnum, 2l, 1l), snk_color_weights(r, nperm, wnum, 1l, 1l), snk_spin_weights(r, nperm, wnum, 1l, 1l), m));
+    complex_computation BB_BB_new_term_2_r2_b2("BB_BB_new_term_2_r2_b2", {t, tile1, tile2, x1, rp, x2, r, m, s, nperm, wnum}, B1_Bfirst_r2_init(t, tile1, tile2, x1, snk_color_weights(r, nperm, wnum, 0l, 1l), snk_spin_weights(r, nperm, wnum, 0l, 1l), x2, snk_color_weights(r, nperm, wnum, 2l, 1l), snk_spin_weights(r, nperm, wnum, 2l, 1l), snk_color_weights(r, nperm, wnum, 1l, 1l), snk_spin_weights(r, nperm, wnum, 1l, 1l), m));
+    complex_computation BB_BB_new_term_3_r2_b2("BB_BB_new_term_3_r2_b2", {t, tile1, tile2, x1, rp, x2, r, m, s, nperm, wnum}, B2_Bfirst_r2_init(t, tile1, tile2, x1, snk_color_weights(r, nperm, wnum, 0l, 1l), snk_spin_weights(r, nperm, wnum, 0l, 1l), x2, snk_color_weights(r, nperm, wnum, 2l, 1l), snk_spin_weights(r, nperm, wnum, 2l, 1l), snk_color_weights(r, nperm, wnum, 1l, 1l), snk_spin_weights(r, nperm, wnum, 1l, 1l), m));
+    complex_computation BB_BB_new_term_4_r2_b2("BB_BB_new_term_4_r2_b2", {t, tile1, tile2, x1, rp, x2, r, m, s, nperm, wnum}, B1_Bsecond_r2_init(t, tile1, tile2, x1, snk_color_weights(r, nperm, wnum, 0l, 1l), snk_spin_weights(r, nperm, wnum, 0l, 1l), x2, snk_color_weights(r, nperm, wnum, 2l, 1l), snk_spin_weights(r, nperm, wnum, 2l, 1l), snk_color_weights(r, nperm, wnum, 1l, 1l), snk_spin_weights(r, nperm, wnum, 1l, 1l), m));
+    complex_computation BB_BB_new_term_5_r2_b2("BB_BB_new_term_5_r2_b2", {t, tile1, tile2, x1, rp, x2, r, m, s, nperm, wnum}, B2_Bsecond_r2_init(t, tile1, tile2, x1, snk_color_weights(r, nperm, wnum, 0l, 1l), snk_spin_weights(r, nperm, wnum, 0l, 1l), x2, snk_color_weights(r, nperm, wnum, 2l, 1l), snk_spin_weights(r, nperm, wnum, 2l, 1l), snk_color_weights(r, nperm, wnum, 1l, 1l), snk_spin_weights(r, nperm, wnum, 1l, 1l), m));
+    complex_computation BB_BB_new_term_6_r2_b2("BB_BB_new_term_6_r2_b2", {t, tile1, tile2, x1, rp, x2, r, m, s, nperm, wnum}, B1_Bthird_r2_init(t, tile1, tile2, x1, snk_color_weights(r, nperm, wnum, 0l, 1l), snk_spin_weights(r, nperm, wnum, 0l, 1l), x2, snk_color_weights(r, nperm, wnum, 2l, 1l), snk_spin_weights(r, nperm, wnum, 2l, 1l), snk_color_weights(r, nperm, wnum, 1l, 1l), snk_spin_weights(r, nperm, wnum, 1l, 1l), m));
+    complex_computation BB_BB_new_term_7_r2_b2("BB_BB_new_term_7_r2_b2", {t, tile1, tile2, x1, rp, x2, r, m, s, nperm, wnum}, B2_Bthird_r2_init(t, tile1, tile2, x1, snk_color_weights(r, nperm, wnum, 0l, 1l), snk_spin_weights(r, nperm, wnum, 0l, 1l), x2, snk_color_weights(r, nperm, wnum, 2l, 1l), snk_spin_weights(r, nperm, wnum, 2l, 1l), snk_color_weights(r, nperm, wnum, 1l, 1l), snk_spin_weights(r, nperm, wnum, 1l, 1l), m));
     BB_BB_new_term_0_r2_b2.add_predicate((src_spins(rp, s, 1l) == 2l) && (snk_b(nperm, 0l, b) == 0l && snk_b(nperm, 1l, b) == 0l && snk_b(nperm, 2l, b) == 0l));
     BB_BB_new_term_1_r2_b2.add_predicate((src_spins(rp, s, 1l) == 2l) && (snk_b(nperm, 0l, b) == 1l && snk_b(nperm, 1l, b) == 1l && snk_b(nperm, 2l, b) == 1l));
     BB_BB_new_term_2_r2_b2.add_predicate((src_spins(rp, s, 1l) == 2l) && (snk_b(nperm, 0l, b) == 1l && snk_b(nperm, 1l, b) == 0l && snk_b(nperm, 2l, b) == 0l));
@@ -1113,21 +1113,21 @@ void generate_function(std::string name)
 
     complex_expr prefactor(cast(p_float64, sigs(nperm)) * snk_weights(r, wnum) * src_spin_block_weights(rp, s), 0.0);
 
-    complex_expr BB_BB_term_res_b1 = BB_BB_new_term_0_r1_b1(t, tileX, tileY, x1, rp, x2, r, m, s, nperm, wnum);
-    complex_expr BB_BB_term_res_b2 = BB_BB_new_term_0_r1_b2(t, tileX, tileY, x1, rp, x2, r, m, s, nperm, wnum);
+    complex_expr BB_BB_term_res_b1 = BB_BB_new_term_0_r1_b1(t, tile1, tile2, x1, rp, x2, r, m, s, nperm, wnum);
+    complex_expr BB_BB_term_res_b2 = BB_BB_new_term_0_r1_b2(t, tile1, tile2, x1, rp, x2, r, m, s, nperm, wnum);
 
     complex_expr BB_BB_term_res = prefactor * BB_BB_term_res_b1 * BB_BB_term_res_b2;
 
     b=0;
     // r1, b = 0l 
-    complex_computation flip_BB_BB_new_term_0_r1_b1("flip_BB_BB_new_term_0_r1_b1", {t, tileX, tileY, x1, rp, x2, r, m, s, nperm, wnum}, flip_B1_Blocal_r1_init(t, tileX, tileY, x1, snk_color_weights(r, nperm, wnum, 0l, 0l), snk_spin_weights(r, nperm, wnum, 0l, 0l), x2, snk_color_weights(r, nperm, wnum, 2l, 0l), snk_spin_weights(r, nperm, wnum, 2l, 0l), snk_color_weights(r, nperm, wnum, 1l, 0l), snk_spin_weights(r, nperm, wnum, 1l, 0l), m));
-    complex_computation flip_BB_BB_new_term_1_r1_b1("flip_BB_BB_new_term_1_r1_b1", {t, tileX, tileY, x1, rp, x2, r, m, s, nperm, wnum}, flip_B2_Blocal_r1_init(t, tileX, tileY, x1, snk_color_weights(r, nperm, wnum, 0l, 0l), snk_spin_weights(r, nperm, wnum, 0l, 0l), x2, snk_color_weights(r, nperm, wnum, 2l, 0l), snk_spin_weights(r, nperm, wnum, 2l, 0l), snk_color_weights(r, nperm, wnum, 1l, 0l), snk_spin_weights(r, nperm, wnum, 1l, 0l), m));
-    complex_computation flip_BB_BB_new_term_2_r1_b1("flip_BB_BB_new_term_2_r1_b1", {t, tileX, tileY, x1, rp, x2, r, m, s, nperm, wnum}, flip_B1_Bfirst_r1_init(t, tileX, tileY, x1, snk_color_weights(r, nperm, wnum, 0l, 0l), snk_spin_weights(r, nperm, wnum, 0l, 0l), x2, snk_color_weights(r, nperm, wnum, 2l, 0l), snk_spin_weights(r, nperm, wnum, 2l, 0l), snk_color_weights(r, nperm, wnum, 1l, 0l), snk_spin_weights(r, nperm, wnum, 1l, 0l), m));
-    complex_computation flip_BB_BB_new_term_3_r1_b1("flip_BB_BB_new_term_3_r1_b1", {t, tileX, tileY, x1, rp, x2, r, m, s, nperm, wnum}, flip_B2_Bfirst_r1_init(t, tileX, tileY, x1, snk_color_weights(r, nperm, wnum, 0l, 0l), snk_spin_weights(r, nperm, wnum, 0l, 0l), x2, snk_color_weights(r, nperm, wnum, 2l, 0l), snk_spin_weights(r, nperm, wnum, 2l, 0l), snk_color_weights(r, nperm, wnum, 1l, 0l), snk_spin_weights(r, nperm, wnum, 1l, 0l), m));
-    complex_computation flip_BB_BB_new_term_4_r1_b1("flip_BB_BB_new_term_4_r1_b1", {t, tileX, tileY, x1, rp, x2, r, m, s, nperm, wnum}, flip_B1_Bsecond_r1_init(t, tileX, tileY, x1, snk_color_weights(r, nperm, wnum, 0l, 0l), snk_spin_weights(r, nperm, wnum, 0l, 0l), x2, snk_color_weights(r, nperm, wnum, 2l, 0l), snk_spin_weights(r, nperm, wnum, 2l, 0l), snk_color_weights(r, nperm, wnum, 1l, 0l), snk_spin_weights(r, nperm, wnum, 1l, 0l), m));
-    complex_computation flip_BB_BB_new_term_5_r1_b1("flip_BB_BB_new_term_5_r1_b1", {t, tileX, tileY, x1, rp, x2, r, m, s, nperm, wnum}, flip_B2_Bsecond_r1_init(t, tileX, tileY, x1, snk_color_weights(r, nperm, wnum, 0l, 0l), snk_spin_weights(r, nperm, wnum, 0l, 0l), x2, snk_color_weights(r, nperm, wnum, 2l, 0l), snk_spin_weights(r, nperm, wnum, 2l, 0l), snk_color_weights(r, nperm, wnum, 1l, 0l), snk_spin_weights(r, nperm, wnum, 1l, 0l), m));
-    complex_computation flip_BB_BB_new_term_6_r1_b1("flip_BB_BB_new_term_6_r1_b1", {t, tileX, tileY, x1, rp, x2, r, m, s, nperm, wnum}, flip_B1_Bthird_r1_init(t, tileX, tileY, x1, snk_color_weights(r, nperm, wnum, 0l, 0l), snk_spin_weights(r, nperm, wnum, 0l, 0l), x2, snk_color_weights(r, nperm, wnum, 2l, 0l), snk_spin_weights(r, nperm, wnum, 2l, 0l), snk_color_weights(r, nperm, wnum, 1l, 0l), snk_spin_weights(r, nperm, wnum, 1l, 0l), m));
-    complex_computation flip_BB_BB_new_term_7_r1_b1("flip_BB_BB_new_term_7_r1_b1", {t, tileX, tileY, x1, rp, x2, r, m, s, nperm, wnum}, flip_B2_Bthird_r1_init(t, tileX, tileY, x1, snk_color_weights(r, nperm, wnum, 0l, 0l), snk_spin_weights(r, nperm, wnum, 0l, 0l), x2, snk_color_weights(r, nperm, wnum, 2l, 0l), snk_spin_weights(r, nperm, wnum, 2l, 0l), snk_color_weights(r, nperm, wnum, 1l, 0l), snk_spin_weights(r, nperm, wnum, 1l, 0l), m));
+    complex_computation flip_BB_BB_new_term_0_r1_b1("flip_BB_BB_new_term_0_r1_b1", {t, tile1, tile2, x1, rp, x2, r, m, s, nperm, wnum}, flip_B1_Blocal_r1_init(t, tile1, tile2, x1, snk_color_weights(r, nperm, wnum, 0l, 0l), snk_spin_weights(r, nperm, wnum, 0l, 0l), x2, snk_color_weights(r, nperm, wnum, 2l, 0l), snk_spin_weights(r, nperm, wnum, 2l, 0l), snk_color_weights(r, nperm, wnum, 1l, 0l), snk_spin_weights(r, nperm, wnum, 1l, 0l), m));
+    complex_computation flip_BB_BB_new_term_1_r1_b1("flip_BB_BB_new_term_1_r1_b1", {t, tile1, tile2, x1, rp, x2, r, m, s, nperm, wnum}, flip_B2_Blocal_r1_init(t, tile1, tile2, x1, snk_color_weights(r, nperm, wnum, 0l, 0l), snk_spin_weights(r, nperm, wnum, 0l, 0l), x2, snk_color_weights(r, nperm, wnum, 2l, 0l), snk_spin_weights(r, nperm, wnum, 2l, 0l), snk_color_weights(r, nperm, wnum, 1l, 0l), snk_spin_weights(r, nperm, wnum, 1l, 0l), m));
+    complex_computation flip_BB_BB_new_term_2_r1_b1("flip_BB_BB_new_term_2_r1_b1", {t, tile1, tile2, x1, rp, x2, r, m, s, nperm, wnum}, flip_B1_Bfirst_r1_init(t, tile1, tile2, x1, snk_color_weights(r, nperm, wnum, 0l, 0l), snk_spin_weights(r, nperm, wnum, 0l, 0l), x2, snk_color_weights(r, nperm, wnum, 2l, 0l), snk_spin_weights(r, nperm, wnum, 2l, 0l), snk_color_weights(r, nperm, wnum, 1l, 0l), snk_spin_weights(r, nperm, wnum, 1l, 0l), m));
+    complex_computation flip_BB_BB_new_term_3_r1_b1("flip_BB_BB_new_term_3_r1_b1", {t, tile1, tile2, x1, rp, x2, r, m, s, nperm, wnum}, flip_B2_Bfirst_r1_init(t, tile1, tile2, x1, snk_color_weights(r, nperm, wnum, 0l, 0l), snk_spin_weights(r, nperm, wnum, 0l, 0l), x2, snk_color_weights(r, nperm, wnum, 2l, 0l), snk_spin_weights(r, nperm, wnum, 2l, 0l), snk_color_weights(r, nperm, wnum, 1l, 0l), snk_spin_weights(r, nperm, wnum, 1l, 0l), m));
+    complex_computation flip_BB_BB_new_term_4_r1_b1("flip_BB_BB_new_term_4_r1_b1", {t, tile1, tile2, x1, rp, x2, r, m, s, nperm, wnum}, flip_B1_Bsecond_r1_init(t, tile1, tile2, x1, snk_color_weights(r, nperm, wnum, 0l, 0l), snk_spin_weights(r, nperm, wnum, 0l, 0l), x2, snk_color_weights(r, nperm, wnum, 2l, 0l), snk_spin_weights(r, nperm, wnum, 2l, 0l), snk_color_weights(r, nperm, wnum, 1l, 0l), snk_spin_weights(r, nperm, wnum, 1l, 0l), m));
+    complex_computation flip_BB_BB_new_term_5_r1_b1("flip_BB_BB_new_term_5_r1_b1", {t, tile1, tile2, x1, rp, x2, r, m, s, nperm, wnum}, flip_B2_Bsecond_r1_init(t, tile1, tile2, x1, snk_color_weights(r, nperm, wnum, 0l, 0l), snk_spin_weights(r, nperm, wnum, 0l, 0l), x2, snk_color_weights(r, nperm, wnum, 2l, 0l), snk_spin_weights(r, nperm, wnum, 2l, 0l), snk_color_weights(r, nperm, wnum, 1l, 0l), snk_spin_weights(r, nperm, wnum, 1l, 0l), m));
+    complex_computation flip_BB_BB_new_term_6_r1_b1("flip_BB_BB_new_term_6_r1_b1", {t, tile1, tile2, x1, rp, x2, r, m, s, nperm, wnum}, flip_B1_Bthird_r1_init(t, tile1, tile2, x1, snk_color_weights(r, nperm, wnum, 0l, 0l), snk_spin_weights(r, nperm, wnum, 0l, 0l), x2, snk_color_weights(r, nperm, wnum, 2l, 0l), snk_spin_weights(r, nperm, wnum, 2l, 0l), snk_color_weights(r, nperm, wnum, 1l, 0l), snk_spin_weights(r, nperm, wnum, 1l, 0l), m));
+    complex_computation flip_BB_BB_new_term_7_r1_b1("flip_BB_BB_new_term_7_r1_b1", {t, tile1, tile2, x1, rp, x2, r, m, s, nperm, wnum}, flip_B2_Bthird_r1_init(t, tile1, tile2, x1, snk_color_weights(r, nperm, wnum, 0l, 0l), snk_spin_weights(r, nperm, wnum, 0l, 0l), x2, snk_color_weights(r, nperm, wnum, 2l, 0l), snk_spin_weights(r, nperm, wnum, 2l, 0l), snk_color_weights(r, nperm, wnum, 1l, 0l), snk_spin_weights(r, nperm, wnum, 1l, 0l), m));
     flip_BB_BB_new_term_0_r1_b1.add_predicate((src_spins(rp, s, 0l) == 1l) && (snk_b(nperm, 0l, b) == 0l && snk_b(nperm, 1l, b) == 0l && snk_b(nperm, 2l, b) == 0l));
     flip_BB_BB_new_term_1_r1_b1.add_predicate((src_spins(rp, s, 0l) == 1l) && (snk_b(nperm, 0l, b) == 1l && snk_b(nperm, 1l, b) == 1l && snk_b(nperm, 2l, b) == 1l));
     flip_BB_BB_new_term_2_r1_b1.add_predicate((src_spins(rp, s, 0l) == 1l) && (snk_b(nperm, 0l, b) == 1l && snk_b(nperm, 1l, b) == 0l && snk_b(nperm, 2l, b) == 0l));
@@ -1138,14 +1138,14 @@ void generate_function(std::string name)
     flip_BB_BB_new_term_7_r1_b1.add_predicate((src_spins(rp, s, 0l) == 1l) && (snk_b(nperm, 0l, b) == 1l && snk_b(nperm, 1l, b) == 1l && snk_b(nperm, 2l, b) == 0l));
     
     // r2, b = 0l 
-    complex_computation flip_BB_BB_new_term_0_r2_b1("flip_BB_BB_new_term_0_r2_b1", {t, tileX, tileY, x1, rp, x2, r, m, s, nperm, wnum}, flip_B1_Blocal_r2_init(t, tileX, tileY, x1, snk_color_weights(r, nperm, wnum, 0l, 0l), snk_spin_weights(r, nperm, wnum, 0l, 0l), x2, snk_color_weights(r, nperm, wnum, 2l, 0l), snk_spin_weights(r, nperm, wnum, 2l, 0l), snk_color_weights(r, nperm, wnum, 1l, 0l), snk_spin_weights(r, nperm, wnum, 1l, 0l), m));
-    complex_computation flip_BB_BB_new_term_1_r2_b1("flip_BB_BB_new_term_1_r2_b1", {t, tileX, tileY, x1, rp, x2, r, m, s, nperm, wnum}, flip_B2_Blocal_r2_init(t, tileX, tileY, x1, snk_color_weights(r, nperm, wnum, 0l, 0l), snk_spin_weights(r, nperm, wnum, 0l, 0l), x2, snk_color_weights(r, nperm, wnum, 2l, 0l), snk_spin_weights(r, nperm, wnum, 2l, 0l), snk_color_weights(r, nperm, wnum, 1l, 0l), snk_spin_weights(r, nperm, wnum, 1l, 0l), m));
-    complex_computation flip_BB_BB_new_term_2_r2_b1("flip_BB_BB_new_term_2_r2_b1", {t, tileX, tileY, x1, rp, x2, r, m, s, nperm, wnum}, flip_B1_Bfirst_r2_init(t, tileX, tileY, x1, snk_color_weights(r, nperm, wnum, 0l, 0l), snk_spin_weights(r, nperm, wnum, 0l, 0l), x2, snk_color_weights(r, nperm, wnum, 2l, 0l), snk_spin_weights(r, nperm, wnum, 2l, 0l), snk_color_weights(r, nperm, wnum, 1l, 0l), snk_spin_weights(r, nperm, wnum, 1l, 0l), m));
-    complex_computation flip_BB_BB_new_term_3_r2_b1("flip_BB_BB_new_term_3_r2_b1", {t, tileX, tileY, x1, rp, x2, r, m, s, nperm, wnum}, flip_B2_Bfirst_r2_init(t, tileX, tileY, x1, snk_color_weights(r, nperm, wnum, 0l, 0l), snk_spin_weights(r, nperm, wnum, 0l, 0l), x2, snk_color_weights(r, nperm, wnum, 2l, 0l), snk_spin_weights(r, nperm, wnum, 2l, 0l), snk_color_weights(r, nperm, wnum, 1l, 0l), snk_spin_weights(r, nperm, wnum, 1l, 0l), m));
-    complex_computation flip_BB_BB_new_term_4_r2_b1("flip_BB_BB_new_term_4_r2_b1", {t, tileX, tileY, x1, rp, x2, r, m, s, nperm, wnum}, flip_B1_Bsecond_r2_init(t, tileX, tileY, x1, snk_color_weights(r, nperm, wnum, 0l, 0l), snk_spin_weights(r, nperm, wnum, 0l, 0l), x2, snk_color_weights(r, nperm, wnum, 2l, 0l), snk_spin_weights(r, nperm, wnum, 2l, 0l), snk_color_weights(r, nperm, wnum, 1l, 0l), snk_spin_weights(r, nperm, wnum, 1l, 0l), m));
-    complex_computation flip_BB_BB_new_term_5_r2_b1("flip_BB_BB_new_term_5_r2_b1", {t, tileX, tileY, x1, rp, x2, r, m, s, nperm, wnum}, flip_B2_Bsecond_r2_init(t, tileX, tileY, x1, snk_color_weights(r, nperm, wnum, 0l, 0l), snk_spin_weights(r, nperm, wnum, 0l, 0l), x2, snk_color_weights(r, nperm, wnum, 2l, 0l), snk_spin_weights(r, nperm, wnum, 2l, 0l), snk_color_weights(r, nperm, wnum, 1l, 0l), snk_spin_weights(r, nperm, wnum, 1l, 0l), m));
-    complex_computation flip_BB_BB_new_term_6_r2_b1("flip_BB_BB_new_term_6_r2_b1", {t, tileX, tileY, x1, rp, x2, r, m, s, nperm, wnum}, flip_B1_Bthird_r2_init(t, tileX, tileY, x1, snk_color_weights(r, nperm, wnum, 0l, 0l), snk_spin_weights(r, nperm, wnum, 0l, 0l), x2, snk_color_weights(r, nperm, wnum, 2l, 0l), snk_spin_weights(r, nperm, wnum, 2l, 0l), snk_color_weights(r, nperm, wnum, 1l, 0l), snk_spin_weights(r, nperm, wnum, 1l, 0l), m));
-    complex_computation flip_BB_BB_new_term_7_r2_b1("flip_BB_BB_new_term_7_r2_b1", {t, tileX, tileY, x1, rp, x2, r, m, s, nperm, wnum}, flip_B2_Bthird_r2_init(t, tileX, tileY, x1, snk_color_weights(r, nperm, wnum, 0l, 0l), snk_spin_weights(r, nperm, wnum, 0l, 0l), x2, snk_color_weights(r, nperm, wnum, 2l, 0l), snk_spin_weights(r, nperm, wnum, 2l, 0l), snk_color_weights(r, nperm, wnum, 1l, 0l), snk_spin_weights(r, nperm, wnum, 1l, 0l), m));
+    complex_computation flip_BB_BB_new_term_0_r2_b1("flip_BB_BB_new_term_0_r2_b1", {t, tile1, tile2, x1, rp, x2, r, m, s, nperm, wnum}, flip_B1_Blocal_r2_init(t, tile1, tile2, x1, snk_color_weights(r, nperm, wnum, 0l, 0l), snk_spin_weights(r, nperm, wnum, 0l, 0l), x2, snk_color_weights(r, nperm, wnum, 2l, 0l), snk_spin_weights(r, nperm, wnum, 2l, 0l), snk_color_weights(r, nperm, wnum, 1l, 0l), snk_spin_weights(r, nperm, wnum, 1l, 0l), m));
+    complex_computation flip_BB_BB_new_term_1_r2_b1("flip_BB_BB_new_term_1_r2_b1", {t, tile1, tile2, x1, rp, x2, r, m, s, nperm, wnum}, flip_B2_Blocal_r2_init(t, tile1, tile2, x1, snk_color_weights(r, nperm, wnum, 0l, 0l), snk_spin_weights(r, nperm, wnum, 0l, 0l), x2, snk_color_weights(r, nperm, wnum, 2l, 0l), snk_spin_weights(r, nperm, wnum, 2l, 0l), snk_color_weights(r, nperm, wnum, 1l, 0l), snk_spin_weights(r, nperm, wnum, 1l, 0l), m));
+    complex_computation flip_BB_BB_new_term_2_r2_b1("flip_BB_BB_new_term_2_r2_b1", {t, tile1, tile2, x1, rp, x2, r, m, s, nperm, wnum}, flip_B1_Bfirst_r2_init(t, tile1, tile2, x1, snk_color_weights(r, nperm, wnum, 0l, 0l), snk_spin_weights(r, nperm, wnum, 0l, 0l), x2, snk_color_weights(r, nperm, wnum, 2l, 0l), snk_spin_weights(r, nperm, wnum, 2l, 0l), snk_color_weights(r, nperm, wnum, 1l, 0l), snk_spin_weights(r, nperm, wnum, 1l, 0l), m));
+    complex_computation flip_BB_BB_new_term_3_r2_b1("flip_BB_BB_new_term_3_r2_b1", {t, tile1, tile2, x1, rp, x2, r, m, s, nperm, wnum}, flip_B2_Bfirst_r2_init(t, tile1, tile2, x1, snk_color_weights(r, nperm, wnum, 0l, 0l), snk_spin_weights(r, nperm, wnum, 0l, 0l), x2, snk_color_weights(r, nperm, wnum, 2l, 0l), snk_spin_weights(r, nperm, wnum, 2l, 0l), snk_color_weights(r, nperm, wnum, 1l, 0l), snk_spin_weights(r, nperm, wnum, 1l, 0l), m));
+    complex_computation flip_BB_BB_new_term_4_r2_b1("flip_BB_BB_new_term_4_r2_b1", {t, tile1, tile2, x1, rp, x2, r, m, s, nperm, wnum}, flip_B1_Bsecond_r2_init(t, tile1, tile2, x1, snk_color_weights(r, nperm, wnum, 0l, 0l), snk_spin_weights(r, nperm, wnum, 0l, 0l), x2, snk_color_weights(r, nperm, wnum, 2l, 0l), snk_spin_weights(r, nperm, wnum, 2l, 0l), snk_color_weights(r, nperm, wnum, 1l, 0l), snk_spin_weights(r, nperm, wnum, 1l, 0l), m));
+    complex_computation flip_BB_BB_new_term_5_r2_b1("flip_BB_BB_new_term_5_r2_b1", {t, tile1, tile2, x1, rp, x2, r, m, s, nperm, wnum}, flip_B2_Bsecond_r2_init(t, tile1, tile2, x1, snk_color_weights(r, nperm, wnum, 0l, 0l), snk_spin_weights(r, nperm, wnum, 0l, 0l), x2, snk_color_weights(r, nperm, wnum, 2l, 0l), snk_spin_weights(r, nperm, wnum, 2l, 0l), snk_color_weights(r, nperm, wnum, 1l, 0l), snk_spin_weights(r, nperm, wnum, 1l, 0l), m));
+    complex_computation flip_BB_BB_new_term_6_r2_b1("flip_BB_BB_new_term_6_r2_b1", {t, tile1, tile2, x1, rp, x2, r, m, s, nperm, wnum}, flip_B1_Bthird_r2_init(t, tile1, tile2, x1, snk_color_weights(r, nperm, wnum, 0l, 0l), snk_spin_weights(r, nperm, wnum, 0l, 0l), x2, snk_color_weights(r, nperm, wnum, 2l, 0l), snk_spin_weights(r, nperm, wnum, 2l, 0l), snk_color_weights(r, nperm, wnum, 1l, 0l), snk_spin_weights(r, nperm, wnum, 1l, 0l), m));
+    complex_computation flip_BB_BB_new_term_7_r2_b1("flip_BB_BB_new_term_7_r2_b1", {t, tile1, tile2, x1, rp, x2, r, m, s, nperm, wnum}, flip_B2_Bthird_r2_init(t, tile1, tile2, x1, snk_color_weights(r, nperm, wnum, 0l, 0l), snk_spin_weights(r, nperm, wnum, 0l, 0l), x2, snk_color_weights(r, nperm, wnum, 2l, 0l), snk_spin_weights(r, nperm, wnum, 2l, 0l), snk_color_weights(r, nperm, wnum, 1l, 0l), snk_spin_weights(r, nperm, wnum, 1l, 0l), m));
     flip_BB_BB_new_term_0_r2_b1.add_predicate((src_spins(rp, s, 0l) == 2l) && (snk_b(nperm, 0l, b) == 0l && snk_b(nperm, 1l, b) == 0l && snk_b(nperm, 2l, b) == 0l));
     flip_BB_BB_new_term_1_r2_b1.add_predicate((src_spins(rp, s, 0l) == 2l) && (snk_b(nperm, 0l, b) == 1l && snk_b(nperm, 1l, b) == 1l && snk_b(nperm, 2l, b) == 1l));
     flip_BB_BB_new_term_2_r2_b1.add_predicate((src_spins(rp, s, 0l) == 2l) && (snk_b(nperm, 0l, b) == 1l && snk_b(nperm, 1l, b) == 0l && snk_b(nperm, 2l, b) == 0l));
@@ -1157,14 +1157,14 @@ void generate_function(std::string name)
 
     b=1;
     // r1, b = 1l 
-    complex_computation flip_BB_BB_new_term_0_r1_b2("flip_BB_BB_new_term_0_r1_b2", {t, tileX, tileY, x1, rp, x2, r, m, s, nperm, wnum}, flip_B1_Blocal_r1_init(t, tileX, tileY, x1, snk_color_weights(r, nperm, wnum, 0l, 1l), snk_spin_weights(r, nperm, wnum, 0l, 1l), x2, snk_color_weights(r, nperm, wnum, 2l, 1l), snk_spin_weights(r, nperm, wnum, 2l, 1l), snk_color_weights(r, nperm, wnum, 1l, 1l), snk_spin_weights(r, nperm, wnum, 1l, 1l), m));
-    complex_computation flip_BB_BB_new_term_1_r1_b2("flip_BB_BB_new_term_1_r1_b2", {t, tileX, tileY, x1, rp, x2, r, m, s, nperm, wnum}, flip_B2_Blocal_r1_init(t, tileX, tileY, x1, snk_color_weights(r, nperm, wnum, 0l, 1l), snk_spin_weights(r, nperm, wnum, 0l, 1l), x2, snk_color_weights(r, nperm, wnum, 2l, 1l), snk_spin_weights(r, nperm, wnum, 2l, 1l), snk_color_weights(r, nperm, wnum, 1l, 1l), snk_spin_weights(r, nperm, wnum, 1l, 1l), m));
-    complex_computation flip_BB_BB_new_term_2_r1_b2("flip_BB_BB_new_term_2_r1_b2", {t, tileX, tileY, x1, rp, x2, r, m, s, nperm, wnum}, flip_B1_Bfirst_r1_init(t, tileX, tileY, x1, snk_color_weights(r, nperm, wnum, 0l, 1l), snk_spin_weights(r, nperm, wnum, 0l, 1l), x2, snk_color_weights(r, nperm, wnum, 2l, 1l), snk_spin_weights(r, nperm, wnum, 2l, 1l), snk_color_weights(r, nperm, wnum, 1l, 1l), snk_spin_weights(r, nperm, wnum, 1l, 1l), m));
-    complex_computation flip_BB_BB_new_term_3_r1_b2("flip_BB_BB_new_term_3_r1_b2", {t, tileX, tileY, x1, rp, x2, r, m, s, nperm, wnum}, flip_B2_Bfirst_r1_init(t, tileX, tileY, x1, snk_color_weights(r, nperm, wnum, 0l, 1l), snk_spin_weights(r, nperm, wnum, 0l, 1l), x2, snk_color_weights(r, nperm, wnum, 2l, 1l), snk_spin_weights(r, nperm, wnum, 2l, 1l), snk_color_weights(r, nperm, wnum, 1l, 1l), snk_spin_weights(r, nperm, wnum, 1l, 1l), m));
-    complex_computation flip_BB_BB_new_term_4_r1_b2("flip_BB_BB_new_term_4_r1_b2", {t, tileX, tileY, x1, rp, x2, r, m, s, nperm, wnum}, flip_B1_Bsecond_r1_init(t, tileX, tileY, x1, snk_color_weights(r, nperm, wnum, 0l, 1l), snk_spin_weights(r, nperm, wnum, 0l, 1l), x2, snk_color_weights(r, nperm, wnum, 2l, 1l), snk_spin_weights(r, nperm, wnum, 2l, 1l), snk_color_weights(r, nperm, wnum, 1l, 1l), snk_spin_weights(r, nperm, wnum, 1l, 1l), m));
-    complex_computation flip_BB_BB_new_term_5_r1_b2("flip_BB_BB_new_term_5_r1_b2", {t, tileX, tileY, x1, rp, x2, r, m, s, nperm, wnum}, flip_B2_Bsecond_r1_init(t, tileX, tileY, x1, snk_color_weights(r, nperm, wnum, 0l, 1l), snk_spin_weights(r, nperm, wnum, 0l, 1l), x2, snk_color_weights(r, nperm, wnum, 2l, 1l), snk_spin_weights(r, nperm, wnum, 2l, 1l), snk_color_weights(r, nperm, wnum, 1l, 1l), snk_spin_weights(r, nperm, wnum, 1l, 1l), m));
-    complex_computation flip_BB_BB_new_term_6_r1_b2("flip_BB_BB_new_term_6_r1_b2", {t, tileX, tileY, x1, rp, x2, r, m, s, nperm, wnum}, flip_B1_Bthird_r1_init(t, tileX, tileY, x1, snk_color_weights(r, nperm, wnum, 0l, 1l), snk_spin_weights(r, nperm, wnum, 0l, 1l), x2, snk_color_weights(r, nperm, wnum, 2l, 1l), snk_spin_weights(r, nperm, wnum, 2l, 1l), snk_color_weights(r, nperm, wnum, 1l, 1l), snk_spin_weights(r, nperm, wnum, 1l, 1l), m));
-    complex_computation flip_BB_BB_new_term_7_r1_b2("flip_BB_BB_new_term_7_r1_b2", {t, tileX, tileY, x1, rp, x2, r, m, s, nperm, wnum}, flip_B2_Bthird_r1_init(t, tileX, tileY, x1, snk_color_weights(r, nperm, wnum, 0l, 1l), snk_spin_weights(r, nperm, wnum, 0l, 1l), x2, snk_color_weights(r, nperm, wnum, 2l, 1l), snk_spin_weights(r, nperm, wnum, 2l, 1l), snk_color_weights(r, nperm, wnum, 1l, 1l), snk_spin_weights(r, nperm, wnum, 1l, 1l), m));
+    complex_computation flip_BB_BB_new_term_0_r1_b2("flip_BB_BB_new_term_0_r1_b2", {t, tile1, tile2, x1, rp, x2, r, m, s, nperm, wnum}, flip_B1_Blocal_r1_init(t, tile1, tile2, x1, snk_color_weights(r, nperm, wnum, 0l, 1l), snk_spin_weights(r, nperm, wnum, 0l, 1l), x2, snk_color_weights(r, nperm, wnum, 2l, 1l), snk_spin_weights(r, nperm, wnum, 2l, 1l), snk_color_weights(r, nperm, wnum, 1l, 1l), snk_spin_weights(r, nperm, wnum, 1l, 1l), m));
+    complex_computation flip_BB_BB_new_term_1_r1_b2("flip_BB_BB_new_term_1_r1_b2", {t, tile1, tile2, x1, rp, x2, r, m, s, nperm, wnum}, flip_B2_Blocal_r1_init(t, tile1, tile2, x1, snk_color_weights(r, nperm, wnum, 0l, 1l), snk_spin_weights(r, nperm, wnum, 0l, 1l), x2, snk_color_weights(r, nperm, wnum, 2l, 1l), snk_spin_weights(r, nperm, wnum, 2l, 1l), snk_color_weights(r, nperm, wnum, 1l, 1l), snk_spin_weights(r, nperm, wnum, 1l, 1l), m));
+    complex_computation flip_BB_BB_new_term_2_r1_b2("flip_BB_BB_new_term_2_r1_b2", {t, tile1, tile2, x1, rp, x2, r, m, s, nperm, wnum}, flip_B1_Bfirst_r1_init(t, tile1, tile2, x1, snk_color_weights(r, nperm, wnum, 0l, 1l), snk_spin_weights(r, nperm, wnum, 0l, 1l), x2, snk_color_weights(r, nperm, wnum, 2l, 1l), snk_spin_weights(r, nperm, wnum, 2l, 1l), snk_color_weights(r, nperm, wnum, 1l, 1l), snk_spin_weights(r, nperm, wnum, 1l, 1l), m));
+    complex_computation flip_BB_BB_new_term_3_r1_b2("flip_BB_BB_new_term_3_r1_b2", {t, tile1, tile2, x1, rp, x2, r, m, s, nperm, wnum}, flip_B2_Bfirst_r1_init(t, tile1, tile2, x1, snk_color_weights(r, nperm, wnum, 0l, 1l), snk_spin_weights(r, nperm, wnum, 0l, 1l), x2, snk_color_weights(r, nperm, wnum, 2l, 1l), snk_spin_weights(r, nperm, wnum, 2l, 1l), snk_color_weights(r, nperm, wnum, 1l, 1l), snk_spin_weights(r, nperm, wnum, 1l, 1l), m));
+    complex_computation flip_BB_BB_new_term_4_r1_b2("flip_BB_BB_new_term_4_r1_b2", {t, tile1, tile2, x1, rp, x2, r, m, s, nperm, wnum}, flip_B1_Bsecond_r1_init(t, tile1, tile2, x1, snk_color_weights(r, nperm, wnum, 0l, 1l), snk_spin_weights(r, nperm, wnum, 0l, 1l), x2, snk_color_weights(r, nperm, wnum, 2l, 1l), snk_spin_weights(r, nperm, wnum, 2l, 1l), snk_color_weights(r, nperm, wnum, 1l, 1l), snk_spin_weights(r, nperm, wnum, 1l, 1l), m));
+    complex_computation flip_BB_BB_new_term_5_r1_b2("flip_BB_BB_new_term_5_r1_b2", {t, tile1, tile2, x1, rp, x2, r, m, s, nperm, wnum}, flip_B2_Bsecond_r1_init(t, tile1, tile2, x1, snk_color_weights(r, nperm, wnum, 0l, 1l), snk_spin_weights(r, nperm, wnum, 0l, 1l), x2, snk_color_weights(r, nperm, wnum, 2l, 1l), snk_spin_weights(r, nperm, wnum, 2l, 1l), snk_color_weights(r, nperm, wnum, 1l, 1l), snk_spin_weights(r, nperm, wnum, 1l, 1l), m));
+    complex_computation flip_BB_BB_new_term_6_r1_b2("flip_BB_BB_new_term_6_r1_b2", {t, tile1, tile2, x1, rp, x2, r, m, s, nperm, wnum}, flip_B1_Bthird_r1_init(t, tile1, tile2, x1, snk_color_weights(r, nperm, wnum, 0l, 1l), snk_spin_weights(r, nperm, wnum, 0l, 1l), x2, snk_color_weights(r, nperm, wnum, 2l, 1l), snk_spin_weights(r, nperm, wnum, 2l, 1l), snk_color_weights(r, nperm, wnum, 1l, 1l), snk_spin_weights(r, nperm, wnum, 1l, 1l), m));
+    complex_computation flip_BB_BB_new_term_7_r1_b2("flip_BB_BB_new_term_7_r1_b2", {t, tile1, tile2, x1, rp, x2, r, m, s, nperm, wnum}, flip_B2_Bthird_r1_init(t, tile1, tile2, x1, snk_color_weights(r, nperm, wnum, 0l, 1l), snk_spin_weights(r, nperm, wnum, 0l, 1l), x2, snk_color_weights(r, nperm, wnum, 2l, 1l), snk_spin_weights(r, nperm, wnum, 2l, 1l), snk_color_weights(r, nperm, wnum, 1l, 1l), snk_spin_weights(r, nperm, wnum, 1l, 1l), m));
     flip_BB_BB_new_term_0_r1_b2.add_predicate((src_spins(rp, s, 1l) == 1l) && (snk_b(nperm, 0l, b) == 0l && snk_b(nperm, 1l, b) == 0l && snk_b(nperm, 2l, b) == 0l));
     flip_BB_BB_new_term_1_r1_b2.add_predicate((src_spins(rp, s, 1l) == 1l) && (snk_b(nperm, 0l, b) == 1l && snk_b(nperm, 1l, b) == 1l && snk_b(nperm, 2l, b) == 1l));
     flip_BB_BB_new_term_2_r1_b2.add_predicate((src_spins(rp, s, 1l) == 1l) && (snk_b(nperm, 0l, b) == 1l && snk_b(nperm, 1l, b) == 0l && snk_b(nperm, 2l, b) == 0l));
@@ -1175,14 +1175,14 @@ void generate_function(std::string name)
     flip_BB_BB_new_term_7_r1_b2.add_predicate((src_spins(rp, s, 1l) == 1l) && (snk_b(nperm, 0l, b) == 1l && snk_b(nperm, 1l, b) == 1l && snk_b(nperm, 2l, b) == 0l));
 
     // r2, b = 1l 
-    complex_computation flip_BB_BB_new_term_0_r2_b2("flip_BB_BB_new_term_0_r2_b2", {t, tileX, tileY, x1, rp, x2, r, m, s, nperm, wnum}, flip_B1_Blocal_r2_init(t, tileX, tileY, x1, snk_color_weights(r, nperm, wnum, 0l, 1l), snk_spin_weights(r, nperm, wnum, 0l, 1l), x2, snk_color_weights(r, nperm, wnum, 2l, 1l), snk_spin_weights(r, nperm, wnum, 2l, 1l), snk_color_weights(r, nperm, wnum, 1l, 1l), snk_spin_weights(r, nperm, wnum, 1l, 1l), m));
-    complex_computation flip_BB_BB_new_term_1_r2_b2("flip_BB_BB_new_term_1_r2_b2", {t, tileX, tileY, x1, rp, x2, r, m, s, nperm, wnum}, flip_B2_Blocal_r2_init(t, tileX, tileY, x1, snk_color_weights(r, nperm, wnum, 0l, 1l), snk_spin_weights(r, nperm, wnum, 0l, 1l), x2, snk_color_weights(r, nperm, wnum, 2l, 1l), snk_spin_weights(r, nperm, wnum, 2l, 1l), snk_color_weights(r, nperm, wnum, 1l, 1l), snk_spin_weights(r, nperm, wnum, 1l, 1l), m));
-    complex_computation flip_BB_BB_new_term_2_r2_b2("flip_BB_BB_new_term_2_r2_b2", {t, tileX, tileY, x1, rp, x2, r, m, s, nperm, wnum}, flip_B1_Bfirst_r2_init(t, tileX, tileY, x1, snk_color_weights(r, nperm, wnum, 0l, 1l), snk_spin_weights(r, nperm, wnum, 0l, 1l), x2, snk_color_weights(r, nperm, wnum, 2l, 1l), snk_spin_weights(r, nperm, wnum, 2l, 1l), snk_color_weights(r, nperm, wnum, 1l, 1l), snk_spin_weights(r, nperm, wnum, 1l, 1l), m));
-    complex_computation flip_BB_BB_new_term_3_r2_b2("flip_BB_BB_new_term_3_r2_b2", {t, tileX, tileY, x1, rp, x2, r, m, s, nperm, wnum}, flip_B2_Bfirst_r2_init(t, tileX, tileY, x1, snk_color_weights(r, nperm, wnum, 0l, 1l), snk_spin_weights(r, nperm, wnum, 0l, 1l), x2, snk_color_weights(r, nperm, wnum, 2l, 1l), snk_spin_weights(r, nperm, wnum, 2l, 1l), snk_color_weights(r, nperm, wnum, 1l, 1l), snk_spin_weights(r, nperm, wnum, 1l, 1l), m));
-    complex_computation flip_BB_BB_new_term_4_r2_b2("flip_BB_BB_new_term_4_r2_b2", {t, tileX, tileY, x1, rp, x2, r, m, s, nperm, wnum}, flip_B1_Bsecond_r2_init(t, tileX, tileY, x1, snk_color_weights(r, nperm, wnum, 0l, 1l), snk_spin_weights(r, nperm, wnum, 0l, 1l), x2, snk_color_weights(r, nperm, wnum, 2l, 1l), snk_spin_weights(r, nperm, wnum, 2l, 1l), snk_color_weights(r, nperm, wnum, 1l, 1l), snk_spin_weights(r, nperm, wnum, 1l, 1l), m));
-    complex_computation flip_BB_BB_new_term_5_r2_b2("flip_BB_BB_new_term_5_r2_b2", {t, tileX, tileY, x1, rp, x2, r, m, s, nperm, wnum}, flip_B2_Bsecond_r2_init(t, tileX, tileY, x1, snk_color_weights(r, nperm, wnum, 0l, 1l), snk_spin_weights(r, nperm, wnum, 0l, 1l), x2, snk_color_weights(r, nperm, wnum, 2l, 1l), snk_spin_weights(r, nperm, wnum, 2l, 1l), snk_color_weights(r, nperm, wnum, 1l, 1l), snk_spin_weights(r, nperm, wnum, 1l, 1l), m));
-    complex_computation flip_BB_BB_new_term_6_r2_b2("flip_BB_BB_new_term_6_r2_b2", {t, tileX, tileY, x1, rp, x2, r, m, s, nperm, wnum}, flip_B1_Bthird_r2_init(t, tileX, tileY, x1, snk_color_weights(r, nperm, wnum, 0l, 1l), snk_spin_weights(r, nperm, wnum, 0l, 1l), x2, snk_color_weights(r, nperm, wnum, 2l, 1l), snk_spin_weights(r, nperm, wnum, 2l, 1l), snk_color_weights(r, nperm, wnum, 1l, 1l), snk_spin_weights(r, nperm, wnum, 1l, 1l), m));
-    complex_computation flip_BB_BB_new_term_7_r2_b2("flip_BB_BB_new_term_7_r2_b2", {t, tileX, tileY, x1, rp, x2, r, m, s, nperm, wnum}, flip_B2_Bthird_r2_init(t, tileX, tileY, x1, snk_color_weights(r, nperm, wnum, 0l, 1l), snk_spin_weights(r, nperm, wnum, 0l, 1l), x2, snk_color_weights(r, nperm, wnum, 2l, 1l), snk_spin_weights(r, nperm, wnum, 2l, 1l), snk_color_weights(r, nperm, wnum, 1l, 1l), snk_spin_weights(r, nperm, wnum, 1l, 1l), m));
+    complex_computation flip_BB_BB_new_term_0_r2_b2("flip_BB_BB_new_term_0_r2_b2", {t, tile1, tile2, x1, rp, x2, r, m, s, nperm, wnum}, flip_B1_Blocal_r2_init(t, tile1, tile2, x1, snk_color_weights(r, nperm, wnum, 0l, 1l), snk_spin_weights(r, nperm, wnum, 0l, 1l), x2, snk_color_weights(r, nperm, wnum, 2l, 1l), snk_spin_weights(r, nperm, wnum, 2l, 1l), snk_color_weights(r, nperm, wnum, 1l, 1l), snk_spin_weights(r, nperm, wnum, 1l, 1l), m));
+    complex_computation flip_BB_BB_new_term_1_r2_b2("flip_BB_BB_new_term_1_r2_b2", {t, tile1, tile2, x1, rp, x2, r, m, s, nperm, wnum}, flip_B2_Blocal_r2_init(t, tile1, tile2, x1, snk_color_weights(r, nperm, wnum, 0l, 1l), snk_spin_weights(r, nperm, wnum, 0l, 1l), x2, snk_color_weights(r, nperm, wnum, 2l, 1l), snk_spin_weights(r, nperm, wnum, 2l, 1l), snk_color_weights(r, nperm, wnum, 1l, 1l), snk_spin_weights(r, nperm, wnum, 1l, 1l), m));
+    complex_computation flip_BB_BB_new_term_2_r2_b2("flip_BB_BB_new_term_2_r2_b2", {t, tile1, tile2, x1, rp, x2, r, m, s, nperm, wnum}, flip_B1_Bfirst_r2_init(t, tile1, tile2, x1, snk_color_weights(r, nperm, wnum, 0l, 1l), snk_spin_weights(r, nperm, wnum, 0l, 1l), x2, snk_color_weights(r, nperm, wnum, 2l, 1l), snk_spin_weights(r, nperm, wnum, 2l, 1l), snk_color_weights(r, nperm, wnum, 1l, 1l), snk_spin_weights(r, nperm, wnum, 1l, 1l), m));
+    complex_computation flip_BB_BB_new_term_3_r2_b2("flip_BB_BB_new_term_3_r2_b2", {t, tile1, tile2, x1, rp, x2, r, m, s, nperm, wnum}, flip_B2_Bfirst_r2_init(t, tile1, tile2, x1, snk_color_weights(r, nperm, wnum, 0l, 1l), snk_spin_weights(r, nperm, wnum, 0l, 1l), x2, snk_color_weights(r, nperm, wnum, 2l, 1l), snk_spin_weights(r, nperm, wnum, 2l, 1l), snk_color_weights(r, nperm, wnum, 1l, 1l), snk_spin_weights(r, nperm, wnum, 1l, 1l), m));
+    complex_computation flip_BB_BB_new_term_4_r2_b2("flip_BB_BB_new_term_4_r2_b2", {t, tile1, tile2, x1, rp, x2, r, m, s, nperm, wnum}, flip_B1_Bsecond_r2_init(t, tile1, tile2, x1, snk_color_weights(r, nperm, wnum, 0l, 1l), snk_spin_weights(r, nperm, wnum, 0l, 1l), x2, snk_color_weights(r, nperm, wnum, 2l, 1l), snk_spin_weights(r, nperm, wnum, 2l, 1l), snk_color_weights(r, nperm, wnum, 1l, 1l), snk_spin_weights(r, nperm, wnum, 1l, 1l), m));
+    complex_computation flip_BB_BB_new_term_5_r2_b2("flip_BB_BB_new_term_5_r2_b2", {t, tile1, tile2, x1, rp, x2, r, m, s, nperm, wnum}, flip_B2_Bsecond_r2_init(t, tile1, tile2, x1, snk_color_weights(r, nperm, wnum, 0l, 1l), snk_spin_weights(r, nperm, wnum, 0l, 1l), x2, snk_color_weights(r, nperm, wnum, 2l, 1l), snk_spin_weights(r, nperm, wnum, 2l, 1l), snk_color_weights(r, nperm, wnum, 1l, 1l), snk_spin_weights(r, nperm, wnum, 1l, 1l), m));
+    complex_computation flip_BB_BB_new_term_6_r2_b2("flip_BB_BB_new_term_6_r2_b2", {t, tile1, tile2, x1, rp, x2, r, m, s, nperm, wnum}, flip_B1_Bthird_r2_init(t, tile1, tile2, x1, snk_color_weights(r, nperm, wnum, 0l, 1l), snk_spin_weights(r, nperm, wnum, 0l, 1l), x2, snk_color_weights(r, nperm, wnum, 2l, 1l), snk_spin_weights(r, nperm, wnum, 2l, 1l), snk_color_weights(r, nperm, wnum, 1l, 1l), snk_spin_weights(r, nperm, wnum, 1l, 1l), m));
+    complex_computation flip_BB_BB_new_term_7_r2_b2("flip_BB_BB_new_term_7_r2_b2", {t, tile1, tile2, x1, rp, x2, r, m, s, nperm, wnum}, flip_B2_Bthird_r2_init(t, tile1, tile2, x1, snk_color_weights(r, nperm, wnum, 0l, 1l), snk_spin_weights(r, nperm, wnum, 0l, 1l), x2, snk_color_weights(r, nperm, wnum, 2l, 1l), snk_spin_weights(r, nperm, wnum, 2l, 1l), snk_color_weights(r, nperm, wnum, 1l, 1l), snk_spin_weights(r, nperm, wnum, 1l, 1l), m));
     flip_BB_BB_new_term_0_r2_b2.add_predicate((src_spins(rp, s, 1l) == 2l) && (snk_b(nperm, 0l, b) == 0l && snk_b(nperm, 1l, b) == 0l && snk_b(nperm, 2l, b) == 0l));
     flip_BB_BB_new_term_1_r2_b2.add_predicate((src_spins(rp, s, 1l) == 2l) && (snk_b(nperm, 0l, b) == 1l && snk_b(nperm, 1l, b) == 1l && snk_b(nperm, 2l, b) == 1l));
     flip_BB_BB_new_term_2_r2_b2.add_predicate((src_spins(rp, s, 1l) == 2l) && (snk_b(nperm, 0l, b) == 1l && snk_b(nperm, 1l, b) == 0l && snk_b(nperm, 2l, b) == 0l));
@@ -1192,31 +1192,31 @@ void generate_function(std::string name)
     flip_BB_BB_new_term_6_r2_b2.add_predicate((src_spins(rp, s, 1l) == 2l) && (snk_b(nperm, 0l, b) == 0l && snk_b(nperm, 1l, b) == 0l && snk_b(nperm, 2l, b) == 1l));
     flip_BB_BB_new_term_7_r2_b2.add_predicate((src_spins(rp, s, 1l) == 2l) && (snk_b(nperm, 0l, b) == 1l && snk_b(nperm, 1l, b) == 1l && snk_b(nperm, 2l, b) == 0l));
 
-    complex_expr flip_BB_BB_term_res_b1 = flip_BB_BB_new_term_0_r1_b1(t, tileX, tileY, x1, rp, x2, r, m, s, nperm, wnum);
-    complex_expr flip_BB_BB_term_res_b2 = flip_BB_BB_new_term_0_r1_b2(t, tileX, tileY, x1, rp, x2, r, m, s, nperm, wnum);
+    complex_expr flip_BB_BB_term_res_b1 = flip_BB_BB_new_term_0_r1_b1(t, tile1, tile2, x1, rp, x2, r, m, s, nperm, wnum);
+    complex_expr flip_BB_BB_term_res_b2 = flip_BB_BB_new_term_0_r1_b2(t, tile1, tile2, x1, rp, x2, r, m, s, nperm, wnum);
 
     complex_expr flip_BB_BB_term_res = prefactor * flip_BB_BB_term_res_b1 * flip_BB_BB_term_res_b2;
 
 
-    computation C_BB_BB_prop_update_r("C_BB_BB_prop_update_r", {t, tileX, tileY, x1, rp, x2, r, m, s, nperm, wnum}, C_BB_BB_prop_init_r(t, tileX, tileY, x1, rp, x2, r, m) + tiramisu::expr( 0.5 ) * BB_BB_term_res.get_real() );
-    computation C_BB_BB_prop_update_i("C_BB_BB_prop_update_i", {t, tileX, tileY, x1, rp, x2, r, m, s, nperm, wnum}, C_BB_BB_prop_init_i(t, tileX, tileY, x1, rp, x2, r, m) + tiramisu::expr( 0.5 ) * BB_BB_term_res.get_imag() );
+    computation C_BB_BB_prop_update_r("C_BB_BB_prop_update_r", {t, tile1, tile2, x1, rp, x2, r, m, s, nperm, wnum}, C_BB_BB_prop_init_r(t, tile1, tile2, x1, rp, x2, r, m) + tiramisu::expr( 0.5 ) * BB_BB_term_res.get_real() );
+    computation C_BB_BB_prop_update_i("C_BB_BB_prop_update_i", {t, tile1, tile2, x1, rp, x2, r, m, s, nperm, wnum}, C_BB_BB_prop_init_i(t, tile1, tile2, x1, rp, x2, r, m) + tiramisu::expr( 0.5 ) * BB_BB_term_res.get_imag() );
 
-    computation C_BB_BB_prop_update_r_2("C_BB_BB_prop_update_r_2", {t, tileX, tileY, x1, rp, x2, r, m, s, nperm, wnum}, C_BB_BB_prop_init_r(t, tileX, tileY, x1, rp, x2, r, m) + tiramisu::expr( 0.5 ) * flip_BB_BB_term_res.get_real() );
-    computation C_BB_BB_prop_update_i_2("C_BB_BB_prop_update_i_2", {t, tileX, tileY, x1, rp, x2, r, m, s, nperm, wnum}, C_BB_BB_prop_init_i(t, tileX, tileY, x1, rp, x2, r, m) + tiramisu::expr( 0.5 ) * flip_BB_BB_term_res.get_imag() );
+    computation C_BB_BB_prop_update_r_2("C_BB_BB_prop_update_r_2", {t, tile1, tile2, x1, rp, x2, r, m, s, nperm, wnum}, C_BB_BB_prop_init_r(t, tile1, tile2, x1, rp, x2, r, m) + tiramisu::expr( 0.5 ) * flip_BB_BB_term_res.get_real() );
+    computation C_BB_BB_prop_update_i_2("C_BB_BB_prop_update_i_2", {t, tile1, tile2, x1, rp, x2, r, m, s, nperm, wnum}, C_BB_BB_prop_init_i(t, tile1, tile2, x1, rp, x2, r, m) + tiramisu::expr( 0.5 ) * flip_BB_BB_term_res.get_imag() );
 
 
     complex_computation C_BB_BB_prop_update(&C_BB_BB_prop_update_r, &C_BB_BB_prop_update_i);
 
-    complex_expr BB_BB_term_s = (snk_psi_B1_ue * snk_psi_B2_x2_ue + snk_psi_B1_x2_ue * snk_psi_B2_ue) * C_BB_BB_prop_update(t, tileX, tileY, x1, rp, x2, r, m, 1l, Nperms-1, Nw2-1);
-    complex_expr BB_BB_term_b = snk_psi * C_BB_BB_prop_update(t, tileX, tileY, x1, rp, x2, r, m, 1l, Nperms-1, Nw2-1);
+    complex_expr BB_BB_term_s = (snk_psi_B1_ue * snk_psi_B2_x2_ue + snk_psi_B1_x2_ue * snk_psi_B2_ue) * C_BB_BB_prop_update(t, tile1, tile2, x1, rp, x2, r, m, 1l, Nperms-1, Nw2-1);
+    complex_expr BB_BB_term_b = snk_psi * C_BB_BB_prop_update(t, tile1, tile2, x1, rp, x2, r, m, 1l, Nperms-1, Nw2-1);
 
         // t, x1, x2, rp, m, r, nue}
         // Lt, Vsnk, Vsnk, B2Nrows, Nsrc, B2Nrows, Nsnk
 
-    computation C_BB_init_r("C_BB_init_r", {t, tileX, tileY, x1, rp, x2, r, m, n}, expr((double) 0l));
-    computation C_BB_init_i("C_BB_init_i", {t, tileX, tileY, x1, rp, x2, r, m, n}, expr((double) 0l));
-    computation buf_C_BB_r_cpu_init("buf_C_BB_r_cpu_init", {t, tileX, tileY, x1, rp, x2, r, m, n}, expr((double) 0l));
-    computation buf_C_BB_i_cpu_init("buf_C_BB_i_cpu_init", {t, tileX, tileY, x1, rp, x2, r, m, n}, expr((double) 0l));
+    computation C_BB_init_r("C_BB_init_r", {t, tile1, tile2, x1, rp, x2, r, m, n}, expr((double) 0l));
+    computation C_BB_init_i("C_BB_init_i", {t, tile1, tile2, x1, rp, x2, r, m, n}, expr((double) 0l));
+    computation buf_C_BB_r_cpu_init("buf_C_BB_r_cpu_init", {t, tile1, tile2, x1, rp, x2, r, m, n}, expr((double) 0l));
+    computation buf_C_BB_i_cpu_init("buf_C_BB_i_cpu_init", {t, tile1, tile2, x1, rp, x2, r, m, n}, expr((double) 0l));
     computation out_buf_C_BB_r_cpu_init("out_buf_C_BB_r_cpu_init", {t, rp, r, m, n}, expr((double) 0l));
     computation out_buf_C_BB_i_cpu_init("out_buf_C_BB_i_cpu_init", {t, rp, r, m, n}, expr((double) 0l));
 
@@ -1235,18 +1235,18 @@ void generate_function(std::string name)
     out_buf_C_BB_r_cpu_init.store_in( &out_buf_C_BB_r_cpu, { t, rp, r, m, n } );
     out_buf_C_BB_i_cpu_init.store_in( &out_buf_C_BB_i_cpu, { t, rp, r, m, n } );
 
-    computation reduce_buf_C_BB_r_cpu("reduce_buf_C_BB_r_cpu", {t, tileX, tileY, x1, rp, x2, r, m, n}, p_float64);
-    reduce_buf_C_BB_r_cpu.set_expression( reduce_buf_C_BB_r_cpu( t, tileX, tileY, x1, rp, x2, r, m, n) + out_buf_C_BB_r_cpu_init( t, rp, r, m, n ) );
-    computation reduce_buf_C_BB_i_cpu("reduce_buf_C_BB_i_cpu", {t, tileX, tileY, x1, rp, x2, r, m, n}, p_float64);
-    reduce_buf_C_BB_i_cpu.set_expression( reduce_buf_C_BB_i_cpu( t, tileX, tileY, x1, rp, x2, r, m, n) + out_buf_C_BB_i_cpu_init( t, rp, r, m, n ) );
+    computation reduce_buf_C_BB_r_cpu("reduce_buf_C_BB_r_cpu", {t, tile1, tile2, x1, rp, x2, r, m, n}, p_float64);
+    reduce_buf_C_BB_r_cpu.set_expression( reduce_buf_C_BB_r_cpu( t, tile1, tile2, x1, rp, x2, r, m, n) + out_buf_C_BB_r_cpu_init( t, rp, r, m, n ) );
+    computation reduce_buf_C_BB_i_cpu("reduce_buf_C_BB_i_cpu", {t, tile1, tile2, x1, rp, x2, r, m, n}, p_float64);
+    reduce_buf_C_BB_i_cpu.set_expression( reduce_buf_C_BB_i_cpu( t, tile1, tile2, x1, rp, x2, r, m, n) + out_buf_C_BB_i_cpu_init( t, rp, r, m, n ) );
     reduce_buf_C_BB_r_cpu.store_in( &out_buf_C_BB_r_cpu, { t, rp, r, m, n } );
     reduce_buf_C_BB_i_cpu.store_in( &out_buf_C_BB_i_cpu, { t, rp, r, m, n } );
 
-    computation C_BB_BB_update_s_r("C_BB_BB_update_s_r", {t, tileX, tileY, x1, rp, x2, r, m, nue}, C_BB_init_r(t, tileX, tileY, x1, rp, x2, r, m, NEntangled+nue) + BB_BB_term_s.get_real());
-    computation C_BB_BB_update_s_i("C_BB_BB_update_s_i", {t, tileX, tileY, x1, rp, x2, r, m, nue}, C_BB_init_i(t, tileX, tileY, x1, rp, x2, r, m, NEntangled+nue) + BB_BB_term_s.get_imag());
+    computation C_BB_BB_update_s_r("C_BB_BB_update_s_r", {t, tile1, tile2, x1, rp, x2, r, m, nue}, C_BB_init_r(t, tile1, tile2, x1, rp, x2, r, m, NEntangled+nue) + BB_BB_term_s.get_real());
+    computation C_BB_BB_update_s_i("C_BB_BB_update_s_i", {t, tile1, tile2, x1, rp, x2, r, m, nue}, C_BB_init_i(t, tile1, tile2, x1, rp, x2, r, m, NEntangled+nue) + BB_BB_term_s.get_imag());
 
-    computation C_BB_BB_update_b_r("C_BB_BB_update_b_r", {t, tileX, tileY, x1, rp, x2, r, m, ne}, C_BB_init_r(t, tileX, tileY, x1, rp, x2, r, m, ne) + BB_BB_term_b.get_real());
-    computation C_BB_BB_update_b_i("C_BB_BB_update_b_i", {t, tileX, tileY, x1, rp, x2, r, m, ne}, C_BB_init_i(t, tileX, tileY, x1, rp, x2, r, m, ne) + BB_BB_term_b.get_imag());
+    computation C_BB_BB_update_b_r("C_BB_BB_update_b_r", {t, tile1, tile2, x1, rp, x2, r, m, ne}, C_BB_init_r(t, tile1, tile2, x1, rp, x2, r, m, ne) + BB_BB_term_b.get_real());
+    computation C_BB_BB_update_b_i("C_BB_BB_update_b_i", {t, tile1, tile2, x1, rp, x2, r, m, ne}, C_BB_init_i(t, tile1, tile2, x1, rp, x2, r, m, ne) + BB_BB_term_b.get_imag());
 
     // BB_H
     computation C_BB_H_prop_init_r("C_BB_H_prop_init_r", {t, x_out, x_in, rp, m, r}, expr((double) 0l));
@@ -3043,8 +3043,8 @@ void generate_function(std::string name)
     // computation copy_src_spin_block_weights_device_to_host({}, memcpy(*src_spin_block_weights.get_buffer(), buf_src_spin_block_weights_cpu));
     // computation copy_snk_b_device_to_host({}, memcpy(*snk_b.get_buffer(), buf_snk_b_cpu));
 
-    computation copy_buf_C_BB_r_device_to_host({t, tileX, tileY}, memcpy(buf_C_BB_r, buf_C_BB_r_cpu));
-    computation copy_buf_C_BB_i_device_to_host({t, tileX, tileY}, memcpy(buf_C_BB_i, buf_C_BB_i_cpu));
+    computation copy_buf_C_BB_r_device_to_host({t, tile1, tile2}, memcpy(buf_C_BB_r, buf_C_BB_r_cpu));
+    computation copy_buf_C_BB_i_device_to_host({t, tile1, tile2}, memcpy(buf_C_BB_i, buf_C_BB_i_cpu));
     
     computation* handle = &(copy_buf_C_r_host_to_device
         .then(copy_buf_C_i_host_to_device, computation::root)
@@ -3088,7 +3088,7 @@ void generate_function(std::string name)
     handle = & handle->then( out_buf_C_BB_r_cpu_init, t).then( out_buf_C_BB_i_cpu_init, n );
     handle = & handle->then( buf_C_BB_r_cpu_init, t).then( buf_C_BB_i_cpu_init, n );
     handle = &(handle
-          ->then(C_BB_init_r, tileY )
+          ->then(C_BB_init_r, tile2 )
           .then(C_BB_init_i, n)
         //   .then( *allocate_buf_B1_Blocal_r1_r, t )
         //   .then( *allocate_buf_B1_Blocal_r1_i, t )
@@ -3099,7 +3099,7 @@ void generate_function(std::string name)
         //   .then( *allocate_buf_B1_Bthird_r1_r, t )
         //   .then( *allocate_buf_B1_Bthird_r1_i, t )
 // kernel_2
-          .then(B1_Blocal_r1_r_init, tileY ) // t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m
+          .then(B1_Blocal_r1_r_init, tile2 ) // t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m
           .then(B1_Blocal_r1_i_init, m) 
           .then(B1_Bfirst_r1_r_init, m)
           .then(B1_Bfirst_r1_i_init, m)
@@ -3116,7 +3116,7 @@ void generate_function(std::string name)
         //   .then( *allocate_buf_flip_B1_Bsecond_r1_i, t)
         //   .then( *allocate_buf_flip_B1_Bthird_r1_r, t)
         //   .then( *allocate_buf_flip_B1_Bthird_r1_i, t)
-          .then(flip_B1_Blocal_r1_r_init, m) // t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m
+          .then(flip_B1_Blocal_r1_r_init, m) // t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m
           .then(flip_B1_Blocal_r1_i_init, m)
           .then(flip_B1_Bfirst_r1_r_init, m)
           .then(flip_B1_Bfirst_r1_i_init, m)
@@ -3160,7 +3160,7 @@ void generate_function(std::string name)
           .then(B1_Bthird_r1_i_props, jSprime)
 // this should be a new kernel
 // kernel_5
-          .then(B1_Blocal_r1_r_update, y) // t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m
+          .then(B1_Blocal_r1_r_update, y) // t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m
           .then(B1_Blocal_r1_i_update, m)
           .then(B1_Bfirst_r1_r_update, m)
           .then(B1_Bfirst_r1_i_update, m)
@@ -3169,7 +3169,7 @@ void generate_function(std::string name)
           .then(B1_Bthird_r1_r_update, m)
           .then(B1_Bthird_r1_i_update, m)
 // kernel_6
-          .then(flip_B1_Blocal_r1_r_update, m) // t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m
+          .then(flip_B1_Blocal_r1_r_update, m) // t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, y, jCprime, jSprime, m
           .then(flip_B1_Blocal_r1_i_update, m)
           .then(flip_B1_Bfirst_r1_r_update, m)
           .then(flip_B1_Bfirst_r1_i_update, m)
@@ -3195,7 +3195,7 @@ void generate_function(std::string name)
         //   .then( *allocate_buf_B1_Bsecond_r2_i, t)
         //   .then( *allocate_buf_B1_Bthird_r2_r, t)
         //   .then( *allocate_buf_B1_Bthird_r2_i, t)
-          .then(B1_Blocal_r2_r_init, kSprime ) // t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m
+          .then(B1_Blocal_r2_r_init, kSprime ) // t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m
           .then(B1_Blocal_r2_i_init, m)
           .then(B1_Bfirst_r2_r_init, m)
           .then(B1_Bfirst_r2_i_init, m)
@@ -3212,7 +3212,7 @@ void generate_function(std::string name)
         //   .then( *allocate_buf_flip_B1_Bsecond_r2_i, t )
         //   .then( *allocate_buf_flip_B1_Bthird_r2_r, t )
         //   .then( *allocate_buf_flip_B1_Bthird_r2_i, t )
-          .then(flip_B1_Blocal_r2_r_init, m) // t, tileX, tileY, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m
+          .then(flip_B1_Blocal_r2_r_init, m) // t, tile1, tile2, x1, iCprime, iSprime, x2, kCprime, kSprime, jCprime, jSprime, m
           .then(flip_B1_Blocal_r2_i_init, m)
           .then(flip_B1_Bfirst_r2_r_init, m)
           .then(flip_B1_Bfirst_r2_i_init, m)
@@ -3477,10 +3477,10 @@ void generate_function(std::string name)
           // .then( *deallocate_buf_B2_Bthird_props_r2_i, t ) // 40
 // ------------------------------- 
 // kernel_22:
-          .then(C_BB_BB_prop_init_r, tileY) // t, x1, x2, rp, m, r
+          .then(C_BB_BB_prop_init_r, tile2) // t, x1, x2, rp, m, r
           .then(C_BB_BB_prop_init_i, r)
 // kernel_23:
-          .then( *(BB_BB_new_term_0_r1_b1.get_real()), tileY) // t, x1, x2, rp, m, r, s, nperm, wnum
+          .then( *(BB_BB_new_term_0_r1_b1.get_real()), tile2) // t, x1, x2, rp, m, r, s, nperm, wnum
           .then( *(BB_BB_new_term_0_r1_b1.get_imag()), wnum)
           .then( *(BB_BB_new_term_1_r1_b1.get_real()), wnum)
           .then( *(BB_BB_new_term_1_r1_b1.get_imag()), wnum)
@@ -3571,7 +3571,7 @@ void generate_function(std::string name)
         //   .then( *deallocate_buf_B2_Bthird_r1_r, t ) // 63
         //   .then( *deallocate_buf_B2_Bthird_r1_i, t ) // 64
 // kernel_24
-          .then( *(flip_BB_BB_new_term_0_r1_b1.get_real()), tileY)
+          .then( *(flip_BB_BB_new_term_0_r1_b1.get_real()), tile2)
           .then( *(flip_BB_BB_new_term_0_r1_b1.get_imag()), wnum)
           .then( *(flip_BB_BB_new_term_1_r1_b1.get_real()), wnum)
           .then( *(flip_BB_BB_new_term_1_r1_b1.get_imag()), wnum)
@@ -3671,13 +3671,13 @@ void generate_function(std::string name)
         //   .then( *deallocate_buf_flip_B2_Bthird_r2_i, t ) // 96
 
 // kernel_25
-          .then(C_BB_BB_update_b_r, tileY)  // t, x1, x2, rp, m, r, ne
+          .then(C_BB_BB_update_b_r, tile2)  // t, x1, x2, rp, m, r, ne
           .then(C_BB_BB_update_b_i, ne)
           .then(C_BB_BB_update_s_r, r)  // t, x1, x2, rp, m, r, nue
           .then(C_BB_BB_update_s_i, nue)
           );
-    handle = &handle->then( copy_buf_C_BB_r_device_to_host, tileY ).then( copy_buf_C_BB_i_device_to_host, tileY );
-    handle = &handle->then( reduce_buf_C_BB_r_cpu, tileY ).then( reduce_buf_C_BB_i_cpu, n );
+    handle = &handle->then( copy_buf_C_BB_r_device_to_host, tile2 ).then( copy_buf_C_BB_i_device_to_host, tile2 );
+    handle = &handle->then( reduce_buf_C_BB_r_cpu, tile2 ).then( reduce_buf_C_BB_i_cpu, n );
 
     // BB_H
     handle = &(handle
