@@ -117,8 +117,8 @@ tiramisu::var::var(tiramisu::primitive_t type, std::string name, bool save)
 
     if (declared != var::declared_vars.end())
     {
-        std::cout << "\n" << "declared->second.dtype: " << str_from_tiramisu_type_primitive( declared->second.dtype ) << "\n";
-        std::cout << "type: " << str_from_tiramisu_type_primitive( type ) << "\n";
+        // std::cout << "\n" << "declared->second.dtype: " << str_from_tiramisu_type_primitive( declared->second.dtype ) << "\n";
+        // std::cout << "type: " << str_from_tiramisu_type_primitive( type ) << "\n";
         // assert(declared->second.dtype == type);
         *this = declared->second;
     }
