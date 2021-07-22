@@ -888,7 +888,7 @@ int main(int, char **)
    {
       std::string file_path = "./C_i_reference_output.txt";
       std::ofstream output_file;
-      output_file << std::( 1000 );
+      output_file << std::setprecision( 1000 );
       output_file.open( file_path.c_str() );
       if ( output_file.is_open() )
       {
