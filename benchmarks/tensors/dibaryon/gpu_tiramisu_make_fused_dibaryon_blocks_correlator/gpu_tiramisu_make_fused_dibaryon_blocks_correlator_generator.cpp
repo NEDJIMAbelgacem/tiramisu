@@ -1232,15 +1232,15 @@ void generate_function(std::string name)
     C_BB_init_i.store_in(&buf_C_BB_i, { x1, x2, rp, m, r, n });
     buf_C_BB_r_cpu_init.store_in( &buf_C_BB_r_cpu, { x1, x2, rp, m, r, n } );
     buf_C_BB_i_cpu_init.store_in( &buf_C_BB_i_cpu, { x1, x2, rp, m, r, n } );
-    out_buf_C_BB_r_cpu_init.store_in( &out_buf_C_BB_r_cpu, { t, rp, r, m, n } );
-    out_buf_C_BB_i_cpu_init.store_in( &out_buf_C_BB_i_cpu, { t, rp, r, m, n } );
+    out_buf_C_BB_r_cpu_init.store_in( &out_buf_C_BB_r_cpu, { t, rp, m, r, n } );
+    out_buf_C_BB_i_cpu_init.store_in( &out_buf_C_BB_i_cpu, { t, rp, m, r, n } );
 
     computation reduce_buf_C_BB_r_cpu("reduce_buf_C_BB_r_cpu", {t, tile1, tile2, x1, rp, x2, r, m, n}, p_float64);
-    reduce_buf_C_BB_r_cpu.set_expression( reduce_buf_C_BB_r_cpu( t, tile1, tile2, x1, rp, x2, r, m, n) + out_buf_C_BB_r_cpu_init( t, rp, r, m, n ) );
+    reduce_buf_C_BB_r_cpu.set_expression( reduce_buf_C_BB_r_cpu( t, tile1, tile2, x1, rp, x2, r, m, n) + buf_C_BB_r_cpu_init( t, tile1, tile2, x1, rp, x2, r, m, n ) );
     computation reduce_buf_C_BB_i_cpu("reduce_buf_C_BB_i_cpu", {t, tile1, tile2, x1, rp, x2, r, m, n}, p_float64);
-    reduce_buf_C_BB_i_cpu.set_expression( reduce_buf_C_BB_i_cpu( t, tile1, tile2, x1, rp, x2, r, m, n) + out_buf_C_BB_i_cpu_init( t, rp, r, m, n ) );
-    reduce_buf_C_BB_r_cpu.store_in( &out_buf_C_BB_r_cpu, { t, rp, r, m, n } );
-    reduce_buf_C_BB_i_cpu.store_in( &out_buf_C_BB_i_cpu, { t, rp, r, m, n } );
+    reduce_buf_C_BB_i_cpu.set_expression( reduce_buf_C_BB_i_cpu( t, tile1, tile2, x1, rp, x2, r, m, n) + buf_C_BB_r_cpu_init( t, tile1, tile2, x1, rp, x2, r, m, n ) );
+    reduce_buf_C_BB_r_cpu.store_in( &out_buf_C_BB_r_cpu, { t, rp, m, r, n } );
+    reduce_buf_C_BB_i_cpu.store_in( &out_buf_C_BB_i_cpu, { t, rp, m, r, n } );
 
     computation C_BB_BB_update_s_r("C_BB_BB_update_s_r", {t, tile1, tile2, x1, rp, x2, r, m, nue}, C_BB_init_r(t, tile1, tile2, x1, rp, x2, r, m, NEntangled+nue) + BB_BB_term_s.get_real());
     computation C_BB_BB_update_s_i("C_BB_BB_update_s_i", {t, tile1, tile2, x1, rp, x2, r, m, nue}, C_BB_init_i(t, tile1, tile2, x1, rp, x2, r, m, NEntangled+nue) + BB_BB_term_s.get_imag());
