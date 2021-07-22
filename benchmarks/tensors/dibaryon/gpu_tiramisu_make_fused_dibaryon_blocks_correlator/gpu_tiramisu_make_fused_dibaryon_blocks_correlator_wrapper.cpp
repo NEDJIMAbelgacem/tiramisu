@@ -103,18 +103,18 @@ void tiramisu_make_two_nucleon_2pt(double* C_re,
    Halide::Buffer<double> b_out_buf_C_BB_i(Nsnk, B2Nrows, Nsrc, B2Nrows, Lt, "b_out_buf_C_BB_i");
 
 
-   Halide::Buffer<long long int> b_src_color_weights(Nq, Nw, B2Nrows, "src_color_weights");
-   Halide::Buffer<long long int> b_src_spin_weights(Nq, Nw, B2Nrows, "src_spin_weights");
+   Halide::Buffer b_src_color_weights( Halide::Int(64), { Nq, Nw, B2Nrows }, "src_color_weights");
+   Halide::Buffer b_src_spin_weights( Halide::Int(64), { Nq, Nw, B2Nrows }, "src_spin_weights");
    Halide::Buffer<double> b_src_weights(Nw, B2Nrows, "src_weights");
 
-   Halide::Buffer<long long int> b_src_spins(2, 2, B2Nrows, "src_spins");
+   Halide::Buffer b_src_spins( Halide::Int(64), {2, 2, B2Nrows}, "src_spins");
+   Halide::Buffer b_snk_b( Halide::Int(64), {2, Nq, Nperms}, "snk_b");
+   Halide::Buffer b_snk_color_weights( Halide::Int(64), {2, Nq, Nw2, Nperms, B2Nrows}, "snk_color_weights");
+   Halide::Buffer b_snk_spin_weights( Halide::Int(64), {2, Nq, Nw2, Nperms, B2Nrows}, "snk_spin_weights");
+   Halide::Buffer b_hex_snk_color_weights( Halide::Int(64), {2, Nq, Nw2Hex, Nperms, B2Nrows}, "hex_snk_color_weights");
+   Halide::Buffer b_hex_snk_spin_weights( Halide::Int(64), {2, Nq, Nw2Hex, Nperms, B2Nrows}, "hex_snk_spin_weights");
    Halide::Buffer<double> b_src_spin_block_weights(2, B2Nrows, "src_spin_block_weights");
-   Halide::Buffer<long long int> b_snk_b(2, Nq, Nperms, "snk_b");
-   Halide::Buffer<long long int> b_snk_color_weights(2, Nq, Nw2, Nperms, B2Nrows, "snk_color_weights");
-   Halide::Buffer<long long int> b_snk_spin_weights(2, Nq, Nw2, Nperms, B2Nrows, "snk_spin_weights");
    Halide::Buffer<double> b_snk_weights(Nw2, B2Nrows, "snk_weights");
-   Halide::Buffer<long long int> b_hex_snk_color_weights(2, Nq, Nw2Hex, Nperms, B2Nrows, "hex_snk_color_weights");
-   Halide::Buffer<long long int> b_hex_snk_spin_weights(2, Nq, Nw2Hex, Nperms, B2Nrows, "hex_snk_spin_weights");
    Halide::Buffer<double> b_hex_snk_weights(Nw2Hex, B2Nrows, "hex_snk_weights");
 
     // prop
@@ -144,7 +144,7 @@ void tiramisu_make_two_nucleon_2pt(double* C_re,
     Halide::Buffer<double> b_snk_psi_i((double *)snk_psi_im, {Nsnk, Vsnk, Vsnk});
 
 
-   Halide::Buffer<long long int> b_sigs((long long int *)sigs, {Nperms});
+   Halide::Buffer b_sigs( Halide::Int(64), (long long int *)sigs, {Nperms});
 
    // Weights
       for (long long int wnum=0; wnum< Nw; wnum++) {
