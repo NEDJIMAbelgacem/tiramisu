@@ -14,7 +14,7 @@ extern "C" {
 #include "gpu_tiramisu_make_fused_dibaryon_blocks_correlator_wrapper.h"
 #include "gpu_tiramisu_make_fused_dibaryon_blocks_correlator_ref.cpp"
 
-#define RUN_REFERENCE 1
+#define RUN_REFERENCE 0
 #define RUN_CHECK 1
 int nb_tests = 1;
 int randommode = 1;
@@ -888,7 +888,7 @@ int main(int, char **)
    {
       std::string file_path = "./C_i_reference_output.txt";
       std::ofstream output_file;
-      output_file << std::setprecision( 1000 );
+      output_file << std::( 1000 );
       output_file.open( file_path.c_str() );
       if ( output_file.is_open() )
       {
