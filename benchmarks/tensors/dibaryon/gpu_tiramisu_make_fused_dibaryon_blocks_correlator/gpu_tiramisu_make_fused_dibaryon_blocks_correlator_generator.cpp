@@ -1238,7 +1238,7 @@ void generate_function(std::string name)
     computation reduce_buf_C_BB_r_cpu("reduce_buf_C_BB_r_cpu", {t, tile1, tile2, x1, rp, x2, r, m, n}, p_float64);
     reduce_buf_C_BB_r_cpu.set_expression( reduce_buf_C_BB_r_cpu( t, tile1, tile2, x1, rp, x2, r, m, n) + buf_C_BB_r_cpu_init( t, tile1, tile2, x1, rp, x2, r, m, n ) );
     computation reduce_buf_C_BB_i_cpu("reduce_buf_C_BB_i_cpu", {t, tile1, tile2, x1, rp, x2, r, m, n}, p_float64);
-    reduce_buf_C_BB_i_cpu.set_expression( reduce_buf_C_BB_i_cpu( t, tile1, tile2, x1, rp, x2, r, m, n) + buf_C_BB_r_cpu_init( t, tile1, tile2, x1, rp, x2, r, m, n ) );
+    reduce_buf_C_BB_i_cpu.set_expression( reduce_buf_C_BB_i_cpu( t, tile1, tile2, x1, rp, x2, r, m, n) + buf_C_BB_i_cpu_init( t, tile1, tile2, x1, rp, x2, r, m, n ) );
     reduce_buf_C_BB_r_cpu.store_in( &out_buf_C_BB_r_cpu, { t, rp, m, r, n } );
     reduce_buf_C_BB_i_cpu.store_in( &out_buf_C_BB_i_cpu, { t, rp, m, r, n } );
 
