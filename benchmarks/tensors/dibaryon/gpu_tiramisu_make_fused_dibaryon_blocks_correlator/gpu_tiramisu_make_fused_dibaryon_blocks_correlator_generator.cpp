@@ -123,21 +123,21 @@ void generate_function(std::string name)
     buf_hex_snk_psi_i_gpu.tag_gpu_global();
     buf_snk_psi_r_gpu.tag_gpu_global();
     buf_snk_psi_i_gpu.tag_gpu_global();
-    src_psi_B1_r.store_in( &buf_src_psi_B1_r_gpu );
-    src_psi_B1_i.store_in( &buf_src_psi_B1_i_gpu );
-    src_psi_B2_r.store_in( &buf_src_psi_B2_r_gpu );
-    src_psi_B2_i.store_in( &buf_src_psi_B2_i_gpu );
-    snk_psi_B1_r.store_in( &buf_snk_psi_B1_r_gpu );
-    snk_psi_B1_i.store_in( &buf_snk_psi_B1_i_gpu );
-    snk_psi_B2_r.store_in( &buf_snk_psi_B2_r_gpu );
-    snk_psi_B2_i.store_in( &buf_snk_psi_B2_i_gpu );
+    src_psi_B1_r.store_in( &buf_src_psi_B1_r_gpu, {y, m} );
+    src_psi_B1_i.store_in( &buf_src_psi_B1_i_gpu, {y, m} );
+    src_psi_B2_r.store_in( &buf_src_psi_B2_r_gpu, {y, m} );
+    src_psi_B2_i.store_in( &buf_src_psi_B2_i_gpu, {y, m} );
+    snk_psi_B1_r.store_in( &buf_snk_psi_B1_r_gpu, {x, n} );
+    snk_psi_B1_i.store_in( &buf_snk_psi_B1_i_gpu, {x, n} );
+    snk_psi_B2_r.store_in( &buf_snk_psi_B2_r_gpu, {x, n} );
+    snk_psi_B2_i.store_in( &buf_snk_psi_B2_i_gpu, {x, n} );
 
-    hex_src_psi_r.store_in( &buf_hex_src_psi_r_gpu );
-    hex_src_psi_i.store_in( &buf_hex_src_psi_i_gpu );
-    hex_snk_psi_r.store_in( &buf_hex_snk_psi_r_gpu );
-    hex_snk_psi_i.store_in( &buf_hex_snk_psi_i_gpu );
-    snk_psi_r.store_in( &buf_snk_psi_r_gpu );
-    snk_psi_i.store_in( &buf_snk_psi_i_gpu );
+    hex_src_psi_r.store_in( &buf_hex_src_psi_r_gpu, {y, mH} );
+    hex_src_psi_i.store_in( &buf_hex_src_psi_i_gpu, {y, mH} );
+    hex_snk_psi_r.store_in( &buf_hex_snk_psi_r_gpu, {x, nH} );
+    hex_snk_psi_i.store_in( &buf_hex_snk_psi_i_gpu, {x, nH} );
+    snk_psi_r.store_in( &buf_snk_psi_r_gpu, {x, x2, ne} );
+    snk_psi_i.store_in( &buf_snk_psi_i_gpu, {x, x2, ne} );
 
    buffer buf_src_psi_B1_r_cpu("src_psi_B1_r",   {Vsrc, Nsrc}, p_float64, a_temporary);
    buffer buf_src_psi_B1_i_cpu("src_psi_B1_i",   {Vsrc, Nsrc}, p_float64, a_temporary);
@@ -195,20 +195,20 @@ void generate_function(std::string name)
       buf_hex_snk_color_weights_gpu.tag_gpu_global();
       buf_hex_snk_spin_weights_gpu.tag_gpu_global();
       buf_hex_snk_weights_gpu.tag_gpu_global();
-      
-      src_spins.store_in( &buf_src_spins_gpu );
-      src_spin_block_weights.store_in( &buf_src_spin_block_weights_gpu );
-      sigs.store_in( &buf_sigs_gpu );
-      snk_b.store_in( &buf_snk_b_gpu );
-      src_color_weights.store_in( &buf_src_color_weights_gpu );
-      src_spin_weights.store_in( &buf_src_spin_weights_gpu );
-      src_weights.store_in( &buf_src_weights_gpu );
-      snk_color_weights.store_in( &buf_snk_color_weights_gpu );
-      snk_spin_weights.store_in( &buf_snk_spin_weights_gpu );
-      snk_weights.store_in( &buf_snk_weights_gpu );
-      hex_snk_color_weights.store_in( &buf_hex_snk_color_weights_gpu );
-      hex_snk_spin_weights.store_in( &buf_hex_snk_spin_weights_gpu );
-      hex_snk_weights.store_in( &buf_hex_snk_weights_gpu );
+
+      src_spins.store_in( &buf_src_spins_gpu, {rp, s, to} );
+      src_spin_block_weights.store_in( &buf_src_spin_block_weights_gpu, {rp, s} );
+      sigs.store_in( &buf_sigs_gpu, {nperm} );
+      snk_b.store_in( &buf_snk_b_gpu, {nperm, q, to} );
+      src_color_weights.store_in( &buf_src_color_weights_gpu, {r, wnumBlock, q} );
+      src_spin_weights.store_in( &buf_src_spin_weights_gpu, {r, wnumBlock, q} );
+      src_weights.store_in( &buf_src_weights_gpu, {r, wnumBlock} );
+      snk_color_weights.store_in( &buf_snk_color_weights_gpu, {r, nperm, wnum, q, to} );
+      snk_spin_weights.store_in( &buf_snk_spin_weights_gpu, {r, nperm, wnum, q, to} );
+      snk_weights.store_in( &buf_snk_weights_gpu, {r, wnum} );
+      hex_snk_color_weights.store_in( &buf_hex_snk_color_weights_gpu, {r, nperm, wnumHex, q, to} );
+      hex_snk_spin_weights.store_in( &buf_hex_snk_spin_weights_gpu, {r, nperm, wnumHex, q, to} );
+      hex_snk_weights.store_in( &buf_hex_snk_weights_gpu, {r, wnumHex} );
 
    buffer buf_src_spins_cpu("buf_src_spins",   {B2Nrows, 2l, 2l}, p_int64, a_temporary);
    buffer buf_src_spin_block_weights_cpu("src_spin_block_weights",   {B2Nrows, 2l}, p_float64, a_temporary);

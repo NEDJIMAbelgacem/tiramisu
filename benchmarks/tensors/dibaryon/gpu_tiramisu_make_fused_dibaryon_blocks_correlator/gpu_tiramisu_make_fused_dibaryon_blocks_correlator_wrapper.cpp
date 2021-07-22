@@ -64,11 +64,6 @@ void tiramisu_make_two_nucleon_2pt(double* C_re,
      int space_symmetric,
      int snk_entangled)
 {
-   int input;
-   std::cout << "-------------------------------------" << "\n";
-   std::cout << sizeof(int64_t) << "\n";
-   std::cout << "--------------------------------------------" << std::endl;
-   scanf("%d", &input );
    int64_t q, t, iC, iS, jC, jS, y, x, x1, x2, m, n, k, wnum, nperm, b, r, rp;
    int64_t iC1, iS1, iC2, iS2, jC1, jS1, jC2, jS2, kC1, kS1, kC2, kS2;
 
